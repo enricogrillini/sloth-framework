@@ -1,0 +1,14 @@
+package it.eg.sloth.form.fields.field;
+
+public enum FieldType {
+
+  // Base Field
+  AUTO_COMPLETE, BUTTON, CHECK_BOX, COMBO_BOX, DECODED_TEXT, FILE, HIDDEN, INPUT, INPUT_TOTALIZER, LINK, MULTIPLE_AUTO_COMPLETE, RADIO_GROUP, SEMAPHORE, TEXT, TEXT_AREA, TEXT_TOTALIZER,
+
+  // Chart Field
+  SERIES, LABELS,
+
+  // Dwh Field
+  ATTRIBUTE, LEVEL, MEASURE
+
+}
