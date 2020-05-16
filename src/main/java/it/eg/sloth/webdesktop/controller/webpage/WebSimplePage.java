@@ -1,6 +1,6 @@
 package it.eg.sloth.webdesktop.controller.webpage;
 
-import java.util.Random;
+
 
 import it.eg.sloth.webdesktop.search.model.suggestion.SimpleSuggestion;
 import org.springframework.web.servlet.ModelAndView;
@@ -74,17 +74,6 @@ public abstract class WebSimplePage<F extends Form> extends FormPage<F> implemen
       // Gestione custom
       return getModelAndView();
     }
-  }
-
-  protected void setDefaultForward() {
-    setModelAndView(new ModelAndView(getJspName()));
-  }
-
-  protected void setDefaultRedirect() {
-    String redirect = Math.abs(new Random().nextInt()) + "";
-
-    getRequest().getSession().setAttribute("redirect", redirect);
-    setModelAndView(new ModelAndView("redirect:" + getClass().getSimpleName() + ".html?" + NavigationConst.navStr("redirect", redirect) + "=true"));
   }
 
   protected boolean defaultNavigation() throws Exception {

@@ -1,203 +1,189 @@
 package it.eg.sloth.framework.utility.scp;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import com.jcraft.jsch.*;
+import org.apache.commons.io.IOUtils;
 
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
-import com.jcraft.jsch.UserInfo;
-
-import it.eg.sloth.framework.utility.stream.StreamUtil;
+import java.io.*;
 
 public class ScpFrom {
 
-  public static final void scpFrom(OutputStream outputStream, String host, String user, String password, String remoteFile) throws IOException, JSchException {
-    FileInputStream inputStream = null;
-    File file = null;
-    try {
-      file = File.createTempFile("localtemp", "scp");
-      file.deleteOnExit();
+    public static final void scpFrom(OutputStream outputStream, String host, String user, String password, String remoteFile) throws IOException, JSchException {
+        File file = null;
+        try {
+            file = File.createTempFile("localtemp", "scp");
+            file.deleteOnExit();
 
-      scpFrom(file.getAbsolutePath(), host, user, password, remoteFile);
-      inputStream = new FileInputStream(file);
-      StreamUtil.inputStreamToOutputStream(inputStream, outputStream);
+            scpFrom(file.getAbsolutePath(), host, user, password, remoteFile);
+            try (InputStream inputStream = new FileInputStream(file)) {
+                IOUtils.copy(inputStream, outputStream);
+            }
 
-    } finally {
-      if (file != null) {
-        file.delete();
-      }
-      if (inputStream != null) {
-        inputStream.close();
-      }
+        } finally {
+            if (file != null) {
+                file.delete();
+            }
+        }
     }
-  }
-  
-  /**
-   * Trasferisce un file dall'host remoto
-   * 
-   * @param localFile
-   * @param host
-   * @param user
-   * @param password
-   * @param remoteFile
-   * @throws IOException
-   * @throws JSchException
-   */
-  public static final void scpFrom(String localFile, String host, String user, String password, String remoteFile) throws IOException, JSchException {
 
-    FileOutputStream fos = null;
-    try {
-      String prefix = null;
-      if (new File(localFile).isDirectory()) {
-        prefix = localFile + File.separator;
-      }
+    /**
+     * Trasferisce un file dall'host remoto
+     *
+     * @param localFile
+     * @param host
+     * @param user
+     * @param password
+     * @param remoteFile
+     * @throws IOException
+     * @throws JSchException
+     */
+    public static final void scpFrom(String localFile, String host, String user, String password, String remoteFile) throws IOException, JSchException {
 
-      JSch jsch = new JSch();
-      Session session = jsch.getSession(user, host, 22);
+        FileOutputStream fos = null;
+        try {
+            String prefix = null;
+            if (new File(localFile).isDirectory()) {
+                prefix = localFile + File.separator;
+            }
 
-      // username and password will be given via UserInfo interface.
-      UserInfo ui = new MyUser(password);
-      session.setUserInfo(ui);
-      session.connect();
+            JSch jsch = new JSch();
+            Session session = jsch.getSession(user, host, 22);
 
-      // exec 'scp -f rfile' remotely
-      String command = "scp -f " + remoteFile;
-      Channel channel = session.openChannel("exec");
-      ((ChannelExec) channel).setCommand(command);
+            // username and password will be given via UserInfo interface.
+            UserInfo ui = new MyUser(password);
+            session.setUserInfo(ui);
+            session.connect();
 
-      // get I/O streams for remote scp
-      OutputStream out = channel.getOutputStream();
-      InputStream in = channel.getInputStream();
+            // exec 'scp -f rfile' remotely
+            String command = "scp -f " + remoteFile;
+            Channel channel = session.openChannel("exec");
+            ((ChannelExec) channel).setCommand(command);
 
-      channel.connect();
+            // get I/O streams for remote scp
+            OutputStream out = channel.getOutputStream();
+            InputStream in = channel.getInputStream();
 
-      byte[] buf = new byte[1024];
+            channel.connect();
 
-      // send '\0'
-      buf[0] = 0;
-      out.write(buf, 0, 1);
-      out.flush();
+            byte[] buf = new byte[1024];
 
-      while (true) {
-        int c = checkAck(in);
-        if (c != 'C') {
-          break;
+            // send '\0'
+            buf[0] = 0;
+            out.write(buf, 0, 1);
+            out.flush();
+
+            while (true) {
+                int c = checkAck(in);
+                if (c != 'C') {
+                    break;
+                }
+
+                // read '0644 '
+                in.read(buf, 0, 5);
+
+                long filesize = 0L;
+                while (true) {
+                    if (in.read(buf, 0, 1) < 0) {
+                        // error
+                        break;
+                    }
+                    if (buf[0] == ' ')
+                        break;
+                    filesize = filesize * 10L + (long) (buf[0] - '0');
+                }
+
+                String file = null;
+                for (int i = 0; ; i++) {
+                    in.read(buf, i, 1);
+                    if (buf[i] == (byte) 0x0a) {
+                        file = new String(buf, 0, i);
+                        break;
+                    }
+                }
+
+                // send '\0'
+                buf[0] = 0;
+                out.write(buf, 0, 1);
+                out.flush();
+
+                // read a content of lfile
+                fos = new FileOutputStream(prefix == null ? localFile : prefix + file);
+                int foo;
+                while (true) {
+                    if (buf.length < filesize)
+                        foo = buf.length;
+                    else
+                        foo = (int) filesize;
+                    foo = in.read(buf, 0, foo);
+                    if (foo < 0) {
+                        // error
+                        break;
+                    }
+                    fos.write(buf, 0, foo);
+                    filesize -= foo;
+                    if (filesize == 0L)
+                        break;
+                }
+                fos.close();
+                fos = null;
+
+                if (checkAck(in) != 0) {
+                    throw new RuntimeException("EEEE");
+                }
+
+                // send '\0'
+                buf[0] = 0;
+                out.write(buf, 0, 1);
+                out.flush();
+            }
+
+            session.disconnect();
+
+        } catch (Exception e) {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (Exception ee) {
+            }
         }
-
-        // read '0644 '
-        in.read(buf, 0, 5);
-
-        long filesize = 0L;
-        while (true) {
-          if (in.read(buf, 0, 1) < 0) {
-            // error
-            break;
-          }
-          if (buf[0] == ' ')
-            break;
-          filesize = filesize * 10L + (long) (buf[0] - '0');
-        }
-
-        String file = null;
-        for (int i = 0;; i++) {
-          in.read(buf, i, 1);
-          if (buf[i] == (byte) 0x0a) {
-            file = new String(buf, 0, i);
-            break;
-          }
-        }
-
-        // send '\0'
-        buf[0] = 0;
-        out.write(buf, 0, 1);
-        out.flush();
-
-        // read a content of lfile
-        fos = new FileOutputStream(prefix == null ? localFile : prefix + file);
-        int foo;
-        while (true) {
-          if (buf.length < filesize)
-            foo = buf.length;
-          else
-            foo = (int) filesize;
-          foo = in.read(buf, 0, foo);
-          if (foo < 0) {
-            // error
-            break;
-          }
-          fos.write(buf, 0, foo);
-          filesize -= foo;
-          if (filesize == 0L)
-            break;
-        }
-        fos.close();
-        fos = null;
-
-        if (checkAck(in) != 0) {
-          throw new RuntimeException("EEEE");
-        }
-
-        // send '\0'
-        buf[0] = 0;
-        out.write(buf, 0, 1);
-        out.flush();
-      }
-
-      session.disconnect();
-
-    } catch (Exception e) {
-      try {
-        if (fos != null) {
-          fos.close();
-        }
-      } catch (Exception ee) {
-      }
     }
-  }
 
-  static int checkAck(InputStream in) throws IOException {
-    int b = in.read();
-    // b may be 0 for success,
-    // 1 for error,
-    // 2 for fatal error,
-    // -1
-    if (b == 0)
-      return b;
-    if (b == -1)
-      return b;
+    static int checkAck(InputStream in) throws IOException {
+        int b = in.read();
+        // b may be 0 for success,
+        // 1 for error,
+        // 2 for fatal error,
+        // -1
+        if (b == 0)
+            return b;
+        if (b == -1)
+            return b;
 
-    if (b == 1 || b == 2) {
-      StringBuilder sb = new StringBuilder();
-      int c;
-      do {
-        c = in.read();
-        sb.append((char) c);
-      } while (c != '\n');
-      if (b == 1) { // error
-        throw new RuntimeException(sb.toString());
-      }
-      if (b == 2) { // fatal error
-        throw new RuntimeException(sb.toString());
-      }
+        if (b == 1 || b == 2) {
+            StringBuilder sb = new StringBuilder();
+            int c;
+            do {
+                c = in.read();
+                sb.append((char) c);
+            } while (c != '\n');
+            if (b == 1) { // error
+                throw new RuntimeException(sb.toString());
+            }
+            if (b == 2) { // fatal error
+                throw new RuntimeException(sb.toString());
+            }
+        }
+        return b;
     }
-    return b;
-  }
 
 
-  public static void main(String[] args) throws JSchException, IOException {
-    String localFile = "D:/CLI-FATRIEPDDT000008518012013.pdf";
-    String host = "192.9.200.32";
-    String user = "xxx";
-    String password = "xxx";
-    String remoteFile = "/share/Public/DocumentiClienti/CLI-FATRIEPDDT000008518012013.pdf";
+    public static void main(String[] args) throws JSchException, IOException {
+        String localFile = "D:/CLI-FATRIEPDDT000008518012013.pdf";
+        String host = "192.9.200.32";
+        String user = "xxx";
+        String password = "xxx";
+        String remoteFile = "/share/Public/DocumentiClienti/CLI-FATRIEPDDT000008518012013.pdf";
 
-    scpFrom(localFile, host, user, password, remoteFile);
-  }
+        scpFrom(localFile, host, user, password, remoteFile);
+    }
 }

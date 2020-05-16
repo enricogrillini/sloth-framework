@@ -11,9 +11,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.text.ParseException;
 
 public class XlsxReader {
+    private XlsxReader () {
+        // NOP
+    }
 
     private static String[] getNames(Row headerRow, int minCell, int maxCell) {
         String[] result = new String[maxCell - minCell];
@@ -40,7 +42,7 @@ public class XlsxReader {
         return result;
     }
 
-    public static final DataTable<?> getDataTable(Sheet sheet, int rowHeader, int minRow, int maxRow, int minCell, int maxCell) {
+    public static final DataTable getDataTable(Sheet sheet, int rowHeader, int minRow, int maxRow, int minCell, int maxCell) {
         DataTable<?> table = new Table();
 
         String[] names = getNames(sheet.getRow(rowHeader), minCell, maxCell);
@@ -75,7 +77,7 @@ public class XlsxReader {
                     if (DateUtil.isCellDateFormatted(cell)) {
                         dataRow.setTimestamp(nome, TimeStampUtil.toTimestamp(row.getCell(j).getDateCellValue()));
                     } else {
-                        dataRow.setBigDecimal(nome, new BigDecimal(row.getCell(j).getNumericCellValue()));
+                        dataRow.setBigDecimal(nome, BigDecimal.valueOf(row.getCell(j).getNumericCellValue()));
                     }
 
                 } else {
@@ -87,11 +89,11 @@ public class XlsxReader {
         return table;
     }
 
-    public static final DataTable<?> getDataTable(Sheet sheet) {
+    public static final DataTable getDataTable(Sheet sheet) {
         return getDataTable(sheet, 0, 1, sheet.getLastRowNum(), 0, sheet.getRow(0).getLastCellNum());
     }
 
-    public static final DataTable<?> getDataTable(InputStream inputStream) throws IOException {
+    public static final DataTable getDataTable(InputStream inputStream) throws IOException {
         try (Workbook workbook = new XSSFWorkbook(inputStream)) {
             return getDataTable(workbook.getSheetAt(0));
         }

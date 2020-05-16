@@ -61,6 +61,14 @@ public final class DataConnectionManager {
 
     dataSourceMap.put(connectionName, dataSource);
   }
+  
+  public synchronized void registerDataSource(DataSource dataSource) {
+    dataSourceMap.put(DEFAULT_CONNECTION_NAME, dataSource);
+  }
+  
+  public synchronized void registerDataSource(String connectionName, DataSource dataSource) {
+    dataSourceMap.put(connectionName, dataSource);
+  }
 
   public synchronized Connection getConnection(String connectionName) throws SQLException {
     Connection connection = null;

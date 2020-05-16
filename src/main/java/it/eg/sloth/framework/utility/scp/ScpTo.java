@@ -1,21 +1,9 @@
 package it.eg.sloth.framework.utility.scp;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import com.jcraft.jsch.*;
+import org.apache.commons.io.IOUtils;
 
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
-import com.jcraft.jsch.UserInfo;
-
-import it.eg.sloth.framework.utility.stream.StreamUtil;
+import java.io.*;
 
 /**
  * 
@@ -82,7 +70,7 @@ public class ScpTo {
 
       // send a content of lfile
       fis = new FileInputStream(localFile);
-      StreamUtil.inputStreamToOutputStream(fis, out);
+      IOUtils.copy(fis, out);
       out.write(new byte[] { 0 }, 0, 1);
       out.flush();
       checkAck(in);
@@ -123,7 +111,7 @@ public class ScpTo {
           file = File.createTempFile("localtemp", "scp");
           file.deleteOnExit();
           outputStream = new FileOutputStream(file);
-          StreamUtil.inputStreamToOutputStream(inputStream, outputStream);
+          IOUtils.copy(inputStream, outputStream);
 
           scpTo(session, file.getAbsolutePath(), scpFile.getRemoteFile());
         } finally {
@@ -170,7 +158,7 @@ public class ScpTo {
       file = File.createTempFile("localtemp", "scp");
       file.deleteOnExit();
       outputStream = new FileOutputStream(file);
-      StreamUtil.inputStreamToOutputStream(inputStream, outputStream);
+      IOUtils.copy(inputStream, outputStream);
 
       scpTo(file.getAbsolutePath(), host, user, password, remoteFile);
 

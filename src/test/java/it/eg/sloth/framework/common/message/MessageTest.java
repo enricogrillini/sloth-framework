@@ -1,10 +1,9 @@
-package it.eg.sloth.framework.monitor;
+package it.eg.sloth.framework.common.message;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-
-import it.eg.sloth.db.datasource.row.Row;
 
 /**
  * Project: sloth-framework
@@ -21,16 +20,16 @@ import it.eg.sloth.db.datasource.row.Row;
  * @author Enrico Grillini
  *
  */
-public class MonitorTest {
+public class MessageTest {
 
   @Test
-  public void populateRowTest() {
-    MonitorStatistics monitorStatistics = new MonitorStatistics("Page", "prova.page");
+  public void levelTest() {
+    assertFalse(Level.INFO.hasHigerSeverity(Level.SUCCESS));
+    assertFalse(Level.SUCCESS.hasHigerSeverity(Level.WARN));
+    assertFalse(Level.WARN.hasHigerSeverity(Level.ERROR));
 
-    Row row = new Row();
-    monitorStatistics.populateRow(row);
-
-    assertEquals("page", row.getString("shortname"));
+    assertTrue(Level.SUCCESS.hasHigerSeverity(Level.INFO));
+    assertTrue(Level.WARN.hasHigerSeverity(Level.SUCCESS));
+    assertTrue(Level.ERROR.hasHigerSeverity(Level.WARN));
   }
-
 }

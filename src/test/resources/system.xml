@@ -14,8 +14,4 @@
    <Parameter name="gilda" value="gilda"/>
   </Group>
  </Parameters>
- 
- <!-- JOBS -->
- <Jobs>
- </Jobs>
 </Configuration>

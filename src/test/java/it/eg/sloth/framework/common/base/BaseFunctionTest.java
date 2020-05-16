@@ -1,10 +1,13 @@
-package it.eg.sloth.framework.monitor;
+package it.eg.sloth.framework.common.base;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.math.BigDecimal;
 
 import org.junit.Test;
 
-import it.eg.sloth.db.datasource.row.Row;
+import it.eg.sloth.framework.common.base.BaseFunction;
 
 /**
  * Project: sloth-framework
@@ -21,16 +24,20 @@ import it.eg.sloth.db.datasource.row.Row;
  * @author Enrico Grillini
  *
  */
-public class MonitorTest {
+public class BaseFunctionTest {
 
-  @Test
-  public void populateRowTest() {
-    MonitorStatistics monitorStatistics = new MonitorStatistics("Page", "prova.page");
+    @Test
+    public void isBlankTest() {
+        assertTrue(BaseFunction.isBlank(null));
+        assertTrue(BaseFunction.isBlank(""));
+        assertTrue(BaseFunction.isBlank("   "));
+        assertFalse(BaseFunction.isBlank("pippo"));
+    }
 
-    Row row = new Row();
-    monitorStatistics.populateRow(row);
-
-    assertEquals("page", row.getString("shortname"));
-  }
-
+    @Test
+    public void isNullTest() {
+        assertTrue(BaseFunction.isNull(null));
+        assertTrue(BaseFunction.isNull(""));
+        assertFalse(BaseFunction.isNull(new BigDecimal(0)));
+    }
 }

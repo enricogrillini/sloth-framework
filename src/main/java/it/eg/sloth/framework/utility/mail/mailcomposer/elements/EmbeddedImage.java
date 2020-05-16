@@ -1,10 +1,11 @@
 package it.eg.sloth.framework.utility.mail.mailcomposer.elements;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
-import it.eg.sloth.framework.utility.stream.StreamUtil;
+import java.io.InputStream;
 
 /**
  * @author Enrico Grillini
@@ -16,14 +17,20 @@ public class EmbeddedImage {
     private String link;
 
     public EmbeddedImage(byte[] image, String description, String type, String link) {
+        init(image, description, type, link);
+    }
+
+    public EmbeddedImage(File file, String description, String type, String link) throws IOException {
+        try (InputStream inputStream = new FileInputStream(file)) {
+            init(IOUtils.toByteArray(inputStream), description, type, link);
+        }
+    }
+
+    private void init(byte[] image, String description, String type, String link) {
         this.image = image;
         this.description = description;
         this.type = type;
         this.link = link;
-    }
-
-    public EmbeddedImage(File file, String description, String type, String link) throws IOException {
-        this(StreamUtil.inputStreamToByteArray(new FileInputStream(file)), description, type, link);
     }
 
     public byte[] getImage() {

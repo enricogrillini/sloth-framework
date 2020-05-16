@@ -1,12 +1,12 @@
 package it.eg.sloth.db.datasource.row.lob;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.sql.Blob;
-
-import it.eg.sloth.framework.utility.stream.StreamUtil;
 
 public class BLobData extends LobData<byte[]> {
 
@@ -19,8 +19,8 @@ public class BLobData extends LobData<byte[]> {
 
         if (load && blob != null) {
             try (InputStream inputStream = blob.getBinaryStream()) {
-                value = StreamUtil.inputStreamToByteArray(inputStream);
-                blob.getBinaryStream().close();
+                value = IOUtils.toByteArray(inputStream);
+                setStatus(LobData.ON_LINE);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

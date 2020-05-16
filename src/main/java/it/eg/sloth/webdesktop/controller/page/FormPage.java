@@ -52,7 +52,8 @@ public abstract class FormPage<F extends Form> extends BasePage {
 
         if (!(getClass().getSimpleName() + ".html").equals(getWebDesktopDto().getLastController())) {
             getWebDesktopDto().setLastController(getClass().getSimpleName() + ".html");
-            getWebDesktopDto().setForm(form = createForm());
+            form = createForm();
+            getWebDesktopDto().setForm(form);
             this.newForm = true;
         } else {
             form = (F) getWebDesktopDto().getForm();

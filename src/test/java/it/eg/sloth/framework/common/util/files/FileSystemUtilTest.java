@@ -1,10 +1,12 @@
-package it.eg.sloth.framework.monitor;
+package it.eg.sloth.framework.common.util.files;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.net.URISyntaxException;
 
 import org.junit.Test;
 
-import it.eg.sloth.db.datasource.row.Row;
+import it.eg.sloth.framework.utility.files.FileSystemUtil;
 
 /**
  * Project: sloth-framework
@@ -21,16 +23,16 @@ import it.eg.sloth.db.datasource.row.Row;
  * @author Enrico Grillini
  *
  */
-public class MonitorTest {
+public class FileSystemUtilTest {
 
   @Test
-  public void populateRowTest() {
-    MonitorStatistics monitorStatistics = new MonitorStatistics("Page", "prova.page");
+  public void getFileFromContextOk() throws URISyntaxException {
+    assertNotNull(FileSystemUtil.getFileFromContext("system.xml"));
+  }
 
-    Row row = new Row();
-    monitorStatistics.populateRow(row);
-
-    assertEquals("page", row.getString("shortname"));
+  @Test(expected = NullPointerException.class)
+  public void getFileFromContextKo() throws URISyntaxException {
+    FileSystemUtil.getFileFromContext("aaaa");
   }
 
 }

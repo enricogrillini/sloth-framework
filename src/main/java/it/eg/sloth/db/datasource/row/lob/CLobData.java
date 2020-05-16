@@ -1,11 +1,12 @@
 package it.eg.sloth.db.datasource.row.lob;
 
-import it.eg.sloth.framework.utility.stream.StreamUtil;
+import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.nio.charset.StandardCharsets;
 import java.sql.Clob;
 import java.sql.SQLException;
 
@@ -20,7 +21,7 @@ public class CLobData extends LobData<String> {
 
         if (load && clob != null) {
             try (InputStream inputStream = clob.getAsciiStream()) {
-                value = new String(StreamUtil.inputStreamToByteArray(inputStream));
+                value = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
                 setStatus(LobData.ON_LINE);
             } catch (IOException | SQLException ex) {
                 throw new RuntimeException(ex);
