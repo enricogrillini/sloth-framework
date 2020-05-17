@@ -8,45 +8,54 @@ import java.sql.Timestamp;
 import java.util.Iterator;
 
 /**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
  * @author Enrico Grillini
- * 
- *         Implementa la gestione di una riga di un elenco
- * 
  */
 public interface DataSource {
 
-  public Object getObject(String name);
+   Object getObject(String name);
 
-  public BigDecimal getBigDecimal(String name);
+   BigDecimal getBigDecimal(String name);
 
-  public Timestamp getTimestamp(String name);
+   Timestamp getTimestamp(String name);
 
-  public String getString(String name);
+   String getString(String name);
 
-  public byte[] getByte(String name);
+   byte[] getByte(String name);
 
-  public void setObject(String name, Object value);
+   void setObject(String name, Object value);
 
-  public void setBigDecimal(String name, BigDecimal value);
+   void setBigDecimal(String name, BigDecimal value);
 
-  public void setTimestamp(String name, Timestamp value);
+   void setTimestamp(String name, Timestamp value);
 
-  public void setString(String name, String value);
+   void setString(String name, String value);
 
-  public void setByte(String name, byte[] value);
+   void setByte(String name, byte[] value);
 
-  public void clear();
+   void clear();
 
-  public Iterator<String> keyIterator();
+   Iterator<String> keyIterator();
 
-  public Iterator<Object> valueIterator();
+   Iterator<Object> valueIterator();
 
   /**
    * Aggiorna il DataSource prelevando le informazioni dal DataSource passato
    * 
    * @param dataSource
    */
-  public void copyFromDataSource(DataSource dataSource);
+   void copyFromDataSource(DataSource dataSource);
 
   /**
    * Aggiorna il DataSource prelevando le informazioni dal ResultSet passato
@@ -54,14 +63,14 @@ public interface DataSource {
    * @param resultSet
    * @throws SQLException
    */
-  public void copyFromResultSet(ResultSet resultSet) throws SQLException, IOException;
+   void copyFromResultSet(ResultSet resultSet) throws SQLException, IOException;
 
   /**
    * Carica il DataSource prelevando le informazioni dal DataSource passato
    * 
    * @param dataSource
    */
-  public void loadFromDataSource(DataSource dataSource);
+   void loadFromDataSource(DataSource dataSource);
 
   /**
    * Carica il DataSource prelevando le informazioni dal ResultSet passato
@@ -69,6 +78,6 @@ public interface DataSource {
    * @param resultSet
    * @throws SQLException
    */
-  public void loadFromResultSet(ResultSet resultSet) throws SQLException, IOException;
+   void loadFromResultSet(ResultSet resultSet) throws SQLException, IOException;
 
 }

@@ -11,13 +11,25 @@ import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.query.filteredquery.FilteredQuery;
 
 /**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
  * @author Enrico Grillini
  */
 public class PagedQuery extends FilteredQuery implements PagedQueryInterface {
 
   private static final String ROW_COUNT = "rowCount";
 
-    private String pagedQuery;
+    private String sql;
     private int start;
     private int end;
 
@@ -27,7 +39,7 @@ public class PagedQuery extends FilteredQuery implements PagedQueryInterface {
 
     @Override
     protected String getFilteredStatement() {
-        return pagedQuery;
+        return sql;
     }
 
     @Override
@@ -45,7 +57,7 @@ public class PagedQuery extends FilteredQuery implements PagedQueryInterface {
     }
 
     private void prepareCount() {
-        this.pagedQuery = "select count(*) rowCount from (" + super.getFilteredStatement() + ")";
+        this.sql = "select count(*) rowCount from (" + super.getFilteredStatement() + ")";
         this.start = -1;
     }
 
@@ -68,7 +80,7 @@ public class PagedQuery extends FilteredQuery implements PagedQueryInterface {
     }
 
     private void prepareSelect(int start, int end) {
-        this.pagedQuery = "select * from (select rownum rowCount, baseQuery.* from (\n\n" + super.getFilteredStatement() + ") baseQuery ) where rowCount between ? and ?";
+        this.sql = "select * from (select rownum rowCount, baseQuery.* from (\n\n" + super.getFilteredStatement() + ") baseQuery ) where rowCount between ? and ?";
         this.start = start;
         this.end = end;
     }

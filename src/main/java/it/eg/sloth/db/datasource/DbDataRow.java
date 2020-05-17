@@ -4,41 +4,56 @@ import java.sql.Connection;
 
 import it.eg.sloth.db.datasource.row.column.Column;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
+ * @author Enrico Grillini
+ */
 public interface DbDataRow extends DbDataSource, TransactionalDataRow {
 
-  /**
-   * Restituisce le specifiche delle colonne della riga
-   * 
-   * @return
-   */
-  public Column[] getColumns();
+    /**
+     * Restituisce le specifiche delle colonne della riga
+     *
+     * @return
+     */
+    Column[] getColumns();
 
-  public String getSelect();
+    String getSelect();
 
-  public String getInsert();
+    String getInsert();
 
-  public String getDelete();
+    String getDelete();
 
-  public String getUpdate();
+    String getUpdate();
 
-  public boolean select();
+    boolean select();
 
-  public boolean select(Connection connection);
+    boolean select(Connection connection);
 
-  public void insert();
+    void insert();
 
-  public void insert(Connection connection);
+    void insert(Connection connection);
 
-  public void delete();
+    void delete();
 
-  public void delete(Connection connection);
+    void delete(Connection connection);
 
-  public void update();
+    void update();
 
-  public void update(Connection connection);
+    void update(Connection connection);
 
-  public boolean isAutoloadLob();
+    boolean isAutoloadLob();
 
-  public void setAutoloadLob(boolean autoloadLob);
+    void setAutoloadLob(boolean autoloadLob);
 
 }

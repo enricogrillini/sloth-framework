@@ -14,6 +14,21 @@ import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
+ * @author Enrico Grillini
+ */
 public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> extends FrameComponent implements DecodeMap<T, V> {
 
     private Map<T, V> map;
@@ -32,7 +47,7 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> ext
 
     @Override
     public T encode(String description) {
-        List<V> list = performSearch(description, MapSearchType.flexible, 2);
+        List<V> list = performSearch(description, MapSearchType.FLEXIBLE, 2);
 
         if (list.size() == 1) {
             return list.get(0).getCode();
@@ -117,7 +132,7 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> ext
             return list;
         }
 
-        if (MapSearchType.flexible == searchType) {
+        if (MapSearchType.FLEXIBLE == searchType) {
             // Ricerca flessibile
             for (V decodeMapValue : map.values()) {
                 if (decodeMapValue.getDescription() != null && decodeMapValue.getDescription().trim().equalsIgnoreCase(description.trim())) {
@@ -130,7 +145,7 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> ext
                 }
             }
 
-        } else if (MapSearchType.match == searchType) {
+        } else if (MapSearchType.MATCH == searchType) {
             // Match search
             String[] matchStringArray = StringUtil.tokenize(description, " ");
 

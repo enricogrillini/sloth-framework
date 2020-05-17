@@ -106,7 +106,7 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
 
             String query = getWebRequest().getString("query");
             SimpleSuggestionList list = new SimpleSuggestionList();
-            for (DecodeValue<?> decodeValue : decodeMap.performSearch(query, MapSearchType.match, 10)) {
+            for (DecodeValue<?> decodeValue : decodeMap.performSearch(query, MapSearchType.MATCH, 10)) {
                 SimpleSuggestion simpleSuggestion = new SimpleSuggestion();
                 simpleSuggestion.setValue(decodeValue.getDescription());
 

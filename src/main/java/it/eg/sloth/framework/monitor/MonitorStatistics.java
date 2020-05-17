@@ -37,11 +37,11 @@ public class MonitorStatistics {
   }
 
   public void update(MonitorEvent monitorEvent) {
-    long duration = monitorEvent.getEnd() - monitorEvent.getStart();
+    long eventDuration = monitorEvent.getEnd() - monitorEvent.getStart();
 
-    this.duration += duration;
+    this.duration += eventDuration;
     this.executions++;
-    this.max = duration > this.max ? duration : this.max;
+    this.max = eventDuration > this.max ? eventDuration : this.max;
   }
 
   public void populateRow(DataSource dataSource) {
