@@ -8,11 +8,10 @@ import java.sql.Types;
 import it.eg.sloth.framework.FrameComponent;
 
 public class DateIntervalFilter extends FrameComponent implements Filter {
-  
 
   public enum IntervalType {
     overlapped, separated
-  };
+  }
 
   private IntervalType intervalType;
   private String sqlDateFrom;

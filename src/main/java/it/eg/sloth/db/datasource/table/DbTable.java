@@ -78,7 +78,7 @@ public abstract class DbTable<T extends DbDataRow> extends TransactionalTableAbs
       commit();
       connection.commit();
 
-    } catch (Throwable e) {
+    } catch (Exception e) {
       DataConnectionManager.rollback(connection);
       throw new RuntimeException(e);
 

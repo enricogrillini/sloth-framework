@@ -33,7 +33,7 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
 
   public FilteredQuery(String statement) {
     super(statement);
-    this.filterList = new ArrayList<Filter>();
+    this.filterList = new ArrayList();
   }
 
   public int addValues(PreparedStatement statement, int i) throws SQLException {

@@ -13,6 +13,20 @@ import it.eg.sloth.framework.common.exception.BusinessException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import it.eg.sloth.webdesktop.tag.form.rollup.writer.RollupWriter;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Enrico Grillini
+ */
 public class Rollup2Tag extends BaseElementTag<Rollup> {
 
   private static final long serialVersionUID = 1L;
@@ -102,7 +116,6 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
             Attribute<?> attributeClone = (Attribute<?>) attribute.clone();
             attributeClone.copyFromDataSource(child);
 
-            // ControlTag.Factory.writeAttribute(attributeClone) + "</td>");
             writeBufferln("  <td>" + RollupWriter.writeAttribute(attributeClone) + "</td>");
           }
         }
@@ -112,7 +125,6 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
           Measure<?> measureClone = (Measure<?>) measure.clone();
           measureClone.copyFromDataSource(child);
 
-          // ControlTag.Factory.writeMeasure(measureClone) + "</td>");
           writeBufferln("  <td style=\"text-align:right\">" + RollupWriter.writeMeasure(measureClone) + "</td>");
         }
 
@@ -160,7 +172,7 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
     writeHeaders(getElement().getDataNode(), 0);
 
     int i = 0;
-    bufferList = new ArrayList<String>();
+    bufferList = new ArrayList<>();
     for (DataNode node : getElement().getDataNode()) {
       rowindex = 0;
       writeChilds(node, 1, i == 0);

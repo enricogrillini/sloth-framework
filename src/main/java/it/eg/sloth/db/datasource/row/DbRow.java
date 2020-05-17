@@ -76,7 +76,7 @@ public abstract class DbRow extends TransactionalRow implements DbDataRow {
             connection.commit();
             commit();
 
-        } catch (Throwable e) {
+        } catch (Exception e) {
             DataConnectionManager.rollback(connection);
             throw new RuntimeException(e);
         } finally {

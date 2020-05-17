@@ -102,7 +102,7 @@ public abstract class TransactionalTableAbstract<T extends TransactionalDataRow>
     public void setFromQuery(SelectQueryInterface query) {
         try {
             query.populateDataTable(this);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -110,7 +110,7 @@ public abstract class TransactionalTableAbstract<T extends TransactionalDataRow>
     public void setFromQuery(SelectQueryInterface query, Connection connection) {
         try {
             query.populateDataTable(this, connection);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -118,7 +118,7 @@ public abstract class TransactionalTableAbstract<T extends TransactionalDataRow>
     public boolean loadFromQuery(SelectQueryInterface query) {
         try {
             query.populateDataTable(this);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new RuntimeException(this.toString(), e);
         }
         forceClean();
@@ -128,7 +128,7 @@ public abstract class TransactionalTableAbstract<T extends TransactionalDataRow>
     public boolean loadFromQuery(SelectQueryInterface query, Connection connection) {
         try {
             query.populateDataTable(this, connection);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         forceClean();

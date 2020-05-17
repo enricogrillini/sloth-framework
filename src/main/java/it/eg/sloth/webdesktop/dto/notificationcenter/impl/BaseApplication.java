@@ -15,9 +15,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  * @author Enrico Grillini
- * 
  */
 @Getter()
 @Setter
@@ -49,8 +58,8 @@ public class BaseApplication<T extends NotificationMessage> extends FrameCompone
     this.closeable = closeable;
     this.url = url;
 
-    this.messages = new LinkedHashMap<String, T>();
-    this.list = new ArrayList<NotificationApplicationFunction>();
+    this.messages = new LinkedHashMap<>();
+    this.list = new ArrayList();
   }
 
   @Override
@@ -98,7 +107,7 @@ public class BaseApplication<T extends NotificationMessage> extends FrameCompone
   }
 
   protected void addFirstMessage(T message) {
-    Map<String, T> map = new LinkedHashMap<String, T>();
+    Map<String, T> map = new LinkedHashMap();
     map.put(message.getId().toString(), message);
     map.putAll(messages);
 
