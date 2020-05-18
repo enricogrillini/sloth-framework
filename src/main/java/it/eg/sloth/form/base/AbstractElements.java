@@ -2,13 +2,28 @@ package it.eg.sloth.form.base;
 
 import java.util.*;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
+ * @author Enrico Grillini
+ */
 public abstract class AbstractElements<T extends Element> extends AbstractElement implements Elements<T> {
 
     private Map<String, T> map;
 
     public AbstractElements(String name) {
         super(name);
-        map = new LinkedHashMap<String, T>();
+        map = new LinkedHashMap();
     }
 
     public void setLocale(Locale locale) {
@@ -70,7 +85,7 @@ public abstract class AbstractElements<T extends Element> extends AbstractElemen
 
     @Override
     public List<T> getElements() {
-        return new ArrayList<T>(map.values());
+        return new ArrayList(map.values());
     }
 
     @Override

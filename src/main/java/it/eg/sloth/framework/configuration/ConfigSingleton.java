@@ -1,12 +1,17 @@
 package it.eg.sloth.framework.configuration;
 
 import it.eg.sloth.framework.FrameComponent;
-import it.eg.sloth.framework.utility.files.FileSystemUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.ResourceUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.nio.file.Files;
 import java.util.Properties;
 
 /**
@@ -20,7 +25,7 @@ import java.util.Properties;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
  * <p>
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * <p>
  * Singleton per la gestione della configurazione applicativa
  *
  * @author Enrico Grillini
@@ -29,7 +34,7 @@ import java.util.Properties;
 public class ConfigSingleton extends FrameComponent {
 
     public static final String APPLICATION_PROPERTIES = "application.properties";
-
+    
     public static final String FRAMEWORK_DOCUMENTATION_URL = "sloth.documentation.url";
 
     @Getter
@@ -41,12 +46,11 @@ public class ConfigSingleton extends FrameComponent {
         log.info("ConfigSingleton STARTING");
 
         try {
-            File propertiesFile = FileSystemUtil.getFileFromContext(APPLICATION_PROPERTIES);
-
             properties = new Properties();
-            try (FileInputStream inputStream = new FileInputStream(propertiesFile)) {
+            try (InputStream inputStream = new ClassPathResource(APPLICATION_PROPERTIES).getInputStream()) {
                 properties.load(inputStream);
             }
+
         } catch (Exception e) {
             log.error("Impossibile leggere il file di configurazione: {} ", APPLICATION_PROPERTIES, e);
         }

@@ -24,6 +24,21 @@ import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.exception.BusinessException;
 import it.eg.sloth.framework.common.exception.BusinessExceptionType;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
+ * @author Enrico Grillini
+ */
 public class Rollup extends AbstractElements<DataField<?>> {
 
 
@@ -55,7 +70,7 @@ public class Rollup extends AbstractElements<DataField<?>> {
         this.description = description;
     }
 
-    public DataTable<?> getDataTable() {
+    public DataTable getDataTable() {
         return dataTable;
     }
 
@@ -68,8 +83,8 @@ public class Rollup extends AbstractElements<DataField<?>> {
         }
     }
 
-    public List<Attribute<?>> getAttributes() {
-        List<Attribute<?>> list = new ArrayList<Attribute<?>>();
+    public List<Attribute> getAttributes() {
+        List<Attribute> list = new ArrayList();
 
         for (Element element : this) {
             if (element instanceof Attribute) {
@@ -80,8 +95,8 @@ public class Rollup extends AbstractElements<DataField<?>> {
         return list;
     }
 
-    public List<Level<?>> getLevels() {
-        List<Level<?>> list = new ArrayList<Level<?>>();
+    public List<Level> getLevels() {
+        List<Level> list = new ArrayList();
 
         for (Element element : this) {
             if (element instanceof Level) {
@@ -92,8 +107,8 @@ public class Rollup extends AbstractElements<DataField<?>> {
         return list;
     }
 
-    public List<Measure<?>> getMeasures() {
-        List<Measure<?>> list = new ArrayList<Measure<?>>();
+    public List<Measure> getMeasures() {
+        List<Measure> list = new ArrayList();
 
         for (Element element : this) {
             if (element instanceof Measure) {
@@ -139,9 +154,9 @@ public class Rollup extends AbstractElements<DataField<?>> {
 
         public RollupCalculator(DataTable<?> dataTable) throws CloneNotSupportedException, BusinessException {
             setDataTable(dataTable);
-            this.levelMap = new LinkedHashMap<String, Level<?>>();
-            this.attributeMap = new LinkedHashMap<String, Attribute<?>>();
-            this.measureMap = new LinkedHashMap<String, Measure<?>>();
+            this.levelMap = new LinkedHashMap();
+            this.attributeMap = new LinkedHashMap();
+            this.measureMap = new LinkedHashMap();
         }
 
         public void setDataTable(DataTable<?> dataTable) throws CloneNotSupportedException, BusinessException {
@@ -180,8 +195,8 @@ public class Rollup extends AbstractElements<DataField<?>> {
         private void sum(DataNode node, DataRow row) {
 
             for (Measure<?> measure : measureMap.values()) {
-                BigDecimal value1 = (BigDecimal) BaseFunction.nvl(node.getBigDecimal(measure.getName()), new BigDecimal(0));
-                BigDecimal value2 = (BigDecimal) BaseFunction.nvl(row.getBigDecimal(measure.getName()), new BigDecimal(0));
+                BigDecimal value1 = BaseFunction.nvl(node.getBigDecimal(measure.getName()), new BigDecimal(0));
+                BigDecimal value2 = BaseFunction.nvl(row.getBigDecimal(measure.getName()), new BigDecimal(0));
                 node.setBigDecimal(measure.getName(), value1.add(value2));
             }
 
@@ -206,7 +221,7 @@ public class Rollup extends AbstractElements<DataField<?>> {
 
                 // Inizializzazioni
                 dataTable.setCurrentRow(0);
-                List<DataNode> groupList = new ArrayList<DataNode>();
+                List<DataNode> groupList = new ArrayList();
                 groupList.add(rootNode);
                 for (int i = 1; i <= levelMap.values().size(); i++) {
                     Node dataNode = new Node(dataTable.getRow());
@@ -221,14 +236,14 @@ public class Rollup extends AbstractElements<DataField<?>> {
                     int i = 1;
                     boolean rottura = false;
                     for (Level<?> level : levelMap.values()) {
-                        DataNode groupNode = (DataNode) groupList.get(i);
+                        DataNode groupNode = groupList.get(i);
 
                         if (rottura || !BaseFunction.equals(currentRow.getObject(level.getAlias()), oldRow.getObject(level.getAlias()))) {
                             // Rottura
                             rottura = true;
                             DataNode node = new Node(currentRow);
                             groupList.set(i, node);
-                            ((DataNode) groupList.get(i - 1)).addChild(node);
+                            (groupList.get(i - 1)).addChild(node);
 
                         } else {
                             sum(groupNode, currentRow);
@@ -236,7 +251,7 @@ public class Rollup extends AbstractElements<DataField<?>> {
                         i++;
                     }
 
-                    ((DataNode) groupList.get(groupList.size() - 1)).addChild(new Node(currentRow));
+                    (groupList.get(groupList.size() - 1)).addChild(new Node(currentRow));
                     oldRow = currentRow;
                 }
 

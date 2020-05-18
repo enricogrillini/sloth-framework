@@ -1,8 +1,8 @@
 package it.eg.sloth.webdesktop.controller.common.grid;
 
 import it.eg.sloth.form.grid.Grid;
-import it.eg.sloth.form.tabSheet.Tab;
-import it.eg.sloth.form.tabSheet.TabSheet;
+import it.eg.sloth.form.tabsheet.Tab;
+import it.eg.sloth.form.tabsheet.TabSheet;
 
 /**
  * Project: sloth-framework
