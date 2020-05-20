@@ -91,9 +91,9 @@ public class SortingRules<T extends DataRow> extends FrameComponent implements C
                 if (bigDecimal1.equals(bigDecimal2))
                     continue;
                 else if (sortingRule.getSortType() == SortingRule.SORT_ASC_NULLS_LAST || sortingRule.getSortType() == SortingRule.SORT_ASC_NULLS_FIRST)
-                    return bigDecimal1.compareTo(bigDecimal2);
+                    return bigDecimal1.compareTo(bigDecimal2) > 0 ? 1 : -1;
                 else
-                    return -bigDecimal1.compareTo(bigDecimal2);
+                    return bigDecimal1.compareTo(bigDecimal2) > 0 ? -1 : 1;
             }
 
             if (value1 instanceof Timestamp) {
@@ -103,9 +103,9 @@ public class SortingRules<T extends DataRow> extends FrameComponent implements C
                 if (timestamp1.equals(timestamp2))
                     continue;
                 else if (sortingRule.getSortType() == SortingRule.SORT_ASC_NULLS_LAST || sortingRule.getSortType() == SortingRule.SORT_ASC_NULLS_FIRST)
-                    return timestamp1.compareTo(timestamp2);
+                    return timestamp1.compareTo(timestamp2) > 0 ? 1 : -1;
                 else
-                    return  -timestamp1.compareTo(timestamp2);
+                    return timestamp1.compareTo(timestamp2) > 0 ? -1 : 1;
             }
 
             if (value1 instanceof String) {
@@ -119,4 +119,6 @@ public class SortingRules<T extends DataRow> extends FrameComponent implements C
 
         return 0;
     }
+
+
 }

@@ -1,12 +1,15 @@
-package it.eg.sloth.webdesktop.tag.form.card;
+package it.eg.sloth.form;
 
-import it.eg.sloth.form.Form;
-import it.eg.sloth.webdesktop.tag.BootStrapClass;
-import it.eg.sloth.webdesktop.tag.WebDesktopTag;
-import it.eg.sloth.webdesktop.tag.form.card.writer.CardWriter;
+import it.eg.sloth.db.datasource.table.sort.SortingRules;
+import it.eg.sloth.form.grid.Grid;
+import it.eg.sloth.form.skipper.Skipper;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
- * Project: sloth-framework
+ * Project: gilda-ce
  * Copyright (C) 2019-2020 Enrico Grillini
  * <p>
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
@@ -19,21 +22,17 @@ import it.eg.sloth.webdesktop.tag.form.card.writer.CardWriter;
  *
  * @author Enrico Grillini
  */
-public class SimpleCardTag extends WebDesktopTag<Form> {
+public class SkipperTest {
 
-  private static final long serialVersionUID = 1L;
+    @Test
+    public void skipperTest() {
+        Skipper skipper = new Skipper("prova", false);
+        assertFalse(skipper.isSkipBody());
 
-  @Override
-  protected int startTag() throws Throwable {
-    writeln("<!-- SimpleCard -->");
-    writeln(CardWriter.openCard(BootStrapClass.BORDER_LEFT_NONE));
+        skipper = new Skipper("prova", true);
+        assertTrue(skipper.isSkipBody());
 
-    return EVAL_BODY_INCLUDE;
-  }
-
-  @Override
-  protected void endTag() throws Throwable {
-    writeln(CardWriter.closeCard());
-  }
-
+        skipper = new Skipper("prova", null);
+        assertFalse(skipper.isSkipBody());
+    }
 }

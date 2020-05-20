@@ -8,7 +8,7 @@ import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.impl.Button;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.casting.Casting;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
@@ -33,7 +33,7 @@ public class SimpleGridTag extends AbstractGridTag<Grid<?>> {
 
   private static final long serialVersionUID = 1L;
 
-  protected void writeRows() throws CloneNotSupportedException, BusinessException, IOException {
+  protected void writeRows() throws CloneNotSupportedException, FrameworkException, IOException {
     Grid<?> grid = getElement();
     int rowNumber = 0;
     

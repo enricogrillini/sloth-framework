@@ -13,7 +13,7 @@ import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
@@ -54,7 +54,7 @@ public abstract class AbstractGridTag<T extends Grid<?>> extends BaseElementTag<
         return (Fields<?>) getForm().getElement(getDetailName());
     }
 
-    protected void writeCell(SimpleField field, DataRow dataRow, int rowNumber, ViewModality viewModality) throws BusinessException, IOException {
+    protected void writeCell(SimpleField field, DataRow dataRow, int rowNumber, ViewModality viewModality) throws FrameworkException, IOException {
         String classHtml = "";
         switch (field.getFieldType()) {
             case SEMAPHORE:
@@ -139,7 +139,7 @@ public abstract class AbstractGridTag<T extends Grid<?>> extends BaseElementTag<
 
     }
 
-    protected void writeTotal() throws CloneNotSupportedException, BusinessException, IOException {
+    protected void writeTotal() throws CloneNotSupportedException, FrameworkException, IOException {
 
         if (getElement().hasTotalizer()) {
             writeln(" <tr>");

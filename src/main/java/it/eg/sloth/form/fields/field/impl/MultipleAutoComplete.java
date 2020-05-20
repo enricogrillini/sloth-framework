@@ -12,7 +12,7 @@ import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.BaseMessage;
 import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.Message;
@@ -95,7 +95,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
                 if (!BaseFunction.isBlank(word)) {
                     try {
                         list.add((T)  getDataType().parseValue(word, getLocale(), getFormat()));
-                    } catch (BusinessException e) {
+                    } catch (FrameworkException e) {
                         // NOP
                     }
                 }
@@ -106,7 +106,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
     }
 
     @SuppressWarnings("unchecked")
-    public void setValue(DataTable<?> dataTable, String columnName) throws BusinessException {
+    public void setValue(DataTable<?> dataTable, String columnName) throws FrameworkException {
         L list = (L) new ArrayList<T>();
         for (DataRow dataRow : dataTable) {
             list.add((T) dataRow.getObject(columnName));
@@ -116,7 +116,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
     }
 
     @Override
-    public void setValue(L list) throws BusinessException {
+    public void setValue(L list) throws FrameworkException {
         String text = "";
         String decodeText = "";
 
@@ -132,7 +132,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
     }
 
     @Override
-    public void copyFromDataSource(DataSource dataSource) throws BusinessException {
+    public void copyFromDataSource(DataSource dataSource) throws FrameworkException {
         if (dataSource != null) {
             super.copyFromDataSource(dataSource);
             if (BaseFunction.isBlank(decodeAlias) && getDecodeMap() != null && !getDecodeMap().isEmpty()) {
@@ -182,7 +182,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
         return message;
     }
 
-    private void post(String string) throws BusinessException {
+    private void post(String string) throws FrameworkException {
         String decodedText = "";
         String text = "";
         if (!BaseFunction.isBlank(string)) {

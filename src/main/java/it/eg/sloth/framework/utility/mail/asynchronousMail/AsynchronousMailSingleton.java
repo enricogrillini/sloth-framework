@@ -1,4 +1,4 @@
-package it.eg.sloth.framework.utility.mail.asynchronousMail;
+package it.eg.sloth.framework.utility.mail.asynchronousmail;
 
 import it.eg.sloth.framework.FrameComponent;
 import lombok.extern.slf4j.Slf4j;

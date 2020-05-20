@@ -9,6 +9,7 @@ import java.sql.Types;
 
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.query.filteredquery.FilteredQuery;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
  * Project: sloth-framework
@@ -62,19 +63,19 @@ public class PagedQuery extends FilteredQuery implements PagedQueryInterface {
     }
 
     @Override
-    public int getCount() throws SQLException, IOException {
+    public int getCount() throws SQLException, IOException, FrameworkException {
         prepareCount();
         return super.selectRow().getBigDecimal(ROW_COUNT).intValue();
     }
 
     @Override
-    public int getCount(String connectionName) throws SQLException, IOException {
+    public int getCount(String connectionName) throws SQLException, IOException, FrameworkException {
         prepareCount();
         return super.selectRow(connectionName).getBigDecimal(ROW_COUNT).intValue();
     }
 
     @Override
-    public int getCount(Connection connection) throws SQLException, IOException {
+    public int getCount(Connection connection) throws SQLException, IOException, FrameworkException {
         prepareCount();
         return super.selectRow(connection).getBigDecimal(ROW_COUNT).intValue();
     }
@@ -86,19 +87,19 @@ public class PagedQuery extends FilteredQuery implements PagedQueryInterface {
     }
 
     @Override
-    public DataTable<?> select(int start, int end) throws SQLException, IOException {
+    public DataTable<?> select(int start, int end) throws SQLException, IOException, FrameworkException {
         prepareSelect(start, end);
         return super.selectTable();
     }
 
     @Override
-    public DataTable<?> select(String connectionName, int start, int end) throws SQLException, IOException {
+    public DataTable<?> select(String connectionName, int start, int end) throws SQLException, IOException, FrameworkException {
         prepareSelect(start, end);
         return super.selectTable(connectionName);
     }
 
     @Override
-    public DataTable<?> select(Connection connection, int start, int end) throws SQLException, IOException {
+    public DataTable<?> select(Connection connection, int start, int end) throws SQLException, IOException, FrameworkException {
         prepareSelect(start, end);
         return super.selectTable(connection);
     }

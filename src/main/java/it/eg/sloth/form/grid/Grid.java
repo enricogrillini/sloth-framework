@@ -6,7 +6,7 @@ import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.impl.InputTotalizer;
 import it.eg.sloth.form.fields.field.impl.TextTotalizer;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.MessageList;
 import lombok.Getter;
 import lombok.Setter;
@@ -82,7 +82,7 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
      * Imposta il contenuto della griglia prelevandolo dal DataTable associato
      */
     @Override
-    public void copyFromDataSource() throws BusinessException {
+    public void copyFromDataSource() throws FrameworkException {
         if (getDataSource() != null) {
             copyFromDataSource(getDataSource());
         } else {
@@ -109,7 +109,7 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
     }
 
     @Override
-    public boolean validate(MessageList messages) throws BusinessException {
+    public boolean validate(MessageList messages) throws FrameworkException {
         if (size() == 0) {
             return true;
         }

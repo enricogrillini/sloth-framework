@@ -1,7 +1,7 @@
 package it.eg.sloth.framework.common.base;
 
-import it.eg.sloth.framework.common.exception.BusinessException;
-import it.eg.sloth.framework.common.exception.BusinessExceptionType;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.common.exception.ExceptionCode;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -65,7 +65,7 @@ public class TimeStampUtil {
      * @return
      * @throws ParseException
      */
-    public static Timestamp parseTimestamp(String strDate, String format) throws BusinessException {
+    public static Timestamp parseTimestamp(String strDate, String format) throws FrameworkException {
         if (BaseFunction.isBlank(strDate)) {
             return null;
         }
@@ -80,7 +80,7 @@ public class TimeStampUtil {
         try {
             date = formatter.parse(strDate);
         } catch (ParseException e) {
-            throw new BusinessException(BusinessExceptionType.PARSE_ERROR, e);
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, e);
         }
         return new Timestamp(date.getTime());
     }
@@ -92,7 +92,7 @@ public class TimeStampUtil {
      * @return
      * @throws ParseException
      */
-    public static Timestamp parseTimestamp(String strDate) throws BusinessException {
+    public static Timestamp parseTimestamp(String strDate) throws FrameworkException {
         return parseTimestamp(strDate, DEFAULT_FORMAT);
     }
 
@@ -250,7 +250,7 @@ public class TimeStampUtil {
      * @param otherHoliday
      * @return
      */
-    public static final boolean isHoliday(Timestamp data, Timestamp... otherHoliday) throws BusinessException {
+    public static final boolean isHoliday(Timestamp data, Timestamp... otherHoliday) throws FrameworkException {
         if (BaseFunction.isNull(data)) {
             return false;
         }
@@ -285,7 +285,7 @@ public class TimeStampUtil {
 
     }
 
-    public static final DayType getDayType(Timestamp data, Timestamp... otherHoliday) throws BusinessException {
+    public static final DayType getDayType(Timestamp data, Timestamp... otherHoliday) throws FrameworkException {
         if (isHoliday(data, otherHoliday)) {
             return DayType.FESTIVO;
         } else if (isSaturday(data)) {
@@ -310,7 +310,7 @@ public class TimeStampUtil {
      * @return
      * @throws ParseException
      */
-    public static Timestamp truncSysdate() throws BusinessException {
+    public static Timestamp truncSysdate() throws FrameworkException {
         return BaseFunction.trunc(sysdate());
     }
 
@@ -339,7 +339,7 @@ public class TimeStampUtil {
      *
      * @return
      */
-    public static Timestamp firstDayOfWeek() throws BusinessException {
+    public static Timestamp firstDayOfWeek() throws FrameworkException {
         return firstDayOfWeek(sysdate());
     }
 
@@ -349,7 +349,7 @@ public class TimeStampUtil {
      * @param date
      * @return
      */
-    public static Timestamp firstDayOfWeek(Timestamp date) throws BusinessException {
+    public static Timestamp firstDayOfWeek(Timestamp date) throws FrameworkException {
         date = add(BaseFunction.trunc(date), -1); // In questo modo si corregge il fatto che, per gli inglesi, il primo giorno della settimana è Domenica
 
         Calendar calendar = Calendar.getInstance();
@@ -364,7 +364,7 @@ public class TimeStampUtil {
      *
      * @return
      */
-    public static Timestamp lastDayOfWeek() throws BusinessException {
+    public static Timestamp lastDayOfWeek() throws FrameworkException {
         return lastDayOfWeek(sysdate());
     }
 
@@ -374,7 +374,7 @@ public class TimeStampUtil {
      * @param date
      * @return
      */
-    public static Timestamp lastDayOfWeek(Timestamp date) throws BusinessException {
+    public static Timestamp lastDayOfWeek(Timestamp date) throws FrameworkException {
         return add(firstDayOfWeek(date), 6);
     }
 
@@ -384,7 +384,7 @@ public class TimeStampUtil {
      * @param date
      * @return
      */
-    public static Timestamp firstDayOfMonth(Timestamp date) throws BusinessException {
+    public static Timestamp firstDayOfMonth(Timestamp date) throws FrameworkException {
         return BaseFunction.trunc(date, "MM/yyyy");
     }
 
@@ -393,7 +393,7 @@ public class TimeStampUtil {
      *
      * @return
      */
-    public static Timestamp firstDayOfMonth() throws BusinessException {
+    public static Timestamp firstDayOfMonth() throws FrameworkException {
         return firstDayOfMonth(sysdate());
     }
 
@@ -403,7 +403,7 @@ public class TimeStampUtil {
      * @param date
      * @return
      */
-    public static Timestamp lastDayOfMonth(Timestamp date) throws BusinessException {
+    public static Timestamp lastDayOfMonth(Timestamp date) throws FrameworkException {
         return add(addMonths(firstDayOfMonth(date), 1), -1);
     }
 
@@ -412,7 +412,7 @@ public class TimeStampUtil {
      *
      * @return
      */
-    public static Timestamp lastDayOfMonth() throws BusinessException {
+    public static Timestamp lastDayOfMonth() throws FrameworkException {
         return lastDayOfMonth(sysdate());
     }
 
@@ -422,7 +422,7 @@ public class TimeStampUtil {
      * @param date
      * @return
      */
-    public static Timestamp firstDayOfYear(Timestamp date) throws BusinessException {
+    public static Timestamp firstDayOfYear(Timestamp date) throws FrameworkException {
         return BaseFunction.trunc(date, "yyyy");
     }
 
@@ -431,7 +431,7 @@ public class TimeStampUtil {
      *
      * @return
      */
-    public static Timestamp firstDayOfYear() throws BusinessException {
+    public static Timestamp firstDayOfYear() throws FrameworkException {
         return firstDayOfYear(sysdate());
     }
 
@@ -441,7 +441,7 @@ public class TimeStampUtil {
      * @param date
      * @return
      */
-    public static Timestamp lastDayOfYear(Timestamp date) throws BusinessException {
+    public static Timestamp lastDayOfYear(Timestamp date) throws FrameworkException {
         return add(addMonths(firstDayOfYear(date), 12), -1);
     }
 
@@ -450,7 +450,7 @@ public class TimeStampUtil {
      *
      * @return
      */
-    public static Timestamp lastDayOfYear() throws BusinessException {
+    public static Timestamp lastDayOfYear() throws FrameworkException {
         return lastDayOfYear(sysdate());
     }
 

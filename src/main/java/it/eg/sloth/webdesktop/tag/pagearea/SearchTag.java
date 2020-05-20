@@ -1,5 +1,6 @@
 package it.eg.sloth.webdesktop.tag.pagearea;
 
+import it.eg.sloth.form.Form;
 import it.eg.sloth.webdesktop.search.model.SuggestionList;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.SearchWriter;
@@ -19,7 +20,7 @@ import it.eg.sloth.webdesktop.tag.pagearea.writer.SearchWriter;
  *
  * @author Enrico Grillini
  */
-public class SearchTag extends WebDesktopTag {
+public class SearchTag extends WebDesktopTag<Form> {
 
     @Override
     protected int startTag() throws Throwable {
@@ -48,6 +49,7 @@ public class SearchTag extends WebDesktopTag {
 
     @Override
     protected void endTag() throws Throwable {
+        // NOP
     }
 
 }

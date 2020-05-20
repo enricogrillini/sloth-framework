@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.BigDecimalUtil;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
 
 /**
@@ -53,7 +53,7 @@ public class GroupWriter extends AbstractHtmlWriter {
                 .toString();
     }
 
-    public static String openCell(String className, String style, String width) throws BusinessException {
+    public static String openCell(String className, String style, String width) throws FrameworkException {
         // class
         String classHtml = BASE_CELL_CLASS + "2";
         if (!BaseFunction.isBlank(width) && width.indexOf("cols") >= 0) {

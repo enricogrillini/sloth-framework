@@ -5,8 +5,8 @@ import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.BigDecimalUtil;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
-import it.eg.sloth.framework.common.exception.BusinessException;
-import it.eg.sloth.framework.common.exception.BusinessExceptionType;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.common.exception.ExceptionCode;
 import it.eg.sloth.framework.common.localization.Localization;
 import it.eg.sloth.framework.common.message.BaseMessage;
 import it.eg.sloth.framework.common.message.Level;
@@ -71,9 +71,9 @@ public enum DataTypes {
      * @param value
      * @param locale
      * @return
-     * @throws BusinessException
+     * @throws FrameworkException
      */
-    public Object parseValue(String value, Locale locale) throws BusinessException {
+    public Object parseValue(String value, Locale locale) throws FrameworkException {
         ResourceBundle bundle = ResourceBundle.getBundle(Localization.VALUE_BUNDLE, locale);
 
         return parseValue(value, bundle, null);
@@ -86,9 +86,9 @@ public enum DataTypes {
      * @param value
      * @param locale
      * @return
-     * @throws BusinessException
+     * @throws FrameworkException
      */
-    public Object parseValue(String value, Locale locale, String format) throws BusinessException {
+    public Object parseValue(String value, Locale locale, String format) throws FrameworkException {
         ResourceBundle bundle = ResourceBundle.getBundle(Localization.VALUE_BUNDLE, locale);
 
         return parseValue(value, bundle, format);
@@ -100,9 +100,9 @@ public enum DataTypes {
      * @param value
      * @param valueBundle
      * @return
-     * @throws BusinessException
+     * @throws FrameworkException
      */
-    private Object parseValue(String value, ResourceBundle valueBundle, String format) throws BusinessException {
+    private Object parseValue(String value, ResourceBundle valueBundle, String format) throws FrameworkException {
         if (BaseFunction.isBlank(format)) {
             format = valueBundle.getString(formatProperties);
         }
@@ -126,7 +126,7 @@ public enum DataTypes {
 
                 try {
                     return BigDecimalUtil.parseBigDecimal(value, format, decimalFormatSymbols);
-                } catch (BusinessException e) {
+                } catch (FrameworkException e) {
                     return BigDecimalUtil.parseBigDecimal(value, valueBundle.getString(NUMBER.formatProperties), decimalFormatSymbols);
                 }
 
@@ -141,9 +141,9 @@ public enum DataTypes {
      * @param value
      * @param locale
      * @return
-     * @throws BusinessException
+     * @throws FrameworkException
      */
-    public String formatValue(Object value, Locale locale) throws BusinessException {
+    public String formatValue(Object value, Locale locale) throws FrameworkException {
         ResourceBundle bundle = ResourceBundle.getBundle(Localization.VALUE_BUNDLE, locale);
 
         return format(value, bundle, null);
@@ -155,9 +155,9 @@ public enum DataTypes {
      * @param value
      * @param locale
      * @return
-     * @throws BusinessException
+     * @throws FrameworkException
      */
-    public String formatValue(Object value, Locale locale, String format) throws BusinessException {
+    public String formatValue(Object value, Locale locale, String format) throws FrameworkException {
         ResourceBundle bundle = ResourceBundle.getBundle(Localization.VALUE_BUNDLE, locale);
 
         return format(value, bundle, format);
@@ -169,9 +169,9 @@ public enum DataTypes {
      * @param value
      * @param locale
      * @return
-     * @throws BusinessException
+     * @throws FrameworkException
      */
-    public String formatText(Object value, Locale locale) throws BusinessException {
+    public String formatText(Object value, Locale locale) throws FrameworkException {
         ResourceBundle bundle = ResourceBundle.getBundle(Localization.TEXT_BUNDLE, locale);
 
         return format(value, bundle, null);
@@ -183,9 +183,9 @@ public enum DataTypes {
      * @param value
      * @param locale
      * @return
-     * @throws BusinessException
+     * @throws FrameworkException
      */
-    public String formatText(Object value, Locale locale, String format) throws BusinessException {
+    public String formatText(Object value, Locale locale, String format) throws FrameworkException {
         ResourceBundle bundle = ResourceBundle.getBundle(Localization.TEXT_BUNDLE, locale);
 
         return format(value, bundle, format);
@@ -197,9 +197,9 @@ public enum DataTypes {
      * @param value
      * @param textBundle
      * @return
-     * @throws BusinessException
+     * @throws FrameworkException
      */
-    private String format(Object value, ResourceBundle textBundle, String format) throws BusinessException {
+    private String format(Object value, ResourceBundle textBundle, String format) throws FrameworkException {
         if (BaseFunction.isBlank(format)) {
             format = textBundle.getString(formatProperties);
         }
@@ -213,7 +213,7 @@ public enum DataTypes {
                 if (BaseFunction.isNull(value) || value instanceof Timestamp) {
                     return TimeStampUtil.formatTimestamp((Timestamp) value, format);
                 } else {
-                    throw new BusinessException(BusinessExceptionType.FORMAT_ERROR);
+                    throw new FrameworkException(ExceptionCode.FORMAT_ERROR);
                 }
 
             case DECIMAL:
@@ -235,7 +235,7 @@ public enum DataTypes {
                     }
 
                 } else {
-                    throw new BusinessException(BusinessExceptionType.FORMAT_ERROR);
+                    throw new FrameworkException(ExceptionCode.FORMAT_ERROR);
                 }
 
             default:
@@ -272,7 +272,7 @@ public enum DataTypes {
             parseValue(dataField.getData(), dataField.getLocale(), dataField.getFormat());
             return null;
 
-        } catch (BusinessException e) {
+        } catch (FrameworkException e) {
             ResourceBundle bundle = ResourceBundle.getBundle(Localization.VALUE_BUNDLE, dataField.getLocale());
 
             return new BaseMessage(
@@ -318,7 +318,7 @@ public enum DataTypes {
             Object value = parseValue(data, locale, format);
             return Casting.getHtml(formatText(value, locale, format), true, true);
 
-        } catch (BusinessException e) {
+        } catch (FrameworkException e) {
             return Casting.getHtml(data, true, true);
         }
     }
@@ -336,7 +336,7 @@ public enum DataTypes {
             Object value = parseValue(data, locale, format);
             return Casting.getJs(formatText(value, locale, format));
 
-        } catch (BusinessException e) {
+        } catch (FrameworkException e) {
             return Casting.getJs(data);
         }
     }

@@ -1,5 +1,6 @@
 package it.eg.sloth.webdesktop.tag.form.group;
 
+import it.eg.sloth.form.Form;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import it.eg.sloth.webdesktop.tag.form.group.writer.GroupWriter;
 import lombok.Getter;
@@ -21,7 +22,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class CellTag extends WebDesktopTag {
+public class CellTag extends WebDesktopTag<Form> {
 
   static final long serialVersionUID = 1L;
 

@@ -30,6 +30,7 @@ public class SkipperTag extends BaseElementTag<Skipper> {
   }
 
   protected void endTag() throws Throwable {
+    // NOP
   }
 
 }

@@ -48,7 +48,7 @@ public class TextSearchRule extends FrameComponent implements FilterRule {
 
   @Override
   public boolean check(DataSource dataSource) {
-    if (getWords().size() <= 0) {
+    if (getWords().isEmpty()) {
       return true;
     }
 

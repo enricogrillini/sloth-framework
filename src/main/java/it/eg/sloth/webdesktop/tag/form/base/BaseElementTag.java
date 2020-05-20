@@ -24,27 +24,27 @@ import lombok.Setter;
 @Setter
 public abstract class BaseElementTag<E extends Element> extends WebDesktopTag<Form> {
 
-  private static final long serialVersionUID = 1L;
-  
-  String name = "";
+    private static final long serialVersionUID = 1L;
 
-  /**
-   * Restituisce l'elemento da visualizzare
-   * 
-   * @return
-   */
-  @SuppressWarnings("unchecked")
-  protected E getElement() {
-    return (E) getForm().getElement(getName());
-  }
+    String name = "";
 
-  /**
-   * Restituisce l'elemento padre
-   * 
-   * @return
-   */
-  protected Element getParentElement() {
-    return (Element) getForm().getParentElement(getName());
-  }
+    /**
+     * Restituisce l'elemento da visualizzare
+     *
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    protected E getElement() {
+        return (E) getForm().getElement(getName());
+    }
+
+    /**
+     * Restituisce l'elemento padre
+     *
+     * @return
+     */
+    protected Element getParentElement() {
+        return (Element) getForm().getParentElement(getName());
+    }
 
 }

@@ -9,6 +9,7 @@ import it.eg.sloth.webdesktop.search.SearchManager;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ import java.util.Map;
  * @author Enrico Grillini
  */
 @Getter
-public class WebDesktopDto extends FrameComponent {
+public class WebDesktopDto extends FrameComponent implements Serializable {
 
     @Setter
     private User user;

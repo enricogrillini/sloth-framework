@@ -1,12 +1,14 @@
-package it.eg.sloth.webdesktop.tag.form.card;
+package it.eg.sloth.form;
 
-import it.eg.sloth.form.Form;
-import it.eg.sloth.webdesktop.tag.BootStrapClass;
-import it.eg.sloth.webdesktop.tag.WebDesktopTag;
-import it.eg.sloth.webdesktop.tag.form.card.writer.CardWriter;
+import it.eg.sloth.form.skipper.Skipper;
+import it.eg.sloth.form.tabsheet.Tab;
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
- * Project: sloth-framework
+ * Project: gilda-ce
  * Copyright (C) 2019-2020 Enrico Grillini
  * <p>
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
@@ -19,21 +21,20 @@ import it.eg.sloth.webdesktop.tag.form.card.writer.CardWriter;
  *
  * @author Enrico Grillini
  */
-public class SimpleCardTag extends WebDesktopTag<Form> {
+public class TabTest {
 
-  private static final long serialVersionUID = 1L;
+    @Test
+    public void tabTest() {
+        Tab tab = new Tab("prova", "prova", false, false);
+        assertFalse(tab.isHidden());
+        assertFalse(tab.isDisabled());
 
-  @Override
-  protected int startTag() throws Throwable {
-    writeln("<!-- SimpleCard -->");
-    writeln(CardWriter.openCard(BootStrapClass.BORDER_LEFT_NONE));
+        tab = new Tab("prova", "prova", true, true);
+        assertTrue(tab.isHidden());
+        assertTrue(tab.isDisabled());
 
-    return EVAL_BODY_INCLUDE;
-  }
-
-  @Override
-  protected void endTag() throws Throwable {
-    writeln(CardWriter.closeCard());
-  }
-
+        tab = new Tab("prova", "prova", null, null);
+        assertFalse(tab.isHidden());
+        assertFalse(tab.isDisabled());
+    }
 }

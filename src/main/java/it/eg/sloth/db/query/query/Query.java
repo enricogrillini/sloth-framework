@@ -10,6 +10,7 @@ import java.util.List;
 import it.eg.sloth.db.manager.DataConnectionManager;
 import it.eg.sloth.db.query.SelectAbstractQuery;
 import it.eg.sloth.db.query.SelectQueryInterface;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -30,78 +31,64 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Query extends SelectAbstractQuery implements SelectQueryInterface {
 
-  private List<Parameter> parameterList;
+    private List<Parameter> parameterList;
 
-  public Query(String statement) {
-    super(statement);
-    this.parameterList = new ArrayList();
-  }
-
-  @Override
-  protected PreparedStatement getPreparedStatement(Connection connection) throws SQLException {
-    if (connection == null) {
-      try {
-        connection = DataConnectionManager.getInstance().getConnection();
-        return getPreparedStatement(connection);
-
-      } finally {
-        DataConnectionManager.release(connection);
-      }
-    } else {
-      PreparedStatement preparedStatement = connection.prepareStatement(getStatement(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-
-      int i = 1;
-      for (Parameter parameter : parameterList) {
-        preparedStatement.setObject(i++, parameter.getValue(), parameter.getSqlType());
-      }
-
-      return preparedStatement;
+    public Query(String statement) {
+        super(statement);
+        this.parameterList = new ArrayList<>();
     }
-  }
 
-  public void addParameter(int sqlTypes, Object value) {
-    parameterList.add(new Parameter(sqlTypes, value));
-  }
+    @Override
+    protected PreparedStatement getPreparedStatement(Connection connection) throws SQLException, FrameworkException {
+        if (connection == null) {
+            try (Connection newConnection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
+                return getPreparedStatement(newConnection);
+            }
+        } else {
+            PreparedStatement preparedStatement = connection.prepareStatement(getStatement(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 
-  public void execute() throws SQLException {
-    execute((Connection) null);
-  }
+            int i = 1;
+            for (Parameter parameter : parameterList) {
+                preparedStatement.setObject(i++, parameter.getValue(), parameter.getSqlType());
+            }
 
-  public void execute(String connectionName) throws SQLException {
-    Connection connection = null;
-
-    try {
-      connection = DataConnectionManager.getInstance().getConnection(connectionName);
-      execute(connection);
-
-    } finally {
-      DataConnectionManager.release(connection);
+            return preparedStatement;
+        }
     }
-  }
 
-  public void execute(Connection connection) throws SQLException {
-    if (connection == null) {
-      try {
-        connection = DataConnectionManager.getInstance().getConnection();
-        execute(connection);
-
-      } finally {
-        DataConnectionManager.release(connection);
-      }
-    } else {
-      log.debug("Start execute");
-      log.debug(toString());
-
-      PreparedStatement preparedStatement = null;
-      try {
-        preparedStatement = getPreparedStatement(connection);
-        preparedStatement.executeUpdate();
-      } finally {
-        DataConnectionManager.release(preparedStatement);
-      }
-
-      log.debug("End execute");
+    public void addParameter(int sqlTypes, Object value) {
+        parameterList.add(new Parameter(sqlTypes, value));
     }
-  }
+
+    public void execute() throws SQLException, FrameworkException {
+        execute((Connection) null);
+    }
+
+    public void execute(String connectionName) throws SQLException, FrameworkException {
+        try (Connection connection = DataConnectionManager.getInstance().getDataSource(connectionName).getConnection()) {
+            execute(connection);
+        }
+    }
+
+    public void execute(Connection connection) throws SQLException, FrameworkException {
+        if (connection == null) {
+            try (Connection newConnection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
+                execute(newConnection);
+            }
+        } else {
+            log.debug("Start execute");
+            log.debug(toString());
+
+            PreparedStatement preparedStatement = null;
+            try {
+                preparedStatement = getPreparedStatement(connection);
+                preparedStatement.executeUpdate();
+            } finally {
+                DataConnectionManager.release(preparedStatement);
+            }
+
+            log.debug("End execute");
+        }
+    }
 
 }

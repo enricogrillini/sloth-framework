@@ -9,7 +9,7 @@ import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -81,7 +81,7 @@ public class CsvWriter {
      * @throws IOException
      * @throws CloneNotSupportedException
      */
-    private void writeBody(Grid<?> grid, OutputStream outputStream) throws IOException, CloneNotSupportedException, BusinessException {
+    private void writeBody(Grid<?> grid, OutputStream outputStream) throws IOException, CloneNotSupportedException, FrameworkException {
         for (DataRow row : grid.getDataSource()) {
 
             for (SimpleField simpleField : grid) {
@@ -111,7 +111,7 @@ public class CsvWriter {
      * @throws IOException
      * @throws CloneNotSupportedException
      */
-    public void write(Grid<?> grid, OutputStream outputStream) throws IOException, CloneNotSupportedException, BusinessException {
+    public void write(Grid<?> grid, OutputStream outputStream) throws IOException, CloneNotSupportedException, FrameworkException {
         if (isWriteHeader())
             writeHeader(grid, outputStream);
         writeBody(grid, outputStream);
@@ -125,7 +125,7 @@ public class CsvWriter {
      * @throws IOException
      * @throws CloneNotSupportedException
      */
-    public byte[] write(Grid<?> grid) throws IOException, CloneNotSupportedException, BusinessException {
+    public byte[] write(Grid<?> grid) throws IOException, CloneNotSupportedException, FrameworkException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         write(grid, byteArrayOutputStream);
 

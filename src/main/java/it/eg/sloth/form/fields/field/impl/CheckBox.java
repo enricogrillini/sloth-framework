@@ -5,7 +5,7 @@ import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import lombok.Getter;
 import lombok.Setter;
@@ -61,11 +61,11 @@ public class CheckBox<T> extends InputField<T> {
         return !BaseFunction.isBlank(getData()) && getData().equals(getValChecked());
     }
 
-    public void setChecked() throws BusinessException {
+    public void setChecked() throws FrameworkException {
         setValue(getValChecked());
     }
 
-    public void setUnChecked() throws BusinessException {
+    public void setUnChecked() throws FrameworkException {
         setValue(getValUnChecked());
     }
 

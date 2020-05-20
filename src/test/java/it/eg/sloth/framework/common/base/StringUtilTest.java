@@ -1,6 +1,6 @@
 package it.eg.sloth.framework.common.base;
 
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -33,7 +33,7 @@ public class StringUtilTest {
   }
 
   @Test
-  public void bigDecimalFormatValueTest() throws BusinessException {
+  public void bigDecimalFormatValueTest() throws FrameworkException {
     List<String> words = Arrays.asList("Bob", "Alice");
 
     assertTrue(StringUtil.containsAllWords("Bob and Alice", words));

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.query.SelectQueryInterface;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
  * Project: sloth-framework
@@ -33,7 +34,7 @@ public interface PagedQueryInterface extends SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    DataTable<?> select(int start, int end) throws SQLException, IOException;
+    DataTable select(int start, int end) throws SQLException, IOException, FrameworkException;
 
     /**
      * Ritorna una tabella conetenente il risultato della query
@@ -45,7 +46,7 @@ public interface PagedQueryInterface extends SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    DataTable<?> select(String connectionName, int start, int end) throws SQLException, IOException;
+    DataTable select(String connectionName, int start, int end) throws SQLException, IOException, FrameworkException;
 
     /**
      * Ritorna una tabella conetenente il risultato della query
@@ -54,7 +55,7 @@ public interface PagedQueryInterface extends SelectQueryInterface {
      * @return
      * @throws SQLException
      */
-    DataTable<?> select(Connection connection, int start, int end) throws SQLException, IOException;
+    DataTable select(Connection connection, int start, int end) throws SQLException, IOException, FrameworkException;
 
     /**
      * Ritorna il numero totale di righe
@@ -63,7 +64,7 @@ public interface PagedQueryInterface extends SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    int getCount() throws SQLException, IOException;
+    int getCount() throws SQLException, IOException, FrameworkException;
 
     /**
      * Ritorna il numero totale di righe
@@ -73,7 +74,7 @@ public interface PagedQueryInterface extends SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    int getCount(String connectionName) throws SQLException, IOException;
+    int getCount(String connectionName) throws SQLException, IOException, FrameworkException;
 
     /**
      * Ritorna il numero totale di righe
@@ -83,5 +84,5 @@ public interface PagedQueryInterface extends SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    int getCount(Connection connection) throws SQLException, IOException;
+    int getCount(Connection connection) throws SQLException, IOException, FrameworkException;
 }

@@ -7,7 +7,7 @@ import java.util.Locale;
 
 import org.junit.Test;
 
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.search.SearchManager;
 import it.eg.sloth.webdesktop.search.SearchTest;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.SearchWriter;
@@ -71,7 +71,7 @@ public class SearchWriterTest {
             "</div>\n";
 
     @Test
-    public void fieldCardContentTest() throws BusinessException {
+    public void fieldCardContentTest() throws FrameworkException {
         SearchManager searchManager = SearchTest.getSearchManager();
         searchManager.applySearch("cliente bob", 10);
 

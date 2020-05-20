@@ -10,7 +10,7 @@ import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.BaseMessage;
 import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.Message;
@@ -117,13 +117,13 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
     }
 
     @Override
-    public void setValue(T value) throws BusinessException {
+    public void setValue(T value) throws FrameworkException {
         super.setValue(value);
         setDecodedText(getDecodeMap().decode(value));
     }
 
     @Override
-    public void copyFromDataSource(DataSource dataSource) throws BusinessException {
+    public void copyFromDataSource(DataSource dataSource) throws FrameworkException {
         if (dataSource != null) {
             super.copyFromDataSource(dataSource);
             if (BaseFunction.isBlank(decodeAlias) && getDecodeMap() != null && !getDecodeMap().isEmpty()) {

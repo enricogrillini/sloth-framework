@@ -3,7 +3,7 @@ package it.eg.sloth.form.fields.field.base;
 import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.BaseMessage;
 import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.Message;
@@ -96,7 +96,7 @@ public abstract class InputField<T> extends TextField<T> {
     }
 
     @Override
-    public boolean validate(MessageList messageList) throws BusinessException {
+    public boolean validate(MessageList messageList) throws FrameworkException {
         Message message = check();
         if (message != null) {
             messageList.add(message);

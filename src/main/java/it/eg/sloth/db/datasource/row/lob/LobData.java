@@ -22,7 +22,7 @@ import it.eg.sloth.framework.FrameComponent;
  *
  * @author Enrico Grillini
  */
-public abstract class LobData<O extends Object> extends FrameComponent implements Externalizable {
+public abstract class LobData<O> extends FrameComponent implements Externalizable {
 
   public static final int OFF_LINE = 0;
   public static final int ON_LINE = 1;

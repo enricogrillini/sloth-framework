@@ -1,12 +1,11 @@
 package it.eg.sloth.framework.model;
 
-import it.eg.sloth.framework.model.Job;
 import it.eg.sloth.framework.monitor.MonitorSingleton;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
 
 @Slf4j
-public abstract class BaseJob implements Job {
+public abstract class BaseJob implements org.quartz.Job {
 
     @Override
     public void execute(JobExecutionContext context) {

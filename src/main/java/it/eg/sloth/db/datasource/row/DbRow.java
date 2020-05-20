@@ -1,19 +1,17 @@
 package it.eg.sloth.db.datasource.row;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.HashMap;
-
 import it.eg.sloth.db.datasource.DbDataRow;
 import it.eg.sloth.db.datasource.RowStatus;
 import it.eg.sloth.db.datasource.row.lob.BLobData;
 import it.eg.sloth.db.datasource.row.lob.CLobData;
 import it.eg.sloth.db.manager.DataConnectionManager;
+import it.eg.sloth.framework.common.exception.ExceptionCode;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
+import java.sql.*;
+import java.util.HashMap;
 
 /**
  * Project: sloth-framework
@@ -60,7 +58,7 @@ public abstract class DbRow extends TransactionalRow implements DbDataRow {
     }
 
     @Override
-    public void save() {
+    public void save() throws FrameworkException, SQLException {
         // Controllo lo stato
         switch (getStatus()) {
             case CLEAN:
@@ -72,30 +70,26 @@ public abstract class DbRow extends TransactionalRow implements DbDataRow {
                 break;
 
             default:
-                throw new RuntimeException("save: " + getStatus());
+                throw new FrameworkException(ExceptionCode.TRANSACTION_EXCEPTION_SAVE, getStatus().name());
         }
 
         // Effettuo il salvataggio
-        Connection connection = null;
-        try {
-            connection = DataConnectionManager.getInstance().getConnection();
-            connection.setAutoCommit(false);
+        try (Connection connection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
+            try {
+                connection.setAutoCommit(false);
+                post(connection);
+                connection.commit();
+                commit();
 
-            post(connection);
-
-            connection.commit();
-            commit();
-
-        } catch (Exception e) {
-            DataConnectionManager.rollback(connection);
-            throw new RuntimeException(e);
-        } finally {
-            DataConnectionManager.release(connection);
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            }
         }
     }
 
     @Override
-    public void post(Connection connection) {
+    public void post(Connection connection) throws SQLException, FrameworkException {
         switch (getStatus()) {
             case CLEAN:
             case INCONSISTENT:
@@ -117,12 +111,12 @@ public abstract class DbRow extends TransactionalRow implements DbDataRow {
                 break;
 
             default:
-                throw new RuntimeException("post: " + getStatus());
+                throw new FrameworkException(ExceptionCode.TRANSACTION_EXCEPTION_POST, getStatus().name());
         }
     }
 
     @Override
-    public void unPost() {
+    public void unPost() throws FrameworkException {
         switch (getStatus()) {
             case CLEAN:
             case INCONSISTENT:
@@ -144,12 +138,12 @@ public abstract class DbRow extends TransactionalRow implements DbDataRow {
                 break;
 
             default:
-                throw new RuntimeException("unPost: " + getStatus());
+                throw new FrameworkException(ExceptionCode.TRANSACTION_EXCEPTION_UNPOST, getStatus().name());
         }
     }
 
     @Override
-    public void commit() {
+    public void commit() throws FrameworkException {
         switch (getStatus()) {
             case CLEAN:
             case INCONSISTENT:
@@ -168,7 +162,7 @@ public abstract class DbRow extends TransactionalRow implements DbDataRow {
                 break;
 
             default:
-                throw new RuntimeException("commit: " + getStatus());
+                throw new FrameworkException(ExceptionCode.TRANSACTION_EXCEPTION_COMMIT, getStatus().name());
         }
 
         // salvo gli oldValues
@@ -176,7 +170,7 @@ public abstract class DbRow extends TransactionalRow implements DbDataRow {
     }
 
     @Override
-    public void rollback() {
+    public void rollback() throws FrameworkException {
         switch (getStatus()) {
             case CLEAN:
             case INSERTED:
@@ -197,64 +191,35 @@ public abstract class DbRow extends TransactionalRow implements DbDataRow {
                 break;
 
             default:
-                throw new RuntimeException(" - rollback: " + getStatus());
+                throw new FrameworkException(ExceptionCode.TRANSACTION_EXCEPTION_ROLLBACK, getStatus().name());
         }
     }
 
     @Override
-    public boolean select() {
-        try {
-            Connection connection = null;
-            try {
-                connection = DataConnectionManager.getInstance().getConnection();
-                return select(connection);
-            } finally {
-                DataConnectionManager.release(connection);
-            }
-
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
+    public boolean select() throws FrameworkException, SQLException {
+        try (Connection connection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
+            return select(connection);
         }
     }
 
     @Override
-    public void insert() {
-        Connection connection = null;
-        try {
-            connection = DataConnectionManager.getInstance().getConnection();
+    public void insert() throws FrameworkException, SQLException {
+        try (Connection connection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
             insert(connection);
-
-        } catch (Throwable e) {
-            DataConnectionManager.rollback(connection);
-        } finally {
-            DataConnectionManager.release(connection);
         }
     }
 
     @Override
-    public void delete() {
-        Connection connection = null;
-        try {
-            connection = DataConnectionManager.getInstance().getConnection();
+    public void delete() throws FrameworkException, SQLException {
+        try (Connection connection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
             delete(connection);
-
-        } catch (Throwable e) {
-            DataConnectionManager.rollback(connection);
-        } finally {
-            DataConnectionManager.release(connection);
         }
     }
 
     @Override
-    public void update() {
-        Connection connection = null;
-        try {
-            connection = DataConnectionManager.getInstance().getConnection();
+    public void update() throws FrameworkException, SQLException {
+        try (Connection connection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
             update(connection);
-        } catch (Throwable e) {
-            DataConnectionManager.rollback(connection);
-        } finally {
-            DataConnectionManager.release(connection);
         }
     }
 

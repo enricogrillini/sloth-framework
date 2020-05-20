@@ -52,6 +52,7 @@ public class TabSheetTag extends BaseElementTag<TabSheet> {
   }
 
   protected void endTag() throws Throwable {
+    // NOP
   }
 
 }

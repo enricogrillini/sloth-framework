@@ -91,7 +91,7 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
 
     protected boolean defaultNavigation() throws Exception {
 
-        String navigation[] = getWebRequest().getNavigation();
+        String[] navigation = getWebRequest().getNavigation();
         if (navigation.length == 2 && NavigationConst.AUTOCOMPLETE.equals(navigation[0])) {
             log.info(NavigationConst.AUTOCOMPLETE);
 
@@ -148,8 +148,6 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
     public void onInit() throws Exception {
         execInit();
     }
-
-    public abstract void execInit() throws Exception;
 
     protected ModelAndView getModelAndView() {
         return modelAndView;

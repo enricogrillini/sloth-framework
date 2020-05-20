@@ -13,6 +13,7 @@ import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.db.datasource.RowStatus;
 import it.eg.sloth.db.datasource.TransactionalDataRow;
 import it.eg.sloth.db.query.SelectQueryInterface;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
  * Project: sloth-framework
@@ -141,7 +142,7 @@ public class TransactionalRow extends Row implements TransactionalDataRow {
   }
 
   @Override
-  public void save() {
+  public void save() throws FrameworkException, SQLException {
     switch (getStatus()) {
     case INSERTED:
       setStatus(RowStatus.CLEAN);

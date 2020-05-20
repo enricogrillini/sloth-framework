@@ -1,5 +1,6 @@
 package it.eg.sloth.webdesktop.tag.form.group;
 
+import it.eg.sloth.form.Form;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import it.eg.sloth.webdesktop.tag.form.group.writer.GroupWriter;
 
@@ -17,7 +18,7 @@ import it.eg.sloth.webdesktop.tag.form.group.writer.GroupWriter;
  *
  * @author Enrico Grillini
  */
-public class RowTag extends WebDesktopTag {
+public class RowTag extends WebDesktopTag<Form> {
 
     static final long serialVersionUID = 1L;
 

@@ -7,7 +7,7 @@ import it.eg.sloth.form.dwh.Attribute;
 import it.eg.sloth.form.dwh.Level;
 import it.eg.sloth.form.dwh.Measure;
 import it.eg.sloth.form.dwh.rollup.Rollup;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import it.eg.sloth.webdesktop.tag.form.rollup.writer.RollupWriter;
 
@@ -45,7 +45,7 @@ public class RollupTag extends BaseElementTag<Rollup> {
         writeln(" </tr>");
     }
 
-    private void writeNode(DataNode node, int levelNumber) throws CloneNotSupportedException, BusinessException, IOException {
+    private void writeNode(DataNode node, int levelNumber) throws CloneNotSupportedException, FrameworkException, IOException {
         Rollup rollup = getElement();
 
         if (node == null)

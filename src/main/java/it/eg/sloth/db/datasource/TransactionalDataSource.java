@@ -1,7 +1,6 @@
 package it.eg.sloth.db.datasource;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 
 /**

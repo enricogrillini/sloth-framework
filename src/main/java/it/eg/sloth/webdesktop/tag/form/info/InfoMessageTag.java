@@ -1,5 +1,6 @@
 package it.eg.sloth.webdesktop.tag.form.info;
 
+import it.eg.sloth.form.Form;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 
 /**
@@ -16,7 +17,7 @@ import it.eg.sloth.webdesktop.tag.WebDesktopTag;
  *
  * @author Enrico Grillini
  */
-public class InfoMessageTag extends WebDesktopTag {
+public class InfoMessageTag extends WebDesktopTag<Form> {
 
   private static final long serialVersionUID = 1L;
 

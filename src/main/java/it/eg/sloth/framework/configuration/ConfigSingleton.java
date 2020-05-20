@@ -3,15 +3,9 @@ package it.eg.sloth.framework.configuration;
 import it.eg.sloth.framework.FrameComponent;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.ResourceUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.StringReader;
-import java.nio.file.Files;
 import java.util.Properties;
 
 /**

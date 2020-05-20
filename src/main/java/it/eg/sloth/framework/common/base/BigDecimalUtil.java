@@ -1,7 +1,7 @@
 package it.eg.sloth.framework.common.base;
 
-import it.eg.sloth.framework.common.exception.BusinessException;
-import it.eg.sloth.framework.common.exception.BusinessExceptionType;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.common.exception.ExceptionCode;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -45,7 +45,7 @@ public class BigDecimalUtil {
      * @param bigDecimal
      * @return
      */
-    public static BigDecimal parseBigDecimal(String bigDecimal) throws BusinessException {
+    public static BigDecimal parseBigDecimal(String bigDecimal) throws FrameworkException {
         return parseBigDecimal(bigDecimal, DEFAULT_FORMAT, null);
     }
 
@@ -56,7 +56,7 @@ public class BigDecimalUtil {
      * @param format
      * @return
      */
-    public static BigDecimal parseBigDecimal(String bigDecimal, String format, DecimalFormatSymbols decimalFormatSymbols) throws BusinessException {
+    public static BigDecimal parseBigDecimal(String bigDecimal, String format, DecimalFormatSymbols decimalFormatSymbols) throws FrameworkException {
         if (BaseFunction.isBlank(bigDecimal)) {
             return null;
         }
@@ -75,7 +75,7 @@ public class BigDecimalUtil {
         try {
             decimal = BigDecimalUtil.toBigDecimal(formatter.parse(bigDecimal.trim()));
         } catch (ParseException e) {
-            throw new BusinessException(BusinessExceptionType.PARSE_ERROR, e);
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, e);
         }
 
         return decimal;

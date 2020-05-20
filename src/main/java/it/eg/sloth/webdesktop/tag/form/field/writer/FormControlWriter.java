@@ -10,7 +10,7 @@ import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
@@ -31,7 +31,7 @@ import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
  */
 public class FormControlWriter extends AbstractHtmlWriter {
 
-    public static String writeControl(SimpleField element, Element parentElement, String lastController, ViewModality pageViewModality, String className, String style) throws BusinessException {
+    public static String writeControl(SimpleField element, Element parentElement, String lastController, ViewModality pageViewModality, String className, String style) throws FrameworkException {
         switch (element.getFieldType()) {
             case AUTO_COMPLETE:
                 return writeAutoComplete((AutoComplete<?>) element, parentElement, pageViewModality, className, style);
@@ -403,7 +403,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
      * @param style
      * @return
      */
-    public static String writeComboBox(ComboBox<?> comboBox, ViewModality pageViewModality, String className, String style) throws BusinessException {
+    public static String writeComboBox(ComboBox<?> comboBox, ViewModality pageViewModality, String className, String style) throws FrameworkException {
         if (comboBox.isHidden())
             return StringUtil.EMPTY;
 
@@ -498,7 +498,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
      * @param style
      * @return
      */
-    public static String writeRadioGroup(RadioGroup<?> radioGroup, ViewModality pageViewModality, String className, String style) throws BusinessException {
+    public static String writeRadioGroup(RadioGroup<?> radioGroup, ViewModality pageViewModality, String className, String style) throws FrameworkException {
         if (radioGroup.isHidden())
             return "";
 

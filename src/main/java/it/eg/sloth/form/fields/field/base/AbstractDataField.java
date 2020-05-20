@@ -7,7 +7,7 @@ import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
 import lombok.Getter;
@@ -30,7 +30,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class AbstractDataField<T extends Object> extends AbstractSimpleField implements DataField<T> {
+public abstract class AbstractDataField<T> extends AbstractSimpleField implements DataField<T> {
 
     // Contiente il valore informativo come stringa
     private String data;
@@ -53,12 +53,12 @@ public abstract class AbstractDataField<T extends Object> extends AbstractSimple
 
     @Override
     public String escapeHtmlText() {
-       return getDataType().escapeHtmlText   (getData(), getLocale(), getFormat());
+        return getDataType().escapeHtmlText(getData(), getLocale(), getFormat());
     }
 
     @Override
     public String escapeJsText() {
-        return getDataType().escapeJsText   (getData(), getLocale(), getFormat());
+        return getDataType().escapeJsText(getData(), getLocale(), getFormat());
     }
 
 
@@ -76,18 +76,18 @@ public abstract class AbstractDataField<T extends Object> extends AbstractSimple
     public T getValue() {
         try {
             return (T) getDataType().parseValue(data, getLocale(), getFormat());
-        } catch (BusinessException e) {
+        } catch (FrameworkException e) {
             return null;
         }
     }
 
     @Override
-    public void setValue(T value) throws BusinessException {
+    public void setValue(T value) throws FrameworkException {
         setData(getDataType().formatValue(value, getLocale(), getFormat()));
     }
 
     @Override
-    public void copyFromDataSource(DataSource dataSource) throws BusinessException {
+    public void copyFromDataSource(DataSource dataSource) throws FrameworkException {
         if (dataSource != null) {
             Object object = dataSource.getObject(getAlias());
 
@@ -118,7 +118,7 @@ public abstract class AbstractDataField<T extends Object> extends AbstractSimple
     }
 
     @Override
-    public boolean validate(MessageList messages) throws BusinessException {
+    public boolean validate(MessageList messages) throws FrameworkException {
         return true;
     }
 

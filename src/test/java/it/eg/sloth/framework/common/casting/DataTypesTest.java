@@ -8,7 +8,7 @@ import java.util.Locale;
 import org.junit.Test;
 
 import it.eg.sloth.framework.common.base.BigDecimalUtil;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
  * Project: sloth-framework
@@ -28,7 +28,7 @@ import it.eg.sloth.framework.common.exception.BusinessException;
 public class DataTypesTest {
 
     @Test
-    public void bigDecimalFormatValueTest() throws BusinessException {
+    public void bigDecimalFormatValueTest() throws FrameworkException {
         assertEquals("1,000.00", DataTypes.DECIMAL.formatValue(BigDecimal.valueOf(1000), Locale.US));
         assertEquals("1.000,00", DataTypes.DECIMAL.formatValue(BigDecimal.valueOf(1000), Locale.ITALY));
         assertEquals("10,00", DataTypes.DECIMAL.formatValue(BigDecimal.valueOf(10), Locale.ITALY));
@@ -57,7 +57,7 @@ public class DataTypesTest {
 
 
     @Test
-    public void bigDecimalParseValueTest() throws BusinessException {
+    public void bigDecimalParseValueTest() throws FrameworkException {
         assertEquals(BigDecimal.valueOf(1000), DataTypes.DECIMAL.parseValue("1000.00", Locale.US));
         assertEquals(BigDecimal.valueOf(1000), DataTypes.DECIMAL.parseValue("1000,00", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(10), DataTypes.DECIMAL.parseValue("10,00", Locale.ITALY));
@@ -93,7 +93,7 @@ public class DataTypesTest {
     }
 
     @Test
-    public void bigDecimalFormatTextTest() throws BusinessException {
+    public void bigDecimalFormatTextTest() throws FrameworkException {
         assertEquals("1,000.00", DataTypes.DECIMAL.formatText(BigDecimal.valueOf(1000), Locale.US));
         assertEquals("1.000,00", DataTypes.DECIMAL.formatText(BigDecimal.valueOf(1000), Locale.ITALY));
         assertEquals("10,00", DataTypes.DECIMAL.formatText(BigDecimal.valueOf(10), Locale.ITALY));

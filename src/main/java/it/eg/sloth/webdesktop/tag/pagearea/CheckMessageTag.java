@@ -1,5 +1,6 @@
 package it.eg.sloth.webdesktop.tag.pagearea;
 
+import it.eg.sloth.form.Form;
 import it.eg.sloth.framework.common.message.MessageList;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.MessageWriter;
@@ -19,7 +20,7 @@ import it.eg.sloth.webdesktop.tag.pagearea.writer.MessageWriter;
  *
  * @author Enrico Grillini
  */
-public class CheckMessageTag extends WebDesktopTag {
+public class CheckMessageTag extends WebDesktopTag<Form> {
 
   private static final long serialVersionUID = 1L;
 

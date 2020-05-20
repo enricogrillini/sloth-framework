@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import it.eg.sloth.form.fields.field.impl.Text;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.card.writer.CardWriter;
 
 /**
@@ -46,7 +46,7 @@ public class CardWriterTest {
             "{2}";
 
     @Test
-    public void fieldCardContentTest() throws BusinessException {
+    public void fieldCardContentTest() throws FrameworkException {
         Text<BigDecimal> field = new Text<BigDecimal>("name", "description", "tooltip", DataTypes.INTEGER);
         assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "description", "",""), CardWriter.fieldCardContent(field));
 

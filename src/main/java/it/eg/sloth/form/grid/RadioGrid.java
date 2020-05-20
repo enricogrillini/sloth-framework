@@ -2,7 +2,7 @@ package it.eg.sloth.form.grid;
 
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.form.WebRequest;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.MessageList;
 
 /**
@@ -69,7 +69,7 @@ public class RadioGrid<D extends DataTable<?>> extends Grid<D> {
     }
 
     @Override
-    public boolean validate(MessageList messages) throws BusinessException {
+    public boolean validate(MessageList messages) throws FrameworkException {
         if (isNewLine()) {
             return super.validate(messages);
         } else {

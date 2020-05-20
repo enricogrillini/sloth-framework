@@ -1,6 +1,6 @@
 package it.eg.sloth.framework.common.base;
 
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -172,7 +172,7 @@ public class BaseFunction {
      * @return
      * @throws ParseException
      */
-    public static Timestamp trunc(Timestamp timestamp, String format) throws BusinessException {
+    public static Timestamp trunc(Timestamp timestamp, String format) throws FrameworkException {
         return TimeStampUtil.parseTimestamp(TimeStampUtil.formatTimestamp(timestamp, format), format);
     }
 
@@ -183,7 +183,7 @@ public class BaseFunction {
      * @return
      * @throws ParseException
      */
-    public static Timestamp trunc(Timestamp timestamp) throws BusinessException {
+    public static Timestamp trunc(Timestamp timestamp) throws FrameworkException {
         return trunc(timestamp, TimeStampUtil.DEFAULT_FORMAT);
     }
 

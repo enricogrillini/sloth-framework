@@ -8,6 +8,7 @@ import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.decodemap.DecodeValue;
 import it.eg.sloth.db.decodemap.value.BaseDecodeValue;
 import it.eg.sloth.db.query.SelectQueryInterface;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
  * Project: sloth-framework
@@ -48,11 +49,11 @@ public class BaseDecodeMap<T> extends AbstractDecodeMap<T, BaseDecodeValue<T>> {
     }
   }
 
-  public BaseDecodeMap(SelectQueryInterface query) throws SQLException, IOException {
+  public BaseDecodeMap(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
     this(query, DecodeValue.DEFAULT_CODE_NAME, DecodeValue.DEFAULT_DESCRIPTION_NAME, null);
   }
 
-  public BaseDecodeMap(SelectQueryInterface query, String codeName, String descriptionName, String validName) throws SQLException, IOException {
+  public BaseDecodeMap(SelectQueryInterface query, String codeName, String descriptionName, String validName) throws SQLException, IOException, FrameworkException {
     this(query.selectTable(), codeName, descriptionName, validName);
   }
 

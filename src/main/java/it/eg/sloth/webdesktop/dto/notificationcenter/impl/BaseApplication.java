@@ -108,14 +108,14 @@ public class BaseApplication<T extends NotificationMessage> extends FrameCompone
 
   protected void addFirstMessage(T message) {
     Map<String, T> map = new LinkedHashMap();
-    map.put(message.getId().toString(), message);
+    map.put(message.getId(), message);
     map.putAll(messages);
 
     messages = map;
   }
 
   protected void addMessage(T message) {
-    messages.put(message.getId().toString(), message);
+    messages.put(message.getId(), message);
   }
 
   @Override

@@ -176,14 +176,4 @@ public class ScpFrom {
         return b;
     }
 
-
-    public static void main(String[] args) throws JSchException, IOException {
-        String localFile = "D:/CLI-FATRIEPDDT000008518012013.pdf";
-        String host = "192.9.200.32";
-        String user = "xxx";
-        String password = "xxx";
-        String remoteFile = "/share/Public/DocumentiClienti/CLI-FATRIEPDDT000008518012013.pdf";
-
-        scpFrom(localFile, host, user, password, remoteFile);
-    }
 }

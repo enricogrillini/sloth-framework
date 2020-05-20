@@ -25,7 +25,7 @@ import it.eg.sloth.form.fields.field.impl.TextArea;
 import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 
@@ -68,7 +68,7 @@ public class FormControlWriterTest {
     private static final String BASE_TEXTAREA = "<textarea id=\"{0}\" name=\"{0}\" class=\"" + BootStrapClass.CONTROL_CLASS + "\"{1}>{2}</textarea>";
 
     @Test
-    public void autoCompleteTest() throws BusinessException {
+    public void autoCompleteTest() throws FrameworkException {
         Fields fields = new Fields("Master");
         AutoComplete<String> autocomplete = new AutoComplete<String>("name", "description", "tooltip", DataTypes.STRING);
         autocomplete.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
@@ -88,7 +88,7 @@ public class FormControlWriterTest {
     }
 
     @Test
-    public void buttonTest() throws BusinessException {
+    public void buttonTest() throws FrameworkException {
         Button field = new Button("name", "description", "tooltip");
         assertEquals(BASE_BUTTON, FormControlWriter.writeButton(field, null, null));
 
@@ -97,7 +97,7 @@ public class FormControlWriterTest {
     }
 
     @Test
-    public void checkBoxTest() throws BusinessException {
+    public void checkBoxTest() throws FrameworkException {
         CheckBox<String> field = new CheckBox<String>("name", "description", "tooltip", DataTypes.STRING);
         assertEquals(BASE_CHECKBOX_VIS, FormControlWriter.writeCheckBox(field, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
 
@@ -112,7 +112,7 @@ public class FormControlWriterTest {
     }
 
     @Test
-    public void comboBoxTest() throws BusinessException {
+    public void comboBoxTest() throws FrameworkException {
         ComboBox<String> field = new ComboBox<String>("name", "description", "tooltip", DataTypes.STRING);
         field.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
 
@@ -126,7 +126,7 @@ public class FormControlWriterTest {
     }
 
     @Test
-    public void decodedTextTest() throws BusinessException {
+    public void decodedTextTest() throws FrameworkException {
         DecodedText<String> field = new DecodedText<String>("name", "description", "tooltip", DataTypes.STRING);
         field.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
 
@@ -140,7 +140,7 @@ public class FormControlWriterTest {
     }
 
     @Test
-    public void fileTest() throws BusinessException {
+    public void fileTest() throws FrameworkException {
         File field = new File("name", "description", "tooltip");
 
         assertEquals(MessageFormat.format(BASE_FILE_VIEW, "name", "text", "", "", " disabled=\"\""), FormControlWriter.writeFile(field, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
@@ -152,7 +152,7 @@ public class FormControlWriterTest {
     }
 
     @Test
-    public void hiddenTest() throws BusinessException {
+    public void hiddenTest() throws FrameworkException {
         Hidden<String> field = new Hidden<String>("name", "description", "tooltip", DataTypes.STRING);
 
         assertEquals(MessageFormat.format(BASE_HIDDEN, "name", ""), FormControlWriter.writeHidden(field));
@@ -166,7 +166,7 @@ public class FormControlWriterTest {
 
 
     @Test
-    public void inputTest() throws BusinessException {
+    public void inputTest() throws FrameworkException {
         Input<String> field = new Input<String>("name", "description", "tooltip", DataTypes.STRING);
 
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
@@ -182,10 +182,10 @@ public class FormControlWriterTest {
     /**
      * input - Date
      *
-     * @throws BusinessException
+     * @throws FrameworkException
      */
     @Test
-    public void inputDateTest() throws BusinessException {
+    public void inputDateTest() throws FrameworkException {
         Input<Timestamp> field = new Input<Timestamp>("name", "description", "tooltip", DataTypes.DATE);
         field.setLocale(Locale.ITALY);
 
@@ -202,10 +202,10 @@ public class FormControlWriterTest {
     /**
      * input - Datetime
      *
-     * @throws BusinessException
+     * @throws FrameworkException
      */
     @Test
-    public void inputDatetimeTest() throws BusinessException {
+    public void inputDatetimeTest() throws FrameworkException {
         Input<Timestamp> field = new Input<Timestamp>("name", "description", "tooltip", DataTypes.DATETIME);
         field.setLocale(Locale.ITALY);
 
@@ -220,7 +220,7 @@ public class FormControlWriterTest {
     }
 
     @Test
-    public void inputTotalizerTest() throws BusinessException {
+    public void inputTotalizerTest() throws FrameworkException {
         InputTotalizer field = new InputTotalizer("name", "description", "tooltip", DataTypes.INTEGER);
 
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
@@ -234,7 +234,7 @@ public class FormControlWriterTest {
     }
 
     @Test
-    public void textTest() throws BusinessException {
+    public void textTest() throws FrameworkException {
         Text<String> field = new Text<String>("name", "description", "tooltip", DataTypes.STRING);
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeText(field, null, null));
 
@@ -246,7 +246,7 @@ public class FormControlWriterTest {
     }
 
     @Test
-    public void textAreaTest() throws BusinessException {
+    public void textAreaTest() throws FrameworkException {
         TextArea<String> field = new TextArea<String>("name", "description", "tooltip", DataTypes.STRING);
         assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", " disabled=\"\"", ""), FormControlWriter.writeTextArea(field, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
 
@@ -259,7 +259,7 @@ public class FormControlWriterTest {
     }
 
     @Test
-    public void textTotalizerTest() throws BusinessException {
+    public void textTotalizerTest() throws FrameworkException {
         TextTotalizer field = new TextTotalizer("name", "description", "tooltip", DataTypes.INTEGER);
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeTextTotalizer(field, null, null));
 

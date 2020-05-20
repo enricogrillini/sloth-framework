@@ -1,8 +1,10 @@
 package it.eg.sloth.db.datasource;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 import it.eg.sloth.db.datasource.row.column.Column;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
  * Project: sloth-framework
@@ -36,19 +38,19 @@ public interface DbDataRow extends DbDataSource, TransactionalDataRow {
 
     String getUpdate();
 
-    boolean select();
+    boolean select() throws FrameworkException, SQLException;
 
     boolean select(Connection connection);
 
-    void insert();
+    void insert() throws FrameworkException, SQLException;
 
-    void insert(Connection connection);
+    void insert(Connection connection) throws SQLException;
 
-    void delete();
+    public void delete() throws FrameworkException, SQLException;
 
-    void delete(Connection connection);
+    void delete(Connection connection) throws SQLException;
 
-    void update();
+    void update() throws FrameworkException, SQLException;
 
     void update(Connection connection);
 

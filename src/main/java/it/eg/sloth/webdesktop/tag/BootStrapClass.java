@@ -17,6 +17,10 @@ package it.eg.sloth.webdesktop.tag;
  */
 public class BootStrapClass {
 
+  private BootStrapClass () {
+    // NOP
+  }
+
   // Card
   public static final String BORDER_LEFT_NONE = "";
   public static final String BORDER_LEFT_PRIMARY = "border-left-primary";

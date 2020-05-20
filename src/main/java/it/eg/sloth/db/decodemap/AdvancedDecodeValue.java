@@ -15,16 +15,16 @@ package it.eg.sloth.db.decodemap;
  *
  * @author Enrico Grillini
  */
-public interface AdvancedDecodeValue<T extends Object> {
+public interface AdvancedDecodeValue<T> {
 
-  public static String DEFAULT_CODE_NAME = "codice";
-  public static String DEFAULT_DESCRIPTION_NAME = "descrizione";
-  public static String DEFAULT_VALID_NAME = "flagvalido";
+    public static String DEFAULT_CODE_NAME = "codice";
+    public static String DEFAULT_DESCRIPTION_NAME = "descrizione";
+    public static String DEFAULT_VALID_NAME = "flagvalido";
 
-  public T getCode();
+    T getCode();
 
-  public String getSubDescription();
+    String getSubDescription();
 
-  public String getUrlImmagine();
+    String getUrlImmagine();
 
 }

@@ -1,5 +1,6 @@
 package it.eg.sloth.webdesktop.tag.pagearea;
 
+import it.eg.sloth.form.Form;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 
 /**
@@ -17,7 +18,7 @@ import it.eg.sloth.webdesktop.tag.WebDesktopTag;
  *
  * @author Enrico Grillini
  */
-public class PageTag extends WebDesktopTag {
+public class PageTag extends WebDesktopTag<Form> {
 
   private static final long serialVersionUID = 1L;
 

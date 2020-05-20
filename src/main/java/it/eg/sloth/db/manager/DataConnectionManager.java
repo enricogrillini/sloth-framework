@@ -1,12 +1,14 @@
 package it.eg.sloth.db.manager;
 
+import it.eg.sloth.framework.common.exception.ExceptionCode;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbcp.BasicDataSource;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -83,58 +85,30 @@ public final class DataConnectionManager {
         dataSourceMap.put(connectionName, dataSource);
     }
 
-    public synchronized Connection getConnection(String connectionName) throws SQLException {
-        Connection connection = null;
+    public synchronized DataSource getDataSource() throws FrameworkException {
+        return getDataSource(DEFAULT_CONNECTION_NAME);
+    }
 
-        if (dataSourceMap.containsKey(connectionName)) {
-            DataSource dataSource = dataSourceMap.get(connectionName);
-
-            connection = dataSource.getConnection();
-            connection.setAutoCommit(true);
-
+    public synchronized DataSource getDataSource(String dataSourcename) throws FrameworkException {
+        if (dataSourceMap.containsKey(dataSourcename)) {
+            return dataSourceMap.get(dataSourcename);
         } else {
             // Recupero la connection dal connection pool
-            log.info("Recupero la connection {} dal connection pool", connectionName);
+            log.info("Recupero il DataSource {} dal connection pool", dataSourcename);
             try {
                 Context context = new InitialContext();
 
-                DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc/" + connectionName);
+                DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc/" + dataSourcename);
                 if (dataSource == null) {
-                    throw new RuntimeException("DataSource: java:comp/env/jdbc/" + connectionName + " non trovato");
+                    throw new FrameworkException(ExceptionCode.DATA_SOURCE_NOT_FOUND, "DataSource: java:comp/env/jdbc/" + dataSourcename + " non trovato");
                 } else {
-                    dataSourceMap.put(connectionName, dataSource);
+                    dataSourceMap.put(dataSourcename, dataSource);
                 }
 
-                connection = dataSource.getConnection();
-                connection.setAutoCommit(true);
-
-            } catch (Exception e) {
-                log.error("Error on get connection", e);
-                throw new RuntimeException(e);
+                return dataSource;
+            } catch (NamingException e) {
+                throw new FrameworkException(ExceptionCode.DATA_SOURCE_NOT_FOUND, "DataSource: java:comp/env/jdbc/" + dataSourcename + " non trovato", e);
             }
-        }
-
-        return connection;
-
-    }
-
-    public synchronized Connection getConnection() throws SQLException {
-        return getConnection(DEFAULT_CONNECTION_NAME);
-    }
-
-    /**
-     * Rilascia la Connection gestendo le eccezioni
-     *
-     * @param connection
-     * @throws SQLException
-     */
-    public static void release(Connection connection) {
-        try {
-            if (connection != null) {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -168,19 +142,5 @@ public final class DataConnectionManager {
         }
     }
 
-    /**
-     * Effettua il rollback della transazione gestendo le eccezioni
-     *
-     * @param connection
-     * @throws TransactionException
-     */
-    public static void rollback(Connection connection) {
-        try {
-            if (connection != null)
-                connection.rollback();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 }

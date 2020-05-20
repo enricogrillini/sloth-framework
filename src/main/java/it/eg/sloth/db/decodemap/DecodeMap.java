@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author Enrico Grillini
  */
-public interface DecodeMap<T extends Object, V extends DecodeValue<T>> extends Iterable<V> {
+public interface DecodeMap<T, V extends DecodeValue<T>> extends Iterable<V> {
 
   /**
    * Ritorna il codice corrispondente ad una descrizione
@@ -72,7 +72,6 @@ public interface DecodeMap<T extends Object, V extends DecodeValue<T>> extends I
   /**
    * Estrae i soli record validi
    * 
-   * @param code
    * @return
    */
   public List<V> valid();

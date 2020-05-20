@@ -20,7 +20,7 @@ import it.eg.sloth.form.chart.element.Labels;
 import it.eg.sloth.form.chart.element.Series;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.jaxb.form.ChartType;
 import it.eg.sloth.jaxb.form.LegendPosition;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJs;
@@ -57,7 +57,7 @@ public class ChartWriterTest {
     SimpleChart<DataTable<?>> simpleChart;
 
     @Before
-    public void init() throws BusinessException {
+    public void init() throws FrameworkException {
         simpleChart = new SimpleChart<>("Prova", ChartType.LINE, "Prova", LegendPosition.TOP);
 
         simpleChart.addChild(new Labels<Timestamp>("Ora", null, "Ora", null, DataTypes.MONTH, null, null, 0));
@@ -85,12 +85,12 @@ public class ChartWriterTest {
     }
 
     @Test
-    public void writeScriptTest() throws CloneNotSupportedException, ParseException, BusinessException {
+    public void writeScriptTest() throws CloneNotSupportedException, ParseException, FrameworkException {
         assertEquals(SCRIPT_TEMPLATE, ChartWriter.writeScript(simpleChart));
     }
 
     @Test
-    public void populateChartDataTest() throws CloneNotSupportedException, ParseException, BusinessException {
+    public void populateChartDataTest() throws CloneNotSupportedException, ParseException, FrameworkException {
         ChartJs chartJs = ChartWriter.populateChart(simpleChart);
 
         assertEquals(3, chartJs.getData().getLabels().size());

@@ -4,7 +4,7 @@ import java.text.ParseException;
 
 import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
 
@@ -23,110 +23,109 @@ import it.eg.sloth.framework.common.message.MessageList;
  *
  * @author Enrico Grillini
  */
-public interface DataField<T extends Object> extends SimpleField {
+public interface DataField<T> extends SimpleField {
 
-  /**
-   * Ritorna l'alias
-   * 
-   * @return
-   */
-  public String getAlias();
+    /**
+     * Ritorna l'alias
+     *
+     * @return
+     */
+    String getAlias();
 
-  /**
-   * Imposta l'alias
-   * 
-   * @param alias
-   */
-  public void setAlias(String alias);
+    /**
+     * Imposta l'alias
+     *
+     * @param alias
+     */
+    void setAlias(String alias);
 
-  /**
-   * Ritorna il data type
-   * 
-   * @return
-   */
-  public DataTypes getDataType();
+    /**
+     * Ritorna il data type
+     *
+     * @return
+     */
+    DataTypes getDataType();
 
-  /**
-   * Imposta il data type
-   * 
-   * @param dataType
-   */
-  public void setDataType(DataTypes dataType);
+    /**
+     * Imposta il data type
+     *
+     * @param dataType
+     */
+    void setDataType(DataTypes dataType);
 
-  /**
-   * Ritorna il formato
-   * 
-   * @return
-   */
-  public String getFormat();
+    /**
+     * Ritorna il formato
+     *
+     * @return
+     */
+    String getFormat();
 
-  /**
-   * Imposta il formato
-   * 
-   * @param format
-   */
-  public void setFormat(String format);
+    /**
+     * Imposta il formato
+     *
+     * @param format
+     */
+    void setFormat(String format);
 
-  public String getData();
+    String getData();
 
-  public void setData(String data);
+    void setData(String data);
 
-  public String escapeHtmlText();
+    String escapeHtmlText();
 
-  public String escapeJsText();
+    String escapeJsText();
 
-  public String escapeHtmlValue();
+    String escapeHtmlValue();
 
-  public String escapeJsValue();
+    String escapeJsValue();
 
-  /**
-   * Imposta il testo del campo formattando il valore passato
-   * 
-   * @param value
-   */
-  public void setValue(T value) throws BusinessException;
+    /**
+     * Imposta il testo del campo formattando il valore passato
+     *
+     * @param value
+     */
+    void setValue(T value) throws FrameworkException;
 
-  /**
-   * Imposta il valore prelevandolo dal data source passato
-   * 
-   * @param dataSource
-   */
-  public void copyFromDataSource(DataSource dataSource) throws BusinessException;
+    /**
+     * Imposta il valore prelevandolo dal data source passato
+     *
+     * @param dataSource
+     */
+    void copyFromDataSource(DataSource dataSource) throws FrameworkException;
 
-  /**
-   * Imposta il valore sul data source passato
-   * 
-   * @param dataSource
-   */
-  public void copyToDataSource(DataSource dataSource);
+    /**
+     * Imposta il valore sul data source passato
+     *
+     * @param dataSource
+     */
+    void copyToDataSource(DataSource dataSource);
 
-  /**
-   * Ritorna il testo del campo nel formato nativo
-   * 
-   * @return
-   * @throws ParseException
-   */
-  public T getValue();
+    /**
+     * Ritorna il testo del campo nel formato nativo
+     *
+     * @return
+     * @throws ParseException
+     */
+    T getValue();
 
-  /**
-   * 
-   * @return
-   */
-  public boolean isValid();
+    /**
+     * @return
+     */
+    boolean isValid();
 
-  /**
-   * Verifica la validita del testo passato
-   *
-   * @return
-   */
-  public Message check();
+    /**
+     * Verifica la validita del testo passato
+     *
+     * @return
+     */
+    Message check();
 
-  /**
-   * Effettua la validazione della request relativamente al campo
-   * 
-   * @param messages
-   * @return
-   */
-  public boolean validate(MessageList messages) throws BusinessException;
+    /**
+     * Effettua la validazione della request relativamente al campo
+     *
+     * @param messages
+     * @return
+     */
+    boolean validate(MessageList messages) throws FrameworkException;
 
 }

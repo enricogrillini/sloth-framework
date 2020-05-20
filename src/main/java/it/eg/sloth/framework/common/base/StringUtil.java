@@ -24,7 +24,7 @@ public class StringUtil {
     public static String[] tokenize(String str, String separator) {
         StringTokenizer stringTokenizer = new StringTokenizer(str, separator, true);
 
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         String lastToken = "";
         while (stringTokenizer.hasMoreTokens()) {
             String currentToken = stringTokenizer.nextToken();
@@ -52,7 +52,7 @@ public class StringUtil {
      * @return
      */
     public static List<String> words(String text) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
 
         if (!BaseFunction.isBlank(text)) {
             Pattern p = Pattern.compile("\\w+");
@@ -270,10 +270,8 @@ public class StringUtil {
                     string = String.format("%s%s", Character.toUpperCase(string.charAt(0)), string.substring(1));
                 }
 
-                if (!Character.isLetterOrDigit(string.charAt(i))) {
-                    if (i + 1 < string.length()) {
-                        string = String.format("%s%s%s", string.subSequence(0, i + 1), Character.toUpperCase(string.charAt(i + 1)), string.substring(i + 2).toLowerCase());
-                    }
+                if (!Character.isLetterOrDigit(string.charAt(i)) && i + 1 < string.length()) {
+                    string = String.format("%s%s%s", string.subSequence(0, i + 1), Character.toUpperCase(string.charAt(i + 1)), string.substring(i + 2).toLowerCase());
                 }
             }
             return string;

@@ -6,7 +6,7 @@ import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
 import it.eg.sloth.webdesktop.tag.form.field.writer.TextControlWriter;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class ListWriter extends AbstractHtmlWriter {
     }
 
 
-    public static String writeList(Grid<?> grid) throws BusinessException, CloneNotSupportedException {
+    public static String writeList(Grid<?> grid) throws FrameworkException, CloneNotSupportedException {
         StringBuilder result = new StringBuilder()
                 .append("<div class=\"list-group list-group-flush\">\n");
 

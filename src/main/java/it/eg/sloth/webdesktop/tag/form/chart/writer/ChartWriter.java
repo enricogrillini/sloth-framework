@@ -4,7 +4,7 @@ import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.form.chart.SimpleChart;
 import it.eg.sloth.form.chart.element.Labels;
 import it.eg.sloth.form.chart.element.Series;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.html.HtmlColor;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJs;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJsData;
@@ -46,7 +46,7 @@ public class ChartWriter extends AbstractHtmlWriter {
                 .toString();
     }
 
-    public static final String writeScript(SimpleChart<?> simpleChart) throws CloneNotSupportedException, BusinessException, ParseException {
+    public static final String writeScript(SimpleChart<?> simpleChart) throws CloneNotSupportedException, FrameworkException, ParseException {
 
         ChartJs chartJs = populateChart(simpleChart);
 
@@ -61,7 +61,7 @@ public class ChartWriter extends AbstractHtmlWriter {
                 .toString();
     }
 
-    public static final ChartJs populateChart(SimpleChart<?> simpleChart) throws CloneNotSupportedException, BusinessException, ParseException {
+    public static final ChartJs populateChart(SimpleChart<?> simpleChart) throws CloneNotSupportedException, FrameworkException, ParseException {
         ChartJs chartJs = new ChartJs();
         chartJs.setType(simpleChart.getChartType().toString().toLowerCase());
         chartJs.setData(populateChartData(simpleChart));
@@ -77,7 +77,7 @@ public class ChartWriter extends AbstractHtmlWriter {
         return chartJs;
     }
 
-    public static final ChartJsData populateChartData(SimpleChart<?> simpleChart) throws CloneNotSupportedException, BusinessException, ParseException {
+    public static final ChartJsData populateChartData(SimpleChart<?> simpleChart) throws CloneNotSupportedException, FrameworkException, ParseException {
         ChartJsData chartData = new ChartJsData();
 
 
@@ -107,7 +107,7 @@ public class ChartWriter extends AbstractHtmlWriter {
         return chartData;
     }
 
-    private static final void dataSetMonoColor(SimpleChart<?> simpleChart, ChartJsData chartData) throws CloneNotSupportedException, BusinessException, ParseException {
+    private static final void dataSetMonoColor(SimpleChart<?> simpleChart, ChartJsData chartData) throws CloneNotSupportedException, FrameworkException, ParseException {
         // Datasets
         List<Series> seriesList = simpleChart.getSeriesList();
         List<String> palette = HtmlColor.getColorPalette(seriesList.size());

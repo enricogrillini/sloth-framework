@@ -1,5 +1,6 @@
 package it.eg.sloth.webdesktop.tag.pagearea;
 
+import it.eg.sloth.form.Form;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.configuration.ConfigSingleton;
@@ -27,7 +28,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class ContentTag extends WebDesktopTag {
+public class ContentTag extends WebDesktopTag<Form> {
 
     private static final long serialVersionUID = 1L;
 

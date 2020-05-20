@@ -7,7 +7,7 @@ import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.grid.RadioGrid;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 
@@ -31,7 +31,7 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
 
     private static final long serialVersionUID = 1L;
 
-    protected void writeRow(DataRow dataRow, int rowNumber) throws CloneNotSupportedException, BusinessException, IOException {
+    protected void writeRow(DataRow dataRow, int rowNumber) throws CloneNotSupportedException, FrameworkException, IOException {
         boolean selected = rowNumber == getElement().getRowSelected();
         boolean readOnly = (getForm().getPageInfo().getViewModality() == ViewModality.VIEW_VISUALIZZAZIONE);
 
@@ -88,7 +88,7 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
         }
     }
 
-    protected void writeLastRow(int rowNumber) throws CloneNotSupportedException, BusinessException, IOException {
+    protected void writeLastRow(int rowNumber) throws CloneNotSupportedException, FrameworkException, IOException {
         boolean selected = getElement().isNewLine();
         boolean readOnly = (getForm().getPageInfo().getViewModality() == ViewModality.VIEW_VISUALIZZAZIONE);
 

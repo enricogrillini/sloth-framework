@@ -1,4 +1,4 @@
-package it.eg.sloth.framework.utility.mail.asynchronousMail;
+package it.eg.sloth.framework.utility.mail.asynchronousmail;
 
 import java.sql.Timestamp;
 

@@ -1,16 +1,14 @@
 package it.eg.sloth.webdesktop.tag.form.base;
 
-import java.io.IOException;
-import java.text.ParseException;
-
 import it.eg.sloth.form.fields.field.base.AbstractSimpleField;
-import it.eg.sloth.form.fields.field.base.InputField;
-import it.eg.sloth.framework.common.exception.BusinessException;
-import it.eg.sloth.framework.pageinfo.ViewModality;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 import it.eg.sloth.webdesktop.tag.form.group.writer.GroupWriter;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 /**
  * Project: sloth-framework
@@ -39,7 +37,7 @@ public abstract class BaseContainerControlTag extends BaseControlTag {
     String labelStyle;
     String labelClassname;
 
-    public void writeLabelContainer(AbstractSimpleField field) throws ParseException, BusinessException, IOException {
+    public void writeLabelContainer(AbstractSimpleField field) throws ParseException, FrameworkException, IOException {
         if (field != null && FormControlWriter.hasLabel(field)) {
             write(GroupWriter.openCell(null, null, getLabelWidth()));
             write(FormControlWriter.writeLabel(field, getViewModality(), getControlClassname(), getControlStyle()));
@@ -51,27 +49,10 @@ public abstract class BaseContainerControlTag extends BaseControlTag {
         }
     }
 
-    public void writeControlContainer(AbstractSimpleField field) throws BusinessException, IOException {
+    public void writeControlContainer(AbstractSimpleField field) throws FrameworkException, IOException {
         write(GroupWriter.openCell(null, null, getControlWidth()));
         if (field != null) {
-
-            ViewModality viewModality = getViewModality();
-            if (field instanceof InputField) {
-                InputField<?> inputField = (InputField<?>) field;
-                viewModality = inputField.getViewModality() == ViewModality.VIEW_AUTO ? viewModality : inputField.getViewModality();
-            }
-
-            if (ViewModality.VIEW_VISUALIZZAZIONE == viewModality) {
-                switch (field.getFieldType()) {
-
-                    default:
-                        write(FormControlWriter.writeControl(field, getParentElement(), getWebDesktopDto().getLastController(), getViewModality(), getControlClassname(), getControlStyle()));
-                        break;
-                }
-            } else {
-                write(FormControlWriter.writeControl(field, getParentElement(), getWebDesktopDto().getLastController(), getViewModality(), getControlClassname(), getControlStyle()));
-            }
-
+            write(FormControlWriter.writeControl(field, getParentElement(), getWebDesktopDto().getLastController(), getViewModality(), getControlClassname(), getControlStyle()));
         } else {
             write("<span class=\"form-control border-bottom-danger\">Campo " + getName() + " non trovato</span>");
         }

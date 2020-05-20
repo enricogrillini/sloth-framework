@@ -1,17 +1,17 @@
 package it.eg.sloth.framework.pageinfo;
 
+import it.eg.sloth.framework.FrameComponent;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import it.eg.sloth.framework.FrameComponent;
 
 public class Breadcrumbs extends FrameComponent implements Iterable<Breadcrumb> {
 
   private List<Breadcrumb> list;
 
   public Breadcrumbs() {
-    list = new ArrayList<Breadcrumb>();
+    list = new ArrayList();
   }
 
   public void add(Breadcrumb breadcrumb) {

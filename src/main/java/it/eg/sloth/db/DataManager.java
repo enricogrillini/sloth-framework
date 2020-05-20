@@ -6,8 +6,10 @@ import it.eg.sloth.db.datasource.TransactionalDataSource;
 import it.eg.sloth.db.manager.DataConnectionManager;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.fields.Fields;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,14 +33,14 @@ public class DataManager {
         // NOP
     }
 
-    private static void post(Connection connection, DataSource dataSource) {
+    private static void post(Connection connection, DataSource dataSource) throws SQLException, FrameworkException {
         if (dataSource instanceof DbDataSource) {
             DbDataSource dbDataRow = (DbDataSource) dataSource;
             dbDataRow.post(connection);
         }
     }
 
-    private static void unPost(DataSource dataSource) {
+    private static void unPost(DataSource dataSource) throws FrameworkException {
         if (dataSource instanceof DbDataSource) {
             DbDataSource dbDataRow = (DbDataSource) dataSource;
             dbDataRow.unPost();
@@ -63,12 +65,12 @@ public class DataManager {
         }
     }
 
-    public static void post(Connection connection, DataSource[] dataSources) {
+    public static void post(Connection connection, DataSource[] dataSources) throws SQLException, FrameworkException {
         for (int i = 0; i < dataSources.length; i++)
             post(connection, dataSources[i]);
     }
 
-    public static void unPost(DataSource[] dataSources) {
+    public static void unPost(DataSource[] dataSources) throws FrameworkException {
         for (int i = 0; i < dataSources.length; i++)
             unPost(dataSources[i]);
     }
@@ -79,22 +81,19 @@ public class DataManager {
     }
 
     public static void save(DataSource[] dataSources) throws Exception {
-        Connection connection = null;
-        try {
-            connection = DataConnectionManager.getInstance().getConnection();
-            connection.setAutoCommit(false);
+        try (Connection connection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
+            try {
+                connection.setAutoCommit(false);
 
-            post(connection, dataSources);
-            connection.commit();
-            commit(dataSources);
+                post(connection, dataSources);
+                connection.commit();
+                commit(dataSources);
 
-        } catch (Exception e) {
-            unPost(dataSources);
-            DataConnectionManager.rollback(connection);
-            throw e;
-
-        } finally {
-            DataConnectionManager.release(connection);
+            } catch (Exception e) {
+                unPost(dataSources);
+                connection.rollback();
+                throw e;
+            }
         }
     }
 

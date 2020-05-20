@@ -1,5 +1,9 @@
 package it.eg.sloth.db.datasource;
 
+import it.eg.sloth.framework.common.exception.FrameworkException;
+
+import java.sql.SQLException;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -32,7 +36,7 @@ public interface TransactionalDataRow extends TransactionalDataSource, DataRow {
     /**
      * Salva le modifiche
      */
-    void save();
+    void save() throws FrameworkException, SQLException;
 
     /**
      * Annulla le modifiche

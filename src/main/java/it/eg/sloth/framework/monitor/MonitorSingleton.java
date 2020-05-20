@@ -12,7 +12,7 @@ import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.security.User;
 import lombok.extern.slf4j.Slf4j;
 
@@ -121,7 +121,7 @@ public class MonitorSingleton {
             Timestamp ora = null;
             try {
                 ora = BaseFunction.trunc(TimeStampUtil.sysdate(), "dd/MM/yyyy HH");
-            } catch (BusinessException e) {
+            } catch (FrameworkException e) {
                 log.error("endEvent", e);
             }
 
@@ -146,11 +146,11 @@ public class MonitorSingleton {
         return dataTable;
     }
 
-    public synchronized DataTable getTrend() throws BusinessException {
+    public synchronized DataTable getTrend() throws FrameworkException {
         return getTrend(null, null);
     }
 
-    public synchronized DataTable getTrend(Timestamp dataDa, Timestamp dataA) throws BusinessException {
+    public synchronized DataTable getTrend(Timestamp dataDa, Timestamp dataA) throws FrameworkException {
         if (dataDa == null) {
             dataDa = BaseFunction.trunc(startupTime);
         } else {

@@ -1,6 +1,9 @@
 package it.eg.sloth.db.datasource;
 
+import it.eg.sloth.framework.common.exception.FrameworkException;
+
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Project: sloth-framework
@@ -24,20 +27,20 @@ public interface DbDataSource extends TransactionalDataSource {
      *
      * @param connection
      */
-    void post(Connection connection);
+    void post(Connection connection) throws SQLException, FrameworkException;
 
     /**
      * Riporta lostato del DataSource nelel condizioni pre post
      */
-    void unPost();
+    void unPost() throws FrameworkException;
 
     /**
      * Completa la transazione dopo aver trasferito le informazioni sul DB
      */
-    void commit();
+    void commit() throws FrameworkException;
 
     /**
      * Annulla la transazione
      */
-    void rollback();
+    void rollback() throws FrameworkException;
 }

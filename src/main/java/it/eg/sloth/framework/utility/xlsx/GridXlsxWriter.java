@@ -20,7 +20,7 @@ import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelContainer;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelFont;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelType;
@@ -34,7 +34,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
         rowIndex = 0;
     }
 
-    public GridXlsxWriter(boolean title, Grid<?>... grids) throws BusinessException {
+    public GridXlsxWriter(boolean title, Grid<?>... grids) throws FrameworkException {
         super();
 
         for (int i = 0; i < grids.length; i++) {
@@ -70,7 +70,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
         }
     }
 
-    protected int addSheetTitle(String title, int lastColumnIndex, Locale locale) throws BusinessException {
+    protected int addSheetTitle(String title, int lastColumnIndex, Locale locale) throws FrameworkException {
         if (!BaseFunction.isBlank(title)) {
             // Titolo
             setCellValue(0, 0, title);
@@ -95,7 +95,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
      *
      * @param grid
      */
-    public void addGrid(boolean title, Grid<?> grid) throws BusinessException {
+    public void addGrid(boolean title, Grid<?> grid) throws FrameworkException {
         addSheet(BaseFunction.nvl(grid.getTitle(), grid.getName()), false);
 
         getSheet().setMargin(Sheet.FooterMargin, 0.25);
@@ -133,7 +133,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
         return rowIndex;
     }
 
-    protected int addGridData(int rowIndex, Grid<?> grid) throws BusinessException {
+    protected int addGridData(int rowIndex, Grid<?> grid) throws FrameworkException {
         int cellIndex = 0;
 
         // Dati

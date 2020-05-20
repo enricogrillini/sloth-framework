@@ -21,8 +21,8 @@ import it.eg.sloth.form.dwh.Measure;
 import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.Casting;
-import it.eg.sloth.framework.common.exception.BusinessException;
-import it.eg.sloth.framework.common.exception.BusinessExceptionType;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.common.exception.ExceptionCode;
 
 /**
  * Project: sloth-framework
@@ -43,7 +43,6 @@ public class Rollup extends AbstractElements<DataField<?>> {
 
 
     private String description;
-
     private DataTable<?> dataTable;
     private DataNode dataNode;
 
@@ -74,12 +73,12 @@ public class Rollup extends AbstractElements<DataField<?>> {
         return dataTable;
     }
 
-    public void setDataTable(DataTable<?> dataTable) throws BusinessException {
+    public void setDataTable(DataTable<?> dataTable) throws FrameworkException {
         try {
             this.dataTable = dataTable;
             calculate();
         } catch (CloneNotSupportedException e) {
-            throw new BusinessException(BusinessExceptionType.ROLLUP_CALCULATE_ERROR, e);
+            throw new FrameworkException(ExceptionCode.ROLLUP_CALCULATE_ERROR, e);
         }
     }
 
@@ -123,7 +122,7 @@ public class Rollup extends AbstractElements<DataField<?>> {
         return dataNode;
     }
 
-    private void calculate() throws CloneNotSupportedException, BusinessException {
+    private void calculate() throws CloneNotSupportedException, FrameworkException {
         if (getDataTable() != null && getDataTable().size() > 0) {
             RollupCalculator calculator = new RollupCalculator(getDataTable());
 
@@ -152,14 +151,14 @@ public class Rollup extends AbstractElements<DataField<?>> {
         private Map<String, Attribute<?>> attributeMap;
         private Map<String, Measure<?>> measureMap;
 
-        public RollupCalculator(DataTable<?> dataTable) throws CloneNotSupportedException, BusinessException {
+        public RollupCalculator(DataTable<?> dataTable) throws CloneNotSupportedException, FrameworkException {
             setDataTable(dataTable);
             this.levelMap = new LinkedHashMap();
             this.attributeMap = new LinkedHashMap();
             this.measureMap = new LinkedHashMap();
         }
 
-        public void setDataTable(DataTable<?> dataTable) throws CloneNotSupportedException, BusinessException {
+        public void setDataTable(DataTable<?> dataTable) throws CloneNotSupportedException, FrameworkException {
             this.dataTable = new Table();
 
             for (DataRow row : dataTable) {

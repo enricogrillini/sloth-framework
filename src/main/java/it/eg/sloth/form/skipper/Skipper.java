@@ -27,7 +27,7 @@ public class Skipper extends AbstractElement {
 
   public Skipper(String name, Boolean skipBody) {
     super(name);
-    this.skipBody = skipBody == null ? false : skipBody;
+    this.skipBody = skipBody != null && skipBody;
   }
 
 }

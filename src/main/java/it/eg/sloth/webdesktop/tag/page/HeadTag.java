@@ -3,6 +3,7 @@ package it.eg.sloth.webdesktop.tag.page;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
+import it.eg.sloth.form.Form;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import lombok.Getter;
@@ -25,7 +26,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class HeadTag extends WebDesktopTag {
+public class HeadTag extends WebDesktopTag<Form> {
 
   private static final long serialVersionUID = 1L;
 

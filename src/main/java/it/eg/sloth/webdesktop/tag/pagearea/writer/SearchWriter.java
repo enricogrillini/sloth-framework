@@ -3,7 +3,7 @@ package it.eg.sloth.webdesktop.tag.pagearea.writer;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.search.model.SuggestionList;
 import it.eg.sloth.webdesktop.search.model.suggestion.Suggestion;
 import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
@@ -60,7 +60,7 @@ public class SearchWriter extends AbstractHtmlWriter {
                 .toString();
     }
 
-    public static String writeInfo(SuggestionList suggestionList, Locale locale) throws BusinessException {
+    public static String writeInfo(SuggestionList suggestionList, Locale locale) throws FrameworkException {
         return new StringBuilder()
                 .append("<!-- Search info -->\n")
                 .append("<br>\n")

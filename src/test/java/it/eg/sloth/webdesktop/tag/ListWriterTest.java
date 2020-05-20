@@ -15,7 +15,7 @@ import it.eg.sloth.form.fields.field.impl.Text;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.list.writer.ListWriter;
 
 /**
@@ -73,7 +73,7 @@ public class ListWriterTest {
     }
 
     @Test
-    public void writeListTest() throws CloneNotSupportedException, ParseException, BusinessException {
+    public void writeListTest() throws CloneNotSupportedException, ParseException, FrameworkException {
         assertEquals(LIST_TEMPLATE, ListWriter.writeList(grid));
     }
 
