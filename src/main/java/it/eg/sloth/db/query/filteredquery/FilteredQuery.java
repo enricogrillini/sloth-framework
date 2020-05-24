@@ -1,24 +1,16 @@
 package it.eg.sloth.db.query.filteredquery;
 
-import java.sql.Connection;
+import it.eg.sloth.db.query.SelectAbstractQuery;
+import it.eg.sloth.db.query.SelectQueryInterface;
+import it.eg.sloth.db.query.filteredquery.filter.*;
+import it.eg.sloth.db.query.filteredquery.filter.DateIntervalFilter.IntervalType;
+import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.StringUtil;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import it.eg.sloth.db.query.SelectAbstractQuery;
-import it.eg.sloth.db.query.SelectQueryInterface;
-import it.eg.sloth.db.query.filteredquery.filter.BaseFilter;
-import it.eg.sloth.db.query.filteredquery.filter.DateIntervalFilter;
-import it.eg.sloth.db.query.filteredquery.filter.DateIntervalFilter.IntervalType;
-import it.eg.sloth.framework.common.base.StringUtil;
-import it.eg.sloth.db.query.filteredquery.filter.Filter;
-import it.eg.sloth.db.query.filteredquery.filter.InFilter;
-import it.eg.sloth.db.query.filteredquery.filter.MultipleFilter;
-import it.eg.sloth.db.query.filteredquery.filter.NoValFilter;
-import it.eg.sloth.db.query.filteredquery.filter.OnlyValFilter;
-import it.eg.sloth.db.query.filteredquery.filter.SubQueryFilter;
-import it.eg.sloth.db.query.filteredquery.filter.TextSearch;
 
 /**
  * Project: sloth-framework
@@ -43,7 +35,7 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
 
     public FilteredQuery(String statement) {
         super(statement);
-        this.filterList = new ArrayList();
+        this.filterList = new ArrayList<>();
     }
 
     public int addValues(PreparedStatement statement, int i) throws SQLException {
@@ -55,16 +47,17 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
     }
 
     @Override
-    protected PreparedStatement getPreparedStatement(Connection connection) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(getFilteredStatement());
+    protected String getSqlStatement() {
+        return getFilteredStatement();
+    }
 
+    @Override
+    protected void initStatement(PreparedStatement statement) throws SQLException {
         int numPlaceholder = StringUtil.countOccurences(getStatement(), REGEX_PLACEHOLDER);
         int i = 1;
         for (int j = 0; j < numPlaceholder; j++) {
             i = addValues(statement, i);
         }
-
-        return statement;
     }
 
     /**
@@ -73,24 +66,23 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
      * @return
      */
     protected String getFilteredStatement() {
-        String sqlFilter = "";
-
+        StringBuilder sqlFilter = new StringBuilder();
         for (Filter filtro : filterList) {
             String statement = filtro.getWhereCondition();
-            if (!"".equals(statement)) {
-                sqlFilter += sqlFilter.equals("") ? statement : " And " + statement;
+            if (!BaseFunction.isBlank(statement)) {
+                sqlFilter.append(sqlFilter.length() == 0 ? statement : " And " + statement);
             }
         }
 
-        if (!sqlFilter.equals("")) {
+        if (sqlFilter.length() != 0) {
             if (getStatement().toLowerCase().contains("where")) {
-                sqlFilter = " And " + sqlFilter;
+                sqlFilter.insert(0, " And ");
             } else {
-                sqlFilter = "Where " + sqlFilter;
+                sqlFilter.insert(0, "Where ");
             }
         }
 
-        return getStatement().replaceAll(REGEX_PLACEHOLDER, sqlFilter);
+        return getStatement().replaceAll(REGEX_PLACEHOLDER, sqlFilter.toString());
     }
 
     /**
@@ -125,7 +117,6 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
     /**
      * Aggiunge un filtro
      *
-     * @param name
      * @param sql
      * @param value
      */
@@ -160,9 +151,9 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
     /**
      * Aggiunge un filtro per stabilire se la data filterDateFrom o filterDateTo
      * ricada o meno nell'intervallo [sqlStartDate,sqlEndDate] utilizzando
-     * l'algoritmo del Bisi à
+     * l'algoritmo del Bisi
      *
-     * @param sqlTypes
+     * @param intervalType
      * @param sqlStartDate
      * @param sqlEndDate
      * @param filterDateFrom

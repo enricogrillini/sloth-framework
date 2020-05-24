@@ -1,10 +1,9 @@
-package it.eg.sloth.framework.utility.mail.asynchronousmail;
-
-import java.sql.Timestamp;
-
-import org.apache.commons.mail.HtmlEmail;
+package it.eg.sloth.framework.utility.mail.asyncmail;
 
 import it.eg.sloth.framework.common.base.TimeStampUtil;
+import org.apache.commons.mail.HtmlEmail;
+
+import java.sql.Timestamp;
 
 public class MailToSend {
   private HtmlEmail htmlEmail;

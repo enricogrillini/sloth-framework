@@ -1,10 +1,7 @@
 package it.eg.sloth.db.query;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
@@ -40,14 +37,10 @@ public abstract class SelectAbstractQuery extends FrameComponent implements Sele
         this.statement = statement;
     }
 
-    /**
-     * Ritorna lo statement
-     *
-     * @param connection
-     * @return
-     * @throws SQLException
-     */
-    protected abstract PreparedStatement getPreparedStatement(Connection connection) throws SQLException, FrameworkException;
+    protected abstract String getSqlStatement();
+
+    protected abstract void initStatement(PreparedStatement statement) throws SQLException;
+
 
     @Override
     public String getStatement() {
@@ -60,21 +53,21 @@ public abstract class SelectAbstractQuery extends FrameComponent implements Sele
     }
 
     @Override
-    public DataTable<? extends DataRow> selectTable() throws SQLException, IOException, FrameworkException {
+    public DataTable selectTable() throws SQLException, IOException, FrameworkException {
         Table table = new Table();
         populateDataTable(table);
         return table;
     }
 
     @Override
-    public DataTable<?> selectTable(String connectionName) throws SQLException, IOException, FrameworkException {
+    public DataTable selectTable(String connectionName) throws SQLException, IOException, FrameworkException {
         Table table = new Table();
         populateDataTable(table, connectionName);
         return table;
     }
 
     @Override
-    public DataTable<?> selectTable(Connection connection) throws SQLException, IOException, FrameworkException {
+    public DataTable selectTable(Connection connection) throws SQLException, IOException, FrameworkException {
         Table table = new Table();
         populateDataTable(table, connection);
         return table;
@@ -121,28 +114,22 @@ public abstract class SelectAbstractQuery extends FrameComponent implements Sele
             log.debug(toString());
 
             boolean result = false;
-            PreparedStatement preparedStatement = null;
-            ResultSet resultSet = null;
-            try {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(getSqlStatement(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
                 log.debug("Start populateDataRow");
                 log.debug(toString());
 
-                preparedStatement = getPreparedStatement(connection);
-                resultSet = preparedStatement.executeQuery();
-
-                result = resultSet.next();
-                if (result) {
-                    dataRow.loadFromResultSet(resultSet);
-                } else {
-                    dataRow.clear();
+                initStatement(preparedStatement);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    result = resultSet.next();
+                    if (result) {
+                        dataRow.loadFromResultSet(resultSet);
+                    } else {
+                        dataRow.clear();
+                    }
                 }
             } catch (SQLException | IOException e) {
                 log.info("Errore sulla query: {}", toString());
                 throw e;
-
-            } finally {
-                DataConnectionManager.release(resultSet);
-                DataConnectionManager.release(preparedStatement);
             }
 
             log.debug("End populateDataRow ({})", result);
@@ -172,22 +159,17 @@ public abstract class SelectAbstractQuery extends FrameComponent implements Sele
             log.debug("Start populateDataTable");
             log.debug(toString());
 
-            PreparedStatement preparedStatement = null;
-            ResultSet resultSet = null;
-            try {
-                preparedStatement = getPreparedStatement(connection);
-                resultSet = preparedStatement.executeQuery();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(getSqlStatement(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
+                initStatement(preparedStatement);
 
-                while (resultSet.next()) {
-                    dataTable.append().loadFromResultSet(resultSet);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        dataTable.append().loadFromResultSet(resultSet);
+                    }
                 }
             } catch (SQLException | IOException e) {
                 log.info("Errore sulla query: {}", toString());
                 throw e;
-
-            } finally {
-                DataConnectionManager.release(resultSet);
-                DataConnectionManager.release(preparedStatement);
             }
 
             log.debug("End populateDataTable");

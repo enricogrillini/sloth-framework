@@ -1,20 +1,21 @@
 package it.eg.sloth.form;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.fileupload.FileUploadException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -37,18 +38,20 @@ public class WebRequestTest {
     HttpServletRequest httpServletRequest;
 
     @Before
-    public void init() {
+    public void init() throws IOException, ServletException {
         Map<String, String[]> map = new HashMap<>();
         map.put("provaKey1", new String[]{"provaValue1", "provaValuea"});
         map.put("provaKey2", new String[]{"provaValue2"});
 
         // Simulo una GET così non è multipart
-        Mockito.when(httpServletRequest.getMethod()).thenReturn("GET");
+//        Mockito.when(httpServletRequest.getMethod()).thenReturn("GET");
+        Mockito.when(httpServletRequest.getContentType()).thenReturn("map");
         Mockito.when(httpServletRequest.getParameterMap()).thenReturn(map);
+//        Mockito.when(httpServletRequest.getParts()).thenReturn(new ArrayList<>());
     }
 
     @Test
-    public void webRequestTest() throws UnsupportedEncodingException, FileUploadException {
+    public void webRequestTest() throws IOException, ServletException {
         WebRequest webRequest = new WebRequest(httpServletRequest);
 
         assertEquals("provaValue1", webRequest.getString("provaKey1"));

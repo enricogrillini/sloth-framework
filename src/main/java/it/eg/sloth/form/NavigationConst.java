@@ -17,6 +17,7 @@ package it.eg.sloth.form;
  * @author Enrico Grillini
  */
 public class NavigationConst {
+
     private NavigationConst() {
         // NOP
     }

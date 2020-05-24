@@ -1,9 +1,6 @@
 package it.eg.sloth.db.query.query;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,20 +36,15 @@ public class Query extends SelectAbstractQuery implements SelectQueryInterface {
     }
 
     @Override
-    protected PreparedStatement getPreparedStatement(Connection connection) throws SQLException, FrameworkException {
-        if (connection == null) {
-            try (Connection newConnection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
-                return getPreparedStatement(newConnection);
-            }
-        } else {
-            PreparedStatement preparedStatement = connection.prepareStatement(getStatement(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+    protected String getSqlStatement() {
+        return getStatement();
+    }
 
-            int i = 1;
-            for (Parameter parameter : parameterList) {
-                preparedStatement.setObject(i++, parameter.getValue(), parameter.getSqlType());
-            }
-
-            return preparedStatement;
+    @Override
+    protected void initStatement(PreparedStatement statement) throws SQLException {
+        int i = 1;
+        for (Parameter parameter : parameterList) {
+            statement.setObject(i++, parameter.getValue(), parameter.getSqlType());
         }
     }
 
@@ -79,12 +71,9 @@ public class Query extends SelectAbstractQuery implements SelectQueryInterface {
             log.debug("Start execute");
             log.debug(toString());
 
-            PreparedStatement preparedStatement = null;
-            try {
-                preparedStatement = getPreparedStatement(connection);
+            try (PreparedStatement preparedStatement = connection.prepareStatement(getSqlStatement(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
+                initStatement(preparedStatement);
                 preparedStatement.executeUpdate();
-            } finally {
-                DataConnectionManager.release(preparedStatement);
             }
 
             log.debug("End execute");

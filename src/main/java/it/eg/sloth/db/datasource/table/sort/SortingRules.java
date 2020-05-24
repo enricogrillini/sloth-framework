@@ -29,7 +29,7 @@ public class SortingRules<T extends DataRow> extends FrameComponent implements C
     private List<SortingRule> list;
 
     public SortingRules() {
-        list = new ArrayList();
+        list = new ArrayList<>();
     }
 
     public void clear() {

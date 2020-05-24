@@ -23,7 +23,7 @@ public abstract class AbstractElements<T extends Element> extends AbstractElemen
 
     public AbstractElements(String name) {
         super(name);
-        map = new LinkedHashMap();
+        map = new LinkedHashMap<>();
     }
 
     public void setLocale(Locale locale) {
@@ -85,7 +85,7 @@ public abstract class AbstractElements<T extends Element> extends AbstractElemen
 
     @Override
     public List<T> getElements() {
-        return new ArrayList(map.values());
+        return new ArrayList<>(map.values());
     }
 
     @Override

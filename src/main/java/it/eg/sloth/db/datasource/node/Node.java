@@ -80,14 +80,14 @@ public class Node extends Row implements DataNode {
     public void clear() {
         super.clear();
         open = true;
-        childs = new ArrayList();
+        childs = new ArrayList<>();
     }
 
     @Override
     public void loadChildFromTableInterface(DataTable<?> table, String levelName) throws SQLException {
         clear();
 
-        List<Node> nodi = new ArrayList();
+        List<Node> nodi = new ArrayList<>();
         nodi.add(this);
 
         for (DataRow dataRow : table) {

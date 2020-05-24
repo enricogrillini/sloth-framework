@@ -16,6 +16,7 @@ import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.db.query.SelectQueryInterface;
 import it.eg.sloth.framework.FrameComponent;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -39,7 +40,7 @@ public class Row extends FrameComponent implements DataRow {
   protected Map<String, Object> values;
 
   public Row() {
-    values = new LinkedHashMap<String, Object>();
+    values = new LinkedHashMap<>();
   }
 
   public Row(DataSource dataSource) {
@@ -179,43 +180,23 @@ public class Row extends FrameComponent implements DataRow {
   }
 
   @Override
-  public void setFromQuery(SelectQueryInterface query) {
-    try {
+  public void setFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
       query.populateDataRow(this);
-    } catch (Throwable e) {
-      throw new RuntimeException(e);
-    }
   }
 
   @Override
-  public void setFromQuery(SelectQueryInterface query, Connection connection) {
-    try {
+  public void setFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException {
       query.populateDataRow(this, connection);
-    } catch (Throwable e) {
-      throw new RuntimeException(e);
-    }
   }
 
   @Override
-  public boolean loadFromQuery(SelectQueryInterface query) {
-    try {
+  public boolean loadFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
       return query.populateDataRow(this);
-    } catch (Throwable e) {
-      throw new RuntimeException(e);
-    }
   }
 
   @Override
-  public boolean loadFromQuery(SelectQueryInterface query, Connection connection) {
-    try {
+  public boolean loadFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException {
       return query.populateDataRow(this, connection);
-    } catch (Throwable e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  protected String valuesAsString() {
-    return values.toString();
   }
 
 }

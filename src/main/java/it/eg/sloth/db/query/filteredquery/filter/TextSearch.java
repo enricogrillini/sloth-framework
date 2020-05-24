@@ -38,37 +38,39 @@ public class TextSearch extends FrameComponent implements Filter {
         if (value == null || value.equals(""))
             return "";
 
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < value.length(); i++) {
             char c = value.toUpperCase().charAt(i);
 
             if ((c >= 48 && c <= 57) || (c >= 65 && c <= 90)) {
-                result += c;
+                result.append(c);
             } else {
-                result += ' ';
+                result.append(' ');
             }
         }
 
-        return result;
+        return result.toString();
     }
 
     @Override
     public String getWhereCondition() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         List<String> list = StringUtil.words(getSearchString());
 
         for (int i = 0; i < list.size(); i++) {
-            if ("".equals(result))
-                result = "(";
-
-            result += result.equals("(") ? "" : " And ";
-            result += getSql();
+            if (result.length() == 0) {
+                result.append("(");
+            } else {
+                result.append(" And ");
+            }
+            result.append(getSql());
         }
 
-        if (!"".equals(result))
-            result += ")";
+        if (result.length() != 0) {
+            result.append(")");
+        }
 
-        return result;
+        return result.toString();
     }
 
     @Override

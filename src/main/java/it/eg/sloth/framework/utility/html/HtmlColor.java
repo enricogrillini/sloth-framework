@@ -10,12 +10,12 @@ import it.eg.sloth.framework.common.base.StringUtil;
 
 public class HtmlColor {
 
-    private static final List<String> COLOR_1 = Arrays.asList("#4e73df", "#1cc88a", "#36b9cc", "#f6c23e", "#e74a3b", "#858796");
-    private static final List<String> COLOR_2 = Arrays.asList("#5668E2", "#8A56E2", "#CF56E2", "#E256AE", "#E25668", "#E28956", "#E2CF56", "#AEE256", "#68E256", "#56E289", "#56E2CF", "#56AEE2");
-
     private HtmlColor() {
         // NOP
     }
+
+    private static final List<String> COLOR_1 = Arrays.asList("#4e73df", "#1cc88a", "#36b9cc", "#f6c23e", "#e74a3b", "#858796");
+    private static final List<String> COLOR_2 = Arrays.asList("#5668E2", "#8A56E2", "#CF56E2", "#E256AE", "#E25668", "#E28956", "#E2CF56", "#AEE256", "#68E256", "#56E289", "#56E2CF", "#56AEE2");
 
     private static String rgbFromHex(String hexColor, String open, String close) throws ParseException {
         if (BaseFunction.isBlank(hexColor)) {

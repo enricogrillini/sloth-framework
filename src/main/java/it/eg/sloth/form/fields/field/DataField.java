@@ -23,109 +23,110 @@ import it.eg.sloth.framework.common.message.MessageList;
  *
  * @author Enrico Grillini
  */
-public interface DataField<T> extends SimpleField {
+public interface DataField<T extends Object> extends SimpleField {
 
-    /**
-     * Ritorna l'alias
-     *
-     * @return
-     */
-    String getAlias();
+  /**
+   * Ritorna l'alias
+   * 
+   * @return
+   */
+  public String getAlias();
 
-    /**
-     * Imposta l'alias
-     *
-     * @param alias
-     */
-    void setAlias(String alias);
+  /**
+   * Imposta l'alias
+   * 
+   * @param alias
+   */
+  public void setAlias(String alias);
 
-    /**
-     * Ritorna il data type
-     *
-     * @return
-     */
-    DataTypes getDataType();
+  /**
+   * Ritorna il data type
+   * 
+   * @return
+   */
+  public DataTypes getDataType();
 
-    /**
-     * Imposta il data type
-     *
-     * @param dataType
-     */
-    void setDataType(DataTypes dataType);
+  /**
+   * Imposta il data type
+   * 
+   * @param dataType
+   */
+  public void setDataType(DataTypes dataType);
 
-    /**
-     * Ritorna il formato
-     *
-     * @return
-     */
-    String getFormat();
+  /**
+   * Ritorna il formato
+   * 
+   * @return
+   */
+  public String getFormat();
 
-    /**
-     * Imposta il formato
-     *
-     * @param format
-     */
-    void setFormat(String format);
+  /**
+   * Imposta il formato
+   * 
+   * @param format
+   */
+  public void setFormat(String format);
 
-    String getData();
+  public String getData();
 
-    void setData(String data);
+  public void setData(String data);
 
-    String escapeHtmlText();
+  public String escapeHtmlText();
 
-    String escapeJsText();
+  public String escapeJsText();
 
-    String escapeHtmlValue();
+  public String escapeHtmlValue();
 
-    String escapeJsValue();
+  public String escapeJsValue();
 
-    /**
-     * Imposta il testo del campo formattando il valore passato
-     *
-     * @param value
-     */
-    void setValue(T value) throws FrameworkException;
+  /**
+   * Imposta il testo del campo formattando il valore passato
+   * 
+   * @param value
+   */
+  public void setValue(T value) throws FrameworkException;
 
-    /**
-     * Imposta il valore prelevandolo dal data source passato
-     *
-     * @param dataSource
-     */
-    void copyFromDataSource(DataSource dataSource) throws FrameworkException;
+  /**
+   * Imposta il valore prelevandolo dal data source passato
+   * 
+   * @param dataSource
+   */
+  public void copyFromDataSource(DataSource dataSource) throws FrameworkException;
 
-    /**
-     * Imposta il valore sul data source passato
-     *
-     * @param dataSource
-     */
-    void copyToDataSource(DataSource dataSource);
+  /**
+   * Imposta il valore sul data source passato
+   * 
+   * @param dataSource
+   */
+  public void copyToDataSource(DataSource dataSource);
 
-    /**
-     * Ritorna il testo del campo nel formato nativo
-     *
-     * @return
-     * @throws ParseException
-     */
-    T getValue();
+  /**
+   * Ritorna il testo del campo nel formato nativo
+   * 
+   * @return
+   * @throws ParseException
+   */
+  public T getValue();
 
-    /**
-     * @return
-     */
-    boolean isValid();
+  /**
+   * 
+   * @return
+   */
+  public boolean isValid();
 
-    /**
-     * Verifica la validita del testo passato
-     *
-     * @return
-     */
-    Message check();
+  /**
+   * Verifica la validita del testo passato
+   *
+   * @return
+   */
+  public Message check();
 
-    /**
-     * Effettua la validazione della request relativamente al campo
-     *
-     * @param messages
-     * @return
-     */
-    boolean validate(MessageList messages) throws FrameworkException;
+  /**
+   * Effettua la validazione della request relativamente al campo
+   * 
+   * @param messages
+   * @return
+   */
+  public boolean validate(MessageList messages) throws FrameworkException;
 
 }

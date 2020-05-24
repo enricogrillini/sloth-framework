@@ -13,6 +13,7 @@ import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.db.datasource.RowStatus;
 import it.eg.sloth.db.datasource.TransactionalDataRow;
 import it.eg.sloth.db.query.SelectQueryInterface;
+import it.eg.sloth.framework.common.exception.ExceptionCode;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
@@ -32,170 +33,170 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
  */
 public class TransactionalRow extends Row implements TransactionalDataRow {
 
-  protected Map<String, Object> oldValues;
-  private RowStatus status;
+    protected Map<String, Object> oldValues;
+    private RowStatus status;
 
-  public TransactionalRow() {
-    super();
-    oldValues = new HashMap<>();
-    status = RowStatus.INSERTED;
-  }
-
-  @Override
-  public Object getOldObject(String name) {
-    return oldValues.get(name.toLowerCase());
-  }
-
-  @Override
-  public BigDecimal getOldBigDecimal(String name) {
-    return (BigDecimal) oldValues.get(name.toLowerCase());
-  }
-
-  @Override
-  public Timestamp getOldTimestamp(String name) {
-    return (Timestamp) oldValues.get(name.toLowerCase());
-  }
-
-  @Override
-  public String getOldString(String name) {
-    return (String) oldValues.get(name.toLowerCase());
-  }
-
-  @Override
-  public byte[] getOldByte(String name) {
-    return (byte[]) oldValues.get(name.toLowerCase());
-  }
-
-  @Override
-  public void setObject(String name, Object value) {
-    super.setObject(name, value);
-    if (status == RowStatus.CLEAN)
-      status = RowStatus.UPDATED;
-  }
-
-  @Override
-  public void loadFromDataSource(DataSource dataSource) {
-    super.loadFromDataSource(dataSource);
-    oldValues = new HashMap<>(values);
-    status = RowStatus.CLEAN;
-  }
-
-  @Override
-  public void loadFromResultSet(ResultSet resultSet) throws SQLException, IOException {
-    super.loadFromResultSet(resultSet);
-    oldValues = new HashMap<>(values);
-    status = RowStatus.CLEAN;
-  }
-
-  @Override
-  public void setFromQuery(SelectQueryInterface query) {
-    super.setFromQuery(query);
-    if (status == RowStatus.CLEAN)
-      status = RowStatus.UPDATED;
-  }
-
-  @Override
-  public boolean loadFromQuery(SelectQueryInterface query) {
-    boolean result = super.loadFromQuery(query);
-    oldValues = new HashMap<>(values);
-    status = RowStatus.CLEAN;
-
-    return result;
-  }
-
-  @Override
-  public boolean loadFromQuery(SelectQueryInterface query, Connection connection) {
-    boolean result = super.loadFromQuery(query, connection);
-    oldValues = new HashMap<>(values);
-    status = RowStatus.CLEAN;
-
-    return result;
-  }
-
-  @Override
-  public RowStatus getStatus() {
-    return status;
-  }
-
-  protected void setStatus(RowStatus status) {
-    this.status = status;
-  }
-
-  @Override
-  public void remove() {
-    switch (getStatus()) {
-    case INSERTED:
-      setStatus(RowStatus.INCONSISTENT);
-      break;
-
-    case UPDATED:
-      setStatus(RowStatus.DELETED);
-      break;
-
-    case CLEAN:
-      setStatus(RowStatus.DELETED);
-      break;
-
-    default:
-      throw new RuntimeException("remove: " + getStatus());
-    }
-  }
-
-  @Override
-  public void save() throws FrameworkException, SQLException {
-    switch (getStatus()) {
-    case INSERTED:
-      setStatus(RowStatus.CLEAN);
-      break;
-
-    case DELETED:
-      setStatus(RowStatus.INCONSISTENT);
-      break;
-
-    case UPDATED:
-      setStatus(RowStatus.CLEAN);
-      break;
-
-    case CLEAN:
-      setStatus(RowStatus.CLEAN);
-      break;
-
-    default:
-      throw new RuntimeException("save: " + getStatus());
+    public TransactionalRow() {
+        super();
+        oldValues = new HashMap<>();
+        status = RowStatus.INSERTED;
     }
 
-    oldValues = new HashMap<>(values);
-  }
-
-  @Override
-  public void undo() {
-    switch (getStatus()) {
-    case CLEAN:
-      break;
-
-    case INSERTED:
-      setStatus(RowStatus.INCONSISTENT);
-      break;
-
-    case DELETED:
-      setStatus(RowStatus.CLEAN);
-      break;
-
-    case UPDATED:
-      setStatus(RowStatus.CLEAN);
-      break;
-
-    default:
-      throw new RuntimeException("undo: " + getStatus());
+    @Override
+    public Object getOldObject(String name) {
+        return oldValues.get(name.toLowerCase());
     }
 
-    values = new HashMap<String, Object>(oldValues);
-  }
+    @Override
+    public BigDecimal getOldBigDecimal(String name) {
+        return (BigDecimal) oldValues.get(name.toLowerCase());
+    }
 
-  @Override
-  public void forceClean() {
-    setStatus(RowStatus.CLEAN);
-    oldValues = new HashMap<>(values);
-  }
+    @Override
+    public Timestamp getOldTimestamp(String name) {
+        return (Timestamp) oldValues.get(name.toLowerCase());
+    }
+
+    @Override
+    public String getOldString(String name) {
+        return (String) oldValues.get(name.toLowerCase());
+    }
+
+    @Override
+    public byte[] getOldByte(String name) {
+        return (byte[]) oldValues.get(name.toLowerCase());
+    }
+
+    @Override
+    public void setObject(String name, Object value) {
+        super.setObject(name, value);
+        if (status == RowStatus.CLEAN)
+            status = RowStatus.UPDATED;
+    }
+
+    @Override
+    public void loadFromDataSource(DataSource dataSource) {
+        super.loadFromDataSource(dataSource);
+        oldValues = new HashMap<>(values);
+        status = RowStatus.CLEAN;
+    }
+
+    @Override
+    public void loadFromResultSet(ResultSet resultSet) throws SQLException, IOException {
+        super.loadFromResultSet(resultSet);
+        oldValues = new HashMap<>(values);
+        status = RowStatus.CLEAN;
+    }
+
+    @Override
+    public void setFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
+        super.setFromQuery(query);
+        if (status == RowStatus.CLEAN)
+            status = RowStatus.UPDATED;
+    }
+
+    @Override
+    public boolean loadFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
+        boolean result = super.loadFromQuery(query);
+        oldValues = new HashMap<>(values);
+        status = RowStatus.CLEAN;
+
+        return result;
+    }
+
+    @Override
+    public boolean loadFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException {
+        boolean result = super.loadFromQuery(query, connection);
+        oldValues = new HashMap<>(values);
+        status = RowStatus.CLEAN;
+
+        return result;
+    }
+
+    @Override
+    public RowStatus getStatus() {
+        return status;
+    }
+
+    protected void setStatus(RowStatus status) {
+        this.status = status;
+    }
+
+    @Override
+    public void remove() throws FrameworkException {
+        switch (getStatus()) {
+            case INSERTED:
+                setStatus(RowStatus.INCONSISTENT);
+                break;
+
+            case UPDATED:
+                setStatus(RowStatus.DELETED);
+                break;
+
+            case CLEAN:
+                setStatus(RowStatus.DELETED);
+                break;
+
+            default:
+                throw new FrameworkException(ExceptionCode.TRANSACTION_EXCEPTION_REMOVE, getStatus().name());
+        }
+    }
+
+    @Override
+    public void save() throws FrameworkException, SQLException {
+        switch (getStatus()) {
+            case INSERTED:
+                setStatus(RowStatus.CLEAN);
+                break;
+
+            case DELETED:
+                setStatus(RowStatus.INCONSISTENT);
+                break;
+
+            case UPDATED:
+                setStatus(RowStatus.CLEAN);
+                break;
+
+            case CLEAN:
+                setStatus(RowStatus.CLEAN);
+                break;
+
+            default:
+                throw new FrameworkException(ExceptionCode.TRANSACTION_EXCEPTION_SAVE, getStatus().name());
+        }
+
+        oldValues = new HashMap<>(values);
+    }
+
+    @Override
+    public void undo() throws FrameworkException {
+        switch (getStatus()) {
+            case CLEAN:
+                break;
+
+            case INSERTED:
+                setStatus(RowStatus.INCONSISTENT);
+                break;
+
+            case DELETED:
+                setStatus(RowStatus.CLEAN);
+                break;
+
+            case UPDATED:
+                setStatus(RowStatus.CLEAN);
+                break;
+
+            default:
+                throw new FrameworkException(ExceptionCode.TRANSACTION_EXCEPTION_UNDO, getStatus().name());
+        }
+
+        values = new HashMap<String, Object>(oldValues);
+    }
+
+    @Override
+    public void forceClean() {
+        setStatus(RowStatus.CLEAN);
+        oldValues = new HashMap<>(values);
+    }
 
 }

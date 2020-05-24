@@ -128,6 +128,7 @@ public class GridTag extends AbstractGridTag<Grid<?>> {
   }
 
   protected void endTag() throws Throwable {
+    // NOP
   }
 
 }

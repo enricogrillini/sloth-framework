@@ -9,7 +9,8 @@ public enum ExceptionCode {
 
     // System Exception
     DATA_SOURCE_NOT_FOUND("system.exception.dataSourceNotFound", ExceptionType.SYSTEM),
-
+    TRANSACTION_EXCEPTION_REMOVE("system.exception.transactionRemove", ExceptionType.SYSTEM),
+    TRANSACTION_EXCEPTION_UNDO("system.exception.transactionundo", ExceptionType.SYSTEM),
     TRANSACTION_EXCEPTION_SAVE("system.exception.transactionSave", ExceptionType.SYSTEM),
     TRANSACTION_EXCEPTION_POST("system.exception.transactionPost", ExceptionType.SYSTEM),
     TRANSACTION_EXCEPTION_UNPOST("system.exception.transactionUnpost", ExceptionType.SYSTEM),

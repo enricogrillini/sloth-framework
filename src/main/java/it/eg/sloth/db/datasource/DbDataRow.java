@@ -1,5 +1,6 @@
 package it.eg.sloth.db.datasource;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -38,9 +39,9 @@ public interface DbDataRow extends DbDataSource, TransactionalDataRow {
 
     String getUpdate();
 
-    boolean select() throws FrameworkException, SQLException;
+    boolean select() throws FrameworkException, SQLException, IOException;
 
-    boolean select(Connection connection);
+    boolean select(Connection connection) throws SQLException, IOException, FrameworkException;
 
     void insert() throws FrameworkException, SQLException;
 

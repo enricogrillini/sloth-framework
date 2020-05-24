@@ -18,7 +18,7 @@ import it.eg.sloth.db.decodemap.DecodeValue;
  *
  * @author Enrico Grillini
  */
-public interface DecodedDataField<T> extends DataField<T> {
+public interface DecodedDataField<T extends Object> extends DataField<T> {
 
     DecodeMap<T, ? extends DecodeValue<T>> getDecodeMap();
 

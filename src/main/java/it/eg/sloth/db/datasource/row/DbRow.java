@@ -196,7 +196,7 @@ public abstract class DbRow extends TransactionalRow implements DbDataRow {
     }
 
     @Override
-    public boolean select() throws FrameworkException, SQLException {
+    public boolean select() throws FrameworkException, SQLException, IOException {
         try (Connection connection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
             return select(connection);
         }

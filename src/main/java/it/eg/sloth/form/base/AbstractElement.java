@@ -1,8 +1,11 @@
 package it.eg.sloth.form.base;
 
-import it.eg.sloth.framework.FrameComponent;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import it.eg.sloth.framework.common.base.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Locale;
 
@@ -23,18 +26,30 @@ import java.util.Locale;
  */
 @Getter
 @Setter
-public abstract class AbstractElement extends FrameComponent implements Element {
+@Slf4j
+public abstract class AbstractElement implements Element {
 
-  private String name;
-  private Locale locale;
+    private String name;
+    private Locale locale;
 
-  public AbstractElement(String name) {
-    this.name = name.toLowerCase();
-    this.locale = Locale.getDefault();
-  }
+    public AbstractElement(String name) {
+        this.name = name.toLowerCase();
+        this.locale = Locale.getDefault();
+    }
 
-  public Object clone() throws CloneNotSupportedException {
-    return super.clone();
-  }
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    @Override
+    public String toString() {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            log.error("toString error", e);
+            return StringUtil.EMPTY;
+        }
+    }
 
 }

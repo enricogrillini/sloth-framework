@@ -3,11 +3,11 @@ package it.eg.sloth.webdesktop.controller;
 import it.eg.sloth.framework.security.User;
 import it.eg.sloth.webdesktop.common.SessionManager;
 import it.eg.sloth.webdesktop.dto.WebDesktopDto;
-import org.apache.commons.fileupload.FileUploadException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 
 /**
  * Project: sloth-framework
@@ -47,7 +47,7 @@ public abstract class BaseController {
      */
     public abstract String getFunctionName();
 
-    protected void init(HttpServletRequest req, HttpServletResponse res) throws UnsupportedEncodingException, FileUploadException {
+    protected void init(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         this.request = req;
         this.response = res;
 

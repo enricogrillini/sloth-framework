@@ -25,7 +25,7 @@ import it.eg.sloth.framework.FrameComponent;
 public class DateIntervalFilter extends FrameComponent implements Filter {
 
   public enum IntervalType {
-    overlapped, separated
+    OVERLAPPED, SEPARATED
   }
 
   private IntervalType intervalType;
@@ -85,7 +85,7 @@ public class DateIntervalFilter extends FrameComponent implements Filter {
   public String getWhereCondition() {
     StringBuilder inStatement = new StringBuilder("");
 
-    if (getIntervalType().equals(IntervalType.overlapped)) {
+    if (getIntervalType().equals(IntervalType.OVERLAPPED)) {
       if (filterDateFrom != null && filterDateTo != null) {
         if (((Timestamp) filterDateFrom).getTime() > ((Timestamp) filterDateTo).getTime()) {
           inStatement.append("1 = 2");

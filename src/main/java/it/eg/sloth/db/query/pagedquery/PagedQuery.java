@@ -1,15 +1,15 @@
 package it.eg.sloth.db.query.pagedquery;
 
+import it.eg.sloth.db.datasource.DataTable;
+import it.eg.sloth.db.query.filteredquery.FilteredQuery;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
-
-import it.eg.sloth.db.datasource.DataTable;
-import it.eg.sloth.db.query.filteredquery.FilteredQuery;
-import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
  * Project: sloth-framework
@@ -44,17 +44,18 @@ public class PagedQuery extends FilteredQuery implements PagedQueryInterface {
     }
 
     @Override
-    protected PreparedStatement getPreparedStatement(Connection connection) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(getFilteredStatement());
+    protected String getSqlStatement() {
+        return getFilteredStatement();
+    }
 
+    @Override
+    protected void initStatement(PreparedStatement statement) throws SQLException {
         int i = addValues(statement, 1);
 
         if (start != -1) {
             statement.setObject(i++, new BigDecimal(start), Types.INTEGER);
             statement.setObject(i, new BigDecimal(end), Types.INTEGER);
         }
-
-        return statement;
     }
 
     private void prepareCount() {

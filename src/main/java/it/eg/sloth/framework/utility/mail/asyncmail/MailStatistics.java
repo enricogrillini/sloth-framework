@@ -1,4 +1,4 @@
-package it.eg.sloth.framework.utility.mail.asynchronousmail;
+package it.eg.sloth.framework.utility.mail.asyncmail;
 
 import java.math.BigDecimal;
 

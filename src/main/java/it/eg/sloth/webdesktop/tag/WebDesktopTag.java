@@ -1,14 +1,18 @@
 package it.eg.sloth.webdesktop.tag;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.TagSupport;
 
 import it.eg.sloth.form.Form;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.framework.security.User;
-import it.eg.sloth.framework.view.AbstractTag;
 import it.eg.sloth.webdesktop.common.SessionManager;
 import it.eg.sloth.webdesktop.dto.WebDesktopDto;
+import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
 
 /**
  * Project: sloth-framework
@@ -25,7 +29,8 @@ import it.eg.sloth.webdesktop.dto.WebDesktopDto;
  *
  * @author Enrico Grillini
  */
-public abstract class WebDesktopTag<F extends Form> extends AbstractTag {
+@Slf4j
+public abstract class WebDesktopTag<F extends Form> extends TagSupport {
 
     private static final long serialVersionUID = 1L;
 
@@ -63,5 +68,88 @@ public abstract class WebDesktopTag<F extends Form> extends AbstractTag {
         String queryString = (String) request.getAttribute("javax.servlet.forward.query_string");
 
         return url + (BaseFunction.isBlank(queryString) ? "" : "?" + queryString);
+    }
+
+    /**
+     * Metodo richiamato da doStartTag
+     *
+     * @return
+     */
+    protected abstract int startTag() throws Throwable;
+
+    /**
+     * Metodo richiamato da doStartTag
+     *
+     * @return
+     */
+    protected abstract void endTag() throws Throwable;
+
+    /**
+     * Ritorna l'attributo specificato prelevandolo dalla session
+     *
+     * @param name
+     * @return
+     */
+    protected Object getObjectFromSession(String name) {
+        return pageContext.getSession().getAttribute(name);
+    }
+
+    /**
+     * Stampa il testo passato
+     *
+     * @param testo
+     */
+    protected void write(String testo) throws IOException {
+        pageContext.getOut().print(testo);
+    }
+
+    /**
+     * Stampa una riga vuota
+     */
+    protected void writeln() throws IOException {
+        pageContext.getOut().println();
+    }
+
+    /**
+     * Stampa il testo passato
+     *
+     * @param testo
+     */
+    protected void writeln(String testo) throws IOException {
+        pageContext.getOut().println(testo);
+    }
+
+    @Override
+    public int doStartTag() {
+        try {
+            return startTag();
+
+        } catch (Throwable e) {
+            log.error("doStartTag {}", e.getMessage(), e);
+            try {
+                writeln("Errore nel metodo " + getClass().getName() + ".startTag: " + e.toString());
+            } catch (IOException ex) {
+                log.error("doStartTag", ex);
+            }
+        }
+
+        return SKIP_BODY;
+    }
+
+    @Override
+    public int doEndTag() throws JspException {
+        try {
+            endTag();
+        } catch (Throwable e) {
+            log.error("doEndTag\n", e);
+            try {
+                writeln("<!-- Errore nel metodo " + getClass().getName() + ".endTag: " + e.toString() + " -->");
+            } catch (IOException ex) {
+                log.error("doStartTag", ex);
+            }
+        }
+
+        return super.doEndTag();
+
     }
 }

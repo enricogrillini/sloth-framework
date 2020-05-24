@@ -59,7 +59,7 @@ public class BaseApplication<T extends NotificationMessage> extends FrameCompone
     this.url = url;
 
     this.messages = new LinkedHashMap<>();
-    this.list = new ArrayList();
+    this.list = new ArrayList<>();
   }
 
   @Override
@@ -107,7 +107,7 @@ public class BaseApplication<T extends NotificationMessage> extends FrameCompone
   }
 
   protected void addFirstMessage(T message) {
-    Map<String, T> map = new LinkedHashMap();
+    Map<String, T> map = new LinkedHashMap<>();
     map.put(message.getId(), message);
     map.putAll(messages);
 

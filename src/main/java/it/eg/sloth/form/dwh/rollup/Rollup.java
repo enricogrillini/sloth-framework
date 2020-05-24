@@ -1,11 +1,5 @@
 package it.eg.sloth.form.dwh.rollup;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import it.eg.sloth.db.datasource.DataNode;
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
@@ -21,8 +15,14 @@ import it.eg.sloth.form.dwh.Measure;
 import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.Casting;
-import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.exception.ExceptionCode;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Project: sloth-framework
@@ -43,6 +43,7 @@ public class Rollup extends AbstractElements<DataField<?>> {
 
 
     private String description;
+
     private DataTable<?> dataTable;
     private DataNode dataNode;
 

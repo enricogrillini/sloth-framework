@@ -272,6 +272,7 @@ public class StringUtil {
 
                 if (!Character.isLetterOrDigit(string.charAt(i)) && i + 1 < string.length()) {
                     string = String.format("%s%s%s", string.subSequence(0, i + 1), Character.toUpperCase(string.charAt(i + 1)), string.substring(i + 2).toLowerCase());
+
                 }
             }
             return string;

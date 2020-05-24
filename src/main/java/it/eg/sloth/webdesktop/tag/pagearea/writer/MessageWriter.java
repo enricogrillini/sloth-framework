@@ -24,6 +24,10 @@ import it.eg.sloth.framework.common.message.MessageList;
  */
 public class MessageWriter {
 
+  private MessageWriter () {
+    // NOP
+  }
+
   private static String getBootstrapClass(Level level) {
     switch (level) {
     case INFO:

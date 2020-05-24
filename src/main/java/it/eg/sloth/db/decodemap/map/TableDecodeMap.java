@@ -38,9 +38,9 @@ public class TableDecodeMap<T, R extends DataRow> extends AbstractDecodeMap<T, T
             for (R dataRow : dataTable) {
                 TableDecodeValue<T, R> tableDecodeValue;
                 if (validName == null) {
-                    tableDecodeValue = new TableDecodeValue(dataRow, codeName, descriptionName);
+                    tableDecodeValue = new TableDecodeValue<>(dataRow, codeName, descriptionName);
                 } else {
-                    tableDecodeValue = new TableDecodeValue(dataRow, codeName, descriptionName, "S".equals(dataRow.getString(validName)));
+                    tableDecodeValue = new TableDecodeValue<>(dataRow, codeName, descriptionName, "S".equals(dataRow.getString(validName)));
                 }
 
                 put(tableDecodeValue);

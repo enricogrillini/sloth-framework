@@ -24,54 +24,54 @@ import it.eg.sloth.framework.common.casting.DataTypes;
  *
  * @author Enrico Grillini
  */
-public abstract class DecodedTextField<T> extends TextField<T> implements DecodedDataField<T> {
+public abstract class DecodedTextField<T extends Object> extends TextField<T> implements DecodedDataField<T> {
 
-    private DecodeMap<T, ? extends DecodeValue<T>> values;
+  private DecodeMap<T, ? extends DecodeValue<T>> values;
 
-    public DecodedTextField(String name, String description, String tooltip, DataTypes dataType) {
-        this(name, name, description, tooltip, dataType, null, null);
+  public DecodedTextField(String name, String description, String tooltip, DataTypes dataType) {
+    this(name, name, description, tooltip, dataType, null, null);
+  }
+
+  public DecodedTextField(String name, String alias, String description, String tooltip, DataTypes dataType, String format, String baseLink) {
+    super(name, alias, description, tooltip, dataType, format, baseLink);
+    values = null;
+    new BaseDecodeMap<T>();
+  }
+
+  @Override
+  public DecodeMap<T, ? extends DecodeValue<T>> getDecodeMap() {
+    return values;
+  }
+
+  @Override
+  public void setDecodeMap(DecodeMap<T, ? extends DecodeValue<T>> values) {
+    this.values = values;
+  }
+
+  @Override
+  public String getDecodedText() {
+    if (BaseFunction.isBlank(getData())) {
+      return StringUtil.EMPTY;
+    } else if (getDecodeMap() == null || getDecodeMap().isEmpty()) {
+      return getData();
+    } else {
+      return getDecodeMap().decode(getValue());
     }
+  }
 
-    public DecodedTextField(String name, String alias, String description, String tooltip, DataTypes dataType, String format, String baseLink) {
-        super(name, alias, description, tooltip, dataType, format, baseLink);
-        values = null;
-        new BaseDecodeMap<T>();
-    }
+  @Override
+  public String getHtmlDecodedText() {
+    return getHtmlDecodedText(true, true);
+  }
 
-    @Override
-    public DecodeMap<T, ? extends DecodeValue<T>> getDecodeMap() {
-        return values;
-    }
+  @Override
+  public String getHtmlDecodedText(boolean br, boolean nbsp) {
+    return Casting.getHtml(getDecodedText(), br, nbsp);
+  }
 
-    @Override
-    public void setDecodeMap(DecodeMap<T, ? extends DecodeValue<T>> values) {
-        this.values = values;
-    }
-
-    @Override
-    public String getDecodedText() {
-        if (BaseFunction.isBlank(getData())) {
-            return StringUtil.EMPTY;
-        } else if (getDecodeMap() == null || getDecodeMap().isEmpty()) {
-            return getData();
-        } else {
-            return getDecodeMap().decode(getValue());
-        }
-    }
-
-    @Override
-    public String getHtmlDecodedText() {
-        return getHtmlDecodedText(true, true);
-    }
-
-    @Override
-    public String getHtmlDecodedText(boolean br, boolean nbsp) {
-        return Casting.getHtml(getDecodedText(), br, nbsp);
-    }
-
-    @Override
-    public String getJsDecodedText() {
-        return Casting.getJs(getDecodedText());
-    }
+  @Override
+  public String getJsDecodedText() {
+    return Casting.getJs(getDecodedText());
+  }
 
 }

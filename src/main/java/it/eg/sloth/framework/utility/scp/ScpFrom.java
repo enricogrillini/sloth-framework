@@ -127,7 +127,7 @@ public class ScpFrom {
                 fos = null;
 
                 if (checkAck(in) != 0) {
-                    throw new RuntimeException("EEEE");
+                    throw new RuntimeException("Errore");
                 }
 
                 // send '\0'

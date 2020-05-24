@@ -19,6 +19,7 @@ import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.db.datasource.table.sort.SortingRules;
 import it.eg.sloth.db.query.SelectQueryInterface;
 import it.eg.sloth.framework.FrameComponent;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
  * Project: sloth-framework
@@ -35,7 +36,7 @@ import it.eg.sloth.framework.FrameComponent;
  *
  * @author Enrico Grillini
  */
-public abstract class TableAbstract<T extends DataRow> extends FrameComponent implements DataTable<T> {
+public abstract class TableAbstract<T extends DataRow> extends FrameComponent implements DataTable<T>  {
 
     private SortingRules<T> sortingRules;
     protected List<T> rows;
@@ -250,7 +251,7 @@ public abstract class TableAbstract<T extends DataRow> extends FrameComponent im
     }
 
     @Override
-    public T remove() {
+    public T remove() throws FrameworkException {
         T dataRow = null;
 
         if (size() > 0) {
@@ -262,7 +263,7 @@ public abstract class TableAbstract<T extends DataRow> extends FrameComponent im
     }
 
     @Override
-    public void removeAllRow() {
+    public void removeAllRow() throws FrameworkException {
         while (size() > 0) {
             remove();
         }
@@ -367,57 +368,35 @@ public abstract class TableAbstract<T extends DataRow> extends FrameComponent im
     }
 
     @Override
-    public void setFromQuery(SelectQueryInterface query) {
-        try {
-            query.populateDataTable(this);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void setFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
+        query.populateDataTable(this);
     }
 
-    public void setFromQuery(SelectQueryInterface query, String connectionName) {
-        try {
-            query.populateDataTable(this, connectionName);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void setFromQuery(SelectQueryInterface query, String connectionName) throws SQLException, IOException, FrameworkException {
+        query.populateDataTable(this, connectionName);
     }
 
     @Override
-    public void setFromQuery(SelectQueryInterface query, Connection connection) {
-        try {
-            query.populateDataTable(this, connection);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void setFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException {
+        query.populateDataTable(this, connection);
     }
 
     @Override
-    public boolean loadFromQuery(SelectQueryInterface query) {
-        try {
-            query.populateDataTable(this);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public boolean loadFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
+        query.populateDataTable(this);
+
         return true;
     }
 
-    public boolean loadFromQuery(SelectQueryInterface query, String connectionName) {
-        try {
-            query.populateDataTable(this, connectionName);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public boolean loadFromQuery(SelectQueryInterface query, String connectionName) throws SQLException, IOException, FrameworkException {
+        query.populateDataTable(this, connectionName);
+
         return true;
     }
 
     @Override
-    public boolean loadFromQuery(SelectQueryInterface query, Connection connection) {
-        try {
-            query.populateDataTable(this, connection);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public boolean loadFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException {
+        query.populateDataTable(this, connection);
         return true;
     }
 

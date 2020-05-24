@@ -1,16 +1,14 @@
 package it.eg.sloth.framework.utility.mail.mailcomposer;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.utility.mail.mailcomposer.elements.*;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 
-import it.eg.sloth.framework.FrameComponent;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Enrico Grillini

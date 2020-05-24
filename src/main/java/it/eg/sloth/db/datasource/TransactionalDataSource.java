@@ -1,6 +1,9 @@
 package it.eg.sloth.db.datasource;
 
+import it.eg.sloth.framework.common.exception.FrameworkException;
+
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 /**
@@ -35,12 +38,12 @@ public interface TransactionalDataSource extends DataSource {
      *
      * @throws Exception
      */
-    void save() throws Exception;
+    void save() throws FrameworkException, SQLException;
 
     /**
      * Annulla le modifiche
      */
-    void undo();
+    void undo() throws FrameworkException;
 
     /**
      * Forza lo stato clean: dopo questa operazione il save e l'undo non hanno alcun effetto

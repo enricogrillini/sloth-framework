@@ -1,10 +1,9 @@
 package it.eg.sloth.webdesktop.dto.notificationcenter;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-
 import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.webdesktop.dto.notificationcenter.iface.NotificationApplication;
+
+import java.util.*;
 
 /**
  * Project: sloth-framework
@@ -54,7 +53,7 @@ public class NotificationCenter extends FrameComponent implements Iterable<Notif
    * @param application
    * @return
    */
-  public NotificationApplication addApplication(NotificationApplication<?> application) {
+  public NotificationApplication<?> addApplication(NotificationApplication<?> application) {
     return notificationApps.put(application.getName(), application);
   }
 

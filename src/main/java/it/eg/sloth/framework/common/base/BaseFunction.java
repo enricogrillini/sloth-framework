@@ -86,7 +86,7 @@ public class BaseFunction {
             return true;
         if (obj1 != null && obj2 == null)
             return false;
-        if (obj1 == null && obj2 != null)
+        if (obj1 == null)
             return false;
         return obj1.equals(obj2);
     }
@@ -185,19 +185,6 @@ public class BaseFunction {
      */
     public static Timestamp trunc(Timestamp timestamp) throws FrameworkException {
         return trunc(timestamp, TimeStampUtil.DEFAULT_FORMAT);
-    }
-
-    public static String lpad(String str, int length, String padStr) {
-        while (str.length() < length)
-            str = padStr + str;
-
-        return str;
-    }
-
-    public static String rpad(String str, int length, String padStr) {
-        while (str.length() < length)
-            str += padStr;
-        return str.substring(0, length);
     }
 
     /**

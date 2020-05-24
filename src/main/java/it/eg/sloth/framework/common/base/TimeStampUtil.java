@@ -21,6 +21,7 @@ public class TimeStampUtil {
 
     private static final String[] FIXED_HOLIDAY = new String[]{"01/01", "06/01", "25/04", "01/05", "02/06", "15/08", "01/11", "08/12", "25/12", "26/12"};
     private static final int[] EASTER_BASE_HOLIDAY = new int[]{1};
+    private static final String DAY_TRUNC_FORMAT = "dd/MM";
 
     public enum DayType {
         FESTIVO, PREFESTIVO, LAVORATIVO
@@ -138,6 +139,24 @@ public class TimeStampUtil {
         }
     }
 
+    public static final Integer getYear(Timestamp value) {
+        Calendar calendar = toCalendar(value);
+        if (calendar!=null) {
+            return calendar.get(Calendar.YEAR);
+        } else {
+            return null;
+        }
+    }
+
+    public static final Integer getDayOfWeek(Timestamp value) {
+        Calendar calendar = toCalendar(value);
+        if (calendar!=null) {
+            return calendar.get(Calendar.DAY_OF_WEEK);
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Verifica se la data passata corrisponde ad un Lunedì
      *
@@ -145,7 +164,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isMonday(Timestamp value) {
-        return toCalendar(value).get(Calendar.DAY_OF_WEEK) == 2;
+        return getDayOfWeek(value) == Calendar.MONDAY;
     }
 
     /**
@@ -155,7 +174,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isTuesday(Timestamp value) {
-        return toCalendar(value).get(Calendar.DAY_OF_WEEK) == 3;
+        return getDayOfWeek(value) == Calendar.TUESDAY;
     }
 
     /**
@@ -165,7 +184,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isWednesday(Timestamp value) {
-        return toCalendar(value).get(Calendar.DAY_OF_WEEK) == 4;
+        return getDayOfWeek(value) == Calendar.WEDNESDAY;
     }
 
     /**
@@ -174,8 +193,8 @@ public class TimeStampUtil {
      * @param value
      * @return
      */
-    public static boolean isThusday(Timestamp value) {
-        return toCalendar(value).get(Calendar.DAY_OF_WEEK) == 5;
+    public static boolean isThursday(Timestamp value) {
+        return getDayOfWeek(value) == Calendar.THURSDAY;
     }
 
     /**
@@ -185,7 +204,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isFriday(Timestamp value) {
-        return toCalendar(value).get(Calendar.DAY_OF_WEEK) == 6;
+        return getDayOfWeek(value) == Calendar.FRIDAY;
     }
 
     /**
@@ -195,7 +214,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isSaturday(Timestamp value) {
-        return toCalendar(value).get(Calendar.DAY_OF_WEEK) == 7;
+        return getDayOfWeek(value) == Calendar.SATURDAY;
     }
 
     /**
@@ -205,7 +224,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isSunday(Timestamp value) {
-        return toCalendar(value).get(Calendar.DAY_OF_WEEK) == 1;
+        return getDayOfWeek(value) == Calendar.SUNDAY;
     }
 
     /**
@@ -261,13 +280,13 @@ public class TimeStampUtil {
 
         // Festività Fisse
         for (String holiday : FIXED_HOLIDAY) {
-            if (formatTimestamp(data, "dd/MM").equals(holiday)) {
+            if (formatTimestamp(data, DAY_TRUNC_FORMAT).equals(holiday)) {
                 return true;
             }
         }
 
         // Festività basate sulla pasqua
-        Timestamp easter = getEaster(toCalendar(data).get(Calendar.YEAR));
+        Timestamp easter = getEaster(getYear(data));
         for (int day : EASTER_BASE_HOLIDAY) {
             if (BaseFunction.trunc(data).equals(add(easter, day))) {
                 return true;
@@ -276,7 +295,7 @@ public class TimeStampUtil {
 
         // Altre festività
         for (Timestamp timestamp : otherHoliday) {
-            if (formatTimestamp(data, "dd/MM").equals(formatTimestamp(timestamp, "dd/MM"))) {
+            if (formatTimestamp(data, DAY_TRUNC_FORMAT).equals(formatTimestamp(timestamp, DAY_TRUNC_FORMAT))) {
                 return true;
             }
         }

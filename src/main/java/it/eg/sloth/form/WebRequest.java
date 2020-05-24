@@ -2,14 +2,13 @@ package it.eg.sloth.form;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import it.eg.sloth.framework.FrameComponent;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
+import javax.servlet.http.Part;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -28,6 +27,7 @@ import java.util.*;
  * @author Enrico Grillini
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+@Slf4j
 public class WebRequest extends FrameComponent {
 
     Map<String, List<Object>> map;
@@ -40,47 +40,28 @@ public class WebRequest extends FrameComponent {
     }
 
     /**
-     * Crea una WebRequest a aprtire da una request
+     * Crea una WebRequest a partire da una request
      *
      * @param request
-     * @throws FileUploadException
-     * @throws UnsupportedEncodingException
+     * @throws IOException
+     * @throws ServletException
      */
-    public WebRequest(HttpServletRequest request) throws FileUploadException, UnsupportedEncodingException {
+    public WebRequest(HttpServletRequest request) throws IOException, ServletException {
         map = new HashMap<>();
 
-        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-        if (isMultipart) {
-            // MULTIPART
+        for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
+            addStrings(entry.getKey(), entry.getValue());
+        }
 
-            // Create a factory for disk-based file items
-            DiskFileItemFactory factory = new DiskFileItemFactory();
-
-            // Create a new file upload handler
-            ServletFileUpload upload = new ServletFileUpload(factory);
-
-            // Parse the request
-            List<FileItem> items = upload.parseRequest(request);
-
-            // Lettura Multipart
-            for (FileItem item : items) {
-                if (item.isFormField()) {
-                    String name = item.getFieldName();
-                    String value = item.getString(StandardCharsets.UTF_8.name());
-
-                    add(name, value);
-
-                } else {
-                    add(item.getFieldName(), item);
+        if (request.getContentType() != null && request.getContentType().startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
+            for (Part part : request.getParts()) {
+                if (part.getContentType() != null) {
+                    add(part.getName(), part);
                 }
-            }
-        } else {
-            // NON MULTIPART
-            for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-                addStrings(entry.getKey(), entry.getValue());
             }
         }
     }
+
 
     /**
      * Ritorna la lista di oggetti afferenti al name passato
@@ -136,9 +117,9 @@ public class WebRequest extends FrameComponent {
     public String getString(String name) {
         Object object = get(name);
 
-        if (object instanceof FileItem) {
-            FileItem fileItem = (FileItem) object;
-            return fileItem.getName();
+        if (object instanceof Part) {
+            Part part = (Part) object;
+            return part.getName();
         } else {
             return (String) object;
         }
@@ -150,8 +131,8 @@ public class WebRequest extends FrameComponent {
      * @param name
      * @return
      */
-    public FileItem getFileItem(String name) {
-        return (FileItem) get(name);
+    public Part getPart(String name) {
+        return (Part) get(name);
     }
 
     /**

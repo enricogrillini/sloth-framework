@@ -31,7 +31,7 @@ public interface TransactionalDataRow extends TransactionalDataSource, DataRow {
     /**
      * Segnala che la riga è rimossa
      */
-    void remove();
+    void remove() throws FrameworkException;
 
     /**
      * Salva le modifiche
@@ -41,7 +41,7 @@ public interface TransactionalDataRow extends TransactionalDataSource, DataRow {
     /**
      * Annulla le modifiche
      */
-    void undo();
+    void undo() throws FrameworkException;
 
     /**
      * Forza lo status clean

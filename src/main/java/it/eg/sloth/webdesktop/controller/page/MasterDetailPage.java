@@ -12,6 +12,7 @@ import it.eg.sloth.framework.pageinfo.PageStatus;
 import it.eg.sloth.framework.utility.FileType;
 import it.eg.sloth.framework.utility.xlsx.GridXlsxWriter;
 import it.eg.sloth.webdesktop.controller.common.grid.MasterDetailGridNavigationInterface;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Project: sloth-framework
@@ -33,6 +34,7 @@ import it.eg.sloth.webdesktop.controller.common.grid.MasterDetailGridNavigationI
  * @param <G>
  * @author Enrico Grillini
  */
+@Slf4j
 public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extends SimplePage<F> implements MasterDetailGridNavigationInterface {
 
     public MasterDetailPage() {

@@ -1,7 +1,8 @@
 package it.eg.sloth.webdesktop.tag.page;
 
+import it.eg.sloth.form.Form;
 import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.view.AbstractTag;
+import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,27 +23,27 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class BodyTag extends AbstractTag {
+public class BodyTag extends WebDesktopTag<Form> {
 
-  static final long serialVersionUID = 1L;
+    static final long serialVersionUID = 1L;
 
-  String className;
+    String className;
 
-  @Override
-  protected int startTag() throws Throwable {
-    String classHtml = "";
-    if (!BaseFunction.isBlank(getClassName())) {
-      classHtml = " class=\"" + getClassName() + "\"";
+    @Override
+    protected int startTag() throws Throwable {
+        String classHtml = "";
+        if (!BaseFunction.isBlank(getClassName())) {
+            classHtml = " class=\"" + getClassName() + "\"";
+        }
+
+        writeln("<body id=\"page-top\"" + classHtml + ">");
+
+        return EVAL_BODY_INCLUDE;
     }
 
-    writeln("<body id=\"page-top\"" + classHtml + ">");
-
-    return EVAL_BODY_INCLUDE;
-  }
-
-  @Override
-  protected void endTag() throws Throwable {
-    writeln("</body>");
-  }
+    @Override
+    protected void endTag() throws Throwable {
+        writeln("</body>");
+    }
 
 }

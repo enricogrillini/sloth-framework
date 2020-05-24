@@ -46,7 +46,7 @@ public interface SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    DataTable selectTable() throws SQLException, IOException, FrameworkException;
+    DataTable<DataRow>  selectTable() throws SQLException, IOException, FrameworkException;
 
     /**
      * Ritorna una tabella contenente il risultato della query
@@ -56,7 +56,7 @@ public interface SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    DataTable selectTable(String connectionName) throws SQLException, IOException, FrameworkException;
+    DataTable<DataRow>  selectTable(String connectionName) throws SQLException, IOException, FrameworkException;
 
     /**
      * Ritorna una tabella contenente il risultato della query
@@ -66,7 +66,7 @@ public interface SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    DataTable selectTable(Connection connection) throws SQLException, IOException, FrameworkException;
+    DataTable<DataRow> selectTable(Connection connection) throws SQLException, IOException, FrameworkException;
 
     /**
      * Ritorna una riga contenente il risultato della query

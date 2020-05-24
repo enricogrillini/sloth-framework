@@ -34,7 +34,7 @@ public interface PagedQueryInterface extends SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    DataTable select(int start, int end) throws SQLException, IOException, FrameworkException;
+    DataTable<?> select(int start, int end) throws SQLException, IOException, FrameworkException;
 
     /**
      * Ritorna una tabella conetenente il risultato della query
@@ -46,7 +46,7 @@ public interface PagedQueryInterface extends SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    DataTable select(String connectionName, int start, int end) throws SQLException, IOException, FrameworkException;
+    DataTable<?> select(String connectionName, int start, int end) throws SQLException, IOException, FrameworkException;
 
     /**
      * Ritorna una tabella conetenente il risultato della query
@@ -55,7 +55,7 @@ public interface PagedQueryInterface extends SelectQueryInterface {
      * @return
      * @throws SQLException
      */
-    DataTable select(Connection connection, int start, int end) throws SQLException, IOException, FrameworkException;
+    DataTable<?> select(Connection connection, int start, int end) throws SQLException, IOException, FrameworkException;
 
     /**
      * Ritorna il numero totale di righe

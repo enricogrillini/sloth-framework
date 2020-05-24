@@ -47,7 +47,7 @@ public class DataManager {
         }
     }
 
-    private static void commit(DataSource dataSource) throws Exception {
+    private static void commit(DataSource dataSource) throws FrameworkException, SQLException {
         if (dataSource instanceof DbDataSource) {
             DbDataSource dbDataRow = (DbDataSource) dataSource;
             dbDataRow.commit();
@@ -58,7 +58,7 @@ public class DataManager {
         }
     }
 
-    private static void undo(DataSource dataSources) {
+    private static void undo(DataSource dataSources) throws FrameworkException {
         if (dataSources instanceof TransactionalDataSource) {
             TransactionalDataSource transactionalDataRow = (TransactionalDataSource) dataSources;
             transactionalDataRow.undo();
@@ -75,12 +75,12 @@ public class DataManager {
             unPost(dataSources[i]);
     }
 
-    public static void commit(DataSource[] dataSources) throws Exception {
+    public static void commit(DataSource[] dataSources) throws FrameworkException, SQLException {
         for (int i = 0; i < dataSources.length; i++)
             commit(dataSources[i]);
     }
 
-    public static void save(DataSource[] dataSources) throws Exception {
+    public static void save(DataSource[] dataSources) throws SQLException, FrameworkException {
         try (Connection connection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
             try {
                 connection.setAutoCommit(false);
@@ -97,7 +97,7 @@ public class DataManager {
         }
     }
 
-    public static void undo(DataSource[] dataSources) {
+    public static void undo(DataSource[] dataSources) throws FrameworkException {
         for (int i = 0; i < dataSources.length; i++)
             undo(dataSources[i]);
     }
@@ -130,15 +130,15 @@ public class DataManager {
         return toDataSourceArray(list);
     }
 
-    public static void saveFirstToLast(Form form) throws Exception {
+    public static void saveFirstToLast(Form form) throws SQLException, FrameworkException {
         save(toDataSourceArray(form, 1));
     }
 
-    public static void saveLastToFirst(Form form) throws Exception {
+    public static void saveLastToFirst(Form form) throws SQLException, FrameworkException {
         save(toDataSourceArray(form, -1));
     }
 
-    public static void undo(Form form) {
+    public static void undo(Form form) throws FrameworkException {
         undo(toDataSourceArray(form, 1));
     }
 

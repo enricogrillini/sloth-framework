@@ -44,7 +44,7 @@ public class MailSender extends FrameComponent {
         return email;
     }
 
-    public void addTo(String email[]) throws EmailException {
+    public void addTo(String[] email) throws EmailException {
         for (int i = 0; i < email.length; i++)
             this.email.addTo(email[i].trim());
     }

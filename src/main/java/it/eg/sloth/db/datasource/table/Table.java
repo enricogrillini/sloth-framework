@@ -3,6 +3,10 @@ package it.eg.sloth.db.datasource.table;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.query.SelectQueryInterface;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Project: sloth-framework
@@ -46,14 +50,14 @@ public class Table extends TableAbstract<Row> {
             // NOP
         }
 
-        public static Table loadFromQuery(SelectQueryInterface query, int pageSize) {
+        public static Table loadFromQuery(SelectQueryInterface query, int pageSize) throws SQLException, IOException, FrameworkException {
             Table tableBean = new Table();
             tableBean.loadFromQuery(query);
             tableBean.setPageSize(pageSize);
             return tableBean;
         }
 
-        public static Table loadFromQuery(SelectQueryInterface query) {
+        public static Table loadFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
             return loadFromQuery(query, -1);
         }
     }

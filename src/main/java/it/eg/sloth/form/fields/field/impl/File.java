@@ -6,7 +6,11 @@ import it.eg.sloth.form.fields.field.base.AbstractSimpleField;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.IOUtils;
+
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Project: sloth-framework
@@ -36,7 +40,7 @@ public class File extends AbstractSimpleField {
     ViewModality viewModality;
     int maxSize;
 
-    private FileItem fileItem;
+    private Part part;
 
     public File(String name, String description, String tooltip) {
         this(name, name, description, tooltip, false, false, false, ViewModality.VIEW_AUTO, 0);
@@ -60,7 +64,25 @@ public class File extends AbstractSimpleField {
     @Override
     public void post(WebRequest webRequest) {
         if (!isReadOnly()) {
-            setFileItem(webRequest.getFileItem(getName()));
+            setPart(webRequest.getPart(getName()));
+        }
+    }
+
+    public String getPartFileName() {
+        if (part != null) {
+            return getPart().getSubmittedFileName();
+        } else {
+            return null;
+        }
+    }
+
+    public byte[] getPartContent() throws IOException {
+        if (part != null) {
+            try (InputStream inputStream = getPart().getInputStream()) {
+                return IOUtils.toByteArray(inputStream);
+            }
+        } else {
+            return new byte[0];
         }
     }
 

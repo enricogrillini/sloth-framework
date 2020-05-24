@@ -9,9 +9,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -111,36 +108,4 @@ public final class DataConnectionManager {
             }
         }
     }
-
-    /**
-     * Rilascia il PreparedStatement gestendo le eccezioni
-     *
-     * @param preparedStatement
-     */
-    public static void release(PreparedStatement preparedStatement) {
-        try {
-            if (preparedStatement != null) {
-                preparedStatement.close();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * Rilascia il ResultSet gestendo le eccezioni
-     *
-     * @param resultSet
-     */
-    public static void release(ResultSet resultSet) {
-        try {
-            if (resultSet != null) {
-                resultSet.close();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
 }

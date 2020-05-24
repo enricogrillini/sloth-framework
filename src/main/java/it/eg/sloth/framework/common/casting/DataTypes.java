@@ -267,7 +267,7 @@ public enum DataTypes {
      * @param dataField
      * @return
      */
-    public Message check(DataField dataField) {
+    public Message check(DataField<?> dataField) {
         try {
             parseValue(dataField.getData(), dataField.getLocale(), dataField.getFormat());
             return null;
@@ -277,8 +277,7 @@ public enum DataTypes {
 
             return new BaseMessage(
                     Level.WARN,
-                    MessageFormat.format(bundle.getString(errorProperties), dataField.getDescription()),
-                    "");
+                    MessageFormat.format(bundle.getString(errorProperties), dataField.getDescription()), "");
         }
     }
 

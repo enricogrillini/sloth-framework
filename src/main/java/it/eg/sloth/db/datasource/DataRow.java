@@ -1,9 +1,11 @@
 package it.eg.sloth.db.datasource;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 import it.eg.sloth.db.query.SelectQueryInterface;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
  * Project: sloth-framework
@@ -28,7 +30,7 @@ public interface DataRow extends DataSource {
      * @param query
      * @throws SQLException
      */
-    void setFromQuery(SelectQueryInterface query);
+    void setFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException;
 
     /**
      * Inizializza la row dalla query
@@ -36,7 +38,7 @@ public interface DataRow extends DataSource {
      * @param query
      * @throws SQLException
      */
-    void setFromQuery(SelectQueryInterface query, Connection connection);
+    void setFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException;
 
     /**
      * Carica la row dalla query
@@ -44,7 +46,7 @@ public interface DataRow extends DataSource {
      * @param query
      * @throws SQLException
      */
-    boolean loadFromQuery(SelectQueryInterface query);
+    boolean loadFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException;
 
     /**
      * Carica la row dalla query
@@ -53,6 +55,6 @@ public interface DataRow extends DataSource {
      * @param connection
      * @throws SQLException
      */
-    boolean loadFromQuery(SelectQueryInterface query, Connection connection);
+    boolean loadFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException;
 
 }

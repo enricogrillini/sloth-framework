@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.math.BigDecimal;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import it.eg.sloth.db.datasource.row.Row;
@@ -31,6 +32,7 @@ import it.eg.sloth.webdesktop.search.model.suggestion.Suggestion;
  * @author Enrico Grillini
  *
  */
+@Slf4j
 public class SearchTest {
 
     private static MenuSearcher getMenuSearcher() {

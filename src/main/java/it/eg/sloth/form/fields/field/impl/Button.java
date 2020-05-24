@@ -43,8 +43,8 @@ public class Button extends AbstractSimpleField {
 
     public Button(String name, String description, String tooltip, Boolean hidden, Boolean disabled, ButtonType buttonType, String imgHtml) {
         super(name, description, tooltip);
-        this.hidden = hidden == null ? false : hidden;
-        this.disabled = disabled == null ? false : disabled;
+        this.hidden = hidden != null && hidden;
+        this.disabled = disabled != null && disabled;
         this.pressed = false;
         this.buttonType = buttonType == null ? ButtonType.BTN_OUTLINE_PRIMARY : buttonType;
         this.imgHtml = imgHtml;

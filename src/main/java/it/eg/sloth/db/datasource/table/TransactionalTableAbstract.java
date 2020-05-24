@@ -1,7 +1,9 @@
 package it.eg.sloth.db.datasource.table;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,6 +18,7 @@ import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.row.column.Column;
 import it.eg.sloth.db.query.SelectQueryInterface;
 import it.eg.sloth.db.query.filteredquery.FilteredQuery;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
  * Project: sloth-framework
@@ -46,7 +49,7 @@ public abstract class TransactionalTableAbstract<T extends TransactionalDataRow>
 
     protected abstract T createRow();
 
-    public T remove() {
+    public T remove() throws FrameworkException {
         T row = super.remove();
 
         if (row != null) {
@@ -57,7 +60,7 @@ public abstract class TransactionalTableAbstract<T extends TransactionalDataRow>
         return row;
     }
 
-    public void save() throws Exception {
+    public void save() throws FrameworkException, SQLException {
         for (T row : rowsDeleted) {
             row.save();
         }
@@ -70,7 +73,7 @@ public abstract class TransactionalTableAbstract<T extends TransactionalDataRow>
         rowsDeleted = new HashSet<>();
     }
 
-    public void undo() {
+    public void undo() throws FrameworkException {
         rows = new ArrayList<T>(oldRows);
         rowsDeleted = new HashSet<>();
 
@@ -110,43 +113,27 @@ public abstract class TransactionalTableAbstract<T extends TransactionalDataRow>
         return (byte[]) getOldObject(name);
     }
 
-    public void setFromQuery(SelectQueryInterface query) {
-        try {
-            query.populateDataTable(this);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void setFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
+        query.populateDataTable(this);
     }
 
-    public void setFromQuery(SelectQueryInterface query, Connection connection) {
-        try {
-            query.populateDataTable(this, connection);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void setFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException {
+        query.populateDataTable(this, connection);
     }
 
-    public boolean loadFromQuery(SelectQueryInterface query) {
-        try {
-            query.populateDataTable(this);
-        } catch (Exception e) {
-            throw new RuntimeException(this.toString(), e);
-        }
+    public boolean loadFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
+        query.populateDataTable(this);
         forceClean();
         return true;
     }
 
-    public boolean loadFromQuery(SelectQueryInterface query, Connection connection) {
-        try {
-            query.populateDataTable(this, connection);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public boolean loadFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException {
+        query.populateDataTable(this, connection);
         forceClean();
         return true;
     }
 
-    protected void load(String statement, Column[] columns, DataRow dataRow, Connection connection) {
+    protected void load(String statement, Column[] columns, DataRow dataRow, Connection connection) throws SQLException, IOException, FrameworkException {
         FilteredQuery filteredQuery = new FilteredQuery(statement);
 
         if (dataRow != null) {
@@ -158,7 +145,7 @@ public abstract class TransactionalTableAbstract<T extends TransactionalDataRow>
         loadFromQuery(filteredQuery, connection);
     }
 
-    protected void load(String statement, Column[] columns, DataRow dataRow) {
+    protected void load(String statement, Column[] columns, DataRow dataRow) throws SQLException, IOException, FrameworkException {
         if (dataRow == null)
             dataRow = new Row();
 

@@ -13,8 +13,7 @@ import java.text.ParseException;
  */
 public class Casting {
 
-    private final static String MAIL_ADDRESS = "^[-_a-z0-9\\'+*$^&%=~!?{}]++(?:\\.[-_a-z0-9\\'+*$^&%=~!?{}]+)*+@(?:(?![-.])[-a-z0-9.]+(?<![-.])\\.[a-z]{2,6}|\\d{1,3}(?:\\.\\d{1,3}){3})(?::\\d++)?$";
-
+    private static final String MAIL_ADDRESS = "^[-_a-z0-9\\'+*$^&%=~!?{}]++(?:\\.[-_a-z0-9\\'+*$^&%=~!?{}]+)*+@(?:(?![-.])[-a-z0-9.]+(?<![-.])\\.[a-z]{2,6}|\\d{1,3}(?:\\.\\d{1,3}){3})(?::\\d++)?$";
 
     /**
      * Verifica la mail passata
@@ -33,7 +32,9 @@ public class Casting {
     }
 
     public static String parsePIVA(String string) {
-        int i, c, s;
+        int i;
+        int c;
+        int s;
         if (BaseFunction.isBlank(string)) {
             return null;
         }
@@ -66,20 +67,19 @@ public class Casting {
     }
 
     public static String parseCodiceFiscale(String cf) {
-        int i, s, c;
+        int i;
+        int s;
+        int c;
         if (BaseFunction.isBlank(cf)) {
             return null;
         }
 
-        String cf2;
-        int[] setdisp = {1, 0, 5, 7, 9, 13, 15, 17, 19, 21, 2, 4, 18, 20,
-                11, 3, 6, 8, 12, 14, 16, 10, 22, 25, 24, 23};
-
+        int[] setdisp = {1, 0, 5, 7, 9, 13, 15, 17, 19, 21, 2, 4, 18, 20, 11, 3, 6, 8, 12, 14, 16, 10, 22, 25, 24, 23};
         if (cf.length() != 16) {
             throw new RuntimeException("La lunghezza del codice fiscale non e' corretta.");
         }
 
-        cf2 = cf.toUpperCase();
+        String cf2 = cf.toUpperCase();
         for (i = 0; i < 16; i++) {
             c = cf2.charAt(i);
             if (!(c >= '0' && c <= '9' || c >= 'A' && c <= 'Z')) {

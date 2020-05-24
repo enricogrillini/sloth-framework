@@ -46,7 +46,7 @@ public class FrameworkException extends Exception {
         this.exceptionCode = exceptionCode;
     }
 
-    public ExceptionType getExceptionType(ExceptionCode exceptionCode, Throwable t) {
+    public ExceptionType getExceptionType() {
         return getExceptionCode().getExceptionType();
     }
 

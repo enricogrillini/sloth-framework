@@ -9,6 +9,7 @@ import java.util.Set;
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.db.datasource.table.sort.SortingRules;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
  * Project: sloth-framework
@@ -203,14 +204,14 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
      * @return
      * @throws InvalidStateException
      */
-    public T remove();
+    public T remove() throws FrameworkException;
 
     /**
      * Rimuove tutte le righe
      *
      * @throws InvalidStateException
      */
-    public void removeAllRow();
+    public void removeAllRow() throws FrameworkException;
 
     /**
      * Aggiunge una regola di ordinamento
