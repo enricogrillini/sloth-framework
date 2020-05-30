@@ -147,7 +147,7 @@ public abstract class AbstractGridTag<T extends Grid<?>> extends BaseElementTag<
             for (SimpleField field : getElement().getElements()) {
                 if (field instanceof TextTotalizer || field instanceof InputTotalizer) {
                     @SuppressWarnings("unchecked")
-                    TextField<BigDecimal> textField = (TextField<BigDecimal>) field.clone();
+                    TextField<BigDecimal> textField = (TextField<BigDecimal>) field.newInstance();
 
                     BigDecimal totale = new BigDecimal(0);
                     for (DataRow dataRow : getElement().getDataSource()) {

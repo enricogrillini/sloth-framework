@@ -166,7 +166,7 @@ public class Rollup extends AbstractElements<DataField<?>> {
                 DataRow newRow = this.dataTable.add();
 
                 for (DataField<?> dataField : getElements()) {
-                    DataField<?> dataFieldClone = (DataField<?>) dataField.clone();
+                    DataField<?> dataFieldClone = (DataField<?>) dataField.newInstance();
                     dataFieldClone.copyFromDataSource(row);
 
                     newRow.setObject(dataFieldClone.getAlias(), dataFieldClone.getValue());

@@ -3,10 +3,14 @@ package it.eg.sloth.form.fields.field.impl;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.fields.field.FieldType;
-import it.eg.sloth.form.fields.field.base.AbstractSimpleField;
+import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.jaxb.form.ButtonType;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
+import java.util.Locale;
 
 /**
  * Project: sloth-framework
@@ -25,30 +29,46 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Button extends AbstractSimpleField {
+@SuperBuilder(toBuilder = true)
+public class Button implements SimpleField {
 
-    static final long serialVersionUID = 1L;
+    String name;
+    Locale locale;
 
-    boolean hidden;
-    boolean disabled;
+    String description;
+    String tooltip;
+
+    Boolean hidden;
+    Boolean disabled;
     ButtonType buttonType;
     String imgHtml;
-    int index;
+    Integer index;
 
     boolean pressed;
 
-    public Button(String name, String description, String tooltip) {
-        this(name, description, tooltip, false, false, null, null);
+    public String getName() {
+        return name.toLowerCase();
     }
 
-    public Button(String name, String description, String tooltip, Boolean hidden, Boolean disabled, ButtonType buttonType, String imgHtml) {
-        super(name, description, tooltip);
-        this.hidden = hidden != null && hidden;
-        this.disabled = disabled != null && disabled;
-        this.pressed = false;
-        this.buttonType = buttonType == null ? ButtonType.BTN_OUTLINE_PRIMARY : buttonType;
-        this.imgHtml = imgHtml;
-        this.index = -1;
+    public Locale getLocale() {
+        return this.locale == null ? Locale.getDefault() : this.locale;
+    }
+
+    public boolean isHidden() {
+        return hidden != null && hidden;
+    }
+
+    public boolean isDisabled() {
+        return disabled != null && disabled;
+    }
+
+    public ButtonType getButtonType() {
+        return buttonType == null ? ButtonType.BTN_OUTLINE_PRIMARY : buttonType;
+    }
+
+    public Button(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 
     @Override
@@ -57,7 +77,7 @@ public class Button extends AbstractSimpleField {
     }
 
     public String getHtlmName() {
-        if (getIndex() >= 0)
+        if (getIndex() != null)
             return NavigationConst.navStr(NavigationConst.BUTTON, getName(), "" + getIndex());
         else
             return NavigationConst.navStr(NavigationConst.BUTTON, getName());
@@ -89,4 +109,7 @@ public class Button extends AbstractSimpleField {
         post(webRequest);
     }
 
+    public Button newInstance() {
+        return toBuilder().build();
+    }
 }

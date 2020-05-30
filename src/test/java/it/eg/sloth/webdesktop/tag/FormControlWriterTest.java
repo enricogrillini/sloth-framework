@@ -49,7 +49,7 @@ public class FormControlWriterTest {
     private static final String BASE_AUTOCOMPLETE = "<input id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm autoComplete\"{2}{3}/>";
     private static final String LINK_AUTOCOMPLETE = "<div class=\"input-group input-group-sm\"><input id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm autoComplete\" disabled=\"\"/><div class=\"input-group-append\"><a href=\"{2}\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a></div></div>";
 
-    private static final String BASE_BUTTON = "<button id=\"navigationprefix___button___name\" name=\"navigationprefix___button___name\" class=\"btn btn-outline-primary btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\"/>description</button>";
+    private static final String BASE_BUTTON = "<button id=\"navigationprefix___button___name\" name=\"navigationprefix___button___name\" class=\"btn btn-outline-primary btn-sm\"/>description</button>";
 
     private static final String BASE_CHECKBOX_VIS = "<div class=\"custom-control custom-checkbox\"><input id=\"name\" name=\"name\" type=\"checkbox\" class=\"custom-control-input\" value=\"S\" disabled=\"\"/><span class=\"custom-control-label\"></span></div>";
     private static final String BASE_CHECKBOX_MOD = "<div class=\"custom-control custom-checkbox\"><input id=\"name\" name=\"name\" type=\"checkbox\" class=\"custom-control-input\" value=\"S\"{0}/><label class=\"custom-control-label\" for=\"name\"></label></div>";
@@ -89,7 +89,7 @@ public class FormControlWriterTest {
 
     @Test
     public void buttonTest() throws FrameworkException {
-        Button field = new Button("name", "description", "tooltip");
+        Button field = new Button("name", "description");
         assertEquals(BASE_BUTTON, FormControlWriter.writeButton(field, null, null));
 
         // Controllo generico

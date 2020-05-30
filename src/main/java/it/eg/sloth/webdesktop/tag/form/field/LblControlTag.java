@@ -1,6 +1,6 @@
 package it.eg.sloth.webdesktop.tag.form.field;
 
-import it.eg.sloth.form.fields.field.base.AbstractSimpleField;
+import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.webdesktop.tag.form.base.BaseContainerControlTag;
 
 /**
@@ -19,11 +19,11 @@ import it.eg.sloth.webdesktop.tag.form.base.BaseContainerControlTag;
  */
 public class LblControlTag extends BaseContainerControlTag {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  protected void writeField() throws Throwable {
-    AbstractSimpleField field = (AbstractSimpleField) getElement();
-    writeLabelContainer(field);
-    writeControlContainer(field);
-  }
+    protected void writeField() throws Throwable {
+        SimpleField field = getElement();
+        writeLabelContainer(field);
+        writeControlContainer(field);
+    }
 }

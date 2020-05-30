@@ -1,9 +1,14 @@
 package it.eg.sloth.form.fields.field.impl;
 
+import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.fields.field.FieldType;
+import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.jaxb.form.ButtonType;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
+import java.util.Locale;
 
 /**
  * Project: sloth-framework
@@ -17,24 +22,72 @@ import lombok.Setter;
  * <p>
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * <p>
+ * Descrizione: implenta un link base che non richiede azioni server side
  *
  * @author Enrico Grillini
  */
 @Getter
 @Setter
-public class Link extends Button {
+@SuperBuilder(toBuilder = true)
+public class Link implements SimpleField {
 
-  @Override
-  public FieldType getFieldType() {
-    return FieldType.LINK;
-  }
+    String name;
+    Locale locale;
 
-  public Link(String name, String description, String tooltip) {
-    super(name, description, tooltip);
-  }
+    String description;
+    String tooltip;
+    Boolean hidden;
+    Boolean disabled;
+    ButtonType buttonType;
+    String imgHtml;
+    String href;
+    String target;
 
-  public Link(String name, String description, String tooltip, Boolean hidden, Boolean disabled, ButtonType buttonType, String imgHtml) {
-    super(name, description, tooltip, hidden, disabled, buttonType, imgHtml);
-  }
+    public Link(String name, String description, String href) {
+        this.name = name.toLowerCase();
+        this.locale = Locale.getDefault();
+        this.description = description;
+        this.href = href;
+    }
 
+    @Override
+    public String getName() {
+        return name.toLowerCase();
+    }
+
+    @Override
+    public Locale getLocale() {
+        return this.locale == null ? Locale.getDefault() : this.locale;
+    }
+
+    public boolean isHidden() {
+        return hidden != null && hidden;
+    }
+
+    public boolean isDisabled() {
+        return disabled != null && disabled;
+    }
+
+    public ButtonType getButtonType() {
+        return buttonType == null ? ButtonType.BTN_OUTLINE_PRIMARY : buttonType;
+    }
+
+    @Override
+    public FieldType getFieldType() {
+        return FieldType.LINK;
+    }
+
+    @Override
+    public void post(WebRequest webRequest) {
+        // NOP - Non sono gestite operazioni server side
+    }
+
+    @Override
+    public void postEscaped(WebRequest webRequest, String encoding) {
+        // NOP - Non sono gestite operazioni server side
+    }
+
+    public Link newInstance() throws CloneNotSupportedException {
+        return (Link) super.clone();
+    }
 }

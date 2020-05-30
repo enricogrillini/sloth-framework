@@ -15,6 +15,8 @@ import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
 
+import java.text.MessageFormat;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -51,6 +53,8 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 return writeInput((Input<?>) element, pageViewModality, className, style);
             case INPUT_TOTALIZER:
                 return writeInputTotalizer((InputTotalizer) element, pageViewModality, className, style);
+            case LINK:
+                return writeLink((Link) element, className, style);
             case SEMAPHORE:
                 return writeSemaforo((Semaphore) element, pageViewModality, className, style);
             case TEXT:
@@ -498,7 +502,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
      * @param style
      * @return
      */
-    public static String writeRadioGroup(RadioGroup<?> radioGroup, ViewModality pageViewModality, String className, String style) throws FrameworkException {
+    public static String writeRadioGroup(RadioGroup<?> radioGroup, ViewModality pageViewModality, String className, String style) {
         if (radioGroup.isHidden())
             return "";
 
@@ -590,123 +594,41 @@ public class FormControlWriter extends AbstractHtmlWriter {
                     .append(" class=\"custom-file-input\"><label class=\"custom-file-label\"")
                     .append(getAttribute("for", file.getName()))
                     .append(">Choose file</label></div>");
-
-//                    .append(getAttribute("value", input.escapeHtmlValue()))
-//                    .append(getAttribute("step", DataTypes.DATETIME == input.getDataType() || DataTypes.TIME == input.getDataType(), "1"))
-//                    .append(getAttribute("class", !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
-//                    .append(getAttribute("style", !BaseFunction.isBlank(style), style))
-//                    .append(getAttribute("readonly", input.isReadOnly(), ""))
-//                    .append(getAttribute("maxlength", input.getMaxLength() > 0, "" + input.getMaxLength()))
-//                    .append(getAttribute("onclick", !BaseFunction.isBlank(onclick), onclick))
-//                    .append(getAttribute("onchange", !BaseFunction.isBlank(onchange), onchange));
         }
 
         return result.toString();
 
-//  <div class="custom-file small"><input type="file" id="inputGroupFile02" class="custom-file-input"><label class="custom-file-label" for="inputGroupFile02">Choose file</label>
-//          </div>
-
-
-//
-//        StringBuilder result = new StringBuilder()
-//                .append("<input")
-//                .append(getAttribute("id", input.getName()))
-//                .append(getAttribute("name", input.getName()));
-//
-//        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
-//            result
-//                    .append(getAttribute("type", "text"))
-//                    .append(getAttribute("value", input.escapeHtmlText()))
-//                    .append(getAttribute("class", !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
-//                    .append(getAttribute("style", !BaseFunction.isBlank(style), style))
-//                    .append(getAttribute("disabled", viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
-//        } else {
-//            result
-//                    .append(getAttribute("type", input.getDataType().getHtmlType()))
-//                    .append(getAttribute("value", input.escapeHtmlValue()))
-//                    .append(getAttribute("step", DataTypes.DATETIME == input.getDataType() || DataTypes.TIME == input.getDataType(), "1"))
-//                    .append(getAttribute("class", !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
-//                    .append(getAttribute("style", !BaseFunction.isBlank(style), style))
-//                    .append(getAttribute("readonly", input.isReadOnly(), ""))
-//                    .append(getAttribute("maxlength", input.getMaxLength() > 0, "" + input.getMaxLength()))
-//                    .append(getAttribute("onclick", !BaseFunction.isBlank(onclick), onclick))
-//                    .append(getAttribute("onchange", !BaseFunction.isBlank(onchange), onchange));
-//        }
-//
-//        result.append("/>");
-//
-//        return result.toString();
-
-//
-//        log.info("writeFile: IN");
-//        String result = "ccccccccccccccccc";
-//
-//
-//        ViewModality viewModality = file.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : file.getViewModality();
-//        if (viewModality == ViewModality.VIEW_MODIFICA) {
-//            result = "<input ";
-//
-//            result += " id=\"" + file.getName() + "\"";
-//            result += " name=\"" + file.getName() + "\"";
-//            result += " value=\"\"";
-//            result += " type=\"file\"";
-//
-//            if (file.isReadOnly())
-//                result += " disabled=\"disabled\"";
-//
-//            if (className != null && !className.equals(""))
-//                result += " style=\"" + className + "\"";
-//            if (style != null && !style.equals(""))
-//                result += " style=\"" + style + "\"";
-//            if (onclick != null && !onclick.equals(""))
-//                result += " onclick=\"" + onclick + "\"";
-//            if (onchange != null && !onchange.equals(""))
-//                result += " onchange=\"" + onchange + "\"";
-//
-//            result += " />";
-//
-//        } else {
-//            result = "<span>&nbsp;</span>";
-//        }
-//
-//        log.info("writeFile: OUT");
-//
-//        return result;
     }
 
     /**
-     * Scrive un campo: LinkButton
+     * Scrive un campo: Link
      *
      * @param button
-     * @param lastController
      * @param className
      * @param style
      * @return
      */
-    public static String writeLinkButton(Link button, String lastController, String className, String style) {
+    public static String writeLink(Link button, String className, String style) {
         if (button.isHidden()) {
-            return "";
+            return StringUtil.EMPTY;
         }
 
-        // String htmlDisabled = button.isDisabled() ? "" : " disabled=\"disabled\"";
-        // String htmlDescription = Casting.getHtml(button.getDescription());
-        // String htmlConfirmMessage = BaseFunction.isBlank(button.getConfirmMessage()) ? "" : " confirmMessage=\"" + Casting.getHtml(button.getConfirmMessage()) + "\"";
-        //
-        // if (!BaseFunction.isBlank(className)) {
-        // // NOP
-        // } else if (!BaseFunction.isBlank(button.getClassName())) {
-        // className = button.getClassName();
-        // } else {
-        // className = "work";
-        // }
-        //
-        // if (!BaseFunction.isBlank(button.getConfirmMessage())) {
-        // className += " confirm";
-        // }
-        //
-        // return "<a href=\"" + lastController + "?" + button.getHtlmName() + "=true\" " + " class=\"" + className + "\"" + htmlDisabled + htmlConfirmMessage + ">" + htmlDescription + "</a>";
+        StringBuilder result = new StringBuilder()
+                .append("<a")
+                .append(getAttribute("href", !BaseFunction.isBlank(button.getHref()), button.getHref()))
+                .append(getAttribute("target", !BaseFunction.isBlank(button.getTarget()), button.getTarget()))
+                .append(getAttribute("class", !BaseFunction.isBlank(className), className, MessageFormat.format(BootStrapClass.BUTTON_CLASS, button.getButtonType().value())))
+                .append(getAttribute("style", !BaseFunction.isBlank(style), style))
+                .append(getAttribute("disabled", button.isDisabled(), ""))
+                .append(getAttribute("data-toggle", !BaseFunction.isBlank(button.getTooltip()), "tooltip"))
+                .append(getAttribute("data-placement", !BaseFunction.isBlank(button.getTooltip()), "bottom"))
+                .append(getAttribute("title", !BaseFunction.isBlank(button.getTooltip()), button.getTooltip()))
+                .append("/>")
+                .append(BaseFunction.isBlank(button.getImgHtml()) ? "" : button.getImgHtml() + "&nbsp;&nbsp;")
+                .append(Casting.getHtml(button.getDescription()))
+                .append("</a>");
 
-        return null;
+        return result.toString();
     }
 
     /**
@@ -722,19 +644,20 @@ public class FormControlWriter extends AbstractHtmlWriter {
             return StringUtil.EMPTY;
         }
 
-        //button.getButtonType()
-
         StringBuilder result = new StringBuilder()
                 .append("<button")
                 .append(getAttribute("id", button.getHtlmName()))
                 .append(getAttribute("name", button.getHtlmName()))
-                .append(getAttribute("class", !BaseFunction.isBlank(className), className, BootStrapClass.BUTTON_CLASS))
+                .append(getAttribute("class", !BaseFunction.isBlank(className), className, MessageFormat.format(BootStrapClass.BUTTON_CLASS, button.getButtonType().value())))
                 .append(getAttribute("style", !BaseFunction.isBlank(style), style))
                 .append(getAttribute("disabled", button.isDisabled(), ""))
                 .append(getAttribute("data-toggle", !BaseFunction.isBlank(button.getTooltip()), "tooltip"))
                 .append(getAttribute("data-placement", !BaseFunction.isBlank(button.getTooltip()), "bottom"))
                 .append(getAttribute("title", !BaseFunction.isBlank(button.getTooltip()), button.getTooltip()))
-                .append("/>" + Casting.getHtml(button.getDescription()) + BaseFunction.nvl(button.getImgHtml(), "") + "</button>");
+                .append("/>")
+                .append(BaseFunction.isBlank(button.getImgHtml()) ? "" : button.getImgHtml() + "&nbsp;&nbsp;")
+                .append(Casting.getHtml(button.getDescription()))
+                .append("</button>");
 
         return result.toString();
     }

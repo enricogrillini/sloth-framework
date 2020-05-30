@@ -1,5 +1,8 @@
 package it.eg.sloth.form.base;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.*;
 
 /**
@@ -17,17 +20,22 @@ import java.util.*;
  *
  * @author Enrico Grillini
  */
-public abstract class AbstractElements<T extends Element> extends AbstractElement implements Elements<T> {
+@Getter
+@Setter
+public abstract class AbstractElements<T extends Element> implements Elements<T> {
 
+    private String name;
+    private Locale locale;
     private Map<String, T> map;
 
     public AbstractElements(String name) {
-        super(name);
-        map = new LinkedHashMap<>();
+        this.name = name.toLowerCase();
+        this.locale = Locale.getDefault();
+        this.map = new LinkedHashMap<>();
     }
 
     public void setLocale(Locale locale) {
-        super.setLocale(locale);
+        this.locale = locale;
         for (T element : map.values()) {
             element.setLocale(locale);
         }

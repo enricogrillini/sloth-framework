@@ -49,7 +49,7 @@ public class TextControlWriterTest {
 
     @Test
     public void buttonTest() throws FrameworkException {
-        Button field = new Button("name", "description", "tooltip");
+        Button field = new Button("name", "description");
         assertEquals(FormControlWriter.writeButton(field, null, null), TextControlWriter.writeButton(field));
     }
 

@@ -1,8 +1,10 @@
 package it.eg.sloth.form.skipper;
 
-import it.eg.sloth.form.base.AbstractElement;
+import it.eg.sloth.form.base.Element;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Locale;
 
 /**
  * Project: sloth-framework
@@ -21,13 +23,16 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Skipper extends AbstractElement {
+public class Skipper implements Element {
 
-  private boolean skipBody;
+    String name;
+    Locale locale;
+    private boolean skipBody;
 
-  public Skipper(String name, Boolean skipBody) {
-    super(name);
-    this.skipBody = skipBody != null && skipBody;
-  }
+    public Skipper(String name, Boolean skipBody) {
+        this.name = name.toLowerCase();
+        this.locale = Locale.getDefault();
+        this.skipBody = skipBody != null && skipBody;
+    }
 
 }

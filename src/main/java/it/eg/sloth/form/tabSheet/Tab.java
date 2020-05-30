@@ -1,6 +1,10 @@
 package it.eg.sloth.form.tabsheet;
 
-import it.eg.sloth.form.base.AbstractElement;
+import it.eg.sloth.form.base.Element;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Locale;
 
 /**
  * Project: sloth-framework
@@ -17,7 +21,12 @@ import it.eg.sloth.form.base.AbstractElement;
  *
  * @author Enrico Grillini
  */
-public class Tab extends AbstractElement {
+@Getter
+@Setter
+public class Tab implements Element {
+
+    private String name;
+    private Locale locale;
 
     private String description;
     private boolean hidden;
@@ -28,7 +37,8 @@ public class Tab extends AbstractElement {
     }
 
     public Tab(String name, String description, Boolean hidden, Boolean disabled) {
-        super(name);
+        this.name = name.toLowerCase();
+        this.locale = Locale.getDefault();
         this.description = description;
         this.hidden = hidden != null && hidden;
         this.disabled = disabled != null && disabled;

@@ -83,7 +83,7 @@ public class ChartWriter extends AbstractHtmlWriter {
 
         if (simpleChart.getDataTable() != null) {
             // Labels
-            Labels<?> labels = (Labels<?>) simpleChart.getLabels().clone();
+            Labels<?> labels = (Labels<?>) simpleChart.getLabels().newInstance();
             for (DataRow row : simpleChart.getDataTable()) {
                 labels.copyFromDataSource(row);
                 chartData.getLabels().add(labels.escapeJsText());
@@ -114,7 +114,7 @@ public class ChartWriter extends AbstractHtmlWriter {
 
         int i = 0;
         for (Series series : seriesList) {
-            Series seriesClone = (Series) series.clone();
+            Series seriesClone = (Series) series.newInstance();
 
             DataSetMonoColor dataSet = new DataSetMonoColor();
             dataSet.setLabel(series.getDescription());

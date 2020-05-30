@@ -61,7 +61,7 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
         writeln("  <td class=\"span\" colspan=\"" + colspan + "\">&nbsp;</td>");
 
         for (DataNode child : node.getChilds()) {
-            Level<?> levelClone = (Level<?>) (rollup.getLevels().get(levelNumber)).clone();
+            Level<?> levelClone = (Level<?>) (rollup.getLevels().get(levelNumber)).newInstance();
             levelClone.copyFromDataSource(child);
             writeln("  <td>" + RollupWriter.writeLevel(levelClone) + "</td>");
         }
@@ -91,7 +91,7 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
                     }
 
                     int colspan = levelSize + textSize - levelNumber - 1;
-                    Level<?> levelClone = (Level<?>) (rollup.getLevels().get(levelNumber)).clone();
+                    Level<?> levelClone = (Level<?>) (rollup.getLevels().get(levelNumber)).newInstance();
                     levelClone.copyFromDataSource(child);
 
                     writeBufferln("  <td colspan=\"" + colspan + "\">" + RollupWriter.writeLevel(levelClone) + "</td>");
@@ -113,7 +113,7 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
 
                     // Attribute
                     for (Attribute<?> attribute : rollup.getAttributes()) {
-                        Attribute<?> attributeClone = (Attribute<?>) attribute.clone();
+                        Attribute<?> attributeClone = (Attribute<?>) attribute.newInstance();
                         attributeClone.copyFromDataSource(child);
 
                         writeBufferln("  <td>" + RollupWriter.writeAttribute(attributeClone) + "</td>");
@@ -122,7 +122,7 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
 
                 // Measure
                 for (Measure<?> measure : rollup.getMeasures()) {
-                    Measure<?> measureClone = (Measure<?>) measure.clone();
+                    Measure<?> measureClone = (Measure<?>) measure.newInstance();
                     measureClone.copyFromDataSource(child);
 
                     writeBufferln("  <td style=\"text-align:right\">" + RollupWriter.writeMeasure(measureClone) + "</td>");
@@ -158,7 +158,7 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
 
             // Measure
             for (Measure<?> measure : rollup.getMeasures()) {
-                Measure<?> measureClone = (Measure<?>) measure.clone();
+                Measure<?> measureClone = (Measure<?>) measure.newInstance();
                 measureClone.copyFromDataSource(node);
                 writeBufferln("  <td style=\"text-align:right\">" + RollupWriter.writeMeasure(measureClone) + "</td>");
             }
@@ -190,5 +190,6 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
     }
 
     protected void endTag() throws Throwable {
+        // NOP
     }
 }

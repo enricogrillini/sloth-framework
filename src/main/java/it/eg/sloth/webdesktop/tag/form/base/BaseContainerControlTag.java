@@ -1,6 +1,6 @@
 package it.eg.sloth.webdesktop.tag.form.base;
 
-import it.eg.sloth.form.fields.field.base.AbstractSimpleField;
+import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 import it.eg.sloth.webdesktop.tag.form.group.writer.GroupWriter;
@@ -37,7 +37,7 @@ public abstract class BaseContainerControlTag extends BaseControlTag {
     String labelStyle;
     String labelClassname;
 
-    public void writeLabelContainer(AbstractSimpleField field) throws ParseException, FrameworkException, IOException {
+    public void writeLabelContainer(SimpleField field) throws ParseException, FrameworkException, IOException {
         if (field != null && FormControlWriter.hasLabel(field)) {
             write(GroupWriter.openCell(null, null, getLabelWidth()));
             write(FormControlWriter.writeLabel(field, getViewModality(), getControlClassname(), getControlStyle()));
@@ -49,7 +49,7 @@ public abstract class BaseContainerControlTag extends BaseControlTag {
         }
     }
 
-    public void writeControlContainer(AbstractSimpleField field) throws FrameworkException, IOException {
+    public void writeControlContainer(SimpleField field) throws FrameworkException, IOException {
         write(GroupWriter.openCell(null, null, getControlWidth()));
         if (field != null) {
             write(FormControlWriter.writeControl(field, getParentElement(), getWebDesktopDto().getLastController(), getViewModality(), getControlClassname(), getControlStyle()));

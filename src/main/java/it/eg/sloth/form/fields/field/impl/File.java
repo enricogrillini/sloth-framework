@@ -2,7 +2,7 @@ package it.eg.sloth.form.fields.field.impl;
 
 import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.fields.field.FieldType;
-import it.eg.sloth.form.fields.field.base.AbstractSimpleField;
+import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +11,7 @@ import org.apache.commons.io.IOUtils;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 /**
  * Project: sloth-framework
@@ -29,9 +30,14 @@ import java.io.InputStream;
  */
 @Getter
 @Setter
-public class File extends AbstractSimpleField {
 
-    static final long serialVersionUID = 1L;
+public class File implements SimpleField {
+
+    String name;
+    Locale locale;
+
+    String description;
+    String tooltip;
 
     String alias;
     boolean required;
@@ -47,7 +53,10 @@ public class File extends AbstractSimpleField {
     }
 
     public File(String name, String alias, String description, String tooltip, Boolean required, Boolean readOnly, Boolean hidden, ViewModality viewModality, Integer maxSize) {
-        super(name, description, tooltip);
+        this.name = name.toLowerCase();
+        this.locale = Locale.getDefault();
+        this.description = description;
+        this.tooltip = tooltip;
         this.alias = (alias == null) ? name.toLowerCase() : alias.toLowerCase();
         this.required = required != null && required;
         this.readOnly = readOnly != null && readOnly;
@@ -89,6 +98,11 @@ public class File extends AbstractSimpleField {
     @Override
     public void postEscaped(WebRequest webRequest, String encoding) {
         post(webRequest);
+    }
+
+    @Override
+    public File newInstance() throws CloneNotSupportedException {
+        return (File) super.clone();
     }
 
 }

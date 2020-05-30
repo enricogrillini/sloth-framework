@@ -17,14 +17,12 @@ import java.util.Locale;
  *
  * @author Enrico Grillini
  */
-public interface Element extends Cloneable {
-  
-  public String getName();
+public interface Element {
 
-  public Locale getLocale();
+    String getName();
 
-  public void  setLocale(Locale locale);
+    Locale getLocale();
 
-  public Object clone() throws CloneNotSupportedException;
+    void setLocale(Locale locale);
 
 }

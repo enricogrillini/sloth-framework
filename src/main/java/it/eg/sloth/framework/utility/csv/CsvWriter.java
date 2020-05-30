@@ -86,7 +86,7 @@ public class CsvWriter {
 
             for (SimpleField simpleField : grid) {
                 if (simpleField instanceof DataField) {
-                    DataField<?> field = (DataField<?>) simpleField.clone();
+                    DataField<?> field = (DataField<?>) simpleField.newInstance();
                     field.copyFromDataSource(row);
 
                     String value = formatValue(field.getData());

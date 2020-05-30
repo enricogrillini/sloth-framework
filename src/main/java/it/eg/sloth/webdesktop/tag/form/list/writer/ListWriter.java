@@ -46,7 +46,7 @@ public class ListWriter extends AbstractHtmlWriter {
 
         for (DataRow dataRow : grid.getDataSource()) {
             for (SimpleField field : grid.getElements()) {
-                SimpleField appField = (SimpleField) field.clone();
+                SimpleField appField = field.newInstance();
 
                 if (appField instanceof DataField) {
                     DataField<?> dataField = (DataField<?>) appField;

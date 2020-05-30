@@ -15,18 +15,18 @@ package it.eg.sloth.db.decodemap;
  *
  * @author Enrico Grillini
  */
-public interface DecodeValue<T extends Object>  {
-  
-  public static String DEFAULT_CODE_NAME = "codice";
-  public static String DEFAULT_DESCRIPTION_NAME = "descrizione";
-  public static String DEFAULT_VALID_NAME = "flagvalido";
+public interface DecodeValue<T> {
 
-  public T getCode();
-  
-  public String getDescription();
-  
-  public boolean isValid();
+    public static String DEFAULT_CODE_NAME = "codice";
+    public static String DEFAULT_DESCRIPTION_NAME = "descrizione";
+    public static String DEFAULT_VALID_NAME = "flagvalido";
 
-  public boolean match(String matchString);
-  
+    public T getCode();
+
+    public String getDescription();
+
+    public boolean isValid();
+
+    public boolean match(String matchString);
+
 }

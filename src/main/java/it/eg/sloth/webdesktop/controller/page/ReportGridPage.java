@@ -132,7 +132,7 @@ public abstract class ReportGridPage<F extends Form> extends SimplePage<F> imple
         GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
 
         try {
-            setModelAndView(BaseFunction.nvl(grid.getDescription(), getForm().getPageInfo().getTitle()) + FileType.XLSX.getExtension(), FileType.XLSX);
+            setModelAndView(BaseFunction.nvl(grid.getTitle(), getForm().getPageInfo().getTitle()) + FileType.XLSX.getExtension(), FileType.XLSX);
             gridXlsxWriter.getWorkbook().write(getResponse().getOutputStream());
         } finally {
             getResponse().getOutputStream().close();

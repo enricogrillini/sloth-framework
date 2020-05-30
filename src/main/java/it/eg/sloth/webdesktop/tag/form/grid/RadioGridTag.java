@@ -43,7 +43,7 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
 
         int i = 0;
         for (SimpleField field : getElement()) {
-            SimpleField appField = (SimpleField) field.clone();
+            SimpleField appField = field.newInstance();
             if (appField instanceof DataField) {
                 DataField<?> dataField = (DataField<?>) appField;
                 dataField.copyFromDataSource(dataRow);
@@ -62,9 +62,9 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
         // Dettaglio
         riga += " <div class=\"" + className + "\" style=\"float:none;\">";
         i = 0;
-        for (Element field : getDetail()) {
+        for (SimpleField field : getDetail()) {
             if (field instanceof DataField) {
-                DataField<?> dataField = (DataField<?>) field.clone();
+                DataField<?> dataField = (DataField<?>) field.newInstance();
                 dataField.copyFromDataSource(dataRow);
 
                 riga += i >= 1 ? ", " : "";
@@ -88,7 +88,7 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
         }
     }
 
-    protected void writeLastRow(int rowNumber) throws CloneNotSupportedException, FrameworkException, IOException {
+    protected void writeLastRow(int rowNumber) throws FrameworkException, IOException {
         boolean selected = getElement().isNewLine();
         boolean readOnly = (getForm().getPageInfo().getViewModality() == ViewModality.VIEW_VISUALIZZAZIONE);
 

@@ -1,12 +1,5 @@
 package it.eg.sloth.framework.utility.xlsx;
 
-import java.util.Locale;
-
-import org.apache.poi.hssf.usermodel.HeaderFooter;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.ss.util.CellReference;
-
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.form.fields.field.DataField;
@@ -24,6 +17,12 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelContainer;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelFont;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelType;
+import org.apache.poi.hssf.usermodel.HeaderFooter;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellReference;
+
+import java.util.Locale;
 
 public class GridXlsxWriter extends BaseXlsxWriter {
 
@@ -143,7 +142,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
             for (SimpleField field : grid) {
                 SimpleField appField;
                 try {
-                    appField = (SimpleField) field.clone();
+                    appField = field.newInstance();
                 } catch (CloneNotSupportedException e) {
                     throw new RuntimeException(e);
                 }
@@ -163,7 +162,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
         for (SimpleField field : grid) {
             SimpleField appField;
             try {
-                appField = (SimpleField) field.clone();
+                appField = field.newInstance();
             } catch (CloneNotSupportedException e) {
                 throw new RuntimeException(e);
             }
