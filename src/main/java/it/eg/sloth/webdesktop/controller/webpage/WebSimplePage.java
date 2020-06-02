@@ -97,14 +97,13 @@ public abstract class WebSimplePage<F extends Form> extends FormPage<F> implemen
             for (DecodeValue<?> decodeValue : decodeMap.performSearch(query, MapSearchType.MATCH, 10)) {
                 SimpleSuggestion simpleSuggestion = new SimpleSuggestion();
                 simpleSuggestion.setValue(decodeValue.getDescription());
+                simpleSuggestion.setValid(decodeValue.isValid());
 
                 list.getSuggestions().add(simpleSuggestion);
             }
 
             ObjectMapper mapper = new ObjectMapper();
             String jsonString = mapper.writeValueAsString(list);
-
-            log.info(jsonString);
 
             try {
                 clearModelAndView();

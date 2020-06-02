@@ -23,7 +23,7 @@ public class HtmlInput {
     public static final String TYPE_STRING = "text";
     public static final String TYPE_MD = "text";
     public static final String TYPE_MAIL = "text";
-    public static final String TYPE_PIVA = "text";
+    public static final String TYPE_PARTITA_IVA = "text";
     public static final String TYPE_CODICE_FISCALE = "text";
     public static final String TYPE_URL = "text";
     public static final String TYPE_PASSWORD = "password";

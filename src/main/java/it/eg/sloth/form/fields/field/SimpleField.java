@@ -3,6 +3,7 @@ package it.eg.sloth.form.fields.field;
 import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.base.Element;
 import it.eg.sloth.framework.common.casting.Casting;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
  * Project: sloth-framework
@@ -33,7 +34,7 @@ public interface SimpleField extends Element, Cloneable {
      *
      * @param description
      */
-    public void setDescription(String description);
+    void setDescription(String description);
 
 
     default String getHtmlDescription() {
@@ -50,14 +51,14 @@ public interface SimpleField extends Element, Cloneable {
      *
      * @return
      */
-    public String getTooltip();
+    String getTooltip();
 
     /**
      * Imposta il tooltip
      *
      * @param tooltip
      */
-    public void setTooltip(String tooltip);
+    void setTooltip(String tooltip);
 
 
     default String getHtmlTooltip() {
@@ -68,7 +69,7 @@ public interface SimpleField extends Element, Cloneable {
         return Casting.getJs(getTooltip());
     }
 
-    public FieldType getFieldType();
+    FieldType getFieldType();
 
     /**
      * Effettua il post della Web Request
@@ -76,7 +77,7 @@ public interface SimpleField extends Element, Cloneable {
      * @param webRequest
      * @return
      */
-    public void post(WebRequest webRequest);
+    public void post(WebRequest webRequest) throws FrameworkException;
 
     /**
      * Effettua il post della Web Request contenente valori escaped tipicamente

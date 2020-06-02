@@ -47,7 +47,7 @@ public class CardWriterTest {
 
     @Test
     public void fieldCardContentTest() throws FrameworkException {
-        Text<BigDecimal> field = new Text<BigDecimal>("name", "description", "tooltip", DataTypes.INTEGER);
+        Text<BigDecimal> field = new Text<BigDecimal>("name", "description",  DataTypes.INTEGER);
         assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "description", "",""), CardWriter.fieldCardContent(field));
 
         field.setValue(BigDecimal.valueOf(10));

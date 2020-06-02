@@ -70,7 +70,7 @@ public class Rollup extends AbstractElements<DataField<?>> {
         this.description = description;
     }
 
-    public DataTable getDataTable() {
+    public DataTable<?> getDataTable() {
         return dataTable;
     }
 
@@ -202,7 +202,7 @@ public class Rollup extends AbstractElements<DataField<?>> {
 
         }
 
-        public DataNode recalc() throws CloneNotSupportedException {
+        public DataNode recalc() {
             DataNode rootNode = new Node();
 
             if (dataTable.size() > 0) {

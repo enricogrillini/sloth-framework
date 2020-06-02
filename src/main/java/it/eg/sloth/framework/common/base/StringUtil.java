@@ -1,15 +1,18 @@
 package it.eg.sloth.framework.common.base;
 
+import it.eg.sloth.framework.common.exception.ExceptionCode;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Enrico Grillini
@@ -17,6 +20,12 @@ import org.apache.commons.lang3.StringUtils;
  * Collezione di funzioni Oracle orientented sulle stringhe
  */
 public class StringUtil {
+
+    private static final String MAIL_ADDRESS = "^[-_a-z0-9\\'+*$^&%=~!?{}]++(?:\\.[-_a-z0-9\\'+*$^&%=~!?{}]+)*+@(?:(?![-.])[-a-z0-9.]+(?<![-.])\\.[a-z]{2,6}|\\d{1,3}(?:\\.\\d{1,3}){3})(?::\\d++)?$";
+
+    private StringUtil() {
+        // NOP
+    }
 
     public static final String EMPTY = "";
     public static final String TAB = String.valueOf((char) 9);
@@ -30,7 +39,7 @@ public class StringUtil {
             String currentToken = stringTokenizer.nextToken();
             if (!currentToken.equals(separator)) {
                 list.add(currentToken.trim());
-            } else if (currentToken.equals(separator) && lastToken.equals(separator)) {
+            } else if (lastToken.equals(separator)) {
                 list.add("");
             }
             lastToken = currentToken;
@@ -234,7 +243,7 @@ public class StringUtil {
      */
     public static String ltrim(String string) {
         if (BaseFunction.isBlank(string)) {
-            return "";
+            return StringUtil.EMPTY;
         } else {
             return string.replaceAll("^\\s+", "");
         }
@@ -248,7 +257,7 @@ public class StringUtil {
      */
     public static String rtrim(String string) {
         if (BaseFunction.isBlank(string)) {
-            return "";
+            return StringUtil.EMPTY;
         } else {
             return string.replaceAll("\\s+$", "");
         }
@@ -298,19 +307,19 @@ public class StringUtil {
 
     public static String toJavaConstantName(String string) {
         if (BaseFunction.isBlank(string)) {
-            return "";
+            return EMPTY;
         }
 
-        String result = "";
+        StringBuilder result = new StringBuilder();
         string = toJavaClassName(string);
         for (int i = 0; i < string.length(); i++) {
             if (i > 0 && string.charAt(i) >= 65 && string.charAt(i) <= 90 && !(string.charAt(i - 1) >= 65 && string.charAt(i - 1) <= 90))
-                result += "_";
+                result.append("_");
 
-            result += string.charAt(i);
+            result.append(string.charAt(i));
         }
 
-        return result.toUpperCase();
+        return result.toString().toUpperCase();
     }
 
     public static String toFileName(String string) {
@@ -318,24 +327,20 @@ public class StringUtil {
             return "";
         }
 
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < string.length(); i++) {
             if (string.charAt(i) == ' ') {
-                result += "-";
+                result.append("-");
             } else if (string.charAt(i) == '/') {
-                result += "-";
+                result.append("-");
             } else if (string.charAt(i) >= 48 && string.charAt(i) <= 57 ||
                     string.charAt(i) >= 65 && string.charAt(i) <= 90 ||
                     string.charAt(i) >= 97 && string.charAt(i) <= 122 || string.charAt(i) == '-' || string.charAt(i) == '_' || i > 0 && string.charAt(i) == '.') {
-                result += string.charAt(i);
+                result.append(string.charAt(i));
             }
         }
 
-        while (result.contains("--")) {
-            result = result.replaceAll("--", "-");
-        }
-
-        return result;
+        return result.toString().replace("--", "-");
     }
 
     public static boolean contains(String string, String inStr) {
@@ -396,6 +401,58 @@ public class StringUtil {
             ;
 
         return count;
+    }
+
+
+    /**
+     * Verifica la mail passata
+     *
+     * @param mail
+     * @return
+     * @throws ParseException
+     */
+    public static String parseMail(String mail) throws FrameworkException {
+        if (BaseFunction.isBlank(mail)) {
+            return EMPTY;
+        } else if (mail.matches(MAIL_ADDRESS)) {
+            return mail;
+        } else {
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Indirizzo email errato");
+        }
+    }
+
+    public static String parsePartitaIva(String partitaIva) throws FrameworkException {
+        if (BaseFunction.isBlank(partitaIva)) {
+            return EMPTY;
+        }
+
+        // Elimino spaszi
+        partitaIva = partitaIva.replaceAll("[ \t\r\n]", "");
+
+
+        if (partitaIva.length() != 11) {
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Lunghezza partita iva errata");
+        }
+
+        if (!partitaIva.matches("^[0-9]{11}$")) {
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Trovati caratteri non validi");
+        }
+
+        int s = 0;
+        for (int i = 0; i < 11; i++) {
+            int n = partitaIva.charAt(i) - '0';
+            if ((i & 1) == 1) {
+                n *= 2;
+                if (n > 9)
+                    n -= 9;
+            }
+            s += n;
+        }
+        if (s % 10 != 0) {
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Codice di controllo non valido");
+        }
+
+        return partitaIva;
     }
 
 }

@@ -27,11 +27,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SimpleSuggestion implements Comparable<SimpleSuggestion> {
 
-    private String value;
-    private String subValue;
-    private String imageUrl;
-    private String url;
-    private SearchRelevance searchRelevance;
+    String value;
+    String subValue;
+    String imageUrl;
+    String url;
+    SearchRelevance searchRelevance;
+    boolean valid;
 
     /**
      * La presentazione avviene rispettando il seguente ordine:

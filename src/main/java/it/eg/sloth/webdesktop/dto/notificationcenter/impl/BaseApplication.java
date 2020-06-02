@@ -93,7 +93,7 @@ public class BaseApplication<T extends NotificationMessage> extends FrameCompone
 
   @Override
   public T getMessage(int index) {
-    return new ArrayList<T>(messages.values()).get(index);
+    return new ArrayList<>(messages.values()).get(index);
   }
 
   @Override

@@ -101,7 +101,7 @@ public class GridTag extends AbstractGridTag<Grid<?>> {
                         writeln("  <tr class=\"frDetail\">");
                         writeln("   <td>&nbsp;</td>");
                         writeln("   <td colspan=\"" + getElement().getElements().size() + "\">");
-                        writeln("    <b style=\"color:#660000\">" + fieldClone.getHtmlDescription() + ": </b><span>" + FormControlWriter.writeControl(fieldClone, getElement(), getWebDesktopDto().getLastController(), ViewModality.VIEW_VISUALIZZAZIONE, null, null) + "</span>");
+                        writeln("    <b style=\"color:#660000\">" + fieldClone.getHtmlDescription() + ": </b><span>" + FormControlWriter.writeControl(fieldClone, getElement(), ViewModality.VIEW_VISUALIZZAZIONE, null, null) + "</span>");
                         writeln("   </td>");
                         writeln("  </tr>");
                     }

@@ -40,7 +40,7 @@ public abstract class BaseContainerControlTag extends BaseControlTag {
     public void writeLabelContainer(SimpleField field) throws ParseException, FrameworkException, IOException {
         if (field != null && FormControlWriter.hasLabel(field)) {
             write(GroupWriter.openCell(null, null, getLabelWidth()));
-            write(FormControlWriter.writeLabel(field, getViewModality(), getControlClassname(), getControlStyle()));
+            write(FormControlWriter.writeLabel(field, getControlClassname(), getControlStyle()));
             write(GroupWriter.closeCell());
         } else {
             write(GroupWriter.openCell(null, null, getLabelWidth()));
@@ -52,7 +52,7 @@ public abstract class BaseContainerControlTag extends BaseControlTag {
     public void writeControlContainer(SimpleField field) throws FrameworkException, IOException {
         write(GroupWriter.openCell(null, null, getControlWidth()));
         if (field != null) {
-            write(FormControlWriter.writeControl(field, getParentElement(), getWebDesktopDto().getLastController(), getViewModality(), getControlClassname(), getControlStyle()));
+            write(FormControlWriter.writeControl(field, getParentElement(), getViewModality(), getControlClassname(), getControlStyle()));
         } else {
             write("<span class=\"form-control border-bottom-danger\">Campo " + getName() + " non trovato</span>");
         }

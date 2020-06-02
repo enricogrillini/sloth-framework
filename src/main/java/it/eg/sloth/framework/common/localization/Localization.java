@@ -40,7 +40,7 @@ public class Localization {
     public static final String PROP_STRING = "format.string";
     public static final String PROP_MD = "format.md";
     public static final String PROP_MAIL = "format.mail";
-    public static final String PROP_PIVA = "format.piva";
+    public static final String PROP_PARTITA_IVA = "format.piva";
     public static final String PROP_CODICE_FISCALE = "format.codicefiscale";
     public static final String PROP_URL = "format.url";
     public static final String PROP_PASS = "format.password";
@@ -63,7 +63,7 @@ public class Localization {
     public static final String ERR_PROP_STRING = "error.string";
     public static final String ERR_PROP_MD = "error.md";
     public static final String ERR_PROP_MAIL = "error.mail";
-    public static final String ERR_PROP_PIVA = "error.piva";
+    public static final String ERR_PROP_PARTITA_IVA = "error.piva";
     public static final String ERR_PROP_CODICE_FISCALE = "error.codicefiscale";
     public static final String ERR_PROP_URL = "error.url";
     public static final String ERR_PROP_PASS = "error.password";

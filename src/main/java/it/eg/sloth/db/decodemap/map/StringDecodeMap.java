@@ -19,6 +19,9 @@ import it.eg.sloth.db.decodemap.value.BaseDecodeValue;
  */
 public class StringDecodeMap extends BaseDecodeMap<String> {
 
+    public static final StringDecodeMap SI_NO = new StringDecodeMap("S,Sì;N,No");
+    public static final StringDecodeMap SI_NO_TUTTI = new StringDecodeMap("S,Sì;N,No;T,Tutti");
+
     public StringDecodeMap(String string) {
         super();
         if (string == null || string.equals("")) {
@@ -29,7 +32,7 @@ public class StringDecodeMap extends BaseDecodeMap<String> {
         for (int i = 0; i < array.length; i++) {
             String[] array2 = array[i].split(",");
 
-            put(new BaseDecodeValue<String>(array2[0], array2[1]));
+            put(new BaseDecodeValue<String>(array2[0].trim(), array2[1].trim()));
         }
 
     }

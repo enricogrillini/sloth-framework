@@ -41,7 +41,6 @@ import it.eg.sloth.webdesktop.tag.form.field.writer.TextControlWriter;
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
- *
  */
 public class TextControlWriterTest {
 
@@ -106,7 +105,7 @@ public class TextControlWriterTest {
         assertEquals(TextControlWriter.writeHidden(field), FormControlWriter.writeHidden(field));
 
         // Controllo generico
-        assertEquals(TextControlWriter.writeHidden(field), FormControlWriter.writeControl(field, null, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(TextControlWriter.writeHidden(field), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
     }
 
     @Test
@@ -149,7 +148,7 @@ public class TextControlWriterTest {
 
     @Test
     public void textTest() throws FrameworkException {
-        Text<String> field = new Text<String>("name", "description", "tooltip", DataTypes.STRING);
+        Text<String> field = new Text<String>("name", "description",  DataTypes.STRING);
         assertEquals(StringUtil.EMPTY, TextControlWriter.writeText(field));
 
         field.setValue("testo");
@@ -173,7 +172,7 @@ public class TextControlWriterTest {
 
     @Test
     public void textTotalizerTest() throws FrameworkException {
-        TextTotalizer field = new TextTotalizer("name", "description", "tooltip", DataTypes.INTEGER);
+        TextTotalizer field = new TextTotalizer("name", "description",  DataTypes.INTEGER);
         assertEquals(StringUtil.EMPTY, TextControlWriter.writeText(field));
 
         field.setValue(BigDecimal.valueOf(10));

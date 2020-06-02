@@ -32,11 +32,11 @@ public class Suggestion extends SimpleSuggestion {
     private List<SearchFunction> functionList;
 
     public Suggestion() {
-        this(null, null, null, null, null, null);
+        this(null, null, null, null, null, true, null);
     }
 
-    public Suggestion(String value, String subValue, String imageUrl, String url, SearchRelevance itemRelevance, String description) {
-        super(value, subValue, imageUrl, url, itemRelevance);
+    public Suggestion(String value, String subValue, String imageUrl, String url, SearchRelevance itemRelevance, boolean valid, String description) {
+        super(value, subValue, imageUrl, url, itemRelevance, valid);
 
         this.description = description;
         snippetList = new ArrayList<>();

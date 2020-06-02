@@ -60,7 +60,7 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
     /**
      * Imposta la riga corrente
      *
-     * @param correntRow
+     * @param currentRow
      */
     public void setCurrentRow(int currentRow);
 
@@ -186,15 +186,11 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
 
     /**
      * Aggiunge una riga in coda
-     *
-     * @param row
      */
     public T append();
 
     /**
      * Aggiunge una riga dopo la riga corrente
-     *
-     * @param row
      */
     public T add();
 
@@ -202,14 +198,14 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
      * Rimuove la riga corrente
      *
      * @return
-     * @throws InvalidStateException
+     * @throws FrameworkException
      */
     public T remove() throws FrameworkException;
 
     /**
      * Rimuove tutte le righe
      *
-     * @throws InvalidStateException
+     * @throws FrameworkException
      */
     public void removeAllRow() throws FrameworkException;
 
@@ -231,29 +227,23 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
 
     /**
      * Applica l'ordinamento memorizzato
-     *
-     * @param filterRules
      */
     public void applySort();
 
     /**
      * Applica l'ordinamento passato
-     *
-     * @param filterRules
      */
     public void applySort(String fieldName, int sortType);
 
     /**
      * Applica l'ordinamento passato
-     *
-     * @param filterRules
      */
     public void applySorts(SortingRules<T> sortingRules);
 
     /**
      * Effettua l'ordinamento gestendo o meno il mantenimento della riga corrente
      *
-     * @param filterRules
+     * @param preserveCurrentRow
      */
     public void applySort(boolean preserveCurrentRow);
 
@@ -368,8 +358,8 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
          * Effettua la somma sulla dataTable passata applicando il filtro indicato
          *
          * @param dataTable
-         * @param filterNames
-         * @param filterValues
+         * @param filterName
+         * @param filterValue
          * @param columnName
          * @return
          */

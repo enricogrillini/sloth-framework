@@ -24,14 +24,14 @@ import lombok.Setter;
 @Setter
 public class LabelTag extends BaseControlTag {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  String classname;
-  String style;
+    String classname;
+    String style;
 
-  @Override
-  protected void writeField() throws Throwable {
-    SimpleField element = getElement();
-    write(FormControlWriter.writeLabel(element, getViewModality(), getClassname(), getStyle()));
-  }
+    @Override
+    protected void writeField() throws Throwable {
+        SimpleField element = getElement();
+        write(FormControlWriter.writeLabel(element, getClassname(), getStyle()));
+    }
 }

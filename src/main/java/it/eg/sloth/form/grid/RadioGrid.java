@@ -56,7 +56,7 @@ public class RadioGrid<D extends DataTable<?>> extends Grid<D> {
     }
 
     @Override
-    public void post(WebRequest webRequest) {
+    public void post(WebRequest webRequest) throws FrameworkException {
         super.post(webRequest);
 
         if (webRequest.getString(getName()) != null) {

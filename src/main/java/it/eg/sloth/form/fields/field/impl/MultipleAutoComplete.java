@@ -17,7 +17,6 @@ import it.eg.sloth.framework.common.message.BaseMessage;
 import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
-import it.eg.sloth.framework.pageinfo.ViewModality;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -49,9 +48,8 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
     private String decodedText;
     private DecodeMap<T, ? extends DecodeValue<T>> decodeMap;
 
-    public MultipleAutoComplete(String name, String alias, String decodeAlias, String description, String tooltip, DataTypes dataType, String format, String baseLink, Boolean required, Boolean readOnly, Boolean hidden, ViewModality viewModality) {
-        super(name, alias, description, tooltip, dataType, format, baseLink, required, readOnly, hidden, viewModality);
-        this.decodeAlias = decodeAlias;
+    public MultipleAutoComplete(String name, String description, String tooltip, DataTypes dataType) {
+        super(name, description, tooltip, dataType);
     }
 
     @Override
@@ -94,7 +92,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
             for (String word : words) {
                 if (!BaseFunction.isBlank(word)) {
                     try {
-                        list.add((T)  getDataType().parseValue(word, getLocale(), getFormat()));
+                        list.add((T) getDataType().parseValue(word, getLocale(), getFormat()));
                     } catch (FrameworkException e) {
                         // NOP
                     }

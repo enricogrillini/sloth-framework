@@ -46,10 +46,9 @@ public class ToolbarWriter extends AbstractHtmlWriter {
      */
     public static String elencoButton(boolean disabled) {
         return new StringBuilder()
-                .append("<button name=\"")
-                .append(NavigationConst.navStr(NavigationConst.ELENCO))
-                .append("\"")
-                .append(getAttribute("disabled", disabled, ""))
+                .append("<button")
+                .append(getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.ELENCO)))
+                .append(getAttribute(ATTR_DISABLED, disabled, ""))
                 .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Ritorna all'elenco\"><i class=\"fas fa-table\"></i> Elenco</button>")
                 .toString();
     }
@@ -69,7 +68,7 @@ public class ToolbarWriter extends AbstractHtmlWriter {
                     .append("<button name=\"")
                     .append(NavigationConst.navStr(NavigationConst.FIRST_ROW, grid.getName()))
                     .append("\"")
-                    .append(getAttribute("disabled", disabled || grid.getDataSource().isFirst(), ""))
+                    .append(getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isFirst(), ""))
                     .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Primo record\"><i class=\"fas fa-fast-backward\"></i></button>")
                     .toString();
         }
@@ -90,7 +89,7 @@ public class ToolbarWriter extends AbstractHtmlWriter {
                     .append("<button name=\"")
                     .append(NavigationConst.navStr(NavigationConst.PREV_PAGE, grid.getName()))
                     .append("\"")
-                    .append(getAttribute("disabled", disabled || grid.getDataSource().isFirstPage(), ""))
+                    .append(getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isFirstPage(), ""))
                     .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Pagina precedende\"><i class=\"fas fa-backward\"></i></button>")
                     .toString();
         }
@@ -111,7 +110,7 @@ public class ToolbarWriter extends AbstractHtmlWriter {
                     .append("<button name=\"")
                     .append(NavigationConst.navStr(NavigationConst.PREV, grid.getName()))
                     .append("\"")
-                    .append(getAttribute("disabled", disabled || grid.getDataSource().isFirst(), ""))
+                    .append(getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isFirst(), ""))
                     .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Record precedende\"><i class=\"fas fa-step-backward\"></i></button>")
                     .toString();
         }
@@ -132,7 +131,7 @@ public class ToolbarWriter extends AbstractHtmlWriter {
                     .append("<button name=\"")
                     .append(NavigationConst.navStr(NavigationConst.NEXT, grid.getName()))
                     .append("\"")
-                    .append(getAttribute("disabled", disabled || grid.getDataSource().isLast(), ""))
+                    .append(getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isLast(), ""))
                     .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Record successivo\"><i class=\"fas fa-step-forward\"></i></button>")
                     .toString();
         }
@@ -153,7 +152,7 @@ public class ToolbarWriter extends AbstractHtmlWriter {
                     .append("<button name=\"")
                     .append(NavigationConst.navStr(NavigationConst.NEXT_PAGE, grid.getName()))
                     .append("\"")
-                    .append(getAttribute("disabled", disabled || grid.getDataSource().isLastPage(), ""))
+                    .append(getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isLastPage(), ""))
                     .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Pagina sucessiva\"><i class=\"fas fa-forward\"></i></button>")
                     .toString();
         }
@@ -174,7 +173,7 @@ public class ToolbarWriter extends AbstractHtmlWriter {
                     .append("<button name=\"")
                     .append(NavigationConst.navStr(NavigationConst.LAST_ROW, grid.getName()))
                     .append("\"")
-                    .append(getAttribute("disabled", disabled || grid.getDataSource().isLast(), ""))
+                    .append(getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isLast(), ""))
                     .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Ultimo record\"><i class=\"fas fa-fast-forward\"></i></button>")
                     .toString();
         }
@@ -238,7 +237,7 @@ public class ToolbarWriter extends AbstractHtmlWriter {
                     .append("<button name=\"")
                     .append(NavigationConst.navStr(NavigationConst.DELETE, grid.getName()))
                     .append("\"")
-                    .append(getAttribute("disabled", grid.getDataSource().size() == 0, ""))
+                    .append(getAttribute(ATTR_DISABLED, grid.getDataSource().size() == 0, ""))
                     .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Elimina il record corrente\"><i class=\"fas fa-minus\"></i> Elimina</button>")
                     .toString();
         }
@@ -270,7 +269,7 @@ public class ToolbarWriter extends AbstractHtmlWriter {
                     .append("<button name=\"")
                     .append(NavigationConst.navStr(NavigationConst.UPDATE, name))
                     .append("\"")
-                    .append(getAttribute("disabled", disabled, ""))
+                    .append(getAttribute(ATTR_DISABLED, disabled, ""))
                     .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Modifica il record corrente\"><i class=\"fas fa-pencil-alt\"></i> Modifica</button>")
                     .toString();
         }

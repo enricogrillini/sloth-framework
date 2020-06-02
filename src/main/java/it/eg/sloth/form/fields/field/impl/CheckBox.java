@@ -6,9 +6,9 @@ import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.framework.pageinfo.ViewModality;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Project: sloth-framework
@@ -27,9 +27,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@SuperBuilder
 public class CheckBox<T> extends InputField<T> {
-
-    static final long serialVersionUID = 1L;
 
     public static final String DEFAULT_VAL_CHECKED = "S";
     public static final String DEFAULT_VAL_UN_CHECKED = "N";
@@ -38,18 +37,7 @@ public class CheckBox<T> extends InputField<T> {
     T valUnChecked;
 
     public CheckBox(String name, String description, String tooltip, DataTypes dataType) {
-        this(name, name, description, tooltip, dataType, null, false, false, false);
-    }
-
-    @SuppressWarnings("unchecked")
-    public CheckBox(String name, String alias, String description, String tooltip, DataTypes dataType, String format, Boolean required, Boolean readOnly, Boolean hidden) {
-        this(name, alias, description, tooltip, dataType, format, null, required, readOnly, hidden, ViewModality.VIEW_AUTO, (T) DEFAULT_VAL_CHECKED, (T) DEFAULT_VAL_UN_CHECKED);
-    }
-
-    public CheckBox(String name, String alias, String description, String tooltip, DataTypes dataType, String format, String baseLink, Boolean required, Boolean readOnly, Boolean hidden, ViewModality viewModality, T valChecked, T valUnChecked) {
-        super(name, alias, description, tooltip, dataType, format, baseLink, required, readOnly, hidden, viewModality);
-        setValChecked(valChecked);
-        setValUnChecked(valUnChecked);
+        super(name, description, tooltip, dataType);
     }
 
     @Override
@@ -59,6 +47,14 @@ public class CheckBox<T> extends InputField<T> {
 
     public boolean isChecked() {
         return !BaseFunction.isBlank(getData()) && getData().equals(getValChecked());
+    }
+
+    public T getValChecked() {
+        return valChecked == null ? (T) DEFAULT_VAL_CHECKED : valChecked;
+    }
+
+    public T getValUnChecked() {
+        return valUnChecked == null ? (T) DEFAULT_VAL_UN_CHECKED : valUnChecked;
     }
 
     public void setChecked() throws FrameworkException {

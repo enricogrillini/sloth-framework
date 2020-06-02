@@ -131,7 +131,7 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
      * @param webRequest
      * @throws ParseException
      */
-    public void post(WebRequest webRequest) {
+    public void post(WebRequest webRequest) throws FrameworkException {
         for (SimpleField element : getElements()) {
             if (element instanceof SimpleField) {
                 element.post(webRequest);

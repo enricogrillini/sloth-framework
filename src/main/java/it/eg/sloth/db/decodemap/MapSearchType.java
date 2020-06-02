@@ -16,5 +16,5 @@ package it.eg.sloth.db.decodemap;
  * @author Enrico Grillini
  */
 public enum MapSearchType {
-  EXACT, FLEXIBLE, MATCH
+    EXACT, FLEXIBLE, MATCH
 }

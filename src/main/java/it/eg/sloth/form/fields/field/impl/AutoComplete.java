@@ -14,9 +14,9 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.BaseMessage;
 import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.Message;
-import it.eg.sloth.framework.pageinfo.ViewModality;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Project: sloth-framework
@@ -35,27 +35,19 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@SuperBuilder
 public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T> {
 
     public static final int DEFAULT_SIZELIMIT = 15;
 
-    static final long serialVersionUID = 1L;
-
     String decodeAlias;
     String decodedText;
-    int sizeLimit;
+    Integer sizeLimit;
 
     private DecodeMap<T, ? extends DecodeValue<T>> decodeMap;
 
     public AutoComplete(String name, String description, String tooltip, DataTypes dataType) {
-        this(name, name, name, description, tooltip, dataType, null, null, false, false, false, ViewModality.VIEW_AUTO, 0);
-    }
-
-
-    public AutoComplete(String name, String alias, String decodeAlias, String description, String tooltip, DataTypes dataType, String format, String baseLink, Boolean required, Boolean readOnly, Boolean hidden, ViewModality viewModality, Integer sizeLimit) {
-        super(name, alias, description, tooltip, dataType, format, baseLink, required, readOnly, hidden, viewModality);
-        this.decodeAlias = decodeAlias;
-        this.sizeLimit = sizeLimit == null ? 0 : sizeLimit;
+        super(name, description, tooltip, dataType);
     }
 
     @Override
@@ -64,15 +56,7 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
     }
 
     public int getSizeLimit() {
-        if (sizeLimit > 0) {
-            return sizeLimit;
-        } else {
-            return DEFAULT_SIZELIMIT;
-        }
-    }
-
-    public void setSizeLimit(int sizeLimit) {
-        this.sizeLimit = sizeLimit;
+        return sizeLimit == null ? DEFAULT_SIZELIMIT : sizeLimit;
     }
 
     public String getDecodeAlias() {
@@ -81,10 +65,6 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
         } else {
             return getName();
         }
-    }
-
-    public void setDecodeAlias(String decodeAlias) {
-        this.decodeAlias = decodeAlias;
     }
 
     @Override
@@ -161,14 +141,10 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
     }
 
     @Override
-    public void post(WebRequest webRequest) {
-        try {
-            if (!isReadOnly()) {
-                setDecodedText(webRequest.getString(getName()));
-                setData(getDataType().formatValue(getDecodeMap().encode(getDecodedText()), getLocale(), getFormat()));
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Errore su postEscaped campo: " + getName(), e);
+    public void post(WebRequest webRequest) throws FrameworkException {
+        if (!isReadOnly()) {
+            setDecodedText(webRequest.getString(getName()));
+            setData(getDataType().formatValue(getDecodeMap().encode(getDecodedText()), getLocale(), getFormat()));
         }
     }
 

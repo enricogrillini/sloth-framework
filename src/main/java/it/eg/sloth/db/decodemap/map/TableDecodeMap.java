@@ -21,7 +21,6 @@ import it.eg.sloth.db.decodemap.value.TableDecodeValue;
  */
 public class TableDecodeMap<T, R extends DataRow> extends AbstractDecodeMap<T, TableDecodeValue<T, R>> {
 
-
     public TableDecodeMap() {
         super();
     }

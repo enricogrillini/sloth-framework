@@ -31,7 +31,7 @@ public class ControlTag extends BaseElementTag<SimpleField> {
 
     @Override
     protected int startTag() throws Throwable {
-        write(FormControlWriter.writeControl(getElement(), getParentElement(), getWebDesktopDto().getLastController(), getViewModality(), getClassname(), getStyle()));
+        write(FormControlWriter.writeControl(getElement(), getParentElement(), getViewModality(), getClassname(), getStyle()));
         return SKIP_BODY;
     }
 

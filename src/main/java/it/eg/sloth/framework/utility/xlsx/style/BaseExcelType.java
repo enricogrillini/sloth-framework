@@ -80,7 +80,7 @@ public class BaseExcelType {
                 case STRING:
                 case MD:
                 case MAIL:
-                case PIVA:
+                case PARTITA_IVA:
                 case CODICE_FISCALE:
                     return null;
 

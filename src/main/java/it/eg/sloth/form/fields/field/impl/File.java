@@ -3,9 +3,11 @@ package it.eg.sloth.form.fields.field.impl;
 import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.SimpleField;
+import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.apache.commons.io.IOUtils;
 
 import javax.servlet.http.Part;
@@ -30,40 +32,63 @@ import java.util.Locale;
  */
 @Getter
 @Setter
-
+@SuperBuilder
 public class File implements SimpleField {
 
     String name;
     Locale locale;
+    String alias;
 
     String description;
     String tooltip;
 
-    String alias;
-    boolean required;
-    boolean readOnly;
-    boolean hidden;
+    Boolean required;
+    Boolean readOnly;
+    Boolean hidden;
     ViewModality viewModality;
-    int maxSize;
+    Integer maxSize;
 
     private Part part;
 
-    public File(String name, String description, String tooltip) {
-        this(name, name, description, tooltip, false, false, false, ViewModality.VIEW_AUTO, 0);
+    public File(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 
-    public File(String name, String alias, String description, String tooltip, Boolean required, Boolean readOnly, Boolean hidden, ViewModality viewModality, Integer maxSize) {
-        this.name = name.toLowerCase();
-        this.locale = Locale.getDefault();
-        this.description = description;
-        this.tooltip = tooltip;
-        this.alias = (alias == null) ? name.toLowerCase() : alias.toLowerCase();
-        this.required = required != null && required;
-        this.readOnly = readOnly != null && readOnly;
-        this.hidden = hidden != null && hidden;
-        this.viewModality = viewModality;
-        this.maxSize = maxSize == null ? 0 : maxSize;
+    @Override
+    public String getName() {
+        return name.toLowerCase();
     }
+
+    @Override
+    public Locale getLocale() {
+        return this.locale == null ? Locale.getDefault() : this.locale;
+    }
+
+    public String getAlias() {
+        return BaseFunction.isBlank(alias) ? getName() : alias.toLowerCase();
+    }
+
+    public boolean isRequired() {
+        return required != null && required;
+    }
+
+    public boolean isReadOnly() {
+        return readOnly != null && readOnly;
+    }
+
+    public boolean isHidden() {
+        return hidden != null && hidden;
+    }
+
+    public ViewModality getViewModality() {
+        return viewModality != null ? viewModality : ViewModality.VIEW_AUTO;
+    }
+
+    public int getMaxSize() {
+        return maxSize != null ? maxSize : 0;
+    }
+
 
     @Override
     public FieldType getFieldType() {

@@ -234,8 +234,8 @@
    <enumeration value="STRING"></enumeration>
    <enumeration value="FILE"></enumeration>
    <enumeration value="MAIL"></enumeration>
-   <enumeration value="PIVA"></enumeration>
-   <enumeration value="CF"></enumeration>
+   <enumeration value="PARTITA_IVA"></enumeration>
+   <enumeration value="CODICE_FISCALE"></enumeration>
    <enumeration value="URL"></enumeration>
    <enumeration value="PASSWORD"></enumeration>
   </restriction>

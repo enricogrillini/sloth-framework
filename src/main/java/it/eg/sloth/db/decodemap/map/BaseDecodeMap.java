@@ -1,14 +1,13 @@
 package it.eg.sloth.db.decodemap.map;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
-import it.eg.sloth.db.decodemap.DecodeValue;
 import it.eg.sloth.db.decodemap.value.BaseDecodeValue;
 import it.eg.sloth.db.query.SelectQueryInterface;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Project: sloth-framework
@@ -27,7 +26,9 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
  */
 public class BaseDecodeMap<T> extends AbstractDecodeMap<T, BaseDecodeValue<T>> {
 
-  
+  public static final String DEFAULT_CODE_NAME = "codice";
+  public static final String DEFAULT_DESCRIPTION_NAME = "descrizione";
+  public static final String DEFAULT_VALID_NAME = "flagvalido";
 
   public BaseDecodeMap() {
     super();
@@ -50,7 +51,7 @@ public class BaseDecodeMap<T> extends AbstractDecodeMap<T, BaseDecodeValue<T>> {
   }
 
   public BaseDecodeMap(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
-    this(query, DecodeValue.DEFAULT_CODE_NAME, DecodeValue.DEFAULT_DESCRIPTION_NAME, null);
+    this(query, DEFAULT_CODE_NAME, DEFAULT_DESCRIPTION_NAME, null);
   }
 
   public BaseDecodeMap(SelectQueryInterface query, String codeName, String descriptionName, String validName) throws SQLException, IOException, FrameworkException {

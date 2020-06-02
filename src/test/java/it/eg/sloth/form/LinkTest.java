@@ -1,13 +1,13 @@
 package it.eg.sloth.form;
 
-import it.eg.sloth.form.fields.field.impl.Button;
 import it.eg.sloth.form.fields.field.impl.Link;
 import it.eg.sloth.jaxb.form.ButtonType;
 import org.junit.Test;
 
 import java.util.Locale;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class LinkTest {
 

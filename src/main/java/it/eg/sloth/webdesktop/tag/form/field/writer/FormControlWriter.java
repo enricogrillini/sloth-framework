@@ -33,7 +33,7 @@ import java.text.MessageFormat;
  */
 public class FormControlWriter extends AbstractHtmlWriter {
 
-    public static String writeControl(SimpleField element, Element parentElement, String lastController, ViewModality pageViewModality, String className, String style) throws FrameworkException {
+    public static String writeControl(SimpleField element, Element parentElement, ViewModality pageViewModality, String className, String style) throws FrameworkException {
         switch (element.getFieldType()) {
             case AUTO_COMPLETE:
                 return writeAutoComplete((AutoComplete<?>) element, parentElement, pageViewModality, className, style);
@@ -46,7 +46,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
             case DECODED_TEXT:
                 return writeDecodedText((DecodedText<?>) element, className, style);
             case FILE:
-                return writeFile((File) element, pageViewModality, className, style);
+                return writeFile((File) element, pageViewModality);
             case HIDDEN:
                 return writeHidden((Hidden<?>) element);
             case INPUT:
@@ -55,8 +55,10 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 return writeInputTotalizer((InputTotalizer) element, pageViewModality, className, style);
             case LINK:
                 return writeLink((Link) element, className, style);
+            case RADIO_GROUP:
+                return writeRadioGroup((RadioGroup<?>) element, pageViewModality);
             case SEMAPHORE:
-                return writeSemaforo((Semaphore) element, pageViewModality, className, style);
+                return writeSemaforo((Semaphore) element, pageViewModality);
             case TEXT:
                 return writeText((Text<?>) element, className, style);
             case TEXT_AREA:
@@ -65,9 +67,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 return writeTextTotalizer((TextTotalizer) element, className, style);
             default:
                 // Old -> Saranno da portare tutti a nuovo
-                if (element instanceof RadioGroup<?>) {
-                    return writeRadioGroup((RadioGroup<?>) element, pageViewModality, className, style);
-                } else if (element instanceof MultipleAutoComplete<?, ?>) {
+                if (element instanceof MultipleAutoComplete<?, ?>) {
                     return writeMultipleAutoComplete((MultipleAutoComplete<?, ?>) element, parentElement, pageViewModality, className, style);
                 } else {
                     return "";
@@ -77,31 +77,24 @@ public class FormControlWriter extends AbstractHtmlWriter {
     }
 
     public static boolean hasLabel(SimpleField element) {
-        if (element instanceof Button) {
-            return false;
-        } else {
-            return true;
-        }
+        return !(element instanceof Button);
     }
 
-    public static String writeLabel(SimpleField simpleField, ViewModality pageViewModality, String className, String style) {
+    public static String writeLabel(SimpleField simpleField, String className, String style) {
         if (!hasLabel(simpleField)) {
-            return "";
+            return StringUtil.EMPTY;
         }
 
-        String classHtml = " class=\"" + BootStrapClass.LABEL_CLASS + "\"";
-        if (!BaseFunction.isBlank(className)) {
-            classHtml = " class=\"" + className + "\"";
-        }
-
-        String strStyle = BaseFunction.isBlank(style) ? "" : " style=\"" + style + "\" ";
-        String strTooltip = BaseFunction.isBlank(simpleField.getTooltip()) ? "" : " title=\"" + simpleField.getHtmlTooltip() + "\" ";
         String strRequired = simpleField instanceof InputField && ((InputField<?>) simpleField).isRequired() ? "*" : "";
 
-        String result = "";
-        result += "<label for=\"" + simpleField.getName() + "\" " + classHtml + strStyle + strTooltip + ">" + simpleField.getHtmlDescription() + strRequired + ":&nbsp;</label>";
-
-        return result;
+        return new StringBuilder()
+                .append("<label")
+                .append(getAttribute("for", simpleField.getName()))
+                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.LABEL_CLASS))
+                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(className), style))
+                .append(getAttribute("data-toggle=\"tooltip\" data-placement=\"bottom\" title", !BaseFunction.isBlank(simpleField.getTooltip()), simpleField.getTooltip()))
+                .append(">" + simpleField.getHtmlDescription() + strRequired + ":&nbsp;</label>")
+                .toString();
     }
 
     /**
@@ -119,10 +112,10 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 .append(getAttribute("id", text.getName()))
                 .append(getAttribute("name", text.getName()))
                 .append(getAttribute("type", "text"))
-                .append(getAttribute("value", text.escapeHtmlText()))
-                .append(getAttribute("class", !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
-                .append(getAttribute("style", !BaseFunction.isBlank(style), style))
-                .append(getAttribute("disabled", ""))
+                .append(getAttribute(ATTR_VALUE, text.escapeHtmlText()))
+                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
+                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style))
+                .append(getAttribute(ATTR_DISABLED, ""))
                 .append(getAttribute("data-toggle=\"tooltip\" data-placement=\"bottom\" title", !BaseFunction.isBlank(text.getTooltip()), text.getTooltip()))
                 .append("/>");
 
@@ -155,10 +148,10 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 .append("<input")
                 .append(getAttribute("id", decodedText.getName()))
                 .append(getAttribute("name", decodedText.getName()))
-                .append(getAttribute("value", decodedText.getHtmlDecodedText()))
-                .append(getAttribute("class", !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
-                .append(getAttribute("style", !BaseFunction.isBlank(style), style))
-                .append(getAttribute("disabled", ""))
+                .append(getAttribute(ATTR_VALUE, decodedText.getHtmlDecodedText()))
+                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
+                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style))
+                .append(getAttribute(ATTR_DISABLED, ""))
                 .append("/>");
 
         // Gestione link
@@ -189,7 +182,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 .append(getAttribute("id", input.getName()))
                 .append(getAttribute("name", input.getName()))
                 .append(getAttribute("type", "hidden"))
-                .append(getAttribute("value", input.escapeHtmlText()))
+                .append(getAttribute(ATTR_VALUE, input.escapeHtmlText()))
                 .append("/>")
                 .toString();
     }
@@ -220,18 +213,18 @@ public class FormControlWriter extends AbstractHtmlWriter {
         if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
             field
                     .append(getAttribute("type", "text"))
-                    .append(getAttribute("value", input.escapeHtmlText()))
-                    .append(getAttribute("class", !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
-                    .append(getAttribute("style", !BaseFunction.isBlank(style), style))
-                    .append(getAttribute("disabled", viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
+                    .append(getAttribute(ATTR_VALUE, input.escapeHtmlText()))
+                    .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
+                    .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style))
+                    .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
         } else {
             field
                     .append(getAttribute("type", input.getDataType().getHtmlType()))
-                    .append(getAttribute("value", input.escapeHtmlValue()))
+                    .append(getAttribute(ATTR_VALUE, input.escapeHtmlValue()))
                     .append(getAttribute("step", DataTypes.DATETIME == input.getDataType() || DataTypes.TIME == input.getDataType(), "1"))
-                    .append(getAttribute("class", !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
-                    .append(getAttribute("style", !BaseFunction.isBlank(style), style))
-                    .append(getAttribute("readonly", input.isReadOnly(), ""))
+                    .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
+                    .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style))
+                    .append(getAttribute(ATTR_READONLY, input.isReadOnly(), ""))
                     .append(getAttribute("maxlength", input.getMaxLength() > 0, "" + input.getMaxLength()));
         }
 
@@ -286,16 +279,16 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 .append("<input")
                 .append(getAttribute("id", autocomplete.getName()))
                 .append(getAttribute("name", autocomplete.getName()))
-                .append(getAttribute("value", autocomplete.getHtmlDecodedText()))
-                .append(getAttribute("class", !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS + " autoComplete"))
-                .append(getAttribute("style", !BaseFunction.isBlank(style), style));
+                .append(getAttribute(ATTR_VALUE, autocomplete.getHtmlDecodedText()))
+                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS + " autoComplete"))
+                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style));
 
         if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
-            input.append(getAttribute("disabled", viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
+            input.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
         } else {
             input
                     .append(getAttribute("fields", parentElement.getName()))
-                    .append(getAttribute("readonly", autocomplete.isReadOnly(), ""));
+                    .append(getAttribute(ATTR_READONLY, autocomplete.isReadOnly(), ""));
         }
 
         input.append("/>");
@@ -376,20 +369,19 @@ public class FormControlWriter extends AbstractHtmlWriter {
             return StringUtil.EMPTY;
         }
 
-        // String result;
         ViewModality viewModality = textArea.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : textArea.getViewModality();
         StringBuilder result = new StringBuilder()
                 .append("<textarea")
                 .append(getAttribute("id", textArea.getName()))
                 .append(getAttribute("name", textArea.getName()))
-                .append(getAttribute("class", !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
-                .append(getAttribute("style", !BaseFunction.isBlank(style), style));
+                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
+                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style));
 
         if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
-            result.append(getAttribute("disabled", viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
+            result.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
         } else {
             result
-                    .append(getAttribute("readonly", textArea.isReadOnly(), ""))
+                    .append(getAttribute(ATTR_READONLY, textArea.isReadOnly(), ""))
                     .append(getAttribute("maxlength", textArea.getMaxLength() > 0, "" + textArea.getMaxLength()));
 
         }
@@ -416,15 +408,14 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 .append("<select")
                 .append(getAttribute("id", comboBox.getName()))
                 .append(getAttribute("name", comboBox.getName()))
-                .append(getAttribute("value", comboBox.escapeHtmlValue()))
-                .append(getAttribute("class", !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
-                .append(getAttribute("style", !BaseFunction.isBlank(style), style));
+                .append(getAttribute(ATTR_VALUE, comboBox.escapeHtmlValue()))
+                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
+                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style));
 
         if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
-            result.append(getAttribute("disabled", viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
+            result.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
         } else {
-            result
-                    .append(getAttribute("readonly", comboBox.isReadOnly(), ""));
+            result.append(getAttribute(ATTR_READONLY, comboBox.isReadOnly(), ""));
         }
 
         result.append(">");
@@ -442,10 +433,12 @@ public class FormControlWriter extends AbstractHtmlWriter {
 
                 String valueHtml = Casting.getHtml(comboBox.getDataType().formatValue(value.getCode(), comboBox.getLocale(), comboBox.getFormat()), false, false);
                 String descriptionHtml = Casting.getHtml(value.getDescription());
-                if (value.getCode().equals(comboBox.getValue()))
-                    result.append("<option value=\"" + valueHtml + "\" selected=\"selected\">" + descriptionHtml + "</option>");
-                else
-                    result.append("<option value=\"" + valueHtml + "\">" + descriptionHtml + "</option>");
+
+                result.append("<option")
+                        .append(getAttribute(ATTR_VALUE, valueHtml))
+                        .append(getAttribute("selected", value.getCode().equals(comboBox.getValue()), "selected"))
+                        .append(getAttribute(ATTR_CLASS, !value.isValid(), "notValid"))
+                        .append(">" + descriptionHtml + "</option>");
             }
         }
 
@@ -468,29 +461,32 @@ public class FormControlWriter extends AbstractHtmlWriter {
         ViewModality viewModality = checkBox.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : checkBox.getViewModality();
         StringBuilder result = new StringBuilder()
                 .append("<div class=\"custom-control custom-checkbox\"><input")
-                .append(getAttribute("id", checkBox.getName()))
-                .append(getAttribute("name", checkBox.getName()))
+                .append(getAttribute(ATTR_ID, checkBox.getName()))
+                .append(getAttribute(ATTR_NAME, checkBox.getName()))
                 .append(getAttribute("type", "checkbox"))
-                .append(getAttribute("class", !BaseFunction.isBlank(className), className, BootStrapClass.CHECK_CLASS))
-                .append(getAttribute("style", !BaseFunction.isBlank(style), style))
-                .append(getAttribute("value", checkBox.getValChecked().toString()))
-                .append(getAttribute("checked", checkBox.getValChecked().toString().equalsIgnoreCase(checkBox.getData()), ""));
+                .append(getAttribute(ATTR_VALUE, checkBox.getValChecked().toString()))
+                .append(getAttribute(ATTR_READONLY, checkBox.isReadOnly(), ""))
+                .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""))
+                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.CHECK_CLASS))
+                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style))
+                .append(getAttribute("checked", checkBox.getValChecked().toString().equalsIgnoreCase(checkBox.getData()), ""))
+                .append("/>");
 
         if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
-            result.append(getAttribute("disabled", ""))
-                    .append("/><span")
-                    .append(getAttribute("class", "custom-control-label"))
-                    .append("></span></div>");
+            result.append("<div")
+                    .append(getAttribute(ATTR_CLASS, "custom-control-label"))
+                    .append("></div>");
         } else {
             result
-                    .append(getAttribute("readonly", checkBox.isReadOnly(), ""))
-                    .append("/><label")
-                    .append(getAttribute("class", "custom-control-label"))
+                    .append("<label")
+                    .append(getAttribute(ATTR_CLASS, "custom-control-label"))
                     .append(getAttribute("for", checkBox.getName()))
-                    .append("></label></div>");
+                    .append("></label>");
         }
 
-        return result.toString();
+        return result
+                .append("</div>")
+                .toString();
     }
 
     /**
@@ -498,48 +494,56 @@ public class FormControlWriter extends AbstractHtmlWriter {
      *
      * @param radioGroup
      * @param pageViewModality
-     * @param className
-     * @param style
      * @return
      */
-    public static String writeRadioGroup(RadioGroup<?> radioGroup, ViewModality pageViewModality, String className, String style) {
-        if (radioGroup.isHidden())
-            return "";
-
-        String result = "";
-        ViewModality viewModality = radioGroup.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : radioGroup.getViewModality();
-        if (viewModality == ViewModality.VIEW_MODIFICA) {
-
-            int i = 0;
-            DecodeMap<?, ?> decodeMap = radioGroup.getDecodeMap();
-            if (decodeMap != null) {
-                for (DecodeValue<?> value : decodeMap) {
-                    result += "<input type=\"radio\" ";
-                    result += " id=\"" + radioGroup.getName() + i + "\"";
-                    result += " name=\"" + radioGroup.getName() + "\"";
-                    result += " value=\"" + radioGroup.escapeHtmlValue() + "\"";
-
-                    if (className != null && !className.equals(""))
-                        result += " style=\"" + className + "\"";
-                    if (style != null && !style.equals(""))
-                        result += " style=\"" + style + "\"";
-                    else
-                        result += " style=\"width:20px\"";
-
-                    if (value.getCode() != null && value.getCode().equals(radioGroup.getValue()))
-                        result += " checked=\"checked\"";
-
-                    result += " />&nbsp;";
-                    result += "<label for=\"" + radioGroup.getName() + i + "\">" + Casting.getHtml(value.getDescription()) + "</label>";
-                    i++;
-                }
-            }
-        } else {
-            result = "<span>" + BaseFunction.nvl(radioGroup.getHtmlDecodedText(), "&nbsp;") + "</span>";
+    public static String writeRadioGroup(RadioGroup<?> radioGroup, ViewModality pageViewModality) throws FrameworkException {
+        if (radioGroup.isHidden()) {
+            return StringUtil.EMPTY;
         }
 
-        return result;
 
+        ViewModality viewModality = radioGroup.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : radioGroup.getViewModality();
+        StringBuilder result = new StringBuilder();
+
+        // Opzioni
+        int i = 0;
+        DecodeMap<?, ?> decodeMap = radioGroup.getDecodeMap();
+        if (decodeMap != null) {
+            for (DecodeValue<?> value : decodeMap) {
+                String htmlValue = Casting.getHtml(radioGroup.getDataType().formatValue(value.getCode(), radioGroup.getLocale(), radioGroup.getFormat()));
+
+                result
+                        .append(" <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n")
+                        .append("  <input")
+                        .append(getAttribute(ATTR_ID, radioGroup.getName() + i))
+                        .append(getAttribute(ATTR_NAME, radioGroup.getName()))
+                        .append(getAttribute("type", "radio"))
+                        .append(getAttribute(ATTR_VALUE, htmlValue))
+                        .append(getAttribute(ATTR_READONLY, radioGroup.isReadOnly(), ""))
+                        .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""))
+                        .append(getAttribute(ATTR_CHECKED, value.getCode() != null && value.getCode().equals(radioGroup.getValue()), ""))
+                        .append(getAttribute(ATTR_CLASS, "custom-control-input"))
+                        .append(">");
+
+                if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+                    result.append("<div class=\"custom-control-label\">")
+                            .append(Casting.getHtml(value.getDescription()))
+                            .append("</div>\n");
+                } else {
+                    result.append("<label class=\"custom-control-label\"")
+                            .append(getAttribute(ATTR_FOR, radioGroup.getName() + i))
+                            .append(">")
+                            .append(Casting.getHtml(value.getDescription()))
+                            .append("</label>\n");
+                }
+
+                result.append(" </div>\n");
+
+                i++;
+            }
+        }
+
+        return result.toString();
     }
 
     /**
@@ -547,11 +551,9 @@ public class FormControlWriter extends AbstractHtmlWriter {
      *
      * @param semaforo
      * @param pageViewModality
-     * @param className
-     * @param style
      * @return
      */
-    public static String writeSemaforo(Semaphore semaforo, ViewModality pageViewModality, String className, String style) {
+    public static String writeSemaforo(Semaphore semaforo, ViewModality pageViewModality) {
         if (semaforo.isHidden())
             return "";
 
@@ -565,15 +567,13 @@ public class FormControlWriter extends AbstractHtmlWriter {
     }
 
     /**
-     * Stcrive un campo di input di tipo File
+     * Scrive un campo di input di tipo File
      *
      * @param file
      * @param pageViewModality
-     * @param className
-     * @param style
      * @return
      */
-    public static String writeFile(File file, ViewModality pageViewModality, String className, String style) {
+    public static String writeFile(File file, ViewModality pageViewModality) {
         if (file.isHidden()) {
             return StringUtil.EMPTY;
         }
@@ -603,29 +603,27 @@ public class FormControlWriter extends AbstractHtmlWriter {
     /**
      * Scrive un campo: Link
      *
-     * @param button
+     * @param link
      * @param className
      * @param style
      * @return
      */
-    public static String writeLink(Link button, String className, String style) {
-        if (button.isHidden()) {
+    public static String writeLink(Link link, String className, String style) {
+        if (link.isHidden()) {
             return StringUtil.EMPTY;
         }
 
         StringBuilder result = new StringBuilder()
                 .append("<a")
-                .append(getAttribute("href", !BaseFunction.isBlank(button.getHref()), button.getHref()))
-                .append(getAttribute("target", !BaseFunction.isBlank(button.getTarget()), button.getTarget()))
-                .append(getAttribute("class", !BaseFunction.isBlank(className), className, MessageFormat.format(BootStrapClass.BUTTON_CLASS, button.getButtonType().value())))
-                .append(getAttribute("style", !BaseFunction.isBlank(style), style))
-                .append(getAttribute("disabled", button.isDisabled(), ""))
-                .append(getAttribute("data-toggle", !BaseFunction.isBlank(button.getTooltip()), "tooltip"))
-                .append(getAttribute("data-placement", !BaseFunction.isBlank(button.getTooltip()), "bottom"))
-                .append(getAttribute("title", !BaseFunction.isBlank(button.getTooltip()), button.getTooltip()))
+                .append(getAttribute("href", !BaseFunction.isBlank(link.getHref()), link.getHref()))
+                .append(getAttribute("target", !BaseFunction.isBlank(link.getTarget()), link.getTarget()))
+                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, MessageFormat.format(BootStrapClass.BUTTON_CLASS, link.getButtonType().value())))
+                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style))
+                .append(getAttribute(ATTR_DISABLED, link.isDisabled(), ""))
+                .append(getAttribute("data-toggle=\"tooltip\" data-placement=\"bottom\" title", !BaseFunction.isBlank(link.getTooltip()), link.getTooltip()))
                 .append("/>")
-                .append(BaseFunction.isBlank(button.getImgHtml()) ? "" : button.getImgHtml() + "&nbsp;&nbsp;")
-                .append(Casting.getHtml(button.getDescription()))
+                .append(BaseFunction.isBlank(link.getImgHtml()) ? "" : link.getImgHtml() + "&nbsp;&nbsp;")
+                .append(Casting.getHtml(link.getDescription()))
                 .append("</a>");
 
         return result.toString();
@@ -648,9 +646,9 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 .append("<button")
                 .append(getAttribute("id", button.getHtlmName()))
                 .append(getAttribute("name", button.getHtlmName()))
-                .append(getAttribute("class", !BaseFunction.isBlank(className), className, MessageFormat.format(BootStrapClass.BUTTON_CLASS, button.getButtonType().value())))
-                .append(getAttribute("style", !BaseFunction.isBlank(style), style))
-                .append(getAttribute("disabled", button.isDisabled(), ""))
+                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, MessageFormat.format(BootStrapClass.BUTTON_CLASS, button.getButtonType().value())))
+                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style))
+                .append(getAttribute(ATTR_DISABLED, button.isDisabled(), ""))
                 .append(getAttribute("data-toggle", !BaseFunction.isBlank(button.getTooltip()), "tooltip"))
                 .append(getAttribute("data-placement", !BaseFunction.isBlank(button.getTooltip()), "bottom"))
                 .append(getAttribute("title", !BaseFunction.isBlank(button.getTooltip()), button.getTooltip()))

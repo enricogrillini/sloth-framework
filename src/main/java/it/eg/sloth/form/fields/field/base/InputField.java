@@ -9,6 +9,9 @@ import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
 import it.eg.sloth.framework.pageinfo.ViewModality;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Project: sloth-framework
@@ -25,59 +28,35 @@ import it.eg.sloth.framework.pageinfo.ViewModality;
  *
  * @author Enrico Grillini
  */
+@SuperBuilder
+@Getter
+@Setter
 public abstract class InputField<T> extends TextField<T> {
 
-    private boolean required;
-    private boolean readOnly;
-    private boolean hidden;
+    private Boolean required;
+    private Boolean readOnly;
+    private Boolean hidden;
     private ViewModality viewModality;
 
     public InputField(String name, String description, String tooltip, DataTypes dataType) {
-        this(name, name, description, tooltip, dataType, null);
-    }
-
-    public InputField(String name, String alias, String tooltip, String description, DataTypes dataType, String format) {
-        this(name, alias, description, tooltip, dataType, format, null, false, false, false, ViewModality.VIEW_AUTO);
-    }
-
-    public InputField(String name, String alias, String description, String tooltip, DataTypes dataType, String format, String baseLink, Boolean required, Boolean readOnly, Boolean hidden, ViewModality viewModality) {
-        super(name, alias, description, tooltip, dataType, format, baseLink);
-        this.required = required == null ? false : required;
-        this.readOnly = readOnly == null ? false : readOnly;
-        this.hidden = hidden == null ? false : hidden;
-        this.viewModality = viewModality;
+        super(name, description, dataType);
+        this.tooltip = tooltip;
     }
 
     public boolean isRequired() {
-        return required;
-    }
-
-    public void setRequired(boolean required) {
-        this.required = required;
+        return required != null && required;
     }
 
     public boolean isReadOnly() {
-        return readOnly;
-    }
-
-    public void setReadOnly(boolean readOnly) {
-        this.readOnly = readOnly;
-    }
-
-    public ViewModality getViewModality() {
-        return viewModality;
-    }
-
-    public void setViewModality(ViewModality viewModality) {
-        this.viewModality = viewModality;
+        return readOnly != null && readOnly;
     }
 
     public boolean isHidden() {
-        return hidden;
+        return hidden != null && hidden;
     }
 
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
+    public ViewModality getViewModality() {
+        return viewModality != null ? viewModality : ViewModality.VIEW_AUTO;
     }
 
     @Override
@@ -89,7 +68,7 @@ public abstract class InputField<T> extends TextField<T> {
 
         // Controllo l'obbligatorietà
         if (BaseFunction.isNull(getValue()) && isRequired()) {
-            return new BaseMessage(Level.WARN, "Il campo " + getDescription() + " à obbligatorio", null);
+            return new BaseMessage(Level.WARN, "Il campo " + getDescription() + " è obbligatorio", null);
         }
 
         return message;
@@ -117,12 +96,8 @@ public abstract class InputField<T> extends TextField<T> {
     }
 
     @Override
-    public void post(WebRequest webRequest) {
-        try {
-            post(webRequest.getString(getName()));
-        } catch (Exception e) {
-            throw new RuntimeException("Errore su postEscaped campo: " + getName(), e);
-        }
+    public void post(WebRequest webRequest) throws FrameworkException {
+        post(webRequest.getString(getName()));
     }
 
 }

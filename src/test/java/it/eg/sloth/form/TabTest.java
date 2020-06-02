@@ -1,6 +1,5 @@
 package it.eg.sloth.form;
 
-import it.eg.sloth.form.skipper.Skipper;
 import it.eg.sloth.form.tabsheet.Tab;
 import org.junit.Test;
 

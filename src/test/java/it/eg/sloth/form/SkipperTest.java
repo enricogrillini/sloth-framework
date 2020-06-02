@@ -1,7 +1,5 @@
 package it.eg.sloth.form;
 
-import it.eg.sloth.db.datasource.table.sort.SortingRules;
-import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.form.skipper.Skipper;
 import org.junit.Test;
 

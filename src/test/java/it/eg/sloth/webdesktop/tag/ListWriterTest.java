@@ -31,7 +31,6 @@ import it.eg.sloth.webdesktop.tag.form.list.writer.ListWriter;
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
- *
  */
 public class ListWriterTest {
 
@@ -49,7 +48,7 @@ public class ListWriterTest {
     public void init() {
         grid = new Grid<>("Prova");
         grid.setTitle("Titolo");
-        grid.addChild(new Text<String>("Ora", "Ora", null, DataTypes.STRING));
+        grid.addChild(new Text<String>("Ora", "Ora", DataTypes.STRING));
 
         DataTable<?> table = new Table();
         DataRow row = table.add();

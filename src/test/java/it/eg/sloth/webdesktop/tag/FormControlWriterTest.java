@@ -7,22 +7,11 @@ import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.Locale;
 
+import it.eg.sloth.form.fields.field.impl.*;
 import org.junit.Test;
 
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
 import it.eg.sloth.form.fields.Fields;
-import it.eg.sloth.form.fields.field.impl.AutoComplete;
-import it.eg.sloth.form.fields.field.impl.Button;
-import it.eg.sloth.form.fields.field.impl.CheckBox;
-import it.eg.sloth.form.fields.field.impl.ComboBox;
-import it.eg.sloth.form.fields.field.impl.DecodedText;
-import it.eg.sloth.form.fields.field.impl.File;
-import it.eg.sloth.form.fields.field.impl.Hidden;
-import it.eg.sloth.form.fields.field.impl.Input;
-import it.eg.sloth.form.fields.field.impl.InputTotalizer;
-import it.eg.sloth.form.fields.field.impl.Text;
-import it.eg.sloth.form.fields.field.impl.TextArea;
-import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -42,19 +31,20 @@ import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
- *
  */
 public class FormControlWriterTest {
+
+    private static final String LABEL = "<label for=\"{0}\" class=\"col-form-label float-right form-control-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{2}\">{1}{3}:&nbsp;</label>";
 
     private static final String BASE_AUTOCOMPLETE = "<input id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm autoComplete\"{2}{3}/>";
     private static final String LINK_AUTOCOMPLETE = "<div class=\"input-group input-group-sm\"><input id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm autoComplete\" disabled=\"\"/><div class=\"input-group-append\"><a href=\"{2}\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a></div></div>";
 
     private static final String BASE_BUTTON = "<button id=\"navigationprefix___button___name\" name=\"navigationprefix___button___name\" class=\"btn btn-outline-primary btn-sm\"/>description</button>";
 
-    private static final String BASE_CHECKBOX_VIS = "<div class=\"custom-control custom-checkbox\"><input id=\"name\" name=\"name\" type=\"checkbox\" class=\"custom-control-input\" value=\"S\" disabled=\"\"/><span class=\"custom-control-label\"></span></div>";
-    private static final String BASE_CHECKBOX_MOD = "<div class=\"custom-control custom-checkbox\"><input id=\"name\" name=\"name\" type=\"checkbox\" class=\"custom-control-input\" value=\"S\"{0}/><label class=\"custom-control-label\" for=\"name\"></label></div>";
+    private static final String BASE_CHECKBOX_VIS = "<div class=\"custom-control custom-checkbox\"><input id=\"name\" name=\"name\" type=\"checkbox\" value=\"S\" disabled=\"\" class=\"custom-control-input\"/><div class=\"custom-control-label\"></div></div>";
+    private static final String BASE_CHECKBOX_MOD = "<div class=\"custom-control custom-checkbox\"><input id=\"name\" name=\"name\" type=\"checkbox\" value=\"S\" class=\"custom-control-input\"{0}/><label class=\"custom-control-label\" for=\"name\"></label></div>";
 
-    private static final String BASE_COMBOBOX = "<select id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm\"{2}><option value=\"\"></option><option value=\"A\"{3}>Scelta A</option><option value=\" B\"> Scelta B</option></select>";
+    private static final String BASE_COMBOBOX = "<select id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm\"{2}><option value=\"\"></option><option value=\"A\"{3}>Scelta A</option><option value=\"B\" class=\"notValid\">Scelta B</option></select>";
 
     private static final String BASE_TEXT = "<input id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm\" disabled=\"\"/>";
 
@@ -65,7 +55,38 @@ public class FormControlWriterTest {
 
     private static final String BASE_INPUT = "<input id=\"{0}\" name=\"{0}\" type=\"{1}\" value=\"{2}\"{3} class=\"form-control form-control-sm\"{4}{5}/>";
 
+    private static final String BASE_RADIOGROUP_VIS = " <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n" +
+            "  <input id=\"name0\" name=\"name\" type=\"radio\" value=\"S\" disabled=\"\" checked=\"\" class=\"custom-control-input\"><div class=\"custom-control-label\">S&igrave;</div>\n" +
+            " </div>\n" +
+            " <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n" +
+            "  <input id=\"name1\" name=\"name\" type=\"radio\" value=\"N\" disabled=\"\" class=\"custom-control-input\"><div class=\"custom-control-label\">No</div>\n" +
+            " </div>\n" +
+            " <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n" +
+            "  <input id=\"name2\" name=\"name\" type=\"radio\" value=\"T\" disabled=\"\" class=\"custom-control-input\"><div class=\"custom-control-label\">Tutti</div>\n" +
+            " </div>\n";
+
+    private static final String BASE_RADIOGROUP_MOD = " <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n" +
+            "  <input id=\"name0\" name=\"name\" type=\"radio\" value=\"S\" checked=\"\" class=\"custom-control-input\"><label class=\"custom-control-label\" for=\"name0\">S&igrave;</label>\n" +
+            " </div>\n" +
+            " <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n" +
+            "  <input id=\"name1\" name=\"name\" type=\"radio\" value=\"N\" class=\"custom-control-input\"><label class=\"custom-control-label\" for=\"name1\">No</label>\n" +
+            " </div>\n" +
+            " <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n" +
+            "  <input id=\"name2\" name=\"name\" type=\"radio\" value=\"T\" class=\"custom-control-input\"><label class=\"custom-control-label\" for=\"name2\">Tutti</label>\n" +
+            " </div>\n";
+
+
     private static final String BASE_TEXTAREA = "<textarea id=\"{0}\" name=\"{0}\" class=\"" + BootStrapClass.CONTROL_CLASS + "\"{1}>{2}</textarea>";
+
+    @Test
+    public void labelTest() throws FrameworkException {
+        Input<String> field = new Input<String>("name", "description", "tooltip", DataTypes.STRING);
+        assertEquals(MessageFormat.format(LABEL, "name", "description", "tooltip", ""), FormControlWriter.writeLabel(field, null, null));
+
+        field.setRequired(true);
+        assertEquals(MessageFormat.format(LABEL, "name", "description", "tooltip", "*"), FormControlWriter.writeLabel(field, null, null));
+    }
+
 
     @Test
     public void autoCompleteTest() throws FrameworkException {
@@ -80,7 +101,7 @@ public class FormControlWriterTest {
         assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "Scelta A", " fields=\"master\"", ""), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW_MODIFICA, null, null));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "Scelta A", " fields=\"master\"", ""), FormControlWriter.writeControl(autocomplete, fields, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "Scelta A", " fields=\"master\"", ""), FormControlWriter.writeControl(autocomplete, fields, ViewModality.VIEW_MODIFICA, null, null));
 
         // Link
         autocomplete.setBaseLink("destPage.html?name=");
@@ -93,7 +114,7 @@ public class FormControlWriterTest {
         assertEquals(BASE_BUTTON, FormControlWriter.writeButton(field, null, null));
 
         // Controllo generico
-        assertEquals(BASE_BUTTON, FormControlWriter.writeControl(field, null, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(BASE_BUTTON, FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
     }
 
     @Test
@@ -108,13 +129,16 @@ public class FormControlWriterTest {
         assertEquals(MessageFormat.format(BASE_CHECKBOX_MOD, ""), FormControlWriter.writeCheckBox(field, ViewModality.VIEW_MODIFICA, null, null));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_CHECKBOX_MOD, ""), FormControlWriter.writeControl(field, null, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(MessageFormat.format(BASE_CHECKBOX_MOD, ""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
     }
 
     @Test
     public void comboBoxTest() throws FrameworkException {
+        StringDecodeMap stringDecodeMap = new StringDecodeMap("A,Scelta A; B, Scelta B");
+        stringDecodeMap.get("B").setValid(false);
+
         ComboBox<String> field = new ComboBox<String>("name", "description", "tooltip", DataTypes.STRING);
-        field.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
+        field.setDecodeMap(stringDecodeMap);
 
         assertEquals(MessageFormat.format(BASE_COMBOBOX, "name", "", " disabled=\"\"", ""), FormControlWriter.writeComboBox(field, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
 
@@ -122,7 +146,7 @@ public class FormControlWriterTest {
         assertEquals(MessageFormat.format(BASE_COMBOBOX, "name", "A", "", " selected=\"selected\""), FormControlWriter.writeComboBox(field, ViewModality.VIEW_MODIFICA, null, null));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_COMBOBOX, "name", "A", "", " selected=\"selected\""), FormControlWriter.writeControl(field, null, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(MessageFormat.format(BASE_COMBOBOX, "name", "A", "", " selected=\"selected\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
     }
 
     @Test
@@ -136,19 +160,20 @@ public class FormControlWriterTest {
         assertEquals(MessageFormat.format(BASE_TEXT, "name", "Scelta A"), FormControlWriter.writeDecodedText(field, null, null));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_TEXT, "name", "Scelta A"), FormControlWriter.writeControl(field, null, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(MessageFormat.format(BASE_TEXT, "name", "Scelta A"), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
     }
 
     @Test
     public void fileTest() throws FrameworkException {
-        File field = new File("name", "description", "tooltip");
+        File field = new File("name", "description");
+        field.setTooltip("tooltip");
 
-        assertEquals(MessageFormat.format(BASE_FILE_VIEW, "name", "text", "", "", " disabled=\"\""), FormControlWriter.writeFile(field, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
-        assertEquals(MessageFormat.format(BASE_FILE_MODIFY, "name", " data-placement=\"bottom\" title=\"tooltip\" class=\"custom-file-input\""), FormControlWriter.writeFile(field, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(MessageFormat.format(BASE_FILE_VIEW, "name", "text", "", "", " disabled=\"\""), FormControlWriter.writeFile(field, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(MessageFormat.format(BASE_FILE_MODIFY, "name", " data-placement=\"bottom\" title=\"tooltip\" class=\"custom-file-input\""), FormControlWriter.writeFile(field, ViewModality.VIEW_MODIFICA));
 
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_FILE_MODIFY, "name", " data-placement=\"bottom\" title=\"tooltip\" class=\"custom-file-input\""), FormControlWriter.writeControl(field, null, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(MessageFormat.format(BASE_FILE_MODIFY, "name", " data-placement=\"bottom\" title=\"tooltip\" class=\"custom-file-input\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
     }
 
     @Test
@@ -161,7 +186,7 @@ public class FormControlWriterTest {
         assertEquals(MessageFormat.format(BASE_HIDDEN, "name", "testo"), FormControlWriter.writeHidden(field));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_HIDDEN, "name", "testo"), FormControlWriter.writeControl(field, null, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(MessageFormat.format(BASE_HIDDEN, "name", "testo"), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
     }
 
 
@@ -176,7 +201,7 @@ public class FormControlWriterTest {
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "testo", "", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_MODIFICA, null, null));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "testo", "", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "testo", "", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
     }
 
     /**
@@ -196,7 +221,7 @@ public class FormControlWriterTest {
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "date", "2020-01-01", "", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_MODIFICA, null, null));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "date", "2020-01-01", "", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(MessageFormat.format(BASE_INPUT, "name", "date", "2020-01-01", "", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
     }
 
     /**
@@ -216,7 +241,7 @@ public class FormControlWriterTest {
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "datetime-local", "2020-01-01T10:11:12", " step=\"1\"", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_MODIFICA, null, null));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "datetime-local", "2020-01-01T10:11:12", " step=\"1\"", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(MessageFormat.format(BASE_INPUT, "name", "datetime-local", "2020-01-01T10:11:12", " step=\"1\"", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
     }
 
     @Test
@@ -230,19 +255,38 @@ public class FormControlWriterTest {
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "number", "10", "", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_MODIFICA, null, null));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "number", "10", "", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(MessageFormat.format(BASE_INPUT, "name", "number", "10", "", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
+    }
+
+    @Test
+    public void radioGroupTest() throws FrameworkException {
+        RadioGroup<String> field = new RadioGroup<String>("name", "description", "tooltip", DataTypes.STRING);
+        field.setDecodeMap(StringDecodeMap.SI_NO_TUTTI);
+        field.setValue("S");
+
+        assertEquals(BASE_RADIOGROUP_VIS, FormControlWriter.writeRadioGroup(field, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(MessageFormat.format(BASE_RADIOGROUP_MOD, " checked=\"\""), FormControlWriter.writeRadioGroup(field, ViewModality.VIEW_MODIFICA));
+
+        // Controllo generico
+        assertEquals(MessageFormat.format(BASE_RADIOGROUP_MOD, ""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
     }
 
     @Test
     public void textTest() throws FrameworkException {
-        Text<String> field = new Text<String>("name", "description", "tooltip", DataTypes.STRING);
+        Text<String> field = Text.<String>builder()
+                .name("name")
+                .description("description")
+                .dataType(DataTypes.STRING)
+                .tooltip("tooltip")
+                .build();
+
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeText(field, null, null));
 
         field.setValue("testo");
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "testo", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeText(field, null, null));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "testo", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "testo", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
     }
 
     @Test
@@ -255,19 +299,26 @@ public class FormControlWriterTest {
         assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", "", "testo"), FormControlWriter.writeTextArea(field, ViewModality.VIEW_MODIFICA, null, null));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", "", "testo"), FormControlWriter.writeControl(field, null, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", "", "testo"), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
     }
 
     @Test
     public void textTotalizerTest() throws FrameworkException {
-        TextTotalizer field = new TextTotalizer("name", "description", "tooltip", DataTypes.INTEGER);
+        TextTotalizer field = TextTotalizer.builder()
+                .name("name")
+                .description("description")
+                .dataType(DataTypes.INTEGER)
+                .tooltip("tooltip")
+                .build();
+
+        // TextTotalizer field = new TextTotalizer("name", "description",  DataTypes.INTEGER);
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeTextTotalizer(field, null, null));
 
         field.setValue(BigDecimal.valueOf(10));
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "10", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeTextTotalizer(field, null, null));
 
         // Generico controllo
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "10", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "10", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
     }
 
 }

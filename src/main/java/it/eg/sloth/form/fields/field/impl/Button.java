@@ -5,7 +5,6 @@ import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.jaxb.form.ButtonType;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -46,10 +45,17 @@ public class Button implements SimpleField {
 
     boolean pressed;
 
+    public Button(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    @Override
     public String getName() {
         return name.toLowerCase();
     }
 
+    @Override
     public Locale getLocale() {
         return this.locale == null ? Locale.getDefault() : this.locale;
     }
@@ -64,11 +70,6 @@ public class Button implements SimpleField {
 
     public ButtonType getButtonType() {
         return buttonType == null ? ButtonType.BTN_OUTLINE_PRIMARY : buttonType;
-    }
-
-    public Button(String name, String description) {
-        this.name = name;
-        this.description = description;
     }
 
     @Override

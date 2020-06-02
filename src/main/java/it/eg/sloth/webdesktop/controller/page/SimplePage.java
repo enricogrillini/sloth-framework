@@ -109,27 +109,13 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
             for (DecodeValue<?> decodeValue : decodeMap.performSearch(query, MapSearchType.MATCH, 10)) {
                 SimpleSuggestion simpleSuggestion = new SimpleSuggestion();
                 simpleSuggestion.setValue(decodeValue.getDescription());
+                simpleSuggestion.setValid(decodeValue.isValid());
 
                 list.getSuggestions().add(simpleSuggestion);
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("value", decodeValue.getDescription());
-//        jsonObject.put("valid", decodeValue.isValid());
-//        rowsJsonArray.put(jsonObject);
             }
 
             ObjectMapper mapper = new ObjectMapper();
             String jsonString = mapper.writeValueAsString(list);
-
-            log.info(jsonString);
-
-            // SUgg
-            // JSONArray rowsJsonArray = new JSONArray();
-            // for (DecodeValue<?> decodeValue : decodeMap.performSearch(getWebRequest().getString("term"), MapSearchType.match, 10)) {
-            // JSONObject jsonObject = new JSONObject();
-            // jsonObject.put("value", decodeValue.getDescription());
-            // jsonObject.put("valid", decodeValue.isValid());
-            // rowsJsonArray.put(jsonObject);
-            // }
 
             clearModelAndView();
             try {

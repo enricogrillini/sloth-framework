@@ -4,8 +4,6 @@ import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import org.apache.commons.text.StringEscapeUtils;
 
-import java.text.ParseException;
-
 /**
  * @author Enrico Grillini
  * <p>s
@@ -13,58 +11,11 @@ import java.text.ParseException;
  */
 public class Casting {
 
-    private static final String MAIL_ADDRESS = "^[-_a-z0-9\\'+*$^&%=~!?{}]++(?:\\.[-_a-z0-9\\'+*$^&%=~!?{}]+)*+@(?:(?![-.])[-a-z0-9.]+(?<![-.])\\.[a-z]{2,6}|\\d{1,3}(?:\\.\\d{1,3}){3})(?::\\d++)?$";
-
-    /**
-     * Verifica la mail passata
-     *
-     * @param string
-     * @return
-     * @throws ParseException
-     */
-    public static String parseMail(String string) {
-        if (BaseFunction.isBlank(string))
-            return null;
-        else if (string.matches(MAIL_ADDRESS))
-            return string;
-        else
-            throw new RuntimeException(string);
+    private Casting () {
+        // NOP
     }
 
-    public static String parsePIVA(String string) {
-        int i;
-        int c;
-        int s;
-        if (BaseFunction.isBlank(string)) {
-            return null;
-        }
 
-        if (string.length() != 11) {
-            throw new RuntimeException("La lunghezza della partita IVA non e' corretta.\n");
-        }
-        for (i = 0; i < 11; i++) {
-            if (string.charAt(i) < '0' || string.charAt(i) > '9') {
-                throw new RuntimeException("La partita IVA contiene dei caratteri non ammessi.\n");
-            }
-        }
-        s = 0;
-        for (i = 0; i <= 9; i += 2) {
-            s += string.charAt(i) - '0';
-        }
-
-        for (i = 1; i <= 9; i += 2) {
-            c = 2 * (string.charAt(i) - '0');
-            if (c > 9)
-                c = c - 9;
-            s += c;
-        }
-
-        if ((10 - s % 10) % 10 != string.charAt(10) - '0') {
-            throw new RuntimeException("Il codice di controllo non corrisponde.");
-        }
-
-        return string;
-    }
 
     public static String parseCodiceFiscale(String cf) {
         int i;
@@ -144,7 +95,7 @@ public class Casting {
         }
 
         if (nbsp) {
-            result = result.replaceAll("  ", "&nbsp; ");
+            result = result.replace("  ", "&nbsp; ");
         }
 
         return result;

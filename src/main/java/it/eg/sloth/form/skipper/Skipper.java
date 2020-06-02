@@ -27,7 +27,7 @@ public class Skipper implements Element {
 
     String name;
     Locale locale;
-    private boolean skipBody;
+    boolean skipBody;
 
     public Skipper(String name, Boolean skipBody) {
         this.name = name.toLowerCase();

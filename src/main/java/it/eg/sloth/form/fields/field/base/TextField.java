@@ -36,37 +36,38 @@ import java.util.Locale;
 @SuperBuilder
 public abstract class TextField<T extends Object> implements DataField<T> {
 
+    // Contiente il valore informativo come stringa
+    String data;
+
     String name;
     Locale locale;
     String description;
     String tooltip;
 
-    // Contiente il valore informativo come stringa
-    private String data;
+    String alias;
+    DataTypes dataType;
+    String format;
+    String baseLink;
 
-    private String alias;
-    private DataTypes dataType;
-    private String format;
-    private String baseLink;
-
-    public TextField(String name, String description, String tooltip, DataTypes dataType) {
-        this(name, name, description, tooltip, dataType, null, null);
+    public TextField(String name, String description, DataTypes dataType) {
+        this.name = name;
+        this.description = description;
+        this.dataType = dataType;
     }
 
-    public TextField(String name, String alias, String description, String tooltip, DataTypes dataType, String format, String baseLink) {
-        this.name = name.toLowerCase();
-        this.locale = Locale.getDefault();
-        this.description = description;
-        this.tooltip = tooltip;
-        this.alias = alias;
-        this.dataType = dataType;
-        this.format = format;
-        this.baseLink = baseLink;
+    @Override
+    public String getName() {
+        return name.toLowerCase();
+    }
+
+    @Override
+    public Locale getLocale() {
+        return this.locale == null ? Locale.getDefault() : this.locale;
     }
 
     @Override
     public String getAlias() {
-        return BaseFunction.isBlank(alias) ? getName() : alias;
+        return BaseFunction.isBlank(alias) ? getName() : alias.toLowerCase();
     }
 
     @Override
@@ -141,7 +142,7 @@ public abstract class TextField<T extends Object> implements DataField<T> {
 
 
     @Override
-    public void post(WebRequest webRequest) {
+    public void post(WebRequest webRequest) throws FrameworkException {
         // Il campo è presentato in sola visualizzazione e non è modificabile dal Browser
     }
 

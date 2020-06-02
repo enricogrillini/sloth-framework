@@ -58,7 +58,6 @@ public final class CacheTimeSingleton {
      *
      * @param name
      * @param value
-     * @param duration
      */
     public void put(String name, Object value, Timestamp exptirationDate) {
         synchronized (CacheTimeSingleton.class) {

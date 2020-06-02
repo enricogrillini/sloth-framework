@@ -45,7 +45,7 @@ public enum DataTypes {
     STRING(HtmlInput.TYPE_STRING, Localization.PROP_STRING, Localization.ERR_PROP_STRING),
     MD(HtmlInput.TYPE_MD, Localization.PROP_MD, Localization.ERR_PROP_MD),
     MAIL(HtmlInput.TYPE_MAIL, Localization.PROP_MAIL, Localization.ERR_PROP_MAIL),
-    PIVA(HtmlInput.TYPE_PIVA, Localization.PROP_PIVA, Localization.ERR_PROP_PIVA),
+    PARTITA_IVA(HtmlInput.TYPE_PARTITA_IVA, Localization.PROP_PARTITA_IVA, Localization.ERR_PROP_PARTITA_IVA),
     CODICE_FISCALE(HtmlInput.TYPE_CODICE_FISCALE, Localization.PROP_CODICE_FISCALE, Localization.ERR_PROP_CODICE_FISCALE),
     URL(HtmlInput.TYPE_URL, Localization.PROP_URL, Localization.ERR_PROP_URL),
     PASSWORD(HtmlInput.TYPE_PASSWORD, Localization.PROP_PASS, Localization.ERR_PROP_PASS);
@@ -129,6 +129,15 @@ public enum DataTypes {
                 } catch (FrameworkException e) {
                     return BigDecimalUtil.parseBigDecimal(value, valueBundle.getString(NUMBER.formatProperties), decimalFormatSymbols);
                 }
+                
+            case MAIL:
+                return StringUtil.parseMail(value);
+
+            case CODICE_FISCALE:
+                return value;
+
+            case PARTITA_IVA:
+                return StringUtil.parsePartitaIva(value);
 
             default:
                 return value;
