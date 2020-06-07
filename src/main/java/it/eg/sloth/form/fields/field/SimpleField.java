@@ -45,7 +45,6 @@ public interface SimpleField extends Element, Cloneable {
         return Casting.getJs(getDescription());
     }
 
-
     /**
      * Ritorna il tooltip
      *

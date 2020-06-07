@@ -8,6 +8,7 @@ import java.text.MessageFormat;
 import java.util.Locale;
 
 import it.eg.sloth.form.fields.field.impl.*;
+import it.eg.sloth.framework.common.base.StringUtil;
 import org.junit.Test;
 
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
@@ -54,6 +55,8 @@ public class FormControlWriterTest {
     private static final String BASE_HIDDEN = "<input id=\"{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>";
 
     private static final String BASE_INPUT = "<input id=\"{0}\" name=\"{0}\" type=\"{1}\" value=\"{2}\"{3} class=\"form-control form-control-sm\"{4}{5}/>";
+
+    private static final String BASE_LINK = "<a href=\"{1}\" class=\"btn btn-outline-primary btn-sm\"/>{0}</a>";
 
     private static final String BASE_RADIOGROUP_VIS = " <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n" +
             "  <input id=\"name0\" name=\"name\" type=\"radio\" value=\"S\" disabled=\"\" checked=\"\" class=\"custom-control-input\"><div class=\"custom-control-label\">S&igrave;</div>\n" +
@@ -110,26 +113,35 @@ public class FormControlWriterTest {
 
     @Test
     public void buttonTest() throws FrameworkException {
-        Button field = new Button("name", "description");
-        assertEquals(BASE_BUTTON, FormControlWriter.writeButton(field, null, null));
+        Button button = new Button("name", "description");
+        assertEquals(BASE_BUTTON, FormControlWriter.writeButton(button, null, null));
 
         // Controllo generico
-        assertEquals(BASE_BUTTON, FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(BASE_BUTTON, FormControlWriter.writeControl(button, null, ViewModality.VIEW_MODIFICA, null, null));
+
+        // Empty
+        button.setHidden(true);
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(button, null, ViewModality.VIEW_MODIFICA, null, null));
     }
 
     @Test
     public void checkBoxTest() throws FrameworkException {
-        CheckBox<String> field = new CheckBox<String>("name", "description", "tooltip", DataTypes.STRING);
-        assertEquals(BASE_CHECKBOX_VIS, FormControlWriter.writeCheckBox(field, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
+        CheckBox<String> checkBox = new CheckBox<String>("name", "description", "tooltip", DataTypes.STRING);
+        assertEquals(BASE_CHECKBOX_VIS, FormControlWriter.writeCheckBox(checkBox, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
 
-        field.setChecked();
-        assertEquals(MessageFormat.format(BASE_CHECKBOX_MOD, " checked=\"\""), FormControlWriter.writeCheckBox(field, ViewModality.VIEW_MODIFICA, null, null));
+        checkBox.setChecked();
+        assertEquals(MessageFormat.format(BASE_CHECKBOX_MOD, " checked=\"\""), FormControlWriter.writeCheckBox(checkBox, ViewModality.VIEW_MODIFICA, null, null));
 
-        field.setUnChecked();
-        assertEquals(MessageFormat.format(BASE_CHECKBOX_MOD, ""), FormControlWriter.writeCheckBox(field, ViewModality.VIEW_MODIFICA, null, null));
+        checkBox.setUnChecked();
+        assertEquals(MessageFormat.format(BASE_CHECKBOX_MOD, ""), FormControlWriter.writeCheckBox(checkBox, ViewModality.VIEW_MODIFICA, null, null));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_CHECKBOX_MOD, ""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(MessageFormat.format(BASE_CHECKBOX_MOD, ""), FormControlWriter.writeControl(checkBox, null, ViewModality.VIEW_MODIFICA, null, null));
+
+        // Empty
+        checkBox.setHidden(true);
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(checkBox, null, ViewModality.VIEW_MODIFICA, null, null));
+
     }
 
     @Test
@@ -259,16 +271,33 @@ public class FormControlWriterTest {
     }
 
     @Test
-    public void radioGroupTest() throws FrameworkException {
-        RadioGroup<String> field = new RadioGroup<String>("name", "description", "tooltip", DataTypes.STRING);
-        field.setDecodeMap(StringDecodeMap.SI_NO_TUTTI);
-        field.setValue("S");
-
-        assertEquals(BASE_RADIOGROUP_VIS, FormControlWriter.writeRadioGroup(field, ViewModality.VIEW_VISUALIZZAZIONE));
-        assertEquals(MessageFormat.format(BASE_RADIOGROUP_MOD, " checked=\"\""), FormControlWriter.writeRadioGroup(field, ViewModality.VIEW_MODIFICA));
+    public void linkTest() throws FrameworkException {
+        Link link = new Link("name", "description", "www");
+        assertEquals(MessageFormat.format(BASE_LINK, "description", "www"), FormControlWriter.writeLink(link, null, null));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_RADIOGROUP_MOD, ""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(MessageFormat.format(BASE_LINK, "description", "www"), FormControlWriter.writeControl(link, null, ViewModality.VIEW_MODIFICA, null, null));
+
+        // Empty
+        link.setHidden(true);
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(link, null, ViewModality.VIEW_MODIFICA, null, null));
+    }
+
+    @Test
+    public void radioGroupTest() throws FrameworkException {
+        RadioGroup<String> radioGroup = new RadioGroup<String>("name", "description", "tooltip", DataTypes.STRING);
+        radioGroup.setDecodeMap(StringDecodeMap.SI_NO_TUTTI);
+        radioGroup.setValue("S");
+
+        assertEquals(BASE_RADIOGROUP_VIS, FormControlWriter.writeRadioGroup(radioGroup, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(MessageFormat.format(BASE_RADIOGROUP_MOD, " checked=\"\""), FormControlWriter.writeRadioGroup(radioGroup, ViewModality.VIEW_MODIFICA));
+
+        // Controllo generico
+        assertEquals(MessageFormat.format(BASE_RADIOGROUP_MOD, ""), FormControlWriter.writeControl(radioGroup, null, ViewModality.VIEW_MODIFICA, null, null));
+
+        // Empty
+        radioGroup.setHidden(true);
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(radioGroup, null, ViewModality.VIEW_MODIFICA, null, null));
     }
 
     @Test

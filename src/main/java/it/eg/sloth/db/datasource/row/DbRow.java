@@ -39,21 +39,48 @@ public abstract class DbRow extends TransactionalRow implements DbDataRow {
     }
 
     @Override
-    protected void copyFromResultSet(ResultSet resultSet, int i) throws SQLException, IOException {
+    public void copyFromResultSet(ResultSet resultSet) throws SQLException, IOException {
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 
-        switch (resultSetMetaData.getColumnType(i)) {
-            case Types.BLOB:
-                super.setObject(resultSetMetaData.getColumnName(i), new BLobData(isAutoloadLob(), resultSet.getBlob(i)));
-                break;
+        for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
+            switch (resultSetMetaData.getColumnType(i)) {
+                case Types.VARCHAR:
+                case Types.CHAR:
+                    setString(resultSetMetaData.getColumnName(i), resultSet.getString(i));
+                    break;
 
-            case Types.CLOB:
-                super.setObject(resultSetMetaData.getColumnName(i), new CLobData(isAutoloadLob(), resultSet.getClob(i)));
-                break;
+                case Types.BIT:
+                case Types.SMALLINT:
+                case Types.TINYINT:
+                case Types.INTEGER:
+                case Types.BIGINT:
+                case Types.FLOAT:
+                case Types.DECIMAL:
+                case Types.REAL:
+                case Types.DOUBLE:
+                case Types.NUMERIC:
+                    setBigDecimal(resultSetMetaData.getColumnName(i), resultSet.getBigDecimal(i));
+                    break;
 
-            default:
-                super.copyFromResultSet(resultSet, i);
-                break;
+                case Types.DATE:
+                case Types.TIME:
+                case Types.TIMESTAMP:
+                    setTimestamp(resultSetMetaData.getColumnName(i), resultSet.getTimestamp(i));
+                    break;
+
+                case Types.BLOB:
+                    super.setObject(resultSetMetaData.getColumnName(i), new BLobData(isAutoloadLob(), resultSet.getBlob(i)));
+                    break;
+
+                case Types.CLOB:
+                    super.setObject(resultSetMetaData.getColumnName(i), new CLobData(isAutoloadLob(), resultSet.getClob(i)));
+                    break;
+
+                default:
+                    // Types {} non gestito. Utilizzato default.
+                    setObject(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
+                    break;
+            }
         }
     }
 

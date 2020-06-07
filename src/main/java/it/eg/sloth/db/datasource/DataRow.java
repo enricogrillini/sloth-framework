@@ -24,37 +24,57 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
  */
 public interface DataRow extends DataSource {
 
-    /**
-     * Inizializza la row dalla query
-     *
-     * @param query
-     * @throws SQLException
-     */
-    void setFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException;
 
     /**
      * Inizializza la row dalla query
      *
      * @param query
      * @throws SQLException
+     * @throws IOException
+     * @throws FrameworkException
      */
-    void setFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException;
+    default void setFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
+        query.populateDataRow(this);
+    }
+
+    /**
+     * Inizializza la row dalla query
+     *
+     * @param query
+     * @param connection
+     * @throws SQLException
+     * @throws IOException
+     * @throws FrameworkException
+     */
+    default void setFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException {
+        query.populateDataRow(this, connection);
+    }
 
     /**
      * Carica la row dalla query
      *
      * @param query
+     * @return
      * @throws SQLException
+     * @throws IOException
+     * @throws FrameworkException
      */
-    boolean loadFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException;
+    default boolean loadFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
+        return query.populateDataRow(this);
+    }
 
     /**
      * Carica la row dalla query
      *
      * @param query
      * @param connection
+     * @return
      * @throws SQLException
+     * @throws IOException
+     * @throws FrameworkException
      */
-    boolean loadFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException;
+    default boolean loadFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException {
+        return query.populateDataRow(this, connection);
+    }
 
 }

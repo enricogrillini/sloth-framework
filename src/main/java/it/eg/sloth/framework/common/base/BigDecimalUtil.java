@@ -121,6 +121,23 @@ public class BigDecimalUtil {
      * @param bigDecimal2
      * @return
      */
+    public static final BigDecimal sum(BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
+        if (bigDecimal1 == null) {
+            return bigDecimal2;
+        } else if (bigDecimal2 == null) {
+            return bigDecimal1;
+        } else {
+            return bigDecimal1.add(bigDecimal2);
+        }
+    }
+
+    /**
+     * Moltiplica i due numeti passati gestendo i null
+     *
+     * @param bigDecimal1
+     * @param bigDecimal2
+     * @return
+     */
     public static final BigDecimal multiply(BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
         if (bigDecimal1 == null || bigDecimal2 == null) {
             return null;

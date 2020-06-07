@@ -134,7 +134,7 @@ public enum DataTypes {
                 return StringUtil.parseMail(value);
 
             case CODICE_FISCALE:
-                return value;
+                return StringUtil.parseCodiceFiscale(value);
 
             case PARTITA_IVA:
                 return StringUtil.parsePartitaIva(value);

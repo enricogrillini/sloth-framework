@@ -2,10 +2,7 @@ package it.eg.sloth.webdesktop.search.model.suggestion;
 
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.webdesktop.search.SearchRelevance;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * Project: sloth-framework
@@ -21,8 +18,7 @@ import lombok.Setter;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class SimpleSuggestion implements Comparable<SimpleSuggestion> {

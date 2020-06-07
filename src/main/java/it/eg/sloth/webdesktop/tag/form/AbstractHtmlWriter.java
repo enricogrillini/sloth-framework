@@ -21,17 +21,23 @@ import it.eg.sloth.framework.common.casting.Casting;
  */
 public abstract class AbstractHtmlWriter {
 
+    public static final String BEGIN_BUTTON = "<button";
+    public static final String BEGIN_INPUT = "<input";
+
+    public static final String CLOSE_DIV = "</div>";
+
     public static final String ATTR_ID = "id";
     public static final String ATTR_NAME = "name";
+    public static final String ATTR_TYPE = "type";
     public static final String ATTR_VALUE = "value";
     public static final String ATTR_FOR = "for";
 
     public static final String ATTR_CLASS = "class";
     public static final String ATTR_STYLE = "style";
     public static final String ATTR_READONLY = "readonly";
-    public static final String ATTR_DISABLED ="disabled";
-    public static final String ATTR_CHECKED ="checked";
-
+    public static final String ATTR_DISABLED = "disabled";
+    public static final String ATTR_CHECKED = "checked";
+    public static final String ATTR_TOOLTIP = "data-toggle=\"tooltip\" data-placement=\"bottom\" title";
 
 
     protected static String getElement(String element) {

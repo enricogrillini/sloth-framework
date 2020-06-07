@@ -113,20 +113,24 @@ public abstract class TransactionalTableAbstract<T extends TransactionalDataRow>
         return (byte[]) getOldObject(name);
     }
 
+    @Override
     public void setFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
         query.populateDataTable(this);
     }
 
+    @Override
     public void setFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException {
         query.populateDataTable(this, connection);
     }
 
+    @Override
     public boolean loadFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
         query.populateDataTable(this);
         forceClean();
         return true;
     }
 
+    @Override
     public boolean loadFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException {
         query.populateDataTable(this, connection);
         forceClean();

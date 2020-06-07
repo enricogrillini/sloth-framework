@@ -8,6 +8,7 @@ package it.eg.sloth.framework.utility.mail.mailcomposer.elements;
 public class BulletList {
 
   public BulletList() {
+    // NOP
   }
 
 }

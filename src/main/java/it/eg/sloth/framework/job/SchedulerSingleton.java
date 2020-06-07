@@ -128,6 +128,18 @@ public class SchedulerSingleton extends FrameComponent {
     public synchronized void runJob(JobKey jobKey) throws SchedulerException {
         scheduler.triggerJob(jobKey);
     }
+    
+    /**
+     * Esegue un Job parametrizzato
+     * 
+     * @param jobKey
+     * @param data
+     * @throws SchedulerException
+     */
+
+    public synchronized void runJob(JobKey jobKey, JobDataMap data) throws SchedulerException {
+        scheduler.triggerJob(jobKey, data);
+    }
 
     public List<JobExecutionContext> getCurrentlyExecutingJobs() throws SchedulerException {
         return scheduler.getCurrentlyExecutingJobs();

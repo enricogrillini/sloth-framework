@@ -38,23 +38,20 @@ public class CardWriter extends AbstractHtmlWriter {
         return new StringBuilder()
                 .append("  </div>\n")
                 .append(" </div>\n")
-                .append("</div>\n")
+                .append(CLOSE_DIV)
                 .toString();
     }
 
     public static final String fieldCardContent(TextField<?> field) {
         StringBuilder result = new StringBuilder()
-                .append("   <div class=\"col mr-2\">\n")
-                .append("    <div class=\"text-xs font-weight-bold text-primary text-uppercase mb-1\">" + field.getHtmlDescription() + "</div>\n")
+                .append("   <div class=\"col mr-2\"")
+                .append(getAttribute(ATTR_TOOLTIP, !BaseFunction.isBlank(field.getTooltip()), field.getTooltip()))
+                .append(">\n")
+                .append("    <div class=\"text-xs font-weight-bold text-primary text-uppercase mb-1\">" + field.getHtmlDescription() + CLOSE_DIV + "\n")
                 .append("    <div class=\"row no-gutters align-items-center\">\n")
                 .append("     <div class=\"col-auto\">\n")
-                .append("      <div class=\"h5 mb-0 mr-3 font-weight-bold text-gray-800\">" + field.escapeHtmlText() + "</div>\n")
+                .append("      <div class=\"h5 mb-0 mr-3 font-weight-bold text-gray-800\">" + field.escapeHtmlText() + CLOSE_DIV + "\n")
                 .append("     </div>\n")
-                .append("     <!--div class=\"col\">\n")
-                .append("      <div class=\"progress progress-sm mr-2\">\n")
-                .append("       <div class=\"progress-bar bg-info\" role=\"progressbar\" style=\"width: 50%\"></div>\n")
-                .append("      </div>\n")
-                .append("     </div-->\n")
                 .append("    </div>\n")
                 .append("   </div>\n");
 

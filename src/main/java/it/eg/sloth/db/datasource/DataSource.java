@@ -2,10 +2,8 @@ package it.eg.sloth.db.datasource;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Iterator;
+import java.sql.*;
+import java.util.Collection;
 
 /**
  * Project: sloth-framework
@@ -24,60 +22,123 @@ import java.util.Iterator;
  */
 public interface DataSource {
 
-   Object getObject(String name);
+    Object getObject(String name);
 
-   BigDecimal getBigDecimal(String name);
+    default BigDecimal getBigDecimal(String name) {
+        return (BigDecimal) getObject(name);
+    }
 
-   Timestamp getTimestamp(String name);
+    default Timestamp getTimestamp(String name) {
+        return (Timestamp) getObject(name);
+    }
 
-   String getString(String name);
+    default String getString(String name) {
+        return (String) getObject(name);
+    }
 
-   byte[] getByte(String name);
+    default byte[] getByte(String name) {
+        return (byte[]) getObject(name);
+    }
 
-   void setObject(String name, Object value);
+    void setObject(String name, Object value);
 
-   void setBigDecimal(String name, BigDecimal value);
+    default void setBigDecimal(String name, BigDecimal value) {
+        setObject(name, value);
+    }
 
-   void setTimestamp(String name, Timestamp value);
+    default void setTimestamp(String name, Timestamp value) {
+        setObject(name, value);
+    }
 
-   void setString(String name, String value);
+    default void setString(String name, String value) {
+        setObject(name, value);
+    }
 
-   void setByte(String name, byte[] value);
+    default void setByte(String name, byte[] value) {
+        setObject(name, value);
+    }
 
-   void clear();
+    void clear();
 
-   Iterator<String> keyIterator();
+    Collection<String> keys();
 
-   Iterator<Object> valueIterator();
+    Collection<Object> values();
 
-  /**
-   * Aggiorna il DataSource prelevando le informazioni dal DataSource passato
-   * 
-   * @param dataSource
-   */
-   void copyFromDataSource(DataSource dataSource);
+    /**
+     * Aggiorna il DataSource prelevando le informazioni dal DataSource passato
+     *
+     * @param dataSource
+     */
+    default void copyFromDataSource(DataSource dataSource) {
+        for (String key : dataSource.keys()) {
+            setObject(key, dataSource.getObject(key));
+        }
+    }
 
-  /**
-   * Aggiorna il DataSource prelevando le informazioni dal ResultSet passato
-   * 
-   * @param resultSet
-   * @throws SQLException
-   */
-   void copyFromResultSet(ResultSet resultSet) throws SQLException, IOException;
+    /**
+     * Aggiorna il DataSource prelevando le informazioni dal ResultSet passato
+     *
+     * @param resultSet
+     * @throws SQLException
+     */
+    default void copyFromResultSet(ResultSet resultSet) throws SQLException, IOException {
+        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 
-  /**
-   * Carica il DataSource prelevando le informazioni dal DataSource passato
-   * 
-   * @param dataSource
-   */
-   void loadFromDataSource(DataSource dataSource);
+        for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
+            switch (resultSetMetaData.getColumnType(i)) {
+                case Types.VARCHAR:
+                case Types.CHAR:
+                    setString(resultSetMetaData.getColumnName(i), resultSet.getString(i));
+                    break;
 
-  /**
-   * Carica il DataSource prelevando le informazioni dal ResultSet passato
-   * 
-   * @param resultSet
-   * @throws SQLException
-   */
-   void loadFromResultSet(ResultSet resultSet) throws SQLException, IOException;
+                case Types.BIT:
+                case Types.SMALLINT:
+                case Types.TINYINT:
+                case Types.INTEGER:
+                case Types.BIGINT:
+                case Types.FLOAT:
+                case Types.DECIMAL:
+                case Types.REAL:
+                case Types.DOUBLE:
+                case Types.NUMERIC:
+                    setBigDecimal(resultSetMetaData.getColumnName(i), resultSet.getBigDecimal(i));
+                    break;
+
+                case Types.DATE:
+                case Types.TIME:
+                case Types.TIMESTAMP:
+                    setTimestamp(resultSetMetaData.getColumnName(i), resultSet.getTimestamp(i));
+                    break;
+
+                default:
+                    // Types {} non gestito. Utilizzato default.
+                    setObject(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Carica il DataSource prelevando le informazioni dal ResultSet passato
+     *
+     * @param resultSet
+     * @throws SQLException
+     * @throws IOException
+     */
+    default void loadFromResultSet(ResultSet resultSet) throws SQLException, IOException {
+        clear();
+        copyFromResultSet(resultSet);
+    }
+
+    /**
+     * Carica il DataSource prelevando le informazioni dal DataSource passato
+     *
+     * @param dataSource
+     */
+    default void loadFromDataSource(DataSource dataSource) {
+        clear();
+        copyFromDataSource(dataSource);
+    }
+
 
 }

@@ -8,6 +8,8 @@ import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
 
+import java.io.IOException;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -29,7 +31,7 @@ public class TextMdTag extends BaseControlTag {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected void writeField() throws Throwable {
+    protected void writeField() throws IOException {
         if (getElement() instanceof DataField ) {
             DataField<?> field = (DataField<?>) getElement();
 

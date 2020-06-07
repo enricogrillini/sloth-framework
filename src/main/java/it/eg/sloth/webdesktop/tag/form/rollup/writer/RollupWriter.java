@@ -19,6 +19,11 @@ import it.eg.sloth.form.dwh.Measure;
  * @author Enrico Grillini
  */
 public class RollupWriter {
+
+    private RollupWriter() {
+        // NOP
+    }
+
     /**
      * Scrive un campo: Measure
      *

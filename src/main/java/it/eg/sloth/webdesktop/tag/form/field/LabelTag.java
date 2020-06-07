@@ -1,10 +1,11 @@
 package it.eg.sloth.webdesktop.tag.form.field;
 
-import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.webdesktop.tag.form.base.BaseControlTag;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.IOException;
 
 /**
  * Project: sloth-framework
@@ -30,8 +31,7 @@ public class LabelTag extends BaseControlTag {
     String style;
 
     @Override
-    protected void writeField() throws Throwable {
-        SimpleField element = getElement();
-        write(FormControlWriter.writeLabel(element, getClassname(), getStyle()));
+    protected void writeField() throws IOException {
+        write(FormControlWriter.writeLabel(getElement(), getClassname(), getStyle()));
     }
 }

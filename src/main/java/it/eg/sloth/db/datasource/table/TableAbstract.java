@@ -6,10 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataSource;
@@ -36,7 +33,7 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
  *
  * @author Enrico Grillini
  */
-public abstract class TableAbstract<T extends DataRow> extends FrameComponent implements DataTable<T>  {
+public abstract class TableAbstract<T extends DataRow> extends FrameComponent implements DataTable<T> {
 
     private SortingRules<T> sortingRules;
     protected List<T> rows;
@@ -330,13 +327,13 @@ public abstract class TableAbstract<T extends DataRow> extends FrameComponent im
     }
 
     @Override
-    public Iterator<String> keyIterator() {
-        return size() > 0 ? getRow().keyIterator() : null;
+    public Collection<String> keys() {
+        return size() > 0 ? getRow().keys() : new HashSet<>();
     }
 
     @Override
-    public Iterator<Object> valueIterator() {
-        return size() > 0 ? getRow().valueIterator() : null;
+    public Collection<Object> values() {
+        return size() > 0 ? getRow().values() : new ArrayList<>();
     }
 
     @Override

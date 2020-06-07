@@ -1,7 +1,10 @@
 package it.eg.sloth.webdesktop.tag.form.field;
 
 import it.eg.sloth.form.fields.field.SimpleField;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseContainerControlTag;
+
+import java.io.IOException;
 
 /**
  * Project: sloth-framework
@@ -19,9 +22,7 @@ import it.eg.sloth.webdesktop.tag.form.base.BaseContainerControlTag;
  */
 public class LblControlTag extends BaseContainerControlTag {
 
-    private static final long serialVersionUID = 1L;
-
-    protected void writeField() throws Throwable {
+    protected void writeField() throws IOException, FrameworkException {
         SimpleField field = getElement();
         writeLabelContainer(field);
         writeControlContainer(field);

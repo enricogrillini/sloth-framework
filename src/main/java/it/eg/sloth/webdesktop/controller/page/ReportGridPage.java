@@ -40,50 +40,67 @@ public abstract class ReportGridPage<F extends Form> extends SimplePage<F> imple
         }
 
         String[] navigation = getWebRequest().getNavigation();
-
         if (navigation.length == 1) {
-            if (NavigationConst.LOAD.equals(navigation[0])) {
-                onLoad();
-                return true;
-            } else if (NavigationConst.RESET.equals(navigation[0])) {
-                onReset();
-                return true;
+            switch (navigation[0]) {
+                case NavigationConst.LOAD:
+                    onLoad();
+                    return true;
+                case NavigationConst.RESET:
+                    onReset();
+                    return true;
+                default:
+                    // NOP
             }
         }
 
         if (navigation.length == 2) {
-            if (NavigationConst.FIRST_ROW.equals(navigation[0])) {
-                Grid<?> grid = (Grid<?>) getForm().getElement(navigation[1]);
-                onFirstRow(grid);
-                return true;
-            } else if (NavigationConst.PREV_PAGE.equals(navigation[0])) {
-                Grid<?> grid = (Grid<?>) getForm().getElement(navigation[1]);
-                onPrevPage(grid);
-                return true;
-            } else if (NavigationConst.NEXT_PAGE.equals(navigation[0])) {
-                Grid<?> grid = (Grid<?>) getForm().getElement(navigation[1]);
-                onNextPage(grid);
-                return true;
-            } else if (NavigationConst.LAST_ROW.equals(navigation[0])) {
-                Grid<?> grid = (Grid<?>) getForm().getElement(navigation[1]);
-                onLastRow(grid);
-                return true;
-            } else if (NavigationConst.EXCEL.equals(navigation[0])) {
-                Grid<?> grid = (Grid<?>) getForm().getElement(navigation[1]);
-                onExcel(grid);
-                return true;
+            Grid<?> grid;
+            switch (navigation[0]) {
+                case NavigationConst.FIRST_ROW:
+                    grid = (Grid<?>) getForm().getElement(navigation[1]);
+                    onFirstRow(grid);
+                    return true;
+
+                case NavigationConst.PREV_PAGE:
+                    grid = (Grid<?>) getForm().getElement(navigation[1]);
+                    onPrevPage(grid);
+                    return true;
+
+                case NavigationConst.NEXT_PAGE:
+                    grid = (Grid<?>) getForm().getElement(navigation[1]);
+                    onNextPage(grid);
+                    return true;
+
+                case NavigationConst.LAST_ROW:
+                    grid = (Grid<?>) getForm().getElement(navigation[1]);
+                    onLastRow(grid);
+                    return true;
+
+                case NavigationConst.EXCEL:
+                    grid = (Grid<?>) getForm().getElement(navigation[1]);
+                    onExcel(grid);
+                    return true;
+
+                default:
+                    // NOP
             }
         }
 
         if (navigation.length == 3) {
-            if (NavigationConst.SORT_ASC.equals(navigation[0])) {
-                Grid<?> grid = (Grid<?>) getForm().getElement(navigation[1]);
-                onSort(grid, navigation[2], SortingRule.SORT_ASC_NULLS_LAST);
-                return true;
-            } else if (NavigationConst.SORT_DESC.equals(navigation[0])) {
-                Grid<?> grid = (Grid<?>) getForm().getElement(navigation[1]);
-                onSort(grid, navigation[2], SortingRule.SORT_DESC_NULLS_LAST);
-                return true;
+            Grid<?> grid;
+            switch (navigation[0]) {
+                case NavigationConst.SORT_ASC:
+                    grid = (Grid<?>) getForm().getElement(navigation[1]);
+                    onSort(grid, navigation[2], SortingRule.SORT_ASC_NULLS_LAST);
+                    return true;
+
+                case NavigationConst.SORT_DESC:
+                    grid = (Grid<?>) getForm().getElement(navigation[1]);
+                    onSort(grid, navigation[2], SortingRule.SORT_DESC_NULLS_LAST);
+                    return true;
+
+                default:
+                    // NOP
             }
         }
 

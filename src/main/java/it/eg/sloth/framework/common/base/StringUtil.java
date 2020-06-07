@@ -404,6 +404,14 @@ public class StringUtil {
     }
 
 
+    public static String parseString(String string) {
+        if (BaseFunction.isBlank(string)) {
+            return null;
+        } else {
+            return string;
+        }
+    }
+
     /**
      * Verifica la mail passata
      *
@@ -413,7 +421,7 @@ public class StringUtil {
      */
     public static String parseMail(String mail) throws FrameworkException {
         if (BaseFunction.isBlank(mail)) {
-            return EMPTY;
+            return null;
         } else if (mail.matches(MAIL_ADDRESS)) {
             return mail;
         } else {
@@ -421,9 +429,63 @@ public class StringUtil {
         }
     }
 
+    /**
+     * Valida un codice fiscale
+     *
+     * @param codiceFiscale
+     * @return
+     * @throws FrameworkException
+     */
+    public static String parseCodiceFiscale(String codiceFiscale) throws FrameworkException {
+        if (BaseFunction.isBlank(codiceFiscale)) {
+            return null;
+        }
+
+        // Normalizzo il codice fiscale
+        codiceFiscale = codiceFiscale.replaceAll("[ \t\r\n]", "");
+        codiceFiscale = codiceFiscale.toUpperCase();
+
+        if (codiceFiscale.length() != 16) {
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Lunghezza codice fiscale errata");
+        }
+
+        if (!codiceFiscale.matches("^[0-9A-Z]{16}$")) {
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Trovati caratteri non validi");
+        }
+
+        int s = 0;
+        String evenMap = "BAFHJNPRTVCESULDGIMOQKWZYX";
+        for (int i = 0; i < 15; i++) {
+            int c = codiceFiscale.charAt(i);
+            int n;
+            if ('0' <= c && c <= '9') {
+                n = c - '0';
+            } else {
+                n = c - 'A';
+            }
+
+            if ((i & 1) == 0) {
+                n = evenMap.charAt(n) - 'A';
+            }
+
+            s += n;
+        }
+        if (s % 26 + 'A' != codiceFiscale.charAt(15))
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Codice di controllo non valido");
+
+        return codiceFiscale;
+    }
+
+    /**
+     * Valida una partita iva
+     *
+     * @param partitaIva
+     * @return
+     * @throws FrameworkException
+     */
     public static String parsePartitaIva(String partitaIva) throws FrameworkException {
         if (BaseFunction.isBlank(partitaIva)) {
-            return EMPTY;
+            return null;
         }
 
         // Elimino spaszi

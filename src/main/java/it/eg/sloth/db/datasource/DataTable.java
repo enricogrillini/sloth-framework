@@ -9,6 +9,7 @@ import java.util.Set;
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.db.datasource.table.sort.SortingRules;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.BigDecimalUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
@@ -262,6 +263,10 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
     public void clearSortingRules();
 
     public static class Util {
+        private Util() {
+            // NOP
+        }
+
         /**
          * Ritorna il set con i valori della colonna specificata applicando i filtri
          * passati
@@ -343,11 +348,8 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
                 }
 
                 if (filter) {
-                    if (result == null) {
-                        result = row.getBigDecimal(columnName);
-                    } else {
-                        result = result.add(row.getBigDecimal(columnName));
-                    }
+                    result = BigDecimalUtil.sum(result, row.getBigDecimal(columnName));
+
                 }
             }
 

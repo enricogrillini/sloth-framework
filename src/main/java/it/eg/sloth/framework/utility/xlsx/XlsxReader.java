@@ -3,8 +3,8 @@ package it.eg.sloth.framework.utility.xlsx;
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.table.Table;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
-import it.eg.sloth.framework.common.casting.Casting;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 public class XlsxReader {
-    private XlsxReader () {
+    private XlsxReader() {
         // NOP
     }
 
@@ -63,8 +63,8 @@ public class XlsxReader {
                 if (cell == null) {
                     dataRow.setString(nome, null);
                 } else if (cell.getCellType() == CellType.STRING) {
-                    dataRow.setString(nome, Casting.parseString(cell.getRichStringCellValue().getString()));
-                } else if ("@".equals(cell.getCellStyle().getDataFormatString())) {
+                    dataRow.setString(nome, StringUtil.parseString(cell.getRichStringCellValue().getString()));
+                } else if ("@" .equals(cell.getCellStyle().getDataFormatString())) {
                     double value = cell.getNumericCellValue();
                     if (value == 0) {
                         dataRow.setString(nome, "");

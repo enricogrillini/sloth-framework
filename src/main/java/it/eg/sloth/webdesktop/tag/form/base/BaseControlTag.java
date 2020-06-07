@@ -1,8 +1,11 @@
 package it.eg.sloth.webdesktop.tag.form.base;
 
 import it.eg.sloth.form.fields.field.SimpleField;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.IOException;
 
 /**
  * Project: sloth-framework
@@ -27,7 +30,7 @@ public abstract class BaseControlTag extends BaseElementTag<SimpleField> {
   /**
    * Scrive il controllo
    */
-  protected abstract void writeField() throws Throwable;
+  protected abstract void writeField() throws IOException, FrameworkException;
 
   @Override
   public int startTag() throws Throwable {

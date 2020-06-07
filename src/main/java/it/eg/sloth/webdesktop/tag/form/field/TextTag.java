@@ -5,6 +5,8 @@ import it.eg.sloth.webdesktop.tag.form.field.writer.TextControlWriter;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.IOException;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -26,7 +28,7 @@ public class TextTag extends BaseControlTag {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected void writeField() throws Throwable {
+    protected void writeField() throws IOException {
         write(TextControlWriter.writeControl(getElement()));
     }
 

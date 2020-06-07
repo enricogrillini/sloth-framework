@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.IOException;
-import java.text.ParseException;
 
 /**
  * Project: sloth-framework
@@ -37,7 +36,7 @@ public abstract class BaseContainerControlTag extends BaseControlTag {
     String labelStyle;
     String labelClassname;
 
-    public void writeLabelContainer(SimpleField field) throws ParseException, FrameworkException, IOException {
+    public void writeLabelContainer(SimpleField field) throws FrameworkException, IOException {
         if (field != null && FormControlWriter.hasLabel(field)) {
             write(GroupWriter.openCell(null, null, getLabelWidth()));
             write(FormControlWriter.writeLabel(field, getControlClassname(), getControlStyle()));
