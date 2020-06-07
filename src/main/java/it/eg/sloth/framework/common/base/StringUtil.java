@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
  */
 public class StringUtil {
 
-    private static final String MAIL_ADDRESS = "^[-_a-z0-9\\'+*$^&%=~!?{}]++(?:\\.[-_a-z0-9\\'+*$^&%=~!?{}]+)*+@(?:(?![-.])[-a-z0-9.]+(?<![-.])\\.[a-z]{2,6}|\\d{1,3}(?:\\.\\d{1,3}){3})(?::\\d++)?$";
+    private static final String MAIL_ADDRESS = "^(.+)@(.+)$";
 
     private StringUtil() {
         // NOP

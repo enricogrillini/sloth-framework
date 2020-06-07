@@ -53,7 +53,7 @@ public interface DbDataRow extends DbDataSource, TransactionalDataRow {
 
     void update() throws FrameworkException, SQLException;
 
-    void update(Connection connection);
+    void update(Connection connection) throws SQLException;
 
     boolean isAutoloadLob();
 

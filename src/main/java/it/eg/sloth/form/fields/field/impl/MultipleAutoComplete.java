@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -180,7 +181,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
         return message;
     }
 
-    private void post(String string) throws FrameworkException {
+    private void localPost(String string) throws FrameworkException {
         String decodedText = "";
         String text = "";
         if (!BaseFunction.isBlank(string)) {
@@ -204,7 +205,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
             if (!isReadOnly()) {
                 log.debug("post (" + getName() + "): " + webRequest.getString(getName()));
 
-                post(webRequest.getString(getName()));
+                localPost(webRequest.getString(getName()));
             }
         } catch (Exception e) {
             throw new RuntimeException("Errore su post campo: " + getName(), e);

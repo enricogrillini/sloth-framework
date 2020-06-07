@@ -66,15 +66,17 @@ public class StringUtilTest {
     }
 
     @Test
-    public void partitaMailTestOk() throws FrameworkException {
+    public void mailTestOk() throws FrameworkException {
         assertEquals(null, StringUtil.parseMail(null));
         assertEquals(null, StringUtil.parseMail(""));
 
-        assertEquals("prova@mail.com", StringUtil.parseMail("prova@mail.com"));
+        assertEquals("alice@example.com", StringUtil.parseMail("alice@example.com"));
+        assertEquals("alice.bob@example.co.in", StringUtil.parseMail("alice.bob@example.co.in"));
+        assertEquals("alice#@example.me.org", StringUtil.parseMail("alice#@example.me.org"));
     }
 
     @Test
-    public void partitaMailTestKo() throws FrameworkException {
+    public void mailTestKo() throws FrameworkException {
         FrameworkException frameworkException;
 
         // Mail non valida
@@ -85,6 +87,16 @@ public class StringUtilTest {
 
         frameworkException = assertThrows(FrameworkException.class, () -> {
             StringUtil.parseMail("mail.com");
+        });
+        assertEquals("Impossibile validare il valore passato - Indirizzo email errato", frameworkException.getMessage());
+
+        frameworkException = assertThrows(FrameworkException.class, () -> {
+            StringUtil.parseMail("alice.example.com");
+        });
+        assertEquals("Impossibile validare il valore passato - Indirizzo email errato", frameworkException.getMessage());
+
+        frameworkException = assertThrows(FrameworkException.class, () -> {
+            StringUtil.parseMail("@example.me.org");
         });
         assertEquals("Impossibile validare il valore passato - Indirizzo email errato", frameworkException.getMessage());
     }
