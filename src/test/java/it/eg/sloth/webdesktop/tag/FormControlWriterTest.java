@@ -83,7 +83,9 @@ public class FormControlWriterTest {
 
     @Test
     public void labelTest() throws FrameworkException {
-        Input<String> field = new Input<String>("name", "description", "tooltip", DataTypes.STRING);
+        Input<String> field = new Input<String>("name", "description", DataTypes.STRING);
+        field.setTooltip("tooltip");
+
         assertEquals(MessageFormat.format(LABEL, "name", "description", "tooltip", ""), FormControlWriter.writeLabel(field, null, null));
 
         field.setRequired(true);
@@ -94,7 +96,7 @@ public class FormControlWriterTest {
     @Test
     public void autoCompleteTest() throws FrameworkException {
         Fields fields = new Fields("Master");
-        AutoComplete<String> autocomplete = new AutoComplete<String>("name", "description", "tooltip", DataTypes.STRING);
+        AutoComplete<String> autocomplete = new AutoComplete<String>("name", "description", DataTypes.STRING);
         autocomplete.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
 
         assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "", "", " disabled=\"\""), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
@@ -126,7 +128,7 @@ public class FormControlWriterTest {
 
     @Test
     public void checkBoxTest() throws FrameworkException {
-        CheckBox<String> checkBox = new CheckBox<String>("name", "description", "tooltip", DataTypes.STRING);
+        CheckBox<String> checkBox = new CheckBox<String>("name", "description", DataTypes.STRING);
         assertEquals(BASE_CHECKBOX_VIS, FormControlWriter.writeCheckBox(checkBox, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
 
         checkBox.setChecked();
@@ -149,7 +151,7 @@ public class FormControlWriterTest {
         StringDecodeMap stringDecodeMap = new StringDecodeMap("A,Scelta A; B, Scelta B");
         stringDecodeMap.get("B").setValid(false);
 
-        ComboBox<String> field = new ComboBox<String>("name", "description", "tooltip", DataTypes.STRING);
+        ComboBox<String> field = new ComboBox<String>("name", "description", DataTypes.STRING);
         field.setDecodeMap(stringDecodeMap);
 
         assertEquals(MessageFormat.format(BASE_COMBOBOX, "name", "", " disabled=\"\"", ""), FormControlWriter.writeComboBox(field, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
@@ -190,7 +192,7 @@ public class FormControlWriterTest {
 
     @Test
     public void hiddenTest() throws FrameworkException {
-        Hidden<String> field = new Hidden<String>("name", "description", "tooltip", DataTypes.STRING);
+        Hidden<String> field = new Hidden<String>("name", "description", DataTypes.STRING);
 
         assertEquals(MessageFormat.format(BASE_HIDDEN, "name", ""), FormControlWriter.writeHidden(field));
 
@@ -204,7 +206,8 @@ public class FormControlWriterTest {
 
     @Test
     public void inputTest() throws FrameworkException {
-        Input<String> field = new Input<String>("name", "description", "tooltip", DataTypes.STRING);
+        Input<String> field = new Input<String>("name", "description", DataTypes.STRING);
+        field.setTooltip("tooltip");
 
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
 
@@ -223,8 +226,9 @@ public class FormControlWriterTest {
      */
     @Test
     public void inputDateTest() throws FrameworkException {
-        Input<Timestamp> field = new Input<Timestamp>("name", "description", "tooltip", DataTypes.DATE);
+        Input<Timestamp> field = new Input<Timestamp>("name", "description", DataTypes.DATE);
         field.setLocale(Locale.ITALY);
+        field.setTooltip("tooltip");
 
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
 
@@ -243,8 +247,9 @@ public class FormControlWriterTest {
      */
     @Test
     public void inputDatetimeTest() throws FrameworkException {
-        Input<Timestamp> field = new Input<Timestamp>("name", "description", "tooltip", DataTypes.DATETIME);
+        Input<Timestamp> field = new Input<Timestamp>("name", "description", DataTypes.DATETIME);
         field.setLocale(Locale.ITALY);
+        field.setTooltip("tooltip");
 
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
 
@@ -258,7 +263,8 @@ public class FormControlWriterTest {
 
     @Test
     public void inputTotalizerTest() throws FrameworkException {
-        InputTotalizer field = new InputTotalizer("name", "description", "tooltip", DataTypes.INTEGER);
+        InputTotalizer field = new InputTotalizer("name", "description", DataTypes.INTEGER);
+        field.setTooltip("tooltip");
 
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
 
@@ -285,7 +291,7 @@ public class FormControlWriterTest {
 
     @Test
     public void radioGroupTest() throws FrameworkException {
-        RadioGroup<String> radioGroup = new RadioGroup<String>("name", "description", "tooltip", DataTypes.STRING);
+        RadioGroup<String> radioGroup = new RadioGroup<String>("name", "description", DataTypes.STRING);
         radioGroup.setDecodeMap(StringDecodeMap.SI_NO_TUTTI);
         radioGroup.setValue("S");
 
@@ -320,7 +326,7 @@ public class FormControlWriterTest {
 
     @Test
     public void textAreaTest() throws FrameworkException {
-        TextArea<String> field = new TextArea<String>("name", "description", "tooltip", DataTypes.STRING);
+        TextArea<String> field = new TextArea<String>("name", "description", DataTypes.STRING);
         assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", " disabled=\"\"", ""), FormControlWriter.writeTextArea(field, ViewModality.VIEW_VISUALIZZAZIONE, null, null));
 
         field.setValue("testo");

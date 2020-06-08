@@ -36,8 +36,8 @@ public class CheckBox<T> extends InputField<T> {
     T valChecked;
     T valUnChecked;
 
-    public CheckBox(String name, String description, String tooltip, DataTypes dataType) {
-        super(name, description, tooltip, dataType);
+    public CheckBox(String name, String description, DataTypes dataType) {
+        super(name, description, dataType);
     }
 
     @Override

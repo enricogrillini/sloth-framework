@@ -54,7 +54,7 @@ public class TextControlWriterTest {
 
     @Test
     public void checkBoxTest() throws FrameworkException {
-        CheckBox<String> field = new CheckBox<String>("name", "description", "tooltip", DataTypes.STRING);
+        CheckBox<String> field = new CheckBox<String>("name", "description", DataTypes.STRING);
         assertEquals(MessageFormat.format(BASE_CHECKBOX, ""), TextControlWriter.writeCheckBox(field));
 
         field.setChecked();
@@ -69,7 +69,7 @@ public class TextControlWriterTest {
 
     @Test
     public void comboBoxTest() throws FrameworkException {
-        ComboBox<String> field = new ComboBox<String>("name", "description", "tooltip", DataTypes.STRING);
+        ComboBox<String> field = new ComboBox<String>("name", "description", DataTypes.STRING);
         field.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
 
         assertEquals(StringUtil.EMPTY, TextControlWriter.writeComboBox(field));
@@ -97,7 +97,7 @@ public class TextControlWriterTest {
 
     @Test
     public void hiddenTest() throws FrameworkException {
-        Hidden<String> field = new Hidden<String>("name", "description", "tooltip", DataTypes.STRING);
+        Hidden<String> field = new Hidden<String>("name", "description", DataTypes.STRING);
 
         assertEquals(TextControlWriter.writeHidden(field), FormControlWriter.writeHidden(field));
 
@@ -110,7 +110,7 @@ public class TextControlWriterTest {
 
     @Test
     public void inputTest() throws FrameworkException {
-        Input<String> field = new Input<String>("name", "description", "tooltip", DataTypes.STRING);
+        Input<String> field = new Input<String>("name", "description", DataTypes.STRING);
         assertEquals(StringUtil.EMPTY, TextControlWriter.writeInput(field));
 
         field.setValue("testo");
@@ -122,7 +122,7 @@ public class TextControlWriterTest {
 
     @Test
     public void inputDataTest() throws FrameworkException {
-        Input<Timestamp> field = new Input<Timestamp>("name", "description", "tooltip", DataTypes.DATE);
+        Input<Timestamp> field = new Input<Timestamp>("name", "description", DataTypes.DATE);
         field.setLocale(Locale.ITALY);
 
         assertEquals(StringUtil.EMPTY, TextControlWriter.writeInput(field));
@@ -136,7 +136,7 @@ public class TextControlWriterTest {
 
     @Test
     public void inputTotalizerTest() throws FrameworkException {
-        InputTotalizer field = new InputTotalizer("name", "description", "tooltip", DataTypes.INTEGER);
+        InputTotalizer field = new InputTotalizer("name", "description", DataTypes.INTEGER);
         assertEquals(StringUtil.EMPTY, TextControlWriter.writeInput(field));
 
         field.setValue(BigDecimal.valueOf(10));
@@ -148,7 +148,7 @@ public class TextControlWriterTest {
 
     @Test
     public void textTest() throws FrameworkException {
-        Text<String> field = new Text<String>("name", "description",  DataTypes.STRING);
+        Text<String> field = new Text<String>("name", "description", DataTypes.STRING);
         assertEquals(StringUtil.EMPTY, TextControlWriter.writeText(field));
 
         field.setValue("testo");
@@ -160,7 +160,7 @@ public class TextControlWriterTest {
 
     @Test
     public void textAreaTest() throws FrameworkException {
-        TextArea<String> field = new TextArea<String>("name", "description", "tooltip", DataTypes.STRING);
+        TextArea<String> field = new TextArea<String>("name", "description", DataTypes.STRING);
         assertEquals(StringUtil.EMPTY, TextControlWriter.writeTextArea(field));
 
         field.setValue("testo");
@@ -172,7 +172,7 @@ public class TextControlWriterTest {
 
     @Test
     public void textTotalizerTest() throws FrameworkException {
-        TextTotalizer field = new TextTotalizer("name", "description",  DataTypes.INTEGER);
+        TextTotalizer field = new TextTotalizer("name", "description", DataTypes.INTEGER);
         assertEquals(StringUtil.EMPTY, TextControlWriter.writeText(field));
 
         field.setValue(BigDecimal.valueOf(10));

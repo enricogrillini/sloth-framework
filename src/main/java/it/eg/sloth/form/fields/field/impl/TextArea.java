@@ -22,8 +22,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class TextArea<T> extends Input<T> {
 
-    public TextArea(String name, String description, String tooltip, DataTypes dataType) {
-        super(name, description, tooltip, dataType);
+    public TextArea(String name, String description, DataTypes dataType) {
+        super(name, description, dataType);
     }
 
 

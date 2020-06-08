@@ -1,17 +1,13 @@
 package it.eg.sloth.db.datasource.row;
 
 import it.eg.sloth.db.datasource.DataRow;
-import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.framework.common.base.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -89,18 +85,5 @@ public abstract class PojoRow implements DataRow {
             setObject(name, null);
         }
     }
-
-    @Override
-    public void loadFromResultSet(ResultSet resultSet) throws SQLException, IOException {
-        clear();
-        copyFromResultSet(resultSet);
-    }
-
-    @Override
-    public void loadFromDataSource(DataSource dataSource) {
-        clear();
-        copyFromDataSource(dataSource);
-    }
-
 
 }

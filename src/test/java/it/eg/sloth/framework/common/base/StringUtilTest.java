@@ -56,7 +56,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void bigDecimalFormatValueTest() throws FrameworkException {
+    public void containsAllWordsTest() throws FrameworkException {
         List<String> words = Arrays.asList("Bob", "Alice");
 
         assertTrue(StringUtil.containsAllWords("Bob and Alice", words));
@@ -66,7 +66,30 @@ public class StringUtilTest {
     }
 
     @Test
-    public void mailTestOk() throws FrameworkException {
+    public void toJavaConstantNameTest() {
+        assertEquals(StringUtil.EMPTY, StringUtil.toJavaConstantName(null));
+        assertEquals("PROVA", StringUtil.toJavaConstantName("prova"));
+        assertEquals("PROVA_PROVA", StringUtil.toJavaConstantName("prova_prova"));
+        assertEquals("PROVA_PROVA", StringUtil.toJavaConstantName("provaProva"));
+    }
+
+    @Test
+    public void toFileName() {
+        assertEquals(StringUtil.EMPTY, StringUtil.toFileName(null));
+        assertEquals("prova", StringUtil.toFileName("prova"));
+        assertEquals("prova-prova", StringUtil.toFileName("prova/prova"));
+        assertEquals("provaProva", StringUtil.toFileName("provaProva"));
+    }
+
+    @Test
+    public void parseStringTest() throws FrameworkException {
+        assertEquals(null, StringUtil.parseString(null));
+        assertEquals(null, StringUtil.parseString(""));
+        assertEquals("aaaa", StringUtil.parseString("aaaa"));
+    }
+
+    @Test
+    public void parseMailOkTest() throws FrameworkException {
         assertEquals(null, StringUtil.parseMail(null));
         assertEquals(null, StringUtil.parseMail(""));
 
@@ -76,7 +99,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void mailTestKo() throws FrameworkException {
+    public void parseMailKoTest() throws FrameworkException {
         FrameworkException frameworkException;
 
         // Mail non valida
@@ -102,7 +125,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void codiceFiscaleTestOk() throws FrameworkException {
+    public void codiceFiscaleOkTest() throws FrameworkException {
         // Empty
         assertEquals(null, StringUtil.parseCodiceFiscale(null));
         assertEquals(null, StringUtil.parseCodiceFiscale(""));
@@ -113,7 +136,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void codiceFiscaleTestKo() throws FrameworkException {
+    public void codiceFiscaleKoTest() throws FrameworkException {
         FrameworkException frameworkException;
 
         // Lunghezza codice fiscale errata
@@ -139,7 +162,7 @@ public class StringUtilTest {
 
 
     @Test
-    public void partitaIvaTestOk() throws FrameworkException {
+    public void partitaIvaOkTest() throws FrameworkException {
         // Empty
         assertEquals(null, StringUtil.parsePartitaIva(null));
         assertEquals(null, StringUtil.parsePartitaIva(""));
@@ -156,7 +179,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void partitaIvaTestKo() throws FrameworkException {
+    public void partitaIvaKoTest() throws FrameworkException {
         FrameworkException frameworkException;
 
         // Lunghezza partita iva errata

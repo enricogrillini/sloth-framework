@@ -39,8 +39,8 @@ public class Semaphore extends ComboBox<String> {
 
     public static final StringDecodeMap SEMAFORO_MAP = new StringDecodeMap(VALUES);
 
-    public Semaphore(String name, String description, String tooltip, DataTypes dataType) {
-        super(name, description, tooltip, dataType);
+    public Semaphore(String name, String description, DataTypes dataType) {
+        super(name, description, dataType);
         setDecodeMap(SEMAFORO_MAP);
     }
 

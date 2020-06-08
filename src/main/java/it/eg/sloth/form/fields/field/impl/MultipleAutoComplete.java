@@ -49,8 +49,8 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
     private String decodedText;
     private DecodeMap<T, ? extends DecodeValue<T>> decodeMap;
 
-    public MultipleAutoComplete(String name, String description, String tooltip, DataTypes dataType) {
-        super(name, description, tooltip, dataType);
+    public MultipleAutoComplete(String name, String description, DataTypes dataType) {
+        super(name, description, dataType);
     }
 
     @Override

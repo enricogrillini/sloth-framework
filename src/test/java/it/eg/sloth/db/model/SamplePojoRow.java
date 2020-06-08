@@ -1,4 +1,4 @@
-package it.eg.sloth.db.datasource;
+package it.eg.sloth.db.model;
 
 import it.eg.sloth.db.datasource.row.PojoRow;
 import lombok.Getter;

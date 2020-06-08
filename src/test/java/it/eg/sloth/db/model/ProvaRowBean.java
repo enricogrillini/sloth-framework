@@ -1,28 +1,16 @@
-package it.eg.sloth.db.manager;
+package it.eg.sloth.db.model;
 
 import it.eg.sloth.db.query.SelectQueryInterface;
 import it.eg.sloth.db.query.query.Query;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.db.datasource.row.DbRow;
-import it.eg.sloth.db.datasource.DataRow;
-import it.eg.sloth.db.datasource.RowStatus;
-import it.eg.sloth.db.datasource.row.lob.BLobData;
-import it.eg.sloth.db.datasource.row.lob.CLobData;
 import it.eg.sloth.db.datasource.row.column.Column;
-import org.apache.commons.io.IOUtils;
-import it.eg.sloth.db.manager.DataConnectionManager;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import java.math.BigDecimal;
-import java.sql.Clob;
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;

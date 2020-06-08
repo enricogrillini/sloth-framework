@@ -32,8 +32,8 @@ public class Input<T> extends InputField<T> {
     private ForceCase forceCase;
     private Integer maxLength;
 
-    public Input(String name, String description, String tooltip, DataTypes dataType) {
-        super(name, description, tooltip, dataType);
+    public Input(String name, String description, DataTypes dataType) {
+        super(name, description, dataType);
     }
 
     public ForceCase getForceCase() {

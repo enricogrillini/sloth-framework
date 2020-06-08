@@ -153,8 +153,9 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> ext
     private List<V> performSearchFlexible(String description, Integer sizeLimit) {
         List<V> list = new ArrayList<>();
 
+        description = description.trim().toLowerCase();
         for (V decodeMapValue : map.values()) {
-            if (decodeMapValue.getDescription() != null && decodeMapValue.getDescription().trim().equalsIgnoreCase(description.trim())) {
+            if (decodeMapValue.getDescription() != null && decodeMapValue.getDescription().trim().toLowerCase().equalsIgnoreCase(description)) {
                 list.add(decodeMapValue);
             }
 
@@ -176,6 +177,7 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> ext
         List<V> list = new ArrayList<>();
 
         // Match search
+        description = description.trim();
         String[] matchStringArray = StringUtil.tokenize(description, " ");
 
         for (V decodeValue : this) {

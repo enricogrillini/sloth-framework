@@ -46,8 +46,8 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
 
     private DecodeMap<T, ? extends DecodeValue<T>> decodeMap;
 
-    public AutoComplete(String name, String description, String tooltip, DataTypes dataType) {
-        super(name, description, tooltip, dataType);
+    public AutoComplete(String name, String description, DataTypes dataType) {
+        super(name, description, dataType);
     }
 
     @Override

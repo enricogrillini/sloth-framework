@@ -1,8 +1,10 @@
-package it.eg.sloth.form.dwh;
+package it.eg.sloth.framework.pageinfo;
 
-import it.eg.sloth.form.fields.field.FieldType;
-import it.eg.sloth.form.fields.field.base.TextField;
-import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.db.datasource.row.Row;
+import it.eg.sloth.framework.monitor.MonitorStatistics;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -15,19 +17,20 @@ import it.eg.sloth.framework.common.casting.DataTypes;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
  * <p>
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * <p>
  *
  * @author Enrico Grillini
+ *
  */
-public class Measure<T> extends TextField<T> {
+public class PageInfoTest {
 
-    public Measure(String name,  String description, DataTypes dataType) {
-        super(name, description, dataType);
-    }
+  @Test
+  public void breadcrumbsTest() {
+    Breadcrumbs breadcrumbs = new Breadcrumbs();
+    breadcrumbs.add("titolo1");
+    breadcrumbs.add("titolo2");
 
-    @Override
-    public FieldType getFieldType() {
-        return FieldType.MEASURE;
-    }
+    assertEquals("titolo1 > titolo2", breadcrumbs.getText());
+    assertEquals("titolo1 > titolo2", breadcrumbs.getHtml());
+  }
 
 }

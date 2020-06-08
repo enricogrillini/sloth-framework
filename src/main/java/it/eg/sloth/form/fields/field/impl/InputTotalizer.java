@@ -24,8 +24,8 @@ import java.math.BigDecimal;
 @SuperBuilder
 public class InputTotalizer extends Input<BigDecimal> {
 
-    public InputTotalizer(String name, String description, String tooltip, DataTypes dataType) {
-        super(name, description, tooltip, dataType);
+    public InputTotalizer(String name, String description, DataTypes dataType) {
+        super(name, description, dataType);
     }
 
     @Override

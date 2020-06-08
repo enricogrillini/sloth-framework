@@ -38,9 +38,8 @@ public abstract class InputField<T> extends TextField<T> {
     private Boolean hidden;
     private ViewModality viewModality;
 
-    public InputField(String name, String description, String tooltip, DataTypes dataType) {
+    public InputField(String name, String description, DataTypes dataType) {
         super(name, description, dataType);
-        this.tooltip = tooltip;
     }
 
     public boolean isRequired() {

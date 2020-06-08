@@ -21,8 +21,8 @@ import it.eg.sloth.framework.common.casting.DataTypes;
  */
 public class Hidden<T> extends InputField<T> {
 
-    public Hidden(String name, String description, String tooltip, DataTypes dataType) {
-        super(name, description, tooltip, dataType);
+    public Hidden(String name, String description, DataTypes dataType) {
+        super(name, description, dataType);
     }
 
     @Override

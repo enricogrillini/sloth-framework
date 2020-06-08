@@ -1,8 +1,14 @@
-package it.eg.sloth.form.dwh;
+package it.eg.sloth.framework.common.base;
 
-import it.eg.sloth.form.fields.field.FieldType;
-import it.eg.sloth.form.fields.field.base.TextField;
-import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 /**
  * Project: sloth-framework
@@ -15,19 +21,17 @@ import it.eg.sloth.framework.common.casting.DataTypes;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
  * <p>
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * <p>
  *
  * @author Enrico Grillini
  */
-public class Measure<T> extends TextField<T> {
+public class BigdecimalUtilTest {
 
-    public Measure(String name,  String description, DataTypes dataType) {
-        super(name, description, dataType);
-    }
-
-    @Override
-    public FieldType getFieldType() {
-        return FieldType.MEASURE;
+    @Test
+    public void sumTest() {
+        assertEquals(null, BigDecimalUtil.sum(null, null));
+        assertEquals(BigDecimal.valueOf(1), BigDecimalUtil.sum(BigDecimal.valueOf(1), null));
+        assertEquals(BigDecimal.valueOf(1), BigDecimalUtil.sum(null, BigDecimal.valueOf(1)));
+        assertEquals(BigDecimal.valueOf(2), BigDecimalUtil.sum(BigDecimal.valueOf(1), BigDecimal.valueOf(1)));
     }
 
 }

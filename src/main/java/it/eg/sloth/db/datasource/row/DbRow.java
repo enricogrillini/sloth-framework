@@ -7,6 +7,8 @@ import it.eg.sloth.db.datasource.row.lob.CLobData;
 import it.eg.sloth.db.manager.DataConnectionManager;
 import it.eg.sloth.framework.common.exception.ExceptionCode;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -29,6 +31,8 @@ import java.util.HashMap;
  * @author Enrico Grillini
  */
 @Slf4j
+@Getter
+@Setter
 public abstract class DbRow extends TransactionalRow implements DbDataRow {
 
     private boolean autoloadLob;
@@ -227,37 +231,6 @@ public abstract class DbRow extends TransactionalRow implements DbDataRow {
         try (Connection connection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
             return select(connection);
         }
-    }
-
-    @Override
-    public void insert() throws FrameworkException, SQLException {
-        try (Connection connection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
-            insert(connection);
-        }
-    }
-
-    @Override
-    public void delete() throws FrameworkException, SQLException {
-        try (Connection connection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
-            delete(connection);
-        }
-    }
-
-    @Override
-    public void update() throws FrameworkException, SQLException {
-        try (Connection connection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
-            update(connection);
-        }
-    }
-
-    @Override
-    public boolean isAutoloadLob() {
-        return autoloadLob;
-    }
-
-    @Override
-    public void setAutoloadLob(boolean autoloadLob) {
-        this.autoloadLob = autoloadLob;
     }
 
 }

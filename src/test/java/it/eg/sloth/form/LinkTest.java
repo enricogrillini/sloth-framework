@@ -42,5 +42,24 @@ public class LinkTest {
         assertFalse(link.isHidden());
         assertFalse(link.isDisabled());
         assertEquals(ButtonType.BTN_OUTLINE_PRIMARY , link.getButtonType());
+
+        link = Link.builder()
+                .name("Name")
+                .locale(null)
+                .description("description")
+                .tooltip("tooltip")
+                .hidden(false)
+                .disabled(false)
+                .buttonType(ButtonType.BTN_INFO)
+                .imgHtml("imgHtml")
+                .href("href")
+                .target("target")
+                .build();
+
+        assertEquals("name", link.getName());
+        assertEquals(Locale.getDefault(), link.getLocale());
+        assertFalse(link.isHidden());
+        assertFalse(link.isDisabled());
+        assertEquals(ButtonType.BTN_INFO , link.getButtonType());
     }
 }

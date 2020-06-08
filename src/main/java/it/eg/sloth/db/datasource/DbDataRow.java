@@ -43,15 +43,9 @@ public interface DbDataRow extends DbDataSource, TransactionalDataRow {
 
     boolean select(Connection connection) throws SQLException, IOException, FrameworkException;
 
-    void insert() throws FrameworkException, SQLException;
-
     void insert(Connection connection) throws SQLException;
 
-    public void delete() throws FrameworkException, SQLException;
-
     void delete(Connection connection) throws SQLException;
-
-    void update() throws FrameworkException, SQLException;
 
     void update(Connection connection) throws SQLException;
 

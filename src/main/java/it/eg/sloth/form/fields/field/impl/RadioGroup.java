@@ -22,8 +22,8 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class RadioGroup<T> extends ComboBox<T> {
 
-    public RadioGroup(String name, String description, String tooltip, DataTypes dataType) {
-        super(name, description, tooltip, dataType);
+    public RadioGroup(String name, String description, DataTypes dataType) {
+        super(name, description, dataType);
     }
 
     @Override

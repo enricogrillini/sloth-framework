@@ -33,41 +33,41 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class ComboBox<T> extends InputField<T> implements DecodedDataField<T> {
 
-  DecodeMap<T, ? extends DecodeValue<T>> decodeMap;
+    DecodeMap<T, ? extends DecodeValue<T>> decodeMap;
 
-  public ComboBox(String name, String description, String tooltip, DataTypes dataType) {
-    super(name, description, tooltip, dataType);
-  }
-
-  @Override
-  public FieldType getFieldType() {
-    return FieldType.COMBO_BOX;
-  }
-
-  @Override
-  public String getDecodedText() {
-    if (BaseFunction.isBlank(getData())) {
-      return StringUtil.EMPTY;
-    } else if (getDecodeMap() == null || getDecodeMap().isEmpty()) {
-      return getData();
-    } else {
-      return getDecodeMap().decode(getValue());
+    public ComboBox(String name, String description, DataTypes dataType) {
+        super(name, description, dataType);
     }
-  }
 
-  @Override
-  public String getHtmlDecodedText() {
-    return getHtmlDecodedText(true, true);
-  }
+    @Override
+    public FieldType getFieldType() {
+        return FieldType.COMBO_BOX;
+    }
 
-  @Override
-  public String getHtmlDecodedText(boolean br, boolean nbsp) {
-    return Casting.getHtml(getDecodedText(), br, nbsp);
-  }
+    @Override
+    public String getDecodedText() {
+        if (BaseFunction.isBlank(getData())) {
+            return StringUtil.EMPTY;
+        } else if (getDecodeMap() == null || getDecodeMap().isEmpty()) {
+            return getData();
+        } else {
+            return getDecodeMap().decode(getValue());
+        }
+    }
 
-  @Override
-  public String getJsDecodedText() {
-    return Casting.getJs(getDecodedText());
-  }
+    @Override
+    public String getHtmlDecodedText() {
+        return getHtmlDecodedText(true, true);
+    }
+
+    @Override
+    public String getHtmlDecodedText(boolean br, boolean nbsp) {
+        return Casting.getHtml(getDecodedText(), br, nbsp);
+    }
+
+    @Override
+    public String getJsDecodedText() {
+        return Casting.getJs(getDecodedText());
+    }
 
 }

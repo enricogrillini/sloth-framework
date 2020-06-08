@@ -1,4 +1,4 @@
-package it.eg.sloth.db.manager;
+package it.eg.sloth.db.model;
 
 import it.eg.sloth.db.query.SelectQueryInterface;
 import it.eg.sloth.framework.common.exception.FrameworkException;
