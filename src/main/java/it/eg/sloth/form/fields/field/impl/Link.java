@@ -82,11 +82,6 @@ public class Link implements SimpleField {
         // NOP - Non sono gestite operazioni server side
     }
 
-    @Override
-    public void postEscaped(WebRequest webRequest, String encoding) {
-        // NOP - Non sono gestite operazioni server side
-    }
-
     public Link newInstance() throws CloneNotSupportedException {
         return (Link) super.clone();
     }

@@ -121,11 +121,6 @@ public class File implements SimpleField {
     }
 
     @Override
-    public void postEscaped(WebRequest webRequest, String encoding) {
-        post(webRequest);
-    }
-
-    @Override
     public File newInstance() throws CloneNotSupportedException {
         return (File) super.clone();
     }

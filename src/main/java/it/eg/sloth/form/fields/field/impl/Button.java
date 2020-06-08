@@ -105,11 +105,6 @@ public class Button implements SimpleField {
         }
     }
 
-    @Override
-    public void postEscaped(WebRequest webRequest, String encoding) {
-        post(webRequest);
-    }
-
     public Button newInstance() {
         return toBuilder().build();
     }

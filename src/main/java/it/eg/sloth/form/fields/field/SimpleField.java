@@ -78,15 +78,6 @@ public interface SimpleField extends Element, Cloneable {
      */
     public void post(WebRequest webRequest) throws FrameworkException;
 
-    /**
-     * Effettua il post della Web Request contenente valori escaped tipicamente
-     * usati con un post JSON
-     *
-     * @param webRequest
-     * @return
-     */
-    public void postEscaped(WebRequest webRequest, String encoding);
-
     public SimpleField newInstance() throws CloneNotSupportedException;
 
 }
