@@ -13,4 +13,5 @@ public class SamplePojoRow extends PojoRow {
     String testo;
     BigDecimal numero;
     Timestamp data;
+    byte[] blob;
 }

@@ -22,7 +22,6 @@ import it.eg.sloth.webdesktop.tag.form.group.writer.GroupWriter;
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
- *
  */
 public class GroupWriterTest {
 
@@ -58,9 +57,9 @@ public class GroupWriterTest {
 
     @Test
     public void openCellTest() throws FrameworkException {
-        assertEquals(OPEN_CELL, GroupWriter.openCell(null, null, null));
-        assertEquals(OPEN_CELL, GroupWriter.openCell(null, null, "10%"));
-        assertEquals(OPEN_CELL, GroupWriter.openCell("", "", ""));
+        assertEquals(OPEN_CELL, GroupWriter.openCell(null));
+        assertEquals(OPEN_CELL, GroupWriter.openCell("10%"));
+        assertEquals(OPEN_CELL, GroupWriter.openCell(""));
     }
 
     @Test

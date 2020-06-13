@@ -62,7 +62,7 @@ public class TextControlWriter extends AbstractHtmlWriter {
      * @return
      */
     public static String writeButton(Button button) {
-        return FormControlWriter.writeButton(button, null, null);
+        return FormControlWriter.writeButton(button);
     }
 
     /**
@@ -96,11 +96,11 @@ public class TextControlWriter extends AbstractHtmlWriter {
      */
     public static String writeComboBox(ComboBox<?> comboBox) {
         if (!BaseFunction.isBlank(comboBox.getBaseLink())) {
-            return "<a href=\"" + comboBox.getBaseLink() + comboBox.escapeHtmlValue() + "\" >" + comboBox.getHtmlDecodedText() + "</a>";
+            return "<a href=\"" + comboBox.getBaseLink() + comboBox.escapeHtmlValue() + "\" >" + comboBox.escapeHtmlDecodedText() + "</a>";
         } else if (DataTypes.URL == comboBox.getDataType()) {
-            return "<a href=\"" + comboBox.escapeHtmlValue() + "\" target=\"_blank\">" + comboBox.getHtmlDecodedText() + "</a>";
+            return "<a href=\"" + comboBox.escapeHtmlValue() + "\" target=\"_blank\">" + comboBox.escapeHtmlDecodedText() + "</a>";
         } else {
-            return comboBox.getHtmlDecodedText();
+            return comboBox.escapeHtmlDecodedText();
         }
     }
 
@@ -112,11 +112,11 @@ public class TextControlWriter extends AbstractHtmlWriter {
      */
     public static String writeDecodedText(DecodedText<?> decodedText) {
         if (!BaseFunction.isBlank(decodedText.getBaseLink())) {
-            return "<a href=\"" + decodedText.getBaseLink() + decodedText.escapeHtmlValue() + "\" >" + decodedText.getHtmlDecodedText() + "</a>";
+            return "<a href=\"" + decodedText.getBaseLink() + decodedText.escapeHtmlValue() + "\" >" + decodedText.escapeHtmlDecodedText() + "</a>";
         } else if (DataTypes.URL == decodedText.getDataType()) {
-            return "<a href=\"" + decodedText.escapeHtmlValue() + "\" target=\"_blank\">" + decodedText.getHtmlDecodedText() + "</a>";
+            return "<a href=\"" + decodedText.escapeHtmlValue() + "\" target=\"_blank\">" + decodedText.escapeHtmlDecodedText() + "</a>";
         } else {
-            return decodedText.getHtmlDecodedText();
+            return decodedText.escapeHtmlDecodedText();
         }
     }
 
@@ -163,7 +163,7 @@ public class TextControlWriter extends AbstractHtmlWriter {
      * @return
      */
     public static String writeSemaphore(Semaphore semaphore) {
-        return semaphore.getHtmlDecodedText();
+        return semaphore.escapeHtmlDecodedText();
     }
 
     /**

@@ -30,11 +30,11 @@ public class FieldsTag<T extends Fields<?>> extends BaseElementTag<T> {
         writeln("");
         for (SimpleField simpleField : getElement()) {
             writeln("<div class=\"frRow\">");
-            writeln(" " + GroupWriter.openCell(null, null, null));
-            writeln("  " + FormControlWriter.writeLabel(simpleField, null, null));
+            writeln(" " + GroupWriter.openCell(null));
+            writeln("  " + FormControlWriter.writeLabel(simpleField));
             writeln(" " + GroupWriter.closeCell());
-            writeln(" " + GroupWriter.openCell(null, null, null));
-            writeln("  " + FormControlWriter.writeControl(simpleField, getElement(), getViewModality(), null, null));
+            writeln(" " + GroupWriter.openCell(null));
+            writeln("  " + FormControlWriter.writeControl(simpleField, getElement(), getViewModality()));
             writeln(" " + GroupWriter.closeCell());
             writeln("</div>");
         }

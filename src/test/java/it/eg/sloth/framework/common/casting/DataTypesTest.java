@@ -1,14 +1,14 @@
 package it.eg.sloth.framework.common.casting;
 
-import static org.junit.Assert.assertEquals;
+import it.eg.sloth.framework.common.base.BigDecimalUtil;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.Locale;
 
-import org.junit.Test;
-
-import it.eg.sloth.framework.common.base.BigDecimalUtil;
-import it.eg.sloth.framework.common.exception.FrameworkException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 /**
  * Project: sloth-framework
@@ -23,7 +23,6 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
- *
  */
 public class DataTypesTest {
 
@@ -119,5 +118,42 @@ public class DataTypesTest {
         assertEquals("10,0000000", DataTypes.NUMBER.formatText(BigDecimal.valueOf(10), Locale.ITALY));
         assertEquals("0,0000000", DataTypes.NUMBER.formatText(BigDecimal.valueOf(0), Locale.ITALY));
     }
+
+
+    @Test
+    public void stringParseTest() throws FrameworkException {
+        FrameworkException frameworkException;
+
+        // Mail non valida
+        frameworkException = assertThrows(FrameworkException.class, () -> {
+            DataTypes.MAIL.parseValue("@@", Locale.ITALY);
+        });
+        assertEquals("Impossibile validare il valore passato - Indirizzo email errato", frameworkException.getMessage());
+
+        // Mail valida
+        assertEquals("alice@gmail.com", DataTypes.MAIL.parseValue("alice@gmail.com", Locale.ITALY));
+
+
+        // Codice fiscale non valido
+        frameworkException = assertThrows(FrameworkException.class, () -> {
+            DataTypes.CODICE_FISCALE.parseValue("AAAAA", Locale.ITALY);
+        });
+        assertEquals("Impossibile validare il valore passato - Lunghezza codice fiscale errata", frameworkException.getMessage());
+
+        // Codice fiscale valido
+        assertEquals("RSSMRA80A01A944I", DataTypes.CODICE_FISCALE.parseValue("RSSMRA80A01A944I", Locale.ITALY));
+
+        // Partita IVA non valida
+        frameworkException = assertThrows(FrameworkException.class, () -> {
+            DataTypes.PARTITA_IVA.parseValue("AAAAA", Locale.ITALY);
+        });
+        assertEquals("Impossibile validare il valore passato - Lunghezza partita iva errata", frameworkException.getMessage());
+        DataTypes.PARTITA_IVA.parseValue("00000000000", Locale.ITALY);
+
+        // Partita IVA valida
+        assertEquals("00000000000",  DataTypes.PARTITA_IVA.parseValue("00000000000", Locale.ITALY));
+
+    }
+
 
 }

@@ -41,7 +41,7 @@ public class RollupWriter {
      * @return
      */
     public static String writeLevel(Level<?> level) {
-        return level.getHtmlDecodedText();
+        return level.escapeHtmlDecodedText();
     }
 
     /**
@@ -51,6 +51,6 @@ public class RollupWriter {
      * @return
      */
     public static String writeAttribute(Attribute<?> attribute) {
-        return attribute.getHtmlDecodedText();
+        return attribute.escapeHtmlDecodedText();
     }
 }

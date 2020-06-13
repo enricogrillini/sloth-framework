@@ -27,6 +27,15 @@ import it.eg.sloth.framework.common.base.BaseFunction;
 public class BaseFunctionTest {
 
     @Test
+    public void equalsTest() {
+        assertTrue(BaseFunction.equals(null, null));
+        assertFalse(BaseFunction.equals( BigDecimal.valueOf(0), null));
+        assertFalse(BaseFunction.equals(null,BigDecimal.valueOf(0)));
+        assertFalse(BaseFunction.equals(BigDecimal.valueOf(0), BigDecimal.valueOf(1)));
+        assertTrue(BaseFunction.equals(BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
+    }
+
+    @Test
     public void isBlankTest() {
         assertTrue(BaseFunction.isBlank(null));
         assertTrue(BaseFunction.isBlank(""));
@@ -40,4 +49,6 @@ public class BaseFunctionTest {
         assertTrue(BaseFunction.isNull(""));
         assertFalse(BaseFunction.isNull(new BigDecimal(0)));
     }
+
+
 }

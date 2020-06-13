@@ -86,7 +86,7 @@ public class SimpleGridTag extends AbstractGridTag<Grid<?>> {
                             dataField.copyFromDataSource(dataRow);
                         }
 
-                        writeln("   <b style=\"color:#660000\">" + fieldClone.getHtmlDescription() + ": </b><span>" + FormControlWriter.writeControl(fieldClone, getElement(), ViewModality.VIEW_VISUALIZZAZIONE, null, null) + "</span>");
+                        writeln("   <b style=\"color:#660000\">" + fieldClone.getHtmlDescription() + ": </b><span>" + FormControlWriter.writeControl(fieldClone, getElement(), ViewModality.VIEW_VISUALIZZAZIONE) + "</span>");
                     }
                     writeln("  </td>");
                     writeln(" </tr>");

@@ -14,9 +14,9 @@ import lombok.Setter;
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  * <p>
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * <p>
- * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
  */
@@ -27,12 +27,10 @@ public class CellTag extends WebDesktopTag<Form> {
   static final long serialVersionUID = 1L;
 
   String width;
-  String style;
-  String classname;
 
   @Override
   public int startTag() throws Throwable {
-    write(GroupWriter.openCell(getClassname(), getStyle(), getWidth()));
+    write(GroupWriter.openCell(getWidth()));
 
     return EVAL_BODY_INCLUDE;
   }
@@ -41,6 +39,5 @@ public class CellTag extends WebDesktopTag<Form> {
   protected void endTag() throws Throwable {
     write("</div>");
   }
-
 
 }

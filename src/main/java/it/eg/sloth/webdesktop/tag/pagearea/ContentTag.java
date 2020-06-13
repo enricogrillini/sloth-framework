@@ -6,10 +6,15 @@ import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.configuration.ConfigSingleton;
 import it.eg.sloth.framework.security.Menu;
 import it.eg.sloth.webdesktop.WebDesktopConstant;
+import it.eg.sloth.webdesktop.alertcenter.AlertsCenterSingleton;
+import it.eg.sloth.webdesktop.alertcenter.model.Alert;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
+import it.eg.sloth.webdesktop.tag.pagearea.writer.ContentWriter;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.SearchWriter;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Collection;
 
 /**
  * Project: sloth-framework
@@ -69,47 +74,55 @@ public class ContentTag extends WebDesktopTag<Form> {
 
         writeln("     </form>");
 
-        // Utente
-        writeln("     <!-- Topbar - User Information -->");
-        writeln("     <ul class=\"navbar-nav ml-auto\">");
+        // Right
+        writeln(ContentWriter.openBarRight());
+
+        // Alert Center
+        Collection<Alert> alerts = AlertsCenterSingleton.getInstance().getList();
+        if (!alerts.isEmpty()) {
+            writeln(ContentWriter.openAlertCenter(alerts.size()));
+            for (Alert alert : alerts) {
+                writeln(ContentWriter.writeAlert(alert, getUser().getLocale()));
+            }
+            writeln(ContentWriter.closeAlertCenter());
+        }
 
         // Help
         String documentationUrl = ConfigSingleton.getInstance().getProperty(ConfigSingleton.FRAMEWORK_DOCUMENTATION_URL);
         if (!BaseFunction.isBlank(documentationUrl)) {
-            writeln("      <li class=\"nav-item dropdown no-arrow mx-1\"><a class=\"nav-link dropdown-toggle\" href=\"" + documentationUrl + "\" id=\"messagesDropdown\" role=\"button\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Documentazione e FAQ\" aria-haspopup=\"true\" aria-expanded=\"false\"><i class=\"fas fa-question-circle\"></i></a></li>");
+            writeln(" <li class=\"nav-item dropdown no-arrow mx-1\"><a class=\"nav-link dropdown-toggle\" href=\"" + documentationUrl + "\" id=\"messagesDropdown\" role=\"button\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Documentazione e FAQ\" aria-haspopup=\"true\" aria-expanded=\"false\"><i class=\"fas fa-question-circle\"></i></a></li>");
         }
 
         // Separator
-        writeln("      <div class=\"topbar-divider d-none d-sm-block\"></div>");
+        writeln(" <div class=\"topbar-divider d-none d-sm-block\"></div>");
 
-        writeln("      <li class=\"nav-item dropdown no-arrow\">");
-        writeln("       <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"userDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
-        writeln("        <span class=\"mr-2 d-none d-lg-inline text-gray-600 small\">" + userHtml + "</span>");
+        writeln(" <li class=\"nav-item dropdown no-arrow\">");
+        writeln("  <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"userDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
+        writeln("   <span class=\"mr-2 d-none d-lg-inline text-gray-600 small\">" + userHtml + "</span>");
 
         if (getUser().hasAvatar()) {
-            writeln("        <img class=\"img-profile rounded-circle\" src=\"../api/webdesktop/avatar\">");
+            writeln("   <img class=\"img-profile rounded-circle\" src=\"../api/webdesktop/avatar\">");
         } else {
-            writeln("        <div class=\"avatar-circle bg-primary\"><span class=\"initials\">" + getUser().getAvatarLetter() + "</span></div>");
+            writeln("   <div class=\"avatar-circle bg-primary\"><span class=\"initials\">" + getUser().getAvatarLetter() + "</span></div>");
         }
 
-        writeln("       </a>");
-        writeln("       <!-- Menu Utente-->");
-        writeln("       <div class=\"dropdown-menu dropdown-menu-right shadow animated--grow-in\" aria-labelledby=\"userDropdown\">");
+        writeln("  </a>");
+        writeln("  <!-- Menu Utente-->");
+        writeln("  <div class=\"dropdown-menu dropdown-menu-right shadow animated--grow-in\" aria-labelledby=\"userDropdown\">");
 
         for (Menu menu : getUser().getUserMenu().getChilds().values()) {
-
             switch (menu.getVoiceType()) {
                 case VOICE:
-                    writeln("        <a class=\"dropdown-item\" href=\"" + menu.getLink() + "\">");
+                    writeln("   <a class=\"dropdown-item\" href=\"" + menu.getLink() + "\">");
                     if (!BaseFunction.isBlank(menu.getHtml())) {
                         writeln("         " + menu.getHtml());
                     }
                     writeln("         " + Casting.getHtml(menu.getShortDescription()));
-                    writeln("        </a>");
+                    writeln("   </a>");
                     break;
 
                 case SEPARATOR:
-                    writeln("        <div class=\"dropdown-divider\"></div>");
+                    writeln("   <div class=\"dropdown-divider\"></div>");
                     break;
 
                 default:
@@ -119,18 +132,16 @@ public class ContentTag extends WebDesktopTag<Form> {
         }
 
         writeln("        <a class=\"dropdown-item\" href=\"#\" data-toggle=\"modal\" data-target=\"#logoutModal\">");
-        writeln("         <i class=\"fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400\"></i>");
-        writeln("         Esci");
+        writeln("         <i class=\"fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400\"></i>Esci");
         writeln("        </a>");
         writeln("       </div>");
         writeln("      </li>");
-
         writeln("     </ul>");
+
         writeln("    </nav>");
 
         writeln("   <!-- Begin Page Content -->");
         writeln("   <div class=\"container-fluid\" >");
-
         writeln("    <form id=\"mainForm\" action=\"" + getWebDesktopDto().getLastController() + "\" method=\"post\"" + (isMultipart() ? " enctype=\"multipart/form-data\"" : "") + ">");
 
         return EVAL_BODY_INCLUDE;

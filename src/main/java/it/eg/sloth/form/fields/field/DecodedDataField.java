@@ -2,6 +2,8 @@ package it.eg.sloth.form.fields.field;
 
 import it.eg.sloth.db.decodemap.DecodeMap;
 import it.eg.sloth.db.decodemap.DecodeValue;
+import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.casting.Casting;
 
 /**
  * Project: sloth-framework
@@ -26,9 +28,19 @@ public interface DecodedDataField<T extends Object> extends DataField<T> {
 
     String getDecodedText();
 
-    String getHtmlDecodedText();
+    default String escapeHtmlDecodedText() {
+        return escapeHtmlDecodedText(true, true);
+    }
 
-    String getHtmlDecodedText(boolean br, boolean nbsp);
+    default String escapeHtmlDecodedText(boolean br, boolean nbsp) {
+        if (BaseFunction.isNull(getDecodedText())) {
+            return "";
+        } else {
+            return Casting.getHtml(getDecodedText(), br, nbsp);
+        }
+    }
 
-    String getJsDecodedText();
+    default String escapeJsDecodedText() {
+        return Casting.getJs(getDecodedText());
+    }
 }

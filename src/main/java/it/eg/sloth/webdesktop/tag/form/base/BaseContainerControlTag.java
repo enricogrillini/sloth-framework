@@ -30,28 +30,24 @@ public abstract class BaseContainerControlTag extends BaseControlTag {
     private static final long serialVersionUID = 1L;
 
     String controlWidth;
-    String controlStyle;
-    String controlClassname;
     String labelWidth;
-    String labelStyle;
-    String labelClassname;
 
     public void writeLabelContainer(SimpleField field) throws FrameworkException, IOException {
         if (field != null && FormControlWriter.hasLabel(field)) {
-            write(GroupWriter.openCell(null, null, getLabelWidth()));
-            write(FormControlWriter.writeLabel(field, getControlClassname(), getControlStyle()));
+            write(GroupWriter.openCell(getLabelWidth()));
+            write(FormControlWriter.writeLabel(field));
             write(GroupWriter.closeCell());
         } else {
-            write(GroupWriter.openCell(null, null, getLabelWidth()));
+            write(GroupWriter.openCell(getLabelWidth()));
             write("<span class=\"form-control border-bottom-danger\">Campo " + getName() + " non trovato</span>");
             write(GroupWriter.closeCell());
         }
     }
 
     public void writeControlContainer(SimpleField field) throws FrameworkException, IOException {
-        write(GroupWriter.openCell(null, null, getControlWidth()));
+        write(GroupWriter.openCell(getControlWidth()));
         if (field != null) {
-            write(FormControlWriter.writeControl(field, getParentElement(), getViewModality(), getControlClassname(), getControlStyle()));
+            write(FormControlWriter.writeControl(field, getParentElement(), getViewModality()));
         } else {
             write("<span class=\"form-control border-bottom-danger\">Campo " + getName() + " non trovato</span>");
         }

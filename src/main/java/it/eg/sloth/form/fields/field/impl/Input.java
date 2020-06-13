@@ -26,7 +26,7 @@ import lombok.experimental.SuperBuilder;
  */
 @Getter
 @Setter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class Input<T> extends InputField<T> {
 
     private ForceCase forceCase;
@@ -62,4 +62,8 @@ public class Input<T> extends InputField<T> {
         return FieldType.INPUT;
     }
 
+    @Override
+    public Input<T> newInstance() {
+        return toBuilder().build();
+    }
 }

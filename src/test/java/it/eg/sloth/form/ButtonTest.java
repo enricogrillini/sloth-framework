@@ -6,8 +6,7 @@ import org.junit.Test;
 
 import java.util.Locale;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 public class ButtonTest {
 
@@ -24,21 +23,56 @@ public class ButtonTest {
 
     @Test
     public void buttonBuilderTest() {
-        Button link = Button.builder()
+        // Default
+        Button button = Button.builder()
                 .name("Name")
-                .locale(null)
                 .description("description")
-                .tooltip("tooltip")
-                .hidden(null)
-                .disabled(null)
-                .buttonType(null)
-                .imgHtml("imgHtml")
                 .build();
 
-        assertEquals("name", link.getName());
-        assertEquals(Locale.getDefault(), link.getLocale());
-        assertFalse(link.isHidden());
-        assertFalse(link.isDisabled());
-        assertFalse(link.isDisabled());
+        assertEquals("name", button.getName());
+        assertEquals("description", button.getDescription());
+        assertEquals(Locale.getDefault(), button.getLocale());
+        assertFalse(button.isHidden());
+        assertFalse(button.isDisabled());
+        assertEquals(ButtonType.BTN_OUTLINE_PRIMARY, button.getButtonType());
+
+        // False
+        button = Button.builder()
+                .name("Name")
+                .locale(Locale.ITALY)
+                .description("description")
+                .tooltip("tooltip")
+                .hidden(false)
+                .disabled(false)
+                .buttonType(ButtonType.BTN_INFO)
+                .build();
+
+        assertEquals("name", button.getName());
+        assertEquals(Locale.ITALY, button.getLocale());
+        assertFalse(button.isHidden());
+        assertFalse(button.isDisabled());
+        assertEquals(ButtonType.BTN_INFO, button.getButtonType());
+
+        // True
+        button = Button.builder()
+                .name("Name")
+                .locale(Locale.ITALY)
+                .description("description")
+                .tooltip("tooltip")
+                .hidden(true)
+                .disabled(true)
+                .buttonType(ButtonType.BTN_INFO)
+                .build();
+
+        assertEquals("name", button.getName());
+        assertEquals(Locale.ITALY, button.getLocale());
+        assertTrue(button.isHidden());
+        assertTrue(button.isDisabled());
+        assertEquals(ButtonType.BTN_INFO, button.getButtonType());
+
+        // NewInstance
+        Button button2 = button.newInstance();
+        assertFalse(button == button2);
+        assertEquals(button.getName(), button2.getName());
     }
 }

@@ -8,7 +8,6 @@ import it.eg.sloth.form.fields.field.DecodedDataField;
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.BaseMessage;
@@ -75,25 +74,6 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
     @Override
     public void setDecodeMap(DecodeMap<T, ? extends DecodeValue<T>> decodeMap) {
         this.decodeMap = decodeMap;
-    }
-
-    @Override
-    public String getHtmlDecodedText() {
-        return getHtmlDecodedText(true, true);
-    }
-
-    @Override
-    public String getHtmlDecodedText(boolean br, boolean nbsp) {
-        if (BaseFunction.isNull(getDecodedText())) {
-            return "";
-        } else {
-            return Casting.getHtml(getDecodedText(), br, nbsp);
-        }
-    }
-
-    @Override
-    public String getJsDecodedText() {
-        return Casting.getJs(getDecodedText());
     }
 
     @Override

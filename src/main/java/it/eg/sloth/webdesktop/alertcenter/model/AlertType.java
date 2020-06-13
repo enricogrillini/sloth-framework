@@ -1,4 +1,6 @@
-package it.eg.sloth.webdesktop.dto.notificationcenter.iface;
+package it.eg.sloth.webdesktop.alertcenter.model;
+
+import it.eg.sloth.db.decodemap.map.StringDecodeMap;
 
 /**
  * Project: sloth-framework
@@ -14,29 +16,20 @@ package it.eg.sloth.webdesktop.dto.notificationcenter.iface;
  *
  * @author Enrico Grillini
  */
-public interface NotificationMessage extends Iterable<NotificationMessageFunction> {
+public enum AlertType {
+    INFO("<i class=\"fas fa-info-circle text-white\"></i>"), WARNING("<i class=\"fas fa-exclamation-triangle text-white\"></i>"), DANGER("<i class=\"fas fa-times-circle text-white\"></i>");
 
-  public String getId();
+    private String icon;
 
-  public String getTitle();
 
-  public void setTitle(String title);
+    public String getIcon() {
+        return icon;
+    }
 
-  public String getSubTitle();
+    AlertType(String icon) {
+        this.icon = icon;
+    }
 
-  public void setSubTitle(String subTitle);
+    public static final StringDecodeMap DECODE_MAP = new StringDecodeMap("INFO,Info;WARNING,Warning;DANGER,Danger");
 
-  public String getDescription();
-
-  public void setDescription(String description);
-
-  public boolean isCloseable();
-
-  public void setCloseable(boolean closeable);
-
-  public String getUrl();
-
-  public void setUrl(String url);
-
-  public void addFunction(NotificationMessageFunction notificationMessageFunction);
 }

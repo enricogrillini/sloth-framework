@@ -1,12 +1,10 @@
 package it.eg.sloth.framework.common.base;
 
+import it.eg.sloth.framework.common.exception.ExceptionCode;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import org.junit.Test;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -27,34 +25,70 @@ import static org.junit.Assert.*;
 public class TimestampUtilTest {
 
     @Test
-    public void genericTest() throws FrameworkException {
+    public void genericTestOk() throws FrameworkException {
         Timestamp timestamp = TimeStampUtil.parseTimestamp("01/06/2020", "dd/MM/yyyy");
 
         // get Year
+        assertEquals(null, TimeStampUtil.getYear(null));
         assertEquals(Integer.valueOf(2020), TimeStampUtil.getYear(TimeStampUtil.parseTimestamp("01/06/2020", "dd/MM/yyyy")));
 
         // get Day of Week
+        assertEquals(null, TimeStampUtil.getDayOfWeek(null));
         assertEquals(Integer.valueOf(2), TimeStampUtil.getDayOfWeek(TimeStampUtil.parseTimestamp("01/06/2020", "dd/MM/yyyy")));
         assertTrue(TimeStampUtil.isMonday(TimeStampUtil.parseTimestamp("01/06/2020", "dd/MM/yyyy")));
+        assertFalse(TimeStampUtil.isMonday(TimeStampUtil.parseTimestamp("02/06/2020", "dd/MM/yyyy")));
 
         assertEquals(Integer.valueOf(3), TimeStampUtil.getDayOfWeek(TimeStampUtil.parseTimestamp("02/06/2020", "dd/MM/yyyy")));
         assertTrue(TimeStampUtil.isTuesday(TimeStampUtil.parseTimestamp("02/06/2020", "dd/MM/yyyy")));
+        assertFalse(TimeStampUtil.isTuesday(TimeStampUtil.parseTimestamp("03/06/2020", "dd/MM/yyyy")));
 
         assertEquals(Integer.valueOf(4), TimeStampUtil.getDayOfWeek(TimeStampUtil.parseTimestamp("03/06/2020", "dd/MM/yyyy")));
         assertTrue(TimeStampUtil.isWednesday(TimeStampUtil.parseTimestamp("03/06/2020", "dd/MM/yyyy")));
+        assertFalse(TimeStampUtil.isWednesday(TimeStampUtil.parseTimestamp("04/06/2020", "dd/MM/yyyy")));
 
         assertEquals(Integer.valueOf(5), TimeStampUtil.getDayOfWeek(TimeStampUtil.parseTimestamp("04/06/2020", "dd/MM/yyyy")));
         assertTrue(TimeStampUtil.isThursday(TimeStampUtil.parseTimestamp("04/06/2020", "dd/MM/yyyy")));
+        assertFalse(TimeStampUtil.isThursday(TimeStampUtil.parseTimestamp("05/06/2020", "dd/MM/yyyy")));
 
         assertEquals(Integer.valueOf(6), TimeStampUtil.getDayOfWeek(TimeStampUtil.parseTimestamp("05/06/2020", "dd/MM/yyyy")));
         assertTrue(TimeStampUtil.isFriday(TimeStampUtil.parseTimestamp("05/06/2020", "dd/MM/yyyy")));
+        assertFalse(TimeStampUtil.isFriday(TimeStampUtil.parseTimestamp("06/06/2020", "dd/MM/yyyy")));
 
         assertEquals(Integer.valueOf(7), TimeStampUtil.getDayOfWeek(TimeStampUtil.parseTimestamp("06/06/2020", "dd/MM/yyyy")));
         assertTrue(TimeStampUtil.isSaturday(TimeStampUtil.parseTimestamp("06/06/2020", "dd/MM/yyyy")));
+        assertFalse(TimeStampUtil.isSaturday(TimeStampUtil.parseTimestamp("07/06/2020", "dd/MM/yyyy")));
 
         assertEquals(Integer.valueOf(1), TimeStampUtil.getDayOfWeek(TimeStampUtil.parseTimestamp("07/06/2020", "dd/MM/yyyy")));
         assertTrue(TimeStampUtil.isSunday(TimeStampUtil.parseTimestamp("07/06/2020", "dd/MM/yyyy")));
+        assertFalse(TimeStampUtil.isSunday(TimeStampUtil.parseTimestamp("08/06/2020", "dd/MM/yyyy")));
     }
 
+    @Test
+    public void genericTestHolliday() throws FrameworkException {
+        assertTrue(TimeStampUtil.isHoliday(TimeStampUtil.parseTimestamp("01/01/2020", "dd/MM/yyyy")));
 
+        // Pasqua
+        assertTrue(TimeStampUtil.isHoliday(TimeStampUtil.parseTimestamp("12/04/2020", "dd/MM/yyyy")));
+        assertTrue(TimeStampUtil.isHoliday(TimeStampUtil.parseTimestamp("13/04/2020", "dd/MM/yyyy")));
+
+        // Domenica
+        assertTrue(TimeStampUtil.isHoliday(TimeStampUtil.parseTimestamp("19/04/2020", "dd/MM/yyyy")));
+
+        // Festività custom
+        assertTrue(TimeStampUtil.isHoliday(TimeStampUtil.parseTimestamp("09/06/2020", "dd/MM/yyyy"), TimeStampUtil.parseTimestamp("09/06/2020", "dd/MM/yyyy")));
+
+        // Lavorativi
+        assertFalse(TimeStampUtil.isHoliday(TimeStampUtil.parseTimestamp("09/06/2020", "dd/MM/yyyy")));
+        assertFalse(TimeStampUtil.isHoliday(TimeStampUtil.parseTimestamp("10/06/2020", "dd/MM/yyyy")));
+        assertFalse(TimeStampUtil.isHoliday(TimeStampUtil.parseTimestamp("11/06/2020", "dd/MM/yyyy")));
+    }
+
+    @Test
+    public void genericTestKo() throws FrameworkException {
+        // Lunghezza codice fiscale errata
+        FrameworkException frameworkException = assertThrows(FrameworkException.class, () -> {
+            TimeStampUtil.parseTimestamp("aaaa", "dd/MM/yyyy");
+        });
+        assertEquals(ExceptionCode.PARSE_ERROR, frameworkException.getExceptionCode());
+    }
 }

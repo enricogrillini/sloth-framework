@@ -1,4 +1,9 @@
-package it.eg.sloth.webdesktop.dto.notificationcenter.iface;
+package it.eg.sloth.framework.utility;
+
+import it.eg.sloth.framework.utility.security.RandomString;
+import org.junit.Test;
+
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Project: sloth-framework
@@ -14,17 +19,13 @@ package it.eg.sloth.webdesktop.dto.notificationcenter.iface;
  *
  * @author Enrico Grillini
  */
-public interface NotificationMessageFunction  {
+public class RandomStringTest {
 
-  public String getName();
+    @Test
+    public void randomStringTest() {
+        RandomString randomString = new RandomString(10);
 
-  public void setName(String name);
+        assertNotEquals("", randomString.nextString());
+    }
 
-  public String getTitle();
-
-  public void setTitle(String title);
-
-  public String getClassName();
-
-  public void setClassName(String className);
 }

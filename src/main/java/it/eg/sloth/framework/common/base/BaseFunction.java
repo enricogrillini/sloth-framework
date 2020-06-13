@@ -92,37 +92,6 @@ public class BaseFunction {
     }
 
     /**
-     * Moltiplica i due numeti passati gestendo i null
-     *
-     * @param bigDecimal1
-     * @param bigDecimal2
-     * @return
-     */
-    public static final BigDecimal multiply(BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
-        if (bigDecimal1 == null || bigDecimal2 == null)
-            return null;
-        else
-            return bigDecimal1.multiply(bigDecimal2);
-    }
-
-    /**
-     * Ritorna il numero maggiore
-     *
-     * @param bigDecimal1
-     * @param bigDecimal2
-     * @return
-     */
-    public static BigDecimal greatest(BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
-        if (bigDecimal1 == null || bigDecimal2 == null)
-            return null;
-
-        if (bigDecimal1.doubleValue() > bigDecimal2.doubleValue())
-            return bigDecimal1;
-        else
-            return bigDecimal2;
-    }
-
-    /**
      * Arrotonda un bigDecimal
      *
      * @param bigDecimal

@@ -10,6 +10,7 @@ import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.exception.ExceptionCode;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.BootStrapClass;
@@ -33,45 +34,40 @@ import java.text.MessageFormat;
  */
 public class FormControlWriter extends AbstractHtmlWriter {
 
-    public static String writeControl(SimpleField element, Element parentElement, ViewModality pageViewModality, String className, String style) throws FrameworkException {
+    public static String writeControl(SimpleField element, Element parentElement, ViewModality pageViewModality) throws FrameworkException {
         switch (element.getFieldType()) {
             case AUTO_COMPLETE:
-                return writeAutoComplete((AutoComplete<?>) element, parentElement, pageViewModality, className, style);
+                return writeAutoComplete((AutoComplete<?>) element, parentElement, pageViewModality);
             case BUTTON:
-                return writeButton((Button) element, className, style);
+                return writeButton((Button) element);
             case CHECK_BOX:
-                return writeCheckBox((CheckBox<?>) element, pageViewModality, className, style);
+                return writeCheckBox((CheckBox<?>) element, pageViewModality);
             case COMBO_BOX:
-                return writeComboBox((ComboBox<?>) element, pageViewModality, className, style);
+                return writeComboBox((ComboBox<?>) element, pageViewModality);
             case DECODED_TEXT:
-                return writeDecodedText((DecodedText<?>) element, className, style);
+                return writeDecodedText((DecodedText<?>) element);
             case FILE:
                 return writeFile((File) element, pageViewModality);
             case HIDDEN:
                 return writeHidden((Hidden<?>) element);
             case INPUT:
-                return writeInput((Input<?>) element, pageViewModality, className, style);
+                return writeInput((Input<?>) element, pageViewModality);
             case INPUT_TOTALIZER:
-                return writeInputTotalizer((InputTotalizer) element, pageViewModality, className, style);
+                return writeInputTotalizer((InputTotalizer) element, pageViewModality);
             case LINK:
-                return writeLink((Link) element, className, style);
+                return writeLink((Link) element);
             case RADIO_GROUP:
                 return writeRadioGroup((RadioGroup<?>) element, pageViewModality);
             case SEMAPHORE:
                 return writeSemaforo((Semaphore) element, pageViewModality);
             case TEXT:
-                return writeText((Text<?>) element, className, style);
+                return writeText((Text<?>) element);
             case TEXT_AREA:
-                return writeTextArea((TextArea<?>) element, pageViewModality, className, style);
+                return writeTextArea((TextArea<?>) element, pageViewModality);
             case TEXT_TOTALIZER:
-                return writeTextTotalizer((TextTotalizer) element, className, style);
+                return writeTextTotalizer((TextTotalizer) element);
             default:
-                // Old -> Saranno da portare tutti a nuovo
-                if (element instanceof MultipleAutoComplete<?, ?>) {
-                    return writeMultipleAutoComplete((MultipleAutoComplete<?, ?>) element, parentElement, pageViewModality, className, style);
-                } else {
-                    return "";
-                }
+                throw new FrameworkException(ExceptionCode.INVALID_CONTROL);
         }
 
     }
@@ -80,7 +76,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
         return !(element instanceof Button);
     }
 
-    public static String writeLabel(SimpleField simpleField, String className, String style) {
+    public static String writeLabel(SimpleField simpleField) {
         if (!hasLabel(simpleField)) {
             return StringUtil.EMPTY;
         }
@@ -90,8 +86,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
         return new StringBuilder()
                 .append("<label")
                 .append(getAttribute("for", simpleField.getName()))
-                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.LABEL_CLASS))
-                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(className), style))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.LABEL_CLASS))
                 .append(getAttribute(ATTR_TOOLTIP, !BaseFunction.isBlank(simpleField.getTooltip()), simpleField.getTooltip()))
                 .append(">" + simpleField.getHtmlDescription() + strRequired + ":&nbsp;</label>")
                 .toString();
@@ -101,20 +96,17 @@ public class FormControlWriter extends AbstractHtmlWriter {
      * Scrive un campo: Text
      *
      * @param text
-     * @param className
-     * @param style
      * @return
      */
 
-    public static String writeText(Text<?> text, String className, String style) {
+    public static String writeText(Text<?> text) {
         StringBuilder result = new StringBuilder()
                 .append(BEGIN_INPUT)
                 .append(getAttribute(ATTR_ID, text.getName()))
                 .append(getAttribute(ATTR_NAME, text.getName()))
                 .append(getAttribute(ATTR_TYPE, "text"))
                 .append(getAttribute(ATTR_VALUE, text.escapeHtmlText()))
-                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
-                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
                 .append(getAttribute(ATTR_DISABLED, ""))
                 .append(getAttribute(ATTR_TOOLTIP, !BaseFunction.isBlank(text.getTooltip()), text.getTooltip()))
                 .append("/>");
@@ -126,31 +118,26 @@ public class FormControlWriter extends AbstractHtmlWriter {
      * Scrive un campo: TextTotalizer
      *
      * @param textTotalizer
-     * @param className
-     * @param style
      * @return
      */
 
-    public static String writeTextTotalizer(TextTotalizer textTotalizer, String className, String style) {
-        return writeText(textTotalizer, className, style);
+    public static String writeTextTotalizer(TextTotalizer textTotalizer) {
+        return writeText(textTotalizer);
     }
 
     /**
      * Scrive un campo: DecodedText
      *
      * @param decodedText
-     * @param className
-     * @param style
      * @return
      */
-    public static String writeDecodedText(DecodedText<?> decodedText, String className, String style) {
+    public static String writeDecodedText(DecodedText<?> decodedText) {
         StringBuilder input = new StringBuilder()
                 .append(BEGIN_INPUT)
                 .append(getAttribute(ATTR_ID, decodedText.getName()))
                 .append(getAttribute(ATTR_NAME, decodedText.getName()))
-                .append(getAttribute(ATTR_VALUE, decodedText.getHtmlDecodedText()))
-                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
-                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style))
+                .append(getAttribute(ATTR_VALUE, decodedText.escapeHtmlDecodedText()))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
                 .append(getAttribute(ATTR_DISABLED, ""))
                 .append("/>");
 
@@ -193,12 +180,10 @@ public class FormControlWriter extends AbstractHtmlWriter {
      *
      * @param input
      * @param pageViewModality
-     * @param className
-     * @param style
      * @return
      */
 
-    public static String writeInput(Input<?> input, ViewModality pageViewModality, String className, String style) {
+    public static String writeInput(Input<?> input, ViewModality pageViewModality) {
         if (input.isHidden()) {
             return StringUtil.EMPTY;
         }
@@ -214,16 +199,14 @@ public class FormControlWriter extends AbstractHtmlWriter {
             field
                     .append(getAttribute(ATTR_TYPE, "text"))
                     .append(getAttribute(ATTR_VALUE, input.escapeHtmlText()))
-                    .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
-                    .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style))
+                    .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
                     .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
         } else {
             field
                     .append(getAttribute(ATTR_TYPE, input.getDataType().getHtmlType()))
                     .append(getAttribute(ATTR_VALUE, input.escapeHtmlValue()))
                     .append(getAttribute("step", DataTypes.DATETIME == input.getDataType() || DataTypes.TIME == input.getDataType(), "1"))
-                    .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
-                    .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style))
+                    .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
                     .append(getAttribute(ATTR_READONLY, input.isReadOnly(), ""))
                     .append(getAttribute("maxlength", input.getMaxLength() > 0, "" + input.getMaxLength()));
         }
@@ -254,21 +237,21 @@ public class FormControlWriter extends AbstractHtmlWriter {
      *
      * @param inputTotalizer
      * @param pageViewModality
-     * @param className
-     * @param style
      * @return
      */
-    public static String writeInputTotalizer(InputTotalizer inputTotalizer, ViewModality pageViewModality, String className, String style) {
-        return writeInput(inputTotalizer, pageViewModality, className, style);
+    public static String writeInputTotalizer(InputTotalizer inputTotalizer, ViewModality pageViewModality) {
+        return writeInput(inputTotalizer, pageViewModality);
     }
 
     /**
-     * Scrive un campo: Input
+     * Scrive un campo: AutoComplete
      *
      * @param autocomplete
+     * @param parentElement
+     * @param pageViewModality
      * @return
      */
-    public static String writeAutoComplete(AutoComplete<?> autocomplete, Element parentElement, ViewModality pageViewModality, String className, String style) {
+    public static String writeAutoComplete(AutoComplete<?> autocomplete, Element parentElement, ViewModality pageViewModality) {
         if (autocomplete.isHidden()) {
             return StringUtil.EMPTY;
         }
@@ -279,9 +262,8 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 .append(BEGIN_INPUT)
                 .append(getAttribute(ATTR_ID, autocomplete.getName()))
                 .append(getAttribute(ATTR_NAME, autocomplete.getName()))
-                .append(getAttribute(ATTR_VALUE, autocomplete.getHtmlDecodedText()))
-                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS + " autoComplete"))
-                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style));
+                .append(getAttribute(ATTR_VALUE, autocomplete.escapeHtmlDecodedText()))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS + " autoComplete"));
 
         if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
             input.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
@@ -307,52 +289,6 @@ public class FormControlWriter extends AbstractHtmlWriter {
         } else {
             return input.toString();
         }
-
-    }
-
-    /**
-     * Scrive un campo: MultipleAutoComplete
-     *
-     * @param multipleAutoComplete
-     * @param pageViewModality
-     * @param className
-     * @param style
-     * @return
-     */
-    public static String writeMultipleAutoComplete(MultipleAutoComplete<?, ?> multipleAutoComplete, Element parentElement, ViewModality pageViewModality, String className, String style) {
-        if (multipleAutoComplete.isHidden())
-            return "";
-
-        String result;
-        ViewModality viewModality = multipleAutoComplete.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : multipleAutoComplete.getViewModality();
-        if (viewModality == ViewModality.VIEW_MODIFICA) {
-            result = "<input ";
-
-            result += " id=\"" + multipleAutoComplete.getName() + "\"";
-            result += " name=\"" + multipleAutoComplete.getName() + "\"";
-            result += " value=\"" + multipleAutoComplete.getHtmlDecodedText(false, false) + "\"";
-            result += " type=\"text\"";
-
-            result += " fields=\"" + parentElement.getName() + "\"";
-
-            if (multipleAutoComplete.isReadOnly()) {
-                result += " disabled=\"disabled\"";
-            }
-
-            result += " class=\"" + (BaseFunction.isBlank(className) ? "multipleAutoComplete" : className + " multipleAutoComplete") + "\"";
-
-            if (!BaseFunction.isBlank(style))
-                result += " style=\"" + style + "\"";
-
-            result += " />";
-
-        } else if (!BaseFunction.isBlank(multipleAutoComplete.getBaseLink())) {
-            result = "<span><a href=\"" + multipleAutoComplete.getBaseLink() + multipleAutoComplete.escapeHtmlValue() + "\" >" + multipleAutoComplete.getHtmlDecodedText() + "</a></span>";
-        } else {
-            result = "<span>" + BaseFunction.nvl(multipleAutoComplete.getHtmlDecodedText(), "&nbsp;") + "</span>";
-        }
-
-        return result;
     }
 
     /**
@@ -360,11 +296,9 @@ public class FormControlWriter extends AbstractHtmlWriter {
      *
      * @param textArea
      * @param pageViewModality
-     * @param className
-     * @param style
      * @return
      */
-    public static String writeTextArea(TextArea<?> textArea, ViewModality pageViewModality, String className, String style) {
+    public static String writeTextArea(TextArea<?> textArea, ViewModality pageViewModality) {
         if (textArea.isHidden()) {
             return StringUtil.EMPTY;
         }
@@ -374,8 +308,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 .append("<textarea")
                 .append(getAttribute(ATTR_ID, textArea.getName()))
                 .append(getAttribute(ATTR_NAME, textArea.getName()))
-                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
-                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style));
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS));
 
         if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
             result.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
@@ -395,11 +328,9 @@ public class FormControlWriter extends AbstractHtmlWriter {
      *
      * @param comboBox
      * @param pageViewModality
-     * @param className
-     * @param style
      * @return
      */
-    public static String writeComboBox(ComboBox<?> comboBox, ViewModality pageViewModality, String className, String style) throws FrameworkException {
+    public static String writeComboBox(ComboBox<?> comboBox, ViewModality pageViewModality) throws FrameworkException {
         if (comboBox.isHidden())
             return StringUtil.EMPTY;
 
@@ -409,8 +340,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 .append(getAttribute(ATTR_ID, comboBox.getName()))
                 .append(getAttribute(ATTR_NAME, comboBox.getName()))
                 .append(getAttribute(ATTR_VALUE, comboBox.escapeHtmlValue()))
-                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.CONTROL_CLASS))
-                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style));
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS));
 
         if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
             result.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
@@ -451,9 +381,10 @@ public class FormControlWriter extends AbstractHtmlWriter {
      * Scrive un campo: CheckBox
      *
      * @param checkBox
+     * @param pageViewModality
      * @return
      */
-    public static String writeCheckBox(CheckBox<?> checkBox, ViewModality pageViewModality, String className, String style) {
+    public static String writeCheckBox(CheckBox<?> checkBox, ViewModality pageViewModality) {
         if (checkBox.isHidden()) {
             return StringUtil.EMPTY;
         }
@@ -467,8 +398,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 .append(getAttribute(ATTR_VALUE, checkBox.getValChecked().toString()))
                 .append(getAttribute(ATTR_READONLY, checkBox.isReadOnly(), ""))
                 .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""))
-                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, BootStrapClass.CHECK_CLASS))
-                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.CHECK_CLASS))
                 .append(getAttribute("checked", checkBox.getValChecked().toString().equalsIgnoreCase(checkBox.getData()), ""))
                 .append("/>");
 
@@ -562,7 +492,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
             // FIXME: Implementare
             return "";
         } else {
-            return semaforo.getHtmlDecodedText();
+            return semaforo.escapeHtmlDecodedText();
         }
     }
 
@@ -604,11 +534,9 @@ public class FormControlWriter extends AbstractHtmlWriter {
      * Scrive un campo: Link
      *
      * @param link
-     * @param className
-     * @param style
      * @return
      */
-    public static String writeLink(Link link, String className, String style) {
+    public static String writeLink(Link link) {
         if (link.isHidden()) {
             return StringUtil.EMPTY;
         }
@@ -617,8 +545,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 .append("<a")
                 .append(getAttribute("href", !BaseFunction.isBlank(link.getHref()), link.getHref()))
                 .append(getAttribute("target", !BaseFunction.isBlank(link.getTarget()), link.getTarget()))
-                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, MessageFormat.format(BootStrapClass.BUTTON_CLASS, link.getButtonType().value())))
-                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style))
+                .append(getAttribute(ATTR_CLASS, MessageFormat.format(BootStrapClass.BUTTON_CLASS, link.getButtonType().value())))
                 .append(getAttribute(ATTR_DISABLED, link.isDisabled(), ""))
                 .append(getAttribute(ATTR_TOOLTIP, !BaseFunction.isBlank(link.getTooltip()), link.getTooltip()))
                 .append("/>")
@@ -633,11 +560,9 @@ public class FormControlWriter extends AbstractHtmlWriter {
      * Scrive un campo: Button
      *
      * @param button
-     * @param className
-     * @param style
      * @return
      */
-    public static String writeButton(Button button, String className, String style) {
+    public static String writeButton(Button button) {
         if (button.isHidden()) {
             return StringUtil.EMPTY;
         }
@@ -646,8 +571,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 .append("<button")
                 .append(getAttribute(ATTR_ID, button.getHtlmName()))
                 .append(getAttribute(ATTR_NAME, button.getHtlmName()))
-                .append(getAttribute(ATTR_CLASS, !BaseFunction.isBlank(className), className, MessageFormat.format(BootStrapClass.BUTTON_CLASS, button.getButtonType().value())))
-                .append(getAttribute(ATTR_STYLE, !BaseFunction.isBlank(style), style))
+                .append(getAttribute(ATTR_CLASS, MessageFormat.format(BootStrapClass.BUTTON_CLASS, button.getButtonType().value())))
                 .append(getAttribute(ATTR_DISABLED, button.isDisabled(), ""))
                 .append(getAttribute(ATTR_TOOLTIP, !BaseFunction.isBlank(button.getTooltip()), button.getTooltip()))
                 .append("/>")

@@ -2,6 +2,7 @@ package it.eg.sloth.db;
 
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.RowStatus;
+import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.db.manager.DataConnectionManager;
 import it.eg.sloth.db.model.ProvaRowBean;
@@ -21,6 +22,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DataConnectionMangerTest {
@@ -33,6 +35,22 @@ public class DataConnectionMangerTest {
     public static void init() {
         DataConnectionManager.getInstance().registerDefaultDataSource(driverClassName, url, userName, password, 1, 100, 1);
     }
+
+    /**
+     * Empty Table
+     *
+     * @throws SQLException
+     * @throws IOException
+     * @throws FrameworkException
+     */
+    @Test
+    public void ds0EmptyTest() throws SQLException, IOException, FrameworkException {
+        Table dataTable = new Table();
+
+        assertEquals(0, dataTable.values().size());
+        assertEquals(0, dataTable.keys().size());
+    }
+
 
     /**
      * Lettura di un generico DataSource
@@ -53,6 +71,9 @@ public class DataConnectionMangerTest {
 
         assertEquals(3, dataTable.getRow().values().size());
         assertEquals(3, dataTable.getRow().keys().size());
+
+        assertEquals(3, dataTable.values().size());
+        assertEquals(3, dataTable.keys().size());
     }
 
     @Test
@@ -78,6 +99,7 @@ public class DataConnectionMangerTest {
      */
     @Test
     public void ds3FilteredQueryTest() throws SQLException, IOException, FrameworkException {
+        // Simple Filter
         FilteredQuery query = new FilteredQuery("Select * from Prova /*W*/");
         query.addFilter("Id = ?", Types.INTEGER, 2);
 
@@ -87,6 +109,14 @@ public class DataConnectionMangerTest {
 
         ProvaRowBean provaRowBean = ProvaRowBean.Factory.load(query);
         assertEquals(BigDecimal.valueOf(2), provaRowBean.getId());
+
+        // Text Search
+        query = new FilteredQuery("Select * from Prova /*W*/");
+        query.addTextSearch("upper(testo) like '%' || upper(?) || '%'", "aaa X");
+
+        provaTableBean = ProvaTableBean.Factory.loadFromQuery(query);
+        assertEquals(1, provaTableBean.size());
+        assertEquals(BigDecimal.valueOf(1), provaTableBean.getRow().getId());
     }
 
 
@@ -201,7 +231,24 @@ public class DataConnectionMangerTest {
         assertEquals(0, provaTableBean.size());
     }
 
+    @Test
+    public void ds7TableBeanExceptionTest() throws SQLException, IOException, FrameworkException {
 
+        ProvaTableBean provaTableBean = new ProvaTableBean();
+
+        ProvaRowBean provaRowBean = provaTableBean.add();
+        provaRowBean.setId(BigDecimal.valueOf(3));
+        provaRowBean.setTesto("Ccccc");
+        provaRowBean.setData(TimeStampUtil.parseTimestamp("01/02/2020", "dd/MM/yyyy"));
+
+        SQLException sqlException = assertThrows(SQLException.class, () -> {
+            provaTableBean.save();
+        });
+
+
+        provaRowBean.setId(BigDecimal.valueOf(5));
+        provaTableBean.save();
+    }
 
 
 }

@@ -1,7 +1,8 @@
 package it.eg.sloth.webdesktop.tag.page;
 
+import java.io.IOException;
+
 import it.eg.sloth.form.Form;
-import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,24 +26,15 @@ import lombok.Setter;
 @Setter
 public class BodyTag extends WebDesktopTag<Form> {
 
-    static final long serialVersionUID = 1L;
-
-    String className;
-
     @Override
-    protected int startTag() throws Throwable {
-        String classHtml = "";
-        if (!BaseFunction.isBlank(getClassName())) {
-            classHtml = " class=\"" + getClassName() + "\"";
-        }
-
-        writeln("<body id=\"page-top\"" + classHtml + ">");
+    protected int startTag() throws IOException  {
+        writeln("<body id=\"page-top\">");
 
         return EVAL_BODY_INCLUDE;
     }
 
     @Override
-    protected void endTag() throws Throwable {
+    protected void endTag() throws IOException {
         writeln("</body>");
     }
 

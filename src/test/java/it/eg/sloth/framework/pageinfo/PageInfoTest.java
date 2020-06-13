@@ -1,7 +1,5 @@
 package it.eg.sloth.framework.pageinfo;
 
-import it.eg.sloth.db.datasource.row.Row;
-import it.eg.sloth.framework.monitor.MonitorStatistics;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

@@ -6,6 +6,7 @@ public enum ExceptionCode {
     FORMAT_ERROR("business.exception.formatError", ExceptionType.BUSINESS),
     PARSE_ERROR("business.exception.parseError", ExceptionType.BUSINESS),
     ROLLUP_CALCULATE_ERROR("business.exception.rollupCalculateError", ExceptionType.BUSINESS),
+    INVALID_CONTROL("business.exception.invalidControl", ExceptionType.BUSINESS),
 
     // System Exception
     DATA_SOURCE_NOT_FOUND("system.exception.dataSourceNotFound", ExceptionType.SYSTEM),

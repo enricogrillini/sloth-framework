@@ -28,9 +28,9 @@ import lombok.experimental.SuperBuilder;
  *
  * @author Enrico Grillini
  */
-@SuperBuilder
 @Getter
 @Setter
+@SuperBuilder(toBuilder = true)
 public abstract class InputField<T> extends TextField<T> {
 
     private Boolean required;

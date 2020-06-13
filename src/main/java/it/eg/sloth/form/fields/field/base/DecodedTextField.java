@@ -70,17 +70,17 @@ public abstract class DecodedTextField<T> extends TextField<T> implements Decode
     }
 
     @Override
-    public String getHtmlDecodedText() {
-        return getHtmlDecodedText(true, true);
+    public String escapeHtmlDecodedText() {
+        return escapeHtmlDecodedText(true, true);
     }
 
     @Override
-    public String getHtmlDecodedText(boolean br, boolean nbsp) {
+    public String escapeHtmlDecodedText(boolean br, boolean nbsp) {
         return Casting.getHtml(getDecodedText(), br, nbsp);
     }
 
     @Override
-    public String getJsDecodedText() {
+    public String escapeJsDecodedText() {
         return Casting.getJs(getDecodedText());
     }
 

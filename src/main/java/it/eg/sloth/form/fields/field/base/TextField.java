@@ -33,7 +33,7 @@ import java.util.Locale;
  */
 @Getter
 @Setter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public abstract class TextField<T extends Object> implements DataField<T> {
 
     // Contiente il valore informativo come stringa
@@ -139,7 +139,6 @@ public abstract class TextField<T extends Object> implements DataField<T> {
     public boolean validate(MessageList messages) throws FrameworkException {
         return true;
     }
-
 
     @Override
     public void post(WebRequest webRequest) throws FrameworkException {

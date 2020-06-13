@@ -203,7 +203,7 @@ public class ToolbarWriter extends AbstractHtmlWriter {
      * @return
      */
     public static String insertButton(Grid<?> grid) {
-        if (grid.isDeleteButtonHidden()) {
+        if (grid.isInsertButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
             return new StringBuilder()

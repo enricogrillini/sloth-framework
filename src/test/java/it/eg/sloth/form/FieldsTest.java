@@ -7,14 +7,12 @@ import it.eg.sloth.form.fields.field.impl.Text;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.framework.common.message.MessageList;
 import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class FieldsTest {
 

@@ -82,7 +82,8 @@ public class Link implements SimpleField {
         // NOP - Non sono gestite operazioni server side
     }
 
-    public Link newInstance() throws CloneNotSupportedException {
-        return (Link) super.clone();
+    @Override
+    public Link newInstance() {
+        return toBuilder().build();
     }
 }

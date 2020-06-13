@@ -1,4 +1,10 @@
-package it.eg.sloth.webdesktop.dto.notificationcenter.iface;
+package it.eg.sloth.webdesktop.alertcenter.model;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
+import java.sql.Timestamp;
 
 /**
  * Project: sloth-framework
@@ -14,17 +20,14 @@ package it.eg.sloth.webdesktop.dto.notificationcenter.iface;
  *
  * @author Enrico Grillini
  */
-public interface NotificationApplicationFunction {
-
-  public String getName();
-
-  public void setName(String name);
-
-  public String getTitle();
-
-  public void setTitle(String title);
-
-  public String getClassName();
-
-  public void setClassName(String className);
+@Getter
+@Setter
+@SuperBuilder
+public class Alert {
+    Integer idAlert;
+    AlertType type;
+    Timestamp date;
+    String text;
+    String detail;
+    String href;
 }

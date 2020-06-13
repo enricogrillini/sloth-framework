@@ -80,7 +80,6 @@ public class ChartWriter extends AbstractHtmlWriter {
     public static final ChartJsData populateChartData(SimpleChart<?> simpleChart) throws CloneNotSupportedException, FrameworkException, ParseException {
         ChartJsData chartData = new ChartJsData();
 
-
         if (simpleChart.getDataTable() != null) {
             // Labels
             Labels<?> labels = (Labels<?>) simpleChart.getLabels().newInstance();
@@ -100,8 +99,6 @@ public class ChartWriter extends AbstractHtmlWriter {
                     dataSetMultiColor(simpleChart, chartData);
 
             }
-
-
         }
 
         return chartData;

@@ -77,7 +77,7 @@ public abstract class AbstractGridTag<T extends Grid<?>> extends BaseElementTag<
         if (ViewModality.VIEW_VISUALIZZAZIONE == viewModality) {
             write(TextControlWriter.writeControl(field));
         } else {
-            write(FormControlWriter.writeControl(field, getElement(), viewModality, null, null));
+            write(FormControlWriter.writeControl(field, getElement(), viewModality));
         }
         writeln("</td>");
     }

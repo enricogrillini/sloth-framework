@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 public class CardWriterTest {
 
     private static final String CONTENT_TEMPLATE =
-            "   <div class=\"col mr-2\">\n" +
+            "   <div class=\"col mr-2\"{2}>\n" +
                     "    <div class=\"text-xs font-weight-bold text-primary text-uppercase mb-1\">{0}</div>\n" +
                     "    <div class=\"row no-gutters align-items-center\">\n" +
                     "     <div class=\"col-auto\">\n" +
@@ -36,18 +36,21 @@ public class CardWriterTest {
                     "     </div>\n" +
                     "    </div>\n" +
                     "   </div>\n" +
-                    "{2}";
+                    "{3}";
 
     @Test
     public void fieldCardContentTest() throws FrameworkException {
         Text<BigDecimal> field = new Text<BigDecimal>("name", "description", DataTypes.INTEGER);
-        assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "description", "", ""), CardWriter.fieldCardContent(field));
+        assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "description", "", "", ""), CardWriter.fieldCardContent(field));
 
         field.setValue(BigDecimal.valueOf(10));
-        assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "description", "10", ""), CardWriter.fieldCardContent(field));
+        assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "description", "10", "", ""), CardWriter.fieldCardContent(field));
 
         field.setBaseLink("www?");
-        assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "description", "10", "   <a href=\"www?10\" class=\"stretched-link\"></a>\n"), CardWriter.fieldCardContent(field));
+        assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "description", "10", "", "   <a href=\"www?10\" class=\"stretched-link\"></a>\n"), CardWriter.fieldCardContent(field));
+
+        field.setTooltip("tooltip");
+        assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "description", "10", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\"", "   <a href=\"www?10\" class=\"stretched-link\"></a>\n"), CardWriter.fieldCardContent(field));
     }
 
 }

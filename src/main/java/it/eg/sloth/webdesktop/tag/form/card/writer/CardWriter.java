@@ -38,7 +38,7 @@ public class CardWriter extends AbstractHtmlWriter {
         return new StringBuilder()
                 .append("  </div>\n")
                 .append(" </div>\n")
-                .append(CLOSE_DIV)
+                .append("</div>")
                 .toString();
     }
 

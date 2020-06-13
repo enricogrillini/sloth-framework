@@ -49,7 +49,7 @@ public class TextControlWriterTest {
     @Test
     public void buttonTest() throws FrameworkException {
         Button field = new Button("name", "description");
-        assertEquals(FormControlWriter.writeButton(field, null, null), TextControlWriter.writeButton(field));
+        assertEquals(FormControlWriter.writeButton(field), TextControlWriter.writeButton(field));
     }
 
     @Test
@@ -105,7 +105,7 @@ public class TextControlWriterTest {
         assertEquals(TextControlWriter.writeHidden(field), FormControlWriter.writeHidden(field));
 
         // Controllo generico
-        assertEquals(TextControlWriter.writeHidden(field), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(TextControlWriter.writeHidden(field), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
     }
 
     @Test

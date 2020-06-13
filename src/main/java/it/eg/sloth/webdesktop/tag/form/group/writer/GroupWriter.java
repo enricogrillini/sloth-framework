@@ -53,21 +53,17 @@ public class GroupWriter extends AbstractHtmlWriter {
                 .toString();
     }
 
-    public static String openCell(String className, String style, String width) throws FrameworkException {
+    public static String openCell(String width) throws FrameworkException {
         // class
         String classHtml = BASE_CELL_CLASS + "2";
         if (!BaseFunction.isBlank(width) && width.indexOf("cols") >= 0) {
             BigDecimal bigDecimal = BigDecimalUtil.parseBigDecimal(width.replace("cols", ""));
             classHtml = BASE_CELL_CLASS + bigDecimal.intValue();
-        } else if (!BaseFunction.isBlank(className)) {
-            classHtml = className;
-        }
-
+        } 
 
         return new StringBuilder()
                 .append("<div")
                 .append(getAttribute("class", classHtml))
-                .append(getAttribute("style", !BaseFunction.isBlank(style), style))
                 .append(">")
                 .toString();
 

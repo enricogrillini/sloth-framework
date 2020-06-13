@@ -32,7 +32,7 @@ import java.util.Locale;
  */
 @Getter
 @Setter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class File implements SimpleField {
 
     String name;
@@ -121,8 +121,8 @@ public class File implements SimpleField {
     }
 
     @Override
-    public File newInstance() throws CloneNotSupportedException {
-        return (File) super.clone();
+    public File newInstance() {
+        return toBuilder().build();
     }
 
 }

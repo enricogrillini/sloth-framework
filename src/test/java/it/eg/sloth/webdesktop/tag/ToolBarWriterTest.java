@@ -26,7 +26,6 @@ import it.eg.sloth.webdesktop.tag.form.toolbar.writer.ToolbarWriter;
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
- *
  */
 public class ToolBarWriterTest {
 
@@ -78,6 +77,10 @@ public class ToolBarWriterTest {
 
         grid.getDataSource().first();
         assertEquals(MessageFormat.format(FIRST_ROW_GRID, " disabled=\"\""), ToolbarWriter.firstRowButton(grid, false));
+
+        // Hidden
+        grid.setFirstButtonHidden(true);
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.firstRowButton(grid, false));
     }
 
     @Test
@@ -87,6 +90,10 @@ public class ToolBarWriterTest {
 
         grid.getDataSource().first();
         assertEquals(MessageFormat.format(PREV_PAGE_GRID, " disabled=\"\""), ToolbarWriter.prevPageButton(grid, false));
+
+        // Hidden
+        grid.setPrevPageButtonHidden(true);
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.prevPageButton(grid, false));
     }
 
     @Test
@@ -96,6 +103,10 @@ public class ToolBarWriterTest {
 
         grid.getDataSource().first();
         assertEquals(MessageFormat.format(PREV_GRID, " disabled=\"\""), ToolbarWriter.prevButton(grid, false));
+
+        // Hidden
+        grid.setPrevButtonHidden(true);
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.prevButton(grid, false));
     }
 
     @Test
@@ -105,6 +116,10 @@ public class ToolBarWriterTest {
 
         grid.getDataSource().last();
         assertEquals(MessageFormat.format(NEXT_GRID, " disabled=\"\""), ToolbarWriter.nextButton(grid, false));
+
+        // Hidden
+        grid.setNextButtonHidden(true);
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.nextButton(grid, false));
     }
 
     @Test
@@ -114,6 +129,10 @@ public class ToolBarWriterTest {
 
         grid.getDataSource().last();
         assertEquals(MessageFormat.format(NEXT_PAGE_GRID, " disabled=\"\""), ToolbarWriter.nextPageButton(grid, false));
+
+        // Hidden
+        grid.setNextPageButtonHidden(true);
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.nextPageButton(grid, false));
     }
 
     @Test
@@ -123,6 +142,10 @@ public class ToolBarWriterTest {
 
         grid.getDataSource().last();
         assertEquals(MessageFormat.format(LAST_ROW_GRID, " disabled=\"\""), ToolbarWriter.lastRowButton(grid, false));
+
+        // Hidden
+        grid.setLastButtonHidden(true);
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.lastRowButton(grid, false));
     }
 
     @Test
@@ -139,12 +162,20 @@ public class ToolBarWriterTest {
     public void insertButtonTest() {
         // Grid
         assertEquals(MessageFormat.format(INSERT_GRID, ""), ToolbarWriter.insertButton(grid));
+
+        // Hidden
+        grid.setInsertButtonHidden(true);
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.insertButton(grid));
     }
 
     @Test
     public void deleteButtonTest() {
         // Grid
         assertEquals(MessageFormat.format(DELETE_GRID, ""), ToolbarWriter.deleteButton(grid));
+
+        // Hidden
+        grid.setDeleteButtonHidden(true);
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.deleteButton(grid));
     }
 
     @Test

@@ -27,5 +27,9 @@ public class DecodeMapTest {
         assertEquals(1, decodeMap.performSearch("    prova testo 1     ", MapSearchType.MATCH, 10).size());
         assertEquals(1, decodeMap.performSearch("Prova testo 1", MapSearchType.MATCH, 10).size());
         assertEquals(1, decodeMap.performSearch("testo 1 Prova", MapSearchType.MATCH, 10).size());
+        assertEquals(2, decodeMap.performSearch("prova", MapSearchType.MATCH, 2).size());
+
+        // Empty
+        assertEquals(0, decodeMap.performSearch("", MapSearchType.MATCH, 10).size());
     }
 }

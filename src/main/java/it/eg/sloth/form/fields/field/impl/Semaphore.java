@@ -50,7 +50,7 @@ public class Semaphore extends ComboBox<String> {
     }
 
     @Override
-    public String getHtmlDecodedText() {
+    public String escapeHtmlDecodedText() {
         switch (getValue()) {
             case Semaphore.WHITE:
                 return GIF_WHITE;

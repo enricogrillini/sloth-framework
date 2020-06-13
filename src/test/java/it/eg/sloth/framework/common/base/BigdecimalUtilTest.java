@@ -1,14 +1,10 @@
 package it.eg.sloth.framework.common.base;
 
-import it.eg.sloth.framework.common.exception.FrameworkException;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.util.Arrays;
-import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -32,6 +28,15 @@ public class BigdecimalUtilTest {
         assertEquals(BigDecimal.valueOf(1), BigDecimalUtil.sum(BigDecimal.valueOf(1), null));
         assertEquals(BigDecimal.valueOf(1), BigDecimalUtil.sum(null, BigDecimal.valueOf(1)));
         assertEquals(BigDecimal.valueOf(2), BigDecimalUtil.sum(BigDecimal.valueOf(1), BigDecimal.valueOf(1)));
+    }
+
+    @Test
+    public void greatestTest() {
+        assertEquals(null, BigDecimalUtil.greatest(null, null));
+        assertEquals(null, BigDecimalUtil.greatest(BigDecimal.valueOf(1), null));
+        assertEquals(null, BigDecimalUtil.greatest(null, BigDecimal.valueOf(1)));
+        assertEquals(BigDecimal.valueOf(20), BigDecimalUtil.greatest(BigDecimal.valueOf(10), BigDecimal.valueOf(20)));
+        assertEquals(BigDecimal.valueOf(10), BigDecimalUtil.greatest(BigDecimal.valueOf(10), BigDecimal.valueOf(2)));
     }
 
 }

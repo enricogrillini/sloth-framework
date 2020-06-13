@@ -1,10 +1,7 @@
 package it.eg.sloth.form;
 
 import it.eg.sloth.form.fields.field.impl.File;
-import it.eg.sloth.form.fields.field.impl.Link;
-import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.pageinfo.ViewModality;
-import it.eg.sloth.jaxb.form.ButtonType;
 import org.junit.Test;
 
 import java.util.Locale;
@@ -91,5 +88,10 @@ public class FileTest {
         assertTrue(file.isHidden());
         assertEquals(ViewModality.VIEW_MODIFICA, file.getViewModality());
         assertEquals(0, file.getMaxSize());
+
+        // NewInstance
+        File file2 = file.newInstance();
+        assertFalse(file == file2);
+        assertEquals(file.getName(), file2.getName());
     }
 }

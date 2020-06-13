@@ -2,8 +2,6 @@ package it.eg.sloth.webdesktop.tag.form.field;
 
 import it.eg.sloth.webdesktop.tag.form.base.BaseControlTag;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.io.IOException;
 
@@ -21,17 +19,10 @@ import java.io.IOException;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
 public class LabelTag extends BaseControlTag {
-
-    private static final long serialVersionUID = 1L;
-
-    String classname;
-    String style;
 
     @Override
     protected void writeField() throws IOException {
-        write(FormControlWriter.writeLabel(getElement(), getClassname(), getStyle()));
+        write(FormControlWriter.writeLabel(getElement()));
     }
 }
