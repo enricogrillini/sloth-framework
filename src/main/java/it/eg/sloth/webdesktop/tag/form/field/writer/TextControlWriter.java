@@ -26,6 +26,8 @@ public class TextControlWriter extends AbstractHtmlWriter {
 
     public static String writeControl(SimpleField simpleField) {
         switch (simpleField.getFieldType()) {
+            case AUTO_COMPLETE:
+                return writeAutocomplete((AutoComplete<?>) simpleField);
             case BUTTON:
                 return writeButton((Button) simpleField);
             case CHECK_BOX:
@@ -52,6 +54,22 @@ public class TextControlWriter extends AbstractHtmlWriter {
                 return writeTextTotalizer((TextTotalizer) simpleField);
             default:
                 return "Implementare il controllo";
+        }
+    }
+
+    /**
+     * AutoComplete
+     *
+     * @param autoComplete
+     * @return
+     */
+    public static String writeAutocomplete(AutoComplete<?> autoComplete) {
+        if (!BaseFunction.isBlank(autoComplete.getBaseLink())) {
+            return "<a href=\"" + autoComplete.getBaseLink() + autoComplete.escapeHtmlValue() + "\" >" + autoComplete.escapeHtmlDecodedText() + "</a>";
+        } else if (DataTypes.URL == autoComplete.getDataType()) {
+            return "<a href=\"" + autoComplete.escapeHtmlValue() + "\" target=\"_blank\">" + autoComplete.escapeHtmlDecodedText() + "</a>";
+        } else {
+            return autoComplete.escapeHtmlDecodedText();
         }
     }
 

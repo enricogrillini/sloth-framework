@@ -1,10 +1,9 @@
-package it.eg.sloth.framework.utility.xlsx.style;
+package it.eg.sloth.framework.monitor.model;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import it.eg.sloth.framework.monitor.MonitorStatistics;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 /**
  * Project: sloth-framework
@@ -17,19 +16,13 @@ import lombok.ToString;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
  * <p>
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * <p>
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
-@AllArgsConstructor
-public class BaseExcelStyle {
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public abstract class MonitorMapper {
 
-  private BaseExcelContainer baseExcelContainer;
-  private BaseExcelFont baseExcelFont;
-  private BaseExcelType baseExcelType;
+    public static final MonitorMapper INSTANCE = Mappers.getMapper(MonitorMapper.class);
 
+    public abstract MonitorStatisticsRow monitorStatisticsToPojoRow(MonitorStatistics monitorStatistics);
 }

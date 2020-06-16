@@ -34,7 +34,7 @@ import lombok.experimental.SuperBuilder;
  */
 @Getter
 @Setter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T> {
 
     public static final int DEFAULT_SIZELIMIT = 15;
@@ -126,6 +126,11 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
             setDecodedText(webRequest.getString(getName()));
             setData(getDataType().formatValue(getDecodeMap().encode(getDecodedText()), getLocale(), getFormat()));
         }
+    }
+
+    @Override
+    public AutoComplete<T> newInstance() {
+        return toBuilder().build();
     }
 
 }

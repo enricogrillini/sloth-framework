@@ -1,5 +1,12 @@
 package it.eg.sloth.framework.monitor;
 
+import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.TimeStampUtil;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.monitor.model.*;
+import it.eg.sloth.framework.security.User;
+import lombok.extern.slf4j.Slf4j;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -7,15 +14,21 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import it.eg.sloth.db.datasource.DataTable;
-import it.eg.sloth.db.datasource.row.Row;
-import it.eg.sloth.db.datasource.table.Table;
-import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.base.TimeStampUtil;
-import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.framework.security.User;
-import lombok.extern.slf4j.Slf4j;
-
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
+ * @author Enrico Grillini
+ */
 @Slf4j
 public class MonitorSingleton {
 
@@ -26,7 +39,7 @@ public class MonitorSingleton {
 
     private static MonitorSingleton instance = null;
 
-    private boolean active = false;
+    private boolean active;
     private Timestamp startupTime;
     private long eventId;
     private Map<Long, MonitorEvent> runningEvent;
@@ -94,7 +107,7 @@ public class MonitorSingleton {
                 eventWriter.writeEvent(event);
             }
 
-            runningEvent.put(Long.valueOf(eventId), event);
+            runningEvent.put(eventId, event);
 
             return eventId++;
         } else {
@@ -104,7 +117,7 @@ public class MonitorSingleton {
 
     public synchronized void endEvent(long eventId) {
         if (active && eventId > 0 && eventId < this.eventId) {
-            MonitorEvent event = runningEvent.remove(Long.valueOf(eventId));
+            MonitorEvent event = runningEvent.remove(eventId);
             event.end();
 
             // Rendo persistente l'evento
@@ -135,22 +148,23 @@ public class MonitorSingleton {
         }
     }
 
-    public synchronized DataTable getStatistics() {
-        Table dataTable = new Table();
+    public synchronized MonitorStatisticsTable getStatistics() {
+        MonitorStatisticsTable dataTable = new MonitorStatisticsTable();
 
         for (MonitorStatistics monitorStatistics : statistics.values()) {
-            monitorStatistics.populateRow(dataTable.add());
+            MonitorStatisticsRow row = dataTable.add();
+            row.copyFromDataSource(MonitorMapper.INSTANCE.monitorStatisticsToPojoRow(monitorStatistics));
         }
 
         dataTable.first();
         return dataTable;
     }
 
-    public synchronized DataTable getTrend() throws FrameworkException {
+    public synchronized MonitorTrendTable getTrend() throws FrameworkException {
         return getTrend(null, null);
     }
 
-    public synchronized DataTable getTrend(Timestamp dataDa, Timestamp dataA) throws FrameworkException {
+    public synchronized MonitorTrendTable getTrend(Timestamp dataDa, Timestamp dataA) throws FrameworkException {
         if (dataDa == null) {
             dataDa = BaseFunction.trunc(startupTime);
         } else {
@@ -163,13 +177,13 @@ public class MonitorSingleton {
             dataA = TimeStampUtil.add(BaseFunction.trunc(dataA), 1);
         }
 
-        Table dataTable = new Table();
+        MonitorTrendTable dataTable = new MonitorTrendTable();
         for (Entry<Timestamp, Integer> entry : trend.entrySet()) {
             if (entry.getKey().compareTo(dataDa) >= 0 && entry.getKey().compareTo(dataA) < 0) {
-                Row row = dataTable.add();
+                MonitorTrendRow row = dataTable.add();
 
-                row.setTimestamp("hour", entry.getKey());
-                row.setBigDecimal("executions", new BigDecimal(entry.getValue()));
+                row.setHour(entry.getKey());
+                row.setExecutions(BigDecimal.valueOf(entry.getValue()));
             }
         }
 

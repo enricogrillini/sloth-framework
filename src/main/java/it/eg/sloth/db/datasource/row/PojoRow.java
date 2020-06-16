@@ -1,6 +1,7 @@
 package it.eg.sloth.db.datasource.row;
 
 import it.eg.sloth.db.datasource.DataRow;
+import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.common.base.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,7 +13,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Slf4j
-public abstract class PojoRow implements DataRow {
+public abstract class PojoRow extends FrameComponent implements DataRow {
 
     private static final String LOG_MESSAGE = "Errore sul campo {}";
 

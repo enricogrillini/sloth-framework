@@ -3,6 +3,7 @@ package it.eg.sloth.form.fields.field.impl;
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Project: sloth-framework
@@ -19,6 +20,7 @@ import it.eg.sloth.framework.common.casting.DataTypes;
  *
  * @author Enrico Grillini
  */
+@SuperBuilder(toBuilder = true)
 public class Hidden<T> extends InputField<T> {
 
     public Hidden(String name, String description, DataTypes dataType) {
@@ -30,4 +32,8 @@ public class Hidden<T> extends InputField<T> {
         return FieldType.HIDDEN;
     }
 
+    @Override
+    public Hidden<T> newInstance() {
+        return toBuilder().build();
+    }
 }

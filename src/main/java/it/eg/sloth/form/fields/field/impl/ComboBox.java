@@ -30,7 +30,7 @@ import lombok.experimental.SuperBuilder;
  */
 @Getter
 @Setter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class ComboBox<T> extends InputField<T> implements DecodedDataField<T> {
 
     DecodeMap<T, ? extends DecodeValue<T>> decodeMap;
@@ -70,4 +70,8 @@ public class ComboBox<T> extends InputField<T> implements DecodedDataField<T> {
         return Casting.getJs(getDecodedText());
     }
 
+    @Override
+    public ComboBox<T> newInstance() {
+        return toBuilder().build();
+    }
 }

@@ -27,7 +27,7 @@ import lombok.experimental.SuperBuilder;
  */
 @Getter
 @Setter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class CheckBox<T> extends InputField<T> {
 
     public static final String DEFAULT_VAL_CHECKED = "S";
@@ -74,6 +74,11 @@ public class CheckBox<T> extends InputField<T> {
                 setData((String) BaseFunction.nvl(getValChecked(), "S"));
             }
         }
+    }
+
+    @Override
+    public CheckBox<T> newInstance() {
+        return toBuilder().build();
     }
 
 }

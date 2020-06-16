@@ -20,7 +20,7 @@ import lombok.experimental.SuperBuilder;
  *
  * @author Enrico Grillini
  */
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class Text<T> extends TextField<T> {
 
     public Text(String name, String description, DataTypes dataType) {
@@ -32,4 +32,8 @@ public class Text<T> extends TextField<T> {
         return FieldType.TEXT;
     }
 
+    @Override
+    public Text<T> newInstance() {
+        return toBuilder().build();
+    }
 }

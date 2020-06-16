@@ -1,10 +1,17 @@
 package it.eg.sloth.framework.monitor;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
+import it.eg.sloth.framework.monitor.model.MonitorMapper;
+import it.eg.sloth.framework.monitor.model.MonitorStatisticsRow;
+import org.awaitility.Awaitility;
+import org.awaitility.Duration;
 import org.junit.Test;
 
 import it.eg.sloth.db.datasource.row.Row;
+
+import java.math.BigDecimal;
 
 /**
  * Project: sloth-framework
@@ -19,18 +26,35 @@ import it.eg.sloth.db.datasource.row.Row;
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
- *
  */
 public class MonitorTest {
 
-  @Test
-  public void populateRowTest() {
-    MonitorStatistics monitorStatistics = new MonitorStatistics("Page", "prova.page");
+    @Test
+    public void monitorStatisticsTest() {
+        MonitorStatistics monitorStatistics = new MonitorStatistics("Page", "prova.page");
+        assertEquals("page", monitorStatistics.getShortName());
+    }
 
-    Row row = new Row();
-    monitorStatistics.populateRow(row);
 
-    assertEquals("page", row.getString("shortname"));
-  }
+    @Test
+    public void copyToPojoRowTest() {
+        MonitorEvent monitorEvent = new MonitorEvent("Page", "prova.page", null);
+        monitorEvent.start();
+        Awaitility.await().pollDelay(Duration.ONE_MILLISECOND).until(() -> true);
+        monitorEvent.end();
+
+        MonitorStatistics monitorStatistics = new MonitorStatistics("Page", "prova.page");
+        monitorStatistics.update(monitorEvent);
+
+        MonitorStatisticsRow row = MonitorMapper.INSTANCE.monitorStatisticsToPojoRow(monitorStatistics);
+        assertEquals("Page", row.getGroup());
+        assertEquals("prova.page", row.getName());
+        assertEquals("page", row.getShortName());
+
+        assertEquals(BigDecimal.valueOf(1), row.getExecutions());
+        assertNotEquals(BigDecimal.valueOf(0), row.getDuration());
+        assertNotEquals(BigDecimal.valueOf(0), row.getAverage());
+        assertNotEquals(BigDecimal.valueOf(0), row.getMax());
+    }
 
 }

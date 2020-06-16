@@ -22,10 +22,9 @@ import it.eg.sloth.webdesktop.search.model.suggestion.Suggestion;
  * @author Enrico Grillini
  */
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public interface SearcSuggestionMapper {
+public abstract class SearcSuggestionMapper {
 
-  SearcSuggestionMapper INSTANCE = Mappers.getMapper(SearcSuggestionMapper.class);
+    public static final SearcSuggestionMapper INSTANCE = Mappers.getMapper(SearcSuggestionMapper.class);
 
-  Suggestion simpleSuggestionToSuggestion(SimpleSuggestion searchItem);
-
+    public abstract Suggestion simpleSuggestionToSuggestion(SimpleSuggestion searchItem);
 }
