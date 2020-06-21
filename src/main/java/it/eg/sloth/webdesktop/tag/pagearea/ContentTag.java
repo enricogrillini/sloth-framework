@@ -100,7 +100,7 @@ public class ContentTag extends WebDesktopTag<Form> {
         writeln("  <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"userDropdown\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
         writeln("   <span class=\"mr-2 d-none d-lg-inline text-gray-600 small\">" + userHtml + "</span>");
 
-        if (getUser().hasAvatar()) {
+        if (getUser().isAvatar()) {
             writeln("   <img class=\"img-profile rounded-circle\" src=\"../api/webdesktop/avatar\">");
         } else {
             writeln("   <div class=\"avatar-circle bg-primary\"><span class=\"initials\">" + getUser().getAvatarLetter() + "</span></div>");

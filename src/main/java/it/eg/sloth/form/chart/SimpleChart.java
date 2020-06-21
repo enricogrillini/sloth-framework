@@ -51,10 +51,10 @@ public class SimpleChart<D extends DataTable<?>> extends AbstractElements<Abstra
      *
      * @return
      */
-    public Labels getLabels() {
+    public <T> Labels<T> getLabels() {
         for (AbstractChartField<?> chartField : this) {
             if (chartField instanceof Labels<?>) {
-                return (Labels<?>) chartField;
+                return (Labels) chartField;
             }
         }
 

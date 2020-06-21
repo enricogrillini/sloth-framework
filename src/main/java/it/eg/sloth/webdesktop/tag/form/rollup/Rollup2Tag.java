@@ -1,9 +1,5 @@
 package it.eg.sloth.webdesktop.tag.form.rollup;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import it.eg.sloth.db.datasource.DataNode;
 import it.eg.sloth.form.dwh.Attribute;
 import it.eg.sloth.form.dwh.Level;
@@ -12,6 +8,10 @@ import it.eg.sloth.form.dwh.rollup.Rollup;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import it.eg.sloth.webdesktop.tag.form.rollup.writer.RollupWriter;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -47,7 +47,7 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
         }
     }
 
-    private void writeHeaders(DataNode node, int levelNumber) throws CloneNotSupportedException, FrameworkException, IOException {
+    private void writeHeaders(DataNode node, int levelNumber) throws FrameworkException, IOException {
         Rollup rollup = getElement();
 
         if (node == null)
@@ -61,7 +61,7 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
         writeln("  <td class=\"span\" colspan=\"" + colspan + "\">&nbsp;</td>");
 
         for (DataNode child : node.getChilds()) {
-            Level<?> levelClone = (Level<?>) (rollup.getLevels().get(levelNumber)).newInstance();
+            Level<?> levelClone = (rollup.getLevels().get(levelNumber)).newInstance();
             levelClone.copyFromDataSource(child);
             writeln("  <td>" + RollupWriter.writeLevel(levelClone) + "</td>");
         }
@@ -70,7 +70,7 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
 
     }
 
-    private void writeChilds(DataNode node, int levelNumber, boolean first) throws CloneNotSupportedException, FrameworkException {
+    private void writeChilds(DataNode node, int levelNumber, boolean first) throws FrameworkException {
         Rollup rollup = getElement();
 
         if (node == null)
@@ -91,7 +91,7 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
                     }
 
                     int colspan = levelSize + textSize - levelNumber - 1;
-                    Level<?> levelClone = (Level<?>) (rollup.getLevels().get(levelNumber)).newInstance();
+                    Level<?> levelClone = (rollup.getLevels().get(levelNumber)).newInstance();
                     levelClone.copyFromDataSource(child);
 
                     writeBufferln("  <td colspan=\"" + colspan + "\">" + RollupWriter.writeLevel(levelClone) + "</td>");
@@ -113,7 +113,7 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
 
                     // Attribute
                     for (Attribute<?> attribute : rollup.getAttributes()) {
-                        Attribute<?> attributeClone = (Attribute<?>) attribute.newInstance();
+                        Attribute<?> attributeClone = attribute.newInstance();
                         attributeClone.copyFromDataSource(child);
 
                         writeBufferln("  <td>" + RollupWriter.writeAttribute(attributeClone) + "</td>");
@@ -122,7 +122,7 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
 
                 // Measure
                 for (Measure<?> measure : rollup.getMeasures()) {
-                    Measure<?> measureClone = (Measure<?>) measure.newInstance();
+                    Measure<?> measureClone = measure.newInstance();
                     measureClone.copyFromDataSource(child);
 
                     writeBufferln("  <td style=\"text-align:right\">" + RollupWriter.writeMeasure(measureClone) + "</td>");
@@ -133,7 +133,7 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
         }
     }
 
-    private void writeSum(DataNode node, int levelNumber, boolean first) throws CloneNotSupportedException, FrameworkException {
+    private void writeSum(DataNode node, int levelNumber, boolean first) throws FrameworkException {
         Rollup rollup = getElement();
 
         if (node == null)
@@ -158,7 +158,7 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
 
             // Measure
             for (Measure<?> measure : rollup.getMeasures()) {
-                Measure<?> measureClone = (Measure<?>) measure.newInstance();
+                Measure<?> measureClone = measure.newInstance();
                 measureClone.copyFromDataSource(node);
                 writeBufferln("  <td style=\"text-align:right\">" + RollupWriter.writeMeasure(measureClone) + "</td>");
             }

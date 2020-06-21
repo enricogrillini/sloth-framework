@@ -31,7 +31,7 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
 
     private static final long serialVersionUID = 1L;
 
-    protected void writeRow(DataRow dataRow, int rowNumber) throws CloneNotSupportedException, FrameworkException, IOException {
+    protected void writeRow(DataRow dataRow, int rowNumber) throws FrameworkException, IOException {
         boolean selected = rowNumber == getElement().getRowSelected();
         boolean readOnly = (getForm().getPageInfo().getViewModality() == ViewModality.VIEW_VISUALIZZAZIONE);
 

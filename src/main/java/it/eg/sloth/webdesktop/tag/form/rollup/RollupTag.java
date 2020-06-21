@@ -45,7 +45,7 @@ public class RollupTag extends BaseElementTag<Rollup> {
         writeln(" </tr>");
     }
 
-    private void writeNode(DataNode node, int levelNumber) throws CloneNotSupportedException, FrameworkException, IOException {
+    private void writeNode(DataNode node, int levelNumber) throws FrameworkException, IOException {
         Rollup rollup = getElement();
 
         if (node == null)
@@ -58,7 +58,7 @@ public class RollupTag extends BaseElementTag<Rollup> {
             if (levelNumber == 0) {
                 writeln("  <td colspan=\"" + headerSize + "\">" + getElement().getHtmlDescription() + "</td>");
             } else {
-                Level<?> levelClone = (Level<?>) getElement().getLevels().get(levelNumber - 1).newInstance();
+                Level<?> levelClone = getElement().getLevels().get(levelNumber - 1).newInstance();
                 levelClone.copyFromDataSource(node);
 
                 writeln("  <td colspan=\"" + levelNumber + "\"></td>");
@@ -67,7 +67,7 @@ public class RollupTag extends BaseElementTag<Rollup> {
 
             // Measure
             for (Measure<?> measure : rollup.getMeasures()) {
-                Measure<?> measureClone = (Measure<?>) measure.newInstance();
+                Measure<?> measureClone = measure.newInstance();
                 measureClone.copyFromDataSource(node);
                 writeln("  <td style=\"text-align:right\">" + RollupWriter.writeMeasure(measureClone) + "</td>");
             }
@@ -90,7 +90,7 @@ public class RollupTag extends BaseElementTag<Rollup> {
                 }
 
                 int colspan = levelSize + attributesSize - levelNumber;
-                Level<?> levelClone = (Level<?>) (rollup.getLevels().get(levelNumber)).newInstance();
+                Level<?> levelClone = (rollup.getLevels().get(levelNumber)).newInstance();
                 levelClone.copyFromDataSource(node);
 
                 writeln("  <td colspan=\"" + colspan + "\">" + RollupWriter.writeLevel(levelClone) + "</td>");
@@ -109,14 +109,14 @@ public class RollupTag extends BaseElementTag<Rollup> {
 
                 // Attribute
                 for (Attribute<?> attribute : rollup.getAttributes()) {
-                    Attribute<?> attributeClone = (Attribute<?>) attribute.newInstance();
+                    Attribute<?> attributeClone = attribute.newInstance();
                     attributeClone.copyFromDataSource(node);
                     writeln("  <td>" + RollupWriter.writeAttribute(attributeClone) + "</td>");
                 }
 
                 // Measure
                 for (Measure<?> measure : rollup.getMeasures()) {
-                    Measure<?> measureClone = (Measure<?>) measure.newInstance();
+                    Measure<?> measureClone = measure.newInstance();
                     measureClone.copyFromDataSource(node);
 
                     writeln("  <td style=\"text-align:right\">" + RollupWriter.writeMeasure(measureClone) + "</td>");

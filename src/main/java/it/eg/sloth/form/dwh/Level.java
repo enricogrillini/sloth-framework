@@ -4,6 +4,9 @@ import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.base.DecodedTextField;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Project: sloth-framework
@@ -20,26 +23,30 @@ import it.eg.sloth.framework.common.casting.DataTypes;
  *
  * @author Enrico Grillini
  */
+@Getter
+@Setter
+@SuperBuilder(toBuilder = true)
 public class Level<T> extends DecodedTextField<T> {
 
-  private int sortType;
+    private Integer sortType;
 
-  public Level(String name, String alias, String description, String tootip, DataTypes dataType, String format, String baseLink) {
-    super(name, alias, description, tootip, dataType, format, baseLink);
-    this.sortType = SortingRule.SORT_ASC_NULLS_LAST;
-  }
+    public Level(String name, String alias, String description, String tootip, DataTypes dataType, String format, String baseLink) {
+        super(name, alias, description, tootip, dataType, format, baseLink);
+        this.sortType = SortingRule.SORT_ASC_NULLS_LAST;
+    }
 
-  public int getSortType() {
-    return sortType;
-  }
 
-  public void setSortType(int sortType) {
-    this.sortType = sortType;
-  }
+    public int getSortType() {
+        return sortType == null ? 0 : sortType;
+    }
 
-  @Override
-  public FieldType getFieldType() {
-    return FieldType.LEVEL;
-  }
-  
+    @Override
+    public FieldType getFieldType() {
+        return FieldType.LEVEL;
+    }
+
+    @Override
+    public Level<T> newInstance() {
+        return toBuilder().build();
+    }
 }

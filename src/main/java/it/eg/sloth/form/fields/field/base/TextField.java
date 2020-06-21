@@ -145,8 +145,4 @@ public abstract class TextField<T extends Object> implements DataField<T> {
         // Il campo è presentato in sola visualizzazione e non è modificabile dal Browser
     }
 
-    public TextField<T> newInstance() throws CloneNotSupportedException {
-        return (TextField<T>) super.clone();
-    }
-
 }

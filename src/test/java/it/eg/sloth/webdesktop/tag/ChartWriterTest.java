@@ -1,17 +1,5 @@
 package it.eg.sloth.webdesktop.tag;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.MessageFormat;
-import java.text.ParseException;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.table.Table;
@@ -25,6 +13,15 @@ import it.eg.sloth.jaxb.form.ChartType;
 import it.eg.sloth.jaxb.form.LegendPosition;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJs;
 import it.eg.sloth.webdesktop.tag.form.chart.writer.ChartWriter;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.MessageFormat;
+import java.text.ParseException;
+
+import static org.junit.Assert.*;
 
 /**
  * Project: sloth-framework
@@ -39,7 +36,6 @@ import it.eg.sloth.webdesktop.tag.form.chart.writer.ChartWriter;
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
- *
  */
 public class ChartWriterTest {
 
@@ -60,8 +56,8 @@ public class ChartWriterTest {
     public void init() throws FrameworkException {
         simpleChart = new SimpleChart<>("Prova", ChartType.LINE, "Prova", LegendPosition.TOP);
 
-        simpleChart.addChild(new Labels<Timestamp>("Ora", null, "Ora", null, DataTypes.MONTH, null, null, 0));
-        simpleChart.addChild(new Series("Excecutions", null, "Excecutions", null, DataTypes.INTEGER, null, null));
+        simpleChart.addChild(new Labels<Timestamp>("Ora", "Ora", DataTypes.MONTH));
+        simpleChart.addChild(new Series("Excecutions", "Excecutions", DataTypes.INTEGER));
 
         DataTable<?> table = new Table();
         DataRow row = table.add();
@@ -85,12 +81,12 @@ public class ChartWriterTest {
     }
 
     @Test
-    public void writeScriptTest() throws CloneNotSupportedException, ParseException, FrameworkException {
+    public void writeScriptTest() throws ParseException, FrameworkException {
         assertEquals(SCRIPT_TEMPLATE, ChartWriter.writeScript(simpleChart));
     }
 
     @Test
-    public void populateChartDataTest() throws CloneNotSupportedException, ParseException, FrameworkException {
+    public void populateChartDataTest() throws ParseException, FrameworkException {
         ChartJs chartJs = ChartWriter.populateChart(simpleChart);
 
         assertEquals(3, chartJs.getData().getLabels().size());

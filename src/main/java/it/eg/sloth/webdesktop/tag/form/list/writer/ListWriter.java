@@ -40,7 +40,7 @@ public class ListWriter extends AbstractHtmlWriter {
     }
 
 
-    public static String writeList(Grid<?> grid) throws FrameworkException, CloneNotSupportedException {
+    public static String writeList(Grid<?> grid) throws FrameworkException {
         StringBuilder result = new StringBuilder()
                 .append("<div class=\"list-group list-group-flush\">\n");
 

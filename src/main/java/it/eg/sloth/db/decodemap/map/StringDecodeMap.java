@@ -29,8 +29,8 @@ public class StringDecodeMap extends BaseDecodeMap<String> {
         }
 
         String[] array = string.split(";");
-        for (int i = 0; i < array.length; i++) {
-            String[] array2 = array[i].split(",");
+        for (String value : array) {
+            String[] array2 = value.split(",");
 
             put(new BaseDecodeValue<String>(array2[0].trim(), array2[1].trim()));
         }

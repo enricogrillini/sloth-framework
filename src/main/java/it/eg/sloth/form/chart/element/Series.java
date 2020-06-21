@@ -1,9 +1,10 @@
 package it.eg.sloth.form.chart.element;
 
-import java.math.BigDecimal;
-
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import lombok.experimental.SuperBuilder;
+
+import java.math.BigDecimal;
 
 /**
  * Project: sloth-framework
@@ -20,14 +21,20 @@ import it.eg.sloth.framework.common.casting.DataTypes;
  *
  * @author Enrico Grillini
  */
+@SuperBuilder(toBuilder = true)
 public class Series extends AbstractChartField<BigDecimal> {
 
-  public Series(String name, String alias, String description, String tootip, DataTypes dataType, String format, String baseLink) {
-    super(name, alias, description, tootip, dataType, format, baseLink);
-  }
-  
-  @Override
-  public FieldType getFieldType() {
-    return FieldType.SERIES;
-  }
+    public Series(String name, String description, DataTypes dataType) {
+        super(name, description, dataType);
+    }
+
+    @Override
+    public FieldType getFieldType() {
+        return FieldType.SERIES;
+    }
+
+    @Override
+    public Series newInstance() {
+        return toBuilder().build();
+    }
 }

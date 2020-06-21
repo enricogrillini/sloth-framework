@@ -66,6 +66,10 @@ public abstract class FormPage<F extends Form> extends BasePage {
             form = (F) getWebDesktopDto().getForm();
             this.newForm = false;
         }
+
+        if (getUser() != null && getUser() .getLocale() != null) {
+            form.setLocale(getUser().getLocale());
+        }
     }
 
     @Override

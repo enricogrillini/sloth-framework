@@ -66,18 +66,15 @@ public class DataManager {
     }
 
     public static void post(Connection connection, DataSource[] dataSources) throws SQLException, FrameworkException {
-        for (int i = 0; i < dataSources.length; i++)
-            post(connection, dataSources[i]);
+        for (DataSource dataSource : dataSources) post(connection, dataSource);
     }
 
     public static void unPost(DataSource[] dataSources) throws FrameworkException {
-        for (int i = 0; i < dataSources.length; i++)
-            unPost(dataSources[i]);
+        for (DataSource dataSource : dataSources) unPost(dataSource);
     }
 
     public static void commit(DataSource[] dataSources) throws FrameworkException, SQLException {
-        for (int i = 0; i < dataSources.length; i++)
-            commit(dataSources[i]);
+        for (DataSource dataSource : dataSources) commit(dataSource);
     }
 
     public static void save(DataSource[] dataSources) throws SQLException, FrameworkException {
@@ -98,8 +95,7 @@ public class DataManager {
     }
 
     public static void undo(DataSource[] dataSources) throws FrameworkException {
-        for (int i = 0; i < dataSources.length; i++)
-            undo(dataSources[i]);
+        for (DataSource dataSource : dataSources) undo(dataSource);
     }
 
     private static DataSource[] toDataSourceArray(List<DataSource> list) {

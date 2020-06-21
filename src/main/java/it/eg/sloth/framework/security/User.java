@@ -2,10 +2,8 @@ package it.eg.sloth.framework.security;
 
 import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.common.base.StringUtil;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -38,11 +36,7 @@ public class User extends FrameComponent {
     String email;
     String emailPassword;
     Locale locale;
-
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
     boolean avatar;
-
     String addInfo;
 
     private Set<String> enabledFunction;
@@ -52,22 +46,6 @@ public class User extends FrameComponent {
     public User() {
         this.locale = Locale.getDefault();
         this.avatar = false;
-
-        this.enabledFunction = new HashSet<>();
-        this.menu = new Menu();
-        this.userMenu = new Menu();
-    }
-
-    public User(BigDecimal id, String userid, String surname, String name, String email, String emailPassword, Locale locale, boolean avatar, String addInfo) {
-        this.id = id;
-        this.userid = userid;
-        this.surname = surname;
-        this.name = name;
-        this.email = email;
-        this.emailPassword = emailPassword;
-        this.locale = locale;
-        this.avatar = avatar;
-        this.addInfo = addInfo;
 
         this.enabledFunction = new HashSet<>();
         this.menu = new Menu();
@@ -84,14 +62,6 @@ public class User extends FrameComponent {
 
     public void addFunction(String functionName) {
         enabledFunction.add(functionName);
-    }
-
-    public boolean hasAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(boolean avatar) {
-        this.avatar = avatar;
     }
 
     public String getAvatarLetter() {

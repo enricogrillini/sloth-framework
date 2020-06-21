@@ -19,6 +19,7 @@ import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ import java.util.List;
 @Slf4j
 @Getter
 @Setter
+@SuperBuilder(toBuilder = true)
 public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
 
     private String decodeAlias;
@@ -87,7 +89,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
     public L getValue() {
         String text = getData();
 
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList();
         if (!BaseFunction.isBlank(text)) {
             String[] words = StringUtil.tokenize(text, ",");
             for (String word : words) {
@@ -221,6 +223,11 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
         }
 
         return true;
+    }
+
+    @Override
+    public MultipleAutoComplete<L, T> newInstance() {
+        return toBuilder().build();
     }
 
 }

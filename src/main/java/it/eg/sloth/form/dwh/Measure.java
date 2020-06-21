@@ -3,6 +3,7 @@ package it.eg.sloth.form.dwh;
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.base.TextField;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Project: sloth-framework
@@ -19,15 +20,21 @@ import it.eg.sloth.framework.common.casting.DataTypes;
  *
  * @author Enrico Grillini
  */
+@SuperBuilder(toBuilder = true)
 public class Measure<T> extends TextField<T> {
 
-    public Measure(String name,  String description, DataTypes dataType) {
+    public Measure(String name, String description, DataTypes dataType) {
         super(name, description, dataType);
     }
 
     @Override
     public FieldType getFieldType() {
         return FieldType.MEASURE;
+    }
+
+    @Override
+    public Measure<T> newInstance() {
+        return toBuilder().build();
     }
 
 }

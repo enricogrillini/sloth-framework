@@ -139,7 +139,7 @@ public abstract class AbstractGridTag<T extends Grid<?>> extends BaseElementTag<
 
     }
 
-    protected void writeTotal() throws CloneNotSupportedException, FrameworkException, IOException {
+    protected void writeTotal() throws  FrameworkException, IOException {
 
         if (getElement().hasTotalizer()) {
             writeln(" <tr>");

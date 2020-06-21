@@ -51,8 +51,8 @@ public class GridXlsxWriter extends BaseXlsxWriter {
     public GridXlsxWriter(boolean title, Grid<?>... grids) throws FrameworkException {
         super();
 
-        for (int i = 0; i < grids.length; i++) {
-            addGrid(title, grids[i]);
+        for (Grid<?> grid : grids) {
+            addGrid(title, grid);
         }
     }
 
@@ -155,12 +155,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
         for (DataRow dataRow : dataTable) {
             cellIndex = 0;
             for (SimpleField field : grid) {
-                SimpleField appField;
-                try {
-                    appField = field.newInstance();
-                } catch (CloneNotSupportedException e) {
-                    throw new RuntimeException(e);
-                }
+                SimpleField appField = field.newInstance();
 
                 if (appField instanceof DataField) {
                     DataField<?> dataField = (DataField<?>) appField;
@@ -175,12 +170,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
         // Totali
         cellIndex = 0;
         for (SimpleField field : grid) {
-            SimpleField appField;
-            try {
-                appField = field.newInstance();
-            } catch (CloneNotSupportedException e) {
-                throw new RuntimeException(e);
-            }
+            SimpleField appField = field.newInstance();
 
             if (appField instanceof DataField) {
                 if (appField instanceof TextTotalizer || appField instanceof InputTotalizer) {

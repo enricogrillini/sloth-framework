@@ -141,8 +141,8 @@ public abstract class TransactionalTableAbstract<T extends TransactionalDataRow>
         FilteredQuery filteredQuery = new FilteredQuery(statement);
 
         if (dataRow != null) {
-            for (int i = 0; i < columns.length; i++) {
-                filteredQuery.addFilter(columns[i].getName() + " = ?", columns[i].getJavaType(), dataRow.getObject(columns[i].getName()));
+            for (Column column : columns) {
+                filteredQuery.addFilter(column.getName() + " = ?", column.getJavaType(), dataRow.getObject(column.getName()));
             }
         }
 
@@ -154,8 +154,8 @@ public abstract class TransactionalTableAbstract<T extends TransactionalDataRow>
             dataRow = new Row();
 
         FilteredQuery filteredQuery = new FilteredQuery(statement);
-        for (int i = 0; i < columns.length; i++) {
-            filteredQuery.addFilter(columns[i].getName() + " = ?", columns[i].getJavaType(), dataRow.getObject(columns[i].getName()));
+        for (Column column : columns) {
+            filteredQuery.addFilter(column.getName() + " = ?", column.getJavaType(), dataRow.getObject(column.getName()));
         }
 
         loadFromQuery(filteredQuery);

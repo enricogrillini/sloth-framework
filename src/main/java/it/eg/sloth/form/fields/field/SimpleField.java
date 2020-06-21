@@ -78,6 +78,6 @@ public interface SimpleField extends Element, Cloneable {
      */
     public void post(WebRequest webRequest) throws FrameworkException;
 
-    public SimpleField newInstance() throws CloneNotSupportedException;
+    public SimpleField newInstance();
 
 }

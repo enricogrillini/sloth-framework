@@ -52,7 +52,7 @@ public class PageTag extends WebDesktopTag<Form> {
     writeln("       <div class=\"modal-body\">Selezionare \"Esci\" per terminare la sessione corrente.</div>");
     writeln("       <div class=\"modal-footer\">");
     writeln("         <button class=\"btn btn-secondary\" type=\"button\" data-dismiss=\"modal\">Annulla</button>");
-    writeln("         <a class=\"btn btn-primary\" href=\"LogoutPage.html\">Esci</a>");
+    writeln("         <a class=\"btn btn-primary\" href=\"../sec/logout\">Esci</a>");
     writeln("       </div>");
     writeln("     </div>");
     writeln("   </div>");

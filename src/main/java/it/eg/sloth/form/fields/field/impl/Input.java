@@ -32,18 +32,6 @@ public class Input<T> extends InputField<T> {
     private ForceCase forceCase;
     private Integer maxLength;
 
-    public Input(String name, String description, DataTypes dataType) {
-        super(name, description, dataType);
-    }
-
-    public ForceCase getForceCase() {
-        return forceCase == null ? ForceCase.NONE : forceCase;
-    }
-
-    public int getMaxLength() {
-        return maxLength == null ? 0 : maxLength;
-    }
-
     @Override
     public void setData(String data) {
         if (getForceCase().equals(ForceCase.INIT_CAP)) {
@@ -55,6 +43,18 @@ public class Input<T> extends InputField<T> {
         }
 
         super.setData(data);
+    }
+
+    public Input(String name, String description, DataTypes dataType) {
+        super(name, description, dataType);
+    }
+
+    public ForceCase getForceCase() {
+        return forceCase == null ? ForceCase.NONE : forceCase;
+    }
+
+    public int getMaxLength() {
+        return maxLength == null ? 0 : maxLength;
     }
 
     @Override

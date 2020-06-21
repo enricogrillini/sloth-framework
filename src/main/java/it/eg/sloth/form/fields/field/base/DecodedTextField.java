@@ -29,7 +29,7 @@ import lombok.experimental.SuperBuilder;
  */
 @Getter
 @Setter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public abstract class DecodedTextField<T> extends TextField<T> implements DecodedDataField<T> {
 
     private DecodeMap<T, ? extends DecodeValue<T>> values;

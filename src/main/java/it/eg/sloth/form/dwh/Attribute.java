@@ -3,6 +3,7 @@ package it.eg.sloth.form.dwh;
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.base.DecodedTextField;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Project: sloth-framework
@@ -19,6 +20,7 @@ import it.eg.sloth.framework.common.casting.DataTypes;
  *
  * @author Enrico Grillini
  */
+@SuperBuilder(toBuilder = true)
 public class Attribute<T> extends DecodedTextField<T> {
 
   public Attribute(String name, String alias, String description, String tootip, DataTypes dataType, String format, String baseLink) {
@@ -28,6 +30,11 @@ public class Attribute<T> extends DecodedTextField<T> {
   @Override
   public FieldType getFieldType() {
     return FieldType.ATTRIBUTE;
+  }
+
+  @Override
+  public Attribute<T> newInstance() {
+    return toBuilder().build();
   }
   
 }

@@ -2,6 +2,7 @@ package it.eg.sloth.form.chart.element;
 
 import it.eg.sloth.form.fields.field.base.TextField;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Project: sloth-framework
@@ -18,14 +19,10 @@ import it.eg.sloth.framework.common.casting.DataTypes;
  *
  * @author Enrico Grillini
  */
+@SuperBuilder(toBuilder = true)
 public abstract class AbstractChartField<T> extends TextField<T> {
 
-    public AbstractChartField(String name, String alias, String description, String tooltip, DataTypes dataType, String format, String baseLink) {
+    public AbstractChartField(String name,  String description, DataTypes dataType) {
         super(name, description, dataType);
-
-        setAlias(alias);
-        setTooltip(tooltip);
-        setFormat(format);
-        setBaseLink(baseLink);
     }
 }

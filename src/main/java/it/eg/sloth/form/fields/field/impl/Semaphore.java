@@ -20,7 +20,7 @@ import lombok.experimental.SuperBuilder;
  *
  * @author Enrico Grillini
  */
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class Semaphore extends ComboBox<String> {
 
     public static final String WHITE = "W";
@@ -71,6 +71,11 @@ public class Semaphore extends ComboBox<String> {
                 return GIF_WHITE;
         }
 
+    }
+
+    @Override
+    public Semaphore newInstance() {
+        return toBuilder().build();
     }
 
 }

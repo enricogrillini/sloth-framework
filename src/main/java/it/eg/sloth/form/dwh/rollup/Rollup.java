@@ -8,14 +8,12 @@ import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.form.base.AbstractElements;
-import it.eg.sloth.form.base.Element;
 import it.eg.sloth.form.dwh.Attribute;
 import it.eg.sloth.form.dwh.Level;
 import it.eg.sloth.form.dwh.Measure;
 import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.Casting;
-import it.eg.sloth.framework.common.exception.ExceptionCode;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 
 import java.math.BigDecimal;
@@ -75,18 +73,14 @@ public class Rollup extends AbstractElements<DataField<?>> {
     }
 
     public void setDataTable(DataTable<?> dataTable) throws FrameworkException {
-        try {
-            this.dataTable = dataTable;
-            calculate();
-        } catch (CloneNotSupportedException e) {
-            throw new FrameworkException(ExceptionCode.ROLLUP_CALCULATE_ERROR, e);
-        }
+        this.dataTable = dataTable;
+        calculate();
     }
 
     public List<Attribute> getAttributes() {
         List<Attribute> list = new ArrayList();
 
-        for (Element element : this) {
+        for (DataField element : this) {
             if (element instanceof Attribute) {
                 list.add((Attribute<?>) element);
             }
@@ -98,7 +92,7 @@ public class Rollup extends AbstractElements<DataField<?>> {
     public List<Level> getLevels() {
         List<Level> list = new ArrayList();
 
-        for (Element element : this) {
+        for (DataField element : this) {
             if (element instanceof Level) {
                 list.add((Level<?>) element);
             }
@@ -110,7 +104,7 @@ public class Rollup extends AbstractElements<DataField<?>> {
     public List<Measure> getMeasures() {
         List<Measure> list = new ArrayList();
 
-        for (Element element : this) {
+        for (DataField element : this) {
             if (element instanceof Measure) {
                 list.add((Measure<?>) element);
             }
@@ -123,7 +117,7 @@ public class Rollup extends AbstractElements<DataField<?>> {
         return dataNode;
     }
 
-    private void calculate() throws CloneNotSupportedException, FrameworkException {
+    private void calculate() throws FrameworkException {
         if (getDataTable() != null && getDataTable().size() > 0) {
             RollupCalculator calculator = new RollupCalculator(getDataTable());
 
@@ -152,14 +146,14 @@ public class Rollup extends AbstractElements<DataField<?>> {
         private Map<String, Attribute<?>> attributeMap;
         private Map<String, Measure<?>> measureMap;
 
-        public RollupCalculator(DataTable<?> dataTable) throws CloneNotSupportedException, FrameworkException {
+        public RollupCalculator(DataTable<?> dataTable) throws FrameworkException {
             setDataTable(dataTable);
             this.levelMap = new LinkedHashMap();
             this.attributeMap = new LinkedHashMap();
             this.measureMap = new LinkedHashMap();
         }
 
-        public void setDataTable(DataTable<?> dataTable) throws CloneNotSupportedException, FrameworkException {
+        public void setDataTable(DataTable<?> dataTable) throws FrameworkException {
             this.dataTable = new Table();
 
             for (DataRow row : dataTable) {

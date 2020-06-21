@@ -34,7 +34,7 @@ public class GridTag extends AbstractGridTag<Grid<?>> {
 
     private static final long serialVersionUID = 1L;
 
-    protected void writeRows() throws CloneNotSupportedException, FrameworkException, IOException {
+    protected void writeRows() throws FrameworkException, IOException {
         Grid<?> grid = getElement();
         int rowNumber = 0;
 

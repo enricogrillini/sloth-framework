@@ -1,17 +1,15 @@
 package it.eg.sloth.framework.monitor;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-
 import it.eg.sloth.framework.monitor.model.MonitorMapper;
 import it.eg.sloth.framework.monitor.model.MonitorStatisticsRow;
 import org.awaitility.Awaitility;
 import org.awaitility.Duration;
 import org.junit.Test;
 
-import it.eg.sloth.db.datasource.row.Row;
-
 import java.math.BigDecimal;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Project: sloth-framework
