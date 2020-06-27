@@ -31,6 +31,7 @@ import it.eg.sloth.framework.utility.mail.mailcomposer.MailComposer;
  * @author Enrico Grillini
  * @deprecated
  */
+@Deprecated
 public class MailSender extends FrameComponent {
 
     private HtmlEmail email;

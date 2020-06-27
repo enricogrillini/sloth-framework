@@ -1,7 +1,10 @@
 package it.eg.sloth.webdesktop.tag.form;
 
+import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
+
+import java.text.MessageFormat;
 
 /**
  * Project: sloth-framework
@@ -19,7 +22,9 @@ import it.eg.sloth.framework.common.casting.Casting;
  *
  * @author Enrico Grillini
  */
-public abstract class AbstractHtmlWriter {
+public abstract class HtmlWriter {
+
+    public static final String NBSP = "&nbsp;";
 
     public static final String BEGIN_BUTTON = "<button";
     public static final String BEGIN_INPUT = "<input";
@@ -37,18 +42,19 @@ public abstract class AbstractHtmlWriter {
     public static final String ATTR_READONLY = "readonly";
     public static final String ATTR_DISABLED = "disabled";
     public static final String ATTR_CHECKED = "checked";
-    public static final String ATTR_TOOLTIP = "data-toggle=\"tooltip\" data-placement=\"bottom\" title";
 
+    private static final String ATTR_TOOLTIP = "data-toggle=\"tooltip\" data-placement=\"bottom\" title";
+    private static final String ATTR_POPOVER = "data-toggle=\"popover\" data-placement=\"bottom\" data-container=\"body\" data-trigger=\"hover\" data-html=\"true\" data-original-title=\"{0}\" data-content=\"{1}\"";
 
-    protected static String getElement(String element) {
+    public static String getElement(String element) {
         return "<" + element + ">";
     }
 
-    protected static String getElement(String element, String value) {
+    public static String getElement(String element, String value) {
         return "<" + element + ">" + Casting.getHtml(value) + "</" + element + ">";
     }
 
-    protected static String getElement(String element, boolean condizione, String value) {
+    public static String getElement(String element, boolean condizione, String value) {
         if (condizione) {
             return getElement(element, value);
         } else {
@@ -56,16 +62,26 @@ public abstract class AbstractHtmlWriter {
         }
     }
 
-    protected static String getAttribute(String property, String value) {
+    public static String getAttribute(String property, String value) {
         return " " + property + "=\"" + value + "\"";
     }
 
-    protected static String getAttribute(String property, boolean condizione, String value) {
+    public static String getAttribute(String property, boolean condizione, String value) {
         return condizione ? " " + property + "=\"" + value + "\"" : "";
     }
 
-    protected static String getAttribute(String property, boolean condizione, String valTrue, String valFalse) {
+    public static String getAttribute(String property, boolean condizione, String valTrue, String valFalse) {
         return condizione ? " " + property + "=\"" + valTrue + "\"" : " " + property + "=\"" + valFalse + "\"";
     }
+
+    public static String getAttributeTooltip(String tooltip) {
+        return getAttribute(ATTR_TOOLTIP, !BaseFunction.isBlank(tooltip), tooltip);
+    }
+
+
+    public static String getAttributePopover(String title, String htmlBody) {
+        return MessageFormat.format(ATTR_POPOVER, title, htmlBody);
+    }
+
 
 }

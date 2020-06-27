@@ -5,11 +5,11 @@ import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.alertcenter.model.Alert;
-import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
+import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
 import java.util.Locale;
 
-public class ContentWriter extends AbstractHtmlWriter {
+public class ContentWriter extends HtmlWriter {
 
     public static final String openBarRight() {
         return new StringBuilder()

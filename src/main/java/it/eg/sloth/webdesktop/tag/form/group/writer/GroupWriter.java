@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.BigDecimalUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
+import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
 /**
  * Project: sloth-framework
@@ -21,7 +21,7 @@ import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
  *
  * @author Enrico Grillini
  */
-public class GroupWriter extends AbstractHtmlWriter {
+public class GroupWriter extends HtmlWriter {
 
     static final String BASE_CELL_CLASS = "col-";
     static final String ROW_CLASS = "row form-group";

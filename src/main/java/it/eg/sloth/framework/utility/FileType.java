@@ -17,7 +17,7 @@ package it.eg.sloth.framework.utility;
  */
 public enum FileType {
   PDF(".pdf", "application/pdf"),
-  XLS(".xls", "application/xls"), 
+  XLS(".xls", "application/xls"),
   XLSX(".xlsx", "application/xlsx"), 
   JPEG(".jpeg", "image/jpeg"),
 
@@ -26,11 +26,11 @@ public enum FileType {
   XML(".xml", "text/xml");
 
   private final String extension;
-  private final String attachmentType;
+  private final String contentType;
 
   FileType(String extension, String attachmentType) {
     this.extension = extension;
-    this.attachmentType = attachmentType;
+    this.contentType = attachmentType;
   }
 
   public String getExtension() {
@@ -38,7 +38,7 @@ public enum FileType {
   }
 
   public String getContentType() {
-    return this.attachmentType;
+    return this.contentType;
   }
 
 }

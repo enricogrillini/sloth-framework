@@ -51,7 +51,7 @@ public class MasterDetailBarTag extends AbstractGridToolBarTag<Grid<?>> {
         write(", Pag. " + (dataTable.getCurrentPage() + 1) + " di " + dataTable.pages());
       }
     }
-    
+    write("&nbsp;");
 
     return EVAL_BODY_INCLUDE;
   }

@@ -68,7 +68,7 @@ public class Rollup extends AbstractElements<DataField<?>> {
         this.description = description;
     }
 
-    public DataTable<?> getDataTable() {
+    public DataTable getDataTable() {
         return dataTable;
     }
 
@@ -77,36 +77,36 @@ public class Rollup extends AbstractElements<DataField<?>> {
         calculate();
     }
 
-    public List<Attribute> getAttributes() {
-        List<Attribute> list = new ArrayList();
+    public <T> List<Attribute<T>> getAttributes() {
+        List<Attribute<T>> list = new ArrayList<>();
 
-        for (DataField element : this) {
+        for (DataField<?> element : this) {
             if (element instanceof Attribute) {
-                list.add((Attribute<?>) element);
+                list.add((Attribute<T>) element);
             }
         }
 
         return list;
     }
 
-    public List<Level> getLevels() {
-        List<Level> list = new ArrayList();
+    public <T> List<Level<T>> getLevels() {
+        List<Level<T>> list = new ArrayList<>();
 
-        for (DataField element : this) {
+        for (DataField<?> element : this) {
             if (element instanceof Level) {
-                list.add((Level<?>) element);
+                list.add((Level<T>) element);
             }
         }
 
         return list;
     }
 
-    public List<Measure> getMeasures() {
-        List<Measure> list = new ArrayList();
+    public <T> List<Measure<T>> getMeasures() {
+        List<Measure<T>> list = new ArrayList<>();
 
-        for (DataField element : this) {
+        for (DataField<?> element : this) {
             if (element instanceof Measure) {
-                list.add((Measure<?>) element);
+                list.add((Measure<T>) element);
             }
         }
 
@@ -148,9 +148,9 @@ public class Rollup extends AbstractElements<DataField<?>> {
 
         public RollupCalculator(DataTable<?> dataTable) throws FrameworkException {
             setDataTable(dataTable);
-            this.levelMap = new LinkedHashMap();
-            this.attributeMap = new LinkedHashMap();
-            this.measureMap = new LinkedHashMap();
+            this.levelMap = new LinkedHashMap<>();
+            this.attributeMap = new LinkedHashMap<>();
+            this.measureMap = new LinkedHashMap<>();
         }
 
         public void setDataTable(DataTable<?> dataTable) throws FrameworkException {
@@ -215,7 +215,7 @@ public class Rollup extends AbstractElements<DataField<?>> {
 
                 // Inizializzazioni
                 dataTable.setCurrentRow(0);
-                List<DataNode> groupList = new ArrayList();
+                List<DataNode> groupList = new ArrayList<>();
                 groupList.add(rootNode);
                 for (int i = 1; i <= levelMap.values().size(); i++) {
                     Node dataNode = new Node(dataTable.getRow());

@@ -14,7 +14,7 @@ import it.eg.sloth.framework.common.exception.ExceptionCode;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.BootStrapClass;
-import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
+import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
 import java.text.MessageFormat;
 
@@ -32,7 +32,7 @@ import java.text.MessageFormat;
  *
  * @author Enrico Grillini
  */
-public class FormControlWriter extends AbstractHtmlWriter {
+public class FormControlWriter extends HtmlWriter {
 
     public static String writeControl(SimpleField element, Element parentElement, ViewModality pageViewModality) throws FrameworkException {
         switch (element.getFieldType()) {
@@ -87,7 +87,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 .append("<label")
                 .append(getAttribute("for", simpleField.getName()))
                 .append(getAttribute(ATTR_CLASS, BootStrapClass.LABEL_CLASS))
-                .append(getAttribute(ATTR_TOOLTIP, !BaseFunction.isBlank(simpleField.getTooltip()), simpleField.getTooltip()))
+                .append(getAttributeTooltip(simpleField.getTooltip()))
                 .append(">" + simpleField.getHtmlDescription() + strRequired + ":&nbsp;</label>")
                 .toString();
     }
@@ -108,7 +108,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 .append(getAttribute(ATTR_VALUE, text.escapeHtmlText()))
                 .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
                 .append(getAttribute(ATTR_DISABLED, ""))
-                .append(getAttribute(ATTR_TOOLTIP, !BaseFunction.isBlank(text.getTooltip()), text.getTooltip()))
+                .append(getAttributeTooltip(text.getTooltip()))
                 .append("/>");
 
         return result.toString();
@@ -212,7 +212,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
         }
 
         field
-                .append(getAttribute(ATTR_TOOLTIP, !BaseFunction.isBlank(input.getTooltip()), input.getTooltip()))
+                .append(getAttributeTooltip(input.getTooltip()))
                 .append("/>");
 
 
@@ -520,7 +520,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
                     .append(getAttribute(ATTR_ID, file.getName()))
                     .append(getAttribute(ATTR_NAME, file.getName()))
                     .append(getAttribute(ATTR_TYPE, "file"))
-                    .append(getAttribute(ATTR_TOOLTIP, !BaseFunction.isBlank(file.getTooltip()), file.getTooltip()))
+                    .append(getAttributeTooltip(file.getTooltip()))
                     .append(" class=\"custom-file-input\"><label class=\"custom-file-label\"")
                     .append(getAttribute("for", file.getName()))
                     .append(">Choose file</label></div>");
@@ -547,7 +547,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 .append(getAttribute("target", !BaseFunction.isBlank(link.getTarget()), link.getTarget()))
                 .append(getAttribute(ATTR_CLASS, MessageFormat.format(BootStrapClass.BUTTON_CLASS, link.getButtonType().value())))
                 .append(getAttribute(ATTR_DISABLED, link.isDisabled(), ""))
-                .append(getAttribute(ATTR_TOOLTIP, !BaseFunction.isBlank(link.getTooltip()), link.getTooltip()))
+                .append(getAttributeTooltip(link.getTooltip()))
                 .append("/>")
                 .append(BaseFunction.isBlank(link.getImgHtml()) ? "" : link.getImgHtml() + "&nbsp;&nbsp;")
                 .append(Casting.getHtml(link.getDescription()))
@@ -573,7 +573,7 @@ public class FormControlWriter extends AbstractHtmlWriter {
                 .append(getAttribute(ATTR_NAME, button.getHtlmName()))
                 .append(getAttribute(ATTR_CLASS, MessageFormat.format(BootStrapClass.BUTTON_CLASS, button.getButtonType().value())))
                 .append(getAttribute(ATTR_DISABLED, button.isDisabled(), ""))
-                .append(getAttribute(ATTR_TOOLTIP, !BaseFunction.isBlank(button.getTooltip()), button.getTooltip()))
+                .append(getAttributeTooltip(button.getTooltip()))
                 .append("/>")
                 .append(BaseFunction.isBlank(button.getImgHtml()) ? "" : button.getImgHtml() + "&nbsp;&nbsp;")
                 .append(Casting.getHtml(button.getDescription()))

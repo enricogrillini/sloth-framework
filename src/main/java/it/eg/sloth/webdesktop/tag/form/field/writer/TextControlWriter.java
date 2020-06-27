@@ -6,7 +6,7 @@ import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.webdesktop.tag.BootStrapClass;
-import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
+import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
 /**
  * Project: sloth-framework
@@ -22,7 +22,7 @@ import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
  *
  * @author Enrico Grillini
  */
-public class TextControlWriter extends AbstractHtmlWriter {
+public class TextControlWriter extends HtmlWriter {
 
     public static String writeControl(SimpleField simpleField) {
         switch (simpleField.getFieldType()) {

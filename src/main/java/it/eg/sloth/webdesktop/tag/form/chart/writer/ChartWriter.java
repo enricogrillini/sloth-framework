@@ -6,7 +6,7 @@ import it.eg.sloth.form.chart.element.Labels;
 import it.eg.sloth.form.chart.element.Series;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.html.HtmlColor;
-import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
+import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJs;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJsData;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJsLegend;
@@ -31,7 +31,7 @@ import java.util.List;
  *
  * @author Enrico Grillini
  */
-public class ChartWriter extends AbstractHtmlWriter {
+public class ChartWriter extends HtmlWriter {
 
     public static final String writeCanvas(SimpleChart<?> simpleChart) {
         return new StringBuilder()

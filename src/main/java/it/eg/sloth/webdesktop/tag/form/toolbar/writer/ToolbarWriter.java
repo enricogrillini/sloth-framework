@@ -3,7 +3,7 @@ package it.eg.sloth.webdesktop.tag.form.toolbar.writer;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.StringUtil;
-import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
+import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
 /**
  * Project: sloth-framework
@@ -19,7 +19,7 @@ import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
  *
  * @author Enrico Grillini
  */
-public class ToolbarWriter extends AbstractHtmlWriter {
+public class ToolbarWriter extends HtmlWriter {
 
 
     /**

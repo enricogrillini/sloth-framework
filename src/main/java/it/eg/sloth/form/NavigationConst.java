@@ -74,32 +74,17 @@ public class NavigationConst {
     public static final String AUTOCOMPLETE = "autocomplete";
 
 
-    public static String navStr(String str1) {
-        return WebRequest.PREFIX + WebRequest.SEPARATOR + str1;
+    public static String navStr(String... str) {
+        StringBuilder result = new StringBuilder(WebRequest.PREFIX);
+        for (String string : str) {
+            result.append(WebRequest.SEPARATOR + string);
+        }
+        return result.toString();
     }
 
-    public static String navStr(String str1, String str2) {
-        return navStr(str1) + WebRequest.SEPARATOR + str2;
-    }
 
-    public static String navStr(String str1, String str2, String str3) {
-        return navStr(str1, str2) + WebRequest.SEPARATOR + str3;
-    }
-
-    public static String navStr(String str1, String str2, String str3, String str4) {
-        return navStr(str1, str2, str3) + WebRequest.SEPARATOR + str4;
-    }
-
-    public static String concat(String str1, String str2) {
-        return str1 + WebRequest.SEPARATOR + str2;
-    }
-
-    public static String concat(String str1, String str2, String str3) {
-        return concat(str1, str2) + WebRequest.SEPARATOR + str3;
-    }
-
-    public static String concat(String str1, String str2, String str3, String str4) {
-        return concat(str1, str2, str3) + WebRequest.SEPARATOR + str4;
+    public static String hrefStr(String baseUrl, String... str) {
+        return baseUrl + "?" + navStr(str) + "=x";
     }
 
 }

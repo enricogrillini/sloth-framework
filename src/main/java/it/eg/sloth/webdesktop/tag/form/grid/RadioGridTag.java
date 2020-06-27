@@ -62,7 +62,7 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
         // Dettaglio
         riga += " <div class=\"" + className + "\" style=\"float:none;\">";
         i = 0;
-        for (SimpleField field : getDetail()) {
+        for (SimpleField field : getElement()) {
             if (field instanceof DataField) {
                 DataField<?> dataField = (DataField<?>) field.newInstance();
                 dataField.copyFromDataSource(dataRow);
@@ -114,7 +114,7 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
             // Dettaglio
             writeln(" <div class=\"" + className + "\" style=\"float:none;\">");
             i = 0;
-            for (SimpleField field : getDetail()) {
+            for (SimpleField field : getElement()) {
                 if (field instanceof DataField) {
                     write(i >= 1 ? ", " : "");
                     writeln("<b>" + field.getHtmlDescription() + "</b>: " + FormControlWriter.writeControl(field, getElement(), ViewModality.VIEW_VISUALIZZAZIONE));
@@ -149,7 +149,7 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
             }
 
             // Dettaglio
-            for (Element element : getDetail()) {
+            for (Element element : getElement()) {
                 SimpleField field = (SimpleField) element;
 
                 writeln("   <div class=\"" + className + "\" style=\"float:left; width:30%; height:22px; text-align:right; padding-top: 3px;\">" + field.getHtmlDescription() + ": </div>");

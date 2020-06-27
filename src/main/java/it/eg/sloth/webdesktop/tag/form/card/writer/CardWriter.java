@@ -2,7 +2,7 @@ package it.eg.sloth.webdesktop.tag.form.card.writer;
 
 import it.eg.sloth.form.fields.field.base.TextField;
 import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
+import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
 /**
  * Project: sloth-framework
@@ -20,7 +20,7 @@ import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
  *
  * @author Enrico Grillini
  */
-public class CardWriter extends AbstractHtmlWriter {
+public class CardWriter extends HtmlWriter {
 
     private CardWriter() {
         // NOP
@@ -45,7 +45,7 @@ public class CardWriter extends AbstractHtmlWriter {
     public static final String fieldCardContent(TextField<?> field) {
         StringBuilder result = new StringBuilder()
                 .append("   <div class=\"col mr-2\"")
-                .append(getAttribute(ATTR_TOOLTIP, !BaseFunction.isBlank(field.getTooltip()), field.getTooltip()))
+                .append(getAttributeTooltip(field.getTooltip()))
                 .append(">\n")
                 .append("    <div class=\"text-xs font-weight-bold text-primary text-uppercase mb-1\">" + field.getHtmlDescription() + CLOSE_DIV + "\n")
                 .append("    <div class=\"row no-gutters align-items-center\">\n")

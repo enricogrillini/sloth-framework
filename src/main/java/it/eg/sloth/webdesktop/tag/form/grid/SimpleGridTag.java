@@ -10,8 +10,8 @@ import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
-import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
+import it.eg.sloth.webdesktop.tag.form.grid.writer.GridWriter;
 
 import java.io.IOException;
 
@@ -46,7 +46,6 @@ public class SimpleGridTag extends AbstractGridTag<Grid<?>> {
                 String rowNameJs = Casting.getJs(getElement().getName() + rowNumber);
 
                 // Stampa campi principali
-//        String className = (hasDetail() || rowNumber % 2 == 0) ? "frGray" : "frWhite";
                 writeln(" <tr>");
 
                 if (hasDetail()) {
@@ -64,7 +63,7 @@ public class SimpleGridTag extends AbstractGridTag<Grid<?>> {
                         dataField.copyFromDataSource(dataRow);
                     }
 
-                    writeCell(appField, dataRow, rowNumber, ViewModality.VIEW_VISUALIZZAZIONE);
+                    write(GridWriter.cell(grid, appField, ViewModality.VIEW_VISUALIZZAZIONE));
                 }
 
                 writeln(" </tr>");
@@ -75,7 +74,7 @@ public class SimpleGridTag extends AbstractGridTag<Grid<?>> {
 
                     writeln(" <tr" + idHtml + ">");
                     writeln("  <td colspan=\"" + (getElement().getElements().size() + 1) + "\">");
-                    for (SimpleField field : getDetail().getElements()) {
+                    for (SimpleField field : getElement().getElements()) {
                         SimpleField fieldClone = field.newInstance();
 
                         if (fieldClone instanceof Button) {
@@ -100,23 +99,20 @@ public class SimpleGridTag extends AbstractGridTag<Grid<?>> {
 
     }
 
-    public int startTag() throws Throwable {
+    public int startTag() throws IOException, FrameworkException {
         if (getElement().getDataSource() != null) {
-            writeln("");
-            writeln("<!-- Table: " + Casting.getHtml(getElement().getTitle()) + " -->");
-            writeln("<table class=\"" + BootStrapClass.GRID_CLASS + "\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">");
+            writeln(GridWriter.openTable(getElement(), true, true, true));
+            writeln(GridWriter.header(getElement(), true));
 
-            writeHeader();
             writeRows();
             writeTotal();
 
-            writeln("</table>");
-
+            writeln(GridWriter.closeTable());
         }
         return EVAL_BODY_INCLUDE;
     }
 
-    protected void endTag() throws Throwable {
+    protected void endTag() {
         // NOP
     }
 

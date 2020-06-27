@@ -77,7 +77,7 @@ public class SortingRules<T extends DataRow> extends FrameComponent implements C
                     return 1;
             }
 
-            if (value1 == null && value2 != null) {
+            if (value1 == null) {
                 if (sortingRule.getSortType() == SortingRule.SORT_ASC_NULLS_LAST || sortingRule.getSortType() == SortingRule.SORT_DESC_NULLS_LAST)
                     return 1;
                 else

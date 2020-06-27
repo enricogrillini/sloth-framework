@@ -93,7 +93,7 @@ public class Button implements SimpleField {
 
             if (navigation.length <= 2) {
                 // Indice non specificato
-                setIndex(-1);
+                setIndex(null);
             } else {
                 // Indice specificato
                 setIndex(Integer.parseInt(navigation[navigation.length - 1]));
@@ -101,7 +101,7 @@ public class Button implements SimpleField {
 
         } else {
             setPressed(false);
-            setIndex(-1);
+            setIndex(null);
         }
     }
 

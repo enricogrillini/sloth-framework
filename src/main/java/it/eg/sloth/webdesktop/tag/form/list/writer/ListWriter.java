@@ -7,7 +7,7 @@ import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
+import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 import it.eg.sloth.webdesktop.tag.form.field.writer.TextControlWriter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Enrico Grillini
  */
 @Slf4j
-public class ListWriter extends AbstractHtmlWriter {
+public class ListWriter extends HtmlWriter {
 
     public static String writeTitle(Grid<?> grid) {
         if (BaseFunction.isBlank(grid.getTitle())) {

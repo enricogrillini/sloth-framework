@@ -6,7 +6,7 @@ import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.search.model.SuggestionList;
 import it.eg.sloth.webdesktop.search.model.suggestion.Suggestion;
-import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
+import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
 import java.math.BigDecimal;
 import java.util.Locale;
@@ -27,7 +27,7 @@ import java.util.Locale;
  *
  * @author Enrico Grillini
  */
-public class SearchWriter extends AbstractHtmlWriter {
+public class SearchWriter extends HtmlWriter {
 
     public static String writeOpen() {
         return new StringBuilder()
