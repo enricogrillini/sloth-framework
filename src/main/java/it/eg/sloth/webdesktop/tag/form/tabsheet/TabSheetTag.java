@@ -28,7 +28,7 @@ public class TabSheetTag extends BaseElementTag<TabSheet> {
     TabSheet tabSheet = getElement();
 
     writeln("");
-    writeln("<ul class=\"nav nav-tabs\">");
+    writeln("<ul class=\"nav nav-tabs small\">");
 
     for (Tab tab : tabSheet) {
       if (!tab.isHidden()) {

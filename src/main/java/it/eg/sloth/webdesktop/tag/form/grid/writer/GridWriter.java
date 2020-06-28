@@ -4,6 +4,7 @@ import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.form.NavigationConst;
+import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.form.fields.field.DecodedDataField;
 import it.eg.sloth.form.fields.field.FieldType;
@@ -14,6 +15,7 @@ import it.eg.sloth.form.fields.field.impl.Button;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
@@ -24,6 +26,11 @@ import java.text.MessageFormat;
 
 public class GridWriter extends HtmlWriter {
 
+    private static final String CELL_DETAIL = "   <td class=\"text-center tableDetail\"><i class=\"tableDetail text-info fa fa-chevron-down collapsed\" href=\"#{0}\" data-toggle=\"collapse\" aria-expanded=\"true\" aria-controls=\"collapse-collapsed\"></i></td>\n";
+
+    private static final String ROW_CLOSE = "  </tr>\n";
+
+
     public static String openTable(Grid<?> grid, boolean border, boolean hover, boolean small) {
         String classHtml = MessageFormat.format(BootStrapClass.GRID_CLASS, border ? " table-bordered" : "", hover ? " table-hover" : "", small ? " table-sm" : "");
 
@@ -32,7 +39,6 @@ public class GridWriter extends HtmlWriter {
                 .append("<!-- Table: " + Casting.getHtml(grid.getTitle()) + " -->\n")
                 .append("<table class=\"" + classHtml + "\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">\n")
                 .toString();
-
     }
 
     public static String closeTable() {
@@ -53,9 +59,13 @@ public class GridWriter extends HtmlWriter {
                 .toString();
     }
 
-    public static String headerRow(Grid<?> grid, boolean sortable) {
+    public static String headerRow(Grid<?> grid, Fields<?> detailFields, boolean sortable) {
         StringBuilder result = new StringBuilder()
                 .append("  <tr>\n");
+
+        if (detailFields != null) {
+            result.append("   <th width=\"3%\"></th>\n");
+        }
 
         for (SimpleField field : grid) {
             String descriptionHtml = field.getHtmlDescription();
@@ -99,15 +109,15 @@ public class GridWriter extends HtmlWriter {
         }
 
         return result
-                .append("  </tr>\n")
+                .append(ROW_CLOSE)
                 .toString();
 
     }
 
-    public static String header(Grid<?> grid, boolean sortable) {
+    public static String header(Grid<?> grid, Fields<?> detailFields, boolean sortable) {
         return new StringBuilder()
                 .append(openHeader())
-                .append(headerRow(grid, sortable))
+                .append(headerRow(grid, detailFields, sortable))
                 .append(closeHeader())
                 .toString();
     }
@@ -161,7 +171,7 @@ public class GridWriter extends HtmlWriter {
                 .toString();
     }
 
-    public static String rows(Grid<?> grid, ViewModality viewModality) throws FrameworkException {
+    public static String rows(Grid<?> grid, Fields<?> detailFields, ViewModality viewModality) throws FrameworkException {
         int rowNumber = 0;
 
         StringBuilder result = new StringBuilder();
@@ -170,16 +180,20 @@ public class GridWriter extends HtmlWriter {
 
         DataTable<?> dataTable = grid.getDataSource();
         for (DataRow dataRow : dataTable) {
-            if (dataTable.getPageSize() <= 0 || (dataTable.getPageStart() <= rowNumber && dataTable.getPageEnd() >= rowNumber)) {
+            String idRow = NavigationConst.navStr(NavigationConst.ROW, grid.getName(), "" + rowNumber);
+            String idRowDetail = NavigationConst.navStr(NavigationConst.ROW, grid.getName(), "" + rowNumber, "detail");
 
-                String classHtml = "";
-                if (rowNumber == dataTable.getCurrentRow()) {
-                    classHtml += " class=\"table-primary\"";
-                }
+
+            if (dataTable.getPageSize() <= 0 || (dataTable.getPageStart() <= rowNumber && dataTable.getPageEnd() >= rowNumber)) {
+                String classHtml = getAttribute("class", rowNumber == dataTable.getCurrentRow(), "table-primary");
 
                 // Riga corrente in edit mode
                 if (rowNumber == dataTable.getCurrentRow() && ViewModality.VIEW_MODIFICA == viewModality) {
-                    result.append("  <tr" + classHtml + ">\n");
+                    result.append(MessageFormat.format("  <tr{0}>\n", classHtml));
+                    if (detailFields != null) {
+                        result.append("   <td>&nbsp;</td>\n");
+                    }
+
                     for (SimpleField field : grid.getElements()) {
                         if (field instanceof InputField && ((InputField<?>) field).isHidden())
                             continue;
@@ -191,13 +205,11 @@ public class GridWriter extends HtmlWriter {
 
                         result.append(GridWriter.cell(grid, field, viewModality));
                     }
-
-                    result.append("  </tr>\n");
-
                 } else {
-                    String idHtml = " id=\"" + NavigationConst.navStr(NavigationConst.ROW, grid.getName(), "" + rowNumber) + "\"";
-
-                    result.append("  <tr" + idHtml + classHtml + ">\n");
+                    result.append(MessageFormat.format("  <tr{0}{1}>\n", getAttribute("id", idRow), classHtml));
+                    if (detailFields != null) {
+                        result.append(MessageFormat.format(CELL_DETAIL, idRowDetail));
+                    }
                     for (SimpleField field : grid.getElements()) {
                         SimpleField appField = field.newInstance();
 
@@ -211,29 +223,31 @@ public class GridWriter extends HtmlWriter {
 
                         result.append(GridWriter.cell(grid, appField, ViewModality.VIEW_VISUALIZZAZIONE));
                     }
-                    result.append("  </tr>\n");
                 }
+                result.append(ROW_CLOSE);
 
-                // if (hasDetail()) {
-                // for (SimpleField field : getElement().getElements()) {
-                // SimpleField fieldClone = field.newInstance();
-                //
-                // if (fieldClone instanceof Button) {
-                // Button button = (Button) fieldClone;
-                // button.setIndex(rowNumber);
-                // } else if (fieldClone instanceof DataField) {
-                // DataField<?> dataField = (DataField<?>) fieldClone;
-                // dataField.copyFromDataSource(dataRow);
-                // }
-                //
-                // writeln(" <tr class=\"frDetail\">");
-                // writeln(" <td>&nbsp;</td>");
-                // writeln(" <td colspan=\"" + getElement().getElements().size() + "\">");
-                // writeln(" <b style=\"color:#660000\">" + fieldClone.getHtmlDescription() + ": </b><span>" + FormControlWriter.writeControl(fieldClone, getElement(), ViewModality.VIEW_VISUALIZZAZIONE) + "</span>");
-                // writeln(" </td>");
-                // writeln(" </tr>");
-                // }
-                // }
+                if (detailFields != null) {
+                    result
+                            .append(MessageFormat.format("  <tr {0} class=\"frDetail collapse\">\n", getAttribute("id", idRowDetail)))
+                            .append("   <td>&nbsp;</td>\n");
+
+                    for (SimpleField field : detailFields) {
+                        SimpleField fieldClone = field.newInstance();
+
+                        if (fieldClone instanceof Button) {
+                            Button button = (Button) fieldClone;
+                            button.setIndex(rowNumber);
+                        } else if (fieldClone instanceof DataField) {
+                            DataField<?> dataField = (DataField<?>) fieldClone;
+                            dataField.copyFromDataSource(dataRow);
+                        }
+
+                        result.append("   <td colspan=\"" + grid.getElements().size() + "\">\n");
+                        result.append("    <b style=\"color:#660000\">" + fieldClone.getHtmlDescription() + ": </b><span>" + TextControlWriter.writeControl(fieldClone) + "</span>\n");
+                        result.append("   </td>\n");
+                    }
+                    result.append(ROW_CLOSE);
+                }
             }
             rowNumber++;
         }

@@ -1,11 +1,12 @@
 package it.eg.sloth.webdesktop.tag.form.group.writer;
 
-import java.math.BigDecimal;
-
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.BigDecimalUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
 
 /**
  * Project: sloth-framework
@@ -23,8 +24,8 @@ import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
  */
 public class GroupWriter extends HtmlWriter {
 
-    static final String BASE_CELL_CLASS = "col-";
-    static final String ROW_CLASS = "row form-group";
+    static final String BASE_CELL_CLASS = "m-0 pl-1 pr-1 {0}";
+    static final String ROW_CLASS = "row form-group mb-2";
 
     public static String openGroup(String legend) {
         return new StringBuilder()
@@ -55,15 +56,15 @@ public class GroupWriter extends HtmlWriter {
 
     public static String openCell(String width) throws FrameworkException {
         // class
-        String classHtml = BASE_CELL_CLASS + "2";
+        String widthClass = "col-2";
         if (!BaseFunction.isBlank(width) && width.indexOf("cols") >= 0) {
             BigDecimal bigDecimal = BigDecimalUtil.parseBigDecimal(width.replace("cols", ""));
-            classHtml = BASE_CELL_CLASS + bigDecimal.intValue();
+            widthClass = "col-" + bigDecimal.intValue();
         } 
 
         return new StringBuilder()
                 .append("<div")
-                .append(getAttribute("class", classHtml))
+                .append(getAttribute("class", MessageFormat.format(BASE_CELL_CLASS, widthClass)))
                 .append(">")
                 .toString();
 

@@ -1,16 +1,8 @@
 package it.eg.sloth.webdesktop.tag.form.grid;
 
-import it.eg.sloth.db.datasource.DataRow;
-import it.eg.sloth.db.datasource.DataTable;
-import it.eg.sloth.form.NavigationConst;
-import it.eg.sloth.form.fields.field.DataField;
-import it.eg.sloth.form.fields.field.SimpleField;
-import it.eg.sloth.form.fields.field.impl.Button;
 import it.eg.sloth.form.grid.Grid;
-import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
-import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 import it.eg.sloth.webdesktop.tag.form.grid.writer.GridWriter;
 
 import java.io.IOException;
@@ -33,78 +25,12 @@ public class SimpleGridTag extends AbstractGridTag<Grid<?>> {
 
     private static final long serialVersionUID = 1L;
 
-    protected void writeRows() throws FrameworkException, IOException {
-        Grid<?> grid = getElement();
-        int rowNumber = 0;
-
-        writeln(" <tbody>");
-
-        DataTable<?> dataTable = grid.getDataSource();
-        for (DataRow dataRow : dataTable) {
-            if (dataTable.getPageSize() <= 0 || (dataTable.getPageStart() <= rowNumber && dataTable.getPageEnd() >= rowNumber)) {
-                String rowNameHtml = Casting.getHtml(getElement().getName() + rowNumber);
-                String rowNameJs = Casting.getJs(getElement().getName() + rowNumber);
-
-                // Stampa campi principali
-                writeln(" <tr>");
-
-                if (hasDetail()) {
-                    writeln(" <td><a id=\"" + rowNameHtml + "Expand\" class=\"collapsed\" onclick=\"expandDetail('" + rowNameJs + "')\">Apri</a><a id=\"" + rowNameHtml + "Collapse\" class=\"expanded\" style=\"display:none\" onclick=\"collapseDetail('" + rowNameJs + "')\">Chiudi</a></td>");
-                }
-
-                for (SimpleField field : grid) {
-                    SimpleField appField = field.newInstance();
-
-                    if (appField instanceof Button) {
-                        Button button = (Button) appField;
-                        button.setIndex(rowNumber);
-                    } else if (appField instanceof DataField) {
-                        DataField<?> dataField = (DataField<?>) appField;
-                        dataField.copyFromDataSource(dataRow);
-                    }
-
-                    write(GridWriter.cell(grid, appField, ViewModality.VIEW_VISUALIZZAZIONE));
-                }
-
-                writeln(" </tr>");
-
-                // Stampa dettaglio
-                if (hasDetail()) {
-                    String idHtml = " id=\"" + NavigationConst.navStr(NavigationConst.ROW, grid.getName(), "" + rowNumber) + "\"";
-
-                    writeln(" <tr" + idHtml + ">");
-                    writeln("  <td colspan=\"" + (getElement().getElements().size() + 1) + "\">");
-                    for (SimpleField field : getElement().getElements()) {
-                        SimpleField fieldClone = field.newInstance();
-
-                        if (fieldClone instanceof Button) {
-                            Button button = (Button) fieldClone;
-                            button.setIndex(rowNumber);
-                        } else if (fieldClone instanceof DataField) {
-                            DataField<?> dataField = (DataField<?>) fieldClone;
-                            dataField.copyFromDataSource(dataRow);
-                        }
-
-                        writeln("   <b style=\"color:#660000\">" + fieldClone.getHtmlDescription() + ": </b><span>" + FormControlWriter.writeControl(fieldClone, getElement(), ViewModality.VIEW_VISUALIZZAZIONE) + "</span>");
-                    }
-                    writeln("  </td>");
-                    writeln(" </tr>");
-                }
-            }
-
-            rowNumber++;
-        }
-
-        writeln(" </tbody>");
-
-    }
-
     public int startTag() throws IOException, FrameworkException {
         if (getElement().getDataSource() != null) {
             writeln(GridWriter.openTable(getElement(), true, true, true));
-            writeln(GridWriter.header(getElement(), true));
+            writeln(GridWriter.header(getElement(), getDetailFields(), true));
+            writeln(GridWriter.rows(getElement(), getDetailFields(), ViewModality.VIEW_VISUALIZZAZIONE));
 
-            writeRows();
             writeTotal();
 
             writeln(GridWriter.closeTable());

@@ -28,10 +28,10 @@ public class GroupWriterTest {
     private static final String OPEN_GROUP = "<filedset>{0}";
     private static final String CLOSE_GROUP = "</filedset>";
 
-    private static final String OPEN_ROW = "<div class=\"row form-group\">";
+    private static final String OPEN_ROW = "<div class=\"row form-group mb-2\">";
     private static final String CLOSE_ROW = "</div>";
 
-    private static final String OPEN_CELL = "<div class=\"col-2\">";
+    private static final String OPEN_CELL = "<div class=\"m-0 pl-1 pr-1 col-2\">";
     private static final String CLOSE_CELL = "</div>";
 
     @Test

@@ -1,6 +1,8 @@
 package it.eg.sloth.webdesktop.tag.form.grid;
 
 import it.eg.sloth.db.datasource.DataRow;
+import it.eg.sloth.db.datasource.DataSource;
+import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.TextField;
 import it.eg.sloth.form.fields.field.impl.InputTotalizer;
@@ -38,13 +40,25 @@ public abstract class AbstractGridTag<T extends Grid<?>> extends BaseElementTag<
     String detailName;
 
     public boolean hasDetail() {
-        return getDetailName() != null && !getDetailName().equals("");
+        return !BaseFunction.isBlank(getDetailName());
     }
 
-    protected void writeTotal() throws  FrameworkException, IOException {
+    public <D extends DataSource> Fields<D> getDetailFields() {
+        if (hasDetail()) {
+            return (Fields) getForm().getElement(getDetailName());
+        } else {
+            return null;
+        }
+    }
+
+    protected void writeTotal() throws FrameworkException, IOException {
 
         if (getElement().hasTotalizer()) {
             writeln(" <tr>");
+
+            if (hasDetail()){
+                writeln("  <td>&nbsp;</td>");
+            }
 
             for (SimpleField field : getElement().getElements()) {
                 if (field instanceof TextTotalizer || field instanceof InputTotalizer) {
