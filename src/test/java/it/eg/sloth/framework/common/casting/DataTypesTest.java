@@ -5,6 +5,7 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
@@ -46,10 +47,10 @@ public class DataTypesTest {
         assertEquals("10,00 %", DataTypes.PERC.formatValue(BigDecimal.valueOf(10), Locale.ITALY));
         assertEquals("0,00 %", DataTypes.PERC.formatValue(BigDecimal.valueOf(0), Locale.ITALY));
 
-        assertEquals("1000.0000000", DataTypes.NUMBER.formatValue(BigDecimal.valueOf(1000), Locale.US));
-        assertEquals("1000,0000000", DataTypes.NUMBER.formatValue(BigDecimal.valueOf(1000), Locale.ITALY));
-        assertEquals("1000.9870000", DataTypes.NUMBER.formatValue(BigDecimal.valueOf(1000.987), Locale.US));
-        assertEquals("1000,9870000", DataTypes.NUMBER.formatValue(BigDecimal.valueOf(1000.987), Locale.ITALY));
+        assertEquals("1,000.0000000", DataTypes.NUMBER.formatValue(BigDecimal.valueOf(1000), Locale.US));
+        assertEquals("1.000,0000000", DataTypes.NUMBER.formatValue(BigDecimal.valueOf(1000), Locale.ITALY));
+        assertEquals("1,000.9870000", DataTypes.NUMBER.formatValue(BigDecimal.valueOf(1000.987), Locale.US));
+        assertEquals("1.000,9870000", DataTypes.NUMBER.formatValue(BigDecimal.valueOf(1000.987), Locale.ITALY));
         assertEquals("10,0000000", DataTypes.NUMBER.formatValue(BigDecimal.valueOf(10), Locale.ITALY));
         assertEquals("0,0000000", DataTypes.NUMBER.formatValue(BigDecimal.valueOf(0), Locale.ITALY));
     }
@@ -57,6 +58,7 @@ public class DataTypesTest {
 
     @Test
     public void bigDecimalParseValueTest() throws FrameworkException {
+        // Integer
         assertEquals(BigDecimal.valueOf(1000), DataTypes.DECIMAL.parseValue("1000.00", Locale.US));
         assertEquals(BigDecimal.valueOf(1000), DataTypes.DECIMAL.parseValue("1000,00", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(10), DataTypes.DECIMAL.parseValue("10,00", Locale.ITALY));
@@ -67,8 +69,10 @@ public class DataTypesTest {
         assertEquals(BigDecimal.valueOf(10), DataTypes.INTEGER.parseValue("10", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(0), DataTypes.INTEGER.parseValue("0", Locale.ITALY));
 
+        // Currency
         assertEquals(BigDecimal.valueOf(1000), DataTypes.CURRENCY.parseValue("1,000.00 $", Locale.US));
         assertEquals(BigDecimal.valueOf(1000), DataTypes.CURRENCY.parseValue("1.000,00 €", Locale.ITALY));
+        assertEquals(BigDecimal.valueOf(1000), DataTypes.CURRENCY.parseValue("1.000", Locale.ITALY));
         assertEquals(BigDecimalUtil.toBigDecimal(1000.987), DataTypes.CURRENCY.parseValue("1,000.987 $", Locale.US));
         assertEquals(BigDecimalUtil.toBigDecimal(1000.987), DataTypes.CURRENCY.parseValue("1.000,987 €", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(10), DataTypes.CURRENCY.parseValue("10,00 €", Locale.ITALY));
@@ -78,11 +82,15 @@ public class DataTypesTest {
         assertEquals(BigDecimal.valueOf(1000), DataTypes.CURRENCY.parseValue("1000,00", Locale.ITALY));
         assertEquals(BigDecimalUtil.toBigDecimal(1000.987), DataTypes.CURRENCY.parseValue("1000.987", Locale.US));
         assertEquals(BigDecimalUtil.toBigDecimal(1000.987), DataTypes.CURRENCY.parseValue("1000,987", Locale.ITALY));
-        assertEquals(BigDecimal.valueOf(10), DataTypes.CURRENCY.parseValue("10.00", Locale.ITALY));
+        assertEquals(BigDecimal.valueOf(1234), DataTypes.CURRENCY.parseValue("12.34", Locale.ITALY));
+        assertEquals(BigDecimal.valueOf(12.34), DataTypes.CURRENCY.parseValue("12,34", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(0), DataTypes.CURRENCY.parseValue("0.00", Locale.ITALY));
 
-        assertEquals(BigDecimal.valueOf(10), DataTypes.PERC.parseValue("10.00", Locale.ITALY));
+        // Percentuale
+        assertEquals(BigDecimal.valueOf(1234), DataTypes.PERC.parseValue("12.34", Locale.ITALY));
+        assertEquals(BigDecimal.valueOf(12.34), DataTypes.PERC.parseValue("12,34", Locale.ITALY));
 
+        // Number
         assertEquals(BigDecimal.valueOf(1000), DataTypes.NUMBER.parseValue("1000", Locale.US));
         assertEquals(BigDecimal.valueOf(1000), DataTypes.NUMBER.parseValue("1000", Locale.ITALY));
         assertEquals(BigDecimalUtil.toBigDecimal(1000.987), DataTypes.NUMBER.parseValue("1000.987", Locale.US));
@@ -111,10 +119,10 @@ public class DataTypesTest {
         assertEquals("10,00 %", DataTypes.PERC.formatText(BigDecimal.valueOf(10), Locale.ITALY));
         assertEquals("0,00 %", DataTypes.PERC.formatText(BigDecimal.valueOf(0), Locale.ITALY));
 
-        assertEquals("1000.0000000", DataTypes.NUMBER.formatText(BigDecimal.valueOf(1000), Locale.US));
-        assertEquals("1000,0000000", DataTypes.NUMBER.formatText(BigDecimal.valueOf(1000), Locale.ITALY));
-        assertEquals("1000.9870000", DataTypes.NUMBER.formatText(BigDecimal.valueOf(1000.987), Locale.US));
-        assertEquals("1000,9870000", DataTypes.NUMBER.formatText(BigDecimal.valueOf(1000.987), Locale.ITALY));
+        assertEquals("1,000.0000000", DataTypes.NUMBER.formatText(BigDecimal.valueOf(1000), Locale.US));
+        assertEquals("1.000,0000000", DataTypes.NUMBER.formatText(BigDecimal.valueOf(1000), Locale.ITALY));
+        assertEquals("1,000.9870000", DataTypes.NUMBER.formatText(BigDecimal.valueOf(1000.987), Locale.US));
+        assertEquals("1.000,9870000", DataTypes.NUMBER.formatText(BigDecimal.valueOf(1000.987), Locale.ITALY));
         assertEquals("10,0000000", DataTypes.NUMBER.formatText(BigDecimal.valueOf(10), Locale.ITALY));
         assertEquals("0,0000000", DataTypes.NUMBER.formatText(BigDecimal.valueOf(0), Locale.ITALY));
     }
@@ -151,7 +159,7 @@ public class DataTypesTest {
         DataTypes.PARTITA_IVA.parseValue("00000000000", Locale.ITALY);
 
         // Partita IVA valida
-        assertEquals("00000000000",  DataTypes.PARTITA_IVA.parseValue("00000000000", Locale.ITALY));
+        assertEquals("00000000000", DataTypes.PARTITA_IVA.parseValue("00000000000", Locale.ITALY));
 
     }
 

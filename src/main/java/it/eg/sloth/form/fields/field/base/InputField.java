@@ -1,11 +1,9 @@
 package it.eg.sloth.form.fields.field.base;
 
 import it.eg.sloth.form.WebRequest;
-import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.casting.Validator;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.framework.common.message.BaseMessage;
-import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
 import it.eg.sloth.framework.pageinfo.ViewModality;
@@ -61,16 +59,12 @@ public abstract class InputField<T> extends TextField<T> {
     @Override
     public Message check() {
         // Verifico la correttezza formale di quanto contenuto nella request
-        Message message = super.check();
-        if (message != null)
+        Message message;
+        if ((message = super.check() )!= null) {
             return message;
-
-        // Controllo l'obbligatorietà
-        if (BaseFunction.isNull(getValue()) && isRequired()) {
-            return new BaseMessage(Level.WARN, "Il campo " + getDescription() + " è obbligatorio", null);
+        } else {
+            return Validator.verifyMandatoriness(this);
         }
-
-        return message;
     }
 
     @Override
@@ -79,13 +73,13 @@ public abstract class InputField<T> extends TextField<T> {
         if (message != null) {
             messageList.add(message);
             return false;
+        } else {
+            // Questo passaggio evita errori relativi a imputazioni formalmente correte
+            // ma in formati diversi da quello previsto
+            setData(getDataType().formatValue(getValue(), getLocale(), getFormat()));
+
+            return true;
         }
-
-        // Questo passaggio evita errori relativi a imputazioni formalmente correte
-        // ma in formati diversi da quello previsto
-        setData(getDataType().formatValue(getValue(), getLocale(), getFormat()));
-
-        return true;
     }
 
     private void post(String data) {

@@ -7,6 +7,7 @@ import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.casting.Validator;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
@@ -132,7 +133,7 @@ public abstract class TextField<T extends Object> implements DataField<T> {
 
     @Override
     public Message check() {
-        return getDataType().check(this);
+        return Validator.verifyValidity(this);
     }
 
     @Override

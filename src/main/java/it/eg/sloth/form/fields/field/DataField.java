@@ -1,12 +1,12 @@
 package it.eg.sloth.form.fields.field;
 
-import java.text.ParseException;
-
 import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
+
+import java.text.ParseException;
 
 /**
  * Project: sloth-framework
@@ -30,75 +30,75 @@ public interface DataField<T> extends SimpleField {
      *
      * @return
      */
-    public String getAlias();
+    String getAlias();
 
     /**
      * Imposta l'alias
      *
      * @param alias
      */
-    public void setAlias(String alias);
+    void setAlias(String alias);
 
     /**
      * Ritorna il data type
      *
      * @return
      */
-    public DataTypes getDataType();
+    DataTypes getDataType();
 
     /**
      * Imposta il data type
      *
      * @param dataType
      */
-    public void setDataType(DataTypes dataType);
+    void setDataType(DataTypes dataType);
 
     /**
      * Ritorna il formato
      *
      * @return
      */
-    public String getFormat();
+    String getFormat();
 
     /**
      * Imposta il formato
      *
      * @param format
      */
-    public void setFormat(String format);
+    void setFormat(String format);
 
-    public String getData();
+    String getData();
 
-    public void setData(String data);
+    void setData(String data);
 
-    public String escapeHtmlText();
+    String escapeHtmlText();
 
-    public String escapeJsText();
+    String escapeJsText();
 
-    public String escapeHtmlValue();
+    String escapeHtmlValue();
 
-    public String escapeJsValue();
+    String escapeJsValue();
 
     /**
      * Imposta il testo del campo formattando il valore passato
      *
      * @param value
      */
-    public void setValue(T value) throws FrameworkException;
+    void setValue(T value) throws FrameworkException;
 
     /**
      * Imposta il valore prelevandolo dal data source passato
      *
      * @param dataSource
      */
-    public void copyFromDataSource(DataSource dataSource) throws FrameworkException;
+    void copyFromDataSource(DataSource dataSource) throws FrameworkException;
 
     /**
      * Imposta il valore sul data source passato
      *
      * @param dataSource
      */
-    public void copyToDataSource(DataSource dataSource);
+    void copyToDataSource(DataSource dataSource);
 
     /**
      * Ritorna il testo del campo nel formato nativo
@@ -106,19 +106,19 @@ public interface DataField<T> extends SimpleField {
      * @return
      * @throws ParseException
      */
-    public T getValue();
+    T getValue();
 
     /**
      * @return
      */
-    public boolean isValid();
+    boolean isValid();
 
     /**
      * Verifica la validita del testo passato
      *
      * @return
      */
-    public Message check();
+    Message check();
 
     /**
      * Effettua la validazione della request relativamente al campo
@@ -126,6 +126,6 @@ public interface DataField<T> extends SimpleField {
      * @param messages
      * @return
      */
-    public boolean validate(MessageList messages) throws FrameworkException;
+    boolean validate(MessageList messages) throws FrameworkException;
 
 }

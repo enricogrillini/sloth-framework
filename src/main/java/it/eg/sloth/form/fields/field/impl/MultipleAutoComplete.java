@@ -13,7 +13,6 @@ import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.framework.common.message.BaseMessage;
 import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
@@ -165,10 +164,10 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
 
         // Verifico che quanto imputato sia un valore ammissibile
         if (!BaseFunction.isBlank(getDecodedText()) && BaseFunction.isBlank(getData())) {
-            return new BaseMessage(Level.WARN, "Il campo " + getDescription() + " non è valido", null);
+            return new Message(Level.WARN, getName(), "Il campo " + getDescription() + " non è valido", null);
         } else if (!BaseFunction.isBlank(getDecodedText()) && !BaseFunction.isBlank(getData())) {
             if (StringUtil.tokenize(getDecodedText(), ",").length != StringUtil.tokenize(getData(), ",").length) {
-                return new BaseMessage(Level.WARN, "Non tutti i valori del campo " + getDescription() + " sono validi", null);
+                return new Message(Level.WARN, getName(),"Non tutti i valori del campo " + getDescription() + " sono validi", null);
             }
         }
 

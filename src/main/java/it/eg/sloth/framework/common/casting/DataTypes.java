@@ -1,23 +1,18 @@
 package it.eg.sloth.framework.common.casting;
 
-import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.BigDecimalUtil;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
-import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.exception.ExceptionCode;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.localization.Localization;
-import it.eg.sloth.framework.common.message.BaseMessage;
-import it.eg.sloth.framework.common.message.Level;
-import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.utility.html.HtmlInput;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.NumerFormat;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DecimalFormatSymbols;
-import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -69,6 +64,10 @@ public enum DataTypes {
         return htmlType;
     }
 
+    public String getErrorProperties() {
+        return errorProperties;
+    }
+
     @SuppressWarnings("unused")
     DataTypes(String htmlType, String formatProperties, String errorProperties) {
         this.htmlType = htmlType;
@@ -114,16 +113,15 @@ public enum DataTypes {
      * @throws FrameworkException
      */
     private Object parseValue(String value, ResourceBundle valueBundle, String format) throws FrameworkException {
-        if (BaseFunction.isBlank(format)) {
-            format = valueBundle.getString(formatProperties);
-        }
-
         switch (this) {
             case DATE:
             case DATETIME:
             case TIME:
             case HOUR:
             case MONTH:
+                if (BaseFunction.isBlank(format)) {
+                    format = valueBundle.getString(formatProperties);
+                }
                 return TimeStampUtil.parseTimestamp(value, format);
 
             case DECIMAL:
@@ -135,10 +133,10 @@ public enum DataTypes {
                 decimalFormatSymbols.setDecimalSeparator(valueBundle.getString(Localization.PROP_DECIMAL_SEPARATOR).charAt(0));
                 decimalFormatSymbols.setGroupingSeparator(valueBundle.getString(Localization.PROP_THOUSAND_SEPARATOR).charAt(0));
 
-                try {
-                    return BigDecimalUtil.parseBigDecimal(value, format, decimalFormatSymbols);
-                } catch (FrameworkException e) {
+                if (BaseFunction.isBlank(format)) {
                     return BigDecimalUtil.parseBigDecimal(value, valueBundle.getString(NUMBER.formatProperties), decimalFormatSymbols);
+                } else {
+                    return BigDecimalUtil.parseBigDecimal(value, format, decimalFormatSymbols);
                 }
 
             case MAIL:
@@ -281,25 +279,6 @@ public enum DataTypes {
         return (this.equals(DECIMAL) || this.equals(INTEGER) || this.equals(CURRENCY) || this.equals(PERC));
     }
 
-    /**
-     * Verifica la correttezza formale del fiel passato
-     *
-     * @param dataField
-     * @return
-     */
-    public Message check(DataField<?> dataField) {
-        try {
-            parseValue(dataField.getData(), dataField.getLocale(), dataField.getFormat());
-            return null;
-
-        } catch (FrameworkException e) {
-            ResourceBundle bundle = ResourceBundle.getBundle(Localization.VALUE_BUNDLE, dataField.getLocale());
-
-            return new BaseMessage(
-                    Level.WARN,
-                    MessageFormat.format(bundle.getString(errorProperties), dataField.getDescription()), "");
-        }
-    }
 
     /**
      * Ritorna il nummber format per i grafici
@@ -309,6 +288,7 @@ public enum DataTypes {
     public NumerFormat getNumerFormat() {
         switch (this) {
             case DECIMAL:
+            case NUMBER:
                 return NumerFormat.DECIMAL_FORMAT;
             case INTEGER:
                 return NumerFormat.INTEGER_FORMAT;
@@ -316,8 +296,6 @@ public enum DataTypes {
                 return NumerFormat.CURRENCY_FORMAT;
             case PERC:
                 return NumerFormat.PERC_FORMAT;
-            case NUMBER:
-                return NumerFormat.DECIMAL_FORMAT;
 
             default:
                 return null;

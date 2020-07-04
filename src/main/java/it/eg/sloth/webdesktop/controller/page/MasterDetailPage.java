@@ -8,11 +8,14 @@ import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.form.tabsheet.Tab;
 import it.eg.sloth.form.tabsheet.TabSheet;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.pageinfo.PageStatus;
 import it.eg.sloth.framework.utility.FileType;
 import it.eg.sloth.framework.utility.xlsx.GridXlsxWriter;
 import it.eg.sloth.webdesktop.controller.common.grid.MasterDetailGridNavigationInterface;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.OutputStream;
 
 /**
  * Project: sloth-framework
@@ -298,15 +301,15 @@ public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extend
 
     @Override
     public void onExcel(Grid<?> grid) throws Exception {
-        GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
+        try (OutputStream outputStream = getResponse().getOutputStream()) {
+            String fileName = BaseFunction.nvl(grid.getTitle(), getForm().getPageInfo().getTitle()) + FileType.XLSX.getExtension();
+            fileName = StringUtil.toFileName(fileName);
 
-        try {
-            setModelAndView(BaseFunction.nvl(grid.getTitle(), getForm().getPageInfo().getTitle()) + FileType.XLSX.getExtension(), FileType.XLSX);
-            gridXlsxWriter.getWorkbook().write(getResponse().getOutputStream());
-        } finally {
-            getResponse().getOutputStream().close();
+            setModelAndView(fileName, FileType.XLSX);
+
+            GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
+            gridXlsxWriter.getWorkbook().write(outputStream);
         }
-
     }
 
 }

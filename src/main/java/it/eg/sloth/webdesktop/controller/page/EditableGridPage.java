@@ -7,11 +7,14 @@ import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.framework.utility.FileType;
 import it.eg.sloth.framework.utility.xlsx.GridXlsxWriter;
 import it.eg.sloth.webdesktop.controller.common.editable.FullEditingInterface;
 import it.eg.sloth.webdesktop.controller.common.grid.EditableGridNavigationInterface;
+
+import java.io.OutputStream;
 
 /**
  * Project: sloth-framework
@@ -274,13 +277,14 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
 
     @Override
     public void onExcel(Grid<?> grid) throws Exception {
-        GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
+        try (OutputStream outputStream = getResponse().getOutputStream()) {
+            String fileName = BaseFunction.nvl(grid.getTitle(), getForm().getPageInfo().getTitle()) + FileType.XLSX.getExtension();
+            fileName = StringUtil.toFileName(fileName);
 
-        try {
-            setModelAndView(BaseFunction.nvl(grid.getDescription(), getForm().getPageInfo().getTitle()) + FileType.XLSX.getExtension(), FileType.XLSX);
-            gridXlsxWriter.getWorkbook().write(getResponse().getOutputStream());
-        } finally {
-            getResponse().getOutputStream().close();
+            setModelAndView(fileName, FileType.XLSX);
+
+            GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
+            gridXlsxWriter.getWorkbook().write(outputStream);
         }
     }
 

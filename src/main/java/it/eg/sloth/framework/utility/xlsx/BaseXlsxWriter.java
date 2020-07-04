@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
+import it.eg.sloth.framework.common.base.StringUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.PrintSetup;
@@ -65,7 +66,7 @@ public class BaseXlsxWriter {
     }
 
     public XSSFSheet addSheet(String name, boolean landscape) {
-        sheet = workbook.createSheet(name);
+        sheet = workbook.createSheet(StringUtil.toXlsxSheetName(name));
 
         // Imposto i margini
         sheet.setMargin(Sheet.LeftMargin, 0.25);

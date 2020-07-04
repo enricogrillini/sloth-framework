@@ -43,11 +43,27 @@ public class GridWriterTest {
             " </tbody>\n";
 
     private static final String CONTENT_TEMPLATE_DETAIL = " <tbody>\n" +
-            "  <tr id=\"navigationprefix___row___prova___0\">\n" +
+            "  <tr id=\"navigationprefix___row___provagrid___0\">\n" +
+            "   <td class=\"text-center tableDetail\"><i class=\"tableDetail text-info fa fa-chevron-down collapsed\" href=\"#navigationprefix___row___provagrid___0___detail\" data-toggle=\"collapse\" aria-expanded=\"true\" aria-controls=\"collapse-collapsed\"></i></td>\n" +
             "   <td class=\"text-left\">valore1</td>\n" +
+            "   <td class=\"text-left\">A</td>\n" +
             "  </tr>\n" +
-            "  <tr id=\"navigationprefix___row___prova___1\" class=\"table-primary\">\n" +
+            "  <tr  id=\"navigationprefix___row___provagrid___0___detail\" class=\"frDetail collapse\">\n" +
+            "   <td>&nbsp;</td>\n" +
+            "   <td colspan=\"2\">\n" +
+            "    <b style=\"color:#660000\">campo3: </b><span>Lorem ipsum A</span>\n" +
+            "   </td>\n" +
+            "  </tr>\n" +
+            "  <tr id=\"navigationprefix___row___provagrid___1\" class=\"table-primary\">\n" +
+            "   <td class=\"text-center tableDetail\"><i class=\"tableDetail text-info fa fa-chevron-down collapsed\" href=\"#navigationprefix___row___provagrid___1___detail\" data-toggle=\"collapse\" aria-expanded=\"true\" aria-controls=\"collapse-collapsed\"></i></td>\n" +
             "   <td class=\"text-left\">valore2</td>\n" +
+            "   <td class=\"text-left\">B</td>\n" +
+            "  </tr>\n" +
+            "  <tr  id=\"navigationprefix___row___provagrid___1___detail\" class=\"frDetail collapse\">\n" +
+            "   <td>&nbsp;</td>\n" +
+            "   <td colspan=\"2\">\n" +
+            "    <b style=\"color:#660000\">campo3: </b><span>Lorem ipsum B</span>\n" +
+            "   </td>\n" +
             "  </tr>\n" +
             " </tbody>\n";
 
@@ -84,11 +100,7 @@ public class GridWriterTest {
         fields.addChild(new Text<String>("campo3", "campo3", DataTypes.STRING));
         fields.setDataSource(table);
 
-        System.out.println( GridWriter.header(grid, fields, true));
-
-        System.out.println( GridWriter.rows(grid, fields, ViewModality.VIEW_VISUALIZZAZIONE));
-
-   //     assertEquals(CONTENT_TEMPLATE_DETAIL, GridWriter.rows(grid, fields, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(CONTENT_TEMPLATE_DETAIL, GridWriter.rows(grid, fields, ViewModality.VIEW_VISUALIZZAZIONE));
     }
 
 }

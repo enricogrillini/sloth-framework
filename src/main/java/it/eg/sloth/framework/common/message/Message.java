@@ -1,5 +1,9 @@
 package it.eg.sloth.framework.common.message;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -15,27 +19,14 @@ package it.eg.sloth.framework.common.message;
  *
  * @author Enrico Grillini
  */
-public interface Message {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Message {
 
-  /**
-   * Ritorna la gravità degli errori
-   * 
-   * @return
-   */
-  public Level getSeverity();
-
-  /**
-   * Ritorna il testo del messaggio
-   * 
-   * @return
-   */
-  public String getDescription();
-
-  /**
-   * Ritorna la descrizione di secondo livello
-   * 
-   * @return
-   */
-  public String getSubDescription();
+    Level severity;
+    String fieldName;
+    String description;
+    String subDescription;
 
 }

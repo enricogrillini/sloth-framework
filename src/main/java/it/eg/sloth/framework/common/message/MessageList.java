@@ -1,11 +1,13 @@
 package it.eg.sloth.framework.common.message;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.casting.Validator;
+import lombok.Data;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import lombok.Data;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Project: sloth-framework
@@ -37,6 +39,7 @@ public class MessageList {
         popup = true;
     }
 
+
     /**
      * Aggiunge un messaggio
      *
@@ -52,7 +55,7 @@ public class MessageList {
      * @param messaggio
      */
     public void addBaseInfo(String messaggio) {
-        list.add(new BaseMessage(Level.INFO, messaggio, null));
+        list.add(new Message(Level.INFO, null, messaggio, null));
     }
 
     /**
@@ -61,7 +64,7 @@ public class MessageList {
      * @param messaggio
      */
     public void addBaseSuccess(String messaggio) {
-        list.add(new BaseMessage(Level.SUCCESS, messaggio, null));
+        list.add(new Message(Level.SUCCESS, null, messaggio, null));
     }
 
     /**
@@ -70,7 +73,7 @@ public class MessageList {
      * @param messaggio
      */
     public void addBaseWarning(String messaggio) {
-        list.add(new BaseMessage(Level.WARN, messaggio, null));
+        list.add(new Message(Level.WARN, null, messaggio, null));
     }
 
     /**
@@ -79,7 +82,7 @@ public class MessageList {
      * @param messaggio
      */
     public void addBaseError(String messaggio) {
-        list.add(new BaseMessage(Level.ERROR, messaggio, null));
+        list.add(new Message(Level.ERROR, null, messaggio, null));
     }
 
     /**
@@ -97,7 +100,46 @@ public class MessageList {
      * @param messaggio
      */
     public void addBaseError(String messaggio, Throwable throwable) {
-        list.add(new BaseMessage(Level.ERROR, messaggio, ExceptionUtils.getStackTrace(throwable)));
+        list.add(new Message(Level.ERROR, null, messaggio, ExceptionUtils.getStackTrace(throwable)));
+    }
+
+
+    /**
+     * Verifica la correttezza formale di un campo e nel caso in cui non sia rispettata aggiunge un errore alla lista
+     *
+     * @param fieldName
+     * @param fieldDescription
+     * @param data
+     * @param locale
+     * @param dataTypes
+     * @param format
+     * @return
+     */
+    public MessageList addIfInNotValid(String fieldName, String fieldDescription, String data, Locale locale, DataTypes dataTypes, String format) {
+        Message message = Validator.verifyIfIsValid(fieldName, fieldDescription, data, locale, dataTypes, format);
+        if (message != null) {
+            add(message);
+        }
+
+        return this;
+    }
+
+    /**
+     * Verica se un campo è valorizzato in caso contrario aggiunge un errore alla lista
+     *
+     * @param fieldName
+     * @param fieldDescription
+     * @param data
+     * @param locale
+     * @return
+     */
+    public MessageList addIfIsEmpty(String fieldName, String fieldDescription, String data, Locale locale) {
+        Message message = Validator.verifyIfIsNotEmpty(fieldName, fieldDescription, data, locale);
+        if (message != null) {
+            add(message);
+        }
+
+        return this;
     }
 
     /**

@@ -28,7 +28,6 @@ import java.text.ParseException;
 public class BigDecimalUtil {
     public static final String DEFAULT_FORMAT = "#.0000000";
 
-    public static final int ROUND = BigDecimal.ROUND_HALF_UP;
     public static final int SCALE = 10;
 
     private BigDecimalUtil() {
@@ -47,7 +46,7 @@ public class BigDecimalUtil {
         } else if (value.intValue() == value.doubleValue()) {
             return new BigDecimal(value.intValue());
         } else {
-            return BigDecimal.valueOf(value.doubleValue()).setScale(SCALE, ROUND);
+            return BigDecimal.valueOf(value.doubleValue()).setScale(SCALE, RoundingMode.HALF_EVEN).stripTrailingZeros();
         }
     }
 

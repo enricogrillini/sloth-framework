@@ -10,7 +10,6 @@ import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.framework.common.message.BaseMessage;
 import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.Message;
 import lombok.Getter;
@@ -108,7 +107,7 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
     public Message check() {
         // Verifico che quanto imputato sia un valore ammissibile
         if (!BaseFunction.isBlank(getDecodedText()) && BaseFunction.isBlank(getData())) {
-            return new BaseMessage(Level.WARN, "Il campo " + getDescription() + " non è valido", null);
+            return new Message(Level.WARN, getName(), "Il campo " + getDescription() + " non è valido", null);
         }
 
         // Verifico la correttezza formale di quanto contenuto nella request

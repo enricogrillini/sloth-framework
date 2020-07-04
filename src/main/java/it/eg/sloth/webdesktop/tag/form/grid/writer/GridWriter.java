@@ -15,7 +15,6 @@ import it.eg.sloth.form.fields.field.impl.Button;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;

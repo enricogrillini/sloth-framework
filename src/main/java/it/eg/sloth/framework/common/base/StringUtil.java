@@ -353,6 +353,27 @@ public class StringUtil {
         return result.toString().replace("--", "-");
     }
 
+    public static String toXlsxSheetName(String string) {
+        if (BaseFunction.isBlank(string)) {
+            return "";
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < string.length(); i++) {
+            if (string.charAt(i) == ' ') {
+                result.append(" ");
+            } else if (string.charAt(i) == '/') {
+                result.append(" ");
+            } else if (string.charAt(i) >= 48 && string.charAt(i) <= 57 ||
+                    string.charAt(i) >= 65 && string.charAt(i) <= 90 ||
+                    string.charAt(i) >= 97 && string.charAt(i) <= 122 || string.charAt(i) == '-' || string.charAt(i) == '_' || i > 0 && string.charAt(i) == '.') {
+                result.append(string.charAt(i));
+            }
+        }
+
+        return result.toString().replace("  ", " ");
+    }
+
     public static boolean contains(String string, String inStr) {
         if (BaseFunction.isBlank(string)) {
             return false;
