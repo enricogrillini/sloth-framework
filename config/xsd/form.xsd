@@ -114,8 +114,9 @@
   <complexContent>
    <extension base="tns:Element">
     <attribute name="Description" type="string"></attribute>
-    <attribute name="Hidden" type="boolean"></attribute>
-    <attribute name="Disabled" type="boolean"></attribute>
+                <attribute name="ToolTip" type="string"></attribute>
+                <attribute name="Hidden" type="boolean"></attribute>
+    <attribute name="Disabled" type="boolean"></attribute>
    </extension>
   </complexContent>
  </complexType>

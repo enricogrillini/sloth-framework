@@ -25,7 +25,7 @@ public class GridTag extends AbstractGridTag<Grid<?>> {
     public int startTag() throws IOException, FrameworkException {
         if (getElement().getDataSource() != null) {
             writeln(GridWriter.openTable(getElement(), true, true, true));
-            writeln(GridWriter.header(getElement(), getDetailFields(), hasDetail()));
+            writeln(GridWriter.header(getElement(), getDetailFields(), true));
             writeln(GridWriter.rows(getElement(), getDetailFields(), getForm().getPageInfo().getViewModality()));
 
             writeTotal();

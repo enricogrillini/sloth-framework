@@ -10,15 +10,15 @@ public class TabTest {
 
     @Test
     public void tabTest() {
-        Tab tab = new Tab("name", "description", false, false);
+        Tab tab = new Tab("name", "description", null, false, false);
         assertFalse(tab.isHidden());
         assertFalse(tab.isDisabled());
 
-        tab = new Tab("name", "description", true, true);
+        tab = new Tab("name", "description", null, true, true);
         assertTrue(tab.isHidden());
         assertTrue(tab.isDisabled());
 
-        tab = new Tab("name", "description", null, null);
+        tab = new Tab("name", "description", null, null, null);
         assertFalse(tab.isHidden());
         assertFalse(tab.isDisabled());
     }

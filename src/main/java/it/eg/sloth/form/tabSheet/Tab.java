@@ -29,39 +29,21 @@ public class Tab implements Element {
     private Locale locale;
 
     private String description;
+    private String tooltip;
     private boolean hidden;
     private boolean disabled;
 
     public Tab(String name, String description) {
-        this(name, description, false, false);
+        this(name, description, null, false, false);
     }
 
-    public Tab(String name, String description, Boolean hidden, Boolean disabled) {
+    public Tab(String name, String description, String tooltip, Boolean hidden, Boolean disabled) {
         this.name = name.toLowerCase();
         this.locale = Locale.getDefault();
         this.description = description;
+        this.tooltip = tooltip;
         this.hidden = hidden != null && hidden;
         this.disabled = disabled != null && disabled;
-    }
-
-    public boolean isDisabled() {
-        return disabled;
-    }
-
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
-    }
-
-    public boolean isHidden() {
-        return hidden;
-    }
-
-    public void setHidden(boolean hidden) {
-        this.hidden = hidden;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public void setDescription(String description) {
