@@ -31,10 +31,12 @@ import lombok.ToString;
 public class BaseExcelFont {
 
     public static final BaseExcelFont TITLE = new BaseExcelFont(null, Integer.valueOf(16), Integer.valueOf(IndexedColors.DARK_BLUE.getIndex()), true, false);
-    public static final BaseExcelFont SUB_TITLE = new BaseExcelFont(null, Integer.valueOf(10), Integer.valueOf(IndexedColors.GREY_80_PERCENT.getIndex()), false, true);
+    public static final BaseExcelFont SUB_TITLE = new BaseExcelFont(null, Integer.valueOf(13), Integer.valueOf(IndexedColors.DARK_BLUE.getIndex()), false, true);
+    public static final BaseExcelFont COMMENT = new BaseExcelFont(null, Integer.valueOf(10), Integer.valueOf(IndexedColors.GREY_80_PERCENT.getIndex()), false, true);
     public static final BaseExcelFont HEADER = new BaseExcelFont(null, null, Integer.valueOf(IndexedColors.WHITE.getIndex()), true, false);
+    public static final BaseExcelFont HIGHIGHTED = new BaseExcelFont(null, null, null, true, false);
 
-    private String name;
+    private String name; 
     private Integer heightInPoints;
     private Integer color;
     private boolean bold;

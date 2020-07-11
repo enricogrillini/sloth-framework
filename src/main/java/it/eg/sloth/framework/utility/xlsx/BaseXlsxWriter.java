@@ -8,11 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import it.eg.sloth.framework.common.base.StringUtil;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.PrintSetup;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFDataFormat;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -86,8 +83,8 @@ public class BaseXlsxWriter {
         return sheet;
     }
 
-    public CellStyle getStyle(BaseExcelContainer baseExcelContainer, BaseExcelFont baseExcelFont, BaseExcelType baseExcelType) {
-        BaseExcelStyle baseExcelStyle = new BaseExcelStyle(baseExcelContainer, baseExcelFont, baseExcelType);
+    public CellStyle getStyle(BaseExcelContainer baseExcelContainer, BaseExcelFont baseExcelFont, BaseExcelType baseExcelType, HorizontalAlignment horizontalAlignment) {
+        BaseExcelStyle baseExcelStyle = new BaseExcelStyle(baseExcelContainer, baseExcelFont, baseExcelType, horizontalAlignment);
 
         CellStyle result;
         if (cellStyleMap.containsKey(baseExcelStyle)) {
@@ -109,6 +106,14 @@ public class BaseXlsxWriter {
             if (baseExcelType != null) {
                 result.setDataFormat(baseExcelType.formatFromDataFormat(dataFormat));
             }
+
+            //  Se specificato, imposto l'allineamento orrizontale
+            if (horizontalAlignment != null) {
+                result.setAlignment(horizontalAlignment);
+            }
+
+            result.setWrapText(true);
+            result.setVerticalAlignment(VerticalAlignment.CENTER);
 
             cellStyleMap.put(baseExcelStyle, result);
         }
@@ -150,6 +155,19 @@ public class BaseXlsxWriter {
     }
 
     /**
+     * Imposta la larghezza delle colonne nel range di colonne specificato
+     *
+     * @param columnIndex1
+     * @param columnIndex2
+     * @param width
+     */
+    public void setColumnsWidth(int columnIndex1, int columnIndex2, int width) {
+        for (int i = columnIndex1; i <= columnIndex2; i++) {
+            getSheet().setColumnWidth(i, width);
+        }
+    }
+
+    /**
      * Imposta il valore nella cella.
      *
      * @param rowIndex
@@ -170,6 +188,12 @@ public class BaseXlsxWriter {
             cell.setCellValue(TimeStampUtil.toCalendar((Timestamp) value));
         } else if (value instanceof Boolean) {
             cell.setCellValue((Boolean) value);
+        }
+    }
+
+    public void addMergedRegion(int rowIndex1, int columnIndex1, int rowIndex2, int columnIndex2) {
+        if (rowIndex1 != rowIndex2 || columnIndex1 != columnIndex2) {
+            getSheet().addMergedRegion(new CellRangeAddress(rowIndex1, rowIndex2, columnIndex1, columnIndex2));
         }
     }
 
@@ -194,8 +218,25 @@ public class BaseXlsxWriter {
      */
     public void setCellStyle(int rowIndex, int cellIndex, CellStyle cellStyle) {
         Cell cell = getCell(rowIndex, cellIndex);
-
         cell.setCellStyle(cellStyle);
+    }
+
+    /**
+     * Imposta lo stile di un range
+     *
+     * @param rowIndex1
+     * @param cellIndex1
+     * @param rowIndex2
+     * @param cellIndex2
+     * @param cellStyle
+     */
+    public void setRangeStyle(int rowIndex1, int cellIndex1, int rowIndex2, int cellIndex2, CellStyle cellStyle) {
+        for (int i = rowIndex1; i <= rowIndex2; i++) {
+            for (int j = cellIndex1; j <= cellIndex2; j++) {
+                Cell cell = getCell(i, j);
+                cell.setCellStyle(cellStyle);
+            }
+        }
     }
 
     /**
@@ -207,10 +248,10 @@ public class BaseXlsxWriter {
      * @param baseExcelFont
      * @param baseExcelType
      */
-    public void setCellStyle(int rowIndex, int cellIndex, BaseExcelContainer baseExcelContainer, BaseExcelFont baseExcelFont, BaseExcelType baseExcelType) {
+    public void setCellStyle(int rowIndex, int cellIndex, BaseExcelContainer baseExcelContainer, BaseExcelFont baseExcelFont, BaseExcelType baseExcelType, HorizontalAlignment horizontalAlignment) {
         Cell cell = getCell(rowIndex, cellIndex);
 
-        CellStyle cellStyle = getStyle(baseExcelContainer, baseExcelFont, baseExcelType);
+        CellStyle cellStyle = getStyle(baseExcelContainer, baseExcelFont, baseExcelType, horizontalAlignment);
         cell.setCellStyle(cellStyle);
     }
 

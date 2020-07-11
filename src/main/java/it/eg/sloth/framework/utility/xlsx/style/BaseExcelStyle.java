@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 
 /**
  * Project: sloth-framework
@@ -28,8 +29,9 @@ import lombok.ToString;
 @AllArgsConstructor
 public class BaseExcelStyle {
 
-  private BaseExcelContainer baseExcelContainer;
-  private BaseExcelFont baseExcelFont;
-  private BaseExcelType baseExcelType;
+    BaseExcelContainer baseExcelContainer;
+    BaseExcelFont baseExcelFont;
+    BaseExcelType baseExcelType;
+    HorizontalAlignment horizontalAlignment;
 
 }

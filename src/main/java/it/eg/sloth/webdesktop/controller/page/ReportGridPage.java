@@ -150,7 +150,7 @@ public abstract class ReportGridPage<F extends Form> extends SimplePage<F> imple
     @Override
     public void onExcel(Grid<?> grid) throws Exception {
         try (OutputStream outputStream = getResponse().getOutputStream()) {
-            String fileName = BaseFunction.nvl(grid.getTitle(), getForm().getPageInfo().getTitle()) + FileType.XLSX.getExtension();
+            String fileName = BaseFunction.nvl(grid.getTitle(), grid.getName()) + FileType.XLSX.getExtension();
             fileName = StringUtil.toFileName(fileName);
 
             setModelAndView(fileName, FileType.XLSX);

@@ -574,7 +574,7 @@ public class FormControlWriter extends HtmlWriter {
                 .append(getAttribute(ATTR_CLASS, MessageFormat.format(BootStrapClass.BUTTON_CLASS, button.getButtonType().value())))
                 .append(getAttribute(ATTR_DISABLED, button.isDisabled(), ""))
                 .append(getAttributeTooltip(button.getTooltip()))
-                .append("/>")
+                .append(">")
                 .append(BaseFunction.isBlank(button.getImgHtml()) ? "" : button.getImgHtml() + "&nbsp;&nbsp;")
                 .append(Casting.getHtml(button.getDescription()))
                 .append("</button>");
