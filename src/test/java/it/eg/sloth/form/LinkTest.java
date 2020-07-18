@@ -17,7 +17,7 @@ public class LinkTest {
         assertEquals(Locale.getDefault(), link.getLocale());
         assertFalse(link.isHidden());
         assertFalse(link.isDisabled());
-        assertEquals(ButtonType.BTN_OUTLINE_PRIMARY , link.getButtonType());
+        assertEquals(ButtonType.BTN_OUTLINE_PRIMARY, link.getButtonType());
     }
 
     @Test
@@ -31,7 +31,7 @@ public class LinkTest {
         assertEquals(Locale.getDefault(), link.getLocale());
         assertFalse(link.isHidden());
         assertFalse(link.isDisabled());
-        assertEquals(ButtonType.BTN_OUTLINE_PRIMARY , link.getButtonType());
+        assertEquals(ButtonType.BTN_OUTLINE_PRIMARY, link.getButtonType());
 
         link = Link.builder()
                 .name("Name")
@@ -47,7 +47,7 @@ public class LinkTest {
         assertEquals(Locale.ITALY, link.getLocale());
         assertFalse(link.isHidden());
         assertFalse(link.isDisabled());
-        assertEquals(ButtonType.BTN_INFO , link.getButtonType());
+        assertEquals(ButtonType.BTN_INFO, link.getButtonType());
 
         link = Link.builder()
                 .name("Name")
@@ -63,11 +63,11 @@ public class LinkTest {
         assertEquals(Locale.ITALY, link.getLocale());
         assertTrue(link.isHidden());
         assertTrue(link.isDisabled());
-        assertEquals(ButtonType.BTN_INFO , link.getButtonType());
+        assertEquals(ButtonType.BTN_INFO, link.getButtonType());
 
         // NewInstance
         Link link2 = link.newInstance();
-        assertFalse(link == link2);
+        assertNotSame(link, link2);
         assertEquals(link.getName(), link2.getName());
     }
 }

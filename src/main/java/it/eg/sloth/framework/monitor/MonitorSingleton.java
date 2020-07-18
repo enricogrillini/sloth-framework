@@ -33,7 +33,6 @@ import java.util.Map.Entry;
 public class MonitorSingleton {
 
     public static final String PAGE = "Page";
-    public static final String JSON = "Json";
     public static final String JOB = "Job";
     public static final String INITIALIZER = "Initializer";
 

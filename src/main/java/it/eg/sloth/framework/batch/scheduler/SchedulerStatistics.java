@@ -1,4 +1,4 @@
-package it.eg.sloth.framework.job;
+package it.eg.sloth.framework.batch.scheduler;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -43,8 +43,8 @@ public class InputTest {
         assertEquals(1, messageList.getList().size());
         assertEquals(Level.WARN, messageList.getList().get(0).getSeverity());
 
-        assertEquals(null , input.getValue());
-        assertEquals("XX" , input.escapeJsValue());
+        assertEquals(null, input.getValue());
+        assertEquals("XX", input.escapeJsValue());
     }
 
     @Test
@@ -113,7 +113,7 @@ public class InputTest {
 
         // NewInstance
         Input<String> input2 = input.newInstance();
-        assertFalse(input == input2);
+        assertNotSame(input, input2);
         assertEquals(input.getName(), input2.getName());
     }
 }

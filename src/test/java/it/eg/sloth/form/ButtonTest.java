@@ -72,7 +72,7 @@ public class ButtonTest {
 
         // NewInstance
         Button button2 = button.newInstance();
-        assertFalse(button == button2);
+        assertNotSame(button, button2);
         assertEquals(button.getName(), button2.getName());
     }
 }

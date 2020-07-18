@@ -1,13 +1,16 @@
-package it.eg.sloth.framework.job;
+package it.eg.sloth.framework.batch.scheduler;
 
 import it.eg.sloth.framework.FrameComponent;
+import it.eg.sloth.framework.batch.job.InMemoryMessageManger;
+import it.eg.sloth.framework.batch.job.JobMessageManger;
+import it.eg.sloth.framework.common.exception.ExceptionCode;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.matchers.GroupMatcher;
 
 import java.util.List;
-
 
 /**
  * Project: sloth-framework
@@ -17,9 +20,9 @@ import java.util.List;
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  * <p>
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * <p>
- * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
  * <p>
  * Singleton per la gestione delle Scedulazioni
  *
@@ -31,12 +34,18 @@ public class SchedulerSingleton extends FrameComponent {
     static SchedulerSingleton instance = null;
 
     Scheduler scheduler = null;
+    JobMessageManger jobMessageManger = null;
 
-    private SchedulerSingleton() throws SchedulerException {
-        scheduler = StdSchedulerFactory.getDefaultScheduler();
+    private SchedulerSingleton() throws FrameworkException {
+        try {
+            scheduler = StdSchedulerFactory.getDefaultScheduler();
+            jobMessageManger = new InMemoryMessageManger();
+        } catch (SchedulerException e) {
+            throw new FrameworkException(ExceptionCode.GENERIC_SYSTEM_ERROR, "Impossibile istanziare lo scheduler", e);
+        }
     }
 
-    public static synchronized SchedulerSingleton getInstance() throws SchedulerException {
+    public static synchronized SchedulerSingleton getInstance() throws FrameworkException {
         if (instance == null) {
             synchronized (SchedulerSingleton.class) {
                 if (instance == null) {
@@ -46,6 +55,14 @@ public class SchedulerSingleton extends FrameComponent {
         }
 
         return instance;
+    }
+
+    public JobMessageManger getJobMessageManger() {
+        return jobMessageManger;
+    }
+
+    public void setJobMessageManger(JobMessageManger jobMessageManger) {
+        this.jobMessageManger = jobMessageManger;
     }
 
     /**
@@ -140,10 +157,10 @@ public class SchedulerSingleton extends FrameComponent {
     public synchronized void runJob(JobKey jobKey) throws SchedulerException {
         scheduler.triggerJob(jobKey);
     }
-    
+
     /**
      * Esegue un Job parametrizzato
-     * 
+     *
      * @param jobKey
      * @param data
      * @throws SchedulerException

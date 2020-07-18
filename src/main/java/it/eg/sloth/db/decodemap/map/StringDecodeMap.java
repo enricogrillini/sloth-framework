@@ -32,7 +32,7 @@ public class StringDecodeMap extends BaseDecodeMap<String> {
         for (String value : array) {
             String[] array2 = value.split(",");
 
-            put(new BaseDecodeValue<String>(array2[0].trim(), array2[1].trim()));
+            put(new BaseDecodeValue<>(array2[0].trim(), array2[1].trim()));
         }
 
     }

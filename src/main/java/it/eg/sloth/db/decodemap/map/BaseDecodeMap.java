@@ -59,11 +59,11 @@ public class BaseDecodeMap<T> extends AbstractDecodeMap<T, BaseDecodeValue<T>> {
   }
 
   public void put(T code, String description) {
-    put(new BaseDecodeValue<T>(code, description));
+    put(new BaseDecodeValue<>(code, description));
   }
 
   public void put(T code, String description, boolean valid) {
-    put(new BaseDecodeValue<T>(code, description, valid));
+    put(new BaseDecodeValue<>(code, description, valid));
   }
 
 

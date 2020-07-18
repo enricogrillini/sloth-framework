@@ -91,7 +91,7 @@ public class FileTest {
 
         // NewInstance
         File file2 = file.newInstance();
-        assertFalse(file == file2);
+        assertNotSame(file, file2);
         assertEquals(file.getName(), file2.getName());
     }
 }

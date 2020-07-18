@@ -27,11 +27,11 @@ import lombok.ToString;
 @Setter
 @ToString
 @EqualsAndHashCode
-public class BaseExcelType {
+public class BaseExcelType {//
 
     public static final BaseExcelType INTEGER = new BaseExcelType("0");
     public static final BaseExcelType DECIMAL = new BaseExcelType("_-* #,##0.00_-;-* #,##0.00_-;_-* \"-\"??_-;_-@_-");
-    public static final BaseExcelType CURRENCY = new BaseExcelType("€_-* #,##0.00_-;€-* #,##0.00_-;_-* \"-\"??_-;_-@_-");
+    public static final BaseExcelType CURRENCY = new BaseExcelType("#,##0.00 €;[Red]-#,##0.00 €");
     public static final BaseExcelType DATE = new BaseExcelType("dd/mm/yyyy");
     public static final BaseExcelType MONTH = new BaseExcelType("mm/yyyy");
     public static final BaseExcelType DATETIME = new BaseExcelType("dd/mm/yyyy hh:mm:ss");

@@ -49,7 +49,7 @@ public class GridXlsWriterTest {
         row = table.add();
         row.setString("campo1", "valore2");
         row.setString("campo2", "B");
-        row.setBigDecimal("campo3", BigDecimal.valueOf(3));
+        row.setBigDecimal("campo3", BigDecimal.valueOf(-3));
 
         grid = new Grid<>("provaGrid");
         grid.setTitle("Prova Grid");

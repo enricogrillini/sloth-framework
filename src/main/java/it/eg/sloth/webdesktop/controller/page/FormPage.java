@@ -67,16 +67,16 @@ public abstract class FormPage<F extends Form> extends BasePage {
             this.newForm = false;
         }
 
-        if (getUser() != null && getUser() .getLocale() != null) {
+        if (getUser() != null && getUser().getLocale() != null) {
             form.setLocale(getUser().getLocale());
         }
     }
 
     @Override
-    public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse res) {
         long eventid = 0;
         try {
-            log.info("IN " + getClass().getName());
+            log.info("IN {}", getClass().getName());
 
             // Inizializzo la pagina
             init(req, res);
@@ -105,10 +105,10 @@ public abstract class FormPage<F extends Form> extends BasePage {
             }
 
         } catch (Exception e) {
-            log.error("ERROR " + getClass().getName(), e);
+            log.error("ERROR {}", getClass().getName(), e);
             return null;
         } finally {
-            log.info("OUT " + getClass().getName());
+            log.info("OUT {}", getClass().getName());
             MonitorSingleton.getInstance().endEvent(eventid);
         }
     }

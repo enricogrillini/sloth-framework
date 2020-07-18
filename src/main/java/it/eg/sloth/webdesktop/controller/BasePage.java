@@ -51,10 +51,10 @@ public abstract class BasePage extends BaseController implements Controller {
      */
     public abstract ModelAndView service() throws Exception;
 
-    public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse res) {
         long eventid = 0;
         try {
-            log.info("IN " + getClass().getName());
+            log.info("IN {}", getClass().getName());
 
             // Inizializzo la pagina
             init(req, res);
@@ -77,10 +77,10 @@ public abstract class BasePage extends BaseController implements Controller {
             }
 
         } catch (Exception e) {
-            log.error("ERROR " + getClass().getName(), e);
+            log.error("ERROR {}", getClass().getName(), e);
             return null;
         } finally {
-            log.info("OUT " + getClass().getName());
+            log.info("OUT {}", getClass().getName());
             MonitorSingleton.getInstance().endEvent(eventid);
         }
     }

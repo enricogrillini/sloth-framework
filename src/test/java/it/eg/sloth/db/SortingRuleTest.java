@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -37,14 +38,14 @@ public class SortingRuleTest {
 
         SortingRules sortingRules = new SortingRules();
         sortingRules.add("provaBigDecimal", SortingRule.SORT_ASC_NULLS_LAST);
-        assertTrue(sortingRules.compare(row1, row1) == 0);
+        assertEquals(0, sortingRules.compare(row1, row1));
         assertTrue(sortingRules.compare(row1, row2) > 0);
         assertTrue(sortingRules.compare(row2, row1) < 0);
 
 
         sortingRules = new SortingRules();
         sortingRules.add("provaBigDecimal", SortingRule.SORT_DESC_NULLS_LAST);
-        assertTrue(sortingRules.compare(row1, row1) == 0);
+        assertEquals(0, sortingRules.compare(row1, row1));
         assertTrue(sortingRules.compare(row1, row2) < 0);
         assertTrue(sortingRules.compare(row2, row1) > 0);
     }
@@ -59,14 +60,14 @@ public class SortingRuleTest {
 
         SortingRules sortingRules = new SortingRules();
         sortingRules.add("provaTimestamp", SortingRule.SORT_ASC_NULLS_LAST);
-        assertTrue(sortingRules.compare(row1, row1) == 0);
+        assertEquals(0, sortingRules.compare(row1, row1));
         assertTrue(sortingRules.compare(row1, row2) > 0);
         assertTrue(sortingRules.compare(row2, row1) < 0);
 
 
         sortingRules = new SortingRules();
         sortingRules.add("provaTimestamp", SortingRule.SORT_DESC_NULLS_LAST);
-        assertTrue(sortingRules.compare(row1, row1) == 0);
+        assertEquals(0, sortingRules.compare(row1, row1));
         assertTrue(sortingRules.compare(row1, row2) < 0);
         assertTrue(sortingRules.compare(row2, row1) > 0);
     }
