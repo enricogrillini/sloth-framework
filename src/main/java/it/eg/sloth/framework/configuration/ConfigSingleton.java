@@ -1,12 +1,12 @@
 package it.eg.sloth.framework.configuration;
 
 import it.eg.sloth.framework.FrameComponent;
-import lombok.Getter;
+import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.StringUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ClassPathResource;
 
-import java.io.InputStream;
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Project: sloth-framework
@@ -27,27 +27,17 @@ import java.util.Properties;
 @Slf4j
 public class ConfigSingleton extends FrameComponent {
 
-    public static final String APPLICATION_PROPERTIES = "application.properties";
-    
     public static final String FRAMEWORK_DOCUMENTATION_URL = "sloth.documentation.url";
+    public static final String FRAMEWORK_ENVIRONMENT = "sloth.environment";
 
-    @Getter
-    private Properties properties;
+    private Map<String, Object> properties;
 
     private static ConfigSingleton instance = null;
 
     private ConfigSingleton() {
         log.info("ConfigSingleton STARTING");
 
-        try {
-            properties = new Properties();
-            try (InputStream inputStream = new ClassPathResource(APPLICATION_PROPERTIES).getInputStream()) {
-                properties.load(inputStream);
-            }
-
-        } catch (Exception e) {
-            log.error("Impossibile leggere il file di configurazione: {} ", APPLICATION_PROPERTIES, e);
-        }
+        properties = new HashMap<>();
 
         log.info("ConfigSingleton STARTED");
     }
@@ -60,8 +50,21 @@ public class ConfigSingleton extends FrameComponent {
         return instance;
     }
 
-    public String getProperty(String propertyKey) {
-        return properties.getProperty(propertyKey);
+    public synchronized void addProperty(String key, Object value) {
+        properties.put(key, value);
+    }
+
+    public Object getProperty(String propertyKey) {
+        return properties.get(propertyKey);
+    }
+
+    public String getString(String propertyKey) {
+        Object object = properties.get(propertyKey);
+        if (!BaseFunction.isNull(object)) {
+            return object.toString();
+        } else {
+            return StringUtil.EMPTY;
+        }
     }
 
 }

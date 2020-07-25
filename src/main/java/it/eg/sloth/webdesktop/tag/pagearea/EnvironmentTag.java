@@ -1,10 +1,10 @@
-package it.eg.sloth.form;
+package it.eg.sloth.webdesktop.tag.pagearea;
 
-import it.eg.sloth.form.skipper.Skipper;
-import org.junit.Test;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import it.eg.sloth.form.Form;
+import it.eg.sloth.webdesktop.tag.WebDesktopTag;
+import it.eg.sloth.webdesktop.tag.pagearea.writer.EnvironmentWriter;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Project: sloth-framework
@@ -17,20 +17,26 @@ import static org.junit.Assert.assertTrue;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
  * <p>
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
  *
  * @author Enrico Grillini
  */
-public class SkipperTest {
+@Getter
+@Setter
+public class EnvironmentTag extends WebDesktopTag<Form> {
 
-    @Test
-    public void skipperTest() {
-        Skipper skipper = new Skipper("prova", false);
-        assertFalse(skipper.isSkipBody());
+    boolean label;
 
-        skipper = new Skipper("prova", true);
-        assertTrue(skipper.isSkipBody());
+    @Override
+    protected int startTag() throws Throwable {
+        write(EnvironmentWriter.writeEnvironment(label));
 
-        skipper = new Skipper("prova", null);
-        assertFalse(skipper.isSkipBody());
+        return SKIP_BODY;
     }
+
+    @Override
+    protected void endTag() throws Throwable {
+        // NOP
+    }
+
 }

@@ -172,4 +172,14 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
         filterList.add(new SubQueryFilter(subQuery));
     }
 
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder().append(super.toString());
+        for (Filter filter : filterList) {
+            stringBuilder.append("\nFilter " + filter.toString());
+        }
+
+        return stringBuilder.toString();
+    }
 }

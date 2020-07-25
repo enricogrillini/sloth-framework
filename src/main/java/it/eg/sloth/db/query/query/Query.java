@@ -1,14 +1,17 @@
 package it.eg.sloth.db.query.query;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-
 import it.eg.sloth.db.manager.DataConnectionManager;
 import it.eg.sloth.db.query.SelectAbstractQuery;
 import it.eg.sloth.db.query.SelectQueryInterface;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.extern.slf4j.Slf4j;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -78,6 +81,16 @@ public class Query extends SelectAbstractQuery implements SelectQueryInterface {
 
             log.debug("End execute");
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder().append(super.toString());
+        for (Parameter parameter : parameterList) {
+            stringBuilder.append("\nParameter " + parameter.toString());
+        }
+
+        return stringBuilder.toString();
     }
 
 }

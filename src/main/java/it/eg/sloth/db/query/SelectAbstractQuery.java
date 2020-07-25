@@ -1,16 +1,18 @@
 package it.eg.sloth.db.query;
 
-import java.io.IOException;
-import java.sql.*;
-
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.db.manager.DataConnectionManager;
-import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Project: sloth-framework
@@ -28,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Enrico Grillini
  */
 @Slf4j
-public abstract class SelectAbstractQuery extends FrameComponent implements SelectQueryInterface {
+public abstract class SelectAbstractQuery implements SelectQueryInterface {
 
 
     private String statement;
@@ -176,4 +178,12 @@ public abstract class SelectAbstractQuery extends FrameComponent implements Sele
         }
     }
 
+    @Override
+    public String toString() {
+        return new StringBuilder()
+                .append("\nStatement: " + getStatement())
+                .append("\nSqlStatement: " + getSqlStatement())
+                .toString();
+
+    }
 }

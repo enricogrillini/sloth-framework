@@ -205,6 +205,7 @@ public class FormControlWriter extends HtmlWriter {
             field
                     .append(getAttribute(ATTR_TYPE, input.getDataType().getHtmlType()))
                     .append(getAttribute(ATTR_VALUE, input.escapeHtmlValue()))
+                    .append(getAttribute("placeholder", DataTypes.MONTH == input.getDataType(), "yyyy-mm"))
                     .append(getAttribute("step", DataTypes.DATETIME == input.getDataType() || DataTypes.TIME == input.getDataType(), "1"))
                     .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
                     .append(getAttribute(ATTR_READONLY, input.isReadOnly(), ""))

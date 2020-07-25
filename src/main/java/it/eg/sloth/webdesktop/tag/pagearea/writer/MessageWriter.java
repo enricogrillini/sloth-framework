@@ -7,6 +7,8 @@ import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
 
+import java.text.MessageFormat;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -23,6 +25,23 @@ import it.eg.sloth.framework.common.message.MessageList;
  * @author Enrico Grillini
  */
 public class MessageWriter {
+
+    private static final String OPEN_DIALOG = "<div class=\"modal fade\" id=\"messageModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n" +
+            " <div class=\"modal-dialog modal-xl\" role=\"document\">\n" +
+            "  <div class=\"modal-content\">\n" +
+            "   <div class=\"modal-header\">\n" +
+            "    <h5 class=\"modal-title\" id=\"exampleModalLabel\">{0}</h5>\n" +
+            "    <button class=\"close\" type=\"button\" data-dismiss=\"modal\" aria-label=\"Close\">\n" +
+            "     <span aria-hidden=\"true\">×</span>\n" +
+            "    </button>\n" +
+            "   </div>\n" +
+            "   <div class=\"modal-body\">\n";
+
+    private static final String CLOSE_DIALOG = "   </div>\n" +
+            "   <div class=\"modal-footer\"><button class=\"btn btn-secondary\" type=\"button\" data-dismiss=\"modal\">Ok</button></div>\n" +
+            "  </div>\n" +
+            " </div>\n" +
+            "</div>";
 
     private MessageWriter() {
         // NOP
@@ -59,38 +78,13 @@ public class MessageWriter {
     }
 
     public static String openDialog(MessageList messageList) {
-        StringBuilder result = new StringBuilder();
-
         String title = getTitle(messageList.getMaxSeverity());
 
-        result
-                .append("<div class=\"modal fade\" id=\"messageModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n")
-                .append(" <div class=\"modal-dialog modal-xl\" role=\"document\">\n")
-                .append("  <div class=\"modal-content\">\n")
-                .append("   <div class=\"modal-header\">\n")
-                .append("    <h5 class=\"modal-title\" id=\"exampleModalLabel\">" + title + "</h5>\n")
-                .append("    <button class=\"close\" type=\"button\" data-dismiss=\"modal\" aria-label=\"Close\">\n")
-                .append("     <span aria-hidden=\"true\">×</span>\n")
-                .append("    </button>\n")
-                .append("   </div>\n")
-                .append("   <div class=\"modal-body\">\n");
-
-        return result.toString();
+        return MessageFormat.format(OPEN_DIALOG, title);
     }
 
     public static String closeDialog() {
-        StringBuilder result = new StringBuilder();
-
-        result
-                .append("   </div>\n")
-                .append("   <div class=\"modal-footer\">\n")
-                .append("    <button class=\"btn btn-secondary\" type=\"button\" data-dismiss=\"modal\">Ok</button>\n")
-                .append("   </div>\n")
-                .append("  </div>\n")
-                .append(" </div>\n")
-                .append("</div>");
-
-        return result.toString();
+        return CLOSE_DIALOG;
     }
 
     public static String writeMessages(MessageList messageList, boolean writeSeverity) {

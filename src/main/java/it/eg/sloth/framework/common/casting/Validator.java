@@ -30,19 +30,11 @@ public class Validator {
         return message;
     }
 
-    public static Message verifyIfIsNotEmpty(String fieldName, String fieldDescription, String data, Locale locale) {
-        // Controllo l'obbligatorietà
-        if (BaseFunction.isBlank(data)) {
-            return new Message(Level.WARN, fieldName, "Il campo " + fieldDescription + " è obbligatorio", null);
-        } else {
-            return null;
-        }
-    }
-
     public static Message verifyIfIsNotEmpty(String fieldName, String fieldDescription, Object data, Locale locale) {
         // Controllo l'obbligatorietà
         if (BaseFunction.isNull(data)) {
-            return new Message(Level.WARN, fieldName, "Il campo " + fieldDescription + " è obbligatorio", null);
+            ResourceBundle bundle = ResourceBundle.getBundle(Localization.VALUE_BUNDLE, locale);
+            return new Message(Level.WARN, fieldName, MessageFormat.format(bundle.getString(Localization.ERR_MANDATORY), fieldDescription), "");
         } else {
             return null;
         }

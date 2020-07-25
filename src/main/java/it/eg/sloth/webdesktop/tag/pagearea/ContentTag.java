@@ -88,7 +88,7 @@ public class ContentTag extends WebDesktopTag<Form> {
         }
 
         // Help
-        String documentationUrl = ConfigSingleton.getInstance().getProperty(ConfigSingleton.FRAMEWORK_DOCUMENTATION_URL);
+        String documentationUrl = ConfigSingleton.getInstance().getString(ConfigSingleton.FRAMEWORK_DOCUMENTATION_URL);
         if (!BaseFunction.isBlank(documentationUrl)) {
             writeln(" <li class=\"nav-item dropdown no-arrow mx-1\"><a class=\"nav-link dropdown-toggle\" href=\"" + documentationUrl + "\" id=\"messagesDropdown\" role=\"button\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Documentazione e FAQ\" aria-haspopup=\"true\" aria-expanded=\"false\"><i class=\"fas fa-question-circle\"></i></a></li>");
         }

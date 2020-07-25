@@ -2,22 +2,20 @@ package it.eg.sloth.framework.utility;
 
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
-import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.impl.Text;
 import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.framework.utility.xlsx.GridXlsxWriter;
-import it.eg.sloth.webdesktop.tag.form.grid.writer.GridWriter;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Project: sloth-framework
@@ -63,9 +61,11 @@ public class GridXlsWriterTest {
     @Test
     public void gridDetailTest() throws FrameworkException, IOException {
         GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
-        try (OutputStream outputStream = new ByteArrayOutputStream()) {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
 //        try (OutputStream outputStream = new FileOutputStream("C:/work/prova.xlsx")) {
             gridXlsxWriter.getWorkbook().write(outputStream);
+
+            assertTrue(outputStream.toByteArray().length > 0);
         }
     }
 

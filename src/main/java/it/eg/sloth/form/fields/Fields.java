@@ -117,12 +117,13 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
      * @throws FrameworkException
      */
     public boolean validate(MessageList messages) throws FrameworkException {
+        boolean result = true;
         for (SimpleField element : getElements()) {
             if (element instanceof InputField && !((InputField<?>) element).validate(messages)) {
-                return false;
+                result = false;
             }
         }
-        return true;
+        return result;
     }
 
     /**

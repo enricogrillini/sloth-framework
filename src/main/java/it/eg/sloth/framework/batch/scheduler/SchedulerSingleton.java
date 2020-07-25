@@ -1,8 +1,8 @@
 package it.eg.sloth.framework.batch.scheduler;
 
 import it.eg.sloth.framework.FrameComponent;
-import it.eg.sloth.framework.batch.job.InMemoryMessageManger;
-import it.eg.sloth.framework.batch.job.JobMessageManger;
+import it.eg.sloth.framework.batch.jobmessage.InMemoryMessageManger;
+import it.eg.sloth.framework.batch.jobmessage.JobMessageManger;
 import it.eg.sloth.framework.common.exception.ExceptionCode;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.extern.slf4j.Slf4j;

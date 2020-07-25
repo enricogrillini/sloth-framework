@@ -26,6 +26,17 @@ import static org.junit.Assert.assertThrows;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DataConnectionMangerTest {
+
+    private static final String FILTERED_QUERY_TO_STRING = "\n" +
+            "Statement: Select * from Prova /*W*/\n" +
+            "SqlStatement: Select * from Prova Where Id = ?\n" +
+            "Filter {\"sql\":\"Id = ?\",\"sqlTypes\":4,\"value\":2,\"whereCondition\":\"Id = ?\"}";
+
+    private static final String QUERY_TO_STRING = "\n" +
+            "Statement: Select * from Prova where Id = ? order by 1\n" +
+            "SqlStatement: Select * from Prova where Id = ? order by 1\n" +
+            "Parameter {\"sqlType\":4,\"value\":1}";
+
     private static final String driverClassName = "org.h2.Driver";
     private static final String url = "jdbc:h2:mem:inputDb;MODE=Oracle;INIT=RUNSCRIPT FROM 'classpath:db/create.sql'";
     private static final String userName = "gilda";
@@ -250,5 +261,21 @@ public class DataConnectionMangerTest {
         provaTableBean.save();
     }
 
+
+    @Test
+    public void toStringTest() throws SQLException, IOException, FrameworkException {
+        // FilteredQuery
+        FilteredQuery filteredQuery = new FilteredQuery("Select * from Prova /*W*/");
+        filteredQuery.addFilter("Id = ?", Types.INTEGER, 2);
+
+        assertEquals(FILTERED_QUERY_TO_STRING, filteredQuery.toString());
+
+        // Query
+        Query query = new Query("Select * from Prova where Id = ? order by 1");
+        query.addParameter(Types.INTEGER, BigDecimal.valueOf(1));
+
+        assertEquals(QUERY_TO_STRING, query.toString());
+
+    }
 
 }
