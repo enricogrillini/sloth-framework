@@ -3,6 +3,7 @@ package it.eg.sloth.webdesktop.tag.form.rollup.writer;
 import it.eg.sloth.form.dwh.Attribute;
 import it.eg.sloth.form.dwh.Level;
 import it.eg.sloth.form.dwh.Measure;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
  * Project: sloth-framework
@@ -40,7 +41,7 @@ public class RollupWriter {
      * @param level
      * @return
      */
-    public static String writeLevel(Level<?> level) {
+    public static String writeLevel(Level<?> level) throws FrameworkException {
         return level.escapeHtmlDecodedText();
     }
 
@@ -50,7 +51,7 @@ public class RollupWriter {
      * @param attribute
      * @return
      */
-    public static String writeAttribute(Attribute<?> attribute) {
+    public static String writeAttribute(Attribute<?> attribute) throws FrameworkException {
         return attribute.escapeHtmlDecodedText();
     }
 }

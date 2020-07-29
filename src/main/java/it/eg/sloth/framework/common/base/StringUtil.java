@@ -10,7 +10,6 @@ import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,29 +38,35 @@ public class StringUtil {
 
     public static final String EMPTY = "";
     public static final String TAB = String.valueOf((char) 9);
+    public static final String SEPARATOR = ",";
 
-    public static String[] tokenize(String str, String separator) {
-        StringTokenizer stringTokenizer = new StringTokenizer(str, separator, true);
+    public static String join(String[] strings) {
+        return join(strings, SEPARATOR);
+    }
 
-        List<String> list = new ArrayList<>();
-        String lastToken = "";
-        while (stringTokenizer.hasMoreTokens()) {
-            String currentToken = stringTokenizer.nextToken();
-            if (!currentToken.equals(separator)) {
-                list.add(currentToken.trim());
-            } else if (lastToken.equals(separator)) {
-                list.add("");
+    public static String join(String[] strings, String separator) {
+        if (BaseFunction.isNull(strings)) {
+            return StringUtil.EMPTY;
+        } else {
+            return String.join(separator, strings);
+        }
+    }
+
+    public static String[] split(String string) {
+        return split(string, SEPARATOR);
+    }
+
+    public static String[] split(String string, String separator) {
+        if (BaseFunction.isBlank(string)) {
+            return new String[]{};
+        } else {
+            String[] tokens = StringUtils.split(string, separator);
+            for (int i = 0; i < tokens.length; i++) {
+                tokens[i] = StringUtils.trim(tokens[i]);
             }
-            lastToken = currentToken;
-        }
 
-        String[] strings = new String[list.size()];
-        int i = 0;
-        for (String string : list) {
-            strings[i++] = string;
+            return tokens;
         }
-
-        return strings;
     }
 
     /**

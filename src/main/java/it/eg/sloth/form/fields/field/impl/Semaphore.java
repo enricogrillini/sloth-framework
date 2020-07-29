@@ -3,6 +3,7 @@ package it.eg.sloth.form.fields.field.impl;
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -50,7 +51,7 @@ public class Semaphore extends ComboBox<String> {
     }
 
     @Override
-    public String escapeHtmlDecodedText() {
+    public String escapeHtmlDecodedText() throws FrameworkException {
         switch (getValue()) {
             case Semaphore.WHITE:
                 return GIF_WHITE;

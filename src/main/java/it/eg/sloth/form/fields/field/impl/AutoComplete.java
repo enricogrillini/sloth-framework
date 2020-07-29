@@ -94,7 +94,7 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
     }
 
     @Override
-    public void copyToDataSource(DataSource dataSource) {
+    public void copyToDataSource(DataSource dataSource) throws FrameworkException {
         if (dataSource != null) {
             super.copyToDataSource(dataSource);
             if (!BaseFunction.isBlank(decodeAlias)) {

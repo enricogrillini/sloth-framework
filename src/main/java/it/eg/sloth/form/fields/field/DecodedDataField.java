@@ -4,6 +4,7 @@ import it.eg.sloth.db.decodemap.DecodeMap;
 import it.eg.sloth.db.decodemap.DecodeValue;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.Casting;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
  * Project: sloth-framework
@@ -26,13 +27,13 @@ public interface DecodedDataField<T extends Object> extends DataField<T> {
 
     void setDecodeMap(DecodeMap<T, ? extends DecodeValue<T>> values);
 
-    String getDecodedText();
+    String getDecodedText() throws FrameworkException;
 
-    default String escapeHtmlDecodedText() {
+    default String escapeHtmlDecodedText() throws FrameworkException {
         return escapeHtmlDecodedText(true, true);
     }
 
-    default String escapeHtmlDecodedText(boolean br, boolean nbsp) {
+    default String escapeHtmlDecodedText(boolean br, boolean nbsp) throws FrameworkException {
         if (BaseFunction.isNull(getDecodedText())) {
             return "";
         } else {
@@ -40,7 +41,7 @@ public interface DecodedDataField<T extends Object> extends DataField<T> {
         }
     }
 
-    default String escapeJsDecodedText() {
+    default String escapeJsDecodedText() throws FrameworkException {
         return Casting.getJs(getDecodedText());
     }
 }

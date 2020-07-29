@@ -69,11 +69,12 @@ public class GridWriter extends HtmlWriter {
         for (SimpleField field : grid) {
             String descriptionHtml = field.getHtmlDescription();
 
+            if (field instanceof TextField && ((TextField<?>) field).isHidden()) {
+                continue;
+            }
+
             if (field instanceof InputField) {
                 InputField<?> inputField = (InputField<?>) field;
-                if (inputField.isHidden())
-                    continue;
-
                 descriptionHtml = inputField.getHtmlDescription() + (inputField.isRequired() ? " *" : "");
             }
 
@@ -194,7 +195,7 @@ public class GridWriter extends HtmlWriter {
                     }
 
                     for (SimpleField field : grid.getElements()) {
-                        if (field instanceof InputField && ((InputField<?>) field).isHidden())
+                        if (field instanceof TextField && ((TextField<?>) field).isHidden())
                             continue;
 
                         if (field instanceof Button) {
@@ -211,6 +212,9 @@ public class GridWriter extends HtmlWriter {
                     }
                     for (SimpleField field : grid.getElements()) {
                         SimpleField appField = field.newInstance();
+
+                        if (field instanceof TextField && ((TextField<?>) field).isHidden())
+                            continue;
 
                         if (appField instanceof Button) {
                             Button button = (Button) appField;

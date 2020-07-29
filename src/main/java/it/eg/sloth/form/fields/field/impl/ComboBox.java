@@ -9,6 +9,7 @@ import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -45,7 +46,7 @@ public class ComboBox<T> extends InputField<T> implements DecodedDataField<T> {
     }
 
     @Override
-    public String getDecodedText() {
+    public String getDecodedText() throws FrameworkException {
         if (BaseFunction.isBlank(getData())) {
             return StringUtil.EMPTY;
         } else if (getDecodeMap() == null || getDecodeMap().isEmpty()) {
@@ -56,17 +57,17 @@ public class ComboBox<T> extends InputField<T> implements DecodedDataField<T> {
     }
 
     @Override
-    public String escapeHtmlDecodedText() {
+    public String escapeHtmlDecodedText() throws FrameworkException {
         return escapeHtmlDecodedText(true, true);
     }
 
     @Override
-    public String escapeHtmlDecodedText(boolean br, boolean nbsp) {
+    public String escapeHtmlDecodedText(boolean br, boolean nbsp) throws FrameworkException {
         return Casting.getHtml(getDecodedText(), br, nbsp);
     }
 
     @Override
-    public String escapeJsDecodedText() {
+    public String escapeJsDecodedText() throws FrameworkException {
         return Casting.getJs(getDecodedText());
     }
 

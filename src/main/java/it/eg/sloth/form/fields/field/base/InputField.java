@@ -33,7 +33,6 @@ public abstract class InputField<T> extends TextField<T> {
 
     private Boolean required;
     private Boolean readOnly;
-    private Boolean hidden;
     private ViewModality viewModality;
 
     public InputField(String name, String description, DataTypes dataType) {
@@ -46,10 +45,6 @@ public abstract class InputField<T> extends TextField<T> {
 
     public boolean isReadOnly() {
         return readOnly != null && readOnly;
-    }
-
-    public boolean isHidden() {
-        return hidden != null && hidden;
     }
 
     public ViewModality getViewModality() {

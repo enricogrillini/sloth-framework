@@ -1,5 +1,6 @@
 package it.eg.sloth.webdesktop.tag.form.field;
 
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseControlTag;
 import it.eg.sloth.webdesktop.tag.form.field.writer.TextControlWriter;
 import lombok.Getter;
@@ -28,7 +29,7 @@ public class TextTag extends BaseControlTag {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected void writeField() throws IOException {
+    protected void writeField() throws IOException, FrameworkException {
         write(TextControlWriter.writeControl(getElement()));
     }
 

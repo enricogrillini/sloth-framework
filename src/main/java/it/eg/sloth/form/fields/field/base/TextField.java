@@ -5,7 +5,6 @@ import it.eg.sloth.db.datasource.row.lob.LobData;
 import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.casting.Validator;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -50,6 +49,8 @@ public abstract class TextField<T extends Object> implements DataField<T> {
     String format;
     String baseLink;
 
+    Boolean hidden;
+
     public TextField(String name, String description, DataTypes dataType) {
         this.name = name;
         this.description = description;
@@ -71,38 +72,17 @@ public abstract class TextField<T extends Object> implements DataField<T> {
         return BaseFunction.isBlank(alias) ? getName() : alias.toLowerCase();
     }
 
-    @Override
-    public String escapeHtmlText() {
-        return getDataType().escapeHtmlText(getData(), getLocale(), getFormat());
-    }
-
-    @Override
-    public String escapeJsText() {
-        return getDataType().escapeJsText(getData(), getLocale(), getFormat());
-    }
-
-    @Override
-    public String escapeHtmlValue() {
-        return Casting.getHtml(getData(), false, false);
-    }
-
-    @Override
-    public String escapeJsValue() {
-        return Casting.getJs(getData());
-    }
-
-    @SuppressWarnings("unchecked")
-    public T getValue() {
-        try {
-            return (T) getDataType().parseValue(data, getLocale(), getFormat());
-        } catch (FrameworkException e) {
-            return null;
-        }
+    public T getValue() throws FrameworkException {
+        return (T) getDataType().parseValue(data, getLocale(), getFormat());
     }
 
     @Override
     public void setValue(T value) throws FrameworkException {
         setData(getDataType().formatValue(value, getLocale(), getFormat()));
+    }
+
+    public boolean isHidden() {
+        return hidden != null && hidden;
     }
 
     @Override
@@ -120,7 +100,7 @@ public abstract class TextField<T extends Object> implements DataField<T> {
     }
 
     @Override
-    public void copyToDataSource(DataSource dataSource) {
+    public void copyToDataSource(DataSource dataSource) throws FrameworkException {
         if (dataSource != null) {
             dataSource.setObject(getAlias(), getValue());
         }

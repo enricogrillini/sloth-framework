@@ -5,6 +5,7 @@ import it.eg.sloth.form.fields.field.impl.*;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
@@ -24,7 +25,7 @@ import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
  */
 public class TextControlWriter extends HtmlWriter {
 
-    public static String writeControl(SimpleField simpleField) {
+    public static String writeControl(SimpleField simpleField) throws FrameworkException {
         switch (simpleField.getFieldType()) {
             case AUTO_COMPLETE:
                 return writeAutocomplete((AutoComplete<?>) simpleField);
@@ -63,7 +64,7 @@ public class TextControlWriter extends HtmlWriter {
      * @param autoComplete
      * @return
      */
-    public static String writeAutocomplete(AutoComplete<?> autoComplete) {
+    public static String writeAutocomplete(AutoComplete<?> autoComplete) throws FrameworkException {
         if (!BaseFunction.isBlank(autoComplete.getBaseLink())) {
             return "<a href=\"" + autoComplete.getBaseLink() + autoComplete.escapeHtmlValue() + "\" >" + autoComplete.escapeHtmlDecodedText() + "</a>";
         } else if (DataTypes.URL == autoComplete.getDataType()) {
@@ -112,7 +113,7 @@ public class TextControlWriter extends HtmlWriter {
      * @param comboBox
      * @return
      */
-    public static String writeComboBox(ComboBox<?> comboBox) {
+    public static String writeComboBox(ComboBox<?> comboBox) throws FrameworkException {
         if (!BaseFunction.isBlank(comboBox.getBaseLink())) {
             return "<a href=\"" + comboBox.getBaseLink() + comboBox.escapeHtmlValue() + "\" >" + comboBox.escapeHtmlDecodedText() + "</a>";
         } else if (DataTypes.URL == comboBox.getDataType()) {
@@ -128,7 +129,7 @@ public class TextControlWriter extends HtmlWriter {
      * @param decodedText
      * @return
      */
-    public static String writeDecodedText(DecodedText<?> decodedText) {
+    public static String writeDecodedText(DecodedText<?> decodedText) throws FrameworkException {
         if (!BaseFunction.isBlank(decodedText.getBaseLink())) {
             return "<a href=\"" + decodedText.getBaseLink() + decodedText.escapeHtmlValue() + "\" >" + decodedText.escapeHtmlDecodedText() + "</a>";
         } else if (DataTypes.URL == decodedText.getDataType()) {
@@ -180,7 +181,7 @@ public class TextControlWriter extends HtmlWriter {
      * @param semaphore
      * @return
      */
-    public static String writeSemaphore(Semaphore semaphore) {
+    public static String writeSemaphore(Semaphore semaphore) throws FrameworkException {
         return semaphore.escapeHtmlDecodedText();
     }
 

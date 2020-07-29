@@ -1,6 +1,7 @@
 package it.eg.sloth.form.fields.field;
 
 import it.eg.sloth.db.datasource.DataSource;
+import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Message;
@@ -71,13 +72,21 @@ public interface DataField<T> extends SimpleField {
 
     void setData(String data);
 
-    String escapeHtmlText();
+    default String escapeHtmlText() {
+        return getDataType().escapeHtmlText(getData(), getLocale(), getFormat());
+    }
 
-    String escapeJsText();
+    default String escapeJsText() {
+        return getDataType().escapeJsText(getData(), getLocale(), getFormat());
+    }
 
-    String escapeHtmlValue();
+    default String escapeHtmlValue() {
+        return Casting.getHtml(getData(), false, false);
+    }
 
-    String escapeJsValue();
+    default String escapeJsValue() {
+        return Casting.getJs(getData());
+    }
 
     /**
      * Imposta il testo del campo formattando il valore passato
@@ -98,7 +107,7 @@ public interface DataField<T> extends SimpleField {
      *
      * @param dataSource
      */
-    void copyToDataSource(DataSource dataSource);
+    void copyToDataSource(DataSource dataSource) throws FrameworkException;
 
     /**
      * Ritorna il testo del campo nel formato nativo
@@ -106,7 +115,7 @@ public interface DataField<T> extends SimpleField {
      * @return
      * @throws ParseException
      */
-    T getValue();
+    T getValue() throws FrameworkException;
 
     /**
      * @return

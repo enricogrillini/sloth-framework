@@ -125,8 +125,28 @@ public class WebRequest extends FrameComponent {
         }
     }
 
+
     /**
-     * Ritorna un FileItem
+     * Reperisce la lista di Stringhe
+     *
+     * @param name
+     * @return
+     */
+    public List<String> getStringList(String name) {
+        List<String> result = new ArrayList<>();
+        for (Object object : getList(name)) {
+            if (object instanceof Part) {
+                result.add(((Part) object).getName());
+            } else {
+                result.add((String) object);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Ritorna un Part
      *
      * @param name
      * @return

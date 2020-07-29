@@ -83,7 +83,8 @@ public class Localization {
     public static final String ERR_PROP_URL = "error.url";
     public static final String ERR_PROP_PASS = "error.password";
 
-
+    //
+    public static final String ERR_VALUE = "error.value";
     public static final String ERR_MANDATORY = "error.mandatory";
 
 }

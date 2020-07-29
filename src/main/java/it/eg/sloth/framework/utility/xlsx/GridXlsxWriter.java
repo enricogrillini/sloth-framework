@@ -57,7 +57,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
         }
     }
 
-    public void setCell(int row, int cellindex, DataField<?> dataField) {
+    public void setCell(int row, int cellindex, DataField<?> dataField) throws FrameworkException {
         if (dataField instanceof Semaphore) {
             Semaphore semaforo = (Semaphore) dataField;
 

@@ -178,7 +178,7 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> ext
 
         // Match search
         description = description.trim();
-        String[] matchStringArray = StringUtil.tokenize(description, " ");
+        String[] matchStringArray = StringUtil.split(description, " ");
 
         for (V decodeValue : this) {
             boolean match = true;

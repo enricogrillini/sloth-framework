@@ -42,6 +42,8 @@ public class FormControlWriter extends HtmlWriter {
                 return writeButton((Button) element);
             case CHECK_BOX:
                 return writeCheckBox((CheckBox<?>) element, pageViewModality);
+            case CHECK_BUTTONS:
+                return writeCheckButtons((CheckButtons<?, Object>) element, pageViewModality);
             case COMBO_BOX:
                 return writeComboBox((ComboBox<?>) element, pageViewModality);
             case DECODED_TEXT:
@@ -131,7 +133,7 @@ public class FormControlWriter extends HtmlWriter {
      * @param decodedText
      * @return
      */
-    public static String writeDecodedText(DecodedText<?> decodedText) {
+    public static String writeDecodedText(DecodedText<?> decodedText) throws FrameworkException {
         StringBuilder input = new StringBuilder()
                 .append(BEGIN_INPUT)
                 .append(getAttribute(ATTR_ID, decodedText.getName()))
@@ -252,7 +254,7 @@ public class FormControlWriter extends HtmlWriter {
      * @param pageViewModality
      * @return
      */
-    public static String writeAutoComplete(AutoComplete<?> autocomplete, Element parentElement, ViewModality pageViewModality) {
+    public static String writeAutoComplete(AutoComplete<?> autocomplete, Element parentElement, ViewModality pageViewModality) throws FrameworkException {
         if (autocomplete.isHidden()) {
             return StringUtil.EMPTY;
         }
@@ -324,6 +326,87 @@ public class FormControlWriter extends HtmlWriter {
         return result.toString();
     }
 
+
+    public static String writeCheckButtons(CheckButtons<?, Object> checkButtons, ViewModality pageViewModality) throws FrameworkException {
+        if (checkButtons.isHidden()) {
+            return StringUtil.EMPTY;
+        }
+
+        String[] values = checkButtons.getSplittedValues();
+        String[] descriptions = checkButtons.getSplittedDescriptions();
+        //String[] tooltips = checkButtons.getSplittedTooltips();
+
+        StringBuilder result = new StringBuilder()
+                .append("<div class=\"btn-group btn-group-toggle\" data-toggle=\"buttons\">");
+
+        int i = 0;
+        for (String value : values) {
+            String description = descriptions.length > i ? descriptions[i] : StringUtil.EMPTY;
+
+            Object object = checkButtons.getDataType().parseValue(value, checkButtons.getLocale(), checkButtons.getFormat());
+
+            result.append("<label")
+                    .append(getAttribute(ATTR_CLASS, checkButtons.isChecked(object), "btn btn-outline-primary btn-sm active", "btn btn-outline-primary btn-sm "))
+                    .append("><input ")
+                    .append(getAttribute(ATTR_ID, checkButtons.getName()))
+                    .append(getAttribute(ATTR_NAME, checkButtons.getName()))
+                    .append(getAttribute(ATTR_TYPE, "checkbox"))
+                    .append(getAttribute(ATTR_VALUE, value))
+                    .append(getAttribute("checked", checkButtons.isChecked(object), ""))
+                    .append(">" + Casting.getHtml(description))
+                    .append("</label>");
+
+            i++;
+        }
+
+        return result
+                .append("</div>")
+                .toString();
+    }
+
+
+    /**
+     * Scrive un campo: CheckBox
+     *
+     * @param checkBox
+     * @param pageViewModality
+     * @return
+     */
+    public static String writeCheckBox(CheckBox<?> checkBox, ViewModality pageViewModality) {
+        if (checkBox.isHidden()) {
+            return StringUtil.EMPTY;
+        }
+
+        ViewModality viewModality = checkBox.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : checkBox.getViewModality();
+        StringBuilder result = new StringBuilder()
+                .append("<div class=\"custom-control custom-checkbox\"><input")
+                .append(getAttribute(ATTR_ID, checkBox.getName()))
+                .append(getAttribute(ATTR_NAME, checkBox.getName()))
+                .append(getAttribute(ATTR_TYPE, "checkbox"))
+                .append(getAttribute(ATTR_VALUE, checkBox.getValChecked().toString()))
+                .append(getAttribute(ATTR_READONLY, checkBox.isReadOnly(), ""))
+                .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.CHECK_CLASS))
+                .append(getAttribute("checked", checkBox.isChecked(), ""))
+                .append("/>");
+
+        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+            result.append("<div")
+                    .append(getAttribute(ATTR_CLASS, "custom-control-label"))
+                    .append("></div>");
+        } else {
+            result
+                    .append("<label")
+                    .append(getAttribute(ATTR_CLASS, "custom-control-label"))
+                    .append(getAttribute("for", checkBox.getName()))
+                    .append("></label>");
+        }
+
+        return result
+                .append("</div>")
+                .toString();
+    }
+
     /**
      * Scrive un campo: ComboBox
      *
@@ -376,48 +459,6 @@ public class FormControlWriter extends HtmlWriter {
         result.append("</select>");
 
         return result.toString();
-    }
-
-    /**
-     * Scrive un campo: CheckBox
-     *
-     * @param checkBox
-     * @param pageViewModality
-     * @return
-     */
-    public static String writeCheckBox(CheckBox<?> checkBox, ViewModality pageViewModality) {
-        if (checkBox.isHidden()) {
-            return StringUtil.EMPTY;
-        }
-
-        ViewModality viewModality = checkBox.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : checkBox.getViewModality();
-        StringBuilder result = new StringBuilder()
-                .append("<div class=\"custom-control custom-checkbox\"><input")
-                .append(getAttribute(ATTR_ID, checkBox.getName()))
-                .append(getAttribute(ATTR_NAME, checkBox.getName()))
-                .append(getAttribute(ATTR_TYPE, "checkbox"))
-                .append(getAttribute(ATTR_VALUE, checkBox.getValChecked().toString()))
-                .append(getAttribute(ATTR_READONLY, checkBox.isReadOnly(), ""))
-                .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.CHECK_CLASS))
-                .append(getAttribute("checked", checkBox.getValChecked().toString().equalsIgnoreCase(checkBox.getData()), ""))
-                .append("/>");
-
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
-            result.append("<div")
-                    .append(getAttribute(ATTR_CLASS, "custom-control-label"))
-                    .append("></div>");
-        } else {
-            result
-                    .append("<label")
-                    .append(getAttribute(ATTR_CLASS, "custom-control-label"))
-                    .append(getAttribute("for", checkBox.getName()))
-                    .append("></label>");
-        }
-
-        return result
-                .append("</div>")
-                .toString();
     }
 
     /**
@@ -484,7 +525,7 @@ public class FormControlWriter extends HtmlWriter {
      * @param pageViewModality
      * @return
      */
-    public static String writeSemaforo(Semaphore semaforo, ViewModality pageViewModality) {
+    public static String writeSemaforo(Semaphore semaforo, ViewModality pageViewModality) throws FrameworkException {
         if (semaforo.isHidden())
             return "";
 

@@ -72,7 +72,7 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
     /**
      * Ricopia il contenuto della griglia sulla DataRow associata
      */
-    public void copyToDataSource() {
+    public void copyToDataSource() throws FrameworkException {
         if (getDataSource() != null) {
             copyToDataSource(getDataSource());
         }
@@ -83,7 +83,7 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
      *
      * @param dataSource
      */
-    public void copyToDataSource(DataSource dataSource) {
+    public void copyToDataSource(DataSource dataSource) throws FrameworkException {
         for (SimpleField simpleField : this) {
             if (simpleField instanceof TextField) {
                 TextField<?> field = (TextField<?>) simpleField;

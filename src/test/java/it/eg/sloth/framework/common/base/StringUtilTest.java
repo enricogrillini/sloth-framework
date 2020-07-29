@@ -179,7 +179,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void partitaIvaKoTest() throws FrameworkException {
+    public void partitaIvaKoTest()  {
         FrameworkException frameworkException;
 
         // Lunghezza partita iva errata
@@ -200,6 +200,17 @@ public class StringUtilTest {
             StringUtil.parsePartitaIva("00000000001");
         });
         assertEquals("Impossibile validare il valore passato - Codice di controllo non valido", frameworkException.getMessage());
+    }
+
+    @Test
+    public void tokenizeTest () {
+
+        assertEquals(4 , StringUtil.split(" aaa , bbb ,ccc,ddd", ",").length);
+        assertEquals("aaa" , StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[0]);
+        assertEquals("bbb" , StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[1]);
+        assertEquals("ccc" , StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[2]);
+        assertEquals("ddd" , StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[3]);
+
     }
 
 }

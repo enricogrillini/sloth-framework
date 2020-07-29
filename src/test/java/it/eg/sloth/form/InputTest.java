@@ -43,7 +43,10 @@ public class InputTest {
         assertEquals(1, messageList.getList().size());
         assertEquals(Level.WARN, messageList.getList().get(0).getSeverity());
 
-        assertEquals(null, input.getValue());
+        assertThrows(FrameworkException.class, () -> {
+            input.getValue();
+        });
+
         assertEquals("XX", input.escapeJsValue());
     }
 

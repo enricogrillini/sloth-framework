@@ -90,7 +90,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
 
         List<T> list = new ArrayList();
         if (!BaseFunction.isBlank(text)) {
-            String[] words = StringUtil.tokenize(text, ",");
+            String[] words = StringUtil.split(text, ",");
             for (String word : words) {
                 if (!BaseFunction.isBlank(word)) {
                     try {
@@ -166,7 +166,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
         if (!BaseFunction.isBlank(getDecodedText()) && BaseFunction.isBlank(getData())) {
             return new Message(Level.WARN, getName(), "Il campo " + getDescription() + " non è valido", null);
         } else if (!BaseFunction.isBlank(getDecodedText()) && !BaseFunction.isBlank(getData())) {
-            if (StringUtil.tokenize(getDecodedText(), ",").length != StringUtil.tokenize(getData(), ",").length) {
+            if (StringUtil.split(getDecodedText(), ",").length != StringUtil.split(getData(), ",").length) {
                 return new Message(Level.WARN, getName(),"Non tutti i valori del campo " + getDescription() + " sono validi", null);
             }
         }
@@ -186,7 +186,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
         String decodedText = "";
         String text = "";
         if (!BaseFunction.isBlank(string)) {
-            String[] words = StringUtil.tokenize(string, ",");
+            String[] words = StringUtil.split(string, ",");
             for (String word : words) {
                 if (!BaseFunction.isBlank(word)) {
                     decodedText += BaseFunction.isBlank(decodedText) ? word : ", " + word;

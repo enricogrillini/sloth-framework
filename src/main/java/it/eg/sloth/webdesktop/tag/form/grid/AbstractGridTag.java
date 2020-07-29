@@ -61,6 +61,9 @@ public abstract class AbstractGridTag<T extends Grid<?>> extends BaseElementTag<
             }
 
             for (SimpleField field : getElement().getElements()) {
+                if (field instanceof TextField && ((TextField<?>) field).isHidden())
+                    continue;
+
                 if (field instanceof TextTotalizer || field instanceof InputTotalizer) {
                     TextField<BigDecimal> textField = (TextField<BigDecimal>) field.newInstance();
 
