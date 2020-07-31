@@ -7,17 +7,31 @@ import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.grid.RadioGrid;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 
 import java.io.IOException;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Enrico Grillini
+ */
 public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
 
     private static final long serialVersionUID = 1L;
 
-    protected void writeRow(DataRow dataRow, int rowNumber) throws CloneNotSupportedException, BusinessException, IOException {
+    protected void writeRow(DataRow dataRow, int rowNumber) throws FrameworkException, IOException {
         boolean selected = rowNumber == getElement().getRowSelected();
         boolean readOnly = (getForm().getPageInfo().getViewModality() == ViewModality.VIEW_VISUALIZZAZIONE);
 
@@ -29,7 +43,7 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
 
         int i = 0;
         for (SimpleField field : getElement()) {
-            SimpleField appField = (SimpleField) field.clone();
+            SimpleField appField = field.newInstance();
             if (appField instanceof DataField) {
                 DataField<?> dataField = (DataField<?>) appField;
                 dataField.copyFromDataSource(dataRow);
@@ -39,7 +53,7 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
                 } else if (i > 1) {
                     riga += ", ";
                 }
-                riga += FormControlWriter.writeControl(appField, getElement(), getWebDesktopDto().getLastController(), ViewModality.VIEW_VISUALIZZAZIONE, null, null);
+                riga += FormControlWriter.writeControl(appField, getElement(), ViewModality.VIEW_VISUALIZZAZIONE);
                 i++;
             }
         }
@@ -48,13 +62,13 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
         // Dettaglio
         riga += " <div class=\"" + className + "\" style=\"float:none;\">";
         i = 0;
-        for (Element field : getDetail()) {
+        for (SimpleField field : getElement()) {
             if (field instanceof DataField) {
-                DataField<?> dataField = (DataField<?>) field.clone();
+                DataField<?> dataField = (DataField<?>) field.newInstance();
                 dataField.copyFromDataSource(dataRow);
 
                 riga += i >= 1 ? ", " : "";
-                riga += "<b>" + dataField.getHtmlDescription() + "</b>: " + FormControlWriter.writeControl(dataField, getElement(), getWebDesktopDto().getLastController(), ViewModality.VIEW_VISUALIZZAZIONE, null, null);
+                riga += "<b>" + dataField.getHtmlDescription() + "</b>: " + FormControlWriter.writeControl(dataField, getElement(), ViewModality.VIEW_VISUALIZZAZIONE);
             }
 
             i++;
@@ -74,7 +88,7 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
         }
     }
 
-    protected void writeLastRow(int rowNumber) throws CloneNotSupportedException, BusinessException, IOException {
+    protected void writeLastRow(int rowNumber) throws FrameworkException, IOException {
         boolean selected = getElement().isNewLine();
         boolean readOnly = (getForm().getPageInfo().getViewModality() == ViewModality.VIEW_VISUALIZZAZIONE);
 
@@ -91,7 +105,7 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
                     } else if (i > 1) {
                         write(", ");
                     }
-                    writeln(FormControlWriter.writeControl(field, getElement(), getWebDesktopDto().getLastController(), ViewModality.VIEW_VISUALIZZAZIONE, null, null));
+                    writeln(FormControlWriter.writeControl(field, getElement(), ViewModality.VIEW_VISUALIZZAZIONE));
                     i++;
                 }
             }
@@ -100,10 +114,10 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
             // Dettaglio
             writeln(" <div class=\"" + className + "\" style=\"float:none;\">");
             i = 0;
-            for (SimpleField field : getDetail()) {
+            for (SimpleField field : getElement()) {
                 if (field instanceof DataField) {
                     write(i >= 1 ? ", " : "");
-                    writeln("<b>" + field.getHtmlDescription() + "</b>: " + FormControlWriter.writeControl(field, getElement(), getWebDesktopDto().getLastController(), ViewModality.VIEW_VISUALIZZAZIONE, null, null));
+                    writeln("<b>" + field.getHtmlDescription() + "</b>: " + FormControlWriter.writeControl(field, getElement(), ViewModality.VIEW_VISUALIZZAZIONE));
                 }
 
                 i++;
@@ -130,16 +144,16 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
                     }
 
                     writeln("   <div class=\"" + className + "\" style=\"float:left; width:30%; height:22px; text-align:right; padding-top: 3px;\">" + descrizione + ": </div>");
-                    writeln("   <div class=\"" + className + "\" style=\"float:left; width:50%; height:22px;\">" + FormControlWriter.writeControl(field, getElement(), getWebDesktopDto().getLastController(), ViewModality.VIEW_MODIFICA, null, null) + "</div>");
+                    writeln("   <div class=\"" + className + "\" style=\"float:left; width:50%; height:22px;\">" + FormControlWriter.writeControl(field, getElement(), ViewModality.VIEW_MODIFICA) + "</div>");
                 }
             }
 
             // Dettaglio
-            for (Element element : getDetail()) {
+            for (Element element : getElement()) {
                 SimpleField field = (SimpleField) element;
 
                 writeln("   <div class=\"" + className + "\" style=\"float:left; width:30%; height:22px; text-align:right; padding-top: 3px;\">" + field.getHtmlDescription() + ": </div>");
-                writeln("   <div class=\"" + className + "\" style=\"float:left; width:50%; height:22px;\">" + FormControlWriter.writeControl(field, getElement(), getWebDesktopDto().getLastController(), ViewModality.VIEW_MODIFICA, null, null) + "</div>");
+                writeln("   <div class=\"" + className + "\" style=\"float:left; width:50%; height:22px;\">" + FormControlWriter.writeControl(field, getElement(), ViewModality.VIEW_MODIFICA) + "</div>");
             }
 
             writeln("  </td>");
@@ -148,7 +162,7 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
 
     }
 
-    public int startTag() throws Throwable {
+    public int startTag() throws IOException, FrameworkException {
         if (getElement().getDataSource() != null) {
             writeln("");
             writeln("<table class=\"frElenco\">");
@@ -166,7 +180,8 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
         return EVAL_BODY_INCLUDE;
     }
 
-    protected void endTag() throws Throwable {
+    protected void endTag() {
+        // NOP
     }
 
 }

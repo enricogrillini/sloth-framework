@@ -13,6 +13,20 @@ import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.webdesktop.tag.form.toolbar.writer.ToolbarWriter;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Enrico Grillini
+ */
 public class ToolBarWriterTest {
 
     static final String ELENCO = "<button name=\"navigationprefix___elenco\"{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Ritorna all''elenco\"><i class=\"fas fa-table\"></i> Elenco</button>";
@@ -63,6 +77,10 @@ public class ToolBarWriterTest {
 
         grid.getDataSource().first();
         assertEquals(MessageFormat.format(FIRST_ROW_GRID, " disabled=\"\""), ToolbarWriter.firstRowButton(grid, false));
+
+        // Hidden
+        grid.setFirstButtonHidden(true);
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.firstRowButton(grid, false));
     }
 
     @Test
@@ -72,6 +90,10 @@ public class ToolBarWriterTest {
 
         grid.getDataSource().first();
         assertEquals(MessageFormat.format(PREV_PAGE_GRID, " disabled=\"\""), ToolbarWriter.prevPageButton(grid, false));
+
+        // Hidden
+        grid.setPrevPageButtonHidden(true);
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.prevPageButton(grid, false));
     }
 
     @Test
@@ -81,6 +103,10 @@ public class ToolBarWriterTest {
 
         grid.getDataSource().first();
         assertEquals(MessageFormat.format(PREV_GRID, " disabled=\"\""), ToolbarWriter.prevButton(grid, false));
+
+        // Hidden
+        grid.setPrevButtonHidden(true);
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.prevButton(grid, false));
     }
 
     @Test
@@ -90,6 +116,10 @@ public class ToolBarWriterTest {
 
         grid.getDataSource().last();
         assertEquals(MessageFormat.format(NEXT_GRID, " disabled=\"\""), ToolbarWriter.nextButton(grid, false));
+
+        // Hidden
+        grid.setNextButtonHidden(true);
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.nextButton(grid, false));
     }
 
     @Test
@@ -99,6 +129,10 @@ public class ToolBarWriterTest {
 
         grid.getDataSource().last();
         assertEquals(MessageFormat.format(NEXT_PAGE_GRID, " disabled=\"\""), ToolbarWriter.nextPageButton(grid, false));
+
+        // Hidden
+        grid.setNextPageButtonHidden(true);
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.nextPageButton(grid, false));
     }
 
     @Test
@@ -108,6 +142,10 @@ public class ToolBarWriterTest {
 
         grid.getDataSource().last();
         assertEquals(MessageFormat.format(LAST_ROW_GRID, " disabled=\"\""), ToolbarWriter.lastRowButton(grid, false));
+
+        // Hidden
+        grid.setLastButtonHidden(true);
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.lastRowButton(grid, false));
     }
 
     @Test
@@ -124,12 +162,20 @@ public class ToolBarWriterTest {
     public void insertButtonTest() {
         // Grid
         assertEquals(MessageFormat.format(INSERT_GRID, ""), ToolbarWriter.insertButton(grid));
+
+        // Hidden
+        grid.setInsertButtonHidden(true);
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.insertButton(grid));
     }
 
     @Test
     public void deleteButtonTest() {
         // Grid
         assertEquals(MessageFormat.format(DELETE_GRID, ""), ToolbarWriter.deleteButton(grid));
+
+        // Hidden
+        grid.setDeleteButtonHidden(true);
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.deleteButton(grid));
     }
 
     @Test

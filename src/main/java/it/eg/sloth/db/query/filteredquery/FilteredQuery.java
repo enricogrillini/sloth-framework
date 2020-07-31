@@ -1,174 +1,185 @@
 package it.eg.sloth.db.query.filteredquery;
 
-import java.sql.Connection;
+import it.eg.sloth.db.query.SelectAbstractQuery;
+import it.eg.sloth.db.query.SelectQueryInterface;
+import it.eg.sloth.db.query.filteredquery.filter.*;
+import it.eg.sloth.db.query.filteredquery.filter.DateIntervalFilter.IntervalType;
+import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.StringUtil;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.eg.sloth.db.query.SelectAbstractQuery;
-import it.eg.sloth.db.query.SelectQueryInterface;
-import it.eg.sloth.db.query.filteredquery.filter.BaseFilter;
-import it.eg.sloth.db.query.filteredquery.filter.DateIntervalFilter;
-import it.eg.sloth.db.query.filteredquery.filter.DateIntervalFilter.IntervalType;
-import it.eg.sloth.framework.common.base.StringUtil;
-import it.eg.sloth.db.query.filteredquery.filter.Filter;
-import it.eg.sloth.db.query.filteredquery.filter.InFilter;
-import it.eg.sloth.db.query.filteredquery.filter.MultipleFilter;
-import it.eg.sloth.db.query.filteredquery.filter.NoValFilter;
-import it.eg.sloth.db.query.filteredquery.filter.OnlyValFilter;
-import it.eg.sloth.db.query.filteredquery.filter.SubQueryFilter;
-import it.eg.sloth.db.query.filteredquery.filter.TextSearch;
-
 /**
- * 
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
  * @author Enrico Grillini
- * 
  */
 public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInterface {
 
-  public static final String REGEX_PLACEHOLDER = "/\\x2AW\\x2A/";
+    public static final String REGEX_PLACEHOLDER = "/\\x2AW\\x2A/";
 
-  protected List<Filter> filterList;
+    protected List<Filter> filterList;
 
-  public FilteredQuery(String statement) {
-    super(statement);
-    this.filterList = new ArrayList<Filter>();
-  }
-
-  public int addValues(PreparedStatement statement, int i) throws SQLException {
-    for (Filter filtro : filterList) {
-      i = filtro.addValues(statement, i);
+    public FilteredQuery(String statement) {
+        super(statement);
+        this.filterList = new ArrayList<>();
     }
 
-    return i;
-  }
+    public int addValues(PreparedStatement statement, int i) throws SQLException {
+        for (Filter filtro : filterList) {
+            i = filtro.addValues(statement, i);
+        }
 
-  @Override
-  protected PreparedStatement getPreparedStatement(Connection connection) throws SQLException {
-    PreparedStatement statement = connection.prepareStatement(getFilteredStatement());
-
-    int numPlaceholder = StringUtil.countOccurences(getStatement(), REGEX_PLACEHOLDER);
-    int i = 1;
-    for (int j = 0; j < numPlaceholder; j++) {
-      i = addValues(statement, i);
+        return i;
     }
 
-    return statement;
-  }
-
-  /**
-   * Ritorna lo statement arricchito con i filtri
-   * 
-   * @return
-   */
-  protected String getFilteredStatement() {
-    String sqlFilter = "";
-
-    for (Filter filtro : filterList) {
-      String statement = filtro.getWhereCondition();
-      if (!"".equals(statement)) {
-        sqlFilter += sqlFilter.equals("") ? statement : " And " + statement;
-      }
+    @Override
+    protected String getSqlStatement() {
+        return getFilteredStatement();
     }
 
-    if (!sqlFilter.equals("")) {
-      if (getStatement().toLowerCase().contains("where")) {
-        sqlFilter = " And " + sqlFilter;
-      } else {
-        sqlFilter = "Where " + sqlFilter;
-      }
+    @Override
+    protected void initStatement(PreparedStatement statement) throws SQLException {
+        int numPlaceholder = StringUtil.countOccurences(getStatement(), REGEX_PLACEHOLDER);
+        int i = 1;
+        for (int j = 0; j < numPlaceholder; j++) {
+            i = addValues(statement, i);
+        }
     }
 
-    return getStatement().replaceAll(REGEX_PLACEHOLDER, sqlFilter);
-  }
+    /**
+     * Ritorna lo statement arricchito con i filtri
+     *
+     * @return
+     */
+    protected String getFilteredStatement() {
+        StringBuilder sqlFilter = new StringBuilder();
+        for (Filter filtro : filterList) {
+            String statement = filtro.getWhereCondition();
+            if (!BaseFunction.isBlank(statement)) {
+                sqlFilter.append(sqlFilter.length() == 0 ? statement : " And " + statement);
+            }
+        }
 
-  /**
-   * Aggiunge un filtro
-   * 
-   * @param sql
-   * @param sqlTypes
-   * @param value
-   */
-  public void addFilter(String sql, int sqlTypes, Object value) {
-    filterList.add(new BaseFilter(sql, sqlTypes, value));
-  }
+        if (sqlFilter.length() != 0) {
+            if (getStatement().toLowerCase().contains("where")) {
+                sqlFilter.insert(0, " And ");
+            } else {
+                sqlFilter.insert(0, "Where ");
+            }
+        }
 
-  /**
-   * Aggiunge un filtro
-   * 
-   * @param sql
-   */
-  public void addNoValFilter(String sql) {
-    filterList.add(new NoValFilter(sql));
-  }
+        return getStatement().replaceAll(REGEX_PLACEHOLDER, sqlFilter.toString());
+    }
 
-  /**
-   * Aggiunge un filtro
-   * 
-   * @param value
-   */
-  public void addOnlyValFilter(int sqlTypes, Object value) {
-    filterList.add(new OnlyValFilter(sqlTypes, value));
-  }
+    /**
+     * Aggiunge un filtro
+     *
+     * @param sql
+     * @param sqlTypes
+     * @param value
+     */
+    public void addFilter(String sql, int sqlTypes, Object value) {
+        filterList.add(new BaseFilter(sql, sqlTypes, value));
+    }
 
-  /**
-   * Aggiunge un filtro
-   * 
-   * @param name
-   * @param sql
-   * @param value
-   */
-  public void addTextSearch(String sql, String value) {
-    filterList.add(new TextSearch(sql, value));
-  }
+    /**
+     * Aggiunge un filtro
+     *
+     * @param sql
+     */
+    public void addNoValFilter(String sql) {
+        filterList.add(new NoValFilter(sql));
+    }
 
-  /**
-   * Aggiunge una lista di filtri (generando una clasuola strFiltro IN
-   * (?,?,?..?)
-   * 
-   * @param sql
-   * @param sqlTypes
-   * @param values
-   */
-  public void addInFilter(String sql, int sqlTypes, Object... values) {
-    filterList.add(new InFilter(sql, sqlTypes, values));
-  }
+    /**
+     * Aggiunge un filtro
+     *
+     * @param value
+     */
+    public void addOnlyValFilter(int sqlTypes, Object value) {
+        filterList.add(new OnlyValFilter(sqlTypes, value));
+    }
 
-  /**
-   * Aggiunge una lista di filtri SENZA generare una clasuola strFiltro IN
-   * (?,?,?..?)
-   * 
-   * @param sql
-   * @param sqlTypes
-   * @param values
-   */
-  public void addMultipleFilter(String sql, int sqlTypes, Object... values) {
-    filterList.add(new MultipleFilter(sql, sqlTypes, values));
-  }
+    /**
+     * Aggiunge un filtro
+     *
+     * @param sql
+     * @param value
+     */
+    public void addTextSearch(String sql, String value) {
+        filterList.add(new TextSearch(sql, value));
+    }
 
-  /**
-   * Aggiunge un filtro per stabilire se la data filterDateFrom o filterDateTo
-   * ricada o meno nell'intervallo [sqlStartDate,sqlEndDate] utilizzando
-   * l'algoritmo del Bisi à
-   * 
-   * @param sqlTypes
-   * @param sqlStartDate
-   * @param sqlEndDate
-   * @param filterDateFrom
-   * @param filterDateTo
-   */
-  public void addDateIntervalFilter(IntervalType intervalType, String sqlStartDate, String sqlEndDate, Object filterDateFrom, Object filterDateTo) {
-    filterList.add(new DateIntervalFilter(intervalType, sqlStartDate, sqlEndDate, filterDateFrom, filterDateTo));
-  }
+    /**
+     * Aggiunge una lista di filtri (generando una clasuola strFiltro IN
+     * (?,?,?..?)
+     *
+     * @param sql
+     * @param sqlTypes
+     * @param values
+     */
+    public void addInFilter(String sql, int sqlTypes, Object... values) {
+        filterList.add(new InFilter(sql, sqlTypes, values));
+    }
 
-  /**
-   * Aggiunge una SubQuery
-   * 
-   * @param subQuery
-   */
-  public void addSubQueryFilter(FilteredQuery subQuery) {
-    filterList.add(new SubQueryFilter(subQuery));
-  }
+    /**
+     * Aggiunge una lista di filtri SENZA generare una clasuola strFiltro IN
+     * (?,?,?..?)
+     *
+     * @param sql
+     * @param sqlTypes
+     * @param values
+     */
+    public void addMultipleFilter(String sql, int sqlTypes, Object... values) {
+        filterList.add(new MultipleFilter(sql, sqlTypes, values));
+    }
 
+    /**
+     * Aggiunge un filtro per stabilire se la data filterDateFrom o filterDateTo
+     * ricada o meno nell'intervallo [sqlStartDate,sqlEndDate] utilizzando
+     * l'algoritmo del Bisi
+     *
+     * @param intervalType
+     * @param sqlStartDate
+     * @param sqlEndDate
+     * @param filterDateFrom
+     * @param filterDateTo
+     */
+    public void addDateIntervalFilter(IntervalType intervalType, String sqlStartDate, String sqlEndDate, Object filterDateFrom, Object filterDateTo) {
+        filterList.add(new DateIntervalFilter(intervalType, sqlStartDate, sqlEndDate, filterDateFrom, filterDateTo));
+    }
+
+    /**
+     * Aggiunge una SubQuery
+     *
+     * @param subQuery
+     */
+    public void addSubQueryFilter(FilteredQuery subQuery) {
+        filterList.add(new SubQueryFilter(subQuery));
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder().append(super.toString());
+        for (Filter filter : filterList) {
+            stringBuilder.append("\nFilter " + filter.toString());
+        }
+
+        return stringBuilder.toString();
+    }
 }

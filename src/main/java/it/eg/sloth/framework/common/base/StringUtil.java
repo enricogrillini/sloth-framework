@@ -1,48 +1,72 @@
 package it.eg.sloth.framework.common.base;
 
+import it.eg.sloth.framework.common.exception.ExceptionCode;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
- * @author Enrico Grillini
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
  * <p>
- * Collezione di funzioni Oracle orientented sulle stringhe
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
+ * @author Enrico Grillini
  */
 public class StringUtil {
 
+    private static final String MAIL_ADDRESS = "^(.+)@(.+)$";
+
+    private StringUtil() {
+        // NOP
+    }
+
     public static final String EMPTY = "";
     public static final String TAB = String.valueOf((char) 9);
+    public static final String SEPARATOR = ",";
 
-    public static String[] tokenize(String str, String separator) {
-        StringTokenizer stringTokenizer = new StringTokenizer(str, separator, true);
+    public static String join(String[] strings) {
+        return join(strings, SEPARATOR);
+    }
 
-        List<String> list = new ArrayList<String>();
-        String lastToken = "";
-        while (stringTokenizer.hasMoreTokens()) {
-            String currentToken = stringTokenizer.nextToken();
-            if (!currentToken.equals(separator)) {
-                list.add(currentToken.trim());
-            } else if (currentToken.equals(separator) && lastToken.equals(separator)) {
-                list.add("");
+    public static String join(String[] strings, String separator) {
+        if (BaseFunction.isNull(strings)) {
+            return StringUtil.EMPTY;
+        } else {
+            return String.join(separator, strings);
+        }
+    }
+
+    public static String[] split(String string) {
+        return split(string, SEPARATOR);
+    }
+
+    public static String[] split(String string, String separator) {
+        if (BaseFunction.isBlank(string)) {
+            return new String[]{};
+        } else {
+            String[] tokens = StringUtils.split(string, separator);
+            for (int i = 0; i < tokens.length; i++) {
+                tokens[i] = StringUtils.trim(tokens[i]);
             }
-            lastToken = currentToken;
-        }
 
-        String[] strings = new String[list.size()];
-        int i = 0;
-        for (String string : list) {
-            strings[i++] = string;
+            return tokens;
         }
-
-        return strings;
     }
 
     /**
@@ -52,7 +76,7 @@ public class StringUtil {
      * @return
      */
     public static List<String> words(String text) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
 
         if (!BaseFunction.isBlank(text)) {
             Pattern p = Pattern.compile("\\w+");
@@ -234,7 +258,7 @@ public class StringUtil {
      */
     public static String ltrim(String string) {
         if (BaseFunction.isBlank(string)) {
-            return "";
+            return StringUtil.EMPTY;
         } else {
             return string.replaceAll("^\\s+", "");
         }
@@ -248,7 +272,7 @@ public class StringUtil {
      */
     public static String rtrim(String string) {
         if (BaseFunction.isBlank(string)) {
-            return "";
+            return StringUtil.EMPTY;
         } else {
             return string.replaceAll("\\s+$", "");
         }
@@ -270,10 +294,9 @@ public class StringUtil {
                     string = String.format("%s%s", Character.toUpperCase(string.charAt(0)), string.substring(1));
                 }
 
-                if (!Character.isLetterOrDigit(string.charAt(i))) {
-                    if (i + 1 < string.length()) {
-                        string = String.format("%s%s%s", string.subSequence(0, i + 1), Character.toUpperCase(string.charAt(i + 1)), string.substring(i + 2).toLowerCase());
-                    }
+                if (!Character.isLetterOrDigit(string.charAt(i)) && i + 1 < string.length()) {
+                    string = String.format("%s%s%s", string.subSequence(0, i + 1), Character.toUpperCase(string.charAt(i + 1)), string.substring(i + 2).toLowerCase());
+
                 }
             }
             return string;
@@ -299,19 +322,19 @@ public class StringUtil {
 
     public static String toJavaConstantName(String string) {
         if (BaseFunction.isBlank(string)) {
-            return "";
+            return EMPTY;
         }
 
-        String result = "";
+        StringBuilder result = new StringBuilder();
         string = toJavaClassName(string);
         for (int i = 0; i < string.length(); i++) {
             if (i > 0 && string.charAt(i) >= 65 && string.charAt(i) <= 90 && !(string.charAt(i - 1) >= 65 && string.charAt(i - 1) <= 90))
-                result += "_";
+                result.append("_");
 
-            result += string.charAt(i);
+            result.append(string.charAt(i));
         }
 
-        return result.toUpperCase();
+        return result.toString().toUpperCase();
     }
 
     public static String toFileName(String string) {
@@ -319,24 +342,41 @@ public class StringUtil {
             return "";
         }
 
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < string.length(); i++) {
             if (string.charAt(i) == ' ') {
-                result += "-";
+                result.append("-");
             } else if (string.charAt(i) == '/') {
-                result += "-";
+                result.append("-");
             } else if (string.charAt(i) >= 48 && string.charAt(i) <= 57 ||
                     string.charAt(i) >= 65 && string.charAt(i) <= 90 ||
                     string.charAt(i) >= 97 && string.charAt(i) <= 122 || string.charAt(i) == '-' || string.charAt(i) == '_' || i > 0 && string.charAt(i) == '.') {
-                result += string.charAt(i);
+                result.append(string.charAt(i));
             }
         }
 
-        while (result.contains("--")) {
-            result = result.replaceAll("--", "-");
+        return result.toString().replace("--", "-");
+    }
+
+    public static String toXlsxSheetName(String string) {
+        if (BaseFunction.isBlank(string)) {
+            return "";
         }
 
-        return result;
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < string.length(); i++) {
+            if (string.charAt(i) == ' ') {
+                result.append(" ");
+            } else if (string.charAt(i) == '/') {
+                result.append(" ");
+            } else if (string.charAt(i) >= 48 && string.charAt(i) <= 57 ||
+                    string.charAt(i) >= 65 && string.charAt(i) <= 90 ||
+                    string.charAt(i) >= 97 && string.charAt(i) <= 122 || string.charAt(i) == '-' || string.charAt(i) == '_' || i > 0 && string.charAt(i) == '.') {
+                result.append(string.charAt(i));
+            }
+        }
+
+        return result.toString().replace("  ", " ");
     }
 
     public static boolean contains(String string, String inStr) {
@@ -397,6 +437,120 @@ public class StringUtil {
             ;
 
         return count;
+    }
+
+
+    public static String parseString(String string) {
+        if (BaseFunction.isBlank(string)) {
+            return null;
+        } else {
+            return string;
+        }
+    }
+
+    /**
+     * Verifica la mail passata
+     *
+     * @param mail
+     * @return
+     * @throws ParseException
+     */
+    public static String parseMail(String mail) throws FrameworkException {
+        if (BaseFunction.isBlank(mail)) {
+            return null;
+        } else if (mail.matches(MAIL_ADDRESS)) {
+            return mail;
+        } else {
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Indirizzo email errato");
+        }
+    }
+
+    /**
+     * Valida un codice fiscale
+     *
+     * @param codiceFiscale
+     * @return
+     * @throws FrameworkException
+     */
+    public static String parseCodiceFiscale(String codiceFiscale) throws FrameworkException {
+        if (BaseFunction.isBlank(codiceFiscale)) {
+            return null;
+        }
+
+        // Normalizzo il codice fiscale
+        codiceFiscale = codiceFiscale.replaceAll("[ \t\r\n]", "");
+        codiceFiscale = codiceFiscale.toUpperCase();
+
+        if (codiceFiscale.length() != 16) {
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Lunghezza codice fiscale errata");
+        }
+
+        if (!codiceFiscale.matches("^[0-9A-Z]{16}$")) {
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Trovati caratteri non validi");
+        }
+
+        int s = 0;
+        String evenMap = "BAFHJNPRTVCESULDGIMOQKWZYX";
+        for (int i = 0; i < 15; i++) {
+            int c = codiceFiscale.charAt(i);
+            int n;
+            if ('0' <= c && c <= '9') {
+                n = c - '0';
+            } else {
+                n = c - 'A';
+            }
+
+            if ((i & 1) == 0) {
+                n = evenMap.charAt(n) - 'A';
+            }
+
+            s += n;
+        }
+        if (s % 26 + 'A' != codiceFiscale.charAt(15))
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Codice di controllo non valido");
+
+        return codiceFiscale;
+    }
+
+    /**
+     * Valida una partita iva
+     *
+     * @param partitaIva
+     * @return
+     * @throws FrameworkException
+     */
+    public static String parsePartitaIva(String partitaIva) throws FrameworkException {
+        if (BaseFunction.isBlank(partitaIva)) {
+            return null;
+        }
+
+        // Elimino spaszi
+        partitaIva = partitaIva.replaceAll("[ \t\r\n]", "");
+
+
+        if (partitaIva.length() != 11) {
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Lunghezza partita iva errata");
+        }
+
+        if (!partitaIva.matches("^[0-9]{11}$")) {
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Trovati caratteri non validi");
+        }
+
+        int s = 0;
+        for (int i = 0; i < 11; i++) {
+            int n = partitaIva.charAt(i) - '0';
+            if ((i & 1) == 1) {
+                n *= 2;
+                if (n > 9)
+                    n -= 9;
+            }
+            s += n;
+        }
+        if (s % 10 != 0) {
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Codice di controllo non valido");
+        }
+
+        return partitaIva;
     }
 
 }

@@ -6,7 +6,7 @@ import it.eg.sloth.form.base.AbstractElements;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.base.TextField;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.MessageList;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +14,18 @@ import lombok.Setter;
 import java.text.ParseException;
 
 /**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
  * @author Enrico Grillini
  */
 @Getter
@@ -37,7 +49,7 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
     /**
      * Inizializza i valori
      */
-    public void clearData() throws BusinessException {
+    public void clearData() throws FrameworkException {
         for (SimpleField element : this) {
             if (element instanceof TextField) {
                 TextField<?> field = (TextField<?>) element;
@@ -49,7 +61,7 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
     /**
      * Imposta il contenuto della griglia prelevandolo dal DataRow associato
      */
-    public void copyFromDataSource() throws BusinessException {
+    public void copyFromDataSource() throws FrameworkException {
         if (getDataSource() != null) {
             copyFromDataSource(getDataSource());
         } else {
@@ -60,7 +72,7 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
     /**
      * Ricopia il contenuto della griglia sulla DataRow associata
      */
-    public void copyToDataSource() {
+    public void copyToDataSource() throws FrameworkException {
         if (getDataSource() != null) {
             copyToDataSource(getDataSource());
         }
@@ -71,7 +83,7 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
      *
      * @param dataSource
      */
-    public void copyToDataSource(DataSource dataSource) {
+    public void copyToDataSource(DataSource dataSource) throws FrameworkException {
         for (SimpleField simpleField : this) {
             if (simpleField instanceof TextField) {
                 TextField<?> field = (TextField<?>) simpleField;
@@ -85,7 +97,7 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
      *
      * @param dataSource
      */
-    public void copyFromDataSource(DataSource dataSource) throws BusinessException {
+    public void copyFromDataSource(DataSource dataSource) throws FrameworkException {
         if (dataSource == null)
             return;
 
@@ -102,15 +114,16 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
      *
      * @param messages
      * @return
-     * @throws BusinessException
+     * @throws FrameworkException
      */
-    public boolean validate(MessageList messages) throws BusinessException {
+    public boolean validate(MessageList messages) throws FrameworkException {
+        boolean result = true;
         for (SimpleField element : getElements()) {
             if (element instanceof InputField && !((InputField<?>) element).validate(messages)) {
-                return false;
+                result = false;
             }
         }
-        return true;
+        return result;
     }
 
     /**
@@ -119,7 +132,7 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
      * @param webRequest
      * @throws ParseException
      */
-    public void post(WebRequest webRequest) {
+    public void post(WebRequest webRequest) throws FrameworkException {
         for (SimpleField element : getElements()) {
             if (element instanceof SimpleField) {
                 element.post(webRequest);
@@ -127,12 +140,12 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
         }
     }
 
-    public boolean postAndValidate(WebRequest webRequest, MessageList messageList) throws BusinessException {
+    public boolean postAndValidate(WebRequest webRequest, MessageList messageList) throws FrameworkException {
         post(webRequest);
         return validate(messageList);
     }
 
-    public boolean postValidateCopy(WebRequest webRequest, MessageList messageList, DataSource dataSource) throws BusinessException {
+    public boolean postValidateCopy(WebRequest webRequest, MessageList messageList, DataSource dataSource) throws FrameworkException {
         post(webRequest);
         if (validate(messageList)) {
             copyToDataSource(dataSource);

@@ -7,13 +7,27 @@ import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.framework.utility.FileType;
 import it.eg.sloth.framework.utility.xlsx.GridXlsxWriter;
 import it.eg.sloth.webdesktop.controller.common.editable.FullEditingInterface;
 import it.eg.sloth.webdesktop.controller.common.grid.EditableGridNavigationInterface;
 
+import java.io.OutputStream;
+
 /**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
  * Fornisce l'implementazione di una griglia editabile. Rispetto al
  * EditablePageController aggiunge: - aggiunge la gestione degli eventi
  * onInsert, onDelete, onGotoRecord
@@ -263,13 +277,14 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
 
     @Override
     public void onExcel(Grid<?> grid) throws Exception {
-        GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
+        try (OutputStream outputStream = getResponse().getOutputStream()) {
+            String fileName = BaseFunction.nvl(grid.getTitle(), grid.getName()) + FileType.XLSX.getExtension();
+            fileName = StringUtil.toFileName(fileName);
 
-        try {
-            setModelAndView(BaseFunction.nvl(grid.getDescription(), getForm().getPageInfo().getTitle()) + FileType.XLSX.getExtension(), FileType.XLSX);
-            gridXlsxWriter.getWorkbook().write(getResponse().getOutputStream());
-        } finally {
-            getResponse().getOutputStream().close();
+            setModelAndView(fileName, FileType.XLSX);
+
+            GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
+            gridXlsxWriter.getWorkbook().write(outputStream);
         }
     }
 

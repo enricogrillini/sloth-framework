@@ -4,20 +4,34 @@ import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.form.chart.SimpleChart;
 import it.eg.sloth.form.chart.element.Labels;
 import it.eg.sloth.form.chart.element.Series;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.html.HtmlColor;
+import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJs;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJsData;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJsLegend;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJsTitle;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset.DataSetMonoColor;
-import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.List;
 
-public class ChartWriter extends AbstractHtmlWriter {
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Enrico Grillini
+ */
+public class ChartWriter extends HtmlWriter {
 
     public static final String writeCanvas(SimpleChart<?> simpleChart) {
         return new StringBuilder()
@@ -32,10 +46,8 @@ public class ChartWriter extends AbstractHtmlWriter {
                 .toString();
     }
 
-    public static final String writeScript(SimpleChart<?> simpleChart) throws CloneNotSupportedException, BusinessException, ParseException {
-
+    public static final String writeScript(SimpleChart<?> simpleChart) throws FrameworkException {
         ChartJs chartJs = populateChart(simpleChart);
-
 
         return new StringBuilder()
                 .append("<!-- ChartScript -->\n")
@@ -47,7 +59,7 @@ public class ChartWriter extends AbstractHtmlWriter {
                 .toString();
     }
 
-    public static final ChartJs populateChart(SimpleChart<?> simpleChart) throws CloneNotSupportedException, BusinessException, ParseException {
+    public static final ChartJs populateChart(SimpleChart<?> simpleChart) throws FrameworkException {
         ChartJs chartJs = new ChartJs();
         chartJs.setType(simpleChart.getChartType().toString().toLowerCase());
         chartJs.setData(populateChartData(simpleChart));
@@ -63,13 +75,12 @@ public class ChartWriter extends AbstractHtmlWriter {
         return chartJs;
     }
 
-    public static final ChartJsData populateChartData(SimpleChart<?> simpleChart) throws CloneNotSupportedException, BusinessException, ParseException {
+    public static final ChartJsData populateChartData(SimpleChart<?> simpleChart) throws FrameworkException {
         ChartJsData chartData = new ChartJsData();
-
 
         if (simpleChart.getDataTable() != null) {
             // Labels
-            Labels<?> labels = (Labels<?>) simpleChart.getLabels().clone();
+            Labels<?> labels = simpleChart.getLabels().newInstance();
             for (DataRow row : simpleChart.getDataTable()) {
                 labels.copyFromDataSource(row);
                 chartData.getLabels().add(labels.escapeJsText());
@@ -86,21 +97,19 @@ public class ChartWriter extends AbstractHtmlWriter {
                     dataSetMultiColor(simpleChart, chartData);
 
             }
-
-
         }
 
         return chartData;
     }
 
-    private static final void dataSetMonoColor(SimpleChart<?> simpleChart, ChartJsData chartData) throws CloneNotSupportedException, BusinessException, ParseException {
+    private static final void dataSetMonoColor(SimpleChart<?> simpleChart, ChartJsData chartData) throws FrameworkException {
         // Datasets
         List<Series> seriesList = simpleChart.getSeriesList();
         List<String> palette = HtmlColor.getColorPalette(seriesList.size());
 
         int i = 0;
         for (Series series : seriesList) {
-            Series seriesClone = (Series) series.clone();
+            Series seriesClone = series.newInstance();
 
             DataSetMonoColor dataSet = new DataSetMonoColor();
             dataSet.setLabel(series.getDescription());
@@ -121,7 +130,7 @@ public class ChartWriter extends AbstractHtmlWriter {
         }
     }
 
-    private static final void dataSetMultiColor(SimpleChart simpleChart, ChartJsData chartData) throws CloneNotSupportedException {
+    private static final void dataSetMultiColor(SimpleChart simpleChart, ChartJsData chartData) {
 // TODO
     }
 

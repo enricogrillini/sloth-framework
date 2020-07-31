@@ -14,6 +14,21 @@ import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
+ * @author Enrico Grillini
+ */
 public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> extends FrameComponent implements DecodeMap<T, V> {
 
     private Map<T, V> map;
@@ -32,7 +47,7 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> ext
 
     @Override
     public T encode(String description) {
-        List<V> list = performSearch(description, MapSearchType.flexible, 2);
+        List<V> list = performSearch(description, MapSearchType.FLEXIBLE, 2);
 
         if (list.size() == 1) {
             return list.get(0).getCode();
@@ -109,65 +124,98 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> ext
         return list;
     }
 
-    @Override
-    public List<V> performSearch(String description, MapSearchType searchType, Integer sizeLimit) {
+    /**
+     * Ricerca esatta
+     *
+     * @return
+     */
+    private List<V> performSearchExact(String description, Integer sizeLimit) {
+        List<V> list = new ArrayList<>();
+        // Ricerca esatta
+        for (V decodeValue : map.values()) {
+            if (decodeValue.getDescription() != null && decodeValue.getDescription().equals(description)) {
+                list.add(decodeValue);
+            }
+
+            // Size Limit
+            if (sizeLimit != null && list.size() >= sizeLimit) {
+                break;
+            }
+        }
+        return list;
+    }
+
+    /**
+     * Ricerca flessibile sulla descrizione del DecodeValue
+     *
+     * @return
+     */
+    private List<V> performSearchFlexible(String description, Integer sizeLimit) {
         List<V> list = new ArrayList<>();
 
-        if (BaseFunction.isBlank(description)) {
-            return list;
-        }
-
-        if (MapSearchType.flexible == searchType) {
-            // Ricerca flessibile
-            for (V decodeMapValue : map.values()) {
-                if (decodeMapValue.getDescription() != null && decodeMapValue.getDescription().trim().equalsIgnoreCase(description.trim())) {
-                    list.add(decodeMapValue);
-                }
-
-                // Size Limit
-                if (sizeLimit != null && list.size() >= sizeLimit) {
-                    break;
-                }
+        description = description.trim().toLowerCase();
+        for (V decodeMapValue : map.values()) {
+            if (decodeMapValue.getDescription() != null && decodeMapValue.getDescription().trim().toLowerCase().equalsIgnoreCase(description)) {
+                list.add(decodeMapValue);
             }
 
-        } else if (MapSearchType.match == searchType) {
-            // Match search
-            String[] matchStringArray = StringUtil.tokenize(description, " ");
-
-            for (V decodeValue : this) {
-                boolean match = true;
-                for (String string : matchStringArray) {
-                    if (!decodeValue.match(string)) {
-                        match = false;
-                        break;
-                    }
-                }
-
-                if (match) {
-                    list.add(decodeValue);
-                }
-
-                // Size Limit
-                if (sizeLimit != null && list.size() >= sizeLimit) {
-                    break;
-                }
-            }
-
-        } else {
-            // Ricerca esatta
-            for (V decodeValue : map.values()) {
-                if (decodeValue.getDescription() != null && decodeValue.getDescription().equals(description)) {
-                    list.add(decodeValue);
-                }
-
-                // Size Limit
-                if (sizeLimit != null && list.size() >= sizeLimit) {
-                    break;
-                }
+            // Size Limit
+            if (sizeLimit != null && list.size() >= sizeLimit) {
+                break;
             }
         }
 
         return list;
+    }
+
+    /**
+     * Verifica che tutte le parole siano ricomprese nella descrizione
+     *
+     * @return
+     */
+    private List<V> performSearchMatch(String description, Integer sizeLimit) {
+        List<V> list = new ArrayList<>();
+
+        // Match search
+        description = description.trim();
+        String[] matchStringArray = StringUtil.split(description, " ");
+
+        for (V decodeValue : this) {
+            boolean match = true;
+            for (String string : matchStringArray) {
+                if (!decodeValue.match(string)) {
+                    match = false;
+                    break;
+                }
+            }
+
+            if (match) {
+                list.add(decodeValue);
+            }
+
+            // Size Limit
+            if (sizeLimit != null && list.size() >= sizeLimit) {
+                break;
+            }
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<V> performSearch(String description, MapSearchType searchType, Integer sizeLimit) {
+        if (BaseFunction.isBlank(description)) {
+            return new ArrayList<>();
+        }
+
+        switch (searchType) {
+            case FLEXIBLE:
+                return performSearchFlexible(description, sizeLimit);
+            case MATCH:
+                return performSearchMatch(description, sizeLimit);
+            default:
+                return performSearchExact(description, sizeLimit);
+        }
     }
 
 }

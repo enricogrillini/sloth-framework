@@ -5,16 +5,30 @@ import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.BusinessException;
-import it.eg.sloth.framework.pageinfo.ViewModality;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
+ * @author Enrico Grillini
+ */
 @Getter
 @Setter
+@SuperBuilder(toBuilder = true)
 public class CheckBox<T> extends InputField<T> {
-
-    static final long serialVersionUID = 1L;
 
     public static final String DEFAULT_VAL_CHECKED = "S";
     public static final String DEFAULT_VAL_UN_CHECKED = "N";
@@ -22,19 +36,8 @@ public class CheckBox<T> extends InputField<T> {
     T valChecked;
     T valUnChecked;
 
-    public CheckBox(String name, String description, String tooltip, DataTypes dataType) {
-        this(name, name, description, tooltip, dataType, null, false, false, false);
-    }
-
-    @SuppressWarnings("unchecked")
-    public CheckBox(String name, String alias, String description, String tooltip, DataTypes dataType, String format, Boolean required, Boolean readOnly, Boolean hidden) {
-        this(name, alias, description, tooltip, dataType, format, null, required, readOnly, hidden, ViewModality.VIEW_AUTO, (T) DEFAULT_VAL_CHECKED, (T) DEFAULT_VAL_UN_CHECKED);
-    }
-
-    public CheckBox(String name, String alias, String description, String tooltip, DataTypes dataType, String format, String baseLink, Boolean required, Boolean readOnly, Boolean hidden, ViewModality viewModality, T valChecked, T valUnChecked) {
-        super(name, alias, description, tooltip, dataType, format, baseLink, required, readOnly, hidden, viewModality);
-        setValChecked(valChecked);
-        setValUnChecked(valUnChecked);
+    public CheckBox(String name, String description, DataTypes dataType) {
+        super(name, description, dataType);
     }
 
     @Override
@@ -46,11 +49,19 @@ public class CheckBox<T> extends InputField<T> {
         return !BaseFunction.isBlank(getData()) && getData().equals(getValChecked());
     }
 
-    public void setChecked() throws BusinessException {
+    public T getValChecked() {
+        return valChecked == null ? (T) DEFAULT_VAL_CHECKED : valChecked;
+    }
+
+    public T getValUnChecked() {
+        return valUnChecked == null ? (T) DEFAULT_VAL_UN_CHECKED : valUnChecked;
+    }
+
+    public void setChecked() throws FrameworkException {
         setValue(getValChecked());
     }
 
-    public void setUnChecked() throws BusinessException {
+    public void setUnChecked() throws FrameworkException {
         setValue(getValUnChecked());
     }
 
@@ -63,6 +74,11 @@ public class CheckBox<T> extends InputField<T> {
                 setData((String) BaseFunction.nvl(getValChecked(), "S"));
             }
         }
+    }
+
+    @Override
+    public CheckBox<T> newInstance() {
+        return toBuilder().build();
     }
 
 }

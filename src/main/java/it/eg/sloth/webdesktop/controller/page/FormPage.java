@@ -1,13 +1,5 @@
 package it.eg.sloth.webdesktop.controller.page;
 
-import java.io.UnsupportedEncodingException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.FileUploadException;
-import org.springframework.web.servlet.ModelAndView;
-
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.framework.common.message.MessageList;
@@ -16,17 +8,32 @@ import it.eg.sloth.framework.security.User;
 import it.eg.sloth.webdesktop.WebDesktopConstant;
 import it.eg.sloth.webdesktop.controller.BasePage;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
- *
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
  * Fornisce una prima implementazione della navigazione di base aggiungendo il
  * concetto di Form. Rispetto al BaseController aggiunge: - la gestione della
  * Form - la gestione della WebRequest - la gestione della MessageList -
  * definisce un utente base nel caso in cui non sia gia' definito
  *
- * @author Enrico Grillini
- *
  * @param <F>
+ * @author Enrico Grillini
  */
 @Slf4j
 public abstract class FormPage<F extends Form> extends BasePage {
@@ -46,25 +53,30 @@ public abstract class FormPage<F extends Form> extends BasePage {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected void init(HttpServletRequest req, HttpServletResponse res) throws UnsupportedEncodingException, FileUploadException {
+    protected void init(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         super.init(req, res);
         this.webRequest = new WebRequest(getRequest());
 
         if (!(getClass().getSimpleName() + ".html").equals(getWebDesktopDto().getLastController())) {
             getWebDesktopDto().setLastController(getClass().getSimpleName() + ".html");
-            getWebDesktopDto().setForm(form = createForm());
+            form = createForm();
+            getWebDesktopDto().setForm(form);
             this.newForm = true;
         } else {
             form = (F) getWebDesktopDto().getForm();
             this.newForm = false;
         }
+
+        if (getUser() != null && getUser().getLocale() != null) {
+            form.setLocale(getUser().getLocale());
+        }
     }
 
     @Override
-    public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse res) {
         long eventid = 0;
         try {
-            log.info("IN " + getClass().getName());
+            log.info("IN {}", getClass().getName());
 
             // Inizializzo la pagina
             init(req, res);
@@ -93,10 +105,10 @@ public abstract class FormPage<F extends Form> extends BasePage {
             }
 
         } catch (Exception e) {
-            log.error("ERROR " + getClass().getName(), e);
+            log.error("ERROR {}", getClass().getName(), e);
             return null;
         } finally {
-            log.info("OUT " + getClass().getName());
+            log.info("OUT {}", getClass().getName());
             MonitorSingleton.getInstance().endEvent(eventid);
         }
     }

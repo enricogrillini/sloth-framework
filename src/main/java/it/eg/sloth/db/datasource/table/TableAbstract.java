@@ -1,16 +1,5 @@
 package it.eg.sloth.db.datasource.table;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.db.datasource.DataTable;
@@ -19,11 +8,30 @@ import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.db.datasource.table.sort.SortingRules;
 import it.eg.sloth.db.query.SelectQueryInterface;
 import it.eg.sloth.framework.FrameComponent;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
- * @author Enrico Grillini
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
  * <p>
- * Implementa la gestione di un elenco
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
+ * @author Enrico Grillini
  */
 public abstract class TableAbstract<T extends DataRow> extends FrameComponent implements DataTable<T> {
 
@@ -240,7 +248,7 @@ public abstract class TableAbstract<T extends DataRow> extends FrameComponent im
     }
 
     @Override
-    public T remove() {
+    public T remove() throws FrameworkException {
         T dataRow = null;
 
         if (size() > 0) {
@@ -252,7 +260,7 @@ public abstract class TableAbstract<T extends DataRow> extends FrameComponent im
     }
 
     @Override
-    public void removeAllRow() {
+    public void removeAllRow() throws FrameworkException {
         while (size() > 0) {
             remove();
         }
@@ -319,13 +327,13 @@ public abstract class TableAbstract<T extends DataRow> extends FrameComponent im
     }
 
     @Override
-    public Iterator<String> keyIterator() {
-        return size() > 0 ? getRow().keyIterator() : null;
+    public Collection<String> keys() {
+        return size() > 0 ? getRow().keys() : new HashSet<>();
     }
 
     @Override
-    public Iterator<Object> valueIterator() {
-        return size() > 0 ? getRow().valueIterator() : null;
+    public Collection<Object> values() {
+        return size() > 0 ? getRow().values() : new ArrayList<>();
     }
 
     @Override
@@ -336,7 +344,7 @@ public abstract class TableAbstract<T extends DataRow> extends FrameComponent im
     }
 
     @Override
-    public void copyFromResultSet(ResultSet resultSet) throws SQLException, IOException {
+    public void copyFromResultSet(ResultSet resultSet) throws SQLException, FrameworkException {
         if (size() > 0) {
             getRow().copyFromResultSet(resultSet);
         }
@@ -350,64 +358,42 @@ public abstract class TableAbstract<T extends DataRow> extends FrameComponent im
     }
 
     @Override
-    public void loadFromResultSet(ResultSet resultSet) throws SQLException, IOException {
+    public void loadFromResultSet(ResultSet resultSet) throws SQLException, FrameworkException {
         if (size() > 0) {
             getRow().loadFromResultSet(resultSet);
         }
     }
 
     @Override
-    public void setFromQuery(SelectQueryInterface query) {
-        try {
-            query.populateDataTable(this);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void setFromQuery(SelectQueryInterface query) throws SQLException, FrameworkException {
+        query.populateDataTable(this);
     }
 
-    public void setFromQuery(SelectQueryInterface query, String connectionName) {
-        try {
-            query.populateDataTable(this, connectionName);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void setFromQuery(SelectQueryInterface query, String connectionName) throws SQLException, IOException, FrameworkException {
+        query.populateDataTable(this, connectionName);
     }
 
     @Override
-    public void setFromQuery(SelectQueryInterface query, Connection connection) {
-        try {
-            query.populateDataTable(this, connection);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void setFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException {
+        query.populateDataTable(this, connection);
     }
 
     @Override
-    public boolean loadFromQuery(SelectQueryInterface query) {
-        try {
-            query.populateDataTable(this);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public boolean loadFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
+        query.populateDataTable(this);
+
         return true;
     }
 
-    public boolean loadFromQuery(SelectQueryInterface query, String connectionName) {
-        try {
-            query.populateDataTable(this, connectionName);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public boolean loadFromQuery(SelectQueryInterface query, String connectionName) throws SQLException, IOException, FrameworkException {
+        query.populateDataTable(this, connectionName);
+
         return true;
     }
 
     @Override
-    public boolean loadFromQuery(SelectQueryInterface query, Connection connection) {
-        try {
-            query.populateDataTable(this, connection);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public boolean loadFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException {
+        query.populateDataTable(this, connection);
         return true;
     }
 

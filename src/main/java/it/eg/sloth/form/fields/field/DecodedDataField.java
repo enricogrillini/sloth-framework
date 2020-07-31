@@ -2,18 +2,46 @@ package it.eg.sloth.form.fields.field;
 
 import it.eg.sloth.db.decodemap.DecodeMap;
 import it.eg.sloth.db.decodemap.DecodeValue;
+import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.casting.Casting;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
+ * @author Enrico Grillini
+ */
 public interface DecodedDataField<T extends Object> extends DataField<T> {
 
-  public DecodeMap<T,  ? extends DecodeValue<T>> getDecodeMap();
+    <D extends DecodeValue<T>> DecodeMap<T, D> getDecodeMap();
 
-  public void setDecodeMap(DecodeMap<T, ? extends DecodeValue<T>> values);
+    void setDecodeMap(DecodeMap<T, ? extends DecodeValue<T>> values);
 
-  public String getDecodedText();
+    String getDecodedText() throws FrameworkException;
 
-  public String getHtmlDecodedText();
+    default String escapeHtmlDecodedText() throws FrameworkException {
+        return escapeHtmlDecodedText(true, true);
+    }
 
-  public String getHtmlDecodedText(boolean br, boolean nbsp);
+    default String escapeHtmlDecodedText(boolean br, boolean nbsp) throws FrameworkException {
+        if (BaseFunction.isNull(getDecodedText())) {
+            return "";
+        } else {
+            return Casting.getHtml(getDecodedText(), br, nbsp);
+        }
+    }
 
-  public String getJsDecodedText();
+    default String escapeJsDecodedText() throws FrameworkException {
+        return Casting.getJs(getDecodedText());
+    }
 }

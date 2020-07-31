@@ -23,24 +23,38 @@ import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 import it.eg.sloth.webdesktop.tag.form.field.writer.TextControlWriter;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Enrico Grillini
+ */
 public class TextControlWriterTest {
 
     private static final String BASE_CHECKBOX = "<div class=\"custom-control custom-checkbox\"><input type=\"checkbox\" class=\"custom-control-input\"{0} disabled=\"\"/><span class=\"custom-control-label\"></span></div>";
 
     @Test
-    public void buttonTest() throws BusinessException {
-        Button field = new Button("name", "description", "tooltip");
-        assertEquals(FormControlWriter.writeButton(field, null, null), TextControlWriter.writeButton(field));
+    public void buttonTest() throws FrameworkException {
+        Button field = new Button("name", "description");
+        assertEquals(FormControlWriter.writeButton(field), TextControlWriter.writeButton(field));
     }
 
     @Test
-    public void checkBoxTest() throws BusinessException {
-        CheckBox<String> field = new CheckBox<String>("name", "description", "tooltip", DataTypes.STRING);
+    public void checkBoxTest() throws FrameworkException {
+        CheckBox<String> field = new CheckBox<String>("name", "description", DataTypes.STRING);
         assertEquals(MessageFormat.format(BASE_CHECKBOX, ""), TextControlWriter.writeCheckBox(field));
 
         field.setChecked();
@@ -54,8 +68,8 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void comboBoxTest() throws BusinessException {
-        ComboBox<String> field = new ComboBox<String>("name", "description", "tooltip", DataTypes.STRING);
+    public void comboBoxTest() throws FrameworkException {
+        ComboBox<String> field = new ComboBox<String>("name", "description", DataTypes.STRING);
         field.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
 
         assertEquals(StringUtil.EMPTY, TextControlWriter.writeComboBox(field));
@@ -68,7 +82,7 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void decodedTextTest() throws BusinessException {
+    public void decodedTextTest() throws FrameworkException {
         DecodedText<String> field = new DecodedText<String>("name", "description", "tooltip", DataTypes.STRING);
         field.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
 
@@ -82,8 +96,8 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void hiddenTest() throws BusinessException {
-        Hidden<String> field = new Hidden<String>("name", "description", "tooltip", DataTypes.STRING);
+    public void hiddenTest() throws FrameworkException {
+        Hidden<String> field = new Hidden<String>("name", "description", DataTypes.STRING);
 
         assertEquals(TextControlWriter.writeHidden(field), FormControlWriter.writeHidden(field));
 
@@ -91,12 +105,12 @@ public class TextControlWriterTest {
         assertEquals(TextControlWriter.writeHidden(field), FormControlWriter.writeHidden(field));
 
         // Controllo generico
-        assertEquals(TextControlWriter.writeHidden(field), FormControlWriter.writeControl(field, null, null, ViewModality.VIEW_MODIFICA, null, null));
+        assertEquals(TextControlWriter.writeHidden(field), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
     }
 
     @Test
-    public void inputTest() throws BusinessException {
-        Input<String> field = new Input<String>("name", "description", "tooltip", DataTypes.STRING);
+    public void inputTest() throws FrameworkException {
+        Input<String> field = new Input<String>("name", "description", DataTypes.STRING);
         assertEquals(StringUtil.EMPTY, TextControlWriter.writeInput(field));
 
         field.setValue("testo");
@@ -107,8 +121,8 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void inputDataTest() throws BusinessException {
-        Input<Timestamp> field = new Input<Timestamp>("name", "description", "tooltip", DataTypes.DATE);
+    public void inputDataTest() throws FrameworkException {
+        Input<Timestamp> field = new Input<Timestamp>("name", "description", DataTypes.DATE);
         field.setLocale(Locale.ITALY);
 
         assertEquals(StringUtil.EMPTY, TextControlWriter.writeInput(field));
@@ -121,8 +135,8 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void inputTotalizerTest() throws BusinessException {
-        InputTotalizer field = new InputTotalizer("name", "description", "tooltip", DataTypes.INTEGER);
+    public void inputTotalizerTest() throws FrameworkException {
+        InputTotalizer field = new InputTotalizer("name", "description", DataTypes.INTEGER);
         assertEquals(StringUtil.EMPTY, TextControlWriter.writeInput(field));
 
         field.setValue(BigDecimal.valueOf(10));
@@ -133,8 +147,8 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void textTest() throws BusinessException {
-        Text<String> field = new Text<String>("name", "description", "tooltip", DataTypes.STRING);
+    public void textTest() throws FrameworkException {
+        Text<String> field = new Text<String>("name", "description", DataTypes.STRING);
         assertEquals(StringUtil.EMPTY, TextControlWriter.writeText(field));
 
         field.setValue("testo");
@@ -145,8 +159,8 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void textAreaTest() throws BusinessException {
-        TextArea<String> field = new TextArea<String>("name", "description", "tooltip", DataTypes.STRING);
+    public void textAreaTest() throws FrameworkException {
+        TextArea<String> field = new TextArea<String>("name", "description", DataTypes.STRING);
         assertEquals(StringUtil.EMPTY, TextControlWriter.writeTextArea(field));
 
         field.setValue("testo");
@@ -157,8 +171,8 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void textTotalizerTest() throws BusinessException {
-        TextTotalizer field = new TextTotalizer("name", "description", "tooltip", DataTypes.INTEGER);
+    public void textTotalizerTest() throws FrameworkException {
+        TextTotalizer field = new TextTotalizer("name", "description", DataTypes.INTEGER);
         assertEquals(StringUtil.EMPTY, TextControlWriter.writeText(field));
 
         field.setValue(BigDecimal.valueOf(10));

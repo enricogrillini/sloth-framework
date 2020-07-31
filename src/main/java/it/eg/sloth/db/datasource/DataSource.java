@@ -1,74 +1,146 @@
 package it.eg.sloth.db.datasource;
 
+import it.eg.sloth.framework.common.exception.FrameworkException;
+
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Iterator;
+import java.sql.*;
+import java.util.Collection;
 
 /**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
  * @author Enrico Grillini
- * 
- *         Implementa la gestione di una riga di un elenco
- * 
  */
 public interface DataSource {
 
-  public Object getObject(String name);
+    Object getObject(String name);
 
-  public BigDecimal getBigDecimal(String name);
+    default BigDecimal getBigDecimal(String name) {
+        return (BigDecimal) getObject(name);
+    }
 
-  public Timestamp getTimestamp(String name);
+    default Timestamp getTimestamp(String name) {
+        return (Timestamp) getObject(name);
+    }
 
-  public String getString(String name);
+    default String getString(String name) {
+        return (String) getObject(name);
+    }
 
-  public byte[] getByte(String name);
+    default byte[] getByte(String name) {
+        return (byte[]) getObject(name);
+    }
 
-  public void setObject(String name, Object value);
+    void setObject(String name, Object value);
 
-  public void setBigDecimal(String name, BigDecimal value);
+    default void setBigDecimal(String name, BigDecimal value) {
+        setObject(name, value);
+    }
 
-  public void setTimestamp(String name, Timestamp value);
+    default void setTimestamp(String name, Timestamp value) {
+        setObject(name, value);
+    }
 
-  public void setString(String name, String value);
+    default void setString(String name, String value) {
+        setObject(name, value);
+    }
 
-  public void setByte(String name, byte[] value);
+    default void setByte(String name, byte[] value) {
+        setObject(name, value);
+    }
 
-  public void clear();
+    void clear();
 
-  public Iterator<String> keyIterator();
+    Collection<String> keys();
 
-  public Iterator<Object> valueIterator();
+    Collection<Object> values();
 
-  /**
-   * Aggiorna il DataSource prelevando le informazioni dal DataSource passato
-   * 
-   * @param dataSource
-   */
-  public void copyFromDataSource(DataSource dataSource);
+    /**
+     * Aggiorna il DataSource prelevando le informazioni dal DataSource passato
+     *
+     * @param dataSource
+     */
+    default void copyFromDataSource(DataSource dataSource) {
+        for (String key : dataSource.keys()) {
+            setObject(key, dataSource.getObject(key));
+        }
+    }
 
-  /**
-   * Aggiorna il DataSource prelevando le informazioni dal ResultSet passato
-   * 
-   * @param resultSet
-   * @throws SQLException
-   */
-  public void copyFromResultSet(ResultSet resultSet) throws SQLException, IOException;
+    /**
+     * Aggiorna il DataSource prelevando le informazioni dal ResultSet passato
+     *
+     * @param resultSet
+     * @throws SQLException
+     */
+    default void copyFromResultSet(ResultSet resultSet) throws SQLException, FrameworkException {
+        ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 
-  /**
-   * Carica il DataSource prelevando le informazioni dal DataSource passato
-   * 
-   * @param dataSource
-   */
-  public void loadFromDataSource(DataSource dataSource);
+        for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
+            switch (resultSetMetaData.getColumnType(i)) {
+                case Types.VARCHAR:
+                case Types.CHAR:
+                    setString(resultSetMetaData.getColumnName(i), resultSet.getString(i));
+                    break;
 
-  /**
-   * Carica il DataSource prelevando le informazioni dal ResultSet passato
-   * 
-   * @param resultSet
-   * @throws SQLException
-   */
-  public void loadFromResultSet(ResultSet resultSet) throws SQLException, IOException;
+                case Types.BIT:
+                case Types.SMALLINT:
+                case Types.TINYINT:
+                case Types.INTEGER:
+                case Types.BIGINT:
+                case Types.FLOAT:
+                case Types.DECIMAL:
+                case Types.REAL:
+                case Types.DOUBLE:
+                case Types.NUMERIC:
+                    setBigDecimal(resultSetMetaData.getColumnName(i), resultSet.getBigDecimal(i));
+                    break;
+
+                case Types.DATE:
+                case Types.TIME:
+                case Types.TIMESTAMP:
+                    setTimestamp(resultSetMetaData.getColumnName(i), resultSet.getTimestamp(i));
+                    break;
+
+                default:
+                    // Types {} non gestito. Utilizzato default.
+                    setObject(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
+                    break;
+            }
+        }
+    }
+
+    /**
+     * Carica il DataSource prelevando le informazioni dal ResultSet passato
+     *
+     * @param resultSet
+     * @throws SQLException
+     * @throws IOException
+     */
+    default void loadFromResultSet(ResultSet resultSet) throws SQLException, FrameworkException {
+        clear();
+        copyFromResultSet(resultSet);
+    }
+
+    /**
+     * Carica il DataSource prelevando le informazioni dal DataSource passato
+     *
+     * @param dataSource
+     */
+    default void loadFromDataSource(DataSource dataSource) {
+        clear();
+        copyFromDataSource(dataSource);
+    }
+
 
 }

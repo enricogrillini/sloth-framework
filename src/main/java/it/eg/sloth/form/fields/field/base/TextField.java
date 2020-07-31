@@ -1,27 +1,129 @@
 package it.eg.sloth.form.fields.field.base;
 
+import it.eg.sloth.db.datasource.DataSource;
+import it.eg.sloth.db.datasource.row.lob.LobData;
+import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.fields.field.DataField;
+import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.casting.Validator;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.common.message.Message;
+import it.eg.sloth.framework.common.message.MessageList;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
-public abstract class TextField<T extends Object> extends AbstractDataField<T> implements DataField<T> {
+import java.util.Locale;
 
-  private String baseLink;
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
+ * @author Enrico Grillini
+ */
+@Getter
+@Setter
+@SuperBuilder(toBuilder = true)
+public abstract class TextField<T extends Object> implements DataField<T> {
 
-  public TextField(String name, String description, String tooltip, DataTypes dataType) {
-    this(name, name, description, tooltip, dataType, null, null);
-  }
+    // Contiente il valore informativo come stringa
+    String data;
 
-  public TextField(String name, String alias, String description, String tooltip, DataTypes dataType, String format, String baseLink) {
-    super(name, alias, description, tooltip, dataType, format);
-    this.baseLink = baseLink;
-  }
+    String name;
+    Locale locale;
+    String description;
+    String tooltip;
 
-  public String getBaseLink() {
-    return baseLink;
-  }
+    String alias;
+    DataTypes dataType;
+    String format;
+    String baseLink;
 
-  public void setBaseLink(String baseLink) {
-    this.baseLink = baseLink;
-  }
+    Boolean hidden;
+
+    public TextField(String name, String description, DataTypes dataType) {
+        this.name = name;
+        this.description = description;
+        this.dataType = dataType;
+    }
+
+    @Override
+    public String getName() {
+        return name.toLowerCase();
+    }
+
+    @Override
+    public Locale getLocale() {
+        return this.locale == null ? Locale.getDefault() : this.locale;
+    }
+
+    @Override
+    public String getAlias() {
+        return BaseFunction.isBlank(alias) ? getName() : alias.toLowerCase();
+    }
+
+    public T getValue() throws FrameworkException {
+        return (T) getDataType().parseValue(data, getLocale(), getFormat());
+    }
+
+    @Override
+    public void setValue(T value) throws FrameworkException {
+        setData(getDataType().formatValue(value, getLocale(), getFormat()));
+    }
+
+    public boolean isHidden() {
+        return hidden != null && hidden;
+    }
+
+    @Override
+    public void copyFromDataSource(DataSource dataSource) throws FrameworkException {
+        if (dataSource != null) {
+            Object object = dataSource.getObject(getAlias());
+
+            // TODO: Sarebbe pià corretto rendere questo passaggio trasparente rispetto alla gestione dei LOB che dovrebbe essere demandata ai Bean
+            if (object instanceof LobData) {
+                object = ((LobData<?>) object).getValue();
+            }
+
+            setData(getDataType().formatValue(object, getLocale(), getFormat()));
+        }
+    }
+
+    @Override
+    public void copyToDataSource(DataSource dataSource) throws FrameworkException {
+        if (dataSource != null) {
+            dataSource.setObject(getAlias(), getValue());
+        }
+    }
+
+    @Override
+    public boolean isValid() {
+        return check() == null;
+    }
+
+    @Override
+    public Message check() {
+        return Validator.verifyValidity(this);
+    }
+
+    @Override
+    public boolean validate(MessageList messages) throws FrameworkException {
+        return true;
+    }
+
+    @Override
+    public void post(WebRequest webRequest) throws FrameworkException {
+        // Il campo è presentato in sola visualizzazione e non è modificabile dal Browser
+    }
 
 }

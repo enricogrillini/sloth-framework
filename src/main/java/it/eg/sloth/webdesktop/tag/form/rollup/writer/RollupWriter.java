@@ -3,8 +3,28 @@ package it.eg.sloth.webdesktop.tag.form.rollup.writer;
 import it.eg.sloth.form.dwh.Attribute;
 import it.eg.sloth.form.dwh.Level;
 import it.eg.sloth.form.dwh.Measure;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Enrico Grillini
+ */
 public class RollupWriter {
+
+    private RollupWriter() {
+        // NOP
+    }
+
     /**
      * Scrive un campo: Measure
      *
@@ -21,8 +41,8 @@ public class RollupWriter {
      * @param level
      * @return
      */
-    public static String writeLevel(Level<?> level) {
-        return level.getHtmlDecodedText();
+    public static String writeLevel(Level<?> level) throws FrameworkException {
+        return level.escapeHtmlDecodedText();
     }
 
     /**
@@ -31,7 +51,7 @@ public class RollupWriter {
      * @param attribute
      * @return
      */
-    public static String writeAttribute(Attribute<?> attribute) {
-        return attribute.getHtmlDecodedText();
+    public static String writeAttribute(Attribute<?> attribute) throws FrameworkException {
+        return attribute.escapeHtmlDecodedText();
     }
 }

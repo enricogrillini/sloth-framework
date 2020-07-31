@@ -2,23 +2,32 @@ package it.eg.sloth.form;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import it.eg.sloth.framework.FrameComponent;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
+import javax.servlet.http.Part;
+import java.io.IOException;
 import java.util.*;
 
 /**
- * Trasforma la request HTTP mascherando la gestione della trascodifica del
- * multipart
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
  *
  * @author Enrico Grillini
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+@Slf4j
 public class WebRequest extends FrameComponent {
 
     Map<String, List<Object>> map;
@@ -31,47 +40,28 @@ public class WebRequest extends FrameComponent {
     }
 
     /**
-     * Crea una WebRequest a aprtire da una request
+     * Crea una WebRequest a partire da una request
      *
      * @param request
-     * @throws FileUploadException
-     * @throws UnsupportedEncodingException
+     * @throws IOException
+     * @throws ServletException
      */
-    public WebRequest(HttpServletRequest request) throws FileUploadException, UnsupportedEncodingException {
+    public WebRequest(HttpServletRequest request) throws IOException, ServletException {
         map = new HashMap<>();
 
-        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
-        if (isMultipart) {
-            // MULTIPART
+        for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
+            addStrings(entry.getKey(), entry.getValue());
+        }
 
-            // Create a factory for disk-based file items
-            DiskFileItemFactory factory = new DiskFileItemFactory();
-
-            // Create a new file upload handler
-            ServletFileUpload upload = new ServletFileUpload(factory);
-
-            // Parse the request
-            List<FileItem> items = upload.parseRequest(request);
-
-            // Lettura Multipart
-            for (FileItem item : items) {
-                if (item.isFormField()) {
-                    String name = item.getFieldName();
-                    String value = item.getString(StandardCharsets.UTF_8.name());
-
-                    add(name, value);
-
-                } else {
-                    add(item.getFieldName(), item);
+        if (request.getContentType() != null && request.getContentType().startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
+            for (Part part : request.getParts()) {
+                if (part.getContentType() != null) {
+                    add(part.getName(), part);
                 }
-            }
-        } else {
-            // NON MULTIPART
-            for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-                addStrings(entry.getKey(), entry.getValue());
             }
         }
     }
+
 
     /**
      * Ritorna la lista di oggetti afferenti al name passato
@@ -127,22 +117,42 @@ public class WebRequest extends FrameComponent {
     public String getString(String name) {
         Object object = get(name);
 
-        if (object instanceof FileItem) {
-            FileItem fileItem = (FileItem) object;
-            return fileItem.getName();
+        if (object instanceof Part) {
+            Part part = (Part) object;
+            return part.getName();
         } else {
             return (String) object;
         }
     }
 
+
     /**
-     * Ritorna un FileItem
+     * Reperisce la lista di Stringhe
      *
      * @param name
      * @return
      */
-    public FileItem getFileItem(String name) {
-        return (FileItem) get(name);
+    public List<String> getStringList(String name) {
+        List<String> result = new ArrayList<>();
+        for (Object object : getList(name)) {
+            if (object instanceof Part) {
+                result.add(((Part) object).getName());
+            } else {
+                result.add((String) object);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Ritorna un Part
+     *
+     * @param name
+     * @return
+     */
+    public Part getPart(String name) {
+        return (Part) get(name);
     }
 
     /**

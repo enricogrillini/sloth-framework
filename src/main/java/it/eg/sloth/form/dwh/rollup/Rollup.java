@@ -1,11 +1,5 @@
 package it.eg.sloth.form.dwh.rollup;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import it.eg.sloth.db.datasource.DataNode;
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
@@ -14,16 +8,35 @@ import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.form.base.AbstractElements;
-import it.eg.sloth.form.base.Element;
 import it.eg.sloth.form.dwh.Attribute;
 import it.eg.sloth.form.dwh.Level;
 import it.eg.sloth.form.dwh.Measure;
 import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.Casting;
-import it.eg.sloth.framework.common.exception.BusinessException;
-import it.eg.sloth.framework.common.exception.BusinessExceptionType;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
+ * @author Enrico Grillini
+ */
 public class Rollup extends AbstractElements<DataField<?>> {
 
 
@@ -55,49 +68,45 @@ public class Rollup extends AbstractElements<DataField<?>> {
         this.description = description;
     }
 
-    public DataTable<?> getDataTable() {
+    public DataTable getDataTable() {
         return dataTable;
     }
 
-    public void setDataTable(DataTable<?> dataTable) throws BusinessException {
-        try {
-            this.dataTable = dataTable;
-            calculate();
-        } catch (CloneNotSupportedException e) {
-            throw new BusinessException(BusinessExceptionType.ROLLUP_CALCULATE_ERROR, e);
-        }
+    public void setDataTable(DataTable<?> dataTable) throws FrameworkException {
+        this.dataTable = dataTable;
+        calculate();
     }
 
-    public List<Attribute<?>> getAttributes() {
-        List<Attribute<?>> list = new ArrayList<Attribute<?>>();
+    public <T> List<Attribute<T>> getAttributes() {
+        List<Attribute<T>> list = new ArrayList<>();
 
-        for (Element element : this) {
+        for (DataField<?> element : this) {
             if (element instanceof Attribute) {
-                list.add((Attribute<?>) element);
+                list.add((Attribute<T>) element);
             }
         }
 
         return list;
     }
 
-    public List<Level<?>> getLevels() {
-        List<Level<?>> list = new ArrayList<Level<?>>();
+    public <T> List<Level<T>> getLevels() {
+        List<Level<T>> list = new ArrayList<>();
 
-        for (Element element : this) {
+        for (DataField<?> element : this) {
             if (element instanceof Level) {
-                list.add((Level<?>) element);
+                list.add((Level<T>) element);
             }
         }
 
         return list;
     }
 
-    public List<Measure<?>> getMeasures() {
-        List<Measure<?>> list = new ArrayList<Measure<?>>();
+    public <T> List<Measure<T>> getMeasures() {
+        List<Measure<T>> list = new ArrayList<>();
 
-        for (Element element : this) {
+        for (DataField<?> element : this) {
             if (element instanceof Measure) {
-                list.add((Measure<?>) element);
+                list.add((Measure<T>) element);
             }
         }
 
@@ -108,7 +117,7 @@ public class Rollup extends AbstractElements<DataField<?>> {
         return dataNode;
     }
 
-    private void calculate() throws CloneNotSupportedException, BusinessException {
+    private void calculate() throws FrameworkException {
         if (getDataTable() != null && getDataTable().size() > 0) {
             RollupCalculator calculator = new RollupCalculator(getDataTable());
 
@@ -137,21 +146,21 @@ public class Rollup extends AbstractElements<DataField<?>> {
         private Map<String, Attribute<?>> attributeMap;
         private Map<String, Measure<?>> measureMap;
 
-        public RollupCalculator(DataTable<?> dataTable) throws CloneNotSupportedException, BusinessException {
+        public RollupCalculator(DataTable<?> dataTable) throws FrameworkException {
             setDataTable(dataTable);
-            this.levelMap = new LinkedHashMap<String, Level<?>>();
-            this.attributeMap = new LinkedHashMap<String, Attribute<?>>();
-            this.measureMap = new LinkedHashMap<String, Measure<?>>();
+            this.levelMap = new LinkedHashMap<>();
+            this.attributeMap = new LinkedHashMap<>();
+            this.measureMap = new LinkedHashMap<>();
         }
 
-        public void setDataTable(DataTable<?> dataTable) throws CloneNotSupportedException, BusinessException {
+        public void setDataTable(DataTable<?> dataTable) throws FrameworkException {
             this.dataTable = new Table();
 
             for (DataRow row : dataTable) {
                 DataRow newRow = this.dataTable.add();
 
                 for (DataField<?> dataField : getElements()) {
-                    DataField<?> dataFieldClone = (DataField<?>) dataField.clone();
+                    DataField<?> dataFieldClone = (DataField<?>) dataField.newInstance();
                     dataFieldClone.copyFromDataSource(row);
 
                     newRow.setObject(dataFieldClone.getAlias(), dataFieldClone.getValue());
@@ -180,14 +189,14 @@ public class Rollup extends AbstractElements<DataField<?>> {
         private void sum(DataNode node, DataRow row) {
 
             for (Measure<?> measure : measureMap.values()) {
-                BigDecimal value1 = (BigDecimal) BaseFunction.nvl(node.getBigDecimal(measure.getName()), new BigDecimal(0));
-                BigDecimal value2 = (BigDecimal) BaseFunction.nvl(row.getBigDecimal(measure.getName()), new BigDecimal(0));
+                BigDecimal value1 = BaseFunction.nvl(node.getBigDecimal(measure.getName()), new BigDecimal(0));
+                BigDecimal value2 = BaseFunction.nvl(row.getBigDecimal(measure.getName()), new BigDecimal(0));
                 node.setBigDecimal(measure.getName(), value1.add(value2));
             }
 
         }
 
-        public DataNode recalc() throws CloneNotSupportedException {
+        public DataNode recalc() {
             DataNode rootNode = new Node();
 
             if (dataTable.size() > 0) {
@@ -206,7 +215,7 @@ public class Rollup extends AbstractElements<DataField<?>> {
 
                 // Inizializzazioni
                 dataTable.setCurrentRow(0);
-                List<DataNode> groupList = new ArrayList<DataNode>();
+                List<DataNode> groupList = new ArrayList<>();
                 groupList.add(rootNode);
                 for (int i = 1; i <= levelMap.values().size(); i++) {
                     Node dataNode = new Node(dataTable.getRow());
@@ -221,14 +230,14 @@ public class Rollup extends AbstractElements<DataField<?>> {
                     int i = 1;
                     boolean rottura = false;
                     for (Level<?> level : levelMap.values()) {
-                        DataNode groupNode = (DataNode) groupList.get(i);
+                        DataNode groupNode = groupList.get(i);
 
                         if (rottura || !BaseFunction.equals(currentRow.getObject(level.getAlias()), oldRow.getObject(level.getAlias()))) {
                             // Rottura
                             rottura = true;
                             DataNode node = new Node(currentRow);
                             groupList.set(i, node);
-                            ((DataNode) groupList.get(i - 1)).addChild(node);
+                            (groupList.get(i - 1)).addChild(node);
 
                         } else {
                             sum(groupNode, currentRow);
@@ -236,7 +245,7 @@ public class Rollup extends AbstractElements<DataField<?>> {
                         i++;
                     }
 
-                    ((DataNode) groupList.get(groupList.size() - 1)).addChild(new Node(currentRow));
+                    (groupList.get(groupList.size() - 1)).addChild(new Node(currentRow));
                     oldRow = currentRow;
                 }
 

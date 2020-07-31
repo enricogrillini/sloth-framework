@@ -5,15 +5,30 @@ import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.grid.Grid;
-import it.eg.sloth.form.tabSheet.Tab;
-import it.eg.sloth.form.tabSheet.TabSheet;
+import it.eg.sloth.form.tabsheet.Tab;
+import it.eg.sloth.form.tabsheet.TabSheet;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.pageinfo.PageStatus;
 import it.eg.sloth.framework.utility.FileType;
 import it.eg.sloth.framework.utility.xlsx.GridXlsxWriter;
 import it.eg.sloth.webdesktop.controller.common.grid.MasterDetailGridNavigationInterface;
+import lombok.extern.slf4j.Slf4j;
+
+import java.io.OutputStream;
 
 /**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
  * Fornisce l'implementazione di una griglia NON editabile master detail.
  * Gestisce i metodi: onLoad, onGoToRecord, onFirstRow, onPrevPage, onPrev,
  * onNext, onNextPage, onLastRow, onElenco, onExcel
@@ -22,6 +37,7 @@ import it.eg.sloth.webdesktop.controller.common.grid.MasterDetailGridNavigationI
  * @param <G>
  * @author Enrico Grillini
  */
+@Slf4j
 public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extends SimplePage<F> implements MasterDetailGridNavigationInterface {
 
     public MasterDetailPage() {
@@ -285,15 +301,15 @@ public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extend
 
     @Override
     public void onExcel(Grid<?> grid) throws Exception {
-        GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
+        try (OutputStream outputStream = getResponse().getOutputStream()) {
+            String fileName = BaseFunction.nvl(grid.getTitle(), grid.getName()) + FileType.XLSX.getExtension();
+            fileName = StringUtil.toFileName(fileName);
 
-        try {
-            setModelAndView(BaseFunction.nvl(grid.getTitle(), getForm().getPageInfo().getTitle()) + FileType.XLSX.getExtension(), FileType.XLSX);
-            gridXlsxWriter.getWorkbook().write(getResponse().getOutputStream());
-        } finally {
-            getResponse().getOutputStream().close();
+            setModelAndView(fileName, FileType.XLSX);
+
+            GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
+            gridXlsxWriter.getWorkbook().write(outputStream);
         }
-
     }
 
 }

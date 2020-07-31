@@ -1,7 +1,7 @@
 package it.eg.sloth.framework.common.base;
 
-import it.eg.sloth.framework.common.exception.BusinessException;
-import it.eg.sloth.framework.common.exception.BusinessExceptionType;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.common.exception.ExceptionCode;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -13,6 +13,18 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
  * @author Enrico Grillini
  */
 public class TimeStampUtil {
@@ -21,6 +33,7 @@ public class TimeStampUtil {
 
     private static final String[] FIXED_HOLIDAY = new String[]{"01/01", "06/01", "25/04", "01/05", "02/06", "15/08", "01/11", "08/12", "25/12", "26/12"};
     private static final int[] EASTER_BASE_HOLIDAY = new int[]{1};
+    private static final String DAY_TRUNC_FORMAT = "dd/MM";
 
     public enum DayType {
         FESTIVO, PREFESTIVO, LAVORATIVO
@@ -65,7 +78,7 @@ public class TimeStampUtil {
      * @return
      * @throws ParseException
      */
-    public static Timestamp parseTimestamp(String strDate, String format) throws BusinessException {
+    public static Timestamp parseTimestamp(String strDate, String format) throws FrameworkException {
         if (BaseFunction.isBlank(strDate)) {
             return null;
         }
@@ -80,7 +93,7 @@ public class TimeStampUtil {
         try {
             date = formatter.parse(strDate);
         } catch (ParseException e) {
-            throw new BusinessException(BusinessExceptionType.PARSE_ERROR, e);
+            throw new FrameworkException(ExceptionCode.PARSE_ERROR, e);
         }
         return new Timestamp(date.getTime());
     }
@@ -92,7 +105,7 @@ public class TimeStampUtil {
      * @return
      * @throws ParseException
      */
-    public static Timestamp parseTimestamp(String strDate) throws BusinessException {
+    public static Timestamp parseTimestamp(String strDate) throws FrameworkException {
         return parseTimestamp(strDate, DEFAULT_FORMAT);
     }
 
@@ -138,6 +151,24 @@ public class TimeStampUtil {
         }
     }
 
+    public static final Integer getYear(Timestamp value) {
+        Calendar calendar = toCalendar(value);
+        if (calendar!=null) {
+            return calendar.get(Calendar.YEAR);
+        } else {
+            return null;
+        }
+    }
+
+    public static final Integer getDayOfWeek(Timestamp value) {
+        Calendar calendar = toCalendar(value);
+        if (calendar!=null) {
+            return calendar.get(Calendar.DAY_OF_WEEK);
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Verifica se la data passata corrisponde ad un Lunedì
      *
@@ -145,7 +176,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isMonday(Timestamp value) {
-        return toCalendar(value).get(Calendar.DAY_OF_WEEK) == 2;
+        return getDayOfWeek(value) == Calendar.MONDAY;
     }
 
     /**
@@ -155,7 +186,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isTuesday(Timestamp value) {
-        return toCalendar(value).get(Calendar.DAY_OF_WEEK) == 3;
+        return getDayOfWeek(value) == Calendar.TUESDAY;
     }
 
     /**
@@ -165,7 +196,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isWednesday(Timestamp value) {
-        return toCalendar(value).get(Calendar.DAY_OF_WEEK) == 4;
+        return getDayOfWeek(value) == Calendar.WEDNESDAY;
     }
 
     /**
@@ -174,8 +205,8 @@ public class TimeStampUtil {
      * @param value
      * @return
      */
-    public static boolean isThusday(Timestamp value) {
-        return toCalendar(value).get(Calendar.DAY_OF_WEEK) == 5;
+    public static boolean isThursday(Timestamp value) {
+        return getDayOfWeek(value) == Calendar.THURSDAY;
     }
 
     /**
@@ -185,7 +216,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isFriday(Timestamp value) {
-        return toCalendar(value).get(Calendar.DAY_OF_WEEK) == 6;
+        return getDayOfWeek(value) == Calendar.FRIDAY;
     }
 
     /**
@@ -195,7 +226,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isSaturday(Timestamp value) {
-        return toCalendar(value).get(Calendar.DAY_OF_WEEK) == 7;
+        return getDayOfWeek(value) == Calendar.SATURDAY;
     }
 
     /**
@@ -205,7 +236,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isSunday(Timestamp value) {
-        return toCalendar(value).get(Calendar.DAY_OF_WEEK) == 1;
+        return getDayOfWeek(value) == Calendar.SUNDAY;
     }
 
     /**
@@ -250,7 +281,7 @@ public class TimeStampUtil {
      * @param otherHoliday
      * @return
      */
-    public static final boolean isHoliday(Timestamp data, Timestamp... otherHoliday) throws BusinessException {
+    public static final boolean isHoliday(Timestamp data, Timestamp... otherHoliday) throws FrameworkException {
         if (BaseFunction.isNull(data)) {
             return false;
         }
@@ -261,13 +292,13 @@ public class TimeStampUtil {
 
         // Festività Fisse
         for (String holiday : FIXED_HOLIDAY) {
-            if (formatTimestamp(data, "dd/MM").equals(holiday)) {
+            if (formatTimestamp(data, DAY_TRUNC_FORMAT).equals(holiday)) {
                 return true;
             }
         }
 
         // Festività basate sulla pasqua
-        Timestamp easter = getEaster(toCalendar(data).get(Calendar.YEAR));
+        Timestamp easter = getEaster(getYear(data));
         for (int day : EASTER_BASE_HOLIDAY) {
             if (BaseFunction.trunc(data).equals(add(easter, day))) {
                 return true;
@@ -276,7 +307,7 @@ public class TimeStampUtil {
 
         // Altre festività
         for (Timestamp timestamp : otherHoliday) {
-            if (formatTimestamp(data, "dd/MM").equals(formatTimestamp(timestamp, "dd/MM"))) {
+            if (formatTimestamp(data, DAY_TRUNC_FORMAT).equals(formatTimestamp(timestamp, DAY_TRUNC_FORMAT))) {
                 return true;
             }
         }
@@ -285,7 +316,7 @@ public class TimeStampUtil {
 
     }
 
-    public static final DayType getDayType(Timestamp data, Timestamp... otherHoliday) throws BusinessException {
+    public static final DayType getDayType(Timestamp data, Timestamp... otherHoliday) throws FrameworkException {
         if (isHoliday(data, otherHoliday)) {
             return DayType.FESTIVO;
         } else if (isSaturday(data)) {
@@ -310,7 +341,7 @@ public class TimeStampUtil {
      * @return
      * @throws ParseException
      */
-    public static Timestamp truncSysdate() throws BusinessException {
+    public static Timestamp truncSysdate() throws FrameworkException {
         return BaseFunction.trunc(sysdate());
     }
 
@@ -339,7 +370,7 @@ public class TimeStampUtil {
      *
      * @return
      */
-    public static Timestamp firstDayOfWeek() throws BusinessException {
+    public static Timestamp firstDayOfWeek() throws FrameworkException {
         return firstDayOfWeek(sysdate());
     }
 
@@ -349,7 +380,7 @@ public class TimeStampUtil {
      * @param date
      * @return
      */
-    public static Timestamp firstDayOfWeek(Timestamp date) throws BusinessException {
+    public static Timestamp firstDayOfWeek(Timestamp date) throws FrameworkException {
         date = add(BaseFunction.trunc(date), -1); // In questo modo si corregge il fatto che, per gli inglesi, il primo giorno della settimana è Domenica
 
         Calendar calendar = Calendar.getInstance();
@@ -364,7 +395,7 @@ public class TimeStampUtil {
      *
      * @return
      */
-    public static Timestamp lastDayOfWeek() throws BusinessException {
+    public static Timestamp lastDayOfWeek() throws FrameworkException {
         return lastDayOfWeek(sysdate());
     }
 
@@ -374,7 +405,7 @@ public class TimeStampUtil {
      * @param date
      * @return
      */
-    public static Timestamp lastDayOfWeek(Timestamp date) throws BusinessException {
+    public static Timestamp lastDayOfWeek(Timestamp date) throws FrameworkException {
         return add(firstDayOfWeek(date), 6);
     }
 
@@ -384,7 +415,7 @@ public class TimeStampUtil {
      * @param date
      * @return
      */
-    public static Timestamp firstDayOfMonth(Timestamp date) throws BusinessException {
+    public static Timestamp firstDayOfMonth(Timestamp date) throws FrameworkException {
         return BaseFunction.trunc(date, "MM/yyyy");
     }
 
@@ -393,7 +424,7 @@ public class TimeStampUtil {
      *
      * @return
      */
-    public static Timestamp firstDayOfMonth() throws BusinessException {
+    public static Timestamp firstDayOfMonth() throws FrameworkException {
         return firstDayOfMonth(sysdate());
     }
 
@@ -403,7 +434,7 @@ public class TimeStampUtil {
      * @param date
      * @return
      */
-    public static Timestamp lastDayOfMonth(Timestamp date) throws BusinessException {
+    public static Timestamp lastDayOfMonth(Timestamp date) throws FrameworkException {
         return add(addMonths(firstDayOfMonth(date), 1), -1);
     }
 
@@ -412,7 +443,7 @@ public class TimeStampUtil {
      *
      * @return
      */
-    public static Timestamp lastDayOfMonth() throws BusinessException {
+    public static Timestamp lastDayOfMonth() throws FrameworkException {
         return lastDayOfMonth(sysdate());
     }
 
@@ -422,7 +453,7 @@ public class TimeStampUtil {
      * @param date
      * @return
      */
-    public static Timestamp firstDayOfYear(Timestamp date) throws BusinessException {
+    public static Timestamp firstDayOfYear(Timestamp date) throws FrameworkException {
         return BaseFunction.trunc(date, "yyyy");
     }
 
@@ -431,7 +462,7 @@ public class TimeStampUtil {
      *
      * @return
      */
-    public static Timestamp firstDayOfYear() throws BusinessException {
+    public static Timestamp firstDayOfYear() throws FrameworkException {
         return firstDayOfYear(sysdate());
     }
 
@@ -441,7 +472,7 @@ public class TimeStampUtil {
      * @param date
      * @return
      */
-    public static Timestamp lastDayOfYear(Timestamp date) throws BusinessException {
+    public static Timestamp lastDayOfYear(Timestamp date) throws FrameworkException {
         return add(addMonths(firstDayOfYear(date), 12), -1);
     }
 
@@ -450,7 +481,7 @@ public class TimeStampUtil {
      *
      * @return
      */
-    public static Timestamp lastDayOfYear() throws BusinessException {
+    public static Timestamp lastDayOfYear() throws FrameworkException {
         return lastDayOfYear(sysdate());
     }
 

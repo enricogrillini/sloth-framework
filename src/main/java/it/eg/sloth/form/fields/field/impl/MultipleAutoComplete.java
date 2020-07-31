@@ -12,31 +12,46 @@ import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.BusinessException;
-import it.eg.sloth.framework.common.message.BaseMessage;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
-import it.eg.sloth.framework.pageinfo.ViewModality;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
+ * @author Enrico Grillini
+ */
 @Slf4j
 @Getter
 @Setter
+@SuperBuilder(toBuilder = true)
 public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
 
     private String decodeAlias;
     private String decodedText;
     private DecodeMap<T, ? extends DecodeValue<T>> decodeMap;
 
-    public MultipleAutoComplete(String name, String alias, String decodeAlias, String description, String tooltip, DataTypes dataType, String format, String baseLink, Boolean required, Boolean readOnly, Boolean hidden, ViewModality viewModality) {
-        super(name, alias, description, tooltip, dataType, format, baseLink, required, readOnly, hidden, viewModality);
-        this.decodeAlias = decodeAlias;
+    public MultipleAutoComplete(String name, String description, DataTypes dataType) {
+        super(name, description, dataType);
     }
 
     @Override
@@ -73,14 +88,14 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
     public L getValue() {
         String text = getData();
 
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList();
         if (!BaseFunction.isBlank(text)) {
-            String[] words = StringUtil.tokenize(text, ",");
+            String[] words = StringUtil.split(text, ",");
             for (String word : words) {
                 if (!BaseFunction.isBlank(word)) {
                     try {
-                        list.add((T)  getDataType().parseValue(word, getLocale(), getFormat()));
-                    } catch (BusinessException e) {
+                        list.add((T) getDataType().parseValue(word, getLocale(), getFormat()));
+                    } catch (FrameworkException e) {
                         // NOP
                     }
                 }
@@ -91,7 +106,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
     }
 
     @SuppressWarnings("unchecked")
-    public void setValue(DataTable<?> dataTable, String columnName) throws BusinessException {
+    public void setValue(DataTable<?> dataTable, String columnName) throws FrameworkException {
         L list = (L) new ArrayList<T>();
         for (DataRow dataRow : dataTable) {
             list.add((T) dataRow.getObject(columnName));
@@ -101,7 +116,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
     }
 
     @Override
-    public void setValue(L list) throws BusinessException {
+    public void setValue(L list) throws FrameworkException {
         String text = "";
         String decodeText = "";
 
@@ -117,7 +132,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
     }
 
     @Override
-    public void copyFromDataSource(DataSource dataSource) throws BusinessException {
+    public void copyFromDataSource(DataSource dataSource) throws FrameworkException {
         if (dataSource != null) {
             super.copyFromDataSource(dataSource);
             if (BaseFunction.isBlank(decodeAlias) && getDecodeMap() != null && !getDecodeMap().isEmpty()) {
@@ -149,10 +164,10 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
 
         // Verifico che quanto imputato sia un valore ammissibile
         if (!BaseFunction.isBlank(getDecodedText()) && BaseFunction.isBlank(getData())) {
-            return new BaseMessage(Level.WARN, "Il campo " + getDescription() + " non è valido", null);
+            return new Message(Level.WARN, getName(), "Il campo " + getDescription() + " non è valido", null);
         } else if (!BaseFunction.isBlank(getDecodedText()) && !BaseFunction.isBlank(getData())) {
-            if (StringUtil.tokenize(getDecodedText(), ",").length != StringUtil.tokenize(getData(), ",").length) {
-                return new BaseMessage(Level.WARN, "Non tutti i valori del campo " + getDescription() + " sono validi", null);
+            if (StringUtil.split(getDecodedText(), ",").length != StringUtil.split(getData(), ",").length) {
+                return new Message(Level.WARN, getName(),"Non tutti i valori del campo " + getDescription() + " sono validi", null);
             }
         }
 
@@ -167,11 +182,11 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
         return message;
     }
 
-    private void post(String string) throws BusinessException {
+    private void localPost(String string) throws FrameworkException {
         String decodedText = "";
         String text = "";
         if (!BaseFunction.isBlank(string)) {
-            String[] words = StringUtil.tokenize(string, ",");
+            String[] words = StringUtil.split(string, ",");
             for (String word : words) {
                 if (!BaseFunction.isBlank(word)) {
                     decodedText += BaseFunction.isBlank(decodedText) ? word : ", " + word;
@@ -191,7 +206,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
             if (!isReadOnly()) {
                 log.debug("post (" + getName() + "): " + webRequest.getString(getName()));
 
-                post(webRequest.getString(getName()));
+                localPost(webRequest.getString(getName()));
             }
         } catch (Exception e) {
             throw new RuntimeException("Errore su post campo: " + getName(), e);
@@ -207,6 +222,11 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
         }
 
         return true;
+    }
+
+    @Override
+    public MultipleAutoComplete<L, T> newInstance() {
+        return toBuilder().build();
     }
 
 }

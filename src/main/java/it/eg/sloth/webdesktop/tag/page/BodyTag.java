@@ -1,33 +1,41 @@
 package it.eg.sloth.webdesktop.tag.page;
 
-import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.view.AbstractTag;
+import java.io.IOException;
+
+import it.eg.sloth.form.Form;
+import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
+ * @author Enrico Grillini
+ */
 @Getter
 @Setter
-public class BodyTag extends AbstractTag {
+public class BodyTag extends WebDesktopTag<Form> {
 
-  static final long serialVersionUID = 1L;
+    @Override
+    protected int startTag() throws IOException  {
+        writeln("<body id=\"page-top\">");
 
-  String className;
-
-  @Override
-  protected int startTag() throws Throwable {
-    String classHtml = "";
-    if (!BaseFunction.isBlank(getClassName())) {
-      classHtml = " class=\"" + getClassName() + "\"";
+        return EVAL_BODY_INCLUDE;
     }
 
-    writeln("<body id=\"page-top\"" + classHtml + ">");
-
-    return EVAL_BODY_INCLUDE;
-  }
-
-  @Override
-  protected void endTag() throws Throwable {
-    writeln("</body>");
-  }
+    @Override
+    protected void endTag() throws IOException {
+        writeln("</body>");
+    }
 
 }

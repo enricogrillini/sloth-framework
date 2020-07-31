@@ -1,71 +1,87 @@
 package it.eg.sloth.framework.pageinfo;
 
+import it.eg.sloth.framework.FrameComponent;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import it.eg.sloth.framework.FrameComponent;
-
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
+ * @author Enrico Grillini
+ */
 public class Breadcrumbs extends FrameComponent implements Iterable<Breadcrumb> {
 
-  private List<Breadcrumb> list;
+    private List<Breadcrumb> list;
 
-  public Breadcrumbs() {
-    list = new ArrayList<Breadcrumb>();
-  }
-
-  public void add(Breadcrumb breadcrumb) {
-    list.add(breadcrumb);
-  }
-
-  public void add(String title, String hint, String link) {
-    add(new Breadcrumb(title, hint, link));
-  }
-
-  public void add(String title) {
-    add(title, null, null);
-  }
-
-  public int size() {
-    return list.size();
-  }
-
-  public void clear() {
-    list.clear();
-  }
-
-  @Override
-  public Iterator<Breadcrumb> iterator() {
-    return list.iterator();
-  }
-
-  public Breadcrumb getBreadcrumb(int i) {
-    return list.get(i);
-  }
-
-  public String getText() {
-    String result = "";
-
-    for (Breadcrumb title : list) {
-      if (!"".equals(result))
-        result += " > ";
-
-      result += title.getText();
+    public Breadcrumbs() {
+        list = new ArrayList<>();
     }
 
-    return result;
-  }
-
-  public String getHtml() {
-    String result = "";
-    for (Breadcrumb title : list) {
-      if (!"".equals(result))
-        result += " > ";
-
-      result += title.getHtml();
+    public void add(Breadcrumb breadcrumb) {
+        list.add(breadcrumb);
     }
 
-    return result;
-  }
+    public void add(String title, String hint, String link) {
+        add(new Breadcrumb(title, hint, link));
+    }
+
+    public void add(String title) {
+        add(title, null, null);
+    }
+
+    public int size() {
+        return list.size();
+    }
+
+    public void clear() {
+        list.clear();
+    }
+
+    @Override
+    public Iterator<Breadcrumb> iterator() {
+        return list.iterator();
+    }
+
+    public Breadcrumb getBreadcrumb(int i) {
+        return list.get(i);
+    }
+
+    public String getText() {
+        StringBuilder result = new StringBuilder();
+        for (Breadcrumb title : list) {
+            if (result.length() > 0) {
+                result.append(" > ");
+            }
+
+            result.append(title.getText());
+        }
+
+        return result.toString();
+    }
+
+    public String getHtml() {
+        StringBuilder result = new StringBuilder();
+        for (Breadcrumb title : list) {
+            if (result.length() > 0) {
+                result.append(" > ");
+            }
+
+            result.append(title.getHtml());
+        }
+
+        return result.toString();
+    }
 
 }

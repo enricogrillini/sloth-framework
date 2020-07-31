@@ -5,18 +5,30 @@ import it.eg.sloth.form.fields.field.impl.*;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.BootStrapClass;
-import it.eg.sloth.webdesktop.tag.form.AbstractHtmlWriter;
+import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
 /**
- * Classe base per la stampa il testo di un controllo
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
  */
-public class TextControlWriter extends AbstractHtmlWriter {
+public class TextControlWriter extends HtmlWriter {
 
-    public static String writeControl(SimpleField simpleField) {
+    public static String writeControl(SimpleField simpleField) throws FrameworkException {
         switch (simpleField.getFieldType()) {
+            case AUTO_COMPLETE:
+                return writeAutocomplete((AutoComplete<?>) simpleField);
             case BUTTON:
                 return writeButton((Button) simpleField);
             case CHECK_BOX:
@@ -47,13 +59,29 @@ public class TextControlWriter extends AbstractHtmlWriter {
     }
 
     /**
+     * AutoComplete
+     *
+     * @param autoComplete
+     * @return
+     */
+    public static String writeAutocomplete(AutoComplete<?> autoComplete) throws FrameworkException {
+        if (!BaseFunction.isBlank(autoComplete.getBaseLink())) {
+            return "<a href=\"" + autoComplete.getBaseLink() + autoComplete.escapeHtmlValue() + "\" >" + autoComplete.escapeHtmlDecodedText() + "</a>";
+        } else if (DataTypes.URL == autoComplete.getDataType()) {
+            return "<a href=\"" + autoComplete.escapeHtmlValue() + "\" target=\"_blank\">" + autoComplete.escapeHtmlDecodedText() + "</a>";
+        } else {
+            return autoComplete.escapeHtmlDecodedText();
+        }
+    }
+
+    /**
      * CheckBox
      *
      * @param button
      * @return
      */
     public static String writeButton(Button button) {
-        return FormControlWriter.writeButton(button, null, null);
+        return FormControlWriter.writeButton(button);
     }
 
     /**
@@ -85,13 +113,13 @@ public class TextControlWriter extends AbstractHtmlWriter {
      * @param comboBox
      * @return
      */
-    public static String writeComboBox(ComboBox<?> comboBox) {
+    public static String writeComboBox(ComboBox<?> comboBox) throws FrameworkException {
         if (!BaseFunction.isBlank(comboBox.getBaseLink())) {
-            return "<a href=\"" + comboBox.getBaseLink() + comboBox.escapeHtmlValue() + "\" >" + comboBox.getHtmlDecodedText() + "</a>";
+            return "<a href=\"" + comboBox.getBaseLink() + comboBox.escapeHtmlValue() + "\" >" + comboBox.escapeHtmlDecodedText() + "</a>";
         } else if (DataTypes.URL == comboBox.getDataType()) {
-            return "<a href=\"" + comboBox.escapeHtmlValue() + "\" target=\"_blank\">" + comboBox.getHtmlDecodedText() + "</a>";
+            return "<a href=\"" + comboBox.escapeHtmlValue() + "\" target=\"_blank\">" + comboBox.escapeHtmlDecodedText() + "</a>";
         } else {
-            return comboBox.getHtmlDecodedText();
+            return comboBox.escapeHtmlDecodedText();
         }
     }
 
@@ -101,13 +129,13 @@ public class TextControlWriter extends AbstractHtmlWriter {
      * @param decodedText
      * @return
      */
-    public static String writeDecodedText(DecodedText<?> decodedText) {
+    public static String writeDecodedText(DecodedText<?> decodedText) throws FrameworkException {
         if (!BaseFunction.isBlank(decodedText.getBaseLink())) {
-            return "<a href=\"" + decodedText.getBaseLink() + decodedText.escapeHtmlValue() + "\" >" + decodedText.getHtmlDecodedText() + "</a>";
+            return "<a href=\"" + decodedText.getBaseLink() + decodedText.escapeHtmlValue() + "\" >" + decodedText.escapeHtmlDecodedText() + "</a>";
         } else if (DataTypes.URL == decodedText.getDataType()) {
-            return "<a href=\"" + decodedText.escapeHtmlValue() + "\" target=\"_blank\">" + decodedText.getHtmlDecodedText() + "</a>";
+            return "<a href=\"" + decodedText.escapeHtmlValue() + "\" target=\"_blank\">" + decodedText.escapeHtmlDecodedText() + "</a>";
         } else {
-            return decodedText.getHtmlDecodedText();
+            return decodedText.escapeHtmlDecodedText();
         }
     }
 
@@ -153,8 +181,8 @@ public class TextControlWriter extends AbstractHtmlWriter {
      * @param semaphore
      * @return
      */
-    public static String writeSemaphore(Semaphore semaphore) {
-        return semaphore.getHtmlDecodedText();
+    public static String writeSemaphore(Semaphore semaphore) throws FrameworkException {
+        return semaphore.escapeHtmlDecodedText();
     }
 
     /**

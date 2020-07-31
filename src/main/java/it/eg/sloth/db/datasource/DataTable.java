@@ -9,11 +9,22 @@ import java.util.Set;
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.db.datasource.table.sort.SortingRules;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.BigDecimalUtil;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
- * Classe base per la gestione dei data table
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
  *
- * @param <T>
  * @author Enrico Grillini
  */
 public interface DataTable<T extends DataRow> extends DataSource, DataRow, Iterable<T> {
@@ -50,7 +61,7 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
     /**
      * Imposta la riga corrente
      *
-     * @param correntRow
+     * @param currentRow
      */
     public void setCurrentRow(int currentRow);
 
@@ -176,15 +187,11 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
 
     /**
      * Aggiunge una riga in coda
-     *
-     * @param row
      */
     public T append();
 
     /**
      * Aggiunge una riga dopo la riga corrente
-     *
-     * @param row
      */
     public T add();
 
@@ -192,16 +199,16 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
      * Rimuove la riga corrente
      *
      * @return
-     * @throws InvalidStateException
+     * @throws FrameworkException
      */
-    public T remove();
+    public T remove() throws FrameworkException;
 
     /**
      * Rimuove tutte le righe
      *
-     * @throws InvalidStateException
+     * @throws FrameworkException
      */
-    public void removeAllRow();
+    public void removeAllRow() throws FrameworkException;
 
     /**
      * Aggiunge una regola di ordinamento
@@ -221,29 +228,23 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
 
     /**
      * Applica l'ordinamento memorizzato
-     *
-     * @param filterRules
      */
     public void applySort();
 
     /**
      * Applica l'ordinamento passato
-     *
-     * @param filterRules
      */
     public void applySort(String fieldName, int sortType);
 
     /**
      * Applica l'ordinamento passato
-     *
-     * @param filterRules
      */
     public void applySorts(SortingRules<T> sortingRules);
 
     /**
      * Effettua l'ordinamento gestendo o meno il mantenimento della riga corrente
      *
-     * @param filterRules
+     * @param preserveCurrentRow
      */
     public void applySort(boolean preserveCurrentRow);
 
@@ -262,6 +263,10 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
     public void clearSortingRules();
 
     public static class Util {
+        private Util() {
+            // NOP
+        }
+
         /**
          * Ritorna il set con i valori della colonna specificata applicando i filtri
          * passati
@@ -343,11 +348,8 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
                 }
 
                 if (filter) {
-                    if (result == null) {
-                        result = row.getBigDecimal(columnName);
-                    } else {
-                        result = result.add(row.getBigDecimal(columnName));
-                    }
+                    result = BigDecimalUtil.sum(result, row.getBigDecimal(columnName));
+
                 }
             }
 
@@ -358,8 +360,8 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
          * Effettua la somma sulla dataTable passata applicando il filtro indicato
          *
          * @param dataTable
-         * @param filterNames
-         * @param filterValues
+         * @param filterName
+         * @param filterValue
          * @param columnName
          * @return
          */

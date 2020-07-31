@@ -6,12 +6,24 @@ import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.impl.InputTotalizer;
 import it.eg.sloth.form.fields.field.impl.TextTotalizer;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.MessageList;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
  * @author Enrico Grillini
  */
 @Getter
@@ -70,7 +82,7 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
      * Imposta il contenuto della griglia prelevandolo dal DataTable associato
      */
     @Override
-    public void copyFromDataSource() throws BusinessException {
+    public void copyFromDataSource() throws FrameworkException {
         if (getDataSource() != null) {
             copyFromDataSource(getDataSource());
         } else {
@@ -82,7 +94,7 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
      * Ricopia il contenuto della griglia sulla DataTable associata
      */
     @Override
-    public void copyToDataSource() {
+    public void copyToDataSource() throws FrameworkException {
         if (getDataSource() != null) {
             copyToDataSource(getDataSource());
         }
@@ -97,7 +109,7 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
     }
 
     @Override
-    public boolean validate(MessageList messages) throws BusinessException {
+    public boolean validate(MessageList messages) throws FrameworkException {
         if (size() == 0) {
             return true;
         }

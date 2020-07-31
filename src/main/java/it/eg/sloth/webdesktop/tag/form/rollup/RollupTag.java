@@ -1,16 +1,30 @@
 package it.eg.sloth.webdesktop.tag.form.rollup;
 
-import java.io.IOException;
-
 import it.eg.sloth.db.datasource.DataNode;
 import it.eg.sloth.form.dwh.Attribute;
 import it.eg.sloth.form.dwh.Level;
 import it.eg.sloth.form.dwh.Measure;
 import it.eg.sloth.form.dwh.rollup.Rollup;
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import it.eg.sloth.webdesktop.tag.form.rollup.writer.RollupWriter;
 
+import java.io.IOException;
+
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @author Enrico Grillini
+ */
 public class RollupTag extends BaseElementTag<Rollup> {
 
     private static final long serialVersionUID = 1L;
@@ -31,7 +45,7 @@ public class RollupTag extends BaseElementTag<Rollup> {
         writeln(" </tr>");
     }
 
-    private void writeNode(DataNode node, int levelNumber) throws CloneNotSupportedException, BusinessException, IOException {
+    private void writeNode(DataNode node, int levelNumber) throws FrameworkException, IOException {
         Rollup rollup = getElement();
 
         if (node == null)
@@ -44,7 +58,7 @@ public class RollupTag extends BaseElementTag<Rollup> {
             if (levelNumber == 0) {
                 writeln("  <td colspan=\"" + headerSize + "\">" + getElement().getHtmlDescription() + "</td>");
             } else {
-                Level<?> levelClone = (Level<?>) getElement().getLevels().get(levelNumber - 1).clone();
+                Level<?> levelClone = getElement().getLevels().get(levelNumber - 1).newInstance();
                 levelClone.copyFromDataSource(node);
 
                 writeln("  <td colspan=\"" + levelNumber + "\"></td>");
@@ -53,7 +67,7 @@ public class RollupTag extends BaseElementTag<Rollup> {
 
             // Measure
             for (Measure<?> measure : rollup.getMeasures()) {
-                Measure<?> measureClone = (Measure<?>) measure.clone();
+                Measure<?> measureClone = measure.newInstance();
                 measureClone.copyFromDataSource(node);
                 writeln("  <td style=\"text-align:right\">" + RollupWriter.writeMeasure(measureClone) + "</td>");
             }
@@ -76,7 +90,7 @@ public class RollupTag extends BaseElementTag<Rollup> {
                 }
 
                 int colspan = levelSize + attributesSize - levelNumber;
-                Level<?> levelClone = (Level<?>) (rollup.getLevels().get(levelNumber)).clone();
+                Level<?> levelClone = (rollup.getLevels().get(levelNumber)).newInstance();
                 levelClone.copyFromDataSource(node);
 
                 writeln("  <td colspan=\"" + colspan + "\">" + RollupWriter.writeLevel(levelClone) + "</td>");
@@ -95,14 +109,14 @@ public class RollupTag extends BaseElementTag<Rollup> {
 
                 // Attribute
                 for (Attribute<?> attribute : rollup.getAttributes()) {
-                    Attribute<?> attributeClone = (Attribute<?>) attribute.clone();
+                    Attribute<?> attributeClone = attribute.newInstance();
                     attributeClone.copyFromDataSource(node);
                     writeln("  <td>" + RollupWriter.writeAttribute(attributeClone) + "</td>");
                 }
 
                 // Measure
                 for (Measure<?> measure : rollup.getMeasures()) {
-                    Measure<?> measureClone = (Measure<?>) measure.clone();
+                    Measure<?> measureClone = measure.newInstance();
                     measureClone.copyFromDataSource(node);
 
                     writeln("  <td style=\"text-align:right\">" + RollupWriter.writeMeasure(measureClone) + "</td>");
@@ -115,13 +129,13 @@ public class RollupTag extends BaseElementTag<Rollup> {
 
     }
 
-    private void writeSum(DataNode node, int levelNumber) throws CloneNotSupportedException {
+    private void writeSum(DataNode node, int levelNumber) {
         Rollup rollup = getElement();
 
         if (node == null)
             return;
 
-        if (rollup.getMeasures().size() > 0) {
+        if (!rollup.getMeasures().isEmpty()) {
             // writeln(" <tr class=\"" + SUM_CLASS_NAME + levelNumber + "\">");
 
             // // Level
@@ -139,7 +153,7 @@ public class RollupTag extends BaseElementTag<Rollup> {
 
     }
 
-    protected int startTag() throws Throwable {
+    protected int startTag() throws IOException, FrameworkException {
         writeln("<table class=\"frRollup\" cellspacing=\"0\">");
 
         writeHeader();
@@ -149,6 +163,7 @@ public class RollupTag extends BaseElementTag<Rollup> {
         return SKIP_BODY;
     }
 
-    protected void endTag() throws Throwable {
+    protected void endTag() {
+        // NOP
     }
 }

@@ -1,6 +1,6 @@
 package it.eg.sloth.framework.common.base;
 
-import it.eg.sloth.framework.common.exception.BusinessException;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -8,6 +8,18 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 
 /**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2020 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ *
  * @author Enrico Grillini
  */
 public class BaseFunction {
@@ -86,40 +98,9 @@ public class BaseFunction {
             return true;
         if (obj1 != null && obj2 == null)
             return false;
-        if (obj1 == null && obj2 != null)
+        if (obj1 == null)
             return false;
         return obj1.equals(obj2);
-    }
-
-    /**
-     * Moltiplica i due numeti passati gestendo i null
-     *
-     * @param bigDecimal1
-     * @param bigDecimal2
-     * @return
-     */
-    public static final BigDecimal multiply(BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
-        if (bigDecimal1 == null || bigDecimal2 == null)
-            return null;
-        else
-            return bigDecimal1.multiply(bigDecimal2);
-    }
-
-    /**
-     * Ritorna il numero maggiore
-     *
-     * @param bigDecimal1
-     * @param bigDecimal2
-     * @return
-     */
-    public static BigDecimal greatest(BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
-        if (bigDecimal1 == null || bigDecimal2 == null)
-            return null;
-
-        if (bigDecimal1.doubleValue() > bigDecimal2.doubleValue())
-            return bigDecimal1;
-        else
-            return bigDecimal2;
     }
 
     /**
@@ -172,7 +153,7 @@ public class BaseFunction {
      * @return
      * @throws ParseException
      */
-    public static Timestamp trunc(Timestamp timestamp, String format) throws BusinessException {
+    public static Timestamp trunc(Timestamp timestamp, String format) throws FrameworkException {
         return TimeStampUtil.parseTimestamp(TimeStampUtil.formatTimestamp(timestamp, format), format);
     }
 
@@ -183,21 +164,8 @@ public class BaseFunction {
      * @return
      * @throws ParseException
      */
-    public static Timestamp trunc(Timestamp timestamp) throws BusinessException {
+    public static Timestamp trunc(Timestamp timestamp) throws FrameworkException {
         return trunc(timestamp, TimeStampUtil.DEFAULT_FORMAT);
-    }
-
-    public static String lpad(String str, int length, String padStr) {
-        while (str.length() < length)
-            str = padStr + str;
-
-        return str;
-    }
-
-    public static String rpad(String str, int length, String padStr) {
-        while (str.length() < length)
-            str += padStr;
-        return str.substring(0, length);
     }
 
     /**
