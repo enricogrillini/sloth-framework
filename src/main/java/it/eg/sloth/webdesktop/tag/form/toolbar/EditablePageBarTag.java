@@ -2,6 +2,8 @@ package it.eg.sloth.webdesktop.tag.form.toolbar;
 
 import it.eg.sloth.framework.pageinfo.ViewModality;
 
+import java.io.IOException;
+
 
 /**
  * Project: sloth-framework
@@ -22,14 +24,14 @@ public class EditablePageBarTag extends AbstractToolBarTag {
   private static final long serialVersionUID = 1L;
 
   @Override
-  public int startTag() throws Throwable {
+  public int startTag() throws IOException {
     openLeft();
 
     return EVAL_BODY_INCLUDE;
   }
 
   @Override
-  protected void endTag() throws Throwable {
+  protected void endTag() throws IOException {
     closeLeft();
     openRight();
     

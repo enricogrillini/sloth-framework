@@ -82,14 +82,14 @@ public class TransactionalRow extends Row implements TransactionalDataRow {
     }
 
     @Override
-    public void loadFromResultSet(ResultSet resultSet) throws SQLException, IOException {
+    public void loadFromResultSet(ResultSet resultSet) throws SQLException, FrameworkException {
         super.loadFromResultSet(resultSet);
         oldValues = new HashMap<>(values);
         status = RowStatus.CLEAN;
     }
 
     @Override
-    public void setFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
+    public void setFromQuery(SelectQueryInterface query) throws SQLException, FrameworkException {
         super.setFromQuery(query);
         if (status == RowStatus.CLEAN)
             status = RowStatus.UPDATED;

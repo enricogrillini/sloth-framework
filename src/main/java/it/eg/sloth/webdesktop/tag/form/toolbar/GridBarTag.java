@@ -3,6 +3,8 @@ package it.eg.sloth.webdesktop.tag.form.toolbar;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.form.grid.Grid;
 
+import java.io.IOException;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -19,44 +21,44 @@ import it.eg.sloth.form.grid.Grid;
  */
 public class GridBarTag extends AbstractGridToolBarTag<Grid<?>> {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  @Override
-  public int startTag() throws Throwable {
-    DataTable<?> dataTable = getElement().getDataSource();
-    if (dataTable == null) {
-      return SKIP_BODY;
+    @Override
+    public int startTag() throws IOException {
+        DataTable<?> dataTable = getElement().getDataSource();
+        if (dataTable == null) {
+            return SKIP_BODY;
+        }
+
+        openLeft();
+
+        // Pulsanti
+        firstRowButton(true);
+        prevPageButton(true);
+        prevButton(true);
+        nextButton(true);
+        nextPageButton(true);
+        lastRowButton(true);
+        excelButton();
+
+        // Informazioni di sintesi
+        if (dataTable.size() > 0) {
+            write(" Rec. " + (dataTable.getCurrentRow() + 1) + " di " + dataTable.size());
+            if (dataTable.getPageSize() > 0) {
+                write(", Pag. " + (dataTable.getCurrentPage() + 1) + " di " + dataTable.pages());
+            }
+        }
+
+        return EVAL_BODY_INCLUDE;
     }
 
-    openLeft();
+    @Override
+    protected void endTag() throws IOException {
+        if (getElement().getDataSource() == null) {
+            return;
+        }
 
-    // Pulsanti
-    firstRowButton(true);
-    prevPageButton(true);
-    prevButton(true);
-    nextButton(true);
-    nextPageButton(true);
-    lastRowButton(true);
-    excelButton();
-
-    // Informazioni di sintesi
-    if (dataTable.size() > 0) {
-      write(" Rec. " + (dataTable.getCurrentRow() + 1) + " di " + dataTable.size());
-      if (dataTable.getPageSize() > 0) {
-        write(", Pag. " + (dataTable.getCurrentPage() + 1) + " di " + dataTable.pages());
-      }
+        closeLeft();
     }
-
-    return EVAL_BODY_INCLUDE;
-  }
-
-  @Override
-  protected void endTag() throws Throwable {
-    if (getElement().getDataSource() == null) {
-      return;
-    }
-
-    closeLeft();
-  }
 
 }

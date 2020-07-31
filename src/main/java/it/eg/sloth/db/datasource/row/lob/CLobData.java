@@ -1,5 +1,7 @@
 package it.eg.sloth.db.datasource.row.lob;
 
+import it.eg.sloth.framework.common.exception.ExceptionCode;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -31,15 +33,15 @@ public class CLobData extends LobData<String> {
         super();
     }
 
-    public CLobData(boolean load, Clob clob) {
+    public CLobData(boolean load, Clob clob) throws FrameworkException {
         this();
 
         if (load && clob != null) {
             try (InputStream inputStream = clob.getAsciiStream()) {
                 value = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
                 setStatus(LobData.ON_LINE);
-            } catch (IOException | SQLException ex) {
-                throw new RuntimeException(ex);
+            } catch (IOException | SQLException e) {
+                throw new FrameworkException(ExceptionCode.GENERIC_SYSTEM_ERROR, e);
             }
         }
     }

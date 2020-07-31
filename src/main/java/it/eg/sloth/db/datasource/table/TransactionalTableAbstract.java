@@ -114,7 +114,7 @@ public abstract class TransactionalTableAbstract<T extends TransactionalDataRow>
     }
 
     @Override
-    public void setFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
+    public void setFromQuery(SelectQueryInterface query) throws SQLException, FrameworkException {
         query.populateDataTable(this);
     }
 

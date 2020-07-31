@@ -1,10 +1,13 @@
 package it.eg.sloth.webdesktop.tag.form.group;
 
 import it.eg.sloth.form.Form;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import it.eg.sloth.webdesktop.tag.form.group.writer.GroupWriter;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.IOException;
 
 /**
  * Project: sloth-framework
@@ -24,20 +27,20 @@ import lombok.Setter;
 @Setter
 public class CellTag extends WebDesktopTag<Form> {
 
-  static final long serialVersionUID = 1L;
+    static final long serialVersionUID = 1L;
 
-  String width;
+    String width;
 
-  @Override
-  public int startTag() throws Throwable {
-    write(GroupWriter.openCell(getWidth()));
+    @Override
+    public int startTag() throws IOException, FrameworkException {
+        write(GroupWriter.openCell(getWidth()));
 
-    return EVAL_BODY_INCLUDE;
-  }
+        return EVAL_BODY_INCLUDE;
+    }
 
-  @Override
-  protected void endTag() throws Throwable {
-    write("</div>");
-  }
+    @Override
+    protected void endTag() throws IOException {
+        write("</div>");
+    }
 
 }

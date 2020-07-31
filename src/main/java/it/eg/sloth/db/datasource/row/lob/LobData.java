@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
-import it.eg.sloth.framework.FrameComponent;
-
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -22,7 +20,7 @@ import it.eg.sloth.framework.FrameComponent;
  *
  * @author Enrico Grillini
  */
-public abstract class LobData<O extends Object> extends FrameComponent implements Externalizable {
+public abstract class LobData<O extends Object>  implements Externalizable {
 
   public static final int OFF_LINE = 0;
   public static final int ON_LINE = 1;
@@ -30,7 +28,7 @@ public abstract class LobData<O extends Object> extends FrameComponent implement
 
   private int status;
 
-  protected O value;
+  protected transient O value;
 
   public LobData() {
     setStatus(OFF_LINE);

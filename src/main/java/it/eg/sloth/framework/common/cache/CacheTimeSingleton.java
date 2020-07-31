@@ -41,7 +41,7 @@ public final class CacheTimeSingleton {
     }
 
     private void validateCache() {
-        for (String key : new HashSet<String>(map.keySet())) {
+        for (String key : new HashSet<>(map.keySet())) {
             if (!map.get(key).isValid()) {
                 map.remove(key);
             }

@@ -28,16 +28,18 @@ public class GridTag extends AbstractGridTag<Grid<?>> {
             writeln(GridWriter.header(getElement(), getDetailFields(), true));
             writeln(GridWriter.rows(getElement(), getDetailFields(), getForm().getPageInfo().getViewModality()));
 
-            writeTotal();
-
-            writeln(GridWriter.closeTable());
+            if (getElement().hasTotalizer()) {
+                writeln(GridWriter.total(getElement(), hasDetail()));
+            }
         }
 
         return EVAL_BODY_INCLUDE;
     }
 
-    protected void endTag() {
-        // NOP
+    protected void endTag() throws IOException {
+        if (getElement().getDataSource() != null) {
+            writeln(GridWriter.closeTable());
+        }
     }
 
 }

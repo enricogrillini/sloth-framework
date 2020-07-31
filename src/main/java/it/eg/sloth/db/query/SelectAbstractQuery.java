@@ -101,12 +101,12 @@ public abstract class SelectAbstractQuery implements SelectQueryInterface {
     }
 
     @Override
-    public boolean populateDataRow(DataRow dataRow) throws SQLException, IOException, FrameworkException {
+    public boolean populateDataRow(DataRow dataRow) throws SQLException, FrameworkException {
         return populateDataRow(dataRow, (Connection) null);
     }
 
     @Override
-    public boolean populateDataRow(DataRow dataRow, Connection connection) throws SQLException, IOException, FrameworkException {
+    public boolean populateDataRow(DataRow dataRow, Connection connection) throws SQLException, FrameworkException {
         if (connection == null) {
             try (Connection newConnection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
                 return populateDataRow(dataRow, newConnection);
@@ -129,7 +129,7 @@ public abstract class SelectAbstractQuery implements SelectQueryInterface {
                         dataRow.clear();
                     }
                 }
-            } catch (SQLException | IOException e) {
+            } catch (SQLException e) {
                 log.info("Errore sulla query: {}", toString());
                 throw e;
             }
@@ -140,19 +140,19 @@ public abstract class SelectAbstractQuery implements SelectQueryInterface {
     }
 
     @Override
-    public void populateDataTable(DataTable<?> dataTable, String connectionName) throws SQLException, IOException, FrameworkException {
+    public void populateDataTable(DataTable<?> dataTable, String connectionName) throws SQLException, FrameworkException {
         try (Connection connection = DataConnectionManager.getInstance().getDataSource(connectionName).getConnection()) {
             populateDataTable(dataTable, connection);
         }
     }
 
     @Override
-    public void populateDataTable(DataTable<?> dataTable) throws SQLException, IOException, FrameworkException {
+    public void populateDataTable(DataTable<?> dataTable) throws SQLException, FrameworkException {
         populateDataTable(dataTable, (Connection) null);
     }
 
     @Override
-    public void populateDataTable(DataTable<?> dataTable, Connection connection) throws SQLException, IOException, FrameworkException {
+    public void populateDataTable(DataTable<?> dataTable, Connection connection) throws SQLException, FrameworkException {
         if (connection == null) {
             try (Connection newConnection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
                 populateDataTable(dataTable, newConnection);
@@ -169,7 +169,7 @@ public abstract class SelectAbstractQuery implements SelectQueryInterface {
                         dataTable.append().loadFromResultSet(resultSet);
                     }
                 }
-            } catch (SQLException | IOException e) {
+            } catch (SQLException e) {
                 log.info("Errore sulla query: {}", toString());
                 throw e;
             }

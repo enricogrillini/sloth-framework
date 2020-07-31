@@ -43,7 +43,7 @@ public abstract class DbRow extends TransactionalRow implements DbDataRow {
     }
 
     @Override
-    public void copyFromResultSet(ResultSet resultSet) throws SQLException, IOException {
+    public void copyFromResultSet(ResultSet resultSet) throws SQLException, FrameworkException {
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 
         for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {

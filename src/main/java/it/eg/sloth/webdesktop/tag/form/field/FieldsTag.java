@@ -2,9 +2,12 @@ package it.eg.sloth.webdesktop.tag.form.field;
 
 import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.SimpleField;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 import it.eg.sloth.webdesktop.tag.form.group.writer.GroupWriter;
+
+import java.io.IOException;
 
 /**
  * Project: sloth-framework
@@ -25,7 +28,7 @@ public class FieldsTag<T extends Fields<?>> extends BaseElementTag<T> {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected int startTag() throws Throwable {
+    protected int startTag() throws IOException, FrameworkException {
 
         writeln("");
         for (SimpleField simpleField : getElement()) {
@@ -43,7 +46,7 @@ public class FieldsTag<T extends Fields<?>> extends BaseElementTag<T> {
     }
 
     @Override
-    protected void endTag() throws Throwable {
+    protected void endTag() {
         // NOP
     }
 

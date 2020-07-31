@@ -4,6 +4,8 @@ import it.eg.sloth.form.tabsheet.TabSheet;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import it.eg.sloth.webdesktop.tag.form.tabsheet.writer.TabSheetWriter;
 
+import java.io.IOException;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -20,13 +22,13 @@ import it.eg.sloth.webdesktop.tag.form.tabsheet.writer.TabSheetWriter;
  */
 public class TabSheetTag extends BaseElementTag<TabSheet> {
 
-    public int startTag() throws Throwable {
+    public int startTag() throws IOException {
         write(TabSheetWriter.tabsheet(getElement(), getWebDesktopDto().getLastController()));
 
         return EVAL_BODY_INCLUDE;
     }
 
-    protected void endTag() throws Throwable {
+    protected void endTag() {
         // NOP
     }
 

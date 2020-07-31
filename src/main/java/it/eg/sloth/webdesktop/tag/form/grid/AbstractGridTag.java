@@ -1,21 +1,12 @@
 package it.eg.sloth.webdesktop.tag.form.grid;
 
-import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.form.fields.Fields;
-import it.eg.sloth.form.fields.field.SimpleField;
-import it.eg.sloth.form.fields.field.base.TextField;
-import it.eg.sloth.form.fields.field.impl.InputTotalizer;
-import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.io.IOException;
-import java.math.BigDecimal;
 
 /**
  * Project: sloth-framework
@@ -51,35 +42,4 @@ public abstract class AbstractGridTag<T extends Grid<?>> extends BaseElementTag<
         }
     }
 
-    protected void writeTotal() throws FrameworkException, IOException {
-
-        if (getElement().hasTotalizer()) {
-            writeln(" <tr>");
-
-            if (hasDetail()){
-                writeln("  <td>&nbsp;</td>");
-            }
-
-            for (SimpleField field : getElement().getElements()) {
-                if (field instanceof TextField && ((TextField<?>) field).isHidden())
-                    continue;
-
-                if (field instanceof TextTotalizer || field instanceof InputTotalizer) {
-                    TextField<BigDecimal> textField = (TextField<BigDecimal>) field.newInstance();
-
-                    BigDecimal totale = new BigDecimal(0);
-                    for (DataRow dataRow : getElement().getDataSource()) {
-                        totale = totale.add(BaseFunction.nvl(dataRow.getBigDecimal(textField.getAlias()), new BigDecimal(0)));
-                    }
-
-                    textField.setValue(totale);
-
-                    writeln("  <td class=\"frSum\" style=\"text-align:right\">" + textField.escapeHtmlText() + "</td>");
-                } else {
-                    writeln("  <td class=\"frSum\">&nbsp;</td>");
-                }
-            }
-            writeln(" </tr>");
-        }
-    }
 }

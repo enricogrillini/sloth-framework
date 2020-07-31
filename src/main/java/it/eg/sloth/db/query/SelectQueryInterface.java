@@ -46,7 +46,7 @@ public interface SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    DataTable<DataRow>  selectTable() throws SQLException, IOException, FrameworkException;
+    DataTable<DataRow> selectTable() throws SQLException, IOException, FrameworkException;
 
     /**
      * Ritorna una tabella contenente il risultato della query
@@ -56,7 +56,7 @@ public interface SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    DataTable<DataRow>  selectTable(String connectionName) throws SQLException, IOException, FrameworkException;
+    DataTable<DataRow> selectTable(String connectionName) throws SQLException, IOException, FrameworkException;
 
     /**
      * Ritorna una tabella contenente il risultato della query
@@ -116,7 +116,7 @@ public interface SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    boolean populateDataRow(DataRow dataRow) throws SQLException, IOException, FrameworkException;
+    boolean populateDataRow(DataRow dataRow) throws SQLException, FrameworkException;
 
     /**
      * Popola il DataTable passato
@@ -146,7 +146,7 @@ public interface SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    void populateDataTable(DataTable<?> dataTable) throws SQLException, IOException, FrameworkException;
+    void populateDataTable(DataTable<?> dataTable) throws SQLException, FrameworkException;
 
     /**
      * Popola il DataTable passato
@@ -156,6 +156,6 @@ public interface SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    void populateDataTable(DataTable<?> dataTable, Connection connection) throws SQLException, IOException, FrameworkException;
+    void populateDataTable(DataTable<?> dataTable, Connection connection) throws SQLException, FrameworkException;
 
 }

@@ -5,7 +5,6 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;

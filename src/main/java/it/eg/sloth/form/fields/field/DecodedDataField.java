@@ -23,7 +23,7 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
  */
 public interface DecodedDataField<T extends Object> extends DataField<T> {
 
-    DecodeMap<T, ? extends DecodeValue<T>> getDecodeMap();
+    <D extends DecodeValue<T>> DecodeMap<T, D> getDecodeMap();
 
     void setDecodeMap(DecodeMap<T, ? extends DecodeValue<T>> values);
 

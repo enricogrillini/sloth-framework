@@ -1,8 +1,11 @@
 package it.eg.sloth.webdesktop.tag.form.list;
 
 import it.eg.sloth.form.grid.Grid;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import it.eg.sloth.webdesktop.tag.form.list.writer.ListWriter;
+
+import java.io.IOException;
 
 /**
  * Project: sloth-framework
@@ -21,7 +24,7 @@ import it.eg.sloth.webdesktop.tag.form.list.writer.ListWriter;
 public class ListTag<T extends Grid<?>> extends BaseElementTag<T> {
 
     @Override
-    protected int startTag() throws Throwable {
+    protected int startTag() throws IOException, FrameworkException {
         Grid<?> grid = getElement();
 
         // Write Title
@@ -32,7 +35,7 @@ public class ListTag<T extends Grid<?>> extends BaseElementTag<T> {
     }
 
     @Override
-    protected void endTag() throws Throwable {
+    protected void endTag() {
         // NOP
     }
 

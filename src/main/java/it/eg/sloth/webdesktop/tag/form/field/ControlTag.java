@@ -1,8 +1,11 @@
 package it.eg.sloth.webdesktop.tag.form.field;
 
 import it.eg.sloth.form.fields.field.SimpleField;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
+
+import java.io.IOException;
 
 /**
  * Project: sloth-framework
@@ -21,13 +24,13 @@ import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 public class ControlTag extends BaseElementTag<SimpleField> {
 
     @Override
-    protected int startTag() throws Throwable {
+    protected int startTag() throws FrameworkException, IOException {
         write(FormControlWriter.writeControl(getElement(), getParentElement(), getViewModality()));
         return SKIP_BODY;
     }
 
     @Override
-    protected void endTag() throws Throwable {
+    protected void endTag() {
         // NOP
     }
 }

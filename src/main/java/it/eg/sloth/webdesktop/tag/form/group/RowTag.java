@@ -4,6 +4,8 @@ import it.eg.sloth.form.Form;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import it.eg.sloth.webdesktop.tag.form.group.writer.GroupWriter;
 
+import java.io.IOException;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -22,12 +24,12 @@ public class RowTag extends WebDesktopTag<Form> {
 
     static final long serialVersionUID = 1L;
 
-    public int startTag() throws Throwable {
+    public int startTag() throws IOException {
         write(GroupWriter.openRow());
         return EVAL_BODY_INCLUDE;
     }
 
-    protected void endTag() throws Throwable {
+    protected void endTag() throws IOException {
         write(GroupWriter.closeRow());
     }
 }

@@ -21,21 +21,21 @@ import it.eg.sloth.webdesktop.controller.common.SimpleSearchPageInterface;
  */
 public interface BaseGridNavigationInterface extends SimpleSearchPageInterface {
 
-  public void onGoToRecord(int record) throws Exception;
+    void onGoToRecord(int record) throws Exception;
 
-  public void onFirstRow() throws Exception;
+    void onFirstRow() throws Exception;
 
-  public void onPrevPage() throws Exception;
+    void onPrevPage() throws Exception;
 
-  public void onPrev() throws Exception;
+    void onPrev() throws Exception;
 
-  public void onNext() throws Exception;
+    void onNext() throws Exception;
 
-  public void onNextPage() throws Exception;
+    void onNextPage() throws Exception;
 
-  public void onLastRow() throws Exception;
+    void onLastRow() throws Exception;
 
-  public void onSort(Grid<?> grid, String fieldName, int sortType) throws Exception;
+    void onSort(Grid<?> grid, String fieldName, int sortType) throws Exception;
 
-  public void onExcel(Grid<?> grid) throws Exception;
+    void onExcel(Grid<?> grid) throws Exception;
 }

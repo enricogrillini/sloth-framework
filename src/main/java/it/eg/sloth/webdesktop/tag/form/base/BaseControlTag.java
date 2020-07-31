@@ -25,21 +25,22 @@ import java.io.IOException;
 @Getter
 public abstract class BaseControlTag extends BaseElementTag<SimpleField> {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  /**
-   * Scrive il controllo
-   */
-  protected abstract void writeField() throws IOException, FrameworkException;
+    /**
+     * Scrive il controllo
+     */
+    protected abstract void writeField() throws IOException, FrameworkException;
 
-  @Override
-  public int startTag() throws Throwable {
-    writeField();
-    return SKIP_BODY;
-  }
+    @Override
+    public int startTag() throws IOException, FrameworkException {
+        writeField();
+        return SKIP_BODY;
+    }
 
-  @Override
-  protected void endTag() throws Throwable {
-  }
+    @Override
+    protected void endTag() {
+        // NOP
+    }
 
 }

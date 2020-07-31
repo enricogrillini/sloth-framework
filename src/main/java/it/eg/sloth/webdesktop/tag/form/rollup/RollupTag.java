@@ -153,7 +153,7 @@ public class RollupTag extends BaseElementTag<Rollup> {
 
     }
 
-    protected int startTag() throws Throwable {
+    protected int startTag() throws IOException, FrameworkException {
         writeln("<table class=\"frRollup\" cellspacing=\"0\">");
 
         writeHeader();
@@ -163,6 +163,7 @@ public class RollupTag extends BaseElementTag<Rollup> {
         return SKIP_BODY;
     }
 
-    protected void endTag() throws Throwable {
+    protected void endTag() {
+        // NOP
     }
 }

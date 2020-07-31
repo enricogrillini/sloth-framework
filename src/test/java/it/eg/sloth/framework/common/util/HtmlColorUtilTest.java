@@ -1,10 +1,9 @@
 package it.eg.sloth.framework.common.util;
 
 import it.eg.sloth.framework.common.base.StringUtil;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.html.HtmlColor;
 import org.junit.Test;
-
-import java.text.ParseException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,24 +20,23 @@ import static org.junit.Assert.assertEquals;
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
- *
  */
 public class HtmlColorUtilTest {
 
-  @Test
-  public void rgbFromHexTest() throws ParseException {
-    assertEquals("rgb(78, 115, 223)", HtmlColor.rgbFromHex("#4e73df"));
-    assertEquals("rgb(78, 115, 223)", HtmlColor.rgbFromHex("#4E73DF"));
-    assertEquals("rgb(255, 255, 255)", HtmlColor.rgbFromHex("#FFFFFF"));
-    assertEquals(StringUtil.EMPTY, HtmlColor.rgbFromHex(null));
-  }
+    @Test
+    public void rgbFromHexTest() throws FrameworkException {
+        assertEquals("rgb(78, 115, 223)", HtmlColor.rgbFromHex("#4e73df"));
+        assertEquals("rgb(78, 115, 223)", HtmlColor.rgbFromHex("#4E73DF"));
+        assertEquals("rgb(255, 255, 255)", HtmlColor.rgbFromHex("#FFFFFF"));
+        assertEquals(StringUtil.EMPTY, HtmlColor.rgbFromHex(null));
+    }
 
-  @Test
-  public void rgbaFromHexTest() throws ParseException {
-    assertEquals("rgba(78, 115, 223, 0.05)", HtmlColor.rgbaFromHex("#4e73df", 0.05));
-    assertEquals("rgba(78, 115, 223, 0.05)", HtmlColor.rgbaFromHex("#4E73DF", 0.05));
-    assertEquals("rgba(255, 255, 255, 0.05)", HtmlColor.rgbaFromHex("#FFFFFF", 0.05));
-    assertEquals(StringUtil.EMPTY, HtmlColor.rgbaFromHex(null, 0.05));
-  }
+    @Test
+    public void rgbaFromHexTest() throws FrameworkException {
+        assertEquals("rgba(78, 115, 223, 0.05)", HtmlColor.rgbaFromHex("#4e73df", 0.05));
+        assertEquals("rgba(78, 115, 223, 0.05)", HtmlColor.rgbaFromHex("#4E73DF", 0.05));
+        assertEquals("rgba(255, 255, 255, 0.05)", HtmlColor.rgbaFromHex("#FFFFFF", 0.05));
+        assertEquals(StringUtil.EMPTY, HtmlColor.rgbaFromHex(null, 0.05));
+    }
 
 }

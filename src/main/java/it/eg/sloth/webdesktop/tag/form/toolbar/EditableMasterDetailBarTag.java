@@ -1,5 +1,7 @@
 package it.eg.sloth.webdesktop.tag.form.toolbar;
 
+import java.io.IOException;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -16,30 +18,30 @@ package it.eg.sloth.webdesktop.tag.form.toolbar;
  */
 public class EditableMasterDetailBarTag extends MasterDetailBarTag {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  @Override
-  protected void endTag() throws Throwable {
-    if (getElement().getDataSource() == null) {
-      return;
+    @Override
+    protected void endTag() throws IOException {
+        if (getElement().getDataSource() == null) {
+            return;
+        }
+
+        closeLeft();
+
+        if (getElement().getDataSource() != null) {
+            openRight();
+
+            if (getForm().getPageInfo().getPageStatus().isClean()) {
+                insertButton();
+                deleteButton();
+                updateButton();
+            } else {
+                commitButton();
+                rollbackButton();
+            }
+
+            closeRight();
+        }
     }
-    
-    closeLeft();
-    
-    if (getElement().getDataSource() != null) {
-      openRight();
-
-      if (getForm().getPageInfo().getPageStatus().isClean()) {
-        insertButton();
-        deleteButton();
-        updateButton();
-      } else {
-        commitButton();
-        rollbackButton();
-      }
-
-      closeRight();
-    }
-  }
 
 }

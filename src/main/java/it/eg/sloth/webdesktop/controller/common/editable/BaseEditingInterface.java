@@ -20,17 +20,17 @@ import it.eg.sloth.webdesktop.controller.common.SimplePageInterface;
  */
 public interface BaseEditingInterface extends SimplePageInterface {
 
-  public boolean execPostDetail(boolean validate) throws Exception;
+    boolean execPostDetail(boolean validate) throws Exception;
 
-  public boolean execUpdate() throws Exception;
+    boolean execUpdate() throws Exception;
 
-  public boolean execCommit() throws Exception;
+    boolean execCommit() throws Exception;
 
-  public boolean execRollback() throws Exception;
+    boolean execRollback() throws Exception;
 
-  public void onUpdate() throws Exception;
+    void onUpdate() throws Exception;
 
-  public void onCommit() throws Exception;
+    void onCommit() throws Exception;
 
-  public void onRollback() throws Exception;
+    void onRollback() throws Exception;
 }

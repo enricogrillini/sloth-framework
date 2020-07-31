@@ -3,6 +3,8 @@ package it.eg.sloth.webdesktop.tag.form.info;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 
+import java.io.IOException;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -19,31 +21,31 @@ import it.eg.sloth.webdesktop.tag.WebDesktopTag;
  */
 public class InfoBoxTag extends WebDesktopTag<Form> {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  public static final String CLASS_NAME = "frGroup";
+    public static final String CLASS_NAME = "frGroup";
 
-  private String title;
+    private String title;
 
-  public String getTitle() {
-    return title;
-  }
+    public String getTitle() {
+        return title;
+    }
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-  @Override
-  public int startTag() throws Throwable {
-    writeln("<div class=\"ui-state-highlight ui-corner-all\" style=\"margin-top:10px; padding: 0.7em;\">");
-    writeln(" <p style=\"margin-bottom: 5px\"><strong>" + getTitle() + "</strong></p>");
+    @Override
+    public int startTag() throws IOException {
+        writeln("<div class=\"ui-state-highlight ui-corner-all\" style=\"margin-top:10px; padding: 0.7em;\">");
+        writeln(" <p style=\"margin-bottom: 5px\"><strong>" + getTitle() + "</strong></p>");
 
-    return EVAL_BODY_INCLUDE;
-  }
+        return EVAL_BODY_INCLUDE;
+    }
 
-  @Override
-  protected void endTag() throws Throwable {
-    writeln("</div>");
-  }
+    @Override
+    protected void endTag() throws IOException {
+        writeln("</div>");
+    }
 
 }

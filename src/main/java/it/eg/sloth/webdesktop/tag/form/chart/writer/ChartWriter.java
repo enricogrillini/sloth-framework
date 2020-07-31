@@ -46,7 +46,7 @@ public class ChartWriter extends HtmlWriter {
                 .toString();
     }
 
-    public static final String writeScript(SimpleChart<?> simpleChart) throws FrameworkException, ParseException {
+    public static final String writeScript(SimpleChart<?> simpleChart) throws FrameworkException {
         ChartJs chartJs = populateChart(simpleChart);
 
         return new StringBuilder()
@@ -59,7 +59,7 @@ public class ChartWriter extends HtmlWriter {
                 .toString();
     }
 
-    public static final ChartJs populateChart(SimpleChart<?> simpleChart) throws FrameworkException, ParseException {
+    public static final ChartJs populateChart(SimpleChart<?> simpleChart) throws FrameworkException {
         ChartJs chartJs = new ChartJs();
         chartJs.setType(simpleChart.getChartType().toString().toLowerCase());
         chartJs.setData(populateChartData(simpleChart));
@@ -75,7 +75,7 @@ public class ChartWriter extends HtmlWriter {
         return chartJs;
     }
 
-    public static final ChartJsData populateChartData(SimpleChart<?> simpleChart) throws FrameworkException, ParseException {
+    public static final ChartJsData populateChartData(SimpleChart<?> simpleChart) throws FrameworkException {
         ChartJsData chartData = new ChartJsData();
 
         if (simpleChart.getDataTable() != null) {
@@ -102,7 +102,7 @@ public class ChartWriter extends HtmlWriter {
         return chartData;
     }
 
-    private static final void dataSetMonoColor(SimpleChart<?> simpleChart, ChartJsData chartData) throws FrameworkException, ParseException {
+    private static final void dataSetMonoColor(SimpleChart<?> simpleChart, ChartJsData chartData) throws FrameworkException {
         // Datasets
         List<Series> seriesList = simpleChart.getSeriesList();
         List<String> palette = HtmlColor.getColorPalette(seriesList.size());

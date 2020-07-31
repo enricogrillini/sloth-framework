@@ -7,6 +7,8 @@ import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.IOException;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -32,7 +34,7 @@ public class GroupTag extends WebDesktopTag<Form> {
   private String legend;
 
   @Override
-  public int startTag() throws Throwable {
+  public int startTag() throws IOException {
     writeln("");
     writeln("<fieldset>");
     if (!BaseFunction.isBlank(getLegend())) {
@@ -44,7 +46,7 @@ public class GroupTag extends WebDesktopTag<Form> {
   }
 
   @Override
-  protected void endTag() throws Throwable {
+  protected void endTag() throws IOException {
     writeln("</fieldset>");
   }
 

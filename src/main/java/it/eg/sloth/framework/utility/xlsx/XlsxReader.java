@@ -57,8 +57,8 @@ public class XlsxReader {
         return result;
     }
 
-    public static final  DataTable<? extends DataRow> getDataTable(Sheet sheet, int rowHeader, int minRow, int maxRow, int minCell, int maxCell) {
-        DataTable<?> table = new Table();
+    public static final <R extends DataRow> DataTable<R> getDataTable(Sheet sheet, int rowHeader, int minRow, int maxRow, int minCell, int maxCell) {
+        DataTable<R> table = (DataTable<R>) new Table();
 
         String[] names = getNames(sheet.getRow(rowHeader), minCell, maxCell);
         for (int i = minRow; i <= maxRow; i++) {

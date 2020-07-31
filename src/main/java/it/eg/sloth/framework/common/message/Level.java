@@ -16,16 +16,16 @@ package it.eg.sloth.framework.common.message;
  * @author Enrico Grillini
  */
 public enum Level {
-  ERROR(4), WARN(3), SUCCESS(2), INFO(1);
+    ERROR(4), WARN(3), SUCCESS(2), INFO(1);
 
-  int severity;
+    int severity;
 
-  private Level(int severity) {
-    this.severity = severity;
-  }
+    Level(int severity) {
+        this.severity = severity;
+    }
 
-  public boolean hasHigerSeverity(Level level) {
-    return this.severity > level.severity;
-  }
+    public boolean hasHigerSeverity(Level level) {
+        return this.severity > level.severity;
+    }
 
 }

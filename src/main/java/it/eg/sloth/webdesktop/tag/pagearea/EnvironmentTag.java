@@ -6,6 +6,8 @@ import it.eg.sloth.webdesktop.tag.pagearea.writer.EnvironmentWriter;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.IOException;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -28,14 +30,14 @@ public class EnvironmentTag extends WebDesktopTag<Form> {
     boolean label;
 
     @Override
-    protected int startTag() throws Throwable {
+    protected int startTag() throws IOException {
         write(EnvironmentWriter.writeEnvironment(label));
 
         return SKIP_BODY;
     }
 
     @Override
-    protected void endTag() throws Throwable {
+    protected void endTag() {
         // NOP
     }
 

@@ -1,9 +1,12 @@
 package it.eg.sloth.webdesktop.tag.pagearea;
 
 import it.eg.sloth.form.Form;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.search.model.SuggestionList;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.SearchWriter;
+
+import java.io.IOException;
 
 /**
  * Project: sloth-framework
@@ -23,7 +26,7 @@ import it.eg.sloth.webdesktop.tag.pagearea.writer.SearchWriter;
 public class SearchTag extends WebDesktopTag<Form> {
 
     @Override
-    protected int startTag() throws Throwable {
+    protected int startTag() throws IOException, FrameworkException {
 
         SuggestionList suggestionList = getWebDesktopDto().getSearchManager().getSuggestionList();
 
@@ -48,7 +51,7 @@ public class SearchTag extends WebDesktopTag<Form> {
     }
 
     @Override
-    protected void endTag() throws Throwable {
+    protected void endTag() {
         // NOP
     }
 

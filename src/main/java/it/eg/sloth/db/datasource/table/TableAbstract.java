@@ -1,13 +1,5 @@
 package it.eg.sloth.db.datasource.table;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.*;
-
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.db.datasource.DataTable;
@@ -17,6 +9,14 @@ import it.eg.sloth.db.datasource.table.sort.SortingRules;
 import it.eg.sloth.db.query.SelectQueryInterface;
 import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * Project: sloth-framework
@@ -344,7 +344,7 @@ public abstract class TableAbstract<T extends DataRow> extends FrameComponent im
     }
 
     @Override
-    public void copyFromResultSet(ResultSet resultSet) throws SQLException, IOException {
+    public void copyFromResultSet(ResultSet resultSet) throws SQLException, FrameworkException {
         if (size() > 0) {
             getRow().copyFromResultSet(resultSet);
         }
@@ -358,14 +358,14 @@ public abstract class TableAbstract<T extends DataRow> extends FrameComponent im
     }
 
     @Override
-    public void loadFromResultSet(ResultSet resultSet) throws SQLException, IOException {
+    public void loadFromResultSet(ResultSet resultSet) throws SQLException, FrameworkException {
         if (size() > 0) {
             getRow().loadFromResultSet(resultSet);
         }
     }
 
     @Override
-    public void setFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
+    public void setFromQuery(SelectQueryInterface query) throws SQLException, FrameworkException {
         query.populateDataTable(this);
     }
 

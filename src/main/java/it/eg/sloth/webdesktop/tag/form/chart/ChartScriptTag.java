@@ -1,8 +1,11 @@
 package it.eg.sloth.webdesktop.tag.form.chart;
 
 import it.eg.sloth.form.chart.SimpleChart;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import it.eg.sloth.webdesktop.tag.form.chart.writer.ChartWriter;
+
+import java.io.IOException;
 
 /**
  * Project: sloth-framework
@@ -23,7 +26,7 @@ public class ChartScriptTag extends BaseElementTag<SimpleChart<?>> {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected int startTag() throws Throwable {
+    protected int startTag() throws IOException, FrameworkException {
 
         writeln();
         writeln(ChartWriter.writeScript(getElement()));
@@ -32,7 +35,7 @@ public class ChartScriptTag extends BaseElementTag<SimpleChart<?>> {
     }
 
     @Override
-    protected void endTag() throws Throwable {
+    protected void endTag()  {
         //NOP
     }
 

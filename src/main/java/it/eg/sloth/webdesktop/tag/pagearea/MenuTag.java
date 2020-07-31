@@ -46,7 +46,7 @@ public class MenuTag extends WebDesktopTag<Form> {
     }
 
     @Override
-    protected int startTag() throws Throwable {
+    protected int startTag() throws IOException {
 
         writeln(MenuWriter.openMenu());
         writeln(EnvironmentWriter.writeEnvironment(false));
@@ -87,7 +87,7 @@ public class MenuTag extends WebDesktopTag<Form> {
     }
 
     @Override
-    protected void endTag() throws Throwable {
+    protected void endTag() throws IOException {
         write(MenuWriter.closeMenu());
     }
 

@@ -3,6 +3,8 @@ package it.eg.sloth.webdesktop.tag.form.toolbar;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.form.grid.Grid;
 
+import java.io.IOException;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -19,69 +21,69 @@ import it.eg.sloth.form.grid.Grid;
  */
 public class SimpleGridBarTag extends AbstractGridToolBarTag<Grid<?>> {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  private boolean navigation = true;
-  private boolean excel = true;
+    private boolean navigation = true;
+    private boolean excel = true;
 
-  public boolean isNavigation() {
-    return navigation;
-  }
-
-  public void setNavigation(boolean navigation) {
-    this.navigation = navigation;
-  }
-
-  public boolean isExcel() {
-    return excel;
-  }
-
-  public void setExcel(boolean excel) {
-    this.excel = excel;
-  }
-
-  @Override
-  public int startTag() throws Throwable {
-    DataTable<?> dataTable = getElement().getDataSource();
-    if (dataTable == null) {
-      return SKIP_BODY;
+    public boolean isNavigation() {
+        return navigation;
     }
 
-    openLeft();
+    public void setNavigation(boolean navigation) {
+        this.navigation = navigation;
+    }
 
-    // Pulsanti di navigazione
-    if (isNavigation()) {
-      firstRowButton(false);
-      prevPageButton(false);
-      nextPageButton(false);
-      lastRowButton(false);
+    public boolean isExcel() {
+        return excel;
+    }
 
-      // Informazioni di sintesi
-      if (dataTable.size() > 0) {
-        write(" Rec. " + (dataTable.getCurrentRow() + 1) + " di " + dataTable.size());
-        if (dataTable.getPageSize() > 0) {
-          write(", Pag. " + (dataTable.getCurrentPage() + 1) + " di " + dataTable.pages());
+    public void setExcel(boolean excel) {
+        this.excel = excel;
+    }
+
+    @Override
+    public int startTag() throws IOException {
+        DataTable<?> dataTable = getElement().getDataSource();
+        if (dataTable == null) {
+            return SKIP_BODY;
         }
-      }
-    } else {
-      write("&nbsp;Rec. " + dataTable.size());
+
+        openLeft();
+
+        // Pulsanti di navigazione
+        if (isNavigation()) {
+            firstRowButton(false);
+            prevPageButton(false);
+            nextPageButton(false);
+            lastRowButton(false);
+
+            // Informazioni di sintesi
+            if (dataTable.size() > 0) {
+                write(" Rec. " + (dataTable.getCurrentRow() + 1) + " di " + dataTable.size());
+                if (dataTable.getPageSize() > 0) {
+                    write(", Pag. " + (dataTable.getCurrentPage() + 1) + " di " + dataTable.pages());
+                }
+            }
+        } else {
+            write("&nbsp;Rec. " + dataTable.size());
+        }
+
+        // Estrazione Excel
+        if (isExcel()) {
+            excelButton();
+        }
+
+        return EVAL_BODY_INCLUDE;
     }
 
-    // Estrazione Excel
-    if (isExcel()) {
-      excelButton();
+    @Override
+    protected void endTag() throws IOException {
+        if (getElement().getDataSource() == null) {
+            return;
+        }
+
+        closeLeft();
     }
-
-    return EVAL_BODY_INCLUDE;
-  }
-
-  @Override
-  protected void endTag() throws Throwable {
-    if (getElement().getDataSource() == null) {
-      return;
-    }
-
-    closeLeft();
-  }
 
 }

@@ -26,7 +26,7 @@ public class TabTag extends BaseElementTag<Tab> {
         return (TabSheet) getParentElement();
     }
 
-    public int startTag() throws Throwable {
+    public int startTag() {
         TabSheet tabSheet = getTabSheet();
         if (tabSheet.getCurrentTab() == getElement()) {
             return EVAL_BODY_INCLUDE;
@@ -35,7 +35,7 @@ public class TabTag extends BaseElementTag<Tab> {
         }
     }
 
-    protected void endTag() throws Throwable {
+    protected void endTag() {
         // NOP
     }
 

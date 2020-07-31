@@ -166,7 +166,7 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
 
     }
 
-    protected int startTag() throws Throwable {
+    protected int startTag() throws IOException, FrameworkException {
         writeln("<table class=\"frRollup\" cellspacing=\"0\">");
 
         writeHeaders(getElement().getDataNode(), 0);
@@ -189,7 +189,7 @@ public class Rollup2Tag extends BaseElementTag<Rollup> {
         return SKIP_BODY;
     }
 
-    protected void endTag() throws Throwable {
+    protected void endTag() {
         // NOP
     }
 }

@@ -12,7 +12,10 @@ import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.base.TextField;
 import it.eg.sloth.form.fields.field.impl.Button;
+import it.eg.sloth.form.fields.field.impl.InputTotalizer;
+import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.form.grid.Grid;
+import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
@@ -21,6 +24,7 @@ import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 import it.eg.sloth.webdesktop.tag.form.field.writer.TextControlWriter;
 
+import java.math.BigDecimal;
 import java.text.MessageFormat;
 
 public class GridWriter extends HtmlWriter {
@@ -257,6 +261,40 @@ public class GridWriter extends HtmlWriter {
         result.append(" </tbody>\n");
 
         return result.toString();
+    }
+
+    public static String total(Grid<?> grid, boolean hasDetail) throws FrameworkException {
+        StringBuilder result = new StringBuilder();
+        result.append(" <tr>\n");
+
+        if (hasDetail) {
+            result.append("  <td>&nbsp;</td>\n");
+        }
+
+        for (SimpleField field : grid.getElements()) {
+            if (field instanceof TextField && ((TextField<?>) field).isHidden())
+                continue;
+
+            if (field instanceof TextTotalizer || field instanceof InputTotalizer) {
+                TextField<BigDecimal> textField = (TextField<BigDecimal>) field.newInstance();
+
+                BigDecimal totale = new BigDecimal(0);
+                for (DataRow dataRow : grid.getDataSource()) {
+                    totale = totale.add(BaseFunction.nvl(dataRow.getBigDecimal(textField.getAlias()), new BigDecimal(0)));
+                }
+
+                textField.setValue(totale);
+
+                result.append("  <td class=\"sum\">" + textField.escapeHtmlText() + "</td>\n");
+            } else {
+                result.append("  <td class=\"sum\">&nbsp;</td>\n");
+            }
+        }
+
+        return result
+                .append(" </tr>\n")
+                .toString();
+
     }
 
 }

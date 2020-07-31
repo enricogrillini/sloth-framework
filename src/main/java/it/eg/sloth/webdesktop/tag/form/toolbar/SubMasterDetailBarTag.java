@@ -3,6 +3,8 @@ package it.eg.sloth.webdesktop.tag.form.toolbar;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.form.grid.Grid;
 
+import java.io.IOException;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -22,7 +24,7 @@ public class SubMasterDetailBarTag extends AbstractGridToolBarTag<Grid<?>> {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public int startTag() throws Throwable {
+    public int startTag() throws IOException {
         DataTable<?> dataTable = getElement().getDataSource();
 
         if (dataTable == null) {
@@ -53,7 +55,7 @@ public class SubMasterDetailBarTag extends AbstractGridToolBarTag<Grid<?>> {
     }
 
     @Override
-    protected void endTag() throws Throwable {
+    protected void endTag() throws IOException {
         if (getElement().getDataSource() == null) {
             return;
         }

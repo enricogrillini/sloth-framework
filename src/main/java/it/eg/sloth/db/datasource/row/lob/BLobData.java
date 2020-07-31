@@ -1,5 +1,7 @@
 package it.eg.sloth.db.datasource.row.lob;
 
+import it.eg.sloth.framework.common.exception.ExceptionCode;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -29,7 +31,7 @@ public class BLobData extends LobData<byte[]> {
         super();
     }
 
-    public BLobData(boolean load, Blob blob) {
+    public BLobData(boolean load, Blob blob)  throws FrameworkException {
         this();
 
         if (load && blob != null) {
@@ -37,7 +39,7 @@ public class BLobData extends LobData<byte[]> {
                 value = IOUtils.toByteArray(inputStream);
                 setStatus(LobData.ON_LINE);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new FrameworkException(ExceptionCode.GENERIC_SYSTEM_ERROR, e);
             }
         }
     }

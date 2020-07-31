@@ -4,6 +4,8 @@ import it.eg.sloth.form.Form;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.PageWriter;
 
+import java.io.IOException;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -24,7 +26,7 @@ public class PageTag extends WebDesktopTag<Form> {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected int startTag() throws Throwable {
+    protected int startTag() throws IOException {
         writeln("");
         writeln(" <!-- Page wrapper -->");
         writeln(" <div id=\"wrapper\">");
@@ -33,7 +35,7 @@ public class PageTag extends WebDesktopTag<Form> {
     }
 
     @Override
-    protected void endTag() throws Throwable {
+    protected void endTag() throws IOException {
         writeln(" </div>");
 
         writeln(" <!-- Scroll to Top Button-->");

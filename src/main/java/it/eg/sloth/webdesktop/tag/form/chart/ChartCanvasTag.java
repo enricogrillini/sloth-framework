@@ -4,6 +4,8 @@ import it.eg.sloth.form.chart.SimpleChart;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import it.eg.sloth.webdesktop.tag.form.chart.writer.ChartWriter;
 
+import java.io.IOException;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -23,7 +25,7 @@ public class ChartCanvasTag extends BaseElementTag<SimpleChart<?>> {
   private static final long serialVersionUID = 1L;
 
   @Override
-  protected int startTag() throws Throwable {
+  protected int startTag() throws IOException {
 
     writeln();
     writeln(ChartWriter.writeCanvas(getElement()));
@@ -32,7 +34,7 @@ public class ChartCanvasTag extends BaseElementTag<SimpleChart<?>> {
   }
 
   @Override
-  protected void endTag() throws Throwable {
+  protected void endTag() {
     // NOP
   }
 

@@ -3,6 +3,7 @@ package it.eg.sloth.webdesktop.tag.pagearea;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.Casting;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.configuration.ConfigSingleton;
 import it.eg.sloth.framework.security.Menu;
 import it.eg.sloth.webdesktop.WebDesktopConstant;
@@ -14,6 +15,7 @@ import it.eg.sloth.webdesktop.tag.pagearea.writer.SearchWriter;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.IOException;
 import java.util.Collection;
 
 /**
@@ -41,7 +43,7 @@ public class ContentTag extends WebDesktopTag<Form> {
     private boolean hideSearch = false;
 
     @Override
-    protected int startTag() throws Throwable {
+    protected int startTag() throws IOException, FrameworkException {
         String titoloHtml = Casting.getHtml(getWebDesktopDto().getForm().getPageInfo().getTitle());
         String userHtml = Casting.getHtml(getUser().getName() + " " + getUser().getSurname());
 
@@ -148,7 +150,7 @@ public class ContentTag extends WebDesktopTag<Form> {
     }
 
     @Override
-    protected void endTag() throws Throwable {
+    protected void endTag() throws IOException {
         writeln("    </form>");
         writeln("   </div>");
         writeln("  </div>");

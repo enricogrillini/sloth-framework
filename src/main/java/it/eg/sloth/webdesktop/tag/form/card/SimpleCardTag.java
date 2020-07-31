@@ -5,6 +5,8 @@ import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import it.eg.sloth.webdesktop.tag.form.card.writer.CardWriter;
 
+import java.io.IOException;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -21,19 +23,19 @@ import it.eg.sloth.webdesktop.tag.form.card.writer.CardWriter;
  */
 public class SimpleCardTag extends WebDesktopTag<Form> {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  @Override
-  protected int startTag() throws Throwable {
-    writeln("<!-- SimpleCard -->");
-    writeln(CardWriter.openCard(BootStrapClass.BORDER_LEFT_NONE));
+    @Override
+    protected int startTag() throws IOException {
+        writeln("<!-- SimpleCard -->");
+        writeln(CardWriter.openCard(BootStrapClass.BORDER_LEFT_NONE));
 
-    return EVAL_BODY_INCLUDE;
-  }
+        return EVAL_BODY_INCLUDE;
+    }
 
-  @Override
-  protected void endTag() throws Throwable {
-    writeln(CardWriter.closeCard());
-  }
+    @Override
+    protected void endTag() throws IOException {
+        writeln(CardWriter.closeCard());
+    }
 
 }

@@ -1,17 +1,9 @@
 package it.eg.sloth.webdesktop.tag;
 
-import it.eg.sloth.form.fields.field.impl.Text;
-import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.configuration.ConfigSingleton;
-import it.eg.sloth.webdesktop.tag.form.card.writer.CardWriter;
-import it.eg.sloth.webdesktop.tag.form.chart.writer.ChartWriter;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.EnvironmentWriter;
-import org.junit.Assert;
 import org.junit.Test;
-
-import java.math.BigDecimal;
-import java.text.MessageFormat;
 
 import static org.junit.Assert.assertEquals;
 

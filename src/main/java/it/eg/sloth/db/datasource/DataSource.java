@@ -1,5 +1,7 @@
 package it.eg.sloth.db.datasource;
 
+import it.eg.sloth.framework.common.exception.FrameworkException;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
@@ -81,7 +83,7 @@ public interface DataSource {
      * @param resultSet
      * @throws SQLException
      */
-    default void copyFromResultSet(ResultSet resultSet) throws SQLException, IOException {
+    default void copyFromResultSet(ResultSet resultSet) throws SQLException, FrameworkException {
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 
         for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
@@ -125,7 +127,7 @@ public interface DataSource {
      * @throws SQLException
      * @throws IOException
      */
-    default void loadFromResultSet(ResultSet resultSet) throws SQLException, IOException {
+    default void loadFromResultSet(ResultSet resultSet) throws SQLException, FrameworkException {
         clear();
         copyFromResultSet(resultSet);
     }

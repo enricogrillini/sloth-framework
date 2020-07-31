@@ -162,7 +162,7 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
 
     }
 
-    public int startTag() throws Throwable {
+    public int startTag() throws IOException, FrameworkException {
         if (getElement().getDataSource() != null) {
             writeln("");
             writeln("<table class=\"frElenco\">");
@@ -180,7 +180,7 @@ public class RadioGridTag extends AbstractGridTag<RadioGrid<?>> {
         return EVAL_BODY_INCLUDE;
     }
 
-    protected void endTag() throws Throwable {
+    protected void endTag() {
         // NOP
     }
 

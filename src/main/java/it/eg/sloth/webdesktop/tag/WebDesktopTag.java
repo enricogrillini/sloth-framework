@@ -6,6 +6,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 
 import it.eg.sloth.form.Form;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.framework.security.User;
 import it.eg.sloth.webdesktop.common.SessionManager;
@@ -75,14 +76,14 @@ public abstract class WebDesktopTag<F extends Form> extends TagSupport {
      *
      * @return
      */
-    protected abstract int startTag() throws Throwable;
+    protected abstract int startTag() throws IOException, FrameworkException;
 
     /**
      * Metodo richiamato da doStartTag
      *
      * @return
      */
-    protected abstract void endTag() throws Throwable;
+    protected abstract void endTag() throws IOException, FrameworkException;
 
     /**
      * Ritorna l'attributo specificato prelevandolo dalla session
@@ -124,7 +125,7 @@ public abstract class WebDesktopTag<F extends Form> extends TagSupport {
         try {
             return startTag();
 
-        } catch (Throwable e) {
+        } catch (IOException| FrameworkException e) {
             log.error("doStartTag {}", e.getMessage(), e);
             try {
                 writeln("Errore nel metodo " + getClass().getName() + ".startTag: " + e.toString());
@@ -140,7 +141,7 @@ public abstract class WebDesktopTag<F extends Form> extends TagSupport {
     public int doEndTag() throws JspException {
         try {
             endTag();
-        } catch (Throwable e) {
+        } catch (IOException| FrameworkException e) {
             log.error("doEndTag\n", e);
             try {
                 writeln("<!-- Errore nel metodo " + getClass().getName() + ".endTag: " + e.toString() + " -->");

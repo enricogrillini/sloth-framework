@@ -33,7 +33,7 @@ public interface DataRow extends DataSource {
      * @throws IOException
      * @throws FrameworkException
      */
-    default void setFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
+    default void setFromQuery(SelectQueryInterface query) throws SQLException, FrameworkException {
         query.populateDataRow(this);
     }
 

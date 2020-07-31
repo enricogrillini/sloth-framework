@@ -4,6 +4,8 @@ import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 
+import java.io.IOException;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -22,7 +24,7 @@ public class SearchBarTag extends WebDesktopTag<Form> {
 
     private static final long serialVersionUID = 1L;
 
-    public int startTag() throws Throwable {
+    public int startTag() throws IOException {
 
         writeln("");
         writeln("<!-- Search Bar -->");
@@ -33,7 +35,7 @@ public class SearchBarTag extends WebDesktopTag<Form> {
         return EVAL_BODY_INCLUDE;
     }
 
-    protected void endTag() throws Throwable {
+    protected void endTag() throws IOException {
         writeln("</div>");
     }
 
