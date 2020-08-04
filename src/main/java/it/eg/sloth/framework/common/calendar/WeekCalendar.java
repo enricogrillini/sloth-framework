@@ -1,50 +1,57 @@
 package it.eg.sloth.framework.common.calendar;
 
+import java.sql.Timestamp;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+public class WeekCalendar<E> implements Iterable<Day<E>> {
 
-public class WeekCalendar implements Iterable<Day<?>> {
+  private Timestamp week;
+  private Map<Timestamp, Day<E>> dayMap;
 
-    private Timestamp week;
-    private  List<Day<?>> dayList;
+  public WeekCalendar(Timestamp week) throws FrameworkException {
+    dayMap = new LinkedHashMap<>();
+    setWeek(week);
+  }
 
-    public WeekCalendar(Timestamp week) throws FrameworkException {
-        dayList = new ArrayList<>();
-        setWeek(week);
+  public void setWeek(Timestamp week) throws FrameworkException {
+    this.week = TimeStampUtil.firstDayOfWeek(week);
+    dayMap.clear();
+
+    for (int i = 0; i < 7; i++) {
+      Day<E> day = new Day<>(TimeStampUtil.add(week, i));
+      dayMap.put(day.getDay(), day);
     }
+  }
 
-    public void setWeek(Timestamp week) throws FrameworkException {
-        this.week = TimeStampUtil.firstDayOfWeek(week);
-        dayList.clear();
+  @Override
+  public Iterator<Day<E>> iterator() {
+    return dayMap.values().iterator();
+  }
 
-        for (int i = 0; i < 7; i++) {
-            dayList.add(new Day(TimeStampUtil.add(week, i)));
-        }
-    }
+  public Day<E> getDay(Timestamp day) {
+    return dayMap.get(day);
+  }
 
-    @Override
-    public Iterator<Day<?>> iterator() {
-        return dayList.iterator();
-    }
+  public Timestamp firstWeekDay() {
+    return week;
+  }
 
-    public Timestamp firstWeekDay() {
-        return week;
-    }
+  public Timestamp lastWeekDay() throws FrameworkException {
+    return TimeStampUtil.lastDayOfWeek(week);
+  }
 
-    public Timestamp lastWeekDay() throws FrameworkException {
-        return TimeStampUtil.lastDayOfWeek(week);
-    }
+  public WeekCalendar<E> prev() throws FrameworkException {
+    setWeek(TimeStampUtil.add(week, -7));
+    return this;
+  }
 
-    public void prev() throws FrameworkException {
-        setWeek(TimeStampUtil.add(week, -7));
-    }
-
-    public void next() throws FrameworkException {
-        setWeek(TimeStampUtil.add(week, 7));
-    }
+  public WeekCalendar<E> next() throws FrameworkException {
+    setWeek(TimeStampUtil.add(week, 7));
+    return this;
+  }
 }
