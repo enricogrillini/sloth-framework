@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Project: sloth-framework
@@ -47,7 +48,11 @@ public class TimeStampUtil {
      * @return
      */
     public static String formatTimestamp(Timestamp date) {
-        return formatTimestamp(date, null);
+        return formatTimestamp(date, null, null);
+    }
+
+    public static String formatTimestamp(Timestamp date, String format) {
+        return formatTimestamp(date, null, format);
     }
 
     /**
@@ -57,7 +62,7 @@ public class TimeStampUtil {
      * @param format
      * @return
      */
-    public static String formatTimestamp(Timestamp date, String format) {
+    public static String formatTimestamp(Timestamp date, Locale locale, String format) {
         if (BaseFunction.isNull(date)) {
             return StringUtil.EMPTY;
         }
@@ -66,7 +71,8 @@ public class TimeStampUtil {
             format = DEFAULT_FORMAT;
         }
 
-        SimpleDateFormat dfOutput = new SimpleDateFormat(format);
+        SimpleDateFormat dfOutput = locale == null ? new SimpleDateFormat(format) : new SimpleDateFormat(format, locale);
+
         return dfOutput.format(date);
     }
 
@@ -153,7 +159,7 @@ public class TimeStampUtil {
 
     public static final Integer getYear(Timestamp value) {
         Calendar calendar = toCalendar(value);
-        if (calendar!=null) {
+        if (calendar != null) {
             return calendar.get(Calendar.YEAR);
         } else {
             return null;
@@ -162,7 +168,7 @@ public class TimeStampUtil {
 
     public static final Integer getDayOfWeek(Timestamp value) {
         Calendar calendar = toCalendar(value);
-        if (calendar!=null) {
+        if (calendar != null) {
             return calendar.get(Calendar.DAY_OF_WEEK);
         } else {
             return null;
@@ -292,7 +298,7 @@ public class TimeStampUtil {
 
         // Festività Fisse
         for (String holiday : FIXED_HOLIDAY) {
-            if (formatTimestamp(data, DAY_TRUNC_FORMAT).equals(holiday)) {
+            if (formatTimestamp(data, null, DAY_TRUNC_FORMAT).equals(holiday)) {
                 return true;
             }
         }
@@ -307,7 +313,7 @@ public class TimeStampUtil {
 
         // Altre festività
         for (Timestamp timestamp : otherHoliday) {
-            if (formatTimestamp(data, DAY_TRUNC_FORMAT).equals(formatTimestamp(timestamp, DAY_TRUNC_FORMAT))) {
+            if (formatTimestamp(data, null, DAY_TRUNC_FORMAT).equals(formatTimestamp(timestamp, null, DAY_TRUNC_FORMAT))) {
                 return true;
             }
         }

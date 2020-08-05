@@ -1,10 +1,5 @@
 package it.eg.sloth.db.datasource.row.lob;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -20,7 +15,7 @@ import java.io.ObjectOutput;
  *
  * @author Enrico Grillini
  */
-public abstract class LobData<O extends Object>  implements Externalizable {
+public abstract class LobData<O extends Object>  {
 
   public static final int OFF_LINE = 0;
   public static final int ON_LINE = 1;
@@ -50,16 +45,6 @@ public abstract class LobData<O extends Object>  implements Externalizable {
   public void setValue(O value) {
     setStatus(CHANGED);
     this.value = value;
-  }
-
-  @Override
-  public void writeExternal(ObjectOutput out) throws IOException {
-    out.writeInt(getStatus());
-  }
-
-  @Override
-  public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-    setStatus(in.readInt());
   }
 
 }

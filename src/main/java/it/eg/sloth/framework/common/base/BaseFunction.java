@@ -154,7 +154,7 @@ public class BaseFunction {
      * @throws ParseException
      */
     public static Timestamp trunc(Timestamp timestamp, String format) throws FrameworkException {
-        return TimeStampUtil.parseTimestamp(TimeStampUtil.formatTimestamp(timestamp, format), format);
+        return TimeStampUtil.parseTimestamp(TimeStampUtil.formatTimestamp(timestamp, null, format), format);
     }
 
     /**

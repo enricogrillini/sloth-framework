@@ -1,6 +1,7 @@
 package it.eg.sloth.webdesktop.tag.page;
 
 import it.eg.sloth.form.Form;
+import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,6 +35,7 @@ public class HeadTag extends WebDesktopTag<Form> {
         pageContext.getResponse().setContentType("text/html; charset=UTF-8");
         pageContext.getResponse().setCharacterEncoding(StandardCharsets.UTF_8.name());
         pageContext.getResponse().setLocale(Locale.ITALY);
+        String titolo = Casting.getHtml(getWebDesktopDto().getForm().getPageInfo().getTitle());
 
         writeln("<head>");
         writeln(" <meta charset=\"utf-8\">");
@@ -44,6 +46,7 @@ public class HeadTag extends WebDesktopTag<Form> {
         writeln("");
 
         writeln(" <link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"../img/favicon.png\">");
+        writeln(" <title>" + titolo + "</title>");
 
         // CSS
         writeln(" <link href=\"../vendor/fontawesome/css/all.min.css\" rel=\"stylesheet\" type=\"text/css\">");
