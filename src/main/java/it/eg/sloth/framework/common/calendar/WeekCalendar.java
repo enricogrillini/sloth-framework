@@ -24,7 +24,7 @@ public class WeekCalendar<E> implements Iterable<Day<E>> {
 
     for (int i = 0; i < 7; i++) {
       Day<E> day = new Day<>(TimeStampUtil.add(week, i));
-      dayMap.put(day.getDay(), day);
+      dayMap.put(day.getCurrentDay(), day);
     }
   }
 

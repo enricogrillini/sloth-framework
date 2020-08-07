@@ -35,7 +35,7 @@ public class WeekCalendarTest {
 
 
     @Test
-    public void WeekTest() throws FrameworkException {
+    public void weekTest() throws FrameworkException {
         assertEquals(TimeStampUtil.parseTimestamp("06/07/2020", "dd/MM/yyyy"), weekCalendar.firstWeekDay());
         assertEquals(TimeStampUtil.parseTimestamp("12/07/2020", "dd/MM/yyyy"), weekCalendar.lastWeekDay());
     }

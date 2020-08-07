@@ -13,7 +13,7 @@ import java.util.List;
 public class Day<E> implements Iterable<E> {
 
     @Getter
-    private Timestamp day;
+    private Timestamp currentDay;
 
     @Getter
     @Setter
@@ -22,13 +22,13 @@ public class Day<E> implements Iterable<E> {
     private List<E> eventList;
 
     public Day(Timestamp day) {
-        this.day = day;
+        this.currentDay = day;
         this.locked = false;
         this.eventList = new ArrayList<>();
     }
 
     public boolean isHolliday(Timestamp... otherHoliday) throws FrameworkException {
-        return TimeStampUtil.isHoliday(day, otherHoliday);
+        return TimeStampUtil.isHoliday(currentDay, otherHoliday);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class Day<E> implements Iterable<E> {
         eventList.remove(event);
     }
 
-    public void clearEvents(E event) {
+    public void clearEvents() {
         eventList.clear();
     }
 
