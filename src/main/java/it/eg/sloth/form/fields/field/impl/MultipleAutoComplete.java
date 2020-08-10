@@ -12,6 +12,7 @@ import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.exception.ExceptionCode;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.Message;
@@ -200,7 +201,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
     }
 
     @Override
-    public void post(WebRequest webRequest) {
+    public void post(WebRequest webRequest) throws FrameworkException {
         try {
 
             if (!isReadOnly()) {
@@ -209,7 +210,7 @@ public class MultipleAutoComplete<L extends List<T>, T> extends InputField<L> {
                 localPost(webRequest.getString(getName()));
             }
         } catch (Exception e) {
-            throw new RuntimeException("Errore su post campo: " + getName(), e);
+            throw new FrameworkException(ExceptionCode.GENERIC_BUSINESS_ERROR, "Errore su post campo: " + getName(), e);
         }
     }
 

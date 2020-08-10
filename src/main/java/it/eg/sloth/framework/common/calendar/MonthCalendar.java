@@ -28,7 +28,7 @@ public class MonthCalendar<E> implements Iterable<Day<E>> {
             dayMap.put(day.getCurrentDay(), day);
 
             currentDay = TimeStampUtil.add(currentDay, 1);
-        } while (currentDay.after(lastCalendarDay()));
+        } while (currentDay.compareTo(lastCalendarDay()) <= 0);
     }
 
     @Override
