@@ -5,8 +5,10 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
+
+import java.io.*;
+
+import java.nio.charset.StandardCharsets;
 import java.sql.Clob;
 import java.sql.SQLException;
 
@@ -36,11 +38,8 @@ public class CLobData extends LobData<String> {
         this();
 
         if (load && clob != null) {
-            try (InputStream inputStream = clob.getAsciiStream()) {
-                byte  [] aaaa = IOUtils.toByteArray(inputStream);
-                log.info("aaaa {}", aaaa.length);
-
-                value = new String(aaaa);
+            try (Reader reader = clob.getCharacterStream()) {
+                value = new String(IOUtils.toString(reader).getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
                 setStatus(LobData.ON_LINE);
             } catch (IOException | SQLException e) {
                 throw new FrameworkException(ExceptionCode.GENERIC_SYSTEM_ERROR, e);
