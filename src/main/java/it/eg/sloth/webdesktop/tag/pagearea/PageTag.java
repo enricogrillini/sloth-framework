@@ -54,6 +54,7 @@ public class PageTag extends WebDesktopTag<Form> {
 
         writeln(PageWriter.modalLogout());
         writeln(PageWriter.modalJob());
+        writeln(PageWriter.modalAlert());
 
     }
 

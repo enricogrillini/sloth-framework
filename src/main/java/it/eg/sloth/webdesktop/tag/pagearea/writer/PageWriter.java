@@ -50,6 +50,21 @@ public class PageWriter {
                     "  </div>\n" +
                     " </div>\n";
 
+    public static final String MODAL_ALERT =
+            " <!-- AlertModal -->\n" +
+                    " <div class=\"modal fade\" id=\"alertModal\" tabindex=\"-1\" role=\"dialog\">\n" +
+                    "  <div class=\"modal-dialog modal-dialog-centered\" role=\"document\">\n" +
+                    "   <div class=\"modal-content\">\n" +
+                    "    <div class=\"modal-header\">\n" +
+                    "     <h5 id=\"alertModalTitle\" class=\"modal-title text-primary\"></h5>\n" +
+                    "     <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n" +
+                    "      <span aria-hidden=\"true\">&times;</span>\n" +
+                    "     </button>\n" +
+                    "    </div>\n" +
+                    "    <div id=\"alertModalDescription\" class=\"modal-body\"></div>\n" +
+                    "   </div>\n" +
+                    "  </div>\n" +
+                    " </div>";
 
     public static final String modalLogout() {
         return MODAL_LOGOUT;
@@ -57,5 +72,9 @@ public class PageWriter {
 
     public static final String modalJob() {
         return MODAL_JOB;
+    }
+
+    public static final String modalAlert() {
+        return MODAL_ALERT;
     }
 }

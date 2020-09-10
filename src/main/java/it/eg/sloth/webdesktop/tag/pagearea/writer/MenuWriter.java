@@ -16,13 +16,23 @@ public class MenuWriter extends HtmlWriter {
         if (!BaseFunction.isBlank(ConfigSingleton.getInstance().getString(ConfigSingleton.FRAMEWORK_LOGO_LEFT))) {
             String logoLeft = ConfigSingleton.getInstance().getString(ConfigSingleton.FRAMEWORK_LOGO_LEFT);
             String logoRight = ConfigSingleton.getInstance().getString(ConfigSingleton.FRAMEWORK_LOGO_RIGHT);
+            String logoUrl = ConfigSingleton.getInstance().getString(ConfigSingleton.FRAMEWORK_LOGO_URL);
 
-            result
-                    .append("   <span class=\"sidebar-brand d-flex align-items-center justify-content-center\">\n")
-                    .append("    <div class=\"sidebar-brand-icon\"><img src=\"" + logoLeft + "\"></div>\n")
-                    .append("    <div class=\"sidebar-brand-text mx-3\"><img src=\"" + logoRight + "\"></div>\n")
-                    .append("   </span>\n")
-                    .append("   <hr class=\"sidebar-divider\">\n");
+            if (BaseFunction.isBlank(logoUrl)) {
+                result
+                        .append("   <span class=\"sidebar-brand d-flex align-items-center justify-content-center\">\n")
+                        .append("    <div class=\"sidebar-brand-icon\"><img src=\"" + logoLeft + "\"></div>\n")
+                        .append("    <div class=\"sidebar-brand-text mx-3\"><img src=\"" + logoRight + "\"></div>\n")
+                        .append("   </span>\n")
+                        .append("   <hr class=\"sidebar-divider\">\n");
+            } else {
+                result
+                        .append("   <span class=\"sidebar-brand d-flex align-items-center justify-content-center\">\n")
+                        .append("    <a href=\"" + logoUrl + "\" class=\"sidebar-brand-icon\"><img src=\"" + logoLeft + "\"></a>\n")
+                        .append("    <a href=\"" + logoUrl + "\" class=\"sidebar-brand-text mx-3\"><img src=\"" + logoRight + "\"></a>\n")
+                        .append("   </span>\n")
+                        .append("   <hr class=\"sidebar-divider\">\n");
+            }
         }
 
         return result.toString();
