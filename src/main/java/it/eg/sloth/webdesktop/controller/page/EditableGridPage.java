@@ -1,7 +1,6 @@
 package it.eg.sloth.webdesktop.controller.page;
 
 import it.eg.sloth.db.DataManager;
-import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
@@ -268,11 +267,7 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
 
     @Override
     public void onSort(Grid<?> grid, String fieldName, int sortType) throws Exception {
-        DataTable<?> dataTable = grid.getDataSource();
-
-        dataTable.clearSortingRules();
-        dataTable.addSortingRule(fieldName, sortType);
-        dataTable.applySort(false);
+        grid.orderBy(fieldName, sortType);
     }
 
     @Override

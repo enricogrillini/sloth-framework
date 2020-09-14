@@ -79,7 +79,7 @@ public class XlsxReader {
                     dataRow.setString(nome, null);
                 } else if (cell.getCellType() == CellType.STRING) {
                     dataRow.setString(nome, StringUtil.parseString(cell.getRichStringCellValue().getString()));
-                } else if ("@" .equals(cell.getCellStyle().getDataFormatString())) {
+                } else if ("@".equals(cell.getCellStyle().getDataFormatString())) {
                     double value = cell.getNumericCellValue();
                     if (value == 0) {
                         dataRow.setString(nome, "");
@@ -104,11 +104,11 @@ public class XlsxReader {
         return table;
     }
 
-    public static final DataTable getDataTable(Sheet sheet) {
+    public static final <R extends DataRow> DataTable<R> getDataTable(Sheet sheet) {
         return getDataTable(sheet, 0, 1, sheet.getLastRowNum(), 0, sheet.getRow(0).getLastCellNum());
     }
 
-    public static final DataTable getDataTable(InputStream inputStream) throws IOException {
+    public static final <R extends DataRow> DataTable<R> getDataTable(InputStream inputStream) throws IOException {
         try (Workbook workbook = new XSSFWorkbook(inputStream)) {
             return getDataTable(workbook.getSheetAt(0));
         }

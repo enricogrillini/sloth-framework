@@ -45,6 +45,7 @@ public abstract class TextField<T extends Object> implements DataField<T> {
     String tooltip;
 
     String alias;
+    String orderByAlias;
     DataTypes dataType;
     String format;
     String baseLink;
@@ -70,6 +71,11 @@ public abstract class TextField<T extends Object> implements DataField<T> {
     @Override
     public String getAlias() {
         return BaseFunction.isBlank(alias) ? getName() : alias.toLowerCase();
+    }
+
+    @Override
+    public String getOrderByAlias() {
+        return BaseFunction.isBlank(orderByAlias) ? getAlias(): orderByAlias.toLowerCase();
     }
 
     public T getValue() throws FrameworkException {

@@ -22,27 +22,27 @@ import it.eg.sloth.form.tabsheet.TabSheet;
  */
 public interface MasterDetailGridNavigationInterface extends BaseGridNavigationInterface {
 
-  public void execLoadDetail() throws Exception;
-  
-  public void execLoadSubDetail(Grid<?> grid) throws Exception;
+    void execLoadDetail() throws Exception;
 
-  public void onElenco() throws Exception;
+    void execLoadSubDetail(Grid<?> grid) throws Exception;
 
-  public void execSelectTab(TabSheet tabSheet, Tab tab) throws Exception;
+    void onElenco() throws Exception;
 
-  public void onSelectTab(String tabSheetName, String tabName) throws Exception;
+    void execSelectTab(TabSheet tabSheet, Tab tab) throws Exception;
 
-  public void onSubGoToRecord(Grid<?> grid, int record) throws Exception;
+    void onSelectTab(String tabSheetName, String tabName) throws Exception;
 
-  public void onSubFirstRow(Grid<?> grid) throws Exception;
+    void onSubGoToRecord(Grid<?> grid, int record) throws Exception;
 
-  public void onSubPrevPage(Grid<?> grid) throws Exception;
+    void onSubFirstRow(Grid<?> grid) throws Exception;
 
-  public void onSubPrev(Grid<?> grid) throws Exception;
+    void onSubPrevPage(Grid<?> grid) throws Exception;
 
-  public void onSubNext(Grid<?> grid) throws Exception;
+    void onSubPrev(Grid<?> grid) throws Exception;
 
-  public void onSubNextPage(Grid<?> grid) throws Exception;
+    void onSubNext(Grid<?> grid) throws Exception;
 
-  public void onSubLastRow(Grid<?> grid) throws Exception;
+    void onSubNextPage(Grid<?> grid) throws Exception;
+
+    void onSubLastRow(Grid<?> grid) throws Exception;
 }

@@ -34,6 +34,13 @@ public interface DataField<T> extends SimpleField {
     String getAlias();
 
     /**
+     * Ritorna l'order by alias
+     *
+     * @return
+     */
+    String getOrderByAlias();
+
+    /**
      * Imposta l'alias
      *
      * @param alias

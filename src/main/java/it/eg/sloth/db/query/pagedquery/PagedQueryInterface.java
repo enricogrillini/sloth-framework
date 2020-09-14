@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.query.SelectQueryInterface;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -34,7 +35,7 @@ public interface PagedQueryInterface extends SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    DataTable<?> select(int start, int end) throws SQLException, IOException, FrameworkException;
+    <R extends DataRow> DataTable<R> select(int start, int end) throws SQLException, IOException, FrameworkException;
 
     /**
      * Ritorna una tabella conetenente il risultato della query
@@ -46,7 +47,7 @@ public interface PagedQueryInterface extends SelectQueryInterface {
      * @throws SQLException
      * @throws IOException
      */
-    DataTable<?> select(String connectionName, int start, int end) throws SQLException, IOException, FrameworkException;
+    <R extends DataRow> DataTable<R> select(String connectionName, int start, int end) throws SQLException, IOException, FrameworkException;
 
     /**
      * Ritorna una tabella conetenente il risultato della query
@@ -55,7 +56,7 @@ public interface PagedQueryInterface extends SelectQueryInterface {
      * @return
      * @throws SQLException
      */
-    DataTable<?> select(Connection connection, int start, int end) throws SQLException, IOException, FrameworkException;
+    <R extends DataRow> DataTable<R> select(Connection connection, int start, int end) throws SQLException, IOException, FrameworkException;
 
     /**
      * Ritorna il numero totale di righe

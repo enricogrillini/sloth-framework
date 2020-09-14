@@ -183,7 +183,8 @@
     <attribute name="Required" type="boolean" use="optional"></attribute>
     <attribute name="ReadOnly" type="boolean"></attribute>
     <attribute name="Hidden" type="boolean"></attribute>
-    <attribute name="ViewModality" type="tns:ViewModality"></attribute>   </extension>
+    <attribute name="ViewModality" type="tns:ViewModality"></attribute>
+   </extension>
   </complexContent>
  </complexType>
 
@@ -297,11 +298,15 @@
       <documentation>Nome del campo sul DataSource. Tipicamente per agganciare un campo di una form ad una campo DB con un nome diverso.</documentation>
      </annotation>
     </attribute>
+    <attribute name="OrderByAlias" type="string" use="optional">
+     <annotation>
+      <documentation>Nome del campo sul DataSource su cui effettuare l'order by se diverso da Alias/Name</documentation>
+     </annotation>
+    </attribute>
     <attribute name="Description" type="string" use="required"></attribute>
     <attribute name="Tooltip" type="string"></attribute>
     <attribute name="DataType" use="required" type="tns:DataType"></attribute>
     <attribute name="Format" type="string"></attribute>
-
     <attribute name="BaseLink" type="string"></attribute>
    </extension>
   </complexContent>
@@ -389,12 +394,10 @@
  <complexType name="AutoComplete">
   <complexContent>
    <extension base="tns:Field">
-    <attribute name="DecodeAlias" type="string"></attribute>
     <attribute name="Required" type="boolean" use="optional"></attribute>
     <attribute name="ReadOnly" type="boolean"></attribute>
     <attribute name="Hidden" type="boolean"></attribute>
     <attribute name="ViewModality" type="tns:ViewModality"></attribute>
-    <attribute name="SizeLimit" type="int"></attribute>
    </extension>
   </complexContent>
  </complexType>
@@ -402,7 +405,6 @@
  <complexType name="MultipleAutoComplete">
   <complexContent>
    <extension base="tns:Field">
-    <attribute name="DecodeAlias" type="string"></attribute>
     <attribute name="Required" type="boolean" use="optional"></attribute>
     <attribute name="ReadOnly" type="boolean"></attribute>
     <attribute name="Hidden" type="boolean"></attribute>
@@ -420,7 +422,8 @@
     </sequence>
     <attribute name="ChartType" type="tns:ChartType" use="required" />
 
-    <attribute name="Title" type="string"></attribute>    <attribute name="LegendPosition" type="tns:LegendPosition" />
+    <attribute name="Title" type="string"></attribute>
+    <attribute name="LegendPosition" type="tns:LegendPosition" />
     <attribute name="Table" type="string"></attribute>
    </extension>
   </complexContent>
@@ -445,7 +448,8 @@
 
  <complexType name="Labels">
   <complexContent>
-   <extension base="tns:Field">    <attribute name="Rotation" type="int"></attribute>
+   <extension base="tns:Field">
+    <attribute name="Rotation" type="int"></attribute>
    </extension>
   </complexContent>
  </complexType>
@@ -465,7 +469,8 @@
 
  <complexType name="InputTotalizer">
   <complexContent>
-   <extension base="tns:Input">   </extension>
+   <extension base="tns:Input">
+   </extension>
   </complexContent>
  </complexType>
 

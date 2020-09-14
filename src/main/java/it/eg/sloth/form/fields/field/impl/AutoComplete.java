@@ -36,11 +36,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T> {
 
-    public static final int DEFAULT_SIZELIMIT = 15;
-
-    String decodeAlias;
     String decodedText;
-    Integer sizeLimit;
 
     private DecodeMap<T, ? extends DecodeValue<T>> decodeMap;
 
@@ -51,18 +47,6 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
     @Override
     public FieldType getFieldType() {
         return FieldType.AUTO_COMPLETE;
-    }
-
-    public int getSizeLimit() {
-        return sizeLimit == null ? DEFAULT_SIZELIMIT : sizeLimit;
-    }
-
-    public String getDecodeAlias() {
-        if (!BaseFunction.isBlank(decodeAlias)) {
-            return decodeAlias;
-        } else {
-            return getName();
-        }
     }
 
     @Override
@@ -85,20 +69,8 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
     public void copyFromDataSource(DataSource dataSource) throws FrameworkException {
         if (dataSource != null) {
             super.copyFromDataSource(dataSource);
-            if (BaseFunction.isBlank(decodeAlias) && getDecodeMap() != null && !getDecodeMap().isEmpty()) {
+            if (getDecodeMap() != null && !getDecodeMap().isEmpty()) {
                 setDecodedText(getDecodeMap().decode(getValue()));
-            } else {
-                setDecodedText(DataTypes.STRING.formatValue(dataSource.getObject(getDecodeAlias()), getLocale()));
-            }
-        }
-    }
-
-    @Override
-    public void copyToDataSource(DataSource dataSource) throws FrameworkException {
-        if (dataSource != null) {
-            super.copyToDataSource(dataSource);
-            if (!BaseFunction.isBlank(decodeAlias)) {
-                dataSource.setObject(getDecodeAlias(), getDecodedText());
             }
         }
     }

@@ -89,16 +89,16 @@ public class GridWriter extends HtmlWriter {
                 TextField<?> textField = (TextField<?>) field;
 
                 String iconHtml = getAttribute(ATTR_CLASS, "fas fa-sort float-right m-1");
-                String buttonNameHtml = getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.SORT_ASC, grid.getName(), textField.getAlias()));
+                String buttonNameHtml = getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.SORT_ASC, grid.getName(), textField.getName()));
 
                 SortingRule sortingRule = grid.getDataSource().getSortingRules().getFirstRule();
-                if (sortingRule != null && sortingRule.getFieldName().equalsIgnoreCase(textField.getAlias())) {
+                if (sortingRule != null && sortingRule.getFieldName().equalsIgnoreCase(textField.getOrderByAlias())) {
                     if (sortingRule.getSortType() == SortingRule.SORT_ASC_NULLS_LAST) {
                         iconHtml = getAttribute(ATTR_CLASS, "fas fa-sort-up float-right m-1");
-                        buttonNameHtml = getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.SORT_DESC, grid.getName(), textField.getAlias()));
+                        buttonNameHtml = getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.SORT_DESC, grid.getName(), textField.getName()));
                     } else {
                         iconHtml = getAttribute(ATTR_CLASS, "fas fa-sort-down float-right m-1");
-                        buttonNameHtml = getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.SORT_ASC, grid.getName(), textField.getAlias()));
+                        buttonNameHtml = getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.SORT_ASC, grid.getName(), textField.getName()));
                     }
                 }
 

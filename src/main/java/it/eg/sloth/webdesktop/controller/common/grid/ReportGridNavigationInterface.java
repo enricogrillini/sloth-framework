@@ -21,16 +21,16 @@ import it.eg.sloth.webdesktop.controller.common.SimpleSearchPageInterface;
  */
 public interface ReportGridNavigationInterface extends SimpleSearchPageInterface {
 
-  public void onFirstRow(Grid<?> grid) throws Exception;
+    void onFirstRow(Grid<?> grid) throws Exception;
 
-  public void onPrevPage(Grid<?> grid) throws Exception;
+    void onPrevPage(Grid<?> grid) throws Exception;
 
-  public void onNextPage(Grid<?> grid) throws Exception;
+    void onNextPage(Grid<?> grid) throws Exception;
 
-  public void onLastRow(Grid<?> grid) throws Exception;
+    void onLastRow(Grid<?> grid) throws Exception;
 
-  public void onSort(Grid<?> grid, String fieldName, int sortType) throws Exception;
+    void onSort(Grid<?> grid, String fieldName, int sortType) throws Exception;
 
-  public void onExcel(Grid<?> grid) throws Exception;
+    void onExcel(Grid<?> grid) throws Exception;
 
 }

@@ -18,8 +18,8 @@ package it.eg.sloth.webdesktop.controller.common.grid;
  */
 public interface EditableGridNavigationInterface extends BaseGridNavigationInterface {
 
-  public boolean execPreMove() throws Exception;
+    boolean execPreMove() throws Exception;
 
-  public void execPostMove() throws Exception;
+    void execPostMove() throws Exception;
 
 }
