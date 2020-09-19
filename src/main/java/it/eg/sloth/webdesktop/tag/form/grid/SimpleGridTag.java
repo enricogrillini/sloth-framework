@@ -27,9 +27,9 @@ public class SimpleGridTag extends AbstractGridTag<Grid<?>> {
 
     public int startTag() throws IOException, FrameworkException {
         if (getElement().getDataSource() != null) {
-            writeln(GridWriter.openTable(getElement(), true, true, true));
+            writeln(GridWriter.openTable(getElement(), true, false, true));
             writeln(GridWriter.header(getElement(), getDetailFields(), true));
-            writeln(GridWriter.rows(getElement(), getDetailFields(), ViewModality.VIEW_VISUALIZZAZIONE));
+            writeln(GridWriter.rows(getElement(), getDetailFields(), ViewModality.VIEW_VISUALIZZAZIONE, false));
 
             if (getElement().hasTotalizer()) {
                 writeln(GridWriter.total(getElement(), hasDetail()));

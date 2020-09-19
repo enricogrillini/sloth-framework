@@ -334,7 +334,6 @@ public class FormControlWriter extends HtmlWriter {
 
         String[] values = checkButtons.getSplittedValues();
         String[] descriptions = checkButtons.getSplittedDescriptions();
-        //String[] tooltips = checkButtons.getSplittedTooltips();
 
         StringBuilder result = new StringBuilder()
                 .append("<div class=\"btn-group btn-group-toggle\" data-toggle=\"buttons\">");

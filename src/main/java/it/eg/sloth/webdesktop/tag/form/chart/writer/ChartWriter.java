@@ -14,7 +14,6 @@ import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJsTitle;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset.DataSetMonoColor;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.util.List;
 
 /**

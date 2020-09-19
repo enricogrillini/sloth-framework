@@ -175,7 +175,7 @@ public class GridWriter extends HtmlWriter {
                 .toString();
     }
 
-    public static String rows(Grid<?> grid, Fields<?> detailFields, ViewModality viewModality) throws FrameworkException {
+    public static String rows(Grid<?> grid, Fields<?> detailFields, ViewModality viewModality, boolean manageCurrentRow) throws FrameworkException {
         int rowNumber = 0;
 
         StringBuilder result = new StringBuilder();
@@ -189,7 +189,7 @@ public class GridWriter extends HtmlWriter {
 
 
             if (dataTable.getPageSize() <= 0 || (dataTable.getPageStart() <= rowNumber && dataTable.getPageEnd() >= rowNumber)) {
-                String classHtml = getAttribute("class", rowNumber == dataTable.getCurrentRow(), "table-primary");
+                String classHtml = getAttribute("class", manageCurrentRow && rowNumber == dataTable.getCurrentRow(), "table-primary");
 
                 // Riga corrente in edit mode
                 if (rowNumber == dataTable.getCurrentRow() && ViewModality.VIEW_MODIFICA == viewModality) {

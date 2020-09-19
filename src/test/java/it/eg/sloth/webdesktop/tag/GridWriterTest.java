@@ -90,7 +90,7 @@ public class GridWriterTest {
 
     @Test
     public void gridTest() throws FrameworkException {
-        assertEquals(CONTENT_TEMPLATE, GridWriter.rows(grid, null, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(CONTENT_TEMPLATE, GridWriter.rows(grid, null, ViewModality.VIEW_VISUALIZZAZIONE, true));
     }
 
     @Test
@@ -99,7 +99,7 @@ public class GridWriterTest {
         fields.addChild(new Text<String>("campo3", "campo3", DataTypes.STRING));
         fields.setDataSource(table);
 
-        assertEquals(CONTENT_TEMPLATE_DETAIL, GridWriter.rows(grid, fields, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(CONTENT_TEMPLATE_DETAIL, GridWriter.rows(grid, fields, ViewModality.VIEW_VISUALIZZAZIONE, true));
     }
 
 }
