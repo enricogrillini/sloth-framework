@@ -11,6 +11,8 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import java.text.MessageFormat;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -31,7 +33,21 @@ import org.quartz.JobExecutionException;
 @Getter
 public abstract class SimpleJob implements Job {
 
+    private static final String START = "Elaborazione {} avviata correttamente!";
+    private static final String END = "Elaborazione {} avviata correttamente!";
+    private static final String ABORTED = "Elaborazione {} avviata correttamente!";
+
     Integer executionId;
+    String group;
+    String name;
+
+    public void log(String message, String detail, int progress, JobStatus status) throws FrameworkException {
+        SchedulerSingleton.getInstance().getJobMessageManger().updateMessage(getExecutionId(), message, detail, progress, status);
+    }
+
+    public void log(String message, String detail, int progress) throws FrameworkException {
+        log(message, detail, progress, JobStatus.RUNNING);
+    }
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -49,12 +65,16 @@ public abstract class SimpleJob implements Job {
                 executionId = jobMessage.getExecutionId();
             }
 
+            group = context.getJobDetail().getKey().getGroup();
+            name = context.getJobDetail().getKey().getName();
+
+            log(MessageFormat.format(START, group + "." + name), "", 0, JobStatus.RUNNING);
             service(context);
-            SchedulerSingleton.getInstance().getJobMessageManger().updateMessage(getExecutionId(), "Elaborazione " + context.getJobDetail().getKey().getGroup() + "." + context.getJobDetail().getKey().getName() + " terminata correttamente!", "", 100, JobStatus.TERMINATED);
+            log(MessageFormat.format(END, group + "." + name), "", 0, JobStatus.TERMINATED);
 
         } catch (FrameworkException e) {
             try {
-                SchedulerSingleton.getInstance().getJobMessageManger().updateMessage(getExecutionId(), "Elaborazione " + context.getJobDetail().getKey().getGroup() + "." + context.getJobDetail().getKey().getName() + " abortita!", e.getMessage(), 100, JobStatus.ABORTED);
+                log(MessageFormat.format(ABORTED, group + "." + name), "", 0, JobStatus.ABORTED);
             } catch (FrameworkException e1) {
                 log.error("ERROR {}: {} - {}", getClass().getName(), e1.getExceptionType(), e1.getMessage(), e1);
             }

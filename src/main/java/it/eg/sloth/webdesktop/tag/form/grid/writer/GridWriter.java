@@ -88,21 +88,21 @@ public class GridWriter extends HtmlWriter {
             } else if (sortable && field instanceof TextField) {
                 TextField<?> textField = (TextField<?>) field;
 
-                String iconHtml = getAttribute(ATTR_CLASS, "fas fa-sort float-right m-1");
+                String iconHtml = getAttribute(ATTR_CLASS, "fas fa-sort m-1");
                 String buttonNameHtml = getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.SORT_ASC, grid.getName(), textField.getName()));
 
                 SortingRule sortingRule = grid.getDataSource().getSortingRules().getFirstRule();
                 if (sortingRule != null && sortingRule.getFieldName().equalsIgnoreCase(textField.getOrderByAlias())) {
                     if (sortingRule.getSortType() == SortingRule.SORT_ASC_NULLS_LAST) {
-                        iconHtml = getAttribute(ATTR_CLASS, "fas fa-sort-up float-right m-1");
+                        iconHtml = getAttribute(ATTR_CLASS, "fas fa-sort-up m-1");
                         buttonNameHtml = getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.SORT_DESC, grid.getName(), textField.getName()));
                     } else {
-                        iconHtml = getAttribute(ATTR_CLASS, "fas fa-sort-down float-right m-1");
+                        iconHtml = getAttribute(ATTR_CLASS, "fas fa-sort-down m-1");
                         buttonNameHtml = getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.SORT_ASC, grid.getName(), textField.getName()));
                     }
                 }
 
-                result.append("<button type=\"submit\"" + buttonNameHtml + " class=\"btn btn-Link btn-block btn-sm\"><b>" + descriptionHtml + "</b><i" + iconHtml + "></i></button>");
+                result.append("<button type=\"submit\"" + buttonNameHtml + " class=\"btn btn-Link btn-block btn-sm d-flex justify-content-between\"><b class=\"w-100\">" + descriptionHtml + "</b><i" + iconHtml + "></i></button>");
 
             } else {
                 result.append(descriptionHtml);
@@ -127,29 +127,35 @@ public class GridWriter extends HtmlWriter {
     }
 
     public static String openCell(SimpleField field, boolean header, boolean sortable) {
-        StringBuilder result = new StringBuilder();
+
+        // Stile cella
+        String htmlClass = "text-left";
+        if (sortable) {
+            htmlClass = "text-center p-1";
+        } else if (FieldType.SEMAPHORE == field.getFieldType() || FieldType.CHECK_BOX == field.getFieldType() || FieldType.BUTTON == field.getFieldType()) {
+            htmlClass = "text-center";
+        } else if (((TextField<?>) field).getDataType().isNumber() && !(field instanceof DecodedDataField)) {
+            htmlClass = "text-right";
+        }
+
 
         if (header) {
-            result.append("   <th")
-                    .append(getAttributeTooltip(field.getTooltip()));
+            return new StringBuilder()
+                    .append("   <th")
+                    .append(getAttributeTooltip(field.getTooltip()))
+                    .append(getAttribute(ATTR_CLASS, htmlClass + " text-nowrap"))
+                    .append(">")
+                    .toString();
         } else {
-            result.append("   <td");
+            return new StringBuilder()
+                    .append("   <td")
+                    .append(getAttributeTooltip(field.getTooltip()))
+                    .append(getAttribute(ATTR_CLASS, htmlClass))
+                    .append(">")
+                    .toString();
+
         }
 
-        if (sortable) {
-            result.append(getAttribute(ATTR_CLASS, "text-center p-1"));
-        } else if (FieldType.SEMAPHORE == field.getFieldType() ||
-                FieldType.CHECK_BOX == field.getFieldType() ||
-                FieldType.BUTTON == field.getFieldType()) {
-            result.append(getAttribute(ATTR_CLASS, "text-center"));
-        } else if (((TextField<?>) field).getDataType().isNumber() && !(field instanceof DecodedDataField)) {
-            result.append(getAttribute(ATTR_CLASS, "text-right"));
-        } else {
-            result.append(getAttribute(ATTR_CLASS, "text-left"));
-        }
-
-        return result.append(">")
-                .toString();
     }
 
     public static String closeCell(boolean headder) {

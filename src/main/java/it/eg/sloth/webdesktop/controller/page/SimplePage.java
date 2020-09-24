@@ -59,10 +59,10 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
         boolean view = getWebRequest().getNavigation().length == 1 && "view".equals(getWebRequest().getNavigation()[0]) && !isNewForm();
 
         if (view) {
-            log.info("view");
+            log.info("Page view");
             return new ModelAndView(getJspName());
         } else {
-            log.info("service");
+            log.info("Page service");
 
             // Esecuzione della Page
             try {

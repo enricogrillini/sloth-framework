@@ -76,8 +76,6 @@ public abstract class FormPage<F extends Form> extends BasePage {
     public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse res) {
         long eventid = 0;
         try {
-            log.info("IN {}", getClass().getName());
-
             // Inizializzo la pagina
             init(req, res);
 
@@ -105,10 +103,9 @@ public abstract class FormPage<F extends Form> extends BasePage {
             }
 
         } catch (Exception e) {
-            log.error("ERROR {}", getClass().getName(), e);
+            log.error("Page error {}", getClass().getName(), e);
             return null;
         } finally {
-            log.info("OUT {}", getClass().getName());
             MonitorSingleton.getInstance().endEvent(eventid);
         }
     }

@@ -18,7 +18,7 @@ package it.eg.sloth.webdesktop.controller.common;
  */
 public interface SimplePageInterface {
 
-  public void onInit() throws Exception;
+    void onInit() throws Exception;
 
-  public void execInit() throws Exception;
+    void execInit() throws Exception;
 }
