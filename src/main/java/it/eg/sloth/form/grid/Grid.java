@@ -131,14 +131,8 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
     }
 
     public void orderBy(String fieldName, int sortType) {
-        log.info(" ---- fieldName {} {}", fieldName, getElement(fieldName));
-        log.info(" ---- map {} {}", getMap());
-
-
         if (getElement(fieldName) instanceof TextField) {
             TextField<?> textField = (TextField<?>) getElement(fieldName);
-
-            log.info(" ---- getOrderByAlias {}", textField.getOrderByAlias());
 
             DataTable<?> dataTable = getDataSource();
             dataTable.clearSortingRules();

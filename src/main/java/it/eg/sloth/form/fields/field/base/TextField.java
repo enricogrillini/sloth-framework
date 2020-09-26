@@ -2,6 +2,7 @@ package it.eg.sloth.form.fields.field.base;
 
 import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.db.datasource.row.lob.LobData;
+import it.eg.sloth.form.Escaper;
 import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.framework.common.base.BaseFunction;
@@ -34,7 +35,7 @@ import java.util.Locale;
 @Getter
 @Setter
 @SuperBuilder(toBuilder = true)
-public abstract class TextField<T extends Object> implements DataField<T> {
+public abstract class TextField<T> implements DataField<T> {
 
     // Contiente il valore informativo come stringa
     String data;
@@ -51,6 +52,8 @@ public abstract class TextField<T extends Object> implements DataField<T> {
     String baseLink;
 
     Boolean hidden;
+    Escaper htmlEscaper;
+    Escaper jsEscaper;
 
     public TextField(String name, String description, DataTypes dataType) {
         this.name = name;
@@ -75,7 +78,7 @@ public abstract class TextField<T extends Object> implements DataField<T> {
 
     @Override
     public String getOrderByAlias() {
-        return BaseFunction.isBlank(orderByAlias) ? getAlias(): orderByAlias.toLowerCase();
+        return BaseFunction.isBlank(orderByAlias) ? getAlias() : orderByAlias.toLowerCase();
     }
 
     public T getValue() throws FrameworkException {

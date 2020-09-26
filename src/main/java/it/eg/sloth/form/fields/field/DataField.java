@@ -1,6 +1,7 @@
 package it.eg.sloth.form.fields.field;
 
 import it.eg.sloth.db.datasource.DataSource;
+import it.eg.sloth.form.Escaper;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -79,20 +80,44 @@ public interface DataField<T> extends SimpleField {
 
     void setData(String data);
 
+    Escaper getHtmlEscaper();
+
+    void setHtmlEscaper(Escaper escaper);
+
+    Escaper getJsEscaper();
+
+    void setJsEscaper(Escaper escaper);
+
     default String escapeHtmlText() {
-        return getDataType().escapeHtmlText(getData(), getLocale(), getFormat());
+        if (getHtmlEscaper() == null) {
+            return getDataType().escapeHtmlText(getData(), getLocale(), getFormat());
+        } else {
+            return getHtmlEscaper().escapeText(getData());
+        }
     }
 
     default String escapeJsText() {
-        return getDataType().escapeJsText(getData(), getLocale(), getFormat());
+        if (getJsEscaper() == null) {
+            return getDataType().escapeJsText(getData(), getLocale(), getFormat());
+        } else {
+            return getJsEscaper().escapeText(getData());
+        }
     }
 
     default String escapeHtmlValue() {
-        return Casting.getHtml(getData(), false, false);
+        if (getHtmlEscaper() == null) {
+            return Casting.getHtml(getData(), false, false);
+        } else {
+            return getHtmlEscaper().escapeValue(getData());
+        }
     }
 
     default String escapeJsValue() {
-        return Casting.getJs(getData());
+        if (getJsEscaper() == null) {
+            return Casting.getJs(getData());
+        } else {
+            return getJsEscaper().escapeValue(getData());
+        }
     }
 
     /**

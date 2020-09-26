@@ -70,6 +70,21 @@ public class StringUtil {
     }
 
     /**
+     * Ripulisce il testo passato. Efftua il trim del testo e rimuove gli spazi doppi tra le parole
+     *
+     * @param text
+     * @return
+     */
+    public static String clean(String text) {
+        if (BaseFunction.isBlank(text)) {
+            return EMPTY;
+        } else {
+            return text.trim().replaceAll(" +", " ");
+        }
+    }
+
+
+    /**
      * Ritorna la lista delle parole che compongono la stringa passata
      *
      * @param text

@@ -2,7 +2,6 @@ package it.eg.sloth.form.fields.field;
 
 import it.eg.sloth.db.decodemap.DecodeMap;
 import it.eg.sloth.db.decodemap.DecodeValue;
-import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 
@@ -21,7 +20,7 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
  *
  * @author Enrico Grillini
  */
-public interface DecodedDataField<T extends Object> extends DataField<T> {
+public interface DecodedDataField<T> extends DataField<T> {
 
     <D extends DecodeValue<T>> DecodeMap<T, D> getDecodeMap();
 
@@ -30,14 +29,10 @@ public interface DecodedDataField<T extends Object> extends DataField<T> {
     String getDecodedText() throws FrameworkException;
 
     default String escapeHtmlDecodedText() throws FrameworkException {
-        return escapeHtmlDecodedText(true, true);
-    }
-
-    default String escapeHtmlDecodedText(boolean br, boolean nbsp) throws FrameworkException {
-        if (BaseFunction.isNull(getDecodedText())) {
-            return "";
+        if (getHtmlEscaper() == null) {
+            return Casting.getHtml(getDecodedText(), true, true);
         } else {
-            return Casting.getHtml(getDecodedText(), br, nbsp);
+            return getHtmlEscaper().escapeText(getDecodedText());
         }
     }
 
