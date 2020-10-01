@@ -62,7 +62,11 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
     @Override
     public void setValue(T value) throws FrameworkException {
         super.setValue(value);
-        setDecodedText(getDecodeMap().decode(value));
+        if (getDecodeMap() == null) {
+            setDecodedText(null);
+        } else {
+            setDecodedText(getDecodeMap().decode(value));
+        }
     }
 
     @Override

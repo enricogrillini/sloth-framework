@@ -33,9 +33,9 @@ import java.text.MessageFormat;
 @Getter
 public abstract class SimpleJob implements Job {
 
-    private static final String START = "Elaborazione {} avviata correttamente!";
-    private static final String END = "Elaborazione {} avviata correttamente!";
-    private static final String ABORTED = "Elaborazione {} avviata correttamente!";
+    private static final String START = "Elaborazione {0} avviata correttamente!";
+    private static final String END = "Elaborazione {0} avviata correttamente!";
+    private static final String ABORTED = "Elaborazione {0} avviata correttamente!";
 
     Integer executionId;
     String group;
@@ -61,7 +61,6 @@ public abstract class SimpleJob implements Job {
                 executionId = context.getTrigger().getJobDataMap().getInt(JobMessage.EXECUTION_ID);
             } else {
                 JobMessage jobMessage = SchedulerSingleton.getInstance().getJobMessageManger().createMessage(context.getJobDetail().getKey().getGroup(), context.getJobDetail().getKey().getName());
-
                 executionId = jobMessage.getExecutionId();
             }
 
@@ -70,11 +69,11 @@ public abstract class SimpleJob implements Job {
 
             log(MessageFormat.format(START, group + "." + name), "", 0, JobStatus.RUNNING);
             service(context);
-            log(MessageFormat.format(END, group + "." + name), "", 0, JobStatus.TERMINATED);
+            log(MessageFormat.format(END, group + "." + name), "", 100, JobStatus.TERMINATED);
 
         } catch (FrameworkException e) {
             try {
-                log(MessageFormat.format(ABORTED, group + "." + name), "", 0, JobStatus.ABORTED);
+                log(MessageFormat.format(ABORTED, group + "." + name), "", 100, JobStatus.ABORTED);
             } catch (FrameworkException e1) {
                 log.error("ERROR {}: {} - {}", getClass().getName(), e1.getExceptionType(), e1.getMessage(), e1);
             }

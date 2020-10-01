@@ -114,69 +114,6 @@ public class SearchWriter extends HtmlWriter {
                 .append("</div>\n");
 
         return result.toString();
-
-
-//            // Snippet
-//            if (searchItem.hasSnippet()) {
-//                writeln("  <div class=\"searchSnippet\">");
-//
-//                boolean first = true;
-//                Iterator<SearchSnippet> iterator = searchItem.getSnippetIterator();
-//                while (iterator.hasNext()) {
-//                    SearchSnippet snippet = iterator.next();
-//
-//                    if (!first) {
-//                        write(" - ");
-//                    } else {
-//                        first = false;
-//                    }
-//
-//                    if (!BaseFunction.isBlank(snippet.getImgUrl())) {
-//                        write("<img src=\"" + snippet.getImgUrl() + "\">");
-//                    }
-//
-//                    if (!BaseFunction.isBlank(snippet.getTitle())) {
-//                        write("<b>" + Casting.getHtml(snippet.getTitle()) + ": </b>");
-//                    }
-//
-//                    if (!BaseFunction.isBlank(snippet.getValue())) {
-//                        write("<span>" + Casting.getHtml(snippet.getValue()) + "</span>");
-//                    }
-//                }
-//
-//                writeln("  </div>");
-//            }
-//
-//            // Descrizione
-//            if (!BaseFunction.isBlank(searchItem.getDescription())) {
-//                writeln("  <div class=\"searchDescription\">" + htmlDescription + "</div>");
-//            }
-//
-//            // Funzioni
-//            if (searchItem.hasFunction()) {
-//                writeln("  <div class=\"searchFunction\">");
-//
-//                boolean first = true;
-//                Iterator<SearchFunction> iterator = searchItem.getFunctionIterator();
-//                while (iterator.hasNext()) {
-//                    SearchFunction searchFunction = iterator.next();
-//
-//                    if (!first) {
-//                        write(" ");
-//                    } else {
-//                        first = false;
-//                    }
-//
-//                    String target = searchFunction.isExternal() ? " target=\"blank\"" : "";
-//                    String name = Casting.getHtml(searchFunction.getName());
-//
-//                    if (!BaseFunction.isBlank(searchFunction.getHtml())) {
-//                        write(searchFunction.getHtml());
-//                    }
-//
-//                    write("<a href=\"" + searchFunction.getUrl() + "\"" + target + ">" + name + "</a>");
-//                }
-
     }
 
 

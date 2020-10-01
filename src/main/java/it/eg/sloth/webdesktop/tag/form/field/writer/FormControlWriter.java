@@ -383,8 +383,7 @@ public class FormControlWriter extends HtmlWriter {
                 .append(getAttribute(ATTR_NAME, checkBox.getName()))
                 .append(getAttribute(ATTR_TYPE, "checkbox"))
                 .append(getAttribute(ATTR_VALUE, checkBox.getValChecked().toString()))
-                .append(getAttribute(ATTR_READONLY, checkBox.isReadOnly(), ""))
-                .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""))
+                .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE || checkBox.isReadOnly(), ""))
                 .append(getAttribute(ATTR_CLASS, BootStrapClass.CHECK_CLASS))
                 .append(getAttribute("checked", checkBox.isChecked(), ""))
                 .append("/>");
