@@ -254,7 +254,7 @@ public class FormControlWriter extends HtmlWriter {
      * @param pageViewModality
      * @return
      */
-    public static String writeAutoComplete(AutoComplete<?> autocomplete, Element parentElement, ViewModality pageViewModality) throws FrameworkException {
+    public static String writeAutoComplete(AutoComplete<?> autocomplete, Element parentElement, ViewModality pageViewModality) {
         if (autocomplete.isHidden()) {
             return StringUtil.EMPTY;
         }
@@ -265,7 +265,7 @@ public class FormControlWriter extends HtmlWriter {
                 .append(BEGIN_INPUT)
                 .append(getAttribute(ATTR_ID, autocomplete.getName()))
                 .append(getAttribute(ATTR_NAME, autocomplete.getName()))
-                .append(getAttribute(ATTR_VALUE, autocomplete.escapeHtmlDecodedText()))
+                .append(getAttribute(ATTR_VALUE, Casting.getHtml(autocomplete.getDecodedText(), true, true)))
                 .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS + " autoComplete"));
 
         if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {

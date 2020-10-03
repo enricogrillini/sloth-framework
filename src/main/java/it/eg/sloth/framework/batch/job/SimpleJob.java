@@ -34,8 +34,8 @@ import java.text.MessageFormat;
 public abstract class SimpleJob implements Job {
 
     private static final String START = "Elaborazione {0} avviata correttamente!";
-    private static final String END = "Elaborazione {0} avviata correttamente!";
-    private static final String ABORTED = "Elaborazione {0} avviata correttamente!";
+    private static final String END = "Elaborazione {0} terminata correttamente!";
+    private static final String ABORTED = "Elaborazione {0} abortita!";
 
     Integer executionId;
     String group;

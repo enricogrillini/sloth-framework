@@ -12,6 +12,7 @@ import java.util.Locale;
 import it.eg.sloth.form.fields.field.impl.*;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.exception.ExceptionCode;
+import it.eg.sloth.webdesktop.tag.support.SampleEscaper;
 import org.junit.Test;
 
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
@@ -111,6 +112,22 @@ public class FormControlWriterTest {
         AutoComplete<String> autocomplete = new AutoComplete<String>("name", "description", DataTypes.STRING);
         autocomplete.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
 
+        verifyAutoComplete(autocomplete);
+    }
+
+    @Test
+    public void autoCompleteescaperTest() throws FrameworkException {
+        AutoComplete<String> autocomplete = new AutoComplete<String>("name", "description", DataTypes.STRING);
+        autocomplete.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
+        autocomplete.setHtmlEscaper(new SampleEscaper());
+
+        verifyAutoComplete(autocomplete);
+    }
+
+
+    private void verifyAutoComplete(AutoComplete<String> autocomplete) throws FrameworkException {
+        Fields fields = new Fields("Master");
+
         assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "", "", " disabled=\"\""), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW_VISUALIZZAZIONE));
 
         autocomplete.setValue("A");
@@ -127,7 +144,6 @@ public class FormControlWriterTest {
         // Empty
         autocomplete.setHidden(true);
         assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(autocomplete, null, ViewModality.VIEW_MODIFICA));
-
     }
 
     @Test
