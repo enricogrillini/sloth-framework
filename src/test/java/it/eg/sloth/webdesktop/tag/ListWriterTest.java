@@ -34,7 +34,7 @@ import it.eg.sloth.webdesktop.tag.form.list.writer.ListWriter;
  */
 public class ListWriterTest {
 
-    static final String TITLE_TEMPLATE = "<h1>{0}</h1><br>";
+    static final String TITLE_TEMPLATE = "<h2>{0}</h2><br>";
 
     static final String LIST_TEMPLATE = "<div class=\"list-group list-group-flush\">\n" +
             " <span class=\"list-group-item\">02/04 13</span>\n" +

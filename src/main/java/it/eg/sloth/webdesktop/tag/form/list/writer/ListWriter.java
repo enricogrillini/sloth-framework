@@ -33,7 +33,7 @@ public class ListWriter extends HtmlWriter {
             return StringUtil.EMPTY;
         } else {
             return new StringBuilder()
-                    .append(getElement("h1", grid.getTitle()))
+                    .append(getElement("h2", grid.getTitle()))
                     .append(getElement("br"))
                     .toString();
         }
