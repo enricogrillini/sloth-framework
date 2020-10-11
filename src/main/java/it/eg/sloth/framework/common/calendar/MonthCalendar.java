@@ -18,17 +18,21 @@ public class MonthCalendar<E> implements Iterable<Day<E>> {
         setMonth(month);
     }
 
-    public void setMonth(Timestamp month) throws FrameworkException {
-        this.month = TimeStampUtil.firstDayOfMonth(month);
+    public void clear() throws FrameworkException {
+        dayMap.clear();
+
         dayMap.clear();
 
         Timestamp currentDay = firstCalendarDay();
-        do {
+        for (; !currentDay.after(lastCalendarDay()); currentDay = TimeStampUtil.add(currentDay, 1)) {
             Day<E> day = new Day<>(currentDay);
             dayMap.put(day.getCurrentDay(), day);
+        }
+    }
 
-            currentDay = TimeStampUtil.add(currentDay, 1);
-        } while (currentDay.compareTo(lastCalendarDay()) <= 0);
+    public void setMonth(Timestamp month) throws FrameworkException {
+        this.month = TimeStampUtil.firstDayOfMonth(month);
+        clear();
     }
 
     @Override
