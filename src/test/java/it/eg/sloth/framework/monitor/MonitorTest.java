@@ -3,9 +3,8 @@ package it.eg.sloth.framework.monitor;
 import it.eg.sloth.framework.monitor.model.MonitorMapper;
 import it.eg.sloth.framework.monitor.model.MonitorStatisticsRow;
 import org.awaitility.Awaitility;
-import org.awaitility.Duration;
+import java.time.Duration;
 import org.junit.Test;
-
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
@@ -38,7 +37,7 @@ public class MonitorTest {
     public void copyToPojoRowTest() {
         MonitorEvent monitorEvent = new MonitorEvent("Page", "prova.page", null);
         monitorEvent.start();
-        Awaitility.await().pollDelay(Duration.ONE_MILLISECOND).until(() -> true);
+        Awaitility.await().pollDelay(Duration.ofMillis(1)).until(() -> true);
         monitorEvent.end();
 
         MonitorStatistics monitorStatistics = new MonitorStatistics("Page", "prova.page");

@@ -2,11 +2,11 @@ package it.eg.sloth.db.datasource.table.filter.impl;
 
 import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.db.datasource.table.filter.FilterRule;
-import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Project: sloth-framework
@@ -26,7 +26,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ValueRule extends FrameComponent implements FilterRule {
+@ToString
+public class ValueRule implements FilterRule {
 
     String fieldName;
     Object fieldValue;

@@ -13,6 +13,10 @@ import java.sql.Timestamp;
 
 public class ExcelUtil {
 
+    private ExcelUtil() {
+        // NOP
+    }
+
     /**
      * Ritorna la riga indicata. Se non esiste la crea.
      *

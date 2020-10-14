@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class PojoDataSourceTest {
 
     @Test
-    public void pojoDataSourceTest() throws FrameworkException {
+    public void pojoDataSourceTest1() throws FrameworkException {
         // Inizializzo - Pojo mode
         SamplePojoRow samplePojoRow = new SamplePojoRow();
         samplePojoRow.setTesto("Prova");
@@ -31,12 +31,15 @@ public class PojoDataSourceTest {
         assertEquals(samplePojoRow.getData(), samplePojoRow.getTimestamp("Data"));
         assertEquals(TimeStampUtil.parseTimestamp("01/01/2020", "dd/MM/yyyy"), samplePojoRow.getTimestamp("Data"));
         assertEquals("BlobData", new String(samplePojoRow.getBlob()));
+    }
 
+    @Test
+    public void pojoDataSourceTest2() throws FrameworkException {
         // Inizializzo - Datasource Mode
-        samplePojoRow = new SamplePojoRow();
+        SamplePojoRow samplePojoRow = new SamplePojoRow();
         samplePojoRow.setString("Testo", "Prova");
         samplePojoRow.setBigDecimal("Numero", BigDecimal.valueOf(0));
-        samplePojoRow.setTimestamp("Data",TimeStampUtil.parseTimestamp("01/01/2020", "dd/MM/yyyy"));
+        samplePojoRow.setTimestamp("Data", TimeStampUtil.parseTimestamp("01/01/2020", "dd/MM/yyyy"));
         samplePojoRow.setByte("Blob", "BlobData".getBytes());
 
         // Verifico

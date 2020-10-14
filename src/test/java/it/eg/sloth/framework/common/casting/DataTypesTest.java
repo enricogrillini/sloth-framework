@@ -72,7 +72,7 @@ public class DataTypesTest {
 
 
     @Test
-    public void bigDecimalParseValueTest() throws FrameworkException {
+    public void bigDecimalParseValueTest1() throws FrameworkException {
         // Integer
         assertEquals(BigDecimal.valueOf(1000), DataTypes.DECIMAL.parseValue("1000.00", Locale.US));
         assertEquals(BigDecimal.valueOf(1000), DataTypes.DECIMAL.parseValue("1000,00", Locale.ITALY));
@@ -100,7 +100,10 @@ public class DataTypesTest {
         assertEquals(BigDecimal.valueOf(1234), DataTypes.CURRENCY.parseValue("12.34", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(12.34), DataTypes.CURRENCY.parseValue("12,34", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(0), DataTypes.CURRENCY.parseValue("0.00", Locale.ITALY));
+    }
 
+    @Test
+    public void bigDecimalParseValueTest2() throws FrameworkException {
         // Percentuale
         assertEquals(BigDecimal.valueOf(1234), DataTypes.PERC.parseValue("12.34", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(12.34), DataTypes.PERC.parseValue("12,34", Locale.ITALY));

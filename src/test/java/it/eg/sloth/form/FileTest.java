@@ -24,7 +24,7 @@ public class FileTest {
     }
 
     @Test
-    public void fileBuilderTest() {
+    public void fileBuilderTest1() {
         File file = File.builder()
                 .name("Name")
                 .alias(null)
@@ -66,8 +66,11 @@ public class FileTest {
         assertFalse(file.isHidden());
         assertEquals(ViewModality.VIEW_MODIFICA, file.getViewModality());
         assertEquals(0, file.getMaxSize());
+    }
 
-        file = File.builder()
+    @Test
+    public void fileBuilderTest2() {
+        File file = File.builder()
                 .locale(Locale.ITALY)
                 .name("Name")
                 .alias("name")

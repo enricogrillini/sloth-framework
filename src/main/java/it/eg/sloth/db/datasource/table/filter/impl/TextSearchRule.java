@@ -1,11 +1,11 @@
 package it.eg.sloth.db.datasource.table.filter.impl;
 
-import java.util.List;
-
 import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.db.datasource.table.filter.FilterRule;
-import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.common.base.StringUtil;
+import lombok.ToString;
+
+import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -22,7 +22,8 @@ import it.eg.sloth.framework.common.base.StringUtil;
  *
  * @author Enrico Grillini
  */
-public class TextSearchRule extends FrameComponent implements FilterRule {
+@ToString
+public class TextSearchRule implements FilterRule {
 
     private String text;
     private List<String> words;

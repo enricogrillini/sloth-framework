@@ -7,8 +7,8 @@ import it.eg.sloth.db.datasource.table.filter.FilterRules;
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.db.datasource.table.sort.SortingRules;
 import it.eg.sloth.db.query.SelectQueryInterface;
-import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import lombok.ToString;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -33,7 +33,8 @@ import java.util.*;
  *
  * @author Enrico Grillini
  */
-public abstract class TableAbstract<T extends DataRow> extends FrameComponent implements DataTable<T> {
+@ToString
+public abstract class TableAbstract<T extends DataRow> implements DataTable<T> {
 
     private SortingRules<T> sortingRules;
     protected List<T> rows;

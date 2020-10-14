@@ -51,7 +51,7 @@ public class InputTest {
     }
 
     @Test
-    public void inputBuilderTest() {
+    public void inputBuilderTest1() {
         // Default
         Input<String> input = Input.<String>builder()
                 .name("Name")
@@ -90,9 +90,12 @@ public class InputTest {
         assertEquals(ViewModality.VIEW_MODIFICA, input.getViewModality());
         assertEquals(ForceCase.UPPER, input.getForceCase());
         assertEquals(10, input.getMaxLength());
+    }
 
+    @Test
+    public void inputBuilderTest2() {
         // True
-        input = Input.<String>builder()
+        Input<String> input = Input.<String>builder()
                 .name("Name")
                 .description("description")
                 .alias("Alias")
