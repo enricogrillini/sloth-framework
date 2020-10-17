@@ -46,7 +46,7 @@ public class PageTag extends WebDesktopTag<Form> {
         writeln(" <script src=\"../vendor/bootstrap/js/bootstrap.bundle.min.js\"></script>");
         writeln(" <script src=\"../vendor/jquery-easing/jquery.easing.min.js\"></script>");
         writeln(" <script src=\"../vendor/jquery-autocomplete/jquery.autocomplete.js\"></script>");
-        writeln(" <script src=\"../js/sb-admin-2.min.js\"></script>");
+        writeln(" <script src=\"../js/sb-admin-2.js\"></script>");
         writeln(" <script src=\"../js/web-desktop.js\"></script>");
 
         writeln(" <script src=\"../vendor/chart.js/Chart.min.js\"></script>");

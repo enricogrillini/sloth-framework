@@ -41,6 +41,8 @@ public class TimeStampUtil {
     }
 
 
+
+
     /**
      * Converte una data in String
      *
@@ -166,7 +168,7 @@ public class TimeStampUtil {
         }
     }
 
-    public static final Integer getDayOfWeek(Timestamp value) {
+    public static final Integer getWeekDay(Timestamp value) {
         Calendar calendar = toCalendar(value);
         if (calendar != null) {
             return calendar.get(Calendar.DAY_OF_WEEK);
@@ -182,7 +184,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isMonday(Timestamp value) {
-        return getDayOfWeek(value) == Calendar.MONDAY;
+        return getWeekDay(value) == Calendar.MONDAY;
     }
 
     /**
@@ -192,7 +194,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isTuesday(Timestamp value) {
-        return getDayOfWeek(value) == Calendar.TUESDAY;
+        return getWeekDay(value) == Calendar.TUESDAY;
     }
 
     /**
@@ -202,7 +204,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isWednesday(Timestamp value) {
-        return getDayOfWeek(value) == Calendar.WEDNESDAY;
+        return getWeekDay(value) == Calendar.WEDNESDAY;
     }
 
     /**
@@ -212,7 +214,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isThursday(Timestamp value) {
-        return getDayOfWeek(value) == Calendar.THURSDAY;
+        return getWeekDay(value) == Calendar.THURSDAY;
     }
 
     /**
@@ -222,7 +224,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isFriday(Timestamp value) {
-        return getDayOfWeek(value) == Calendar.FRIDAY;
+        return getWeekDay(value) == Calendar.FRIDAY;
     }
 
     /**
@@ -232,7 +234,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isSaturday(Timestamp value) {
-        return getDayOfWeek(value) == Calendar.SATURDAY;
+        return getWeekDay(value) == Calendar.SATURDAY;
     }
 
     /**
@@ -242,7 +244,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isSunday(Timestamp value) {
-        return getDayOfWeek(value) == Calendar.SUNDAY;
+        return getWeekDay(value) == Calendar.SUNDAY;
     }
 
     /**
@@ -319,7 +321,6 @@ public class TimeStampUtil {
         }
 
         return false;
-
     }
 
     public static final DayType getDayType(Timestamp data, Timestamp... otherHoliday) throws FrameworkException {

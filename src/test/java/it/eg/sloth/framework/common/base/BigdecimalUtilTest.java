@@ -39,4 +39,17 @@ public class BigdecimalUtilTest {
         assertEquals(BigDecimal.valueOf(10), BigDecimalUtil.greatest(BigDecimal.valueOf(10), BigDecimal.valueOf(2)));
     }
 
+
+    @Test
+    public void intValueTest() {
+        assertEquals(0, BigDecimalUtil.intValue(null));
+        assertEquals(10, BigDecimalUtil.intValue(BigDecimal.valueOf(10)));
+    }
+
+    @Test
+    public void doubleValueTest() {
+        assertEquals(0.0, BigDecimalUtil.doubleValue(null), 0.0);
+        assertEquals(10.0, BigDecimalUtil.doubleValue(BigDecimal.valueOf(10)), 0.0);
+    }
+    
 }
