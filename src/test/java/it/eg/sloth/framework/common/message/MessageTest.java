@@ -1,9 +1,8 @@
 package it.eg.sloth.framework.common.message;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Project: sloth-framework
@@ -18,18 +17,27 @@ import org.junit.Test;
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
- *
  */
 public class MessageTest {
 
-  @Test
-  public void levelTest() {
-    assertFalse(Level.INFO.hasHigerSeverity(Level.SUCCESS));
-    assertFalse(Level.SUCCESS.hasHigerSeverity(Level.WARN));
-    assertFalse(Level.WARN.hasHigerSeverity(Level.ERROR));
+    @Test
+    public void levelTest() {
+        assertFalse(Level.INFO.hasHigerSeverity(Level.SUCCESS));
+        assertFalse(Level.SUCCESS.hasHigerSeverity(Level.WARN));
+        assertFalse(Level.WARN.hasHigerSeverity(Level.ERROR));
 
-    assertTrue(Level.SUCCESS.hasHigerSeverity(Level.INFO));
-    assertTrue(Level.WARN.hasHigerSeverity(Level.SUCCESS));
-    assertTrue(Level.ERROR.hasHigerSeverity(Level.WARN));
-  }
+        assertTrue(Level.SUCCESS.hasHigerSeverity(Level.INFO));
+        assertTrue(Level.WARN.hasHigerSeverity(Level.SUCCESS));
+        assertTrue(Level.ERROR.hasHigerSeverity(Level.WARN));
+    }
+
+
+    @Test
+    public void messageListTest() {
+        MessageList messageList = new MessageList();
+        messageList.addBaseError("addBaseError");
+        messageList.addBaseWarning("addBaseWarning");
+
+        assertEquals("addBaseError | addBaseWarning", messageList.getMessagesDescription());
+    }
 }

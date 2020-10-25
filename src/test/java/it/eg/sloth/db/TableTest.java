@@ -2,6 +2,7 @@ package it.eg.sloth.db;
 
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
+import it.eg.sloth.db.model.ProvaTableBean;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -23,4 +24,5 @@ public class TableTest {
 
         assertEquals(TO_STRING, table.toString());
     }
+
 }

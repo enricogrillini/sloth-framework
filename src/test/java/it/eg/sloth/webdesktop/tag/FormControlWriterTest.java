@@ -410,6 +410,9 @@ public class FormControlWriterTest {
         // Controllo generico
         assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", "", "testo"), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
 
+        field.setValue("testo\ntesto");
+        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", "", "testo<br>testo"), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+
         // Empty
         field.setHidden(true);
         assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));

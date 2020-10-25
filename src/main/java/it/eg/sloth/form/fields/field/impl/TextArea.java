@@ -1,6 +1,7 @@
 package it.eg.sloth.form.fields.field.impl;
 
 import it.eg.sloth.form.fields.field.FieldType;
+import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import lombok.experimental.SuperBuilder;
 
@@ -30,6 +31,15 @@ public class TextArea<T> extends Input<T> {
     @Override
     public FieldType getFieldType() {
         return FieldType.TEXT_AREA;
+    }
+
+    @Override
+    public String escapeHtmlValue() {
+        if (getHtmlEscaper() == null) {
+            return Casting.getHtml(getData(), true, false);
+        } else {
+            return getHtmlEscaper().escapeValue(getData());
+        }
     }
 
 }

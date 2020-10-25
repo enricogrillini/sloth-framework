@@ -167,4 +167,16 @@ public class MessageList {
         return level;
     }
 
+
+    public String getMessagesDescription() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Message message : list) {
+            if (stringBuilder.length() != 0) {
+                stringBuilder.append(" | ");
+            }
+            stringBuilder.append(message.getDescription());
+        }
+
+        return stringBuilder.toString();
+    }
 }

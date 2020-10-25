@@ -294,6 +294,17 @@ public class StringUtil {
     }
 
     /**
+     * Rimuove gli spazi a destra e a sinistra
+     *
+     * @param string
+     * @return
+     */
+    public static String trim(String string) {
+        return ltrim(rtrim(string));
+    }
+
+
+    /**
      * Trasforma la prima lettera di ogni parola in maiuscolo
      *
      * @param string
@@ -500,7 +511,9 @@ public class StringUtil {
             throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Lunghezza codice fiscale errata");
         }
 
-        if (!codiceFiscale.matches("^[0-9A-Z]{16}$")) {
+        // Reg Ex semplice   ^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$
+        // Reg Ex articolata ^[a-zA-Z]{6}[0-9]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9]{2}([a-zA-Z]{1}[0-9]{3})[a-zA-Z]{1}$
+        if (!codiceFiscale.matches("^[A-Z]{6}[0-9]{2}[ABCDEHLMPRST]{1}[0-9]{2}([A-Z]{1}[0-9]{3})[A-Z]{1}$")) {
             throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Trovati caratteri non validi");
         }
 

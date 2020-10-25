@@ -37,6 +37,9 @@ public class DataConnectionMangerTest {
             "SqlStatement: Select * from Prova where Id = ? order by 1\n" +
             "Parameter {\"sqlType\":4,\"value\":1}";
 
+    private static final String TABLE_BEAN_TO_STRING = "TableAbstract(sortingRules=SortingRules(list=[]), rows=[Row{values={id=2, testo=BbbbbX, data=2020-01-01 00:00:00.0}}], currentRow=0, pageSize=-1)";
+
+
     private static final String driverClassName = "org.h2.Driver";
     private static final String url = "jdbc:h2:mem:inputDb;MODE=Oracle;INIT=RUNSCRIPT FROM 'classpath:db/create.sql'";
     private static final String userName = "gilda";
@@ -263,7 +266,7 @@ public class DataConnectionMangerTest {
 
 
     @Test
-    public void toStringTest() throws SQLException, IOException, FrameworkException {
+    public void queryToStringTest() throws SQLException, IOException, FrameworkException {
         // FilteredQuery
         FilteredQuery filteredQuery = new FilteredQuery("Select * from Prova /*W*/");
         filteredQuery.addFilter("Id = ?", Types.INTEGER, 2);
@@ -275,7 +278,16 @@ public class DataConnectionMangerTest {
         query.addParameter(Types.INTEGER, BigDecimal.valueOf(1));
 
         assertEquals(QUERY_TO_STRING, query.toString());
+    }
 
+    @Test
+    public void tableToStringTest() throws SQLException, IOException, FrameworkException {
+        // Simple Filter
+        FilteredQuery query = new FilteredQuery("Select * from Prova /*W*/");
+        query.addFilter("Id = ?", Types.INTEGER, 2);
+
+        ProvaTableBean provaTableBean = ProvaTableBean.Factory.loadFromQuery(query);
+        assertEquals(TABLE_BEAN_TO_STRING, provaTableBean.toString());
     }
 
 }
