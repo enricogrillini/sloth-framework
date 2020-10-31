@@ -73,7 +73,7 @@ public abstract class SimpleJob implements Job {
 
         } catch (FrameworkException e) {
             try {
-                log(MessageFormat.format(ABORTED, group + "." + name), "", 100, JobStatus.ABORTED);
+                log(MessageFormat.format(ABORTED, group + "." + name), e.getMessage(), 100, JobStatus.ABORTED);
             } catch (FrameworkException e1) {
                 log.error("ERROR {}: {} - {}", getClass().getName(), e1.getExceptionType(), e1.getMessage(), e1);
             }

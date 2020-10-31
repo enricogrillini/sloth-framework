@@ -328,7 +328,7 @@ public class StringUtil {
             return string;
         }
     }
-
+    
     public static String toJavaClassName(String string) {
         if (BaseFunction.isBlank(string)) {
             return "";

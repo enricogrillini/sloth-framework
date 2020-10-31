@@ -209,31 +209,4 @@ public class BaseFunction {
         return object.toString();
     }
 
-    /**
-     * Verifica se la stringa passata corrisponde ad un user id valido
-     *
-     * @param userid
-     * @return
-     */
-    public static boolean isUserIdValid(String userid) {
-        if (userid == null)
-            return false;
-
-        if (userid.length() < 8)
-            return false;
-
-        if (userid.length() > 16)
-            return false;
-
-        userid = userid.toLowerCase();
-        for (int i = 0; i < userid.length(); i++) {
-            char c = userid.charAt(i);
-            if (!((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9'))) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
 }

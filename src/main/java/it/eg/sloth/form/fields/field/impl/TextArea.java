@@ -34,7 +34,7 @@ public class TextArea<T> extends Input<T> {
     }
 
     @Override
-    public String escapeHtmlValue() {
+    public String escapeHtmlText() {
         if (getHtmlEscaper() == null) {
             return Casting.getHtml(getData(), true, false);
         } else {

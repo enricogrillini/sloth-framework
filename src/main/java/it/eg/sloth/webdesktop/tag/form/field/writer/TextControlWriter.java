@@ -195,7 +195,7 @@ public class TextControlWriter extends HtmlWriter {
         if (!BaseFunction.isBlank(text.getBaseLink())) {
             return "<a href=\"" + text.getBaseLink() + text.escapeHtmlValue() + "\" >" + text.escapeHtmlText() + "</a>";
         } else if (DataTypes.URL == text.getDataType()) {
-            return "<a href=\"" + text.escapeHtmlValue() + "\" target=\"_blank\">" + text.escapeHtmlText() + "</a>";
+            return "<a href=\"" + text.escapeHtmlText() + "\" target=\"_blank\">" + text.escapeHtmlText() + "</a>";
         } else {
             return text.escapeHtmlText();
         }
