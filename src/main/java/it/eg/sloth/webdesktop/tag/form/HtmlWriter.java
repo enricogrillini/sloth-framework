@@ -67,7 +67,7 @@ public abstract class HtmlWriter {
     }
 
     public static String getAttribute(String property, boolean condizione, String value) {
-        return condizione ? " " + property + "=\"" + value + "\"" : "";
+        return condizione ? " " + property + "=\"" + value + "\"" : StringUtil.EMPTY;
     }
 
     public static String getAttribute(String property, boolean condizione, String valTrue, String valFalse) {

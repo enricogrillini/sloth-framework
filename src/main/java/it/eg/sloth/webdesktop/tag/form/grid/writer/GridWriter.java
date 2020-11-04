@@ -16,6 +16,7 @@ import it.eg.sloth.form.fields.field.impl.InputTotalizer;
 import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
@@ -28,10 +29,16 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;
 
 public class GridWriter extends HtmlWriter {
+    private static final String TABLE_CLOSE = "</table>\n";
+
+    private static final String HEAD_OPEN = " <thead>\n";
+    private static final String HEAD_CLOSE = " </thead>\n";
+
+    private static final String ROW_OPEN = "  <tr{0}{1}>\n";
+    private static final String ROW_CLOSE = "  </tr>\n";
+
 
     private static final String CELL_DETAIL = "   <td class=\"text-center tableDetail\"><i class=\"tableDetail text-info fa fa-chevron-down collapsed\" href=\"#{0}\" data-toggle=\"collapse\" aria-expanded=\"true\" aria-controls=\"collapse-collapsed\"></i></td>\n";
-
-    private static final String ROW_CLOSE = "  </tr>\n";
 
 
     public static String openTable(Grid<?> grid, boolean border, boolean hover, boolean small) {
@@ -45,21 +52,15 @@ public class GridWriter extends HtmlWriter {
     }
 
     public static String closeTable() {
-        return new StringBuilder()
-                .append("</table>\n")
-                .toString();
+        return TABLE_CLOSE;
     }
 
     public static String openHeader() {
-        return new StringBuilder()
-                .append(" <thead>\n")
-                .toString();
+        return HEAD_OPEN;
     }
 
     public static String closeHeader() {
-        return new StringBuilder()
-                .append(" </thead>\n")
-                .toString();
+        return HEAD_CLOSE;
     }
 
     public static String headerRow(Grid<?> grid, Fields<?> detailFields, boolean sortable) {
@@ -127,7 +128,6 @@ public class GridWriter extends HtmlWriter {
     }
 
     public static String openCell(SimpleField field, boolean header, boolean sortable) {
-
         // Stile cella
         String htmlClass = "text-left";
         if (sortable) {
@@ -140,22 +140,10 @@ public class GridWriter extends HtmlWriter {
 
 
         if (header) {
-            return new StringBuilder()
-                    .append("   <th")
-                    .append(getAttributeTooltip(field.getTooltip()))
-                    .append(getAttribute(ATTR_CLASS, htmlClass + " text-nowrap"))
-                    .append(">")
-                    .toString();
+            return MessageFormat.format("   <th{0}{1}>", getAttributeTooltip(field.getTooltip()), getAttribute(ATTR_CLASS, htmlClass + " text-nowrap"));
         } else {
-            return new StringBuilder()
-                    .append("   <td")
-                    .append(getAttributeTooltip(field.getTooltip()))
-                    .append(getAttribute(ATTR_CLASS, htmlClass))
-                    .append(">")
-                    .toString();
-
+            return MessageFormat.format("   <td{0}{1}>", getAttributeTooltip(field.getTooltip()), getAttribute(ATTR_CLASS, htmlClass));
         }
-
     }
 
     public static String closeCell(boolean headder) {
@@ -193,13 +181,12 @@ public class GridWriter extends HtmlWriter {
             String idRow = NavigationConst.navStr(NavigationConst.ROW, grid.getName(), "" + rowNumber);
             String idRowDetail = NavigationConst.navStr(NavigationConst.ROW, grid.getName(), "" + rowNumber, "detail");
 
-
             if (dataTable.getPageSize() <= 0 || (dataTable.getPageStart() <= rowNumber && dataTable.getPageEnd() >= rowNumber)) {
                 String classHtml = getAttribute("class", manageCurrentRow && rowNumber == dataTable.getCurrentRow(), "table-primary");
 
                 // Riga corrente in edit mode
                 if (rowNumber == dataTable.getCurrentRow() && ViewModality.VIEW_MODIFICA == viewModality) {
-                    result.append(MessageFormat.format("  <tr{0}>\n", classHtml));
+                    result.append(MessageFormat.format(ROW_OPEN, StringUtil.EMPTY, classHtml));
                     if (detailFields != null) {
                         result.append("   <td>&nbsp;</td>\n");
                     }
@@ -216,7 +203,7 @@ public class GridWriter extends HtmlWriter {
                         result.append(GridWriter.cell(grid, field, viewModality));
                     }
                 } else {
-                    result.append(MessageFormat.format("  <tr{0}{1}>\n", getAttribute("id", idRow), classHtml));
+                    result.append(MessageFormat.format(ROW_OPEN, getAttribute("id", manageCurrentRow, idRow), classHtml));
                     if (detailFields != null) {
                         result.append(MessageFormat.format(CELL_DETAIL, idRowDetail));
                     }
