@@ -137,31 +137,19 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
     }
 
     public boolean execGoToRecord(int record) throws Exception {
-        if (ViewModality.VIEW_VISUALIZZAZIONE.equals(getForm().getPageInfo().getViewModality())) {
+        if (ViewModality.VIEW_VISUALIZZAZIONE.equals(getForm().getPageInfo().getViewModality()) || execPostDetail(true)) {
             getGrid().getDataSource().setCurrentRow(record);
             getGrid().copyFromDataSource(getGrid().getDataSource());
-            return true;
-        } else if (execPostDetail(true)) {
-            getGrid().getDataSource().setCurrentRow(record);
-            getGrid().copyFromDataSource(getGrid().getDataSource());
-            return true;
-        } else {
-            return true;
         }
+        return true;
     }
 
     public boolean execInsert() throws Exception {
-        if (ViewModality.VIEW_VISUALIZZAZIONE.equals(getForm().getPageInfo().getViewModality())) {
+        if (ViewModality.VIEW_VISUALIZZAZIONE.equals(getForm().getPageInfo().getViewModality()) || execPostDetail(true)) {
             getGrid().clearData();
             getGrid().getDataSource().add();
-            return true;
-        } else if (execPostDetail(true)) {
-            getGrid().clearData();
-            getGrid().getDataSource().add();
-            return true;
-        } else {
-            return true;
         }
+        return true;
     }
 
     @Override
@@ -272,13 +260,11 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
 
     @Override
     public void onExcel(Grid<?> grid) throws Exception {
-        try (OutputStream outputStream = getResponse().getOutputStream()) {
+        try (OutputStream outputStream = getResponse().getOutputStream(); GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);) {
             String fileName = BaseFunction.nvl(grid.getTitle(), grid.getName()) + FileType.XLSX.getExtension();
             fileName = StringUtil.toFileName(fileName);
 
             setModelAndView(fileName, FileType.XLSX);
-
-            GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
             gridXlsxWriter.getWorkbook().write(outputStream);
         }
     }

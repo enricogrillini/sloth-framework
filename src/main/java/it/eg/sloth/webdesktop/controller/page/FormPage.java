@@ -95,7 +95,9 @@ public abstract class FormPage<F extends Form> extends BasePage {
             } else if (!accessAllowed()) {
                 // Verifico la sicurezza
                 log.warn("Accesso non consentito");
+                getMessageList().clear();
                 getMessageList().addBaseError("Accesso alla funzionalità non consentito!");
+                getMessageList().setPopup(false);
                 return new ModelAndView(WebDesktopConstant.Jsp.ERROR);
 
             } else {

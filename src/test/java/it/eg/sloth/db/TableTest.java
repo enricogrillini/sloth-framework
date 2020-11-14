@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 @Slf4j
 public class TableTest {
 
-    private static final String TO_STRING = "Table{sortingRules=SortingRules(list=[]), rows=[Row{values={key1=value1}}, Row{values={key2=value2}}], currentRow=1, pageSize=-1}";
+    private static final String TO_STRING = "TableAbstract(sortingRules=SortingRules(list=[]), rows=[Row{values={key1=value1}}, Row{values={key2=value2}}], currentRow=1, pageSize=-1)";
 
     @Test
     public void tableToStringTest() {

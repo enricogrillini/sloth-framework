@@ -1,13 +1,14 @@
 package it.eg.sloth.webdesktop.dto;
 
 import it.eg.sloth.form.Form;
-import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.common.message.MessageList;
 import it.eg.sloth.framework.security.User;
 import it.eg.sloth.webdesktop.search.SearchManager;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +27,8 @@ import java.util.Map;
  * @author Enrico Grillini
  */
 @Getter
-public class WebDesktopDto extends FrameComponent {
+@ToString
+public class WebDesktopDto {
 
     @Setter
     private User user;

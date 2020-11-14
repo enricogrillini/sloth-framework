@@ -64,7 +64,8 @@ public class FormControlWriterTest {
 
     private static final String BASE_LINK = "<a href=\"{1}\" class=\"btn btn-outline-primary btn-sm\"/>{0}</a>";
 
-    private static final String BASE_SEMAPHORE = "<i class=\"fas fa-circle text-danger\"></i>";
+    private static final String BASE_SEMAPHORE = "<div class=\"btn-group btn-group-toggle d-flex\" data-toggle=\"buttons\"><label class=\"btn btn-outline-success btn-sm disabled\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-warning btn-sm disabled\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-danger btn-sm disabled\"><i class=\"far fa-circle\"></i></label></div>";
+    private static final String BASE_SEMAPHORE_MOD = "<div class=\"btn-group btn-group-toggle d-flex\" data-toggle=\"buttons\"><label class=\"btn btn-outline-success btn-sm \"><input  id=\"name\" name=\"name\" type=\"radio\" value=\"G\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-warning btn-sm \"><input  id=\"name\" name=\"name\" type=\"radio\" value=\"Y\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-danger btn-sm \"><input  id=\"name\" name=\"name\" type=\"radio\" value=\"R\"><i class=\"far fa-circle\"></i></label></div>";
 
     private static final String BASE_RADIOGROUP_VIS = " <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n" +
             "  <input id=\"name0\" name=\"name\" type=\"radio\" value=\"S\" disabled=\"\" checked=\"\" class=\"custom-control-input\"><div class=\"custom-control-label\">S&igrave;</div>\n" +
@@ -335,17 +336,6 @@ public class FormControlWriterTest {
     }
 
     @Test
-    public void multipleAutoCompleteTest() {
-        MultipleAutoComplete<List<String>, String> field = new MultipleAutoComplete<List<String>, String>("name", "description", DataTypes.STRING);
-
-        // Lunghezza codice fiscale errata
-        FrameworkException frameworkException = assertThrows(FrameworkException.class, () -> {
-            FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA);
-        });
-        assertEquals(ExceptionCode.INVALID_CONTROL, frameworkException.getExceptionCode());
-    }
-
-    @Test
     public void radioGroupTest() throws FrameworkException {
         RadioGroup<String> radioGroup = new RadioGroup<String>("name", "description", DataTypes.STRING);
         radioGroup.setDecodeMap(StringDecodeMap.SI_NO_TUTTI);
@@ -372,17 +362,17 @@ public class FormControlWriterTest {
                 .viewModality(ViewModality.VIEW_AUTO)
                 .build();
 
-//        assertEquals(BASE_SEMAPHORE, FormControlWriter.writeSemaphore(semaphore, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(BASE_SEMAPHORE, FormControlWriter.writeSemaphore(semaphore, ViewModality.VIEW_VISUALIZZAZIONE));
 
         // Controllo generico
-//        assertEquals(MessageFormat.format(BASE_SEMAPHORE, ""), FormControlWriter.writeControl(semaphore, null, ViewModality.VIEW_VISUALIZZAZIONE));
-//
-//        // VIEW_MODIFICA ancora non gestita
-//        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(semaphore, null, ViewModality.VIEW_MODIFICA));
-//
-//        // Empty
-//        semaphore.setHidden(true);
-//        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(semaphore, null, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(MessageFormat.format(BASE_SEMAPHORE, ""), FormControlWriter.writeControl(semaphore, null, ViewModality.VIEW_VISUALIZZAZIONE));
+
+        // VIEW_MODIFICA ancora non gestita
+        assertEquals(BASE_SEMAPHORE_MOD, FormControlWriter.writeControl(semaphore, null, ViewModality.VIEW_MODIFICA));
+
+        // Empty
+        semaphore.setHidden(true);
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(semaphore, null, ViewModality.VIEW_VISUALIZZAZIONE));
     }
 
     @Test

@@ -99,7 +99,7 @@ public abstract class TextField<T> implements DataField<T> {
         if (dataSource != null) {
             Object object = dataSource.getObject(getAlias());
 
-            // TODO: Sarebbe pià corretto rendere questo passaggio trasparente rispetto alla gestione dei LOB che dovrebbe essere demandata ai Bean
+            // Nota: Sarebbe più corretto rendere questo passaggio trasparente rispetto alla gestione dei LOB che dovrebbe essere demandata ai Bean
             if (object instanceof LobData) {
                 object = ((LobData<?>) object).getValue();
             }

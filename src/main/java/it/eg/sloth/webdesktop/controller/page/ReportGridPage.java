@@ -144,13 +144,11 @@ public abstract class ReportGridPage<F extends Form> extends SimplePage<F> imple
 
     @Override
     public void onExcel(Grid<?> grid) throws Exception {
-        try (OutputStream outputStream = getResponse().getOutputStream()) {
+        try (OutputStream outputStream = getResponse().getOutputStream(); GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid)) {
             String fileName = BaseFunction.nvl(grid.getTitle(), grid.getName()) + FileType.XLSX.getExtension();
             fileName = StringUtil.toFileName(fileName);
 
             setModelAndView(fileName, FileType.XLSX);
-
-            GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
             gridXlsxWriter.getWorkbook().write(outputStream);
         }
     }

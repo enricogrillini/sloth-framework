@@ -39,6 +39,12 @@ public class MessageList {
         popup = true;
     }
 
+    /**
+     * Pulisce la lista di messaggi
+     */
+    public void clear() {
+        list.clear();
+    }
 
     /**
      * Aggiunge un messaggio

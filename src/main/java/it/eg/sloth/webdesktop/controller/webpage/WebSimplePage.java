@@ -8,7 +8,6 @@ import it.eg.sloth.db.decodemap.MapSearchType;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.fields.field.DecodedDataField;
-import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.utility.FileType;
 import it.eg.sloth.webdesktop.controller.common.SimplePageInterface;
@@ -87,19 +86,18 @@ public abstract class WebSimplePage<F extends Form> extends FormPage<F> implemen
             if (getForm().getElement(navigation[1]) instanceof DecodedDataField) {
                 DecodedDataField<?> decodedDataField = (DecodedDataField<?>) getForm().getElement(navigation[1]);
                 decodeMap = decodedDataField.getDecodeMap();
-            } else {
-                MultipleAutoComplete<?, ?> decodedDataField = (MultipleAutoComplete<?, ?>) getForm().getElement(navigation[1]);
-                decodeMap = decodedDataField.getDecodeMap();
             }
 
             String query = getWebRequest().getString("query");
             SimpleSuggestionList list = new SimpleSuggestionList();
-            for (DecodeValue<?> decodeValue : decodeMap.performSearch(query, MapSearchType.MATCH, 10)) {
-                SimpleSuggestion simpleSuggestion = new SimpleSuggestion();
-                simpleSuggestion.setValue(decodeValue.getDescription());
-                simpleSuggestion.setValid(decodeValue.isValid());
+            if (decodeMap != null) {
+                for (DecodeValue<?> decodeValue : decodeMap.performSearch(query, MapSearchType.MATCH, 10)) {
+                    SimpleSuggestion simpleSuggestion = new SimpleSuggestion();
+                    simpleSuggestion.setValue(decodeValue.getDescription());
+                    simpleSuggestion.setValid(decodeValue.isValid());
 
-                list.getSuggestions().add(simpleSuggestion);
+                    list.getSuggestions().add(simpleSuggestion);
+                }
             }
 
             ObjectMapper mapper = new ObjectMapper();

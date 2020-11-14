@@ -1,9 +1,8 @@
 package it.eg.sloth.framework.utility.xlsx;
 
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -51,6 +50,37 @@ public class ExcelUtil {
         }
 
         return cell;
+    }
+
+    /**
+     * Ritorna il valore contenuto in una cella
+     *
+     * @param cell
+     * @return
+     */
+    public static Object getCellValue(Cell cell) {
+        if (cell == null) {
+            return null;
+        } else if (cell.getCellType() == CellType.STRING) {
+            return StringUtil.parseString(cell.getRichStringCellValue().getString());
+        } else if ("@".equals(cell.getCellStyle().getDataFormatString())) {
+            double value = cell.getNumericCellValue();
+            if (value == 0) {
+                return StringUtil.EMPTY;
+            } else if (Math.floor(value) == value) {
+                return "" + (int) value;
+            } else {
+                return "" + value;
+            }
+        } else if (cell.getCellType() == CellType.NUMERIC || cell.getCellType() == CellType.FORMULA) {
+            if (DateUtil.isCellDateFormatted(cell)) {
+                return TimeStampUtil.toTimestamp(cell.getDateCellValue());
+            } else {
+                return BigDecimal.valueOf(cell.getNumericCellValue());
+            }
+        } else {
+            return null;
+        }
     }
 
     /**

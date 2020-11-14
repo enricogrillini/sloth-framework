@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -34,7 +35,7 @@ import java.util.Map;
  * @author Enrico Grillini
  */
 @Getter
-public class BaseXlsxWriter {
+public class BaseXlsxWriter implements Closeable {
 
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
@@ -219,4 +220,8 @@ public class BaseXlsxWriter {
         cell.setCellStyle(cellStyle);
     }
 
+    @Override
+    public void close() throws IOException {
+        workbook.close();
+    }
 }

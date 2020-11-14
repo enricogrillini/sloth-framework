@@ -4,7 +4,6 @@ import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.query.SelectQueryInterface;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import lombok.ToString;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -24,9 +23,7 @@ import java.sql.SQLException;
  *
  * @author Enrico Grillini
  */
-@ToString
 public class Table extends TableAbstract<Row> {
-
 
     public Table(DataTable<?> dataTable) {
         super(dataTable);
@@ -64,13 +61,4 @@ public class Table extends TableAbstract<Row> {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Table{" +
-                "sortingRules=" + getSortingRules() +
-                ", rows=" + rows +
-                ", currentRow=" + currentRow +
-                ", pageSize=" + pageSize +
-                '}';
-    }
 }
