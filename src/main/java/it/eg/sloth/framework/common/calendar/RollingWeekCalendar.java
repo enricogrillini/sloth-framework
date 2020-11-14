@@ -9,11 +9,11 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class RollingWeekCalendar<E> implements Iterable<Day<E>> {
+public class RollingWeekCalendar<E, I extends DayInfo> implements Iterable<Day<E, I>> {
 
     @Getter
     private Timestamp fromDay;
-    private Map<Timestamp, Day<E>> dayMap;
+    private Map<Timestamp, Day<E, I>> dayMap;
 
     public RollingWeekCalendar() throws FrameworkException {
         this(TimeStampUtil.truncSysdate());
@@ -28,7 +28,7 @@ public class RollingWeekCalendar<E> implements Iterable<Day<E>> {
         dayMap.clear();
 
         for (int i = 0; i < 7; i++) {
-            Day<E> day = new Day<>(TimeStampUtil.add(fromDay, i));
+            Day<E, I> day = new Day<>(TimeStampUtil.add(fromDay, i));
             dayMap.put(day.getCurrentDay(), day);
         }
     }
@@ -39,11 +39,11 @@ public class RollingWeekCalendar<E> implements Iterable<Day<E>> {
     }
 
     @Override
-    public Iterator<Day<E>> iterator() {
+    public Iterator<Day<E, I>> iterator() {
         return dayMap.values().iterator();
     }
 
-    public Day<E> getDay(Timestamp day) {
+    public Day<E, I> getDay(Timestamp day) {
         return dayMap.get(day);
     }
 
@@ -55,12 +55,12 @@ public class RollingWeekCalendar<E> implements Iterable<Day<E>> {
         return TimeStampUtil.add(fromDay, 6);
     }
 
-    public RollingWeekCalendar<E> prev() throws FrameworkException {
+    public RollingWeekCalendar<E, I> prev() throws FrameworkException {
         setFromDay(TimeStampUtil.add(getFromDay(), -7));
         return this;
     }
 
-    public RollingWeekCalendar<E> next() throws FrameworkException {
+    public RollingWeekCalendar<E, I> next() throws FrameworkException {
         setFromDay(TimeStampUtil.add(getFromDay(), 7));
         return this;
     }

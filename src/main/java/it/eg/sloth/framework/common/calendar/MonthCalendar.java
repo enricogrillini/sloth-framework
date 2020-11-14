@@ -8,10 +8,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class MonthCalendar<E> implements Iterable<Day<E>> {
+public class MonthCalendar<E, I extends DayInfo> implements Iterable<Day<E, I>> {
 
     private Timestamp month;
-    private Map<Timestamp, Day<E>> dayMap;
+    private Map<Timestamp, Day<E, I>> dayMap;
 
     public MonthCalendar(Timestamp month) throws FrameworkException {
         dayMap = new LinkedHashMap<>();
@@ -25,7 +25,7 @@ public class MonthCalendar<E> implements Iterable<Day<E>> {
 
         Timestamp currentDay = firstCalendarDay();
         for (; !currentDay.after(lastCalendarDay()); currentDay = TimeStampUtil.add(currentDay, 1)) {
-            Day<E> day = new Day<>(currentDay);
+            Day<E, I> day = new Day<>(currentDay);
             dayMap.put(day.getCurrentDay(), day);
         }
     }
@@ -36,11 +36,11 @@ public class MonthCalendar<E> implements Iterable<Day<E>> {
     }
 
     @Override
-    public Iterator<Day<E>> iterator() {
+    public Iterator<Day<E, I>> iterator() {
         return dayMap.values().iterator();
     }
 
-    public Day<E> getDay(Timestamp day) {
+    public Day<E, I> getDay(Timestamp day) {
         return dayMap.get(day);
     }
 
@@ -60,12 +60,12 @@ public class MonthCalendar<E> implements Iterable<Day<E>> {
         return TimeStampUtil.lastDayOfMonth(month);
     }
 
-    public MonthCalendar<E> prev() throws FrameworkException {
+    public MonthCalendar<E, I> prev() throws FrameworkException {
         setMonth(TimeStampUtil.add(month, -1));
         return this;
     }
 
-    public MonthCalendar<E> next() throws FrameworkException {
+    public MonthCalendar<E, I> next() throws FrameworkException {
         setMonth(TimeStampUtil.add(month, 32));
         return this;
     }

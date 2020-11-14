@@ -23,11 +23,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class MonthCalendarTest {
 
-    private MonthCalendar<Object> monthCalendar;
+    private MonthCalendar<Object, DayInfo> monthCalendar;
 
     @Before
     public void init() throws FrameworkException {
-        monthCalendar = new MonthCalendar<Object>(TimeStampUtil.parseTimestamp("07/07/2020", "dd/MM/yyyy"));
+        monthCalendar = new MonthCalendar<Object, DayInfo>(TimeStampUtil.parseTimestamp("07/07/2020", "dd/MM/yyyy"));
     }
 
 
@@ -43,7 +43,7 @@ public class MonthCalendarTest {
     @Test
     public void monthTest2() throws FrameworkException {
         int i = 0;
-        for (Day<Object> day : monthCalendar) {
+        for (Day<Object, DayInfo> day : monthCalendar) {
             if (i==0) {
                 assertEquals(TimeStampUtil.parseTimestamp("29/06/2020", "dd/MM/yyyy"), day.getCurrentDay());
             }
