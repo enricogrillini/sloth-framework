@@ -35,8 +35,8 @@ public class RollingWeekCalendarTest {
 
     @Test
     public void weekTest() throws FrameworkException {
-        assertEquals(TimeStampUtil.parseTimestamp("07/07/2020", "dd/MM/yyyy"), rollingWeekCalendar.getFirstDay());
-        assertEquals(TimeStampUtil.parseTimestamp("13/07/2020", "dd/MM/yyyy"), rollingWeekCalendar.getLastDay());
+        assertEquals(TimeStampUtil.parseTimestamp("07/07/2020", "dd/MM/yyyy"), rollingWeekCalendar.firstCalendarDay());
+        assertEquals(TimeStampUtil.parseTimestamp("13/07/2020", "dd/MM/yyyy"), rollingWeekCalendar.lastCalendarDay());
         assertEquals(TimeStampUtil.parseTimestamp("08/07/2020", "dd/MM/yyyy"), rollingWeekCalendar.getDay(TimeStampUtil.parseTimestamp("08/07/2020", "dd/MM/yyyy")).getCurrentDay());
 
         //Non ci sono il 05-07 e il 20-07 in questa settimana
@@ -45,15 +45,14 @@ public class RollingWeekCalendarTest {
 
         // Next
         rollingWeekCalendar.next();
-        assertEquals(TimeStampUtil.parseTimestamp("14/07/2020", "dd/MM/yyyy"), rollingWeekCalendar.getFirstDay());
-        assertEquals(TimeStampUtil.parseTimestamp("20/07/2020", "dd/MM/yyyy"), rollingWeekCalendar.getLastDay());
+        assertEquals(TimeStampUtil.parseTimestamp("14/07/2020", "dd/MM/yyyy"), rollingWeekCalendar.firstCalendarDay());
+        assertEquals(TimeStampUtil.parseTimestamp("20/07/2020", "dd/MM/yyyy"), rollingWeekCalendar.lastCalendarDay());
 
         // Prev
         rollingWeekCalendar.prev();
-        assertEquals(TimeStampUtil.parseTimestamp("07/07/2020", "dd/MM/yyyy"), rollingWeekCalendar.getFirstDay());
-        assertEquals(TimeStampUtil.parseTimestamp("13/07/2020", "dd/MM/yyyy"), rollingWeekCalendar.getLastDay());
+        assertEquals(TimeStampUtil.parseTimestamp("07/07/2020", "dd/MM/yyyy"), rollingWeekCalendar.firstCalendarDay());
+        assertEquals(TimeStampUtil.parseTimestamp("13/07/2020", "dd/MM/yyyy"), rollingWeekCalendar.lastCalendarDay());
 
-
-        assertEquals(TimeStampUtil.truncSysdate(), rollingWeekCalendarFromToday.getFirstDay());
+        assertEquals(TimeStampUtil.truncSysdate(), rollingWeekCalendarFromToday.firstCalendarDay());
     }
 }

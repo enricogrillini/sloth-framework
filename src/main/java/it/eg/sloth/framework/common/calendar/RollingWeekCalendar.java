@@ -5,11 +5,9 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.Getter;
 
 import java.sql.Timestamp;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class RollingWeekCalendar<E, I extends DayInfo> implements Iterable<Day<E, I>> {
+public class RollingWeekCalendar<E, I extends DayInfo> extends AbstractFrameCalendar<E, I> {
 
     @Getter
     private Timestamp fromDay;
@@ -19,49 +17,40 @@ public class RollingWeekCalendar<E, I extends DayInfo> implements Iterable<Day<E
         this(TimeStampUtil.truncSysdate());
     }
 
-    public RollingWeekCalendar(Timestamp fromDay) {
-        dayMap = new LinkedHashMap<>();
-        setFromDay(fromDay);
+    public RollingWeekCalendar(Timestamp fromDay) throws FrameworkException {
+        super(fromDay);
     }
 
-    public void clear() {
-        dayMap.clear();
-
-        for (int i = 0; i < 7; i++) {
-            Day<E, I> day = new Day<>(TimeStampUtil.add(fromDay, i));
-            dayMap.put(day.getCurrentDay(), day);
-        }
-    }
-
-    public void setFromDay(Timestamp fromDay) {
+    @Override
+    public void set(Timestamp fromDay) throws FrameworkException {
         this.fromDay = fromDay;
         clear();
     }
 
     @Override
-    public Iterator<Day<E, I>> iterator() {
-        return dayMap.values().iterator();
-    }
-
-    public Day<E, I> getDay(Timestamp day) {
-        return dayMap.get(day);
-    }
-
-    public Timestamp getFirstDay() {
+    public Timestamp get() {
         return fromDay;
     }
 
-    public Timestamp getLastDay() {
+    @Override
+    public Timestamp firstCalendarDay() throws FrameworkException {
+        return fromDay;
+    }
+
+    @Override
+    public Timestamp lastCalendarDay() throws FrameworkException {
         return TimeStampUtil.add(fromDay, 6);
     }
 
+    @Override
     public RollingWeekCalendar<E, I> prev() throws FrameworkException {
-        setFromDay(TimeStampUtil.add(getFromDay(), -7));
+        set(TimeStampUtil.add(getFromDay(), -7));
         return this;
     }
 
+    @Override
     public RollingWeekCalendar<E, I> next() throws FrameworkException {
-        setFromDay(TimeStampUtil.add(getFromDay(), 7));
+        set(TimeStampUtil.add(getFromDay(), 7));
         return this;
     }
 }
