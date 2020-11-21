@@ -120,25 +120,25 @@ public abstract class WebSimplePage<F extends Form> extends FormPage<F> implemen
         execInit();
     }
 
-    protected ModelAndView getModelAndView() {
+    public ModelAndView getModelAndView() {
         return modelAndView;
     }
 
-    protected void clearModelAndView() {
+    public void clearModelAndView() {
         this.modelAndView = null;
     }
 
-    protected void setModelAndView(String fileName, FileType fileType) {
+    public void setModelAndView(String fileName, FileType fileType) {
         getResponse().setContentType(fileType.getContentType());
         getResponse().setHeader("Content-Disposition", "attachment; filename=" + StringUtil.toFileName(fileName));
         clearModelAndView();
     }
 
-    protected void setModelAndView(ModelAndView modelAndView) {
+    public void setModelAndView(ModelAndView modelAndView) {
         this.modelAndView = modelAndView;
     }
 
-    protected void setModelAndView(String modelAndView) {
+    public void setModelAndView(String modelAndView) {
         setModelAndView(new ModelAndView(modelAndView));
     }
 

@@ -29,8 +29,4 @@ public interface ReportGridNavigationInterface extends SimpleSearchPageInterface
 
     void onLastRow(Grid<?> grid) throws Exception;
 
-    void onSort(Grid<?> grid, String fieldName, int sortType) throws Exception;
-
-    void onExcel(Grid<?> grid) throws Exception;
-
 }

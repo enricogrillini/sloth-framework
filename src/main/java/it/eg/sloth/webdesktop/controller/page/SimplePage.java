@@ -15,7 +15,6 @@ import it.eg.sloth.webdesktop.search.model.suggestion.SimpleSuggestion;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -66,7 +65,9 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
             try {
                 getMessageList().setPopup(true);
                 getMessageList().getList().clear();
-                if (!defaultNavigation()) {
+
+                // Eseguo le operazioni di inizializzaizone sel la form se è nuova o se la navigazione non è gestita
+                if (isNewForm() || !defaultNavigation()) {
                     onInit();
                 }
             } catch (Exception e) {
@@ -132,25 +133,25 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
         execInit();
     }
 
-    protected ModelAndView getModelAndView() {
+    public ModelAndView getModelAndView() {
         return modelAndView;
     }
 
-    protected void clearModelAndView() {
+    public void clearModelAndView() {
         this.modelAndView = null;
     }
 
-    protected void setModelAndView(String fileName, FileType fileType) {
+    public void setModelAndView(String fileName, FileType fileType) {
         getResponse().setContentType(fileType.getContentType());
         getResponse().setHeader("Content-Disposition", "attachment; filename=" + StringUtil.toFileName(fileName));
         clearModelAndView();
     }
 
-    protected void setModelAndView(ModelAndView modelAndView) {
+    public void setModelAndView(ModelAndView modelAndView) {
         this.modelAndView = modelAndView;
     }
 
-    protected void setModelAndView(String modelAndView) {
+    public void setModelAndView(String modelAndView) {
         setModelAndView(new ModelAndView(modelAndView));
     }
 

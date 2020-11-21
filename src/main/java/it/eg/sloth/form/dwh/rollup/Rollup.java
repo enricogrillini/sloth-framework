@@ -206,9 +206,9 @@ public class Rollup extends AbstractElements<DataField<?>> {
                     dataTable.addSortingRule(level.getAlias(), level.getSortType());
                 }
 
-                for (Attribute<?> attribute : attributeMap.values()) {
+                if (!attributeMap.isEmpty()) {
+                    Attribute<?> attribute = attributeMap.values().iterator().next();
                     dataTable.addSortingRule(attribute.getAlias(), SortingRule.SORT_ASC_NULLS_LAST);
-                    break;
                 }
 
                 dataTable.applySort();

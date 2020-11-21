@@ -1,5 +1,10 @@
 package it.eg.sloth.webdesktop.controller.common;
 
+import it.eg.sloth.framework.utility.FileType;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -18,7 +23,20 @@ package it.eg.sloth.webdesktop.controller.common;
  */
 public interface SimplePageInterface {
 
+    HttpServletResponse getResponse();
+
+    ModelAndView getModelAndView();
+
+    void clearModelAndView();
+
+    void setModelAndView(String fileName, FileType fileType);
+
+    void setModelAndView(ModelAndView modelAndView);
+
+    void setModelAndView(String modelAndView);
+
     void onInit() throws Exception;
 
     void execInit() throws Exception;
+
 }

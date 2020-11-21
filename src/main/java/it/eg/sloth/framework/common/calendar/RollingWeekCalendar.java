@@ -5,13 +5,11 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.Getter;
 
 import java.sql.Timestamp;
-import java.util.Map;
 
 public class RollingWeekCalendar<E, I extends DayInfo> extends AbstractFrameCalendar<E, I> {
 
     @Getter
     private Timestamp fromDay;
-    private Map<Timestamp, Day<E, I>> dayMap;
 
     public RollingWeekCalendar() throws FrameworkException {
         this(TimeStampUtil.truncSysdate());

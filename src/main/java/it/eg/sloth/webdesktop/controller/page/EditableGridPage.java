@@ -5,15 +5,9 @@ import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.grid.Grid;
-import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.pageinfo.ViewModality;
-import it.eg.sloth.framework.utility.FileType;
-import it.eg.sloth.framework.utility.xlsx.GridXlsxWriter;
 import it.eg.sloth.webdesktop.controller.common.editable.FullEditingInterface;
 import it.eg.sloth.webdesktop.controller.common.grid.EditableGridNavigationInterface;
-
-import java.io.OutputStream;
 
 /**
  * Project: sloth-framework
@@ -197,14 +191,6 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
         }
     }
 
-    public void onLoad() throws Exception {
-        execLoad();
-    }
-
-    public void onReset() throws Exception {
-        execReset();
-    }
-
     @Override
     public void onFirstRow() throws Exception {
         if (execPreMove()) {
@@ -250,22 +236,6 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
         if (execPreMove()) {
             getGrid().getDataSource().last();
             execPostMove();
-        }
-    }
-
-    @Override
-    public void onSort(Grid<?> grid, String fieldName, int sortType) throws Exception {
-        grid.orderBy(fieldName, sortType);
-    }
-
-    @Override
-    public void onExcel(Grid<?> grid) throws Exception {
-        try (OutputStream outputStream = getResponse().getOutputStream(); GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);) {
-            String fileName = BaseFunction.nvl(grid.getTitle(), grid.getName()) + FileType.XLSX.getExtension();
-            fileName = StringUtil.toFileName(fileName);
-
-            setModelAndView(fileName, FileType.XLSX);
-            gridXlsxWriter.getWorkbook().write(outputStream);
         }
     }
 

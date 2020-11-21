@@ -6,15 +6,9 @@ import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.form.tabsheet.Tab;
 import it.eg.sloth.form.tabsheet.TabSheet;
-import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.pageinfo.PageStatus;
-import it.eg.sloth.framework.utility.FileType;
-import it.eg.sloth.framework.utility.xlsx.GridXlsxWriter;
 import it.eg.sloth.webdesktop.controller.common.grid.MasterDetailGridNavigationInterface;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.OutputStream;
 
 /**
  * Project: sloth-framework
@@ -168,13 +162,13 @@ public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extend
     @Override
     public void onLoad() throws Exception {
         getForm().getPageInfo().setPageStatus(PageStatus.MASTER);
-        execLoad();
+        MasterDetailGridNavigationInterface.super.onLoad();
     }
 
     @Override
     public void onReset() throws Exception {
         getForm().getPageInfo().setPageStatus(PageStatus.MASTER);
-        execReset();
+        MasterDetailGridNavigationInterface.super.onReset();
     }
 
     @Override
@@ -287,22 +281,6 @@ public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extend
         Tab tab = tabSheet.getElement(tabName);
 
         execSelectTab(tabSheet, tab);
-    }
-
-    @Override
-    public void onSort(Grid<?> grid, String fieldName, int sortType) throws Exception {
-        grid.orderBy(fieldName, sortType);
-    }
-
-    @Override
-    public void onExcel(Grid<?> grid) throws Exception {
-        try (OutputStream outputStream = getResponse().getOutputStream(); GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid)) {
-            String fileName = BaseFunction.nvl(grid.getTitle(), grid.getName()) + FileType.XLSX.getExtension();
-            fileName = StringUtil.toFileName(fileName);
-
-            setModelAndView(fileName, FileType.XLSX);
-            gridXlsxWriter.getWorkbook().write(outputStream);
-        }
     }
 
 }
