@@ -4,10 +4,11 @@
 
     <groupId>it.eg.sloth</groupId>
     <artifactId>sloth-framework</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>2.0.0</version>
     <packaging>jar</packaging>
 
     <name>SlothFramework</name>
+    <description>First stable version</description>
     <url>https://github.com/enricogrillini/sloth-framework</url>
 
     <properties>
@@ -27,6 +28,14 @@
         <version>2.2.8.RELEASE</version>
         <relativePath/>
     </parent>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub enricogrillini Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/enricogrillini/sloth-framework</url>
+        </repository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
