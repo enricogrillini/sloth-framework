@@ -29,7 +29,7 @@ import it.eg.sloth.webdesktop.controller.common.grid.BaseGridNavigationInterface
  * @param <G>
  * @author Enrico Grillini
  */
-public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>> extends MasterDetailPage<F, G> implements FullEditingInterface, SubEditingInterface, BaseGridNavigationInterface {
+public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>> extends MasterDetailPage<F, G> implements FullEditingInterface<F>, SubEditingInterface<F>, BaseGridNavigationInterface {
 
     public EditableMasterDetailPage() {
         super();
@@ -188,11 +188,6 @@ public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>
             getForm().getPageInfo().setPageStatus(PageStatus.DELETING);
             getForm().getPageInfo().setViewModality(ViewModality.VIEW_VISUALIZZAZIONE);
         }
-    }
-
-    @Override
-    public void onSubDelete(Grid<?> grid) throws Exception {
-        execSubDelete(grid);
     }
 
     @Override

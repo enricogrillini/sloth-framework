@@ -29,7 +29,7 @@ import it.eg.sloth.webdesktop.controller.common.grid.EditableGridNavigationInter
  * @param <G>
  * @author Enrico Grillini
  */
-public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extends EditablePage<F> implements EditableGridNavigationInterface, FullEditingInterface {
+public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extends EditablePage<F> implements EditableGridNavigationInterface, FullEditingInterface<F> {
 
     public EditableGridPage() {
         super();
@@ -166,20 +166,6 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
             return true;
         } else {
             return false;
-        }
-    }
-
-    @Override
-    public void onInsert() throws Exception {
-        if (execInsert()) {
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_MODIFICA);
-        }
-    }
-
-    @Override
-    public void onDelete() throws Exception {
-        if (execDelete()) {
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_MODIFICA);
         }
     }
 

@@ -20,7 +20,6 @@ import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
-import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 import it.eg.sloth.webdesktop.tag.form.field.writer.TextControlWriter;
@@ -29,7 +28,11 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;
 
 public class GridWriter extends HtmlWriter {
-    private static final String TABLE_CLOSE = "</table>\n";
+
+    public static final String GRID_CLASS = "table{0}{1}{2}";
+
+    private static final String TABLE_CLOSE = "</table>\n" +
+            "</div>\n";
 
     private static final String HEAD_OPEN = " <thead>\n";
     private static final String HEAD_CLOSE = " </thead>\n";
@@ -42,11 +45,12 @@ public class GridWriter extends HtmlWriter {
 
 
     public static String openTable(Grid<?> grid, boolean border, boolean hover, boolean small) {
-        String classHtml = MessageFormat.format(BootStrapClass.GRID_CLASS, border ? " table-bordered" : "", hover ? " table-hover" : "", small ? " table-sm" : "");
+        String classHtml = MessageFormat.format(GRID_CLASS, border ? " table-bordered" : "", hover ? " table-hover" : "", small ? " table-sm" : "");
 
         return new StringBuilder()
                 .append("\n")
                 .append("<!-- Table: " + Casting.getHtml(grid.getTitle()) + " -->\n")
+                .append("<div class=\"table-responsive\">")
                 .append("<table class=\"" + classHtml + "\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">\n")
                 .toString();
     }

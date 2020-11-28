@@ -1,5 +1,8 @@
 package it.eg.sloth.webdesktop.controller.common.editable;
 
+import it.eg.sloth.form.Form;
+import it.eg.sloth.framework.pageinfo.ViewModality;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -16,15 +19,23 @@ package it.eg.sloth.webdesktop.controller.common.editable;
  *
  * @author Enrico Grillini
  */
-public interface FullEditingInterface extends BaseEditingInterface {
+public interface FullEditingInterface<F extends Form> extends BaseEditingInterface<F> {
 
-    public boolean execInsert() throws Exception;
+    boolean execInsert() throws Exception;
 
-    public boolean execDelete() throws Exception;
+    boolean execDelete() throws Exception;
 
-    public void onInsert() throws Exception;
+    default void onInsert() throws Exception {
+        if (execInsert()) {
+            getForm().getPageInfo().setViewModality(ViewModality.VIEW_MODIFICA);
+        }
+    }
 
-    public void onDelete() throws Exception;
+    default void onDelete() throws Exception {
+        if (execDelete()) {
+            getForm().getPageInfo().setViewModality(ViewModality.VIEW_MODIFICA);
+        }
+    }
 
 
 }

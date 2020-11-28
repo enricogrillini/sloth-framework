@@ -7,6 +7,7 @@ import it.eg.sloth.framework.monitor.MonitorSingleton;
 import it.eg.sloth.framework.security.User;
 import it.eg.sloth.webdesktop.WebDesktopConstant;
 import it.eg.sloth.webdesktop.controller.BasePage;
+import it.eg.sloth.webdesktop.controller.common.FormPageInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,7 +37,7 @@ import java.io.IOException;
  * @author Enrico Grillini
  */
 @Slf4j
-public abstract class FormPage<F extends Form> extends BasePage {
+public abstract class FormPage<F extends Form> extends BasePage implements FormPageInterface<F> {
 
     private WebRequest webRequest;
     private F form;

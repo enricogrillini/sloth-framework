@@ -31,7 +31,4 @@ public class BootStrapClass {
   public static final String CHECK_CLASS = "custom-control-input";
   public static final String BUTTON_CLASS = "btn {0} btn-sm";
 
-  // Grid
-  public static final String GRID_CLASS = "table{0}{1}{2}";
-
 }

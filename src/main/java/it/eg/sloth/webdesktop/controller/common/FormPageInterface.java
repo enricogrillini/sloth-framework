@@ -1,7 +1,8 @@
-package it.eg.sloth.webdesktop.controller.common.editable;
+package it.eg.sloth.webdesktop.controller.common;
 
 import it.eg.sloth.form.Form;
-import it.eg.sloth.form.grid.Grid;
+import it.eg.sloth.form.WebRequest;
+import it.eg.sloth.framework.common.message.MessageList;
 
 /**
  * Project: sloth-framework
@@ -15,24 +16,22 @@ import it.eg.sloth.form.grid.Grid;
  * <p>
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * <p>
- * Gestisce l'interfaccia per la gestione dell'editing sui sub elenchi
+ * Gestisce l'interfaccia di base per una pagina
  *
  * @author Enrico Grillini
  */
-public interface SubEditingInterface<F extends Form> extends FullEditingInterface<F> {
+public interface FormPageInterface<F extends Form> extends SimplePageInterface {
 
-    boolean execPostSubDetail(Grid<?> grid, boolean validate) throws Exception;
+    WebRequest getWebRequest();
 
-    boolean execSubInsert(Grid<?> grid) throws Exception;
+    void setWebRequest(WebRequest webRequest);
 
-    boolean execSubDelete(Grid<?> grid) throws Exception;
+    F getForm();
 
-    default void onSubInsert(Grid<?> grid) throws Exception {
-        execSubInsert(grid);
-    }
+    MessageList getMessageList();
 
-    default void onSubDelete(Grid<?> grid) throws Exception {
-        execSubDelete(grid);
-    }
+    boolean isNewForm();
+
+    void setNewForm(boolean newForm);
 
 }

@@ -1,10 +1,9 @@
 package it.eg.sloth.framework.security;
 
-import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.common.base.StringUtil;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Locale;
@@ -25,9 +24,8 @@ import java.util.Set;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
-public class User extends FrameComponent {
+@Data
+public class User implements Serializable {
 
     BigDecimal id;
     String userid;

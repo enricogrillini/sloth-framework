@@ -1,12 +1,7 @@
 package it.eg.sloth.framework.common.base;
 
-import it.eg.sloth.framework.common.exception.ExceptionCode;
-import it.eg.sloth.framework.common.exception.FrameworkException;
 import org.apache.commons.lang3.StringUtils;
-
-import javax.xml.bind.DatatypeConverter;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * Project: sloth-framework
@@ -62,21 +57,17 @@ public class PasswordUtil {
     }
 
     /**
-     * Genera l'hash di un secret
+     * Genera l'hash di un secret con algoritmo BCrypt
      *
      * @param secret
      * @return
      */
-    public static String hash(String secret) throws FrameworkException {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(secret.getBytes());
-            byte[] digest = md.digest();
+    public static String hash(String secret) {
+        return new BCryptPasswordEncoder().encode(secret);
+    }
 
-            return DatatypeConverter.printHexBinary(digest).toLowerCase();
-        } catch (NoSuchAlgorithmException e) {
-            throw new FrameworkException(ExceptionCode.GENERIC_SYSTEM_ERROR, "Algoritmo errato", e);
-        }
+    public static boolean chekHash(String secret, String encodedSecret) {
+        return new BCryptPasswordEncoder().matches(secret, encodedSecret);
     }
 
     /**

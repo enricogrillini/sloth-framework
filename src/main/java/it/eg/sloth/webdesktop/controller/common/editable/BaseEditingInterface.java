@@ -1,6 +1,8 @@
 package it.eg.sloth.webdesktop.controller.common.editable;
 
-import it.eg.sloth.webdesktop.controller.common.SimplePageInterface;
+import it.eg.sloth.form.Form;
+import it.eg.sloth.framework.pageinfo.ViewModality;
+import it.eg.sloth.webdesktop.controller.common.FormPageInterface;
 
 /**
  * Project: sloth-framework
@@ -18,7 +20,7 @@ import it.eg.sloth.webdesktop.controller.common.SimplePageInterface;
  *
  * @author Enrico Grillini
  */
-public interface BaseEditingInterface extends SimplePageInterface {
+public interface BaseEditingInterface<F extends Form> extends FormPageInterface<F> {
 
     boolean execPostDetail(boolean validate) throws Exception;
 
@@ -28,9 +30,21 @@ public interface BaseEditingInterface extends SimplePageInterface {
 
     boolean execRollback() throws Exception;
 
-    void onUpdate() throws Exception;
+    default void onUpdate() throws Exception {
+        if (execUpdate()) {
+            getForm().getPageInfo().setViewModality(ViewModality.VIEW_MODIFICA);
+        }
+    }
 
-    void onCommit() throws Exception;
+    default void onCommit() throws Exception {
+        if (execCommit()) {
+            getForm().getPageInfo().setViewModality(ViewModality.VIEW_VISUALIZZAZIONE);
+        }
+    }
 
-    void onRollback() throws Exception;
+    default void onRollback() throws Exception {
+        if (execRollback()) {
+            getForm().getPageInfo().setViewModality(ViewModality.VIEW_VISUALIZZAZIONE);
+        }
+    }
 }

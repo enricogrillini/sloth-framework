@@ -1,5 +1,6 @@
 package it.eg.sloth.framework.security;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -23,7 +24,7 @@ import lombok.Data;
  * @author Enrico Grillini
  */
 @Data
-public class Menu implements Iterable<Menu> {
+public class Menu implements Iterable<Menu>, Serializable {
 
     private String code;
     private VoiceType voiceType;

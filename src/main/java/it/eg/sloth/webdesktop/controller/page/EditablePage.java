@@ -3,7 +3,6 @@ package it.eg.sloth.webdesktop.controller.page;
 import it.eg.sloth.db.DataManager;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
-import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.controller.common.editable.BaseEditingInterface;
 
 /**
@@ -25,7 +24,7 @@ import it.eg.sloth.webdesktop.controller.common.editable.BaseEditingInterface;
  * @param <F>
  * @author Enrico Grillini
  */
-public abstract class EditablePage<F extends Form> extends SimplePage<F> implements BaseEditingInterface {
+public abstract class EditablePage<F extends Form> extends SimplePage<F> implements BaseEditingInterface<F> {
 
     public EditablePage() {
         super();
@@ -73,25 +72,6 @@ public abstract class EditablePage<F extends Form> extends SimplePage<F> impleme
     public boolean execRollback() throws Exception {
         DataManager.undo(getForm());
         return true;
-    }
-
-    @Override
-    public void onUpdate() throws Exception {
-        if (execUpdate()) {
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_MODIFICA);
-        }
-    }
-
-    public void onCommit() throws Exception {
-        if (execCommit()) {
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_VISUALIZZAZIONE);
-        }
-    }
-
-    public void onRollback() throws Exception {
-        if (execRollback()) {
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_VISUALIZZAZIONE);
-        }
     }
 
 }

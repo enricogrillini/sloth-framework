@@ -30,6 +30,12 @@ public class PaswordUtilTest {
 
     @Test
     public void hashSecretTest() throws FrameworkException {
-        assertEquals("35454b055cc325ea1af2126e27707052", PasswordUtil.hash("ILoveJava"));
+        String hash1 = PasswordUtil.hash("ILoveJava");
+        String hash2 = PasswordUtil.hash("ILoveJava");
+
+        assertNotEquals(hash1, hash2);
+        assertTrue(PasswordUtil.chekHash("ILoveJava", hash1));
+        assertTrue(PasswordUtil.chekHash("ILoveJava", hash2));
     }
+
 }

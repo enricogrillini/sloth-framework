@@ -4,11 +4,10 @@
 
     <groupId>it.eg.sloth</groupId>
     <artifactId>sloth-framework</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>SlothFramework</name>
-    <description>First stable version</description>
     <url>https://github.com/enricogrillini/sloth-framework</url>
 
     <properties>
@@ -28,7 +27,7 @@
         <version>2.2.8.RELEASE</version>
         <relativePath/>
     </parent>
-
+    
     <distributionManagement>
         <repository>
             <id>github</id>
@@ -42,10 +41,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/junit/junit -->
@@ -177,7 +179,6 @@
             <version>3.5.13</version>
             <scope>test</scope>
         </dependency>
-
 
     </dependencies>
 
