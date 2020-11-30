@@ -17,37 +17,40 @@ import java.io.IOException;
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  * <p>
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * <p>
- * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
  */
 public class FieldsTag<T extends Fields<?>> extends BaseElementTag<T> {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Override
-    protected int startTag() throws IOException, FrameworkException {
+  @Override
+  protected int startTag() throws IOException, FrameworkException {
 
-        writeln("");
-        for (SimpleField simpleField : getElement()) {
-            writeln("<div class=\"frRow\">");
-            writeln(" " + GroupWriter.openCell(null));
-            writeln("  " + FormControlWriter.writeLabel(simpleField));
-            writeln(" " + GroupWriter.closeCell());
-            writeln(" " + GroupWriter.openCell(null));
-            writeln("  " + FormControlWriter.writeControl(simpleField, getElement(), getViewModality()));
-            writeln(" " + GroupWriter.closeCell());
-            writeln("</div>");
-        }
+    writeln("");
+    for (SimpleField simpleField : getElement()) {
+      write(GroupWriter.openRow());
 
-        return SKIP_BODY;
+      write(GroupWriter.openCell(null));
+      write(FormControlWriter.writeLabel(simpleField));
+      write(GroupWriter.closeCell());
+
+      write(GroupWriter.openCell("10cols"));
+      write(FormControlWriter.writeControl(simpleField, getElement(), getViewModality()));
+      write(GroupWriter.closeCell());
+
+      write(GroupWriter.closeRow());
     }
 
-    @Override
-    protected void endTag() {
-        // NOP
-    }
+    return SKIP_BODY;
+  }
+
+  @Override
+  protected void endTag() {
+    // NOP
+  }
 
 }
