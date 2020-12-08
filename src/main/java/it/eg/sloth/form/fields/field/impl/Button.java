@@ -41,6 +41,7 @@ public class Button implements SimpleField {
     Boolean disabled;
     ButtonType buttonType;
     String imgHtml;
+    String confirmMessage;
     Integer index;
 
     boolean pressed;

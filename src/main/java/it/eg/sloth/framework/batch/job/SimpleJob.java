@@ -4,6 +4,8 @@ import it.eg.sloth.framework.batch.jobmessage.JobMessage;
 import it.eg.sloth.framework.batch.jobmessage.JobStatus;
 import it.eg.sloth.framework.batch.scheduler.SchedulerSingleton;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.common.message.Message;
+import it.eg.sloth.framework.common.message.MessageList;
 import it.eg.sloth.framework.monitor.MonitorSingleton;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +51,12 @@ public abstract class SimpleJob implements Job {
         log(message, detail, progress, JobStatus.RUNNING);
     }
 
+    public void log(MessageList messageList, int progress) throws FrameworkException {
+        for (Message message : messageList) {
+            log(message.getSeverity() + " - " + message.getDescription(), message.getSubDescription(), progress, JobStatus.RUNNING);
+        }
+    }
+
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
         long eventid = 0;
@@ -78,6 +86,13 @@ public abstract class SimpleJob implements Job {
                 log.error("ERROR {}: {} - {}", getClass().getName(), e1.getExceptionType(), e1.getMessage(), e1);
             }
             log.error("ERROR {}: {} - {}", getClass().getName(), e.getExceptionType(), e.getMessage(), e);
+        } catch (Exception e) {
+            try {
+                log(MessageFormat.format(ABORTED, group + "." + name), e.getMessage(), 100, JobStatus.ABORTED);
+            } catch (FrameworkException e1) {
+                log.error("SYSTEM ERROR {}: {} - {}", getClass().getName(), e1.getExceptionType(), e1.getMessage(), e1);
+            }
+            log.error("SYSTEM ERROR {} - {}", getClass().getName(), e.getMessage(), e);
         } finally {
             log.info("OUT {}", getClass().getName());
             MonitorSingleton.getInstance().endEvent(eventid);

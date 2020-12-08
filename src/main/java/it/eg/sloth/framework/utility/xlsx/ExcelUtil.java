@@ -4,7 +4,6 @@ import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
-import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import java.math.BigDecimal;
@@ -23,8 +22,8 @@ public class ExcelUtil {
      * @param rowIndex
      * @return
      */
-    public static XSSFRow getRow(XSSFSheet sheet, int rowIndex) {
-        XSSFRow row = sheet.getRow(rowIndex);
+    public static Row getRow(Sheet sheet, int rowIndex) {
+        Row row = sheet.getRow(rowIndex);
         if (sheet.getRow(rowIndex) == null) {
             row = sheet.createRow(rowIndex);
         }
@@ -41,7 +40,7 @@ public class ExcelUtil {
      * @param cellIndex
      * @return
      */
-    public static Cell getCell(XSSFSheet sheet, int rowIndex, int cellIndex) {
+    public static Cell getCell(Sheet sheet, int rowIndex, int cellIndex) {
         Row row = getRow(sheet, rowIndex);
 
         Cell cell = row.getCell(cellIndex);
@@ -61,7 +60,7 @@ public class ExcelUtil {
     public static Object getCellValue(Cell cell) {
         if (cell == null) {
             return null;
-        } else if (cell.getCellType() == CellType.STRING) {
+        } else if (cell.getCellType() == CellType.STRING || (cell.getCellType() == CellType.FORMULA && cell.getCachedFormulaResultType() == CellType.STRING)) {
             return StringUtil.parseString(cell.getRichStringCellValue().getString());
         } else if ("@".equals(cell.getCellStyle().getDataFormatString())) {
             double value = cell.getNumericCellValue();
@@ -72,12 +71,14 @@ public class ExcelUtil {
             } else {
                 return "" + value;
             }
-        } else if (cell.getCellType() == CellType.NUMERIC || cell.getCellType() == CellType.FORMULA) {
+        } else if (cell.getCellType() == CellType.NUMERIC || (cell.getCellType() == CellType.FORMULA && cell.getCachedFormulaResultType() == CellType.NUMERIC)) {
             if (DateUtil.isCellDateFormatted(cell)) {
                 return TimeStampUtil.toTimestamp(cell.getDateCellValue());
             } else {
                 return BigDecimal.valueOf(cell.getNumericCellValue());
             }
+        } else if (cell.getCellType() == CellType.FORMULA && cell.getCachedFormulaResultType() == CellType.ERROR) {
+            return null;
         } else {
             return null;
         }

@@ -64,7 +64,7 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
             // Esecuzione della Page
             try {
                 getMessageList().setPopup(true);
-                getMessageList().getList().clear();
+                getMessageList().clear();
 
                 // Eseguo le operazioni di inizializzaizone sel la form se è nuova o se la navigazione non è gestita
                 if (isNewForm() || !defaultNavigation()) {
@@ -142,7 +142,10 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
     }
 
     public void setModelAndView(String fileName, FileType fileType) {
-        getResponse().setContentType(fileType.getContentType());
+        if (fileType != null) {
+            getResponse().setContentType(fileType.getContentType());
+        }
+
         getResponse().setHeader("Content-Disposition", "attachment; filename=" + StringUtil.toFileName(fileName));
         clearModelAndView();
     }

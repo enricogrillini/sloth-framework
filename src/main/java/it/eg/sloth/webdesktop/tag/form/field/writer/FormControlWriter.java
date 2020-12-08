@@ -44,6 +44,8 @@ public class FormControlWriter extends HtmlWriter {
                 return writeCheckBox((CheckBox<?>) element, pageViewModality);
             case CHECK_BUTTONS:
                 return writeCheckButtons((CheckButtons<?, Object>) element, pageViewModality);
+            case CHECK_GROUP:
+                return writeCheckGroups((CheckGroup<?, Object>) element, pageViewModality);
             case COMBO_BOX:
                 return writeComboBox((ComboBox<?>) element, pageViewModality);
             case DECODED_TEXT:
@@ -97,12 +99,40 @@ public class FormControlWriter extends HtmlWriter {
     }
 
     /**
+     * Scrive un campo: Button
+     *
+     * @param button
+     * @return
+     */
+    public static String writeButton(Button button) {
+        if (button.isHidden()) {
+            return StringUtil.EMPTY;
+        }
+
+        StringBuilder result = new StringBuilder()
+                .append("<button")
+                .append(getAttribute(ATTR_ID, button.getHtlmName()))
+                .append(getAttribute(ATTR_NAME, button.getHtlmName()))
+                .append(getAttribute(ATTR_CLASS, MessageFormat.format(BootStrapClass.BUTTON_CLASS, button.getButtonType().value())))
+                .append(getAttribute(ATTR_DISABLED, button.isDisabled(), ""))
+                .append(getAttribute(ON_CLICK, !BaseFunction.isBlank(button.getConfirmMessage()), "buttonConfirm(this);"))
+                .append(getAttribute(ATTR_DATA_TITLE, !BaseFunction.isBlank(button.getConfirmMessage()), "Conferma"))
+                .append(getAttribute(ATTR_DATA_DESCRIPTION, !BaseFunction.isBlank(button.getConfirmMessage()), Casting.getHtml(button.getConfirmMessage())))
+                .append(getAttributeTooltip(button.getTooltip()))
+                .append(">")
+                .append(BaseFunction.isBlank(button.getImgHtml()) ? "" : button.getImgHtml() + "&nbsp;&nbsp;")
+                .append(Casting.getHtml(button.getDescription()))
+                .append("</button>");
+
+        return result.toString();
+    }
+
+    /**
      * Scrive un campo: Text
      *
      * @param text
      * @return
      */
-
     public static String writeText(Text<?> text) {
         StringBuilder result = new StringBuilder()
                 .append(BEGIN_INPUT)
@@ -150,9 +180,7 @@ public class FormControlWriter extends HtmlWriter {
             StringBuilder result = new StringBuilder()
                     .append("<div class=\"input-group input-group-sm\">")
                     .append(input)
-                    .append("<div class=\"input-group-append\">")
-                    .append("<a href=\"" + decodedText.getBaseLink() + decodedText.escapeHtmlValue() + "\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a>")
-                    .append("</div>")
+                    .append(MessageFormat.format(LINK, decodedText.getBaseLink() + decodedText.escapeHtmlValue()))
                     .append("</div>");
 
             return result.toString();
@@ -226,9 +254,7 @@ public class FormControlWriter extends HtmlWriter {
             StringBuilder result = new StringBuilder()
                     .append("<div class=\"input-group input-group-sm\">")
                     .append(field)
-                    .append("<div class=\"input-group-append\">")
-                    .append("<a href=\"" + input.getBaseLink() + input.escapeHtmlValue() + "\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a>")
-                    .append("</div>")
+                    .append(MessageFormat.format(LINK, input.getBaseLink() + input.escapeHtmlValue()))
                     .append("</div>");
 
             return result.toString();
@@ -285,9 +311,7 @@ public class FormControlWriter extends HtmlWriter {
             StringBuilder result = new StringBuilder()
                     .append("<div class=\"input-group input-group-sm\">")
                     .append(input)
-                    .append("<div class=\"input-group-append\">")
-                    .append("<a href=\"" + autocomplete.getBaseLink() + autocomplete.escapeHtmlValue() + "\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a>")
-                    .append("</div>")
+                    .append(MessageFormat.format(LINK, autocomplete.getBaseLink() + autocomplete.escapeHtmlValue()))
                     .append("</div>");
 
             return result.toString();
@@ -346,7 +370,7 @@ public class FormControlWriter extends HtmlWriter {
                 .append("<div class=\"custom-control custom-checkbox\"><input")
                 .append(getAttribute(ATTR_ID, checkBox.getName()))
                 .append(getAttribute(ATTR_NAME, checkBox.getName()))
-                .append(getAttribute(ATTR_TYPE, "checkbox"))
+                .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_CHECKBOX))
                 .append(getAttribute(ATTR_VALUE, checkBox.getValChecked().toString()))
                 .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE || checkBox.isReadOnly(), ""))
                 .append(getAttribute(ATTR_CLASS, BootStrapClass.CHECK_CLASS))
@@ -396,7 +420,7 @@ public class FormControlWriter extends HtmlWriter {
                         .append("<input ")
                         .append(getAttribute(ATTR_ID, checkButtons.getName()))
                         .append(getAttribute(ATTR_NAME, checkButtons.getName()))
-                        .append(getAttribute(ATTR_TYPE, "checkbox"))
+                        .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_CHECKBOX))
                         .append(getAttribute(ATTR_VALUE, htmlValue))
                         .append(getAttribute(ATTR_CHECKED, active, ""))
                         .append(">" + Casting.getHtml(description));
@@ -410,6 +434,64 @@ public class FormControlWriter extends HtmlWriter {
         return result
                 .append("</div>")
                 .toString();
+    }
+
+    /**
+     * Scribe un Check Groups
+     *
+     * @param checkGroup
+     * @param pageViewModality
+     * @return
+     * @throws FrameworkException
+     */
+    public static String writeCheckGroups(CheckGroup<?, Object> checkGroup, ViewModality pageViewModality) throws FrameworkException {
+        if (checkGroup.isHidden()) {
+            return StringUtil.EMPTY;
+        }
+
+        String[] values = checkGroup.getSplittedValues();
+        String[] descriptions = checkGroup.getSplittedDescriptions();
+
+        ViewModality viewModality = checkGroup.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : checkGroup.getViewModality();
+        StringBuilder result = new StringBuilder();
+
+        int i = 0;
+        for (String value : values) {
+            String htmlValue = Casting.getHtml(value);
+            String description = descriptions.length > i ? descriptions[i] : StringUtil.EMPTY;
+            boolean active = checkGroup.isChecked(checkGroup.getDataType().parseValue(value, checkGroup.getLocale(), checkGroup.getFormat()));
+
+            result
+                    .append(" <div class=\"custom-control custom-checkbox custom-control-inline form-control-sm\">\n")
+                    .append("  <input")
+                    .append(getAttribute(ATTR_ID, checkGroup.getName() + i))
+                    .append(getAttribute(ATTR_NAME, checkGroup.getName()))
+                    .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_CHECKBOX))
+                    .append(getAttribute(ATTR_VALUE, htmlValue))
+                    .append(getAttribute(ATTR_READONLY, checkGroup.isReadOnly(), ""))
+                    .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""))
+                    .append(getAttribute(ATTR_CHECKED, active, ""))
+                    .append(getAttribute(ATTR_CLASS, "custom-control-input"))
+                    .append(">");
+
+            if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+                result.append("<div class=\"custom-control-label\">")
+                        .append(Casting.getHtml(description))
+                        .append("</div>\n");
+            } else {
+                result.append("<label class=\"custom-control-label\"")
+                        .append(getAttribute(ATTR_FOR, checkGroup.getName() + i))
+                        .append(">")
+                        .append(Casting.getHtml(description))
+                        .append("</label>\n");
+            }
+
+            result.append(" </div>\n");
+
+            i++;
+        }
+
+        return result.toString();
     }
 
     /**
@@ -527,32 +609,6 @@ public class FormControlWriter extends HtmlWriter {
         return result.toString();
     }
 
-    /**
-     * Scrive un campo: Button
-     *
-     * @param button
-     * @return
-     */
-    public static String writeButton(Button button) {
-        if (button.isHidden()) {
-            return StringUtil.EMPTY;
-        }
-
-        StringBuilder result = new StringBuilder()
-                .append("<button")
-                .append(getAttribute(ATTR_ID, button.getHtlmName()))
-                .append(getAttribute(ATTR_NAME, button.getHtlmName()))
-                .append(getAttribute(ATTR_CLASS, MessageFormat.format(BootStrapClass.BUTTON_CLASS, button.getButtonType().value())))
-                .append(getAttribute(ATTR_DISABLED, button.isDisabled(), ""))
-                .append(getAttributeTooltip(button.getTooltip()))
-                .append(">")
-                .append(BaseFunction.isBlank(button.getImgHtml()) ? "" : button.getImgHtml() + "&nbsp;&nbsp;")
-                .append(Casting.getHtml(button.getDescription()))
-                .append("</button>");
-
-        return result.toString();
-    }
-
     public static String writeRadioButtons(RadioButtons<?> radioButtons, ViewModality pageViewModality) throws FrameworkException {
         if (radioButtons.isHidden()) {
             return StringUtil.EMPTY;
@@ -577,9 +633,9 @@ public class FormControlWriter extends HtmlWriter {
                             .append("<input ")
                             .append(getAttribute(ATTR_ID, radioButtons.getName()))
                             .append(getAttribute(ATTR_NAME, radioButtons.getName()))
-                            .append(getAttribute(ATTR_TYPE, "radio"))
+                            .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_RADIO))
                             .append(getAttribute(ATTR_VALUE, htmlValue))
-                            .append(getAttribute(ATTR_CHECKED, value.getCode() != null && value.getCode().equals(radioButtons.getValue()), ""))
+                            .append(getAttribute(ATTR_CHECKED, active, ""))
                             .append(">" + Casting.getHtml(value.getDescription()));
                 }
 
@@ -620,7 +676,7 @@ public class FormControlWriter extends HtmlWriter {
                         .append("  <input")
                         .append(getAttribute(ATTR_ID, radioGroup.getName() + i))
                         .append(getAttribute(ATTR_NAME, radioGroup.getName()))
-                        .append(getAttribute(ATTR_TYPE, "radio"))
+                        .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_RADIO))
                         .append(getAttribute(ATTR_VALUE, htmlValue))
                         .append(getAttribute(ATTR_READONLY, radioGroup.isReadOnly(), ""))
                         .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""))
@@ -705,9 +761,9 @@ public class FormControlWriter extends HtmlWriter {
                             .append("<input ")
                             .append(getAttribute(ATTR_ID, semaphore.getName()))
                             .append(getAttribute(ATTR_NAME, semaphore.getName()))
-                            .append(getAttribute(ATTR_TYPE, "radio"))
+                            .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_RADIO))
                             .append(getAttribute(ATTR_VALUE, htmlValue))
-                            .append(getAttribute(ATTR_CHECKED, value.getCode() != null && value.getCode().equals(semaphore.getValue()), ""))
+                            .append(getAttribute(ATTR_CHECKED, active, ""))
                             .append(">" + "<i class=\"far fa-circle\"></i>");
                 }
 
@@ -719,6 +775,5 @@ public class FormControlWriter extends HtmlWriter {
                 .append("</div>")
                 .toString();
     }
-
 
 }

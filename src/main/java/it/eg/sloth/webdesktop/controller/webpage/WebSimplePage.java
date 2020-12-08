@@ -60,7 +60,7 @@ public abstract class WebSimplePage<F extends Form> extends FormPage<F> implemen
 
         // Esecuzione della Page
         try {
-            getMessageList().getList().clear();
+            getMessageList().clear();
             if (!defaultNavigation()) {
                 onInit();
             }

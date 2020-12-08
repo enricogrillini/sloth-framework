@@ -2,12 +2,13 @@ package it.eg.sloth.framework.common.message;
 
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.casting.Validator;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Project: sloth-framework
@@ -25,10 +26,14 @@ import java.util.Locale;
  *
  * @author Enrico Grillini
  */
-@Data
-public class MessageList {
+@ToString
+@EqualsAndHashCode
+public class MessageList implements Iterable<Message> {
 
     private List<Message> list;
+
+    @Getter
+    @Setter
     private boolean popup;
 
     /**
@@ -157,6 +162,15 @@ public class MessageList {
         return list.isEmpty();
     }
 
+    public Message get(int index) {
+        return list.get(index);
+    }
+
+    @Override
+    public Iterator<Message> iterator() {
+        return Collections.unmodifiableList(list).iterator();
+    }
+
     /**
      * Ritorna il più alto livello di segnalazione
      *
@@ -185,4 +199,6 @@ public class MessageList {
 
         return stringBuilder.toString();
     }
+
+
 }

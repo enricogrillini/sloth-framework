@@ -141,6 +141,9 @@ public class GridXlsxWriter extends BaseXlsxWriter {
 
         // Dati Griglia
         rowIndex = addGridData(rowIndex, grid);
+
+        // Gestione colonne nascoste
+        hideColumn(grid);
     }
 
     protected int addGridHeader(int rowIndex, Grid<?> grid) {
@@ -194,7 +197,15 @@ public class GridXlsxWriter extends BaseXlsxWriter {
             }
         }
 
-        // Nascondo le colonne Hidden
+        return rowIndex;
+    }
+
+    /**
+     * Nascondo le colonne Hidden
+     *
+     * @param grid
+     */
+    protected void hideColumn(Grid<?> grid) {
         int i = 0;
         for (SimpleField simpleField : grid) {
             if (simpleField instanceof InputField && ((InputField<?>) simpleField).isHidden()) {
@@ -205,8 +216,6 @@ public class GridXlsxWriter extends BaseXlsxWriter {
 
             i++;
         }
-
-        return rowIndex;
     }
 
 }

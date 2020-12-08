@@ -9,7 +9,6 @@ import lombok.Getter;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFDataFormat;
-import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -123,7 +122,7 @@ public class BaseXlsxWriter implements Closeable {
      * @param rowIndex
      * @return
      */
-    public XSSFRow getRow(int rowIndex) {
+    public Row getRow(int rowIndex) {
         return ExcelUtil.getRow(getSheet(), rowIndex);
     }
 

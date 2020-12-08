@@ -21,7 +21,7 @@ public class TextTest {
 
         assertTrue(testo.isValid());
         assertEquals(null, testo.check());
-        assertEquals(0, messageList.getList().size());
+        assertTrue(messageList.isEmpty());
     }
 
 }

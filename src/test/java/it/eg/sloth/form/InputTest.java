@@ -26,7 +26,7 @@ public class InputTest {
 
         assertTrue(input.isValid());
         assertEquals(null, input.check());
-        assertEquals(0, messageList.getList().size());
+        assertTrue( messageList.isEmpty());
     }
 
     @Test
@@ -40,8 +40,8 @@ public class InputTest {
 
         assertFalse(input.isValid());
         assertNotEquals(null, input.check().getSeverity());
-        assertEquals(1, messageList.getList().size());
-        assertEquals(Level.WARN, messageList.getList().get(0).getSeverity());
+        assertFalse( messageList.isEmpty());
+        assertEquals(Level.WARN, messageList.get(0).getSeverity());
 
         assertThrows(FrameworkException.class, () -> {
             input.getValue();

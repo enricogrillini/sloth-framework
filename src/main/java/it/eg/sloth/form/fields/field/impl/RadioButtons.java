@@ -1,7 +1,6 @@
 package it.eg.sloth.form.fields.field.impl;
 
 import it.eg.sloth.form.fields.field.FieldType;
-import it.eg.sloth.framework.common.casting.DataTypes;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -20,11 +19,7 @@ import lombok.experimental.SuperBuilder;
  * @author Enrico Grillini
  */
 @SuperBuilder
-public class RadioButtons<T> extends ComboBox<T> {
-
-    public RadioButtons(String name, String description, DataTypes dataType) {
-        super(name, description, dataType);
-    }
+public class RadioButtons<T> extends RadioGroup<T> {
 
     @Override
     public FieldType getFieldType() {
