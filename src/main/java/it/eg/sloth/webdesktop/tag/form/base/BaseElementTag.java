@@ -2,6 +2,7 @@ package it.eg.sloth.webdesktop.tag.form.base;
 
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.base.Element;
+import it.eg.sloth.form.base.Elements;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,8 +44,8 @@ public abstract class BaseElementTag<E extends Element> extends WebDesktopTag<Fo
      *
      * @return
      */
-    protected Element getParentElement() {
-        return (Element) getForm().getParentElement(getName());
+    protected <S extends Element> Elements<S> getParentElement() {
+        return (Elements<S>) getForm().getParentElement(getName());
     }
 
 }

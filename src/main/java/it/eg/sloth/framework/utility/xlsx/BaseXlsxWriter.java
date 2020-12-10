@@ -58,7 +58,7 @@ public class BaseXlsxWriter implements Closeable {
     }
 
     public XSSFSheet addSheet(String name, boolean landscape) {
-        sheet = workbook.createSheet(StringUtil.toXlsxSheetName(name));
+        sheet = workbook.createSheet(StringUtil.toFileName(name));
 
         // Imposto i margini
         sheet.setMargin(Sheet.LeftMargin, 0.25);

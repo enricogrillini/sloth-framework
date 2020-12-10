@@ -11,8 +11,7 @@ import it.eg.sloth.framework.common.casting.Validator;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.Locale;
@@ -34,22 +33,24 @@ import java.util.Locale;
  */
 @Getter
 @Setter
+@ToString
 @SuperBuilder(toBuilder = true)
 public abstract class TextField<T> implements DataField<T> {
 
-    // Contiente il valore informativo come stringa
-    String data;
-
     String name;
     Locale locale;
+
     String description;
     String tooltip;
+
+    String data;
 
     String alias;
     String orderByAlias;
     DataTypes dataType;
     String format;
     String baseLink;
+    String linkField;
 
     Boolean hidden;
     Escaper htmlEscaper;

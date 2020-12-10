@@ -19,15 +19,15 @@ import java.util.List;
  */
 public interface Elements<T extends Element> extends Element, Iterable<T> {
 
-  public T getElement(String name);
+    T getElement(String name);
 
-  public void addChild(T element);
+    void addChild(T element);
 
-  public void removeChild(T element);
+    void removeChild(T element);
 
-  public void removeChild(String name);
+    void removeChild(String name);
 
-  public void removeChilds();
+    void removeChilds();
 
-  public List<T> getElements();
+    List<T> getElements();
 }

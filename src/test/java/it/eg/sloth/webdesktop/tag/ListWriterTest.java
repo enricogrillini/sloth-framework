@@ -1,13 +1,5 @@
 package it.eg.sloth.webdesktop.tag;
 
-import static org.junit.Assert.assertEquals;
-
-import java.text.MessageFormat;
-import java.text.ParseException;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.table.Table;
@@ -17,6 +9,12 @@ import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.list.writer.ListWriter;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.text.MessageFormat;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -72,7 +70,7 @@ public class ListWriterTest {
     }
 
     @Test
-    public void writeListTest() throws CloneNotSupportedException, ParseException, FrameworkException {
+    public void writeListTest() throws FrameworkException {
         assertEquals(LIST_TEMPLATE, ListWriter.writeList(grid));
     }
 

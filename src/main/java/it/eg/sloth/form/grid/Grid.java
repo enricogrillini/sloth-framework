@@ -141,4 +141,13 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
         }
     }
 
+    public Grid<D> newInstance() {
+        Grid<D> result = new Grid<>(getName());
+        for (SimpleField field : this.getElements()) {
+            result.addChild(field.newInstance());
+        }
+
+        return result;
+    }
+
 }

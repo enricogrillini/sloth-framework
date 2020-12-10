@@ -137,7 +137,9 @@
 
  <complexType name="Text">
   <complexContent>
-   <extension base="tns:Field"></extension>
+   <extension base="tns:Field">
+    <attribute name="Hidden" type="boolean"></attribute>
+   </extension>
   </complexContent>
  </complexType>
 
@@ -309,6 +311,7 @@
     <attribute name="DataType" use="required" type="tns:DataType"></attribute>
     <attribute name="Format" type="string"></attribute>
     <attribute name="BaseLink" type="string"></attribute>
+    <attribute name="LinkField" type="string"></attribute>
    </extension>
   </complexContent>
  </complexType>
@@ -383,7 +386,9 @@
 
  <complexType name="DecodedText">
   <complexContent>
-   <extension base="tns:Field"></extension>
+   <extension base="tns:Field">
+    <attribute name="Hidden" type="boolean"></attribute>
+   </extension>
   </complexContent>
  </complexType>
 

@@ -7,6 +7,8 @@ import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.Locale;
 
+import it.eg.sloth.form.fields.Fields;
+import org.junit.Before;
 import org.junit.Test;
 
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
@@ -46,140 +48,139 @@ public class TextControlWriterTest {
 
     private static final String BASE_CHECKBOX = "<div class=\"custom-control custom-checkbox\"><input type=\"checkbox\" class=\"custom-control-input\"{0} disabled=\"\"/><span class=\"custom-control-label\"></span></div>";
 
+    Fields fields;
+
+    @Before
+    public void init() {
+        fields = new Fields("Master");
+    }
+
     @Test
     public void buttonTest() throws FrameworkException {
         Button field = new Button("name", "description");
-        assertEquals(FormControlWriter.writeButton(field), TextControlWriter.writeButton(field));
+        fields.addChild(field);
+        assertEquals(FormControlWriter.writeButton(field), TextControlWriter.writeControl(field, fields));
     }
 
     @Test
     public void checkBoxTest() throws FrameworkException {
         CheckBox<String> field = new CheckBox<String>("name", "description", DataTypes.STRING);
-        assertEquals(MessageFormat.format(BASE_CHECKBOX, ""), TextControlWriter.writeCheckBox(field));
+        assertEquals(MessageFormat.format(BASE_CHECKBOX, ""), TextControlWriter.writeControl(field, fields));
 
         field.setChecked();
-        assertEquals(MessageFormat.format(BASE_CHECKBOX, " checked=\"\""), TextControlWriter.writeCheckBox(field));
+        assertEquals(MessageFormat.format(BASE_CHECKBOX, " checked=\"\""), TextControlWriter.writeControl(field, fields));
 
         field.setUnChecked();
-        assertEquals(MessageFormat.format(BASE_CHECKBOX, ""), TextControlWriter.writeCheckBox(field));
+        assertEquals(MessageFormat.format(BASE_CHECKBOX, ""), TextControlWriter.writeControl(field, fields));
 
         // Generico controllo
-        assertEquals(MessageFormat.format(BASE_CHECKBOX, ""), TextControlWriter.writeCheckBox(field));
+        assertEquals(MessageFormat.format(BASE_CHECKBOX, ""), TextControlWriter.writeControl(field, fields));
     }
 
     @Test
     public void comboBoxTest() throws FrameworkException {
         ComboBox<String> field = new ComboBox<String>("name", "description", DataTypes.STRING);
+        fields.addChild(field);
+
         field.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
 
-        assertEquals(StringUtil.EMPTY, TextControlWriter.writeComboBox(field));
+        assertEquals(StringUtil.EMPTY, TextControlWriter.writeControl(field, fields));
 
         field.setValue("A");
-        assertEquals("Scelta A", TextControlWriter.writeComboBox(field));
-
-        // Controllo generico
-        assertEquals("Scelta A", TextControlWriter.writeControl(field));
+        assertEquals("Scelta A", TextControlWriter.writeControl(field, fields));
     }
 
     @Test
     public void decodedTextTest() throws FrameworkException {
         DecodedText<String> field = new DecodedText<String>("name", "description", "tooltip", DataTypes.STRING);
+        fields.addChild(field);
+
         field.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
 
-        assertEquals(StringUtil.EMPTY, TextControlWriter.writeDecodedText(field));
+        assertEquals(StringUtil.EMPTY, TextControlWriter.writeControl(field, fields));
 
         field.setValue("A");
-        assertEquals("Scelta A", TextControlWriter.writeDecodedText(field));
+        assertEquals("Scelta A", TextControlWriter.writeControl(field, fields));
 
-        // Controllo generico
-        assertEquals("Scelta A", TextControlWriter.writeControl(field));
     }
 
     @Test
     public void hiddenTest() throws FrameworkException {
         Hidden<String> field = new Hidden<String>("name", "description", DataTypes.STRING);
+        fields.addChild(field);
 
-        assertEquals(TextControlWriter.writeHidden(field), FormControlWriter.writeHidden(field));
+        assertEquals(TextControlWriter.writeControl(field, fields), FormControlWriter.writeControl(field, fields, ViewModality.VIEW_MODIFICA));
 
         field.setValue("testo");
-        assertEquals(TextControlWriter.writeHidden(field), FormControlWriter.writeHidden(field));
-
-        // Controllo generico
-        assertEquals(TextControlWriter.writeHidden(field), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(TextControlWriter.writeControl(field, fields), FormControlWriter.writeControl(field, fields, ViewModality.VIEW_MODIFICA));
     }
 
     @Test
     public void inputTest() throws FrameworkException {
         Input<String> field = new Input<String>("name", "description", DataTypes.STRING);
-        assertEquals(StringUtil.EMPTY, TextControlWriter.writeInput(field));
+        fields.addChild(field);
+
+        assertEquals(StringUtil.EMPTY, TextControlWriter.writeControl(field, fields));
 
         field.setValue("testo");
-        assertEquals("testo", TextControlWriter.writeInput(field));
-
-        // Generico controllo
-        assertEquals("testo", TextControlWriter.writeControl(field));
+        assertEquals("testo", TextControlWriter.writeControl(field, fields));
     }
 
     @Test
     public void inputDataTest() throws FrameworkException {
         Input<Timestamp> field = new Input<Timestamp>("name", "description", DataTypes.DATE);
+        fields.addChild(field);
+
         field.setLocale(Locale.ITALY);
 
-        assertEquals(StringUtil.EMPTY, TextControlWriter.writeInput(field));
+        assertEquals(StringUtil.EMPTY, TextControlWriter.writeControl(field, fields));
 
         field.setValue(TimeStampUtil.parseTimestamp("01/01/2020", "dd/MM/yyyy"));
-        assertEquals("01/01/2020", TextControlWriter.writeInput(field));
-
-        // Generico controllo
-        assertEquals("01/01/2020", TextControlWriter.writeControl(field));
+        assertEquals("01/01/2020", TextControlWriter.writeControl(field, fields));
     }
 
     @Test
     public void inputTotalizerTest() throws FrameworkException {
         InputTotalizer field = new InputTotalizer("name", "description", DataTypes.INTEGER);
-        assertEquals(StringUtil.EMPTY, TextControlWriter.writeInput(field));
+        fields.addChild(field);
+
+        assertEquals(StringUtil.EMPTY, TextControlWriter.writeControl(field, fields));
 
         field.setValue(BigDecimal.valueOf(10));
-        assertEquals("10", TextControlWriter.writeInput(field));
-
-        // Generico controllo
-        assertEquals("10", TextControlWriter.writeControl(field));
+        assertEquals("10", TextControlWriter.writeControl(field, fields));
     }
 
     @Test
     public void textTest() throws FrameworkException {
         Text<String> field = new Text<String>("name", "description", DataTypes.STRING);
-        assertEquals(StringUtil.EMPTY, TextControlWriter.writeText(field));
+        fields.addChild(field);
+
+        assertEquals(StringUtil.EMPTY, TextControlWriter.writeControl(field, fields));
 
         field.setValue("testo");
-        assertEquals("testo", TextControlWriter.writeText(field));
-
-        // Generico controllo
-        assertEquals("testo", TextControlWriter.writeControl(field));
+        assertEquals("testo", TextControlWriter.writeControl(field, fields));
     }
 
     @Test
     public void textAreaTest() throws FrameworkException {
         TextArea<String> field = new TextArea<String>("name", "description", DataTypes.STRING);
-        assertEquals(StringUtil.EMPTY, TextControlWriter.writeTextArea(field));
+        fields.addChild(field);
+
+        assertEquals(StringUtil.EMPTY, TextControlWriter.writeControl(field, fields));
 
         field.setValue("testo");
-        assertEquals("testo", TextControlWriter.writeTextArea(field));
-
-        // Generico controllo
-        assertEquals("testo", TextControlWriter.writeControl(field));
+        assertEquals("testo", TextControlWriter.writeControl(field, fields));
     }
 
     @Test
     public void textTotalizerTest() throws FrameworkException {
         TextTotalizer field = new TextTotalizer("name", "description", DataTypes.INTEGER);
-        assertEquals(StringUtil.EMPTY, TextControlWriter.writeText(field));
+        fields.addChild(field);
+
+        assertEquals(StringUtil.EMPTY, TextControlWriter.writeControl(field, fields));
 
         field.setValue(BigDecimal.valueOf(10));
-        assertEquals("10", TextControlWriter.writeText(field));
-
-        // Generico controllo
-        assertEquals("10", TextControlWriter.writeControl(field));
+        assertEquals("10", TextControlWriter.writeControl(field, fields));
     }
 
 }

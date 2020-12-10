@@ -28,6 +28,20 @@ import java.text.ParseException;
 public interface DataField<T> extends SimpleField {
 
     /**
+     * Contiente il valore informativo come stringa
+     *
+     * @return
+     */
+    String getData();
+
+    /**
+     * Contiente il valore informativo come stringa
+     *
+     * @param data
+     */
+    void setData(String data);
+
+    /**
      * Ritorna l'alias
      *
      * @return
@@ -76,9 +90,17 @@ public interface DataField<T> extends SimpleField {
      */
     void setFormat(String format);
 
-    String getData();
+    void setBaseLink(String baseLink);
 
-    void setData(String data);
+    String getBaseLink();
+
+    void setLinkField(String linkField);
+
+    String getLinkField();
+
+    void setHidden(Boolean hidden);
+
+    boolean isHidden();
 
     Escaper getHtmlEscaper();
 

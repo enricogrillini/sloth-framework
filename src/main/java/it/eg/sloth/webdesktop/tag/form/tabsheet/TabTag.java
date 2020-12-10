@@ -23,7 +23,7 @@ public class TabTag extends BaseElementTag<Tab> {
     private static final long serialVersionUID = 1L;
 
     protected TabSheet getTabSheet() {
-        return (TabSheet) getParentElement();
+        return (TabSheet) getForm().getParentElement(getName());
     }
 
     public int startTag() {

@@ -163,7 +163,7 @@ public class GridWriter extends HtmlWriter {
                 .append(openCell(field, false, false));
 
         if (ViewModality.VIEW_VISUALIZZAZIONE == viewModality) {
-            result.append(TextControlWriter.writeControl(field));
+            result.append(TextControlWriter.writeControl(field, grid));
         } else {
             result.append(FormControlWriter.writeControl(field, grid, viewModality));
         }
@@ -182,80 +182,107 @@ public class GridWriter extends HtmlWriter {
 
         DataTable<?> dataTable = grid.getDataSource();
         for (DataRow dataRow : dataTable) {
-            String idRow = NavigationConst.navStr(NavigationConst.ROW, grid.getName(), "" + rowNumber);
-            String idRowDetail = NavigationConst.navStr(NavigationConst.ROW, grid.getName(), "" + rowNumber, "detail");
-
             if (dataTable.getPageSize() <= 0 || (dataTable.getPageStart() <= rowNumber && dataTable.getPageEnd() >= rowNumber)) {
                 String classHtml = getAttribute("class", manageCurrentRow && rowNumber == dataTable.getCurrentRow(), "table-primary");
 
-                // Riga corrente in edit mode
                 if (rowNumber == dataTable.getCurrentRow() && ViewModality.VIEW_MODIFICA == viewModality) {
-                    result.append(MessageFormat.format(ROW_OPEN, StringUtil.EMPTY, classHtml));
-                    if (detailFields != null) {
-                        result.append("   <td>&nbsp;</td>\n");
-                    }
-
-                    for (SimpleField field : grid.getElements()) {
-                        if (field instanceof TextField && ((TextField<?>) field).isHidden())
-                            continue;
-
-                        if (field instanceof Button) {
-                            Button button = (Button) field;
-                            button.setIndex(rowNumber);
-                        }
-
-                        result.append(GridWriter.cell(grid, field, viewModality));
-                    }
+                    // Riga corrente in edit mode
+                    result.append(writeCurrentRowEditMode(grid, detailFields, rowNumber, classHtml));
                 } else {
-                    result.append(MessageFormat.format(ROW_OPEN, getAttribute("id", manageCurrentRow, idRow), classHtml));
-                    if (detailFields != null) {
-                        result.append(MessageFormat.format(CELL_DETAIL, idRowDetail));
-                    }
-                    for (SimpleField field : grid.getElements()) {
-                        SimpleField appField = field.newInstance();
-
-                        if (field instanceof TextField && ((TextField<?>) field).isHidden())
-                            continue;
-
-                        if (appField instanceof Button) {
-                            Button button = (Button) appField;
-                            button.setIndex(rowNumber);
-                        } else if (appField instanceof DataField) {
-                            DataField<?> dataField = (DataField<?>) appField;
-                            dataField.copyFromDataSource(dataRow);
-                        }
-
-                        result.append(GridWriter.cell(grid, appField, ViewModality.VIEW_VISUALIZZAZIONE));
-                    }
+                    // Riga corrente in view mode e altre righe
+                    result.append(writeRow(grid, detailFields, dataRow, rowNumber, classHtml, manageCurrentRow));
                 }
-                result.append(ROW_CLOSE);
 
-                if (detailFields != null) {
-                    result
-                            .append(MessageFormat.format("  <tr {0} class=\"frDetail collapse\">\n", getAttribute("id", idRowDetail)))
-                            .append("   <td>&nbsp;</td>\n");
-
-                    for (SimpleField field : detailFields) {
-                        SimpleField fieldClone = field.newInstance();
-
-                        if (fieldClone instanceof Button) {
-                            Button button = (Button) fieldClone;
-                            button.setIndex(rowNumber);
-                        } else if (fieldClone instanceof DataField) {
-                            DataField<?> dataField = (DataField<?>) fieldClone;
-                            dataField.copyFromDataSource(dataRow);
-                        }
-
-                        result.append("   <td colspan=\"" + grid.getElements().size() + "\">\n");
-                        result.append("    <b style=\"color:#660000\">" + fieldClone.getHtmlDescription() + ": </b><span>" + TextControlWriter.writeControl(fieldClone) + "</span>\n");
-                        result.append("   </td>\n");
-                    }
-                    result.append(ROW_CLOSE);
-                }
+                // Riga di dettaglio (se presente)
+                result.append(writeRowDetail( grid, detailFields,  dataRow,  rowNumber) );
             }
             rowNumber++;
         }
         result.append(" </tbody>\n");
+
+        return result.toString();
+    }
+
+    private static String writeCurrentRowEditMode(Grid<?> grid, Fields<?> detailFields, int rowNumber, String classHtml) throws FrameworkException {
+        StringBuilder result = new StringBuilder();
+
+        result.append(MessageFormat.format(ROW_OPEN, StringUtil.EMPTY, classHtml));
+        if (detailFields != null) {
+            result.append("   <td>&nbsp;</td>\n");
+        }
+
+        for (SimpleField field : grid.getElements()) {
+            if (field instanceof TextField && ((TextField<?>) field).isHidden()) {
+                continue;
+            }
+
+            if (field instanceof Button) {
+                Button button = (Button) field;
+                button.setIndex(rowNumber);
+            }
+
+            result.append(GridWriter.cell(grid, field, ViewModality.VIEW_MODIFICA));
+        }
+
+        result.append(ROW_CLOSE);
+
+        return result.toString();
+    }
+
+    private static String writeRow(Grid<?> grid, Fields<?> detailFields, DataRow dataRow, int rowNumber, String classHtml, boolean manageCurrentRow) throws FrameworkException {
+
+        String idRow = NavigationConst.navStr(NavigationConst.ROW, grid.getName(), "" + rowNumber);
+        String idRowDetail = NavigationConst.navStr(NavigationConst.ROW, grid.getName(), "" + rowNumber, "detail");
+
+        Grid<?> appGrid = grid.newInstance();
+        appGrid.copyFromDataSource(dataRow);
+
+        StringBuilder result = new StringBuilder();
+        result.append(MessageFormat.format(ROW_OPEN, getAttribute("id", manageCurrentRow, idRow), classHtml));
+        if (detailFields != null) {
+            result.append(MessageFormat.format(CELL_DETAIL, idRowDetail));
+        }
+        for (SimpleField field : appGrid.getElements()) {
+            if (field instanceof TextField && ((TextField<?>) field).isHidden())
+                continue;
+
+            if (field instanceof Button) {
+                Button button = (Button) field;
+                button.setIndex(rowNumber);
+            }
+
+            result.append(GridWriter.cell(appGrid, field, ViewModality.VIEW_VISUALIZZAZIONE));
+        }
+        result.append(ROW_CLOSE);
+
+        return result.toString();
+    }
+
+    private static String writeRowDetail(Grid<?> grid, Fields<?> detailFields, DataRow dataRow, int rowNumber) throws FrameworkException {
+        StringBuilder result = new StringBuilder();
+        if (detailFields != null) {
+            String idRowDetail = NavigationConst.navStr(NavigationConst.ROW, grid.getName(), "" + rowNumber, "detail");
+            result
+                    .append(MessageFormat.format("  <tr {0} class=\"frDetail collapse\">\n", getAttribute("id", idRowDetail)))
+                    .append("   <td>&nbsp;</td>\n");
+
+            for (SimpleField field : detailFields) {
+                SimpleField fieldClone = field.newInstance();
+
+                if (fieldClone instanceof Button) {
+                    Button button = (Button) fieldClone;
+                    button.setIndex(rowNumber);
+                } else if (fieldClone instanceof DataField) {
+                    DataField<?> dataField = (DataField<?>) fieldClone;
+                    dataField.copyFromDataSource(dataRow);
+                }
+
+                result.append("   <td colspan=\"" + grid.getElements().size() + "\">\n");
+                result.append("    <b style=\"color:#660000\">" + fieldClone.getHtmlDescription() + ": </b><span>" + TextControlWriter.writeControl(fieldClone, grid) + "</span>\n");
+                result.append("   </td>\n");
+            }
+            result.append(ROW_CLOSE);
+        }
 
         return result.toString();
     }

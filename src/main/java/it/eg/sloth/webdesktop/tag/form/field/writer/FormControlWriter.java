@@ -3,6 +3,7 @@ package it.eg.sloth.webdesktop.tag.form.field.writer;
 import it.eg.sloth.db.decodemap.DecodeMap;
 import it.eg.sloth.db.decodemap.DecodeValue;
 import it.eg.sloth.form.base.Element;
+import it.eg.sloth.form.base.Elements;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.impl.*;
@@ -34,7 +35,7 @@ import java.text.MessageFormat;
  */
 public class FormControlWriter extends HtmlWriter {
 
-    public static String writeControl(SimpleField element, Element parentElement, ViewModality pageViewModality) throws FrameworkException {
+    public static String writeControl(SimpleField element, Elements<?> parentElement, ViewModality pageViewModality) throws FrameworkException {
         switch (element.getFieldType()) {
             case AUTO_COMPLETE:
                 return writeAutoComplete((AutoComplete<?>) element, parentElement, pageViewModality);
@@ -120,7 +121,8 @@ public class FormControlWriter extends HtmlWriter {
                 .append(getAttribute(ATTR_DATA_DESCRIPTION, !BaseFunction.isBlank(button.getConfirmMessage()), Casting.getHtml(button.getConfirmMessage())))
                 .append(getAttributeTooltip(button.getTooltip()))
                 .append(">")
-                .append(BaseFunction.isBlank(button.getImgHtml()) ? "" : button.getImgHtml() + "&nbsp;&nbsp;")
+                .append(BaseFunction.nvl(button.getImgHtml(), ""))
+                .append(BaseFunction.isBlank(button.getImgHtml()) || BaseFunction.isBlank(button.getDescription()) ? "" : "&nbsp;&nbsp;")
                 .append(Casting.getHtml(button.getDescription()))
                 .append("</button>");
 
