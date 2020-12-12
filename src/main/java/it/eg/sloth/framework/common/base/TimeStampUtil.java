@@ -314,12 +314,13 @@ public class TimeStampUtil {
         }
 
         // Altre festività
-        for (Timestamp timestamp : otherHoliday) {
-            if (formatTimestamp(data, null, DAY_TRUNC_FORMAT).equals(formatTimestamp(timestamp, null, DAY_TRUNC_FORMAT))) {
-                return true;
+        if (otherHoliday != null) {
+            for (Timestamp timestamp : otherHoliday) {
+                if (timestamp != null && formatTimestamp(data, null, DAY_TRUNC_FORMAT).equals(formatTimestamp(timestamp, null, DAY_TRUNC_FORMAT))) {
+                    return true;
+                }
             }
         }
-
         return false;
     }
 

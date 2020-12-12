@@ -29,7 +29,7 @@ import it.eg.sloth.webdesktop.controller.common.grid.EditableGridNavigationInter
  * @param <G>
  * @author Enrico Grillini
  */
-public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extends EditablePage<F> implements EditableGridNavigationInterface, FullEditingInterface<F> {
+public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extends EditablePage<F> implements EditableGridNavigationInterface<F>, FullEditingInterface<F> {
 
     public EditableGridPage() {
         super();

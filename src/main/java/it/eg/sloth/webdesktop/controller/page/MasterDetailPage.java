@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Enrico Grillini
  */
 @Slf4j
-public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extends SimplePage<F> implements MasterDetailGridNavigationInterface {
+public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extends SimplePage<F> implements MasterDetailGridNavigationInterface<F> {
 
     public MasterDetailPage() {
         super();

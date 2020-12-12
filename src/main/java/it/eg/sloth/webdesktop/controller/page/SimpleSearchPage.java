@@ -21,7 +21,7 @@ import it.eg.sloth.webdesktop.controller.common.SimpleSearchPageInterface;
  * @param <F>
  * @author Enrico Grillini
  */
-public abstract class SimpleSearchPage<F extends Form> extends SimplePage<F> implements SimpleSearchPageInterface {
+public abstract class SimpleSearchPage<F extends Form> extends SimplePage<F> implements SimpleSearchPageInterface<F> {
 
     @Override
     public boolean defaultNavigation() throws Exception {

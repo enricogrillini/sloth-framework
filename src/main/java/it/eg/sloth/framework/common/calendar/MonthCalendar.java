@@ -9,8 +9,8 @@ public class MonthCalendar<E, I extends DayInfo> extends AbstractFrameCalendar<E
 
     private Timestamp month;
 
-    public MonthCalendar(Timestamp month) throws FrameworkException {
-        super(month);
+    public MonthCalendar(Timestamp month, Timestamp... otherHolidays) throws FrameworkException {
+        super(month, otherHolidays);
     }
 
     @Override

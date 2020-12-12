@@ -31,8 +31,13 @@ public class Day<E, I extends DayInfo> implements Iterable<E> {
   private List<E> eventList;
   private Map<String, I> infoMap;
 
-  public Day(Timestamp day) {
+  @Getter
+  @Setter
+  private boolean holiday;
+
+  public Day(Timestamp day, boolean holiday) {
     this.currentDay = day;
+    this.holiday = holiday;
     this.locked = false;
     this.level = null;
     this.message = null;
@@ -78,10 +83,6 @@ public class Day<E, I extends DayInfo> implements Iterable<E> {
 
   public boolean isSunday() {
     return TimeStampUtil.getWeekDay(currentDay) == Calendar.SUNDAY;
-  }
-
-  public boolean isHolliday(Timestamp... otherHoliday) throws FrameworkException {
-    return TimeStampUtil.isHoliday(currentDay, otherHoliday);
   }
 
   public boolean isToday() throws FrameworkException {

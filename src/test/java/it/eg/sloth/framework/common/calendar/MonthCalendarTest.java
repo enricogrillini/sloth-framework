@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Project: sloth-framework
@@ -44,7 +45,7 @@ public class MonthCalendarTest {
     public void monthTest2() throws FrameworkException {
         int i = 0;
         for (Day<Object, DayInfo> day : monthCalendar) {
-            if (i==0) {
+            if (i == 0) {
                 assertEquals(TimeStampUtil.parseTimestamp("29/06/2020", "dd/MM/yyyy"), day.getCurrentDay());
             }
 
@@ -53,9 +54,12 @@ public class MonthCalendarTest {
 
         assertEquals(35, i);
         assertEquals(TimeStampUtil.parseTimestamp("02/08/2020", "dd/MM/yyyy"), monthCalendar.getDay(TimeStampUtil.parseTimestamp("02/08/2020", "dd/MM/yyyy")).getCurrentDay());
-
     }
 
+    @Test
+    public void holldayTest() throws FrameworkException {
+        assertTrue(monthCalendar.getDay(TimeStampUtil.parseTimestamp("12/07/2020", "dd/MM/yyyy")).isHoliday());
+    }
 
     @Test
     public void prevMonthTest() throws FrameworkException {

@@ -1,5 +1,6 @@
 package it.eg.sloth.webdesktop.controller.common.grid;
 
+import it.eg.sloth.form.Form;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.form.tabsheet.Tab;
 import it.eg.sloth.form.tabsheet.TabSheet;
@@ -20,7 +21,7 @@ import it.eg.sloth.form.tabsheet.TabSheet;
  *
  * @author Enrico Grillini
  */
-public interface MasterDetailGridNavigationInterface extends BaseGridNavigationInterface {
+public interface MasterDetailGridNavigationInterface<F extends Form> extends BaseGridNavigationInterface<F> {
 
     void execLoadDetail() throws Exception;
 

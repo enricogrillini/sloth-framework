@@ -11,12 +11,9 @@ public class RollingWeekCalendar<E, I extends DayInfo> extends AbstractFrameCale
     @Getter
     private Timestamp fromDay;
 
-    public RollingWeekCalendar() throws FrameworkException {
-        this(TimeStampUtil.truncSysdate());
-    }
 
-    public RollingWeekCalendar(Timestamp fromDay) throws FrameworkException {
-        super(fromDay);
+    public RollingWeekCalendar(Timestamp fromDay, Timestamp... otherHolidays) throws FrameworkException {
+        super(fromDay, otherHolidays);
     }
 
     @Override

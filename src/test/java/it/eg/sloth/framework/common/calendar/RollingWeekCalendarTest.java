@@ -30,7 +30,7 @@ public class RollingWeekCalendarTest {
     @Before
     public void init() throws FrameworkException {
         rollingWeekCalendar = new RollingWeekCalendar(TimeStampUtil.parseTimestamp("07/07/2020", "dd/MM/yyyy"));
-        rollingWeekCalendarFromToday = new RollingWeekCalendar();
+        rollingWeekCalendarFromToday = new RollingWeekCalendar(TimeStampUtil.truncSysdate());
     }
 
     @Test

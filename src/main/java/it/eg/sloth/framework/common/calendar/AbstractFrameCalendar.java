@@ -11,10 +11,12 @@ import java.util.Map;
 public abstract class AbstractFrameCalendar<E, I extends DayInfo> implements FrameCalendar<E, I> {
 
     private Map<Timestamp, Day<E, I>> dayMap;
+    private Timestamp[] otherHolidays;
 
-    public AbstractFrameCalendar(Timestamp timestamp) throws FrameworkException {
+    public AbstractFrameCalendar(Timestamp timestamp, Timestamp... otherHolidays) throws FrameworkException {
         dayMap = new LinkedHashMap<>();
         set(timestamp);
+        this.otherHolidays = otherHolidays;
     }
 
     @Override
@@ -23,7 +25,7 @@ public abstract class AbstractFrameCalendar<E, I extends DayInfo> implements Fra
 
         Timestamp currentDay = firstCalendarDay();
         for (; !currentDay.after(lastCalendarDay()); currentDay = TimeStampUtil.add(currentDay, 1)) {
-            Day<E, I> day = new Day<>(currentDay);
+            Day<E, I> day = new Day<>(currentDay, TimeStampUtil.isHoliday(currentDay, otherHolidays));
             dayMap.put(day.getCurrentDay(), day);
         }
     }

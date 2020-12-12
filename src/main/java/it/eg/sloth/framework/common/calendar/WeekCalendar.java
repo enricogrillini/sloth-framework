@@ -11,8 +11,8 @@ public class WeekCalendar<E, I extends DayInfo> extends AbstractFrameCalendar<E,
     @Getter
     private Timestamp week;
 
-    public WeekCalendar(Timestamp week) throws FrameworkException {
-        super(week);
+    public WeekCalendar(Timestamp week, Timestamp... otherHolidays) throws FrameworkException {
+        super(week, otherHolidays);
     }
 
     @Override

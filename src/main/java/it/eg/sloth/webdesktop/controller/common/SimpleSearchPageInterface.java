@@ -1,8 +1,10 @@
 package it.eg.sloth.webdesktop.controller.common;
 
+import it.eg.sloth.form.Form;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
+import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.framework.utility.FileType;
 import it.eg.sloth.framework.utility.xlsx.GridXlsxWriter;
 
@@ -24,7 +26,7 @@ import java.io.OutputStream;
  *
  * @author Enrico Grillini
  */
-public interface SimpleSearchPageInterface extends SimplePageInterface {
+public interface SimpleSearchPageInterface<F extends Form> extends FormPageInterface<F> {
 
     void execLoad() throws Exception;
 
@@ -37,6 +39,7 @@ public interface SimpleSearchPageInterface extends SimplePageInterface {
      */
     default void onLoad() throws Exception {
         execLoad();
+        getForm().getPageInfo().setViewModality(ViewModality.VIEW_VISUALIZZAZIONE);
     }
 
     /**

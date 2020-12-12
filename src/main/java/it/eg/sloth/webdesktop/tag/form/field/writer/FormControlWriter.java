@@ -83,20 +83,50 @@ public class FormControlWriter extends HtmlWriter {
         return !(element instanceof Button);
     }
 
-    public static String writeLabel(SimpleField simpleField) {
-        if (!hasLabel(simpleField)) {
+    /**
+     * Scrive un campo: AutoComplete
+     *
+     * @param autocomplete
+     * @param parentElement
+     * @param pageViewModality
+     * @return
+     */
+    public static String writeAutoComplete(AutoComplete<?> autocomplete, Element parentElement, ViewModality pageViewModality) {
+        if (autocomplete.isHidden()) {
             return StringUtil.EMPTY;
         }
 
-        String strRequired = simpleField instanceof InputField && ((InputField<?>) simpleField).isRequired() ? "*" : "";
+        ViewModality viewModality = autocomplete.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : autocomplete.getViewModality();
 
-        return new StringBuilder()
-                .append("<label")
-                .append(getAttribute("for", simpleField.getName()))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.LABEL_CLASS))
-                .append(getAttributeTooltip(simpleField.getTooltip()))
-                .append(">" + simpleField.getHtmlDescription() + strRequired + ":&nbsp;</label>")
-                .toString();
+        StringBuilder input = new StringBuilder()
+                .append(BEGIN_INPUT)
+                .append(getAttribute(ATTR_ID, autocomplete.getName()))
+                .append(getAttribute(ATTR_NAME, autocomplete.getName()))
+                .append(getAttribute(ATTR_VALUE, Casting.getHtml(autocomplete.getDecodedText(), true, true)))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS + " autoComplete"));
+
+        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+            input.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
+        } else {
+            input
+                    .append(getAttribute("fields", parentElement.getName()))
+                    .append(getAttribute(ATTR_READONLY, autocomplete.isReadOnly(), ""));
+        }
+
+        input.append("/>");
+
+        // Gestione link
+        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE && !BaseFunction.isBlank(autocomplete.getBaseLink())) {
+            StringBuilder result = new StringBuilder()
+                    .append("<div class=\"input-group input-group-sm\">")
+                    .append(input)
+                    .append(MessageFormat.format(LINK, autocomplete.getBaseLink() + autocomplete.escapeHtmlValue()))
+                    .append("</div>");
+
+            return result.toString();
+        } else {
+            return input.toString();
+        }
     }
 
     /**
@@ -122,7 +152,7 @@ public class FormControlWriter extends HtmlWriter {
                 .append(getAttributeTooltip(button.getTooltip()))
                 .append(">")
                 .append(BaseFunction.nvl(button.getImgHtml(), ""))
-                .append(BaseFunction.isBlank(button.getImgHtml()) || BaseFunction.isBlank(button.getDescription()) ? "" : "&nbsp;&nbsp;")
+                .append(BaseFunction.isBlank(button.getImgHtml()) || BaseFunction.isBlank(button.getDescription()) ? "" : "&nbsp;")
                 .append(Casting.getHtml(button.getDescription()))
                 .append("</button>");
 
@@ -276,50 +306,20 @@ public class FormControlWriter extends HtmlWriter {
         return writeInput(inputTotalizer, pageViewModality);
     }
 
-    /**
-     * Scrive un campo: AutoComplete
-     *
-     * @param autocomplete
-     * @param parentElement
-     * @param pageViewModality
-     * @return
-     */
-    public static String writeAutoComplete(AutoComplete<?> autocomplete, Element parentElement, ViewModality pageViewModality) {
-        if (autocomplete.isHidden()) {
+    public static String writeLabel(SimpleField simpleField) {
+        if (!hasLabel(simpleField)) {
             return StringUtil.EMPTY;
         }
 
-        ViewModality viewModality = autocomplete.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : autocomplete.getViewModality();
+        String strRequired = simpleField instanceof InputField && ((InputField<?>) simpleField).isRequired() ? "*" : "";
 
-        StringBuilder input = new StringBuilder()
-                .append(BEGIN_INPUT)
-                .append(getAttribute(ATTR_ID, autocomplete.getName()))
-                .append(getAttribute(ATTR_NAME, autocomplete.getName()))
-                .append(getAttribute(ATTR_VALUE, Casting.getHtml(autocomplete.getDecodedText(), true, true)))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS + " autoComplete"));
-
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
-            input.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
-        } else {
-            input
-                    .append(getAttribute("fields", parentElement.getName()))
-                    .append(getAttribute(ATTR_READONLY, autocomplete.isReadOnly(), ""));
-        }
-
-        input.append("/>");
-
-        // Gestione link
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE && !BaseFunction.isBlank(autocomplete.getBaseLink())) {
-            StringBuilder result = new StringBuilder()
-                    .append("<div class=\"input-group input-group-sm\">")
-                    .append(input)
-                    .append(MessageFormat.format(LINK, autocomplete.getBaseLink() + autocomplete.escapeHtmlValue()))
-                    .append("</div>");
-
-            return result.toString();
-        } else {
-            return input.toString();
-        }
+        return new StringBuilder()
+                .append("<label")
+                .append(getAttribute("for", simpleField.getName()))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.LABEL_CLASS))
+                .append(getAttributeTooltip(simpleField.getTooltip()))
+                .append(">" + simpleField.getHtmlDescription() + strRequired + ":&nbsp;</label>")
+                .toString();
     }
 
     /**
@@ -604,7 +604,8 @@ public class FormControlWriter extends HtmlWriter {
                 .append(getAttribute(ATTR_DISABLED, link.isDisabled(), ""))
                 .append(getAttributeTooltip(link.getTooltip()))
                 .append("/>")
-                .append(BaseFunction.isBlank(link.getImgHtml()) ? "" : link.getImgHtml() + "&nbsp;&nbsp;")
+                .append(BaseFunction.nvl(link.getImgHtml(), ""))
+                .append(BaseFunction.isBlank(link.getImgHtml()) || BaseFunction.isBlank(link.getDescription()) ? "" : "&nbsp;")
                 .append(Casting.getHtml(link.getDescription()))
                 .append("</a>");
 
