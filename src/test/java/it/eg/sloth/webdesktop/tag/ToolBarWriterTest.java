@@ -40,7 +40,7 @@ public class ToolBarWriterTest {
     static final String LAST_ROW_GRID = "<button name=\"navigationprefix___lastrow___prova\"{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Ultimo record\"><i class=\"fas fa-fast-forward\"></i></button>";
 
     static final String INSERT_GRID = "<button name=\"navigationprefix___insert___prova\" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Inserisci record\"><i class=\"fas fa-plus\"></i> Inserisci</button>";
-    static final String DELETE_GRID = "<button name=\"navigationprefix___delete___prova\"{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Elimina il record corrente\"><i class=\"fas fa-minus\"></i> Elimina</button>";
+    static final String DELETE_GRID = "<button name=\"navigationprefix___delete___prova\"{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Elimina il record corrente\"><i class=\"far fa-trash-alt\"></i> Elimina</button>";
     static final String UPDATE_GRID = "<button name=\"navigationprefix___update___prova\"{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Modifica il record corrente\"><i class=\"fas fa-pencil-alt\"></i> Modifica</button>";
 
     static final String COMMIT = "<button name=\"navigationprefix___commit\" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Salva\"><i class=\"fas fa-save\"></i> Salva</button>";
