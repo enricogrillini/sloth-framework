@@ -75,13 +75,9 @@ public abstract class FormPage<F extends Form> extends BasePage implements FormP
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse res) {
-        long eventid = 0;
         try {
             // Inizializzo la pagina
             init(req, res);
-
-            // Traccio il tempo di attraversamento
-            eventid = MonitorSingleton.getInstance().startEvent(MonitorSingleton.PAGE, getClass().getName(), getUser());
 
             // Se l'utente non è presente in sessione lo creo
             if (getWebDesktopDto().getUser() == null) {
@@ -108,8 +104,6 @@ public abstract class FormPage<F extends Form> extends BasePage implements FormP
         } catch (Exception e) {
             log.error("Page error {}", getClass().getName(), e);
             return null;
-        } finally {
-            MonitorSingleton.getInstance().endEvent(eventid);
         }
     }
 

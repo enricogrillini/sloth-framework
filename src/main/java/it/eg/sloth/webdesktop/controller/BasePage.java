@@ -117,13 +117,9 @@ public abstract class BasePage implements Controller {
     public abstract ModelAndView service() throws Exception;
 
     public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse res) {
-        long eventid = 0;
         try {
             // Inizializzo la pagina
             init(req, res);
-
-            // Traccio il tempo di attraversamento
-            eventid = MonitorSingleton.getInstance().startEvent(MonitorSingleton.PAGE, getClass().getName(), getUser());
 
             if (redirectToHome()) {
                 // Verifico se effettuare il redirect alla Home page
@@ -142,8 +138,6 @@ public abstract class BasePage implements Controller {
         } catch (Exception e) {
             log.error("Page error {}", getClass().getName(), e);
             return null;
-        } finally {
-            MonitorSingleton.getInstance().endEvent(eventid);
         }
     }
 
