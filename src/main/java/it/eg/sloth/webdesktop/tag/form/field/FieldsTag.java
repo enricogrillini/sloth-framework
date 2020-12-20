@@ -4,7 +4,7 @@ import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
-import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
+import it.eg.sloth.webdesktop.tag.form.field.writer.LabelControlWriter;
 import it.eg.sloth.webdesktop.tag.form.group.writer.GroupWriter;
 
 import java.io.IOException;
@@ -25,32 +25,26 @@ import java.io.IOException;
  */
 public class FieldsTag<T extends Fields<?>> extends BaseElementTag<T> {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  @Override
-  protected int startTag() throws IOException, FrameworkException {
+    @Override
+    protected int startTag() throws IOException, FrameworkException {
 
-    writeln("");
-    for (SimpleField simpleField : getElement()) {
-      write(GroupWriter.openRow());
+        writeln("");
+        for (SimpleField simpleField : getElement()) {
+            write(GroupWriter.openRow());
 
-      write(GroupWriter.openCell(null));
-      write(FormControlWriter.writeLabel(simpleField));
-      write(GroupWriter.closeCell());
+            write(LabelControlWriter.writeLblControl(simpleField, getElement(), getViewModality(), null, "10cols"));
 
-      write(GroupWriter.openCell("10cols"));
-      write(FormControlWriter.writeControl(simpleField, getElement(), getViewModality()));
-      write(GroupWriter.closeCell());
+            write(GroupWriter.closeRow());
+        }
 
-      write(GroupWriter.closeRow());
+        return SKIP_BODY;
     }
 
-    return SKIP_BODY;
-  }
-
-  @Override
-  protected void endTag() {
-    // NOP
-  }
+    @Override
+    protected void endTag() {
+        // NOP
+    }
 
 }

@@ -13,13 +13,11 @@ public class BffApi {
             return false;
         }
 
-        if (myClass != null) {
-            if (!myClass.isInstance(webDesktopDto.getForm())) {
-                bffComponent.setWrongPage(true);
-                bffComponent.getMessageList().addBaseError("Pagina errata");
+        if (myClass != null && !myClass.isInstance(webDesktopDto.getForm())) {
+            bffComponent.setWrongPage(true);
+            bffComponent.getMessageList().addBaseError("Pagina errata");
 
-                return false;
-            }
+            return false;
         }
 
         return true;

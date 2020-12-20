@@ -46,7 +46,6 @@ public class MonitorTest {
         MonitorStatisticsRow row = MonitorMapper.INSTANCE.monitorStatisticsToPojoRow(monitorStatistics);
         assertEquals("Page", row.getGroup());
         assertEquals("prova.page", row.getName());
-        assertEquals("page", row.getShortName());
 
         assertEquals(BigDecimal.valueOf(1), row.getExecutions());
         assertNotEquals(BigDecimal.valueOf(0), row.getDuration());

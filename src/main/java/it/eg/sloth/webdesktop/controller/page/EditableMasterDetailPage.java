@@ -6,7 +6,6 @@ import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.pageinfo.PageStatus;
 import it.eg.sloth.framework.pageinfo.ViewModality;
-import it.eg.sloth.webdesktop.controller.common.editable.FullEditingInterface;
 import it.eg.sloth.webdesktop.controller.common.editable.SubEditingInterface;
 import it.eg.sloth.webdesktop.controller.common.grid.BaseGridNavigationInterface;
 

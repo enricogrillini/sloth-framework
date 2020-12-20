@@ -1,8 +1,10 @@
 package it.eg.sloth.webdesktop.tag.form.field;
 
-import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.webdesktop.tag.form.base.BaseContainerControlTag;
+import it.eg.sloth.webdesktop.tag.form.base.BaseControlTag;
+import it.eg.sloth.webdesktop.tag.form.field.writer.LabelControlWriter;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 
@@ -20,11 +22,16 @@ import java.io.IOException;
  *
  * @author Enrico Grillini
  */
-public class LblControlTag extends BaseContainerControlTag {
+@Getter
+@Setter
+public class LblControlTag extends BaseControlTag {
+
+    private static final long serialVersionUID = 1L;
+
+    String labelWidth;
+    String controlWidth;
 
     protected void writeField() throws IOException, FrameworkException {
-        SimpleField field = getElement();
-        writeLabelContainer(field);
-        writeControlContainer(field);
+        write(LabelControlWriter.writeLblControl(getElement(), getParentElement(), getViewModality(), getLabelWidth(), getControlWidth()));
     }
 }

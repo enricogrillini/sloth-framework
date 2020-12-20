@@ -3,7 +3,6 @@ package it.eg.sloth.webdesktop.controller.page;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.framework.common.message.MessageList;
-import it.eg.sloth.framework.monitor.MonitorSingleton;
 import it.eg.sloth.framework.security.User;
 import it.eg.sloth.webdesktop.WebDesktopConstant;
 import it.eg.sloth.webdesktop.controller.BasePage;

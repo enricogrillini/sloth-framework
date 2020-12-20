@@ -1,12 +1,10 @@
 package it.eg.sloth.webdesktop.tag.form.chart.pojo;
 
+import it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset.DataSet;
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import it.eg.sloth.framework.FrameComponent;
-import it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset.DataSet;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Project: sloth-framework
@@ -22,9 +20,8 @@ import lombok.Setter;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
-public class ChartJsData extends FrameComponent {
+@Data
+public class ChartJsData {
 
     List<String> labels;
     List<DataSet> datasets;

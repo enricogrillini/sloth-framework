@@ -107,7 +107,6 @@
  <simpleType name="GridType">
   <restriction base="string">
    <enumeration value="BASE"></enumeration>
-   <enumeration value="RADIO"></enumeration>
   </restriction>
  </simpleType>
 
@@ -378,11 +377,6 @@
   </complexContent>
  </complexType>
 
- <complexType name="RadioGrid">
-  <complexContent>
-   <extension base="tns:Fields"></extension>
-  </complexContent>
- </complexType>
 
  <complexType name="DecodedText">
   <complexContent>

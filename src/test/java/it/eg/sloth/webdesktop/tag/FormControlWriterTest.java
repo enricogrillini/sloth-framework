@@ -1,27 +1,23 @@
 package it.eg.sloth.webdesktop.tag;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.MessageFormat;
-import java.util.List;
-import java.util.Locale;
-
-import it.eg.sloth.form.fields.field.impl.*;
-import it.eg.sloth.framework.common.base.StringUtil;
-import it.eg.sloth.framework.common.exception.ExceptionCode;
-import it.eg.sloth.webdesktop.tag.support.SampleEscaper;
-import org.junit.Test;
-
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
 import it.eg.sloth.form.fields.Fields;
+import it.eg.sloth.form.fields.field.impl.*;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
+import it.eg.sloth.webdesktop.tag.support.SampleEscaper;
+import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.MessageFormat;
+import java.util.Locale;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -38,8 +34,6 @@ import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
  * @author Enrico Grillini
  */
 public class FormControlWriterTest {
-
-    private static final String LABEL = "<label for=\"{0}\" class=\"col-form-label float-right form-control-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{2}\">{1}{3}:&nbsp;</label>";
 
     private static final String BASE_AUTOCOMPLETE = "<input id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm autoComplete\"{2}{3}/>";
     private static final String LINK_AUTOCOMPLETE = "<div class=\"input-group input-group-sm\"><input id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm autoComplete\" disabled=\"\"/><div class=\"input-group-append\"><a href=\"{2}\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a></div></div>";
@@ -89,22 +83,6 @@ public class FormControlWriterTest {
 
 
     private static final String BASE_TEXTAREA = "<textarea id=\"{0}\" name=\"{0}\" class=\"" + BootStrapClass.CONTROL_CLASS + "\"{1}>{2}</textarea>";
-
-    @Test
-    public void labelTest() throws FrameworkException {
-        // Controlli con label
-        Input<String> field = new Input<String>("name", "description", DataTypes.STRING);
-        field.setTooltip("tooltip");
-
-        assertEquals(MessageFormat.format(LABEL, "name", "description", "tooltip", ""), FormControlWriter.writeLabel(field));
-
-        field.setRequired(true);
-        assertEquals(MessageFormat.format(LABEL, "name", "description", "tooltip", "*"), FormControlWriter.writeLabel(field));
-
-        // Controlli senza label (Button)
-        Button button = new Button("name", "description");
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeLabel(button));
-    }
 
 
     @Test

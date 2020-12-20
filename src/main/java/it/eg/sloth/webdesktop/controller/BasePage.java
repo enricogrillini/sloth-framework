@@ -1,6 +1,5 @@
 package it.eg.sloth.webdesktop.controller;
 
-import it.eg.sloth.framework.monitor.MonitorSingleton;
 import it.eg.sloth.framework.security.User;
 import it.eg.sloth.webdesktop.WebDesktopConstant;
 import it.eg.sloth.webdesktop.common.SessionManager;

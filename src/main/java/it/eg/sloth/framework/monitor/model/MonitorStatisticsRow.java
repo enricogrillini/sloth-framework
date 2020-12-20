@@ -12,7 +12,6 @@ public class MonitorStatisticsRow extends PojoRow {
 
     String group;
     String name;
-    String shortName;
     BigDecimal executions;
     BigDecimal duration;
     BigDecimal average;

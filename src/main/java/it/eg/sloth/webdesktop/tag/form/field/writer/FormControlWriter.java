@@ -5,7 +5,6 @@ import it.eg.sloth.db.decodemap.DecodeValue;
 import it.eg.sloth.form.base.Element;
 import it.eg.sloth.form.base.Elements;
 import it.eg.sloth.form.fields.field.SimpleField;
-import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.impl.*;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
@@ -77,10 +76,6 @@ public class FormControlWriter extends HtmlWriter {
                 throw new FrameworkException(ExceptionCode.INVALID_CONTROL);
         }
 
-    }
-
-    public static boolean hasLabel(SimpleField element) {
-        return !(element instanceof Button);
     }
 
     /**
@@ -246,7 +241,6 @@ public class FormControlWriter extends HtmlWriter {
      * @param pageViewModality
      * @return
      */
-
     public static String writeInput(Input<?> input, ViewModality pageViewModality) {
         if (input.isHidden()) {
             return StringUtil.EMPTY;
@@ -304,22 +298,6 @@ public class FormControlWriter extends HtmlWriter {
      */
     public static String writeInputTotalizer(InputTotalizer inputTotalizer, ViewModality pageViewModality) {
         return writeInput(inputTotalizer, pageViewModality);
-    }
-
-    public static String writeLabel(SimpleField simpleField) {
-        if (!hasLabel(simpleField)) {
-            return StringUtil.EMPTY;
-        }
-
-        String strRequired = simpleField instanceof InputField && ((InputField<?>) simpleField).isRequired() ? "*" : "";
-
-        return new StringBuilder()
-                .append("<label")
-                .append(getAttribute("for", simpleField.getName()))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.LABEL_CLASS))
-                .append(getAttributeTooltip(simpleField.getTooltip()))
-                .append(">" + simpleField.getHtmlDescription() + strRequired + ":&nbsp;</label>")
-                .toString();
     }
 
     /**

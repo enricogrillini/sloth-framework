@@ -2,8 +2,7 @@ package it.eg.sloth.webdesktop.tag.form.chart.pojo;
 
 import it.eg.sloth.framework.FrameComponent;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * Project: sloth-framework
@@ -19,8 +18,7 @@ import lombok.Setter;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 public class NumerFormat extends FrameComponent {
 

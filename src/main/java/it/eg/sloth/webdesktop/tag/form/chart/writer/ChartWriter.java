@@ -1,5 +1,7 @@
 package it.eg.sloth.webdesktop.tag.form.chart.writer;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.form.chart.SimpleChart;
 import it.eg.sloth.form.chart.element.Labels;
@@ -45,13 +47,16 @@ public class ChartWriter extends HtmlWriter {
                 .toString();
     }
 
-    public static final String writeScript(SimpleChart<?> simpleChart) throws FrameworkException {
+    public static final String writeScript(SimpleChart<?> simpleChart) throws FrameworkException, JsonProcessingException {
         ChartJs chartJs = populateChart(simpleChart);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String chartJsHtml = objectMapper.writeValueAsString(chartJs);
 
         return new StringBuilder()
                 .append("<!-- ChartScript -->\n")
                 .append("<script>\n")
-                .append(" var chartData = " + chartJs.toString() + ";\n")
+                .append(" var chartData = " + chartJsHtml + ";\n")
                 //.append(" var chartData = " + chartJs.getData().toString() + ";\n")
                 .append(" chart(\"" + simpleChart.getName() + "\", chartData);\n")
                 .append("</script>\n")
