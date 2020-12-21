@@ -1,0 +1,40 @@
+package it.eg.sloth.webdesktop.api.model;
+
+import it.eg.sloth.db.datasource.DataRow;
+import it.eg.sloth.db.datasource.DataTable;
+import it.eg.sloth.db.decodemap.DecodeValue;
+import it.eg.sloth.db.decodemap.value.BaseDecodeValue;
+import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+@Getter
+@Setter
+public class BffDecodeMap extends BffComponent {
+    List<DecodeValue<String>> values;
+
+    public BffDecodeMap() {
+        values = new ArrayList<>();
+    }
+
+    public void load(DataTable<?> table, String codeName, String descriptionName) throws FrameworkException {
+        load(table, codeName, DataTypes.STRING, Locale.ITALY, descriptionName);
+    }
+
+    public void load(DataTable<?> table, String codeName, DataTypes dataTypes, Locale locale, String descriptionName) throws FrameworkException {
+        values.clear();
+        for (DataRow row : table) {
+            String code = dataTypes.formatValue(row.getObject(codeName), locale);
+            String description = row.getString(descriptionName);
+
+            BaseDecodeValue<String> decodeValue = new BaseDecodeValue<>(code, description);
+            values.add(decodeValue);
+        }
+    }
+
+}

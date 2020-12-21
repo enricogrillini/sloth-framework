@@ -1,4 +1,4 @@
-package it.eg.sloth.webdesktop.api;
+package it.eg.sloth.webdesktop.api.model;
 
 import it.eg.sloth.framework.common.message.MessageList;
 import lombok.Getter;
