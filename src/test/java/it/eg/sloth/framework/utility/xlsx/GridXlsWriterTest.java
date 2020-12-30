@@ -1,5 +1,6 @@
-package it.eg.sloth.framework.utility;
+package it.eg.sloth.framework.utility.xlsx;
 
+import it.eg.sloth.TestUtil;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.form.fields.field.impl.Text;
@@ -12,7 +13,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertTrue;
@@ -32,6 +35,8 @@ import static org.junit.Assert.assertTrue;
  * @author Enrico Grillini
  */
 public class GridXlsWriterTest {
+
+    private static final String GRID = TestUtil.OUTPUT_DIR + "/Grid.xlsx";
 
     Table table;
     Grid<Table> grid;
@@ -62,10 +67,13 @@ public class GridXlsWriterTest {
     public void gridDetailTest() throws FrameworkException, IOException {
         GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-//        try (OutputStream outputStream = new FileOutputStream("C:/work/prova.xlsx")) {
             gridXlsxWriter.getWorkbook().write(outputStream);
 
             assertTrue(outputStream.toByteArray().length > 0);
+        }
+
+        try (OutputStream outputStream = new FileOutputStream(GRID)) {
+            gridXlsxWriter.getWorkbook().write(outputStream);
         }
     }
 

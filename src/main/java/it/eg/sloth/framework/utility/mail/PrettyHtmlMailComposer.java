@@ -1,16 +1,19 @@
 package it.eg.sloth.framework.utility.mail;
 
+import it.eg.sloth.framework.utility.mail.element.HtmlElement;
 import it.eg.sloth.framework.utility.mail.element.MailElement;
+import it.eg.sloth.framework.utility.mail.element.TextElement;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class HtmlMailComposer {
+public class PrettyHtmlMailComposer {
 
     private static final String OPEN_MAIL = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n" +
             "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
@@ -20,7 +23,7 @@ public class HtmlMailComposer {
             "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/>\n" +
             "</head>\n" +
             "<style>\n" +
-            " body {color:black; font-family: Arial, Helvetica, sans-serif}\n" +
+            " body '{'color:black; font-family: Arial, Helvetica, sans-serif'}'\n" +
             "</style>\n" +
             "<body style=\"margin: 0; padding: 0;\">\n" +
             " <table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"600\" style=\"border-collapse: collapse;\">";
@@ -39,7 +42,7 @@ public class HtmlMailComposer {
     @Setter(AccessLevel.NONE)
     private List<MailElement> elements;
 
-    public HtmlMailComposer(String title) {
+    public PrettyHtmlMailComposer(String title) {
         this.title = title;
         elements = new ArrayList<>();
     }
@@ -50,7 +53,7 @@ public class HtmlMailComposer {
 
     public String getHtml() {
         StringBuilder builder = new StringBuilder();
-        builder.append(OPEN_MAIL);
+        builder.append(MessageFormat.format(OPEN_MAIL, getTitle()));
 
         for (MailElement mailElement : elements) {
             builder
@@ -62,5 +65,13 @@ public class HtmlMailComposer {
         builder.append(CLOSE_MAIL);
 
         return builder.toString();
+    }
+
+    public void addTextElement(String text) {
+        elements.add(new TextElement(text));
+    }
+
+    public void addHtmlElement(String html) {
+        elements.add(new HtmlElement(html));
     }
 }

@@ -12,6 +12,7 @@ import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.base.TextField;
 import it.eg.sloth.form.fields.field.impl.Button;
+import it.eg.sloth.form.fields.field.impl.Hidden;
 import it.eg.sloth.form.fields.field.impl.InputTotalizer;
 import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.form.grid.Grid;
@@ -78,7 +79,7 @@ public class GridWriter extends HtmlWriter {
         for (SimpleField field : grid) {
             String descriptionHtml = field.getHtmlDescription();
 
-            if (field instanceof TextField && ((TextField<?>) field).isHidden()) {
+            if (field instanceof TextField && ((TextField<?>) field).isHidden() || field instanceof Hidden<?>) {
                 continue;
             }
 
@@ -142,6 +143,9 @@ public class GridWriter extends HtmlWriter {
             htmlClass = "text-right";
         }
 
+        if (field instanceof Button) {
+            htmlClass += " p-1";
+        }
 
         if (header) {
             return MessageFormat.format("   <th{0}{1}>", getAttributeTooltip(field.getTooltip()), getAttribute(ATTR_CLASS, htmlClass + " text-nowrap"));
@@ -194,7 +198,7 @@ public class GridWriter extends HtmlWriter {
                 }
 
                 // Riga di dettaglio (se presente)
-                result.append(writeRowDetail( grid, detailFields,  dataRow,  rowNumber) );
+                result.append(writeRowDetail(grid, detailFields, dataRow, rowNumber));
             }
             rowNumber++;
         }
@@ -212,7 +216,7 @@ public class GridWriter extends HtmlWriter {
         }
 
         for (SimpleField field : grid.getElements()) {
-            if (field instanceof TextField && ((TextField<?>) field).isHidden()) {
+            if (field instanceof TextField && ((TextField<?>) field).isHidden() || field instanceof Hidden<?>) {
                 continue;
             }
 
@@ -243,8 +247,9 @@ public class GridWriter extends HtmlWriter {
             result.append(MessageFormat.format(CELL_DETAIL, idRowDetail));
         }
         for (SimpleField field : appGrid.getElements()) {
-            if (field instanceof TextField && ((TextField<?>) field).isHidden())
+            if (field instanceof TextField && ((TextField<?>) field).isHidden() || field instanceof Hidden<?>) {
                 continue;
+            }
 
             if (field instanceof Button) {
                 Button button = (Button) field;

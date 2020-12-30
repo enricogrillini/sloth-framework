@@ -1,4 +1,4 @@
-package it.eg.sloth.framework.utility;
+package it.eg.sloth.framework.utility.xlsx;
 
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.framework.common.base.BaseFunction;

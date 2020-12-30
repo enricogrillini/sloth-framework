@@ -26,7 +26,7 @@ public class BootStrapClass {
   public static final String BORDER_LEFT_PRIMARY = "border-left-primary";
 
   // Control
-  public static final String LABEL_CLASS = "col-form-label float-right form-control-sm";
+  public static final String LABEL_CLASS = "col-form-label form-control-sm float-right pr-0";
   public static final String CONTROL_CLASS = "form-control form-control-sm";
   public static final String CHECK_CLASS = "custom-control-input";
   public static final String BUTTON_CLASS = "btn {0} btn-sm";

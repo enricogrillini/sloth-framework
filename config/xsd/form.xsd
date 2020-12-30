@@ -481,7 +481,14 @@
    <enumeration value="btn-info"></enumeration>
    <enumeration value="btn-warning"></enumeration>
    <enumeration value="btn-danger"></enumeration>
+
    <enumeration value="btn-link"></enumeration>
+   <enumeration value="btn-link text-secondary"></enumeration>
+   <enumeration value="btn-link text-success"></enumeration>
+   <enumeration value="btn-link text-info"></enumeration>
+   <enumeration value="btn-link text-warning"></enumeration>
+   <enumeration value="btn-link text-danger"></enumeration>
+
    <enumeration value="btn-outline-primary"></enumeration>
    <enumeration value="btn-outline-secondary"></enumeration>
    <enumeration value="btn-outline-success"></enumeration>

@@ -1,11 +1,13 @@
-package it.eg.sloth.framework.utility;
+package it.eg.sloth.framework.utility.xlsx;
 
 import it.eg.sloth.TestUtil;
 import it.eg.sloth.framework.utility.report.SimpleReport;
 import it.eg.sloth.framework.utility.xlsx.BaseXlsxWriter;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelContainer;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelFont;
+import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -41,8 +43,7 @@ public class BaseXlsWriterTest {
     @Test
     public void styleReportTest() throws IOException {
         // Creo il report Excel
-        try (OutputStream outputStream = new FileOutputStream(STYLE_REPORT);
-             BaseXlsxWriter baseXlsxWriter = new SimpleReport()) {
+        try (OutputStream outputStream = new FileOutputStream(STYLE_REPORT); BaseXlsxWriter baseXlsxWriter = new SimpleReport()) {
 
             baseXlsxWriter.addSheet("Prova", true);
 
@@ -82,15 +83,13 @@ public class BaseXlsWriterTest {
             baseXlsxWriter.getWorkbook().write(outputStream);
         }
 
-
         // Verifico che  il report Excel sia corretto
-        try (InputStream inp = new FileInputStream(STYLE_REPORT);
-             Workbook wb = WorkbookFactory.create(inp);) {
+        try (InputStream inp = new FileInputStream(STYLE_REPORT); Workbook wb = WorkbookFactory.create(inp);) {
 
             Sheet sheet = wb.getSheetAt(0);
 
             Row row = sheet.getRow(0);
-            assertNotNull(row );
+            assertNotNull(row);
 
             Cell cell = row.getCell(0);
             assertEquals("TITLE", cell.getStringCellValue());
@@ -115,7 +114,7 @@ public class BaseXlsWriterTest {
             Sheet sheet = wb.getSheetAt(0);
 
             Row row = sheet.getRow(0);
-            assertNotNull(row );
+            assertNotNull(row);
 
             Cell cell = row.getCell(0);
             assertEquals("Titolo 1", cell.getStringCellValue());

@@ -75,6 +75,8 @@ public class BaseXlsxWriter implements Closeable {
         printSetup.setPaperSize(PrintSetup.A4_PAPERSIZE);
         printSetup.setLandscape(landscape);
 
+        sheet.setFitToPage(true);
+
         return sheet;
     }
 
