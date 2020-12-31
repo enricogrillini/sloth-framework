@@ -80,6 +80,9 @@ public class BaseXlsWriterTest {
             baseXlsxWriter.setCellValue(row, 0, "NO FONT");
             row++;
 
+            baseXlsxWriter.setColumnsWidth(0,0,10000);
+            baseXlsxWriter.autoSizeColumns(0,0);
+
             baseXlsxWriter.getWorkbook().write(outputStream);
         }
 

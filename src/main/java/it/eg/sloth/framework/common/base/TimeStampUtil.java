@@ -158,7 +158,7 @@ public class TimeStampUtil {
             return calendar;
         }
     }
-
+    
     public static final Integer getYear(Timestamp value) {
         Calendar calendar = toCalendar(value);
         if (calendar != null) {

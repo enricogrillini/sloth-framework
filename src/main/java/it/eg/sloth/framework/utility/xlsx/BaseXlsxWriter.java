@@ -153,6 +153,17 @@ public class BaseXlsxWriter implements Closeable {
     }
 
     /**
+     * Adatta la larghezza delle colonne indicate
+     * @param columnIndex1
+     * @param columnIndex2
+     */
+    public void  autoSizeColumns(int columnIndex1, int columnIndex2) {
+        for (int i = columnIndex1; i <= columnIndex2; i++) {
+            getSheet().autoSizeColumn(i);
+        }
+    }
+
+    /**
      * Imposta il valore nella cella.
      *
      * @param rowIndex

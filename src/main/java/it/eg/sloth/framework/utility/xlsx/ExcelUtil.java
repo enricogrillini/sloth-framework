@@ -103,7 +103,7 @@ public class ExcelUtil {
         } else if (value instanceof BigDecimal) {
             cell.setCellValue(((BigDecimal) value).doubleValue());
         } else if (value instanceof Timestamp) {
-            cell.setCellValue(TimeStampUtil.toCalendar((Timestamp) value));
+            cell.setCellValue((Timestamp) value);
         } else if (value instanceof Boolean) {
             cell.setCellValue((Boolean) value);
         }
