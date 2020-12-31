@@ -41,6 +41,18 @@ public class GridWriterTest {
             "  </tr>\n" +
             " </tbody>\n";
 
+    private static final String CONTENT_TEMPLATE_NO_CURRENT_ROW = " <tbody>\n" +
+            "  <tr>\n" +
+            "   <td class=\"text-left\">valore1</td>\n" +
+            "   <td class=\"text-left\">A</td>\n" +
+            "  </tr>\n" +
+            "  <tr>\n" +
+            "   <td class=\"text-left\">valore2</td>\n" +
+            "   <td class=\"text-left\">B</td>\n" +
+            "  </tr>\n" +
+            " </tbody>\n";
+
+
     private static final String CONTENT_TEMPLATE_DETAIL = " <tbody>\n" +
             "  <tr id=\"navigationprefix___row___provagrid___0\">\n" +
             "   <td class=\"text-center tableDetail\"><i class=\"tableDetail text-info fa fa-chevron-down collapsed\" href=\"#navigationprefix___row___provagrid___0___detail\" data-toggle=\"collapse\" aria-expanded=\"true\" aria-controls=\"collapse-collapsed\"></i></td>\n" +
@@ -90,7 +102,9 @@ public class GridWriterTest {
 
     @Test
     public void gridTest() throws FrameworkException {
-        assertEquals(CONTENT_TEMPLATE, GridWriter.rows(grid, null, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(CONTENT_TEMPLATE, GridWriter.rows(grid, null, ViewModality.VIEW_VISUALIZZAZIONE, true));
+
+        assertEquals(CONTENT_TEMPLATE_NO_CURRENT_ROW, GridWriter.rows(grid, null, ViewModality.VIEW_VISUALIZZAZIONE, false));
     }
 
     @Test
@@ -99,7 +113,7 @@ public class GridWriterTest {
         fields.addChild(new Text<String>("campo3", "campo3", DataTypes.STRING));
         fields.setDataSource(table);
 
-        assertEquals(CONTENT_TEMPLATE_DETAIL, GridWriter.rows(grid, fields, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(CONTENT_TEMPLATE_DETAIL, GridWriter.rows(grid, fields, ViewModality.VIEW_VISUALIZZAZIONE, true));
     }
 
 }

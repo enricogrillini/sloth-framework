@@ -1,5 +1,6 @@
 package it.eg.sloth.webdesktop.controller.common.editable;
 
+import it.eg.sloth.form.Form;
 import it.eg.sloth.form.grid.Grid;
 
 /**
@@ -18,16 +19,20 @@ import it.eg.sloth.form.grid.Grid;
  *
  * @author Enrico Grillini
  */
-public interface SubEditingInterface extends BaseEditingInterface {
+public interface SubEditingInterface<F extends Form> extends FullEditingInterface<F> {
 
-  public boolean execPostSubDetail(Grid<?> grid, boolean validate) throws Exception;
+    boolean execPostSubDetail(Grid<?> grid, boolean validate) throws Exception;
 
-  public boolean execSubInsert(Grid<?> grid) throws Exception;
+    boolean execSubInsert(Grid<?> grid) throws Exception;
 
-  public boolean execSubDelete(Grid<?> grid) throws Exception;
+    boolean execSubDelete(Grid<?> grid) throws Exception;
 
-  public void onSubInsert(Grid<?> grid) throws Exception;
+    default void onSubInsert(Grid<?> grid) throws Exception {
+        execSubInsert(grid);
+    }
 
-  public void onSubDelete(Grid<?> grid) throws Exception;
+    default void onSubDelete(Grid<?> grid) throws Exception {
+        execSubDelete(grid);
+    }
 
 }

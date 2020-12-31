@@ -1,13 +1,13 @@
 package it.eg.sloth.db.datasource.table.sort;
 
+import it.eg.sloth.db.datasource.DataRow;
+import lombok.ToString;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
-import it.eg.sloth.db.datasource.DataRow;
-import it.eg.sloth.framework.FrameComponent;
 
 /**
  * Project: sloth-framework
@@ -24,7 +24,8 @@ import it.eg.sloth.framework.FrameComponent;
  *
  * @author Enrico Grillini
  */
-public class SortingRules<T extends DataRow> extends FrameComponent implements Comparator<T> {
+@ToString
+public class SortingRules<T extends DataRow>  implements Comparator<T> {
 
     private List<SortingRule> list;
 

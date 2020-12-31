@@ -2,12 +2,12 @@ package it.eg.sloth.db.datasource.row.lob;
 
 import it.eg.sloth.framework.common.exception.ExceptionCode;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
+
+import java.io.*;
+
 import java.nio.charset.StandardCharsets;
 import java.sql.Clob;
 import java.sql.SQLException;
@@ -27,6 +27,7 @@ import java.sql.SQLException;
  *
  * @author Enrico Grillini
  */
+@Slf4j
 public class CLobData extends LobData<String> {
 
     public CLobData() {
@@ -37,26 +38,13 @@ public class CLobData extends LobData<String> {
         this();
 
         if (load && clob != null) {
-            try (InputStream inputStream = clob.getAsciiStream()) {
-                value = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
+            try (Reader reader = clob.getCharacterStream()) {
+                value = new String(IOUtils.toString(reader).getBytes(StandardCharsets.UTF_8), StandardCharsets.UTF_8);
                 setStatus(LobData.ON_LINE);
             } catch (IOException | SQLException e) {
                 throw new FrameworkException(ExceptionCode.GENERIC_SYSTEM_ERROR, e);
             }
         }
-    }
-
-
-    @Override
-    public void writeExternal(ObjectOutput out) throws IOException {
-        super.writeExternal(out);
-        out.writeObject(getValue());
-    }
-
-    @Override
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        super.readExternal(in);
-        setValue((String) in.readObject());
     }
 
 }

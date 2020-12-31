@@ -46,15 +46,15 @@
      <element name="DecodedText" type="tns:DecodedText" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="ComboBox" type="tns:ComboBox" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="CheckBox" type="tns:CheckBox" maxOccurs="unbounded" minOccurs="0"></element>
-     <element name="RadioGroup" type="tns:RadioGroup" maxOccurs="unbounded" minOccurs="0"></element>
+     <element name="CheckButtons" type="tns:CheckButtons" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="Semaphore" type="tns:Semaphore" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="File" type="tns:File" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="Button" type="tns:Button" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="Link" type="tns:Link" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="Hidden" type="tns:Hidden" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="AutoComplete" type="tns:AutoComplete" maxOccurs="unbounded" minOccurs="0"></element>
-     <element name="MultipleAutoComplete" type="tns:MultipleAutoComplete" maxOccurs="unbounded" minOccurs="0"></element>
-     <element name="CheckButtons" type="tns:CheckButtons" maxOccurs="unbounded" minOccurs="0"></element>
+     <element name="RadioGroup" type="tns:RadioGroup" maxOccurs="unbounded" minOccurs="0"></element>
+     <element name="RadioButtons" type="tns:RadioButtons" maxOccurs="unbounded" minOccurs="0"></element>
     </choice>
     <attribute name="Description" type="string"></attribute>
    </extension>
@@ -107,7 +107,6 @@
  <simpleType name="GridType">
   <restriction base="string">
    <enumeration value="BASE"></enumeration>
-   <enumeration value="RADIO"></enumeration>
   </restriction>
  </simpleType>
 
@@ -137,7 +136,9 @@
 
  <complexType name="Text">
   <complexContent>
-   <extension base="tns:Field"></extension>
+   <extension base="tns:Field">
+    <attribute name="Hidden" type="boolean"></attribute>
+   </extension>
   </complexContent>
  </complexType>
 
@@ -183,7 +184,8 @@
     <attribute name="Required" type="boolean" use="optional"></attribute>
     <attribute name="ReadOnly" type="boolean"></attribute>
     <attribute name="Hidden" type="boolean"></attribute>
-    <attribute name="ViewModality" type="tns:ViewModality"></attribute>   </extension>
+    <attribute name="ViewModality" type="tns:ViewModality"></attribute>
+   </extension>
   </complexContent>
  </complexType>
 
@@ -222,6 +224,7 @@
     <attribute name="Disabled" type="boolean"></attribute>
     <attribute name="ImgHtml" type="string"></attribute>
     <attribute name="Type" type="tns:ButtonType"></attribute>
+    <attribute name="ConfirmMessage" type="string"></attribute>
    </extension>
   </complexContent>
  </complexType>
@@ -297,12 +300,17 @@
       <documentation>Nome del campo sul DataSource. Tipicamente per agganciare un campo di una form ad una campo DB con un nome diverso.</documentation>
      </annotation>
     </attribute>
+    <attribute name="OrderByAlias" type="string" use="optional">
+     <annotation>
+      <documentation>Nome del campo sul DataSource su cui effettuare l'order by se diverso da Alias/Name</documentation>
+     </annotation>
+    </attribute>
     <attribute name="Description" type="string" use="required"></attribute>
     <attribute name="Tooltip" type="string"></attribute>
     <attribute name="DataType" use="required" type="tns:DataType"></attribute>
     <attribute name="Format" type="string"></attribute>
-
     <attribute name="BaseLink" type="string"></attribute>
+    <attribute name="LinkField" type="string"></attribute>
    </extension>
   </complexContent>
  </complexType>
@@ -354,6 +362,7 @@
     <attribute name="ReadOnly" type="boolean"></attribute>
     <attribute name="Hidden" type="boolean"></attribute>
     <attribute name="ViewModality" type="tns:ViewModality"></attribute>
+    <attribute name="Full" type="boolean"></attribute>
    </extension>
   </complexContent>
  </complexType>
@@ -368,15 +377,12 @@
   </complexContent>
  </complexType>
 
- <complexType name="RadioGrid">
-  <complexContent>
-   <extension base="tns:Fields"></extension>
-  </complexContent>
- </complexType>
 
  <complexType name="DecodedText">
   <complexContent>
-   <extension base="tns:Field"></extension>
+   <extension base="tns:Field">
+    <attribute name="Hidden" type="boolean"></attribute>
+   </extension>
   </complexContent>
  </complexType>
 
@@ -389,27 +395,14 @@
  <complexType name="AutoComplete">
   <complexContent>
    <extension base="tns:Field">
-    <attribute name="DecodeAlias" type="string"></attribute>
     <attribute name="Required" type="boolean" use="optional"></attribute>
     <attribute name="ReadOnly" type="boolean"></attribute>
     <attribute name="Hidden" type="boolean"></attribute>
     <attribute name="ViewModality" type="tns:ViewModality"></attribute>
-    <attribute name="SizeLimit" type="int"></attribute>
    </extension>
   </complexContent>
  </complexType>
 
- <complexType name="MultipleAutoComplete">
-  <complexContent>
-   <extension base="tns:Field">
-    <attribute name="DecodeAlias" type="string"></attribute>
-    <attribute name="Required" type="boolean" use="optional"></attribute>
-    <attribute name="ReadOnly" type="boolean"></attribute>
-    <attribute name="Hidden" type="boolean"></attribute>
-    <attribute name="ViewModality" type="tns:ViewModality"></attribute>
-   </extension>
-  </complexContent>
- </complexType>
 
  <complexType name="SimpleChart">
   <complexContent>
@@ -420,7 +413,8 @@
     </sequence>
     <attribute name="ChartType" type="tns:ChartType" use="required" />
 
-    <attribute name="Title" type="string"></attribute>    <attribute name="LegendPosition" type="tns:LegendPosition" />
+    <attribute name="Title" type="string"></attribute>
+    <attribute name="LegendPosition" type="tns:LegendPosition" />
     <attribute name="Table" type="string"></attribute>
    </extension>
   </complexContent>
@@ -445,7 +439,8 @@
 
  <complexType name="Labels">
   <complexContent>
-   <extension base="tns:Field">    <attribute name="Rotation" type="int"></attribute>
+   <extension base="tns:Field">
+    <attribute name="Rotation" type="int"></attribute>
    </extension>
   </complexContent>
  </complexType>
@@ -465,7 +460,8 @@
 
  <complexType name="InputTotalizer">
   <complexContent>
-   <extension base="tns:Input">   </extension>
+   <extension base="tns:Input">
+   </extension>
   </complexContent>
  </complexType>
 
@@ -485,7 +481,14 @@
    <enumeration value="btn-info"></enumeration>
    <enumeration value="btn-warning"></enumeration>
    <enumeration value="btn-danger"></enumeration>
+
    <enumeration value="btn-link"></enumeration>
+   <enumeration value="btn-link text-secondary"></enumeration>
+   <enumeration value="btn-link text-success"></enumeration>
+   <enumeration value="btn-link text-info"></enumeration>
+   <enumeration value="btn-link text-warning"></enumeration>
+   <enumeration value="btn-link text-danger"></enumeration>
+
    <enumeration value="btn-outline-primary"></enumeration>
    <enumeration value="btn-outline-secondary"></enumeration>
    <enumeration value="btn-outline-success"></enumeration>
@@ -510,4 +513,16 @@
   </complexContent>
  </complexType>
 
+
+ <complexType name="RadioButtons">
+  <complexContent>
+   <extension base="tns:Field">
+    <attribute name="Required" type="boolean"></attribute>
+    <attribute name="ReadOnly" type="boolean"></attribute>
+    <attribute name="Hidden" type="boolean"></attribute>
+    <attribute name="ViewModality" type="tns:ViewModality"></attribute>
+    <attribute name="Values" type="string"></attribute>
+   </extension>
+  </complexContent>
+ </complexType>
 </schema>

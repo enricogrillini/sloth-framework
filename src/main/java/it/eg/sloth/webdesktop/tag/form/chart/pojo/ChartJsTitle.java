@@ -1,9 +1,8 @@
 package it.eg.sloth.webdesktop.tag.form.chart.pojo;
 
 import it.eg.sloth.framework.common.base.BaseFunction;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * Project: sloth-framework
@@ -19,8 +18,7 @@ import lombok.Setter;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class ChartJsTitle {
     boolean display;

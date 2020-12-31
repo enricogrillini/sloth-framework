@@ -2,7 +2,6 @@ package it.eg.sloth.db.datasource.row;
 
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataSource;
-import it.eg.sloth.framework.FrameComponent;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
@@ -25,7 +24,7 @@ import java.util.Map;
  * @author Enrico Grillini
  */
 @Slf4j
-public class Row extends FrameComponent implements DataRow {
+public class Row implements DataRow {
 
     protected Map<String, Object> values;
 
@@ -65,4 +64,10 @@ public class Row extends FrameComponent implements DataRow {
         return values.values();
     }
 
+    @Override
+    public String toString() {
+        return "Row{" +
+                "values=" + values +
+                '}';
+    }
 }

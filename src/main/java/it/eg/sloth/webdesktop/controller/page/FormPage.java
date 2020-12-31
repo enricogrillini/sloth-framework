@@ -3,10 +3,10 @@ package it.eg.sloth.webdesktop.controller.page;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.framework.common.message.MessageList;
-import it.eg.sloth.framework.monitor.MonitorSingleton;
 import it.eg.sloth.framework.security.User;
 import it.eg.sloth.webdesktop.WebDesktopConstant;
 import it.eg.sloth.webdesktop.controller.BasePage;
+import it.eg.sloth.webdesktop.controller.common.FormPageInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,7 +36,7 @@ import java.io.IOException;
  * @author Enrico Grillini
  */
 @Slf4j
-public abstract class FormPage<F extends Form> extends BasePage {
+public abstract class FormPage<F extends Form> extends BasePage implements FormPageInterface<F> {
 
     private WebRequest webRequest;
     private F form;
@@ -74,15 +74,9 @@ public abstract class FormPage<F extends Form> extends BasePage {
 
     @Override
     public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse res) {
-        long eventid = 0;
         try {
-            log.info("IN {}", getClass().getName());
-
             // Inizializzo la pagina
             init(req, res);
-
-            // Traccio il tempo di attraversamento
-            eventid = MonitorSingleton.getInstance().startEvent(MonitorSingleton.PAGE, getClass().getName(), getUser());
 
             // Se l'utente non è presente in sessione lo creo
             if (getWebDesktopDto().getUser() == null) {
@@ -97,7 +91,9 @@ public abstract class FormPage<F extends Form> extends BasePage {
             } else if (!accessAllowed()) {
                 // Verifico la sicurezza
                 log.warn("Accesso non consentito");
+                getMessageList().clear();
                 getMessageList().addBaseError("Accesso alla funzionalità non consentito!");
+                getMessageList().setPopup(false);
                 return new ModelAndView(WebDesktopConstant.Jsp.ERROR);
 
             } else {
@@ -105,11 +101,8 @@ public abstract class FormPage<F extends Form> extends BasePage {
             }
 
         } catch (Exception e) {
-            log.error("ERROR {}", getClass().getName(), e);
+            log.error("Page error {}", getClass().getName(), e);
             return null;
-        } finally {
-            log.info("OUT {}", getClass().getName());
-            MonitorSingleton.getInstance().endEvent(eventid);
         }
     }
 

@@ -50,8 +50,8 @@ public class Casting {
         String result = StringEscapeUtils.escapeHtml4(testo);
 
         if (br) {
-            result = result.replaceAll("\\n", "<br/>");
-            result = result.replaceAll("\\r", "");
+            result = result.replace("\n", "<br>");
+            result = result.replace("\r", "");
         }
 
         if (nbsp) {

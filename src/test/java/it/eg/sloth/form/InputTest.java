@@ -26,7 +26,7 @@ public class InputTest {
 
         assertTrue(input.isValid());
         assertEquals(null, input.check());
-        assertEquals(0, messageList.getList().size());
+        assertTrue( messageList.isEmpty());
     }
 
     @Test
@@ -40,8 +40,8 @@ public class InputTest {
 
         assertFalse(input.isValid());
         assertNotEquals(null, input.check().getSeverity());
-        assertEquals(1, messageList.getList().size());
-        assertEquals(Level.WARN, messageList.getList().get(0).getSeverity());
+        assertFalse( messageList.isEmpty());
+        assertEquals(Level.WARN, messageList.get(0).getSeverity());
 
         assertThrows(FrameworkException.class, () -> {
             input.getValue();
@@ -51,7 +51,7 @@ public class InputTest {
     }
 
     @Test
-    public void inputBuilderTest() {
+    public void inputBuilderTest1() {
         // Default
         Input<String> input = Input.<String>builder()
                 .name("Name")
@@ -90,9 +90,12 @@ public class InputTest {
         assertEquals(ViewModality.VIEW_MODIFICA, input.getViewModality());
         assertEquals(ForceCase.UPPER, input.getForceCase());
         assertEquals(10, input.getMaxLength());
+    }
 
+    @Test
+    public void inputBuilderTest2() {
         // True
-        input = Input.<String>builder()
+        Input<String> input = Input.<String>builder()
                 .name("Name")
                 .description("description")
                 .alias("Alias")

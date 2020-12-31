@@ -46,154 +46,154 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
     /**
      * Va al primo record
      */
-    public void first();
+    void first();
 
     /**
      * Retrocede di una pagina
      */
-    public void prevPage();
+    void prevPage();
 
     /**
      * Retrocede di un record
      */
-    public void prev();
+    void prev();
 
     /**
      * Imposta la riga corrente
      *
      * @param currentRow
      */
-    public void setCurrentRow(int currentRow);
+    void setCurrentRow(int currentRow);
 
     /**
      * Ritorna la pagina corrente dell'elenco
      *
      * @return
      */
-    public int getCurrentPage();
+    int getCurrentPage();
 
     /**
      * Avanza di un record
      */
-    public void next();
+    void next();
 
     /**
      * Avanza di una pagina
      */
-    public void nextPage();
+    void nextPage();
 
     /**
      * Va all'ultimo record
      */
-    public void last();
+    void last();
 
     /**
      * Ritorna la riga corrente
      *
      * @return
      */
-    public T getRow();
+    T getRow();
 
     /**
      * Ritorna le righe
      *
      * @return
      */
-    public List<T> getRows();
+    List<T> getRows();
 
     /**
      * Restituisce un iterator sulle righe
      *
      * @return
      */
-    public Iterator<T> iterator();
+    Iterator<T> iterator();
 
     /**
      * Restituisce un iterator sulle righe della pagina
      *
      * @return
      */
-    public Iterator<T> pageIterator();
+    Iterator<T> pageIterator();
 
     /**
      * Restituisce l'indice della riga corrente
      *
      * @return
      */
-    public int getCurrentRow();
+    int getCurrentRow();
 
     /**
      * Imposta la nuova pagina corrente
      *
      * @param currentPage
      */
-    public void setCurrentPage(int currentPage);
+    void setCurrentPage(int currentPage);
 
     /**
      * Ritorna la dimensione della pagina
      *
      * @return
      */
-    public int getPageSize();
+    int getPageSize();
 
     /**
      * Imposta la pagina corrente
      *
      * @param pageSize
      */
-    public void setPageSize(int pageSize);
+    void setPageSize(int pageSize);
 
     /**
      * Ritorna la prima riga della pagina corrente
      *
      * @return
      */
-    public int getPageStart();
+    int getPageStart();
 
     /**
      * Ritorna l'ultima riga della pagina corrente
      *
      * @return
      */
-    public int getPageEnd();
+    int getPageEnd();
 
     /**
      * Ritorna true se il record corrente à sulla prima pagina
      *
      * @return
      */
-    public boolean isFirstPage();
+    boolean isFirstPage();
 
     /**
      * Ritorna true se il record corrente à sull'ultima pagina
      *
      * @return
      */
-    public boolean isLastPage();
+    boolean isLastPage();
 
     /**
      * Ritorna true se il record corrente à il primo
      *
      * @return
      */
-    public boolean isFirst();
+    boolean isFirst();
 
     /**
      * Ritorna true se il record corrente à l'ultimo
      *
      * @return
      */
-    public boolean isLast();
+    boolean isLast();
 
     /**
      * Aggiunge una riga in coda
      */
-    public T append();
+    T append();
 
     /**
      * Aggiunge una riga dopo la riga corrente
      */
-    public T add();
+    T add();
 
     /**
      * Rimuove la riga corrente
@@ -201,21 +201,21 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
      * @return
      * @throws FrameworkException
      */
-    public T remove() throws FrameworkException;
+    T remove() throws FrameworkException;
 
     /**
      * Rimuove tutte le righe
      *
      * @throws FrameworkException
      */
-    public void removeAllRow() throws FrameworkException;
+    void removeAllRow() throws FrameworkException;
 
     /**
      * Aggiunge una regola di ordinamento
      *
      * @param fieldName
      */
-    public SortingRule addSortingRule(String fieldName);
+    SortingRule addSortingRule(String fieldName);
 
     /**
      * Aggiunge una regola di ordinamento
@@ -224,45 +224,45 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
      * @param sortType
      * @return
      */
-    public SortingRule addSortingRule(String fieldName, int sortType);
+    SortingRule addSortingRule(String fieldName, int sortType);
 
     /**
      * Applica l'ordinamento memorizzato
      */
-    public void applySort();
+    void applySort();
 
     /**
      * Applica l'ordinamento passato
      */
-    public void applySort(String fieldName, int sortType);
+    void applySort(String fieldName, int sortType);
 
     /**
      * Applica l'ordinamento passato
      */
-    public void applySorts(SortingRules<T> sortingRules);
+    void applySorts(SortingRules<T> sortingRules);
 
     /**
      * Effettua l'ordinamento gestendo o meno il mantenimento della riga corrente
      *
      * @param preserveCurrentRow
      */
-    public void applySort(boolean preserveCurrentRow);
+    void applySort(boolean preserveCurrentRow);
 
     /**
      * Ritorna i sort
      *
      * @return
      */
-    public SortingRules<T> getSortingRules();
+    SortingRules<T> getSortingRules();
 
     /**
      * Rimuove l'ordinamento della tabella
      *
      * @return
      */
-    public void clearSortingRules();
+    void clearSortingRules();
 
-    public static class Util {
+    static class Util {
         private Util() {
             // NOP
         }

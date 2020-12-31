@@ -1,5 +1,7 @@
 package it.eg.sloth.webdesktop.controller.common.grid;
 
+import it.eg.sloth.form.Form;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -16,10 +18,10 @@ package it.eg.sloth.webdesktop.controller.common.grid;
  *
  * @author Enrico Grillini
  */
-public interface EditableGridNavigationInterface extends BaseGridNavigationInterface {
+public interface EditableGridNavigationInterface<F extends Form>  extends BaseGridNavigationInterface<F> {
 
-  public boolean execPreMove() throws Exception;
+    boolean execPreMove() throws Exception;
 
-  public void execPostMove() throws Exception;
+    void execPostMove() throws Exception;
 
 }

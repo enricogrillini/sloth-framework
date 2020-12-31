@@ -3,6 +3,9 @@ package it.eg.sloth.framework.monitor;
 import java.util.GregorianCalendar;
 
 import it.eg.sloth.framework.security.User;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Project: sloth-framework
@@ -19,62 +22,33 @@ import it.eg.sloth.framework.security.User;
  *
  * @author Enrico Grillini
  */
+@Getter
+@Setter
 public class MonitorEvent {
-  private String group;
-  private String name;
-  private User user;
-  private long start;
-  private long end;
+    private String group;
+    private String name;
+    private User user;
 
-  public MonitorEvent(String group, String name, User user) {
-    this.group = group;
-    this.name = name;
-    this.user = user;
-    this.start = 0;
-    this.end = 0;
-  }
+    @Setter(value = AccessLevel.NONE)
+    private long start;
 
-  public void start() {
-    this.start = new GregorianCalendar().getTimeInMillis();
-  }
+    @Setter(value = AccessLevel.NONE)
+    private long end;
 
-  public void end() {
-    this.end = new GregorianCalendar().getTimeInMillis();
-  }
+    public MonitorEvent(String group, String name, User user) {
+        this.group = group;
+        this.name = name;
+        this.user = user;
+        this.start = 0;
+        this.end = 0;
+    }
 
-  /**
-   * @return the group
-   */
-  public String getGroup() {
-    return group;
-  }
+    public void start() {
+        this.start = new GregorianCalendar().getTimeInMillis();
+    }
 
-  /**
-   * @return the name
-   */
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * @return the user
-   */
-  public User getUser() {
-    return user;
-  }
-
-  /**
-   * @return the start
-   */
-  public long getStart() {
-    return start;
-  }
-
-  /**
-   * @return the end
-   */
-  public long getEnd() {
-    return end;
-  }
+    public void end() {
+        this.end = new GregorianCalendar().getTimeInMillis();
+    }
 
 }

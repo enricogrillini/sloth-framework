@@ -1,10 +1,14 @@
 package it.eg.sloth.framework.common.casting;
 
 import it.eg.sloth.framework.common.base.BigDecimalUtil;
+import it.eg.sloth.framework.common.base.TimeStampUtil;
+import it.eg.sloth.framework.common.base.TimestampUtilTest;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.jaxb.form.DataType;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
@@ -25,6 +29,18 @@ import static org.junit.Assert.assertThrows;
  * @author Enrico Grillini
  */
 public class DataTypesTest {
+
+    @Test
+    public void timestampFormatTextTest() throws FrameworkException {
+        Timestamp timestamp = TimeStampUtil.parseTimestamp("01/06/2020", "dd/MM/yyyy");
+
+        assertEquals("01/06/2020", DataTypes.DATE.formatText(timestamp, Locale.ITALY));
+        assertEquals("06/01/2020", DataTypes.DATE.formatText(timestamp, Locale.US));
+
+        assertEquals("lun, 01/06", DataTypes.DATE.formatText(timestamp, Locale.ITALY, "EE, dd/MM"));
+        assertEquals("Mon, 01/06", DataTypes.DATE.formatText(timestamp, Locale.US, "EE, dd/MM"));
+    }
+
 
     @Test
     public void bigDecimalFormatValueTest() throws FrameworkException {
@@ -56,7 +72,7 @@ public class DataTypesTest {
 
 
     @Test
-    public void bigDecimalParseValueTest() throws FrameworkException {
+    public void bigDecimalParseValueTest1() throws FrameworkException {
         // Integer
         assertEquals(BigDecimal.valueOf(1000), DataTypes.DECIMAL.parseValue("1000.00", Locale.US));
         assertEquals(BigDecimal.valueOf(1000), DataTypes.DECIMAL.parseValue("1000,00", Locale.ITALY));
@@ -84,7 +100,10 @@ public class DataTypesTest {
         assertEquals(BigDecimal.valueOf(1234), DataTypes.CURRENCY.parseValue("12.34", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(12.34), DataTypes.CURRENCY.parseValue("12,34", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(0), DataTypes.CURRENCY.parseValue("0.00", Locale.ITALY));
+    }
 
+    @Test
+    public void bigDecimalParseValueTest2() throws FrameworkException {
         // Percentuale
         assertEquals(BigDecimal.valueOf(1234), DataTypes.PERC.parseValue("12.34", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(12.34), DataTypes.PERC.parseValue("12,34", Locale.ITALY));

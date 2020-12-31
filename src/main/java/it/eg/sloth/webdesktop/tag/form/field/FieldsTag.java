@@ -4,7 +4,7 @@ import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
-import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
+import it.eg.sloth.webdesktop.tag.form.field.writer.LabelControlWriter;
 import it.eg.sloth.webdesktop.tag.form.group.writer.GroupWriter;
 
 import java.io.IOException;
@@ -17,9 +17,9 @@ import java.io.IOException;
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  * <p>
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * <p>
- * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
  */
@@ -32,14 +32,11 @@ public class FieldsTag<T extends Fields<?>> extends BaseElementTag<T> {
 
         writeln("");
         for (SimpleField simpleField : getElement()) {
-            writeln("<div class=\"frRow\">");
-            writeln(" " + GroupWriter.openCell(null));
-            writeln("  " + FormControlWriter.writeLabel(simpleField));
-            writeln(" " + GroupWriter.closeCell());
-            writeln(" " + GroupWriter.openCell(null));
-            writeln("  " + FormControlWriter.writeControl(simpleField, getElement(), getViewModality()));
-            writeln(" " + GroupWriter.closeCell());
-            writeln("</div>");
+            write(GroupWriter.openRow());
+
+            write(LabelControlWriter.writeLblControl(simpleField, getElement(), getViewModality(), null, "10cols"));
+
+            write(GroupWriter.closeRow());
         }
 
         return SKIP_BODY;

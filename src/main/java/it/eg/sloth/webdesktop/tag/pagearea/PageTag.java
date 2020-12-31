@@ -1,8 +1,8 @@
 package it.eg.sloth.webdesktop.tag.pagearea;
 
 import it.eg.sloth.form.Form;
+import it.eg.sloth.framework.utility.resource.ResourceUtil;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
-import it.eg.sloth.webdesktop.tag.pagearea.writer.PageWriter;
 
 import java.io.IOException;
 
@@ -25,6 +25,11 @@ public class PageTag extends WebDesktopTag<Form> {
 
     private static final long serialVersionUID = 1L;
 
+    public static final String MODAL_LOGOUT = ResourceUtil.resourceAsString("snippet/logout-modal.html");
+    public static final String MODAL_JOB = ResourceUtil.resourceAsString("snippet/job-modal.html");
+    public static final String MODAL_ALERT = ResourceUtil.resourceAsString("snippet/alert-modal.html");
+    public static final String MODAL_CONFIRM = ResourceUtil.resourceAsString("snippet/confirm-modal.html");
+
     @Override
     protected int startTag() throws IOException {
         writeln("");
@@ -46,14 +51,16 @@ public class PageTag extends WebDesktopTag<Form> {
         writeln(" <script src=\"../vendor/bootstrap/js/bootstrap.bundle.min.js\"></script>");
         writeln(" <script src=\"../vendor/jquery-easing/jquery.easing.min.js\"></script>");
         writeln(" <script src=\"../vendor/jquery-autocomplete/jquery.autocomplete.js\"></script>");
-        writeln(" <script src=\"../js/sb-admin-2.min.js\"></script>");
+        writeln(" <script src=\"../js/sb-admin-2.js\"></script>");
         writeln(" <script src=\"../js/web-desktop.js\"></script>");
 
         writeln(" <script src=\"../vendor/chart.js/Chart.min.js\"></script>");
         writeln(" <script src=\"../js/web-desktop-chart.js\"></script>");
 
-        writeln(PageWriter.modalLogout());
-        writeln(PageWriter.modalJob());
+        writeln(MODAL_LOGOUT);
+        writeln(MODAL_JOB);
+        writeln(MODAL_ALERT);
+        writeln(MODAL_CONFIRM);
 
     }
 

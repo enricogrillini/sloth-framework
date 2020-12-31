@@ -19,7 +19,7 @@ public class FieldsTest {
     @Test
     public void fieldsInputTest() throws FrameworkException {
         // Fields
-        Fields<SamplePojoRow> fields = new Fields("prova");
+        Fields<SamplePojoRow> fields = new Fields<>("prova");
         Input<String> testo = new Input<String>("Testo", "Testo", DataTypes.STRING);
         Input<BigDecimal> numero = new Input<BigDecimal>("Numero", "Numero", DataTypes.INTEGER);
         Input<Timestamp> data = new Input<Timestamp>("Data", "Data", DataTypes.DATE);

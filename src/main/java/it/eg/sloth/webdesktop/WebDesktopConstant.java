@@ -24,7 +24,7 @@ public class WebDesktopConstant {
         }
 
         public static final String ERROR = "base/Error";
-        public static final String SEARCH = "Search";
+        public static final String SEARCH = "base/Search";
     }
 
     public class Page {

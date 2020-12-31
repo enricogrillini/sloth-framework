@@ -26,6 +26,10 @@ import java.util.Map;
  */
 @Slf4j
 public class ConfigSingleton extends FrameComponent {
+    public static final String FRAMEWORK_APP_TITLE = "sloth.app.title";
+    public static final String FRAMEWORK_LOGO_LEFT = "sloth.logo.left";
+    public static final String FRAMEWORK_LOGO_RIGHT = "sloth.logo.right";
+    public static final String FRAMEWORK_LOGO_URL = "sloth.logo.url";
 
     public static final String FRAMEWORK_DOCUMENTATION_URL = "sloth.documentation.url";
     public static final String FRAMEWORK_ENVIRONMENT = "sloth.environment";

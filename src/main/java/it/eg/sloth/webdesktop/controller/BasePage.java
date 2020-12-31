@@ -1,14 +1,18 @@
 package it.eg.sloth.webdesktop.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import it.eg.sloth.framework.security.User;
+import it.eg.sloth.webdesktop.WebDesktopConstant;
+import it.eg.sloth.webdesktop.common.SessionManager;
+import it.eg.sloth.webdesktop.dto.WebDesktopDto;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import it.eg.sloth.framework.monitor.MonitorSingleton;
-import it.eg.sloth.webdesktop.WebDesktopConstant;
-import lombok.extern.slf4j.Slf4j;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Project: sloth-framework
@@ -28,10 +32,23 @@ import lombok.extern.slf4j.Slf4j;
  * @author Enrico Grillini
  */
 @Slf4j
-public abstract class BasePage extends BaseController implements Controller {
+@Getter
+public abstract class BasePage implements Controller {
+
+    private HttpServletRequest request;
+    private HttpServletResponse response;
 
     public BasePage() {
-        super();
+        this.request = null;
+        this.response = null;
+    }
+
+    protected void init(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+        this.request = req;
+        this.response = res;
+
+        // Disabilito la cache
+        this.response.setHeader("Cache-Control", "no-cache");
     }
 
     /**
@@ -43,6 +60,53 @@ public abstract class BasePage extends BaseController implements Controller {
      */
     public abstract String getFunctionName();
 
+    protected boolean accessAllowed() {
+        if (getFunctionName() == null) {
+            return true;
+        } else if (getWebDesktopDto().getUser() == null) {
+            return false;
+        } else {
+            return getWebDesktopDto().getUser().accessAllowed(getFunctionName());
+        }
+    }
+
+    protected boolean redirectToHome() {
+        if (getFunctionName() == null) {
+            return false;
+        } else if (getWebDesktopDto().getUser() == null || !getWebDesktopDto().getUser().isLogged()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Ritorna il web desktop Dto
+     *
+     * @return
+     */
+    public WebDesktopDto getWebDesktopDto() {
+        return SessionManager.getWebDesktopDto(request);
+    }
+
+    /**
+     * Ritorna l'utente attualmente connesso
+     *
+     * @return
+     */
+    public User getUser() {
+        return getWebDesktopDto().getUser();
+    }
+
+    /**
+     * Imposta l'utente attualmente connesso
+     *
+     * @return
+     */
+    public void setUser(User user) {
+        getWebDesktopDto().setUser(user);
+    }
+
     /**
      * Gestisce la risposta alla chiamata
      *
@@ -52,15 +116,9 @@ public abstract class BasePage extends BaseController implements Controller {
     public abstract ModelAndView service() throws Exception;
 
     public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse res) {
-        long eventid = 0;
         try {
-            log.info("IN {}", getClass().getName());
-
             // Inizializzo la pagina
             init(req, res);
-
-            // Traccio il tempo di attraversamento
-            eventid = MonitorSingleton.getInstance().startEvent(MonitorSingleton.PAGE, getClass().getName(), getUser());
 
             if (redirectToHome()) {
                 // Verifico se effettuare il redirect alla Home page
@@ -77,11 +135,8 @@ public abstract class BasePage extends BaseController implements Controller {
             }
 
         } catch (Exception e) {
-            log.error("ERROR {}", getClass().getName(), e);
+            log.error("Page error {}", getClass().getName(), e);
             return null;
-        } finally {
-            log.info("OUT {}", getClass().getName());
-            MonitorSingleton.getInstance().endEvent(eventid);
         }
     }
 

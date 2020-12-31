@@ -3,8 +3,8 @@ package it.eg.sloth.webdesktop.tag.form.field.writer;
 import it.eg.sloth.db.decodemap.DecodeMap;
 import it.eg.sloth.db.decodemap.DecodeValue;
 import it.eg.sloth.form.base.Element;
+import it.eg.sloth.form.base.Elements;
 import it.eg.sloth.form.fields.field.SimpleField;
-import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.impl.*;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
@@ -34,7 +34,7 @@ import java.text.MessageFormat;
  */
 public class FormControlWriter extends HtmlWriter {
 
-    public static String writeControl(SimpleField element, Element parentElement, ViewModality pageViewModality) throws FrameworkException {
+    public static String writeControl(SimpleField element, Elements<?> parentElement, ViewModality pageViewModality) throws FrameworkException {
         switch (element.getFieldType()) {
             case AUTO_COMPLETE:
                 return writeAutoComplete((AutoComplete<?>) element, parentElement, pageViewModality);
@@ -44,6 +44,8 @@ public class FormControlWriter extends HtmlWriter {
                 return writeCheckBox((CheckBox<?>) element, pageViewModality);
             case CHECK_BUTTONS:
                 return writeCheckButtons((CheckButtons<?, Object>) element, pageViewModality);
+            case CHECK_GROUP:
+                return writeCheckGroups((CheckGroup<?, Object>) element, pageViewModality);
             case COMBO_BOX:
                 return writeComboBox((ComboBox<?>) element, pageViewModality);
             case DECODED_TEXT:
@@ -58,10 +60,12 @@ public class FormControlWriter extends HtmlWriter {
                 return writeInputTotalizer((InputTotalizer) element, pageViewModality);
             case LINK:
                 return writeLink((Link) element);
+            case RADIO_BUTTONS:
+                return writeRadioButtons((RadioButtons<?>) element, pageViewModality);
             case RADIO_GROUP:
                 return writeRadioGroup((RadioGroup<?>) element, pageViewModality);
             case SEMAPHORE:
-                return writeSemaforo((Semaphore) element, pageViewModality);
+                return writeSemaphore((Semaphore) element, pageViewModality);
             case TEXT:
                 return writeText((Text<?>) element);
             case TEXT_AREA:
@@ -74,24 +78,80 @@ public class FormControlWriter extends HtmlWriter {
 
     }
 
-    public static boolean hasLabel(SimpleField element) {
-        return !(element instanceof Button);
-    }
-
-    public static String writeLabel(SimpleField simpleField) {
-        if (!hasLabel(simpleField)) {
+    /**
+     * Scrive un campo: AutoComplete
+     *
+     * @param autocomplete
+     * @param parentElement
+     * @param pageViewModality
+     * @return
+     */
+    public static String writeAutoComplete(AutoComplete<?> autocomplete, Element parentElement, ViewModality pageViewModality) {
+        if (autocomplete.isHidden()) {
             return StringUtil.EMPTY;
         }
 
-        String strRequired = simpleField instanceof InputField && ((InputField<?>) simpleField).isRequired() ? "*" : "";
+        ViewModality viewModality = autocomplete.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : autocomplete.getViewModality();
 
-        return new StringBuilder()
-                .append("<label")
-                .append(getAttribute("for", simpleField.getName()))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.LABEL_CLASS))
-                .append(getAttributeTooltip(simpleField.getTooltip()))
-                .append(">" + simpleField.getHtmlDescription() + strRequired + ":&nbsp;</label>")
-                .toString();
+        StringBuilder input = new StringBuilder()
+                .append(BEGIN_INPUT)
+                .append(getAttribute(ATTR_ID, autocomplete.getName()))
+                .append(getAttribute(ATTR_NAME, autocomplete.getName()))
+                .append(getAttribute(ATTR_VALUE, Casting.getHtml(autocomplete.getDecodedText(), true, true)))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS + " autoComplete"));
+
+        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+            input.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
+        } else {
+            input
+                    .append(getAttribute("fields", parentElement.getName()))
+                    .append(getAttribute(ATTR_READONLY, autocomplete.isReadOnly(), ""));
+        }
+
+        input.append("/>");
+
+        // Gestione link
+        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE && !BaseFunction.isBlank(autocomplete.getBaseLink())) {
+            StringBuilder result = new StringBuilder()
+                    .append("<div class=\"input-group input-group-sm\">")
+                    .append(input)
+                    .append(MessageFormat.format(LINK, autocomplete.getBaseLink() + autocomplete.escapeHtmlValue()))
+                    .append("</div>");
+
+            return result.toString();
+        } else {
+            return input.toString();
+        }
+    }
+
+    /**
+     * Scrive un campo: Button
+     *
+     * @param button
+     * @return
+     */
+    public static String writeButton(Button button) {
+        if (button.isHidden()) {
+            return StringUtil.EMPTY;
+        }
+
+        StringBuilder result = new StringBuilder()
+                .append("<button")
+                .append(getAttribute(ATTR_ID, button.getHtlmName()))
+                .append(getAttribute(ATTR_NAME, button.getHtlmName()))
+                .append(getAttribute(ATTR_CLASS, MessageFormat.format(BootStrapClass.BUTTON_CLASS, button.getButtonType().value())))
+                .append(getAttribute(ATTR_DISABLED, button.isDisabled(), ""))
+                .append(getAttribute(ON_CLICK, !BaseFunction.isBlank(button.getConfirmMessage()), "buttonConfirm(this);"))
+                .append(getAttribute(ATTR_DATA_TITLE, !BaseFunction.isBlank(button.getConfirmMessage()), "Conferma"))
+                .append(getAttribute(ATTR_DATA_DESCRIPTION, !BaseFunction.isBlank(button.getConfirmMessage()), Casting.getHtml(button.getConfirmMessage())))
+                .append(getAttributeTooltip(button.getTooltip()))
+                .append(">")
+                .append(BaseFunction.nvl(button.getImgHtml(), ""))
+                .append(BaseFunction.isBlank(button.getImgHtml()) || BaseFunction.isBlank(button.getDescription()) ? "" : "&nbsp;")
+                .append(Casting.getHtml(button.getDescription()))
+                .append("</button>");
+
+        return result.toString();
     }
 
     /**
@@ -100,7 +160,6 @@ public class FormControlWriter extends HtmlWriter {
      * @param text
      * @return
      */
-
     public static String writeText(Text<?> text) {
         StringBuilder result = new StringBuilder()
                 .append(BEGIN_INPUT)
@@ -148,9 +207,7 @@ public class FormControlWriter extends HtmlWriter {
             StringBuilder result = new StringBuilder()
                     .append("<div class=\"input-group input-group-sm\">")
                     .append(input)
-                    .append("<div class=\"input-group-append\">")
-                    .append("<a href=\"" + decodedText.getBaseLink() + decodedText.escapeHtmlValue() + "\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a>")
-                    .append("</div>")
+                    .append(MessageFormat.format(LINK, decodedText.getBaseLink() + decodedText.escapeHtmlValue()))
                     .append("</div>");
 
             return result.toString();
@@ -184,7 +241,6 @@ public class FormControlWriter extends HtmlWriter {
      * @param pageViewModality
      * @return
      */
-
     public static String writeInput(Input<?> input, ViewModality pageViewModality) {
         if (input.isHidden()) {
             return StringUtil.EMPTY;
@@ -224,9 +280,7 @@ public class FormControlWriter extends HtmlWriter {
             StringBuilder result = new StringBuilder()
                     .append("<div class=\"input-group input-group-sm\">")
                     .append(field)
-                    .append("<div class=\"input-group-append\">")
-                    .append("<a href=\"" + input.getBaseLink() + input.escapeHtmlValue() + "\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a>")
-                    .append("</div>")
+                    .append(MessageFormat.format(LINK, input.getBaseLink() + input.escapeHtmlValue()))
                     .append("</div>");
 
             return result.toString();
@@ -244,54 +298,6 @@ public class FormControlWriter extends HtmlWriter {
      */
     public static String writeInputTotalizer(InputTotalizer inputTotalizer, ViewModality pageViewModality) {
         return writeInput(inputTotalizer, pageViewModality);
-    }
-
-    /**
-     * Scrive un campo: AutoComplete
-     *
-     * @param autocomplete
-     * @param parentElement
-     * @param pageViewModality
-     * @return
-     */
-    public static String writeAutoComplete(AutoComplete<?> autocomplete, Element parentElement, ViewModality pageViewModality) throws FrameworkException {
-        if (autocomplete.isHidden()) {
-            return StringUtil.EMPTY;
-        }
-
-        ViewModality viewModality = autocomplete.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : autocomplete.getViewModality();
-
-        StringBuilder input = new StringBuilder()
-                .append(BEGIN_INPUT)
-                .append(getAttribute(ATTR_ID, autocomplete.getName()))
-                .append(getAttribute(ATTR_NAME, autocomplete.getName()))
-                .append(getAttribute(ATTR_VALUE, autocomplete.escapeHtmlDecodedText()))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS + " autoComplete"));
-
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
-            input.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
-        } else {
-            input
-                    .append(getAttribute("fields", parentElement.getName()))
-                    .append(getAttribute(ATTR_READONLY, autocomplete.isReadOnly(), ""));
-        }
-
-        input.append("/>");
-
-        // Gestione link
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE && !BaseFunction.isBlank(autocomplete.getBaseLink())) {
-            StringBuilder result = new StringBuilder()
-                    .append("<div class=\"input-group input-group-sm\">")
-                    .append(input)
-                    .append("<div class=\"input-group-append\">")
-                    .append("<a href=\"" + autocomplete.getBaseLink() + autocomplete.escapeHtmlValue() + "\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a>")
-                    .append("</div>")
-                    .append("</div>");
-
-            return result.toString();
-        } else {
-            return input.toString();
-        }
     }
 
     /**
@@ -327,44 +333,6 @@ public class FormControlWriter extends HtmlWriter {
     }
 
 
-    public static String writeCheckButtons(CheckButtons<?, Object> checkButtons, ViewModality pageViewModality) throws FrameworkException {
-        if (checkButtons.isHidden()) {
-            return StringUtil.EMPTY;
-        }
-
-        String[] values = checkButtons.getSplittedValues();
-        String[] descriptions = checkButtons.getSplittedDescriptions();
-        //String[] tooltips = checkButtons.getSplittedTooltips();
-
-        StringBuilder result = new StringBuilder()
-                .append("<div class=\"btn-group btn-group-toggle\" data-toggle=\"buttons\">");
-
-        int i = 0;
-        for (String value : values) {
-            String description = descriptions.length > i ? descriptions[i] : StringUtil.EMPTY;
-
-            Object object = checkButtons.getDataType().parseValue(value, checkButtons.getLocale(), checkButtons.getFormat());
-
-            result.append("<label")
-                    .append(getAttribute(ATTR_CLASS, checkButtons.isChecked(object), "btn btn-outline-primary btn-sm active", "btn btn-outline-primary btn-sm "))
-                    .append("><input ")
-                    .append(getAttribute(ATTR_ID, checkButtons.getName()))
-                    .append(getAttribute(ATTR_NAME, checkButtons.getName()))
-                    .append(getAttribute(ATTR_TYPE, "checkbox"))
-                    .append(getAttribute(ATTR_VALUE, value))
-                    .append(getAttribute("checked", checkButtons.isChecked(object), ""))
-                    .append(">" + Casting.getHtml(description))
-                    .append("</label>");
-
-            i++;
-        }
-
-        return result
-                .append("</div>")
-                .toString();
-    }
-
-
     /**
      * Scrive un campo: CheckBox
      *
@@ -382,12 +350,11 @@ public class FormControlWriter extends HtmlWriter {
                 .append("<div class=\"custom-control custom-checkbox\"><input")
                 .append(getAttribute(ATTR_ID, checkBox.getName()))
                 .append(getAttribute(ATTR_NAME, checkBox.getName()))
-                .append(getAttribute(ATTR_TYPE, "checkbox"))
+                .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_CHECKBOX))
                 .append(getAttribute(ATTR_VALUE, checkBox.getValChecked().toString()))
-                .append(getAttribute(ATTR_READONLY, checkBox.isReadOnly(), ""))
-                .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""))
+                .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE || checkBox.isReadOnly(), ""))
                 .append(getAttribute(ATTR_CLASS, BootStrapClass.CHECK_CLASS))
-                .append(getAttribute("checked", checkBox.isChecked(), ""))
+                .append(getAttribute(ATTR_CHECKED, checkBox.isChecked(), ""))
                 .append("/>");
 
         if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
@@ -405,6 +372,106 @@ public class FormControlWriter extends HtmlWriter {
         return result
                 .append("</div>")
                 .toString();
+    }
+
+    public static String writeCheckButtons(CheckButtons<?, Object> checkButtons, ViewModality pageViewModality) throws FrameworkException {
+        if (checkButtons.isHidden()) {
+            return StringUtil.EMPTY;
+        }
+
+        String[] values = checkButtons.getSplittedValues();
+        String[] descriptions = checkButtons.getSplittedDescriptions();
+
+        ViewModality viewModality = checkButtons.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : checkButtons.getViewModality();
+        StringBuilder result = new StringBuilder()
+                .append("<div class=\"btn-group btn-group-toggle d-flex\" data-toggle=\"buttons\">");
+
+        int i = 0;
+        for (String value : values) {
+            String htmlValue = Casting.getHtml(value);
+            String description = descriptions.length > i ? descriptions[i] : StringUtil.EMPTY;
+            boolean active = checkButtons.isChecked(checkButtons.getDataType().parseValue(value, checkButtons.getLocale(), checkButtons.getFormat()));
+
+            if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+                result.append(MessageFormat.format("<label{0}>", getAttribute(ATTR_CLASS, active, "btn btn-primary btn-sm disabled", "btn btn-outline-primary btn-sm disabled")))
+                        .append(Casting.getHtml(description));
+            } else {
+                result.append(MessageFormat.format("<label{0}>", getAttribute(ATTR_CLASS, active, "btn btn-outline-primary btn-sm active", "btn btn-outline-primary btn-sm ")))
+                        .append("<input ")
+                        .append(getAttribute(ATTR_ID, checkButtons.getName()))
+                        .append(getAttribute(ATTR_NAME, checkButtons.getName()))
+                        .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_CHECKBOX))
+                        .append(getAttribute(ATTR_VALUE, htmlValue))
+                        .append(getAttribute(ATTR_CHECKED, active, ""))
+                        .append(">" + Casting.getHtml(description));
+            }
+
+            result.append("</label>");
+
+            i++;
+        }
+
+        return result
+                .append("</div>")
+                .toString();
+    }
+
+    /**
+     * Scribe un Check Groups
+     *
+     * @param checkGroup
+     * @param pageViewModality
+     * @return
+     * @throws FrameworkException
+     */
+    public static String writeCheckGroups(CheckGroup<?, Object> checkGroup, ViewModality pageViewModality) throws FrameworkException {
+        if (checkGroup.isHidden()) {
+            return StringUtil.EMPTY;
+        }
+
+        String[] values = checkGroup.getSplittedValues();
+        String[] descriptions = checkGroup.getSplittedDescriptions();
+
+        ViewModality viewModality = checkGroup.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : checkGroup.getViewModality();
+        StringBuilder result = new StringBuilder();
+
+        int i = 0;
+        for (String value : values) {
+            String htmlValue = Casting.getHtml(value);
+            String description = descriptions.length > i ? descriptions[i] : StringUtil.EMPTY;
+            boolean active = checkGroup.isChecked(checkGroup.getDataType().parseValue(value, checkGroup.getLocale(), checkGroup.getFormat()));
+
+            result
+                    .append(" <div class=\"custom-control custom-checkbox custom-control-inline form-control-sm\">\n")
+                    .append("  <input")
+                    .append(getAttribute(ATTR_ID, checkGroup.getName() + i))
+                    .append(getAttribute(ATTR_NAME, checkGroup.getName()))
+                    .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_CHECKBOX))
+                    .append(getAttribute(ATTR_VALUE, htmlValue))
+                    .append(getAttribute(ATTR_READONLY, checkGroup.isReadOnly(), ""))
+                    .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""))
+                    .append(getAttribute(ATTR_CHECKED, active, ""))
+                    .append(getAttribute(ATTR_CLASS, "custom-control-input"))
+                    .append(">");
+
+            if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+                result.append("<div class=\"custom-control-label\">")
+                        .append(Casting.getHtml(description))
+                        .append("</div>\n");
+            } else {
+                result.append("<label class=\"custom-control-label\"")
+                        .append(getAttribute(ATTR_FOR, checkGroup.getName() + i))
+                        .append(">")
+                        .append(Casting.getHtml(description))
+                        .append("</label>\n");
+            }
+
+            result.append(" </div>\n");
+
+            i++;
+        }
+
+        return result.toString();
     }
 
     /**
@@ -461,82 +528,6 @@ public class FormControlWriter extends HtmlWriter {
         return result.toString();
     }
 
-    /**
-     * Scrive un campo: RadioGroup
-     *
-     * @param radioGroup
-     * @param pageViewModality
-     * @return
-     */
-    public static String writeRadioGroup(RadioGroup<?> radioGroup, ViewModality pageViewModality) throws FrameworkException {
-        if (radioGroup.isHidden()) {
-            return StringUtil.EMPTY;
-        }
-
-
-        ViewModality viewModality = radioGroup.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : radioGroup.getViewModality();
-        StringBuilder result = new StringBuilder();
-
-        // Opzioni
-        int i = 0;
-        DecodeMap<?, ?> decodeMap = radioGroup.getDecodeMap();
-        if (decodeMap != null) {
-            for (DecodeValue<?> value : decodeMap) {
-                String htmlValue = Casting.getHtml(radioGroup.getDataType().formatValue(value.getCode(), radioGroup.getLocale(), radioGroup.getFormat()));
-
-                result
-                        .append(" <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n")
-                        .append("  <input")
-                        .append(getAttribute(ATTR_ID, radioGroup.getName() + i))
-                        .append(getAttribute(ATTR_NAME, radioGroup.getName()))
-                        .append(getAttribute(ATTR_TYPE, "radio"))
-                        .append(getAttribute(ATTR_VALUE, htmlValue))
-                        .append(getAttribute(ATTR_READONLY, radioGroup.isReadOnly(), ""))
-                        .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""))
-                        .append(getAttribute(ATTR_CHECKED, value.getCode() != null && value.getCode().equals(radioGroup.getValue()), ""))
-                        .append(getAttribute(ATTR_CLASS, "custom-control-input"))
-                        .append(">");
-
-                if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
-                    result.append("<div class=\"custom-control-label\">")
-                            .append(Casting.getHtml(value.getDescription()))
-                            .append("</div>\n");
-                } else {
-                    result.append("<label class=\"custom-control-label\"")
-                            .append(getAttribute(ATTR_FOR, radioGroup.getName() + i))
-                            .append(">")
-                            .append(Casting.getHtml(value.getDescription()))
-                            .append("</label>\n");
-                }
-
-                result.append(" </div>\n");
-
-                i++;
-            }
-        }
-
-        return result.toString();
-    }
-
-    /**
-     * Scrive un campo: Semaforo
-     *
-     * @param semaforo
-     * @param pageViewModality
-     * @return
-     */
-    public static String writeSemaforo(Semaphore semaforo, ViewModality pageViewModality) throws FrameworkException {
-        if (semaforo.isHidden())
-            return "";
-
-        ViewModality viewModality = semaforo.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : semaforo.getViewModality();
-        if (viewModality == ViewModality.VIEW_MODIFICA) {
-            // FIXME: Implementare
-            return "";
-        } else {
-            return semaforo.escapeHtmlDecodedText();
-        }
-    }
 
     /**
      * Scrive un campo di input di tipo File
@@ -591,36 +582,179 @@ public class FormControlWriter extends HtmlWriter {
                 .append(getAttribute(ATTR_DISABLED, link.isDisabled(), ""))
                 .append(getAttributeTooltip(link.getTooltip()))
                 .append("/>")
-                .append(BaseFunction.isBlank(link.getImgHtml()) ? "" : link.getImgHtml() + "&nbsp;&nbsp;")
+                .append(BaseFunction.nvl(link.getImgHtml(), ""))
+                .append(BaseFunction.isBlank(link.getImgHtml()) || BaseFunction.isBlank(link.getDescription()) ? "" : "&nbsp;")
                 .append(Casting.getHtml(link.getDescription()))
                 .append("</a>");
 
         return result.toString();
     }
 
-    /**
-     * Scrive un campo: Button
-     *
-     * @param button
-     * @return
-     */
-    public static String writeButton(Button button) {
-        if (button.isHidden()) {
+    public static String writeRadioButtons(RadioButtons<?> radioButtons, ViewModality pageViewModality) throws FrameworkException {
+        if (radioButtons.isHidden()) {
             return StringUtil.EMPTY;
         }
 
+        ViewModality viewModality = radioButtons.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : radioButtons.getViewModality();
         StringBuilder result = new StringBuilder()
-                .append("<button")
-                .append(getAttribute(ATTR_ID, button.getHtlmName()))
-                .append(getAttribute(ATTR_NAME, button.getHtlmName()))
-                .append(getAttribute(ATTR_CLASS, MessageFormat.format(BootStrapClass.BUTTON_CLASS, button.getButtonType().value())))
-                .append(getAttribute(ATTR_DISABLED, button.isDisabled(), ""))
-                .append(getAttributeTooltip(button.getTooltip()))
-                .append(">")
-                .append(BaseFunction.isBlank(button.getImgHtml()) ? "" : button.getImgHtml() + "&nbsp;&nbsp;")
-                .append(Casting.getHtml(button.getDescription()))
-                .append("</button>");
+                .append("<div class=\"btn-group btn-group-toggle d-flex\" data-toggle=\"buttons\">");
+
+        // Opzioni
+        DecodeMap<?, ?> decodeMap = radioButtons.getDecodeMap();
+        if (decodeMap != null) {
+            for (DecodeValue<?> value : decodeMap) {
+                String htmlValue = Casting.getHtml(radioButtons.getDataType().formatValue(value.getCode(), radioButtons.getLocale(), radioButtons.getFormat()));
+                boolean active = value.getCode() != null && value.getCode().equals(radioButtons.getValue());
+
+                if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+                    result.append(MessageFormat.format("<label{0}>", getAttribute(ATTR_CLASS, active, "btn btn-primary btn-sm disabled", "btn btn-outline-primary btn-sm disabled")))
+                            .append(Casting.getHtml(value.getDescription()));
+                } else {
+                    result.append(MessageFormat.format("<label{0}>", getAttribute(ATTR_CLASS, active, "btn btn-outline-primary btn-sm active", "btn btn-outline-primary btn-sm ")))
+                            .append("<input ")
+                            .append(getAttribute(ATTR_ID, radioButtons.getName()))
+                            .append(getAttribute(ATTR_NAME, radioButtons.getName()))
+                            .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_RADIO))
+                            .append(getAttribute(ATTR_VALUE, htmlValue))
+                            .append(getAttribute(ATTR_CHECKED, active, ""))
+                            .append(">" + Casting.getHtml(value.getDescription()));
+                }
+
+                result.append("</label>");
+            }
+        }
+
+        return result
+                .append("</div>")
+                .toString();
+    }
+
+
+    /**
+     * Scrive un campo: RadioGroup
+     *
+     * @param radioGroup
+     * @param pageViewModality
+     * @return
+     */
+    public static String writeRadioGroup(RadioGroup<?> radioGroup, ViewModality pageViewModality) throws FrameworkException {
+        if (radioGroup.isHidden()) {
+            return StringUtil.EMPTY;
+        }
+
+        ViewModality viewModality = radioGroup.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : radioGroup.getViewModality();
+        StringBuilder result = new StringBuilder();
+
+        // Opzioni
+        int i = 0;
+        DecodeMap<?, ?> decodeMap = radioGroup.getDecodeMap();
+        if (decodeMap != null) {
+            for (DecodeValue<?> value : decodeMap) {
+                String htmlValue = Casting.getHtml(radioGroup.getDataType().formatValue(value.getCode(), radioGroup.getLocale(), radioGroup.getFormat()));
+
+                result
+                        .append(" <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n")
+                        .append("  <input")
+                        .append(getAttribute(ATTR_ID, radioGroup.getName() + i))
+                        .append(getAttribute(ATTR_NAME, radioGroup.getName()))
+                        .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_RADIO))
+                        .append(getAttribute(ATTR_VALUE, htmlValue))
+                        .append(getAttribute(ATTR_READONLY, radioGroup.isReadOnly(), ""))
+                        .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""))
+                        .append(getAttribute(ATTR_CHECKED, value.getCode() != null && value.getCode().equals(radioGroup.getValue()), ""))
+                        .append(getAttribute(ATTR_CLASS, "custom-control-input"))
+                        .append(">");
+
+                if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+                    result.append("<div class=\"custom-control-label\">")
+                            .append(Casting.getHtml(value.getDescription()))
+                            .append("</div>\n");
+                } else {
+                    result.append("<label class=\"custom-control-label\"")
+                            .append(getAttribute(ATTR_FOR, radioGroup.getName() + i))
+                            .append(">")
+                            .append(Casting.getHtml(value.getDescription()))
+                            .append("</label>\n");
+                }
+
+                result.append(" </div>\n");
+
+                i++;
+            }
+        }
 
         return result.toString();
     }
+
+    /**
+     * Scrive un campo: Semaforo
+     *
+     * @param semaphore
+     * @param pageViewModality
+     * @return
+     */
+    public static String writeSemaphore(Semaphore semaphore, ViewModality pageViewModality) throws FrameworkException {
+        if (semaphore.isHidden()) {
+            return StringUtil.EMPTY;
+        }
+
+        ViewModality viewModality = semaphore.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : semaphore.getViewModality();
+        StringBuilder result = new StringBuilder()
+                .append("<div class=\"btn-group btn-group-toggle d-flex\" data-toggle=\"buttons\">");
+
+        // Opzioni
+        DecodeMap<String, ?> decodeMap = semaphore.getDecodeMap();
+        if (decodeMap != null) {
+            for (DecodeValue<String> value : decodeMap) {
+                String htmlValue = Casting.getHtml(semaphore.getDataType().formatValue(value.getCode(), semaphore.getLocale(), semaphore.getFormat()));
+                boolean active = value.getCode() != null && value.getCode().equals(semaphore.getValue());
+
+                String btnOutline;
+                String btn;
+                switch (value.getCode()) {
+                    case Semaphore.GREEN:
+                        btnOutline = "btn-outline-success";
+                        btn = "btn-success";
+                        break;
+                    case Semaphore.YELLOW:
+                        btnOutline = "btn-outline-warning";
+                        btn = "btn-warning";
+                        break;
+                    case Semaphore.RED:
+                        btnOutline = "btn-outline-danger";
+                        btn = "btn-danger";
+                        break;
+                    case Semaphore.BLACK:
+                        btnOutline = "btn-outline-dark";
+                        btn = "btn-dark";
+                        break;
+                    default:
+                        btnOutline = "btn-outline-secondary";
+                        btn = "btn-secondary";
+                }
+
+
+                if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+                    result.append(MessageFormat.format("<label{0}>", getAttribute(ATTR_CLASS, active, "btn " + btn + " btn-sm disabled", "btn " + btnOutline + " btn-sm disabled")))
+                            .append("<i class=\"far fa-circle\"></i>");
+                } else {
+                    result.append(MessageFormat.format("<label{0}>", getAttribute(ATTR_CLASS, active, "btn " + btnOutline + " btn-sm active", "btn " + btnOutline + " btn-sm ")))
+                            .append("<input ")
+                            .append(getAttribute(ATTR_ID, semaphore.getName()))
+                            .append(getAttribute(ATTR_NAME, semaphore.getName()))
+                            .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_RADIO))
+                            .append(getAttribute(ATTR_VALUE, htmlValue))
+                            .append(getAttribute(ATTR_CHECKED, active, ""))
+                            .append(">" + "<i class=\"far fa-circle\"></i>");
+                }
+
+                result.append("</label>");
+            }
+        }
+
+        return result
+                .append("</div>")
+                .toString();
+    }
+
 }

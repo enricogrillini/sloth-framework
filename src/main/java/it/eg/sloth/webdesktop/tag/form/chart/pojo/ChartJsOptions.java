@@ -2,10 +2,8 @@ package it.eg.sloth.webdesktop.tag.form.chart.pojo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import it.eg.sloth.framework.FrameComponent;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * Project: sloth-framework
@@ -21,11 +19,10 @@ import lombok.Setter;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @JsonInclude(Include.NON_NULL)
-public class ChartJsOptions extends FrameComponent {
+public class ChartJsOptions {
 
     ChartJsTitle title;
     ChartJsLegend legend;

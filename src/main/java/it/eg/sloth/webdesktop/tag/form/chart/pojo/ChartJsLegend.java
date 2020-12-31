@@ -2,9 +2,8 @@ package it.eg.sloth.webdesktop.tag.form.chart.pojo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import it.eg.sloth.jaxb.form.LegendPosition;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * Project: sloth-framework
@@ -20,8 +19,7 @@ import lombok.Setter;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ChartJsLegend {

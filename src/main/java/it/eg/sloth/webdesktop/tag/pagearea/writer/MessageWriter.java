@@ -90,7 +90,7 @@ public class MessageWriter {
     public static String writeMessages(MessageList messageList, boolean writeSeverity) {
         StringBuilder result = new StringBuilder();
 
-        for (Message message : messageList.getList()) {
+        for (Message message : messageList) {
             result
                     .append("\n")
                     .append("    <div class=\"alert alert-dismissible " + getBootstrapClass(message.getSeverity()) + "\">\n");

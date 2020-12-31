@@ -36,4 +36,22 @@ public class StringDecodeMap extends BaseDecodeMap<String> {
         }
 
     }
+
+    public static class Factory {
+
+        private Factory() {
+            // NOP
+        }
+
+        public static final String SI = "S";
+        public static final String NO = "N";
+        public static final String TUTTI = "T";
+
+        public static final String DESCR_SI = "Sì";
+        public static final String DESCR_NO = "No";
+        public static final String DESCR_TUTTI = "Tutti";
+
+        public static final StringDecodeMap DECODE_MAP_SN = new StringDecodeMap(SI + "," + DESCR_SI + ";" + NO + "," + DESCR_NO);
+        public static final StringDecodeMap DECODE_MAP_SNT = new StringDecodeMap(SI + "," + DESCR_SI + ";" + NO + "," + DESCR_NO + ";" + TUTTI + "," + DESCR_TUTTI);
+    }
 }

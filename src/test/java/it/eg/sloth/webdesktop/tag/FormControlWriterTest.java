@@ -1,26 +1,23 @@
 package it.eg.sloth.webdesktop.tag;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.MessageFormat;
-import java.util.List;
-import java.util.Locale;
-
-import it.eg.sloth.form.fields.field.impl.*;
-import it.eg.sloth.framework.common.base.StringUtil;
-import it.eg.sloth.framework.common.exception.ExceptionCode;
-import org.junit.Test;
-
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
 import it.eg.sloth.form.fields.Fields;
+import it.eg.sloth.form.fields.field.impl.*;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
+import it.eg.sloth.webdesktop.tag.support.SampleEscaper;
+import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.MessageFormat;
+import java.util.Locale;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -37,8 +34,6 @@ import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
  * @author Enrico Grillini
  */
 public class FormControlWriterTest {
-
-    private static final String LABEL = "<label for=\"{0}\" class=\"col-form-label float-right form-control-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{2}\">{1}{3}:&nbsp;</label>";
 
     private static final String BASE_AUTOCOMPLETE = "<input id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm autoComplete\"{2}{3}/>";
     private static final String LINK_AUTOCOMPLETE = "<div class=\"input-group input-group-sm\"><input id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm autoComplete\" disabled=\"\"/><div class=\"input-group-append\"><a href=\"{2}\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a></div></div>";
@@ -63,7 +58,8 @@ public class FormControlWriterTest {
 
     private static final String BASE_LINK = "<a href=\"{1}\" class=\"btn btn-outline-primary btn-sm\"/>{0}</a>";
 
-    private static final String BASE_SEMAPHORE = "<i class=\"fas fa-circle text-danger\"></i>";
+    private static final String BASE_SEMAPHORE = "<div class=\"btn-group btn-group-toggle d-flex\" data-toggle=\"buttons\"><label class=\"btn btn-outline-success btn-sm disabled\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-warning btn-sm disabled\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-danger btn-sm disabled\"><i class=\"far fa-circle\"></i></label></div>";
+    private static final String BASE_SEMAPHORE_MOD = "<div class=\"btn-group btn-group-toggle d-flex\" data-toggle=\"buttons\"><label class=\"btn btn-outline-success btn-sm \"><input  id=\"name\" name=\"name\" type=\"radio\" value=\"G\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-warning btn-sm \"><input  id=\"name\" name=\"name\" type=\"radio\" value=\"Y\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-danger btn-sm \"><input  id=\"name\" name=\"name\" type=\"radio\" value=\"R\"><i class=\"far fa-circle\"></i></label></div>";
 
     private static final String BASE_RADIOGROUP_VIS = " <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n" +
             "  <input id=\"name0\" name=\"name\" type=\"radio\" value=\"S\" disabled=\"\" checked=\"\" class=\"custom-control-input\"><div class=\"custom-control-label\">S&igrave;</div>\n" +
@@ -88,28 +84,28 @@ public class FormControlWriterTest {
 
     private static final String BASE_TEXTAREA = "<textarea id=\"{0}\" name=\"{0}\" class=\"" + BootStrapClass.CONTROL_CLASS + "\"{1}>{2}</textarea>";
 
-    @Test
-    public void labelTest() throws FrameworkException {
-        // Controlli con label
-        Input<String> field = new Input<String>("name", "description", DataTypes.STRING);
-        field.setTooltip("tooltip");
-
-        assertEquals(MessageFormat.format(LABEL, "name", "description", "tooltip", ""), FormControlWriter.writeLabel(field));
-
-        field.setRequired(true);
-        assertEquals(MessageFormat.format(LABEL, "name", "description", "tooltip", "*"), FormControlWriter.writeLabel(field));
-
-        // Controlli senza label (Button)
-        Button button = new Button("name", "description");
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeLabel(button));
-    }
-
 
     @Test
     public void autoCompleteTest() throws FrameworkException {
         Fields fields = new Fields("Master");
         AutoComplete<String> autocomplete = new AutoComplete<String>("name", "description", DataTypes.STRING);
         autocomplete.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
+
+        verifyAutoComplete(autocomplete);
+    }
+
+    @Test
+    public void autoCompleteescaperTest() throws FrameworkException {
+        AutoComplete<String> autocomplete = new AutoComplete<String>("name", "description", DataTypes.STRING);
+        autocomplete.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
+        autocomplete.setHtmlEscaper(new SampleEscaper());
+
+        verifyAutoComplete(autocomplete);
+    }
+
+
+    private void verifyAutoComplete(AutoComplete<String> autocomplete) throws FrameworkException {
+        Fields fields = new Fields("Master");
 
         assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "", "", " disabled=\"\""), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW_VISUALIZZAZIONE));
 
@@ -127,7 +123,6 @@ public class FormControlWriterTest {
         // Empty
         autocomplete.setHidden(true);
         assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(autocomplete, null, ViewModality.VIEW_MODIFICA));
-
     }
 
     @Test
@@ -319,17 +314,6 @@ public class FormControlWriterTest {
     }
 
     @Test
-    public void multipleAutoCompleteTest() {
-        MultipleAutoComplete<List<String>, String> field = new MultipleAutoComplete<List<String>, String>("name", "description", DataTypes.STRING);
-
-        // Lunghezza codice fiscale errata
-        FrameworkException frameworkException = assertThrows(FrameworkException.class, () -> {
-            FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA);
-        });
-        assertEquals(ExceptionCode.INVALID_CONTROL, frameworkException.getExceptionCode());
-    }
-
-    @Test
     public void radioGroupTest() throws FrameworkException {
         RadioGroup<String> radioGroup = new RadioGroup<String>("name", "description", DataTypes.STRING);
         radioGroup.setDecodeMap(StringDecodeMap.SI_NO_TUTTI);
@@ -349,14 +333,20 @@ public class FormControlWriterTest {
     @Test
     public void semaphoreTest() throws FrameworkException {
         Semaphore semaphore = new Semaphore("name", "description", DataTypes.STRING);
-        semaphore.setValue(Semaphore.RED);
-        assertEquals(BASE_SEMAPHORE, FormControlWriter.writeSemaforo(semaphore, ViewModality.VIEW_VISUALIZZAZIONE));
+        semaphore = Semaphore.<String>builder()
+                .name("name")
+                .description("Semaphore")
+                .dataType(DataTypes.STRING)
+                .viewModality(ViewModality.VIEW_AUTO)
+                .build();
+
+        assertEquals(BASE_SEMAPHORE, FormControlWriter.writeSemaphore(semaphore, ViewModality.VIEW_VISUALIZZAZIONE));
 
         // Controllo generico
         assertEquals(MessageFormat.format(BASE_SEMAPHORE, ""), FormControlWriter.writeControl(semaphore, null, ViewModality.VIEW_VISUALIZZAZIONE));
 
         // VIEW_MODIFICA ancora non gestita
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(semaphore, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(BASE_SEMAPHORE_MOD, FormControlWriter.writeControl(semaphore, null, ViewModality.VIEW_MODIFICA));
 
         // Empty
         semaphore.setHidden(true);
@@ -393,6 +383,9 @@ public class FormControlWriterTest {
 
         // Controllo generico
         assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", "", "testo"), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+
+        field.setValue("testo\ntesto");
+        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", "", "testo\ntesto"), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
 
         // Empty
         field.setHidden(true);

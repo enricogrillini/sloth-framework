@@ -12,14 +12,15 @@ import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.base.TextField;
 import it.eg.sloth.form.fields.field.impl.Button;
+import it.eg.sloth.form.fields.field.impl.Hidden;
 import it.eg.sloth.form.fields.field.impl.InputTotalizer;
 import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
-import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 import it.eg.sloth.webdesktop.tag.form.field.writer.TextControlWriter;
@@ -29,37 +30,42 @@ import java.text.MessageFormat;
 
 public class GridWriter extends HtmlWriter {
 
-    private static final String CELL_DETAIL = "   <td class=\"text-center tableDetail\"><i class=\"tableDetail text-info fa fa-chevron-down collapsed\" href=\"#{0}\" data-toggle=\"collapse\" aria-expanded=\"true\" aria-controls=\"collapse-collapsed\"></i></td>\n";
+    public static final String GRID_CLASS = "table{0}{1}{2}";
 
+    private static final String TABLE_CLOSE = "</table>\n" +
+            "</div>\n";
+
+    private static final String HEAD_OPEN = " <thead>\n";
+    private static final String HEAD_CLOSE = " </thead>\n";
+
+    private static final String ROW_OPEN = "  <tr{0}{1}>\n";
     private static final String ROW_CLOSE = "  </tr>\n";
 
 
+    private static final String CELL_DETAIL = "   <td class=\"text-center tableDetail\"><i class=\"tableDetail text-info fa fa-chevron-down collapsed\" href=\"#{0}\" data-toggle=\"collapse\" aria-expanded=\"true\" aria-controls=\"collapse-collapsed\"></i></td>\n";
+
+
     public static String openTable(Grid<?> grid, boolean border, boolean hover, boolean small) {
-        String classHtml = MessageFormat.format(BootStrapClass.GRID_CLASS, border ? " table-bordered" : "", hover ? " table-hover" : "", small ? " table-sm" : "");
+        String classHtml = MessageFormat.format(GRID_CLASS, border ? " table-bordered" : "", hover ? " table-hover" : "", small ? " table-sm" : "");
 
         return new StringBuilder()
                 .append("\n")
                 .append("<!-- Table: " + Casting.getHtml(grid.getTitle()) + " -->\n")
+                .append("<div class=\"table-responsive\">")
                 .append("<table class=\"" + classHtml + "\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">\n")
                 .toString();
     }
 
     public static String closeTable() {
-        return new StringBuilder()
-                .append("</table>\n")
-                .toString();
+        return TABLE_CLOSE;
     }
 
     public static String openHeader() {
-        return new StringBuilder()
-                .append(" <thead>\n")
-                .toString();
+        return HEAD_OPEN;
     }
 
     public static String closeHeader() {
-        return new StringBuilder()
-                .append(" </thead>\n")
-                .toString();
+        return HEAD_CLOSE;
     }
 
     public static String headerRow(Grid<?> grid, Fields<?> detailFields, boolean sortable) {
@@ -73,7 +79,7 @@ public class GridWriter extends HtmlWriter {
         for (SimpleField field : grid) {
             String descriptionHtml = field.getHtmlDescription();
 
-            if (field instanceof TextField && ((TextField<?>) field).isHidden()) {
+            if (field instanceof TextField && ((TextField<?>) field).isHidden() || field instanceof Hidden<?>) {
                 continue;
             }
 
@@ -88,21 +94,21 @@ public class GridWriter extends HtmlWriter {
             } else if (sortable && field instanceof TextField) {
                 TextField<?> textField = (TextField<?>) field;
 
-                String iconHtml = getAttribute(ATTR_CLASS, "fas fa-sort float-right m-1");
-                String buttonNameHtml = getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.SORT_ASC, grid.getName(), textField.getAlias()));
+                String iconHtml = getAttribute(ATTR_CLASS, "fas fa-sort m-1");
+                String buttonNameHtml = getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.SORT_ASC, grid.getName(), textField.getName()));
 
                 SortingRule sortingRule = grid.getDataSource().getSortingRules().getFirstRule();
-                if (sortingRule != null && sortingRule.getFieldName().equalsIgnoreCase(textField.getAlias())) {
+                if (sortingRule != null && sortingRule.getFieldName().equalsIgnoreCase(textField.getOrderByAlias())) {
                     if (sortingRule.getSortType() == SortingRule.SORT_ASC_NULLS_LAST) {
-                        iconHtml = getAttribute(ATTR_CLASS, "fas fa-sort-up float-right m-1");
-                        buttonNameHtml = getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.SORT_DESC, grid.getName(), textField.getAlias()));
+                        iconHtml = getAttribute(ATTR_CLASS, "fas fa-sort-up m-1");
+                        buttonNameHtml = getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.SORT_DESC, grid.getName(), textField.getName()));
                     } else {
-                        iconHtml = getAttribute(ATTR_CLASS, "fas fa-sort-down float-right m-1");
-                        buttonNameHtml = getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.SORT_ASC, grid.getName(), textField.getAlias()));
+                        iconHtml = getAttribute(ATTR_CLASS, "fas fa-sort-down m-1");
+                        buttonNameHtml = getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.SORT_ASC, grid.getName(), textField.getName()));
                     }
                 }
 
-                result.append("<button type=\"submit\"" + buttonNameHtml + " class=\"btn btn-Link btn-block btn-sm\"><b>" + descriptionHtml + "</b><i" + iconHtml + "></i></button>");
+                result.append("<button type=\"submit\"" + buttonNameHtml + " class=\"btn btn-Link btn-block btn-sm d-flex justify-content-between\"><b class=\"w-100\">" + descriptionHtml + "</b><i" + iconHtml + "></i></button>");
 
             } else {
                 result.append(descriptionHtml);
@@ -127,29 +133,25 @@ public class GridWriter extends HtmlWriter {
     }
 
     public static String openCell(SimpleField field, boolean header, boolean sortable) {
-        StringBuilder result = new StringBuilder();
+        // Stile cella
+        String htmlClass = "text-left";
+        if (sortable) {
+            htmlClass = "text-center p-1";
+        } else if (FieldType.SEMAPHORE == field.getFieldType() || FieldType.CHECK_BOX == field.getFieldType() || FieldType.BUTTON == field.getFieldType()) {
+            htmlClass = "text-center";
+        } else if (((TextField<?>) field).getDataType().isNumber() && !(field instanceof DecodedDataField)) {
+            htmlClass = "text-right";
+        }
+
+        if (field instanceof Button) {
+            htmlClass += " p-1";
+        }
 
         if (header) {
-            result.append("   <th")
-                    .append(getAttributeTooltip(field.getTooltip()));
+            return MessageFormat.format("   <th{0}{1}>", getAttributeTooltip(field.getTooltip()), getAttribute(ATTR_CLASS, htmlClass + " text-nowrap"));
         } else {
-            result.append("   <td");
+            return MessageFormat.format("   <td{0}{1}>", getAttributeTooltip(field.getTooltip()), getAttribute(ATTR_CLASS, htmlClass));
         }
-
-        if (sortable) {
-            result.append(getAttribute(ATTR_CLASS, "text-center p-1"));
-        } else if (FieldType.SEMAPHORE == field.getFieldType() ||
-                FieldType.CHECK_BOX == field.getFieldType() ||
-                FieldType.BUTTON == field.getFieldType()) {
-            result.append(getAttribute(ATTR_CLASS, "text-center"));
-        } else if (((TextField<?>) field).getDataType().isNumber() && !(field instanceof DecodedDataField)) {
-            result.append(getAttribute(ATTR_CLASS, "text-right"));
-        } else {
-            result.append(getAttribute(ATTR_CLASS, "text-left"));
-        }
-
-        return result.append(">")
-                .toString();
     }
 
     public static String closeCell(boolean headder) {
@@ -165,7 +167,7 @@ public class GridWriter extends HtmlWriter {
                 .append(openCell(field, false, false));
 
         if (ViewModality.VIEW_VISUALIZZAZIONE == viewModality) {
-            result.append(TextControlWriter.writeControl(field));
+            result.append(TextControlWriter.writeControl(field, grid));
         } else {
             result.append(FormControlWriter.writeControl(field, grid, viewModality));
         }
@@ -175,7 +177,7 @@ public class GridWriter extends HtmlWriter {
                 .toString();
     }
 
-    public static String rows(Grid<?> grid, Fields<?> detailFields, ViewModality viewModality) throws FrameworkException {
+    public static String rows(Grid<?> grid, Fields<?> detailFields, ViewModality viewModality, boolean manageCurrentRow) throws FrameworkException {
         int rowNumber = 0;
 
         StringBuilder result = new StringBuilder();
@@ -184,81 +186,108 @@ public class GridWriter extends HtmlWriter {
 
         DataTable<?> dataTable = grid.getDataSource();
         for (DataRow dataRow : dataTable) {
-            String idRow = NavigationConst.navStr(NavigationConst.ROW, grid.getName(), "" + rowNumber);
-            String idRowDetail = NavigationConst.navStr(NavigationConst.ROW, grid.getName(), "" + rowNumber, "detail");
-
-
             if (dataTable.getPageSize() <= 0 || (dataTable.getPageStart() <= rowNumber && dataTable.getPageEnd() >= rowNumber)) {
-                String classHtml = getAttribute("class", rowNumber == dataTable.getCurrentRow(), "table-primary");
+                String classHtml = getAttribute("class", manageCurrentRow && rowNumber == dataTable.getCurrentRow(), "table-primary");
 
-                // Riga corrente in edit mode
                 if (rowNumber == dataTable.getCurrentRow() && ViewModality.VIEW_MODIFICA == viewModality) {
-                    result.append(MessageFormat.format("  <tr{0}>\n", classHtml));
-                    if (detailFields != null) {
-                        result.append("   <td>&nbsp;</td>\n");
-                    }
-
-                    for (SimpleField field : grid.getElements()) {
-                        if (field instanceof TextField && ((TextField<?>) field).isHidden())
-                            continue;
-
-                        if (field instanceof Button) {
-                            Button button = (Button) field;
-                            button.setIndex(rowNumber);
-                        }
-
-                        result.append(GridWriter.cell(grid, field, viewModality));
-                    }
+                    // Riga corrente in edit mode
+                    result.append(writeCurrentRowEditMode(grid, detailFields, rowNumber, classHtml));
                 } else {
-                    result.append(MessageFormat.format("  <tr{0}{1}>\n", getAttribute("id", idRow), classHtml));
-                    if (detailFields != null) {
-                        result.append(MessageFormat.format(CELL_DETAIL, idRowDetail));
-                    }
-                    for (SimpleField field : grid.getElements()) {
-                        SimpleField appField = field.newInstance();
-
-                        if (field instanceof TextField && ((TextField<?>) field).isHidden())
-                            continue;
-
-                        if (appField instanceof Button) {
-                            Button button = (Button) appField;
-                            button.setIndex(rowNumber);
-                        } else if (appField instanceof DataField) {
-                            DataField<?> dataField = (DataField<?>) appField;
-                            dataField.copyFromDataSource(dataRow);
-                        }
-
-                        result.append(GridWriter.cell(grid, appField, ViewModality.VIEW_VISUALIZZAZIONE));
-                    }
+                    // Riga corrente in view mode e altre righe
+                    result.append(writeRow(grid, detailFields, dataRow, rowNumber, classHtml, manageCurrentRow));
                 }
-                result.append(ROW_CLOSE);
 
-                if (detailFields != null) {
-                    result
-                            .append(MessageFormat.format("  <tr {0} class=\"frDetail collapse\">\n", getAttribute("id", idRowDetail)))
-                            .append("   <td>&nbsp;</td>\n");
-
-                    for (SimpleField field : detailFields) {
-                        SimpleField fieldClone = field.newInstance();
-
-                        if (fieldClone instanceof Button) {
-                            Button button = (Button) fieldClone;
-                            button.setIndex(rowNumber);
-                        } else if (fieldClone instanceof DataField) {
-                            DataField<?> dataField = (DataField<?>) fieldClone;
-                            dataField.copyFromDataSource(dataRow);
-                        }
-
-                        result.append("   <td colspan=\"" + grid.getElements().size() + "\">\n");
-                        result.append("    <b style=\"color:#660000\">" + fieldClone.getHtmlDescription() + ": </b><span>" + TextControlWriter.writeControl(fieldClone) + "</span>\n");
-                        result.append("   </td>\n");
-                    }
-                    result.append(ROW_CLOSE);
-                }
+                // Riga di dettaglio (se presente)
+                result.append(writeRowDetail(grid, detailFields, dataRow, rowNumber));
             }
             rowNumber++;
         }
         result.append(" </tbody>\n");
+
+        return result.toString();
+    }
+
+    private static String writeCurrentRowEditMode(Grid<?> grid, Fields<?> detailFields, int rowNumber, String classHtml) throws FrameworkException {
+        StringBuilder result = new StringBuilder();
+
+        result.append(MessageFormat.format(ROW_OPEN, StringUtil.EMPTY, classHtml));
+        if (detailFields != null) {
+            result.append("   <td>&nbsp;</td>\n");
+        }
+
+        for (SimpleField field : grid.getElements()) {
+            if (field instanceof TextField && ((TextField<?>) field).isHidden() || field instanceof Hidden<?>) {
+                continue;
+            }
+
+            if (field instanceof Button) {
+                Button button = (Button) field;
+                button.setIndex(rowNumber);
+            }
+
+            result.append(GridWriter.cell(grid, field, ViewModality.VIEW_MODIFICA));
+        }
+
+        result.append(ROW_CLOSE);
+
+        return result.toString();
+    }
+
+    private static String writeRow(Grid<?> grid, Fields<?> detailFields, DataRow dataRow, int rowNumber, String classHtml, boolean manageCurrentRow) throws FrameworkException {
+
+        String idRow = NavigationConst.navStr(NavigationConst.ROW, grid.getName(), "" + rowNumber);
+        String idRowDetail = NavigationConst.navStr(NavigationConst.ROW, grid.getName(), "" + rowNumber, "detail");
+
+        Grid<?> appGrid = grid.newInstance();
+        appGrid.copyFromDataSource(dataRow);
+
+        StringBuilder result = new StringBuilder();
+        result.append(MessageFormat.format(ROW_OPEN, getAttribute("id", manageCurrentRow, idRow), classHtml));
+        if (detailFields != null) {
+            result.append(MessageFormat.format(CELL_DETAIL, idRowDetail));
+        }
+        for (SimpleField field : appGrid.getElements()) {
+            if (field instanceof TextField && ((TextField<?>) field).isHidden() || field instanceof Hidden<?>) {
+                continue;
+            }
+
+            if (field instanceof Button) {
+                Button button = (Button) field;
+                button.setIndex(rowNumber);
+            }
+
+            result.append(GridWriter.cell(appGrid, field, ViewModality.VIEW_VISUALIZZAZIONE));
+        }
+        result.append(ROW_CLOSE);
+
+        return result.toString();
+    }
+
+    private static String writeRowDetail(Grid<?> grid, Fields<?> detailFields, DataRow dataRow, int rowNumber) throws FrameworkException {
+        StringBuilder result = new StringBuilder();
+        if (detailFields != null) {
+            String idRowDetail = NavigationConst.navStr(NavigationConst.ROW, grid.getName(), "" + rowNumber, "detail");
+            result
+                    .append(MessageFormat.format("  <tr {0} class=\"frDetail collapse\">\n", getAttribute("id", idRowDetail)))
+                    .append("   <td>&nbsp;</td>\n");
+
+            for (SimpleField field : detailFields) {
+                SimpleField fieldClone = field.newInstance();
+
+                if (fieldClone instanceof Button) {
+                    Button button = (Button) fieldClone;
+                    button.setIndex(rowNumber);
+                } else if (fieldClone instanceof DataField) {
+                    DataField<?> dataField = (DataField<?>) fieldClone;
+                    dataField.copyFromDataSource(dataRow);
+                }
+
+                result.append("   <td colspan=\"" + grid.getElements().size() + "\">\n");
+                result.append("    <b style=\"color:#660000\">" + fieldClone.getHtmlDescription() + ": </b><span>" + TextControlWriter.writeControl(fieldClone, grid) + "</span>\n");
+                result.append("   </td>\n");
+            }
+            result.append(ROW_CLOSE);
+        }
 
         return result.toString();
     }

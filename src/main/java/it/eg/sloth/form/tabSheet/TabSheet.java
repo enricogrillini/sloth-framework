@@ -1,6 +1,8 @@
 package it.eg.sloth.form.tabsheet;
 
 import it.eg.sloth.form.base.AbstractElements;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Project: sloth-framework
@@ -17,33 +19,43 @@ import it.eg.sloth.form.base.AbstractElements;
  *
  * @author Enrico Grillini
  */
+@Getter
+@Setter
 public class TabSheet extends AbstractElements<Tab> {
 
-  private String currentTabName;
+    private String currentTabName;
 
-  public TabSheet(String name) {
-    super(name);
-  }
+    public TabSheet(String name) {
+        super(name);
+    }
 
-  public String getCurrentTabName() {
-    return currentTabName;
-  }
+    /**
+     * Imposta il primo tab visibile come corrente
+     *
+     * @return
+     */
+    public void setCurrentTab() {
+        if (getCurrentTab().isHidden()) {
+            for (Tab tab : this) {
+                if (!tab.isHidden()) {
+                    setCurrentTabName(tab.getName());
+                    break;
+                }
+            }
+        }
+    }
 
-  public void setCurrentTabName(String currentTabName) {
-    this.currentTabName = currentTabName;
-  }
+    public Tab getCurrentTab() {
+        if (getElements() == null || getElements().isEmpty())
+            return null;
 
-  public Tab getCurrentTab() {
-    if (getElements() == null || getElements().isEmpty())
-      return null;
+        if (getCurrentTabName() == null)
+            return getElements().get(0);
 
-    if (getCurrentTabName() == null)
-      return  getElements().get(0);
+        if (getElement(getCurrentTabName()) != null)
+            return getElement(getCurrentTabName());
 
-    if (getElement(getCurrentTabName()) != null)
-      return getElement(getCurrentTabName());
-
-    return getElements().get(0);
-  }
+        return getElements().get(0);
+    }
 
 }

@@ -4,12 +4,14 @@ import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.SimpleField;
+import it.eg.sloth.form.fields.field.base.TextField;
 import it.eg.sloth.form.fields.field.impl.InputTotalizer;
 import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.MessageList;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Project: sloth-framework
@@ -28,6 +30,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Slf4j
 public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
 
     String title;
@@ -125,6 +128,26 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
         }
 
         return false;
+    }
+
+    public void orderBy(String fieldName, int sortType) {
+        if (getElement(fieldName) instanceof TextField) {
+            TextField<?> textField = (TextField<?>) getElement(fieldName);
+
+            DataTable<?> dataTable = getDataSource();
+            dataTable.clearSortingRules();
+            dataTable.addSortingRule(textField.getOrderByAlias(), sortType);
+            dataTable.applySort(false);
+        }
+    }
+
+    public Grid<D> newInstance() {
+        Grid<D> result = new Grid<>(getName());
+        for (SimpleField field : this.getElements()) {
+            result.addChild(field.newInstance());
+        }
+
+        return result;
     }
 
 }

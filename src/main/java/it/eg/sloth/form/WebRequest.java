@@ -166,8 +166,8 @@ public class WebRequest extends FrameComponent {
                 String string = attributeName.substring(PREFIX.length() + SEPARATOR.length());
 
                 String[] result = string.split(SEPARATOR);
-                result[result.length - 1] = result[result.length - 1].replaceAll("\\.x", "");
-                result[result.length - 1] = result[result.length - 1].replaceAll("\\.y", "");
+                result[result.length - 1] = result[result.length - 1].replace("\\.x", "");
+                result[result.length - 1] = result[result.length - 1].replace("\\.y", "");
                 return result;
             }
         }

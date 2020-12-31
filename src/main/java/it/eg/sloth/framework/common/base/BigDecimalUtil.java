@@ -175,4 +175,22 @@ public class BigDecimalUtil {
         }
     }
 
+
+    public static int intValue(BigDecimal bigDecimal) {
+        if (bigDecimal == null) {
+            return 0;
+        } else {
+            return bigDecimal.intValue();
+        }
+    }
+
+    public static double doubleValue(BigDecimal bigDecimal) {
+        if (bigDecimal == null) {
+            return 0;
+        } else {
+            return bigDecimal.doubleValue();
+        }
+    }
+
+
 }

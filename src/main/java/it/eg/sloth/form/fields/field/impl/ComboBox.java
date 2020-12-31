@@ -57,16 +57,6 @@ public class ComboBox<T> extends InputField<T> implements DecodedDataField<T> {
     }
 
     @Override
-    public String escapeHtmlDecodedText() throws FrameworkException {
-        return escapeHtmlDecodedText(true, true);
-    }
-
-    @Override
-    public String escapeHtmlDecodedText(boolean br, boolean nbsp) throws FrameworkException {
-        return Casting.getHtml(getDecodedText(), br, nbsp);
-    }
-
-    @Override
     public String escapeJsDecodedText() throws FrameworkException {
         return Casting.getJs(getDecodedText());
     }

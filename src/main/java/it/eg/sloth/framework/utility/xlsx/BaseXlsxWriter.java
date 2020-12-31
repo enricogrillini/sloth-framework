@@ -1,27 +1,22 @@
 package it.eg.sloth.framework.utility.xlsx;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.Map;
-
 import it.eg.sloth.framework.common.base.StringUtil;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFDataFormat;
-import org.apache.poi.xssf.usermodel.XSSFRichTextString;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelContainer;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelFont;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelStyle;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelType;
 import lombok.Getter;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFDataFormat;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Project: sloth-framework
@@ -39,7 +34,7 @@ import lombok.Getter;
  * @author Enrico Grillini
  */
 @Getter
-public class BaseXlsxWriter {
+public class BaseXlsxWriter implements Closeable {
 
     private XSSFWorkbook workbook;
     private XSSFSheet sheet;
@@ -63,7 +58,7 @@ public class BaseXlsxWriter {
     }
 
     public XSSFSheet addSheet(String name, boolean landscape) {
-        sheet = workbook.createSheet(StringUtil.toXlsxSheetName(name));
+        sheet = workbook.createSheet(StringUtil.toFileName(name));
 
         // Imposto i margini
         sheet.setMargin(Sheet.LeftMargin, 0.25);
@@ -79,6 +74,8 @@ public class BaseXlsxWriter {
         printSetup.setFitWidth((short) 1);
         printSetup.setPaperSize(PrintSetup.A4_PAPERSIZE);
         printSetup.setLandscape(landscape);
+
+        sheet.setFitToPage(true);
 
         return sheet;
     }
@@ -127,13 +124,8 @@ public class BaseXlsxWriter {
      * @param rowIndex
      * @return
      */
-    public XSSFRow getRow(int rowIndex) {
-        XSSFRow row = sheet.getRow(rowIndex);
-        if (sheet.getRow(rowIndex) == null) {
-            row = sheet.createRow(rowIndex);
-        }
-
-        return row;
+    public Row getRow(int rowIndex) {
+        return ExcelUtil.getRow(getSheet(), rowIndex);
     }
 
     /**
@@ -144,14 +136,7 @@ public class BaseXlsxWriter {
      * @return
      */
     public Cell getCell(int rowIndex, int cellIndex) {
-        Row row = getRow(rowIndex);
-
-        Cell cell = row.getCell(cellIndex);
-        if (cell == null) {
-            cell = row.createCell(cellIndex);
-        }
-
-        return cell;
+        return ExcelUtil.getCell(getSheet(), rowIndex, cellIndex);
     }
 
     /**
@@ -168,6 +153,17 @@ public class BaseXlsxWriter {
     }
 
     /**
+     * Adatta la larghezza delle colonne indicate
+     * @param columnIndex1
+     * @param columnIndex2
+     */
+    public void  autoSizeColumns(int columnIndex1, int columnIndex2) {
+        for (int i = columnIndex1; i <= columnIndex2; i++) {
+            getSheet().autoSizeColumn(i);
+        }
+    }
+
+    /**
      * Imposta il valore nella cella.
      *
      * @param rowIndex
@@ -175,20 +171,7 @@ public class BaseXlsxWriter {
      * @param value
      */
     public void setCellValue(int rowIndex, int cellIndex, Object value) {
-        Cell cell = getCell(rowIndex, cellIndex);
-
-        if (value == null)
-            return;
-
-        if (value instanceof String) {
-            cell.setCellValue(new XSSFRichTextString((String) value));
-        } else if (value instanceof BigDecimal) {
-            cell.setCellValue(((BigDecimal) value).doubleValue());
-        } else if (value instanceof Timestamp) {
-            cell.setCellValue(TimeStampUtil.toCalendar((Timestamp) value));
-        } else if (value instanceof Boolean) {
-            cell.setCellValue((Boolean) value);
-        }
+        ExcelUtil.setCellValue(getSheet(), rowIndex, cellIndex, value);
     }
 
     public void addMergedRegion(int rowIndex1, int columnIndex1, int rowIndex2, int columnIndex2) {
@@ -217,8 +200,7 @@ public class BaseXlsxWriter {
      * @param cellStyle
      */
     public void setCellStyle(int rowIndex, int cellIndex, CellStyle cellStyle) {
-        Cell cell = getCell(rowIndex, cellIndex);
-        cell.setCellStyle(cellStyle);
+        ExcelUtil.setCellStyle(getSheet(), rowIndex, cellIndex, cellStyle);
     }
 
     /**
@@ -231,12 +213,7 @@ public class BaseXlsxWriter {
      * @param cellStyle
      */
     public void setRangeStyle(int rowIndex1, int cellIndex1, int rowIndex2, int cellIndex2, CellStyle cellStyle) {
-        for (int i = rowIndex1; i <= rowIndex2; i++) {
-            for (int j = cellIndex1; j <= cellIndex2; j++) {
-                Cell cell = getCell(i, j);
-                cell.setCellStyle(cellStyle);
-            }
-        }
+        ExcelUtil.setRangeStyle(getSheet(), rowIndex1, cellIndex1, rowIndex2, cellIndex2, cellStyle);
     }
 
     /**
@@ -255,4 +232,8 @@ public class BaseXlsxWriter {
         cell.setCellStyle(cellStyle);
     }
 
+    @Override
+    public void close() throws IOException {
+        workbook.close();
+    }
 }

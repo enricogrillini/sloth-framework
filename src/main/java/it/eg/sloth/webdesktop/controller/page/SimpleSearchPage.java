@@ -21,11 +21,7 @@ import it.eg.sloth.webdesktop.controller.common.SimpleSearchPageInterface;
  * @param <F>
  * @author Enrico Grillini
  */
-public abstract class SimpleSearchPage<F extends Form> extends SimplePage<F> implements SimpleSearchPageInterface {
-
-    public SimpleSearchPage() {
-        super();
-    }
+public abstract class SimpleSearchPage<F extends Form> extends SimplePage<F> implements SimpleSearchPageInterface<F> {
 
     @Override
     public boolean defaultNavigation() throws Exception {
@@ -46,14 +42,6 @@ public abstract class SimpleSearchPage<F extends Form> extends SimplePage<F> imp
         }
 
         return false;
-    }
-
-    public void onLoad() throws Exception {
-        execLoad();
-    }
-
-    public void onReset() throws Exception {
-        execReset();
     }
 
 }

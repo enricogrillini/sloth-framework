@@ -1,6 +1,7 @@
 package it.eg.sloth.form.fields.field;
 
 import it.eg.sloth.db.datasource.DataSource;
+import it.eg.sloth.form.Escaper;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -27,11 +28,32 @@ import java.text.ParseException;
 public interface DataField<T> extends SimpleField {
 
     /**
+     * Contiente il valore informativo come stringa
+     *
+     * @return
+     */
+    String getData();
+
+    /**
+     * Contiente il valore informativo come stringa
+     *
+     * @param data
+     */
+    void setData(String data);
+
+    /**
      * Ritorna l'alias
      *
      * @return
      */
     String getAlias();
+
+    /**
+     * Ritorna l'order by alias
+     *
+     * @return
+     */
+    String getOrderByAlias();
 
     /**
      * Imposta l'alias
@@ -68,24 +90,56 @@ public interface DataField<T> extends SimpleField {
      */
     void setFormat(String format);
 
-    String getData();
+    void setBaseLink(String baseLink);
 
-    void setData(String data);
+    String getBaseLink();
+
+    void setLinkField(String linkField);
+
+    String getLinkField();
+
+    void setHidden(Boolean hidden);
+
+    boolean isHidden();
+
+    Escaper getHtmlEscaper();
+
+    void setHtmlEscaper(Escaper escaper);
+
+    Escaper getJsEscaper();
+
+    void setJsEscaper(Escaper escaper);
 
     default String escapeHtmlText() {
-        return getDataType().escapeHtmlText(getData(), getLocale(), getFormat());
+        if (getHtmlEscaper() == null) {
+            return getDataType().escapeHtmlText(getData(), getLocale(), getFormat());
+        } else {
+            return getHtmlEscaper().escapeText(getData());
+        }
     }
 
     default String escapeJsText() {
-        return getDataType().escapeJsText(getData(), getLocale(), getFormat());
+        if (getJsEscaper() == null) {
+            return getDataType().escapeJsText(getData(), getLocale(), getFormat());
+        } else {
+            return getJsEscaper().escapeText(getData());
+        }
     }
 
     default String escapeHtmlValue() {
-        return Casting.getHtml(getData(), false, false);
+        if (getHtmlEscaper() == null) {
+            return Casting.getHtml(getData(), false, false);
+        } else {
+            return getHtmlEscaper().escapeValue(getData());
+        }
     }
 
     default String escapeJsValue() {
-        return Casting.getJs(getData());
+        if (getJsEscaper() == null) {
+            return Casting.getJs(getData());
+        } else {
+            return getJsEscaper().escapeValue(getData());
+        }
     }
 
     /**

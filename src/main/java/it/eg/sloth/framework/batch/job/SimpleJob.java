@@ -4,12 +4,16 @@ import it.eg.sloth.framework.batch.jobmessage.JobMessage;
 import it.eg.sloth.framework.batch.jobmessage.JobStatus;
 import it.eg.sloth.framework.batch.scheduler.SchedulerSingleton;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.common.message.Message;
+import it.eg.sloth.framework.common.message.MessageList;
 import it.eg.sloth.framework.monitor.MonitorSingleton;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+
+import java.text.MessageFormat;
 
 /**
  * Project: sloth-framework
@@ -31,7 +35,27 @@ import org.quartz.JobExecutionException;
 @Getter
 public abstract class SimpleJob implements Job {
 
+    private static final String START = "Elaborazione {0} avviata correttamente!";
+    private static final String END = "Elaborazione {0} terminata correttamente!";
+    private static final String ABORTED = "Elaborazione {0} abortita!";
+
     Integer executionId;
+    String group;
+    String name;
+
+    public void log(String message, String detail, int progress, JobStatus status) throws FrameworkException {
+        SchedulerSingleton.getInstance().getJobMessageManger().updateMessage(getExecutionId(), message, detail, progress, status);
+    }
+
+    public void log(String message, String detail, int progress) throws FrameworkException {
+        log(message, detail, progress, JobStatus.RUNNING);
+    }
+
+    public void log(MessageList messageList, int progress) throws FrameworkException {
+        for (Message message : messageList) {
+            log(message.getSeverity() + " - " + message.getDescription(), message.getSubDescription(), progress, JobStatus.RUNNING);
+        }
+    }
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -45,20 +69,30 @@ public abstract class SimpleJob implements Job {
                 executionId = context.getTrigger().getJobDataMap().getInt(JobMessage.EXECUTION_ID);
             } else {
                 JobMessage jobMessage = SchedulerSingleton.getInstance().getJobMessageManger().createMessage(context.getJobDetail().getKey().getGroup(), context.getJobDetail().getKey().getName());
-
                 executionId = jobMessage.getExecutionId();
             }
 
+            group = context.getJobDetail().getKey().getGroup();
+            name = context.getJobDetail().getKey().getName();
+
+            log(MessageFormat.format(START, group + "." + name), "", 0, JobStatus.RUNNING);
             service(context);
-            SchedulerSingleton.getInstance().getJobMessageManger().updateMessage(getExecutionId(), "Elaborazione " + context.getJobDetail().getKey().getGroup() + "." + context.getJobDetail().getKey().getName() + " terminata correttamente!", "", 100, JobStatus.TERMINATED);
+            log(MessageFormat.format(END, group + "." + name), "", 100, JobStatus.TERMINATED);
 
         } catch (FrameworkException e) {
             try {
-                SchedulerSingleton.getInstance().getJobMessageManger().updateMessage(getExecutionId(), "Elaborazione " + context.getJobDetail().getKey().getGroup() + "." + context.getJobDetail().getKey().getName() + " abortita!", e.getMessage(), 100, JobStatus.ABORTED);
+                log(MessageFormat.format(ABORTED, group + "." + name), e.getMessage(), 100, JobStatus.ABORTED);
             } catch (FrameworkException e1) {
                 log.error("ERROR {}: {} - {}", getClass().getName(), e1.getExceptionType(), e1.getMessage(), e1);
             }
             log.error("ERROR {}: {} - {}", getClass().getName(), e.getExceptionType(), e.getMessage(), e);
+        } catch (Exception e) {
+            try {
+                log(MessageFormat.format(ABORTED, group + "." + name), e.getMessage(), 100, JobStatus.ABORTED);
+            } catch (FrameworkException e1) {
+                log.error("SYSTEM ERROR {}: {} - {}", getClass().getName(), e1.getExceptionType(), e1.getMessage(), e1);
+            }
+            log.error("SYSTEM ERROR {} - {}", getClass().getName(), e.getMessage(), e);
         } finally {
             log.info("OUT {}", getClass().getName());
             MonitorSingleton.getInstance().endEvent(eventid);

@@ -1,8 +1,6 @@
 package it.eg.sloth.webdesktop.tag.form.chart.pojo;
 
-import it.eg.sloth.framework.FrameComponent;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * Project: sloth-framework
@@ -18,9 +16,8 @@ import lombok.Setter;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
-public class ChartJs extends FrameComponent {
+@Data
+public class ChartJs {
     String type;
     ChartJsData data;
     ChartJsOptions options;
@@ -32,4 +29,5 @@ public class ChartJs extends FrameComponent {
         options = new ChartJsOptions();
         additionalInfo = new AdditionalInfo();
     }
+
 }

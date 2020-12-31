@@ -30,7 +30,7 @@ public class TextTag extends BaseControlTag {
 
     @Override
     protected void writeField() throws IOException, FrameworkException {
-        write(TextControlWriter.writeControl(getElement()));
+        write(TextControlWriter.writeControl(getElement(), getParentElement()));
     }
 
 }

@@ -33,32 +33,32 @@ public class TimestampUtilTest {
         assertEquals(Integer.valueOf(2020), TimeStampUtil.getYear(TimeStampUtil.parseTimestamp("01/06/2020", "dd/MM/yyyy")));
 
         // get Day of Week
-        assertEquals(null, TimeStampUtil.getDayOfWeek(null));
-        assertEquals(Integer.valueOf(2), TimeStampUtil.getDayOfWeek(TimeStampUtil.parseTimestamp("01/06/2020", "dd/MM/yyyy")));
+        assertEquals(null, TimeStampUtil.getWeekDay(null));
+        assertEquals(Integer.valueOf(2), TimeStampUtil.getWeekDay(TimeStampUtil.parseTimestamp("01/06/2020", "dd/MM/yyyy")));
         assertTrue(TimeStampUtil.isMonday(TimeStampUtil.parseTimestamp("01/06/2020", "dd/MM/yyyy")));
         assertFalse(TimeStampUtil.isMonday(TimeStampUtil.parseTimestamp("02/06/2020", "dd/MM/yyyy")));
 
-        assertEquals(Integer.valueOf(3), TimeStampUtil.getDayOfWeek(TimeStampUtil.parseTimestamp("02/06/2020", "dd/MM/yyyy")));
+        assertEquals(Integer.valueOf(3), TimeStampUtil.getWeekDay(TimeStampUtil.parseTimestamp("02/06/2020", "dd/MM/yyyy")));
         assertTrue(TimeStampUtil.isTuesday(TimeStampUtil.parseTimestamp("02/06/2020", "dd/MM/yyyy")));
         assertFalse(TimeStampUtil.isTuesday(TimeStampUtil.parseTimestamp("03/06/2020", "dd/MM/yyyy")));
 
-        assertEquals(Integer.valueOf(4), TimeStampUtil.getDayOfWeek(TimeStampUtil.parseTimestamp("03/06/2020", "dd/MM/yyyy")));
+        assertEquals(Integer.valueOf(4), TimeStampUtil.getWeekDay(TimeStampUtil.parseTimestamp("03/06/2020", "dd/MM/yyyy")));
         assertTrue(TimeStampUtil.isWednesday(TimeStampUtil.parseTimestamp("03/06/2020", "dd/MM/yyyy")));
         assertFalse(TimeStampUtil.isWednesday(TimeStampUtil.parseTimestamp("04/06/2020", "dd/MM/yyyy")));
 
-        assertEquals(Integer.valueOf(5), TimeStampUtil.getDayOfWeek(TimeStampUtil.parseTimestamp("04/06/2020", "dd/MM/yyyy")));
+        assertEquals(Integer.valueOf(5), TimeStampUtil.getWeekDay(TimeStampUtil.parseTimestamp("04/06/2020", "dd/MM/yyyy")));
         assertTrue(TimeStampUtil.isThursday(TimeStampUtil.parseTimestamp("04/06/2020", "dd/MM/yyyy")));
         assertFalse(TimeStampUtil.isThursday(TimeStampUtil.parseTimestamp("05/06/2020", "dd/MM/yyyy")));
 
-        assertEquals(Integer.valueOf(6), TimeStampUtil.getDayOfWeek(TimeStampUtil.parseTimestamp("05/06/2020", "dd/MM/yyyy")));
+        assertEquals(Integer.valueOf(6), TimeStampUtil.getWeekDay(TimeStampUtil.parseTimestamp("05/06/2020", "dd/MM/yyyy")));
         assertTrue(TimeStampUtil.isFriday(TimeStampUtil.parseTimestamp("05/06/2020", "dd/MM/yyyy")));
         assertFalse(TimeStampUtil.isFriday(TimeStampUtil.parseTimestamp("06/06/2020", "dd/MM/yyyy")));
 
-        assertEquals(Integer.valueOf(7), TimeStampUtil.getDayOfWeek(TimeStampUtil.parseTimestamp("06/06/2020", "dd/MM/yyyy")));
+        assertEquals(Integer.valueOf(7), TimeStampUtil.getWeekDay(TimeStampUtil.parseTimestamp("06/06/2020", "dd/MM/yyyy")));
         assertTrue(TimeStampUtil.isSaturday(TimeStampUtil.parseTimestamp("06/06/2020", "dd/MM/yyyy")));
         assertFalse(TimeStampUtil.isSaturday(TimeStampUtil.parseTimestamp("07/06/2020", "dd/MM/yyyy")));
 
-        assertEquals(Integer.valueOf(1), TimeStampUtil.getDayOfWeek(TimeStampUtil.parseTimestamp("07/06/2020", "dd/MM/yyyy")));
+        assertEquals(Integer.valueOf(1), TimeStampUtil.getWeekDay(TimeStampUtil.parseTimestamp("07/06/2020", "dd/MM/yyyy")));
         assertTrue(TimeStampUtil.isSunday(TimeStampUtil.parseTimestamp("07/06/2020", "dd/MM/yyyy")));
         assertFalse(TimeStampUtil.isSunday(TimeStampUtil.parseTimestamp("08/06/2020", "dd/MM/yyyy")));
     }

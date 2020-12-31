@@ -1,5 +1,6 @@
 package it.eg.sloth.webdesktop.controller.common.grid;
 
+import it.eg.sloth.form.Form;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.webdesktop.controller.common.SimpleSearchPageInterface;
 
@@ -19,18 +20,14 @@ import it.eg.sloth.webdesktop.controller.common.SimpleSearchPageInterface;
  *
  * @author Enrico Grillini
  */
-public interface ReportGridNavigationInterface extends SimpleSearchPageInterface {
+public interface ReportGridNavigationInterface<F extends Form> extends SimpleSearchPageInterface<F> {
 
-  public void onFirstRow(Grid<?> grid) throws Exception;
+    void onFirstRow(Grid<?> grid) throws Exception;
 
-  public void onPrevPage(Grid<?> grid) throws Exception;
+    void onPrevPage(Grid<?> grid) throws Exception;
 
-  public void onNextPage(Grid<?> grid) throws Exception;
+    void onNextPage(Grid<?> grid) throws Exception;
 
-  public void onLastRow(Grid<?> grid) throws Exception;
-
-  public void onSort(Grid<?> grid, String fieldName, int sortType) throws Exception;
-
-  public void onExcel(Grid<?> grid) throws Exception;
+    void onLastRow(Grid<?> grid) throws Exception;
 
 }

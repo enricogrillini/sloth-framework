@@ -164,7 +164,7 @@ public enum DataTypes {
     public String formatValue(Object value, Locale locale) throws FrameworkException {
         ResourceBundle bundle = ResourceBundle.getBundle(Localization.VALUE_BUNDLE, locale);
 
-        return format(value, bundle, null);
+        return format(value, locale, bundle, null);
     }
 
     /**
@@ -178,7 +178,7 @@ public enum DataTypes {
     public String formatValue(Object value, Locale locale, String format) throws FrameworkException {
         ResourceBundle bundle = ResourceBundle.getBundle(Localization.VALUE_BUNDLE, locale);
 
-        return format(value, bundle, format);
+        return format(value, locale, bundle, format);
     }
 
     /**
@@ -192,7 +192,7 @@ public enum DataTypes {
     public String formatText(Object value, Locale locale) throws FrameworkException {
         ResourceBundle bundle = ResourceBundle.getBundle(Localization.TEXT_BUNDLE, locale);
 
-        return format(value, bundle, null);
+        return format(value, locale, bundle, null);
     }
 
     /**
@@ -206,7 +206,7 @@ public enum DataTypes {
     public String formatText(Object value, Locale locale, String format) throws FrameworkException {
         ResourceBundle bundle = ResourceBundle.getBundle(Localization.TEXT_BUNDLE, locale);
 
-        return format(value, bundle, format);
+        return format(value, locale, bundle, format);
     }
 
     /**
@@ -217,7 +217,7 @@ public enum DataTypes {
      * @return
      * @throws FrameworkException
      */
-    private String format(Object value, ResourceBundle textBundle, String format) throws FrameworkException {
+    private String format(Object value, Locale locale, ResourceBundle textBundle, String format) throws FrameworkException {
         if (BaseFunction.isBlank(format)) {
             format = textBundle.getString(formatProperties);
         }
@@ -229,7 +229,7 @@ public enum DataTypes {
             case HOUR:
             case MONTH:
                 if (BaseFunction.isNull(value) || value instanceof Timestamp) {
-                    return TimeStampUtil.formatTimestamp((Timestamp) value, format);
+                    return TimeStampUtil.formatTimestamp((Timestamp) value, locale, format);
                 } else {
                     throw new FrameworkException(ExceptionCode.FORMAT_ERROR);
                 }

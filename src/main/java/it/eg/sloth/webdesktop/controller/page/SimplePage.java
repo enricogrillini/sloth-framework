@@ -1,24 +1,21 @@
 package it.eg.sloth.webdesktop.controller.page;
 
-import java.nio.charset.StandardCharsets;
-
-import org.springframework.web.servlet.ModelAndView;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import it.eg.sloth.db.decodemap.DecodeMap;
 import it.eg.sloth.db.decodemap.DecodeValue;
 import it.eg.sloth.db.decodemap.MapSearchType;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.fields.field.DecodedDataField;
-import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.utility.FileType;
 import it.eg.sloth.webdesktop.controller.common.SimplePageInterface;
-import it.eg.sloth.webdesktop.search.model.suggestion.SimpleSuggestion;
 import it.eg.sloth.webdesktop.search.model.SimpleSuggestionList;
+import it.eg.sloth.webdesktop.search.model.suggestion.SimpleSuggestion;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * Project: sloth-framework
@@ -59,16 +56,18 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
         boolean view = getWebRequest().getNavigation().length == 1 && "view".equals(getWebRequest().getNavigation()[0]) && !isNewForm();
 
         if (view) {
-            log.info("view");
+            log.info("Page view");
             return new ModelAndView(getJspName());
         } else {
-            log.info("service");
+            log.info("Page service");
 
             // Esecuzione della Page
             try {
                 getMessageList().setPopup(true);
-                getMessageList().getList().clear();
-                if (!defaultNavigation()) {
+                getMessageList().clear();
+
+                // Eseguo le operazioni di inizializzaizone sel la form se è nuova o se la navigazione non è gestita
+                if (isNewForm() || !defaultNavigation()) {
                     onInit();
                 }
             } catch (Exception e) {
@@ -99,19 +98,18 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
             if (getForm().getElement(navigation[1]) instanceof DecodedDataField) {
                 DecodedDataField<?> decodedDataField = (DecodedDataField<?>) getForm().getElement(navigation[1]);
                 decodeMap = decodedDataField.getDecodeMap();
-            } else {
-                MultipleAutoComplete<?, ?> decodedDataField = (MultipleAutoComplete<?, ?>) getForm().getElement(navigation[1]);
-                decodeMap = decodedDataField.getDecodeMap();
             }
 
             String query = getWebRequest().getString("query");
             SimpleSuggestionList list = new SimpleSuggestionList();
-            for (DecodeValue<?> decodeValue : decodeMap.performSearch(query, MapSearchType.MATCH, 10)) {
-                SimpleSuggestion simpleSuggestion = new SimpleSuggestion();
-                simpleSuggestion.setValue(decodeValue.getDescription());
-                simpleSuggestion.setValid(decodeValue.isValid());
+            if (decodeMap != null) {
+                for (DecodeValue<?> decodeValue : decodeMap.performSearch(query, MapSearchType.MATCH, 10)) {
+                    SimpleSuggestion simpleSuggestion = new SimpleSuggestion();
+                    simpleSuggestion.setValue(decodeValue.getDescription());
+                    simpleSuggestion.setValid(decodeValue.isValid());
 
-                list.getSuggestions().add(simpleSuggestion);
+                    list.getSuggestions().add(simpleSuggestion);
+                }
             }
 
             ObjectMapper mapper = new ObjectMapper();
@@ -135,25 +133,28 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
         execInit();
     }
 
-    protected ModelAndView getModelAndView() {
+    public ModelAndView getModelAndView() {
         return modelAndView;
     }
 
-    protected void clearModelAndView() {
+    public void clearModelAndView() {
         this.modelAndView = null;
     }
 
-    protected void setModelAndView(String fileName, FileType fileType) {
-        getResponse().setContentType(fileType.getContentType());
+    public void setModelAndView(String fileName, FileType fileType) {
+        if (fileType != null) {
+            getResponse().setContentType(fileType.getContentType());
+        }
+
         getResponse().setHeader("Content-Disposition", "attachment; filename=" + StringUtil.toFileName(fileName));
         clearModelAndView();
     }
 
-    protected void setModelAndView(ModelAndView modelAndView) {
+    public void setModelAndView(ModelAndView modelAndView) {
         this.modelAndView = modelAndView;
     }
 
-    protected void setModelAndView(String modelAndView) {
+    public void setModelAndView(String modelAndView) {
         setModelAndView(new ModelAndView(modelAndView));
     }
 

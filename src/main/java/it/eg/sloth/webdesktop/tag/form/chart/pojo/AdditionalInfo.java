@@ -1,8 +1,6 @@
 package it.eg.sloth.webdesktop.tag.form.chart.pojo;
 
-import it.eg.sloth.framework.FrameComponent;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * Project: sloth-framework
@@ -18,14 +16,13 @@ import lombok.Setter;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
-public class AdditionalInfo extends FrameComponent {
+@Data
+public class AdditionalInfo {
 
-  NumerFormat numerFormat;
-  
-  public AdditionalInfo () {
-    numerFormat = NumerFormat.DECIMAL_FORMAT;
-  }
+    NumerFormat numerFormat;
+
+    public AdditionalInfo() {
+        numerFormat = NumerFormat.DECIMAL_FORMAT;
+    }
 
 }

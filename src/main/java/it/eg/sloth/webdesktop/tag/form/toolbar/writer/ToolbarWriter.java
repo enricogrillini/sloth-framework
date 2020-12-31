@@ -228,7 +228,7 @@ public class ToolbarWriter extends HtmlWriter {
                     .append(BEGIN_BUTTON)
                     .append(getAttribute(ATTR_NAME,NavigationConst.navStr(NavigationConst.DELETE, grid.getName())))
                     .append(getAttribute(ATTR_DISABLED, grid.getDataSource().size() == 0, ""))
-                    .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Elimina il record corrente\"><i class=\"fas fa-minus\"></i> Elimina</button>")
+                    .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Elimina il record corrente\"><i class=\"far fa-trash-alt\"></i> Elimina</button>")
                     .toString();
         }
     }

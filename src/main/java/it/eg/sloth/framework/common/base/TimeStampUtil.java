@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Project: sloth-framework
@@ -40,6 +41,8 @@ public class TimeStampUtil {
     }
 
 
+
+
     /**
      * Converte una data in String
      *
@@ -47,7 +50,11 @@ public class TimeStampUtil {
      * @return
      */
     public static String formatTimestamp(Timestamp date) {
-        return formatTimestamp(date, null);
+        return formatTimestamp(date, null, null);
+    }
+
+    public static String formatTimestamp(Timestamp date, String format) {
+        return formatTimestamp(date, null, format);
     }
 
     /**
@@ -57,7 +64,7 @@ public class TimeStampUtil {
      * @param format
      * @return
      */
-    public static String formatTimestamp(Timestamp date, String format) {
+    public static String formatTimestamp(Timestamp date, Locale locale, String format) {
         if (BaseFunction.isNull(date)) {
             return StringUtil.EMPTY;
         }
@@ -66,7 +73,8 @@ public class TimeStampUtil {
             format = DEFAULT_FORMAT;
         }
 
-        SimpleDateFormat dfOutput = new SimpleDateFormat(format);
+        SimpleDateFormat dfOutput = locale == null ? new SimpleDateFormat(format) : new SimpleDateFormat(format, locale);
+
         return dfOutput.format(date);
     }
 
@@ -150,19 +158,19 @@ public class TimeStampUtil {
             return calendar;
         }
     }
-
+    
     public static final Integer getYear(Timestamp value) {
         Calendar calendar = toCalendar(value);
-        if (calendar!=null) {
+        if (calendar != null) {
             return calendar.get(Calendar.YEAR);
         } else {
             return null;
         }
     }
 
-    public static final Integer getDayOfWeek(Timestamp value) {
+    public static final Integer getWeekDay(Timestamp value) {
         Calendar calendar = toCalendar(value);
-        if (calendar!=null) {
+        if (calendar != null) {
             return calendar.get(Calendar.DAY_OF_WEEK);
         } else {
             return null;
@@ -176,7 +184,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isMonday(Timestamp value) {
-        return getDayOfWeek(value) == Calendar.MONDAY;
+        return getWeekDay(value) == Calendar.MONDAY;
     }
 
     /**
@@ -186,7 +194,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isTuesday(Timestamp value) {
-        return getDayOfWeek(value) == Calendar.TUESDAY;
+        return getWeekDay(value) == Calendar.TUESDAY;
     }
 
     /**
@@ -196,7 +204,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isWednesday(Timestamp value) {
-        return getDayOfWeek(value) == Calendar.WEDNESDAY;
+        return getWeekDay(value) == Calendar.WEDNESDAY;
     }
 
     /**
@@ -206,7 +214,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isThursday(Timestamp value) {
-        return getDayOfWeek(value) == Calendar.THURSDAY;
+        return getWeekDay(value) == Calendar.THURSDAY;
     }
 
     /**
@@ -216,7 +224,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isFriday(Timestamp value) {
-        return getDayOfWeek(value) == Calendar.FRIDAY;
+        return getWeekDay(value) == Calendar.FRIDAY;
     }
 
     /**
@@ -226,7 +234,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isSaturday(Timestamp value) {
-        return getDayOfWeek(value) == Calendar.SATURDAY;
+        return getWeekDay(value) == Calendar.SATURDAY;
     }
 
     /**
@@ -236,7 +244,7 @@ public class TimeStampUtil {
      * @return
      */
     public static boolean isSunday(Timestamp value) {
-        return getDayOfWeek(value) == Calendar.SUNDAY;
+        return getWeekDay(value) == Calendar.SUNDAY;
     }
 
     /**
@@ -292,7 +300,7 @@ public class TimeStampUtil {
 
         // Festività Fisse
         for (String holiday : FIXED_HOLIDAY) {
-            if (formatTimestamp(data, DAY_TRUNC_FORMAT).equals(holiday)) {
+            if (formatTimestamp(data, null, DAY_TRUNC_FORMAT).equals(holiday)) {
                 return true;
             }
         }
@@ -306,14 +314,14 @@ public class TimeStampUtil {
         }
 
         // Altre festività
-        for (Timestamp timestamp : otherHoliday) {
-            if (formatTimestamp(data, DAY_TRUNC_FORMAT).equals(formatTimestamp(timestamp, DAY_TRUNC_FORMAT))) {
-                return true;
+        if (otherHoliday != null) {
+            for (Timestamp timestamp : otherHoliday) {
+                if (timestamp != null && formatTimestamp(data, null, DAY_TRUNC_FORMAT).equals(formatTimestamp(timestamp, null, DAY_TRUNC_FORMAT))) {
+                    return true;
+                }
             }
         }
-
         return false;
-
     }
 
     public static final DayType getDayType(Timestamp data, Timestamp... otherHoliday) throws FrameworkException {

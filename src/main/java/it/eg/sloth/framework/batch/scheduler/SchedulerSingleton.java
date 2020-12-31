@@ -1,6 +1,5 @@
 package it.eg.sloth.framework.batch.scheduler;
 
-import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.batch.jobmessage.InMemoryMessageManger;
 import it.eg.sloth.framework.batch.jobmessage.JobMessageManger;
 import it.eg.sloth.framework.common.exception.ExceptionCode;
@@ -29,7 +28,7 @@ import java.util.List;
  * @author Enrico Grillini
  */
 @Slf4j
-public class SchedulerSingleton extends FrameComponent {
+public class SchedulerSingleton {
 
     static SchedulerSingleton instance = null;
 

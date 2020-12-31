@@ -1,10 +1,5 @@
 package it.eg.sloth.db.datasource.row.lob;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -20,46 +15,36 @@ import java.io.ObjectOutput;
  *
  * @author Enrico Grillini
  */
-public abstract class LobData<O extends Object>  implements Externalizable {
+public abstract class LobData<O extends Object> {
 
-  public static final int OFF_LINE = 0;
-  public static final int ON_LINE = 1;
-  public static final int CHANGED = 2;
+    public static final int OFF_LINE = 0;
+    public static final int ON_LINE = 1;
+    public static final int CHANGED = 2;
 
-  private int status;
+    private int status;
 
-  protected transient O value;
+    protected O value;
 
-  public LobData() {
-    setStatus(OFF_LINE);
-    value = null;
-  }
+    public LobData() {
+        setStatus(OFF_LINE);
+        value = null;
+    }
 
-  public int getStatus() {
-    return status;
-  }
+    public int getStatus() {
+        return status;
+    }
 
-  public void setStatus(int status) {
-    this.status = status;
-  }
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
-  public O getValue() {
-    return value;
-  }
+    public O getValue() {
+        return value;
+    }
 
-  public void setValue(O value) {
-    setStatus(CHANGED);
-    this.value = value;
-  }
-
-  @Override
-  public void writeExternal(ObjectOutput out) throws IOException {
-    out.writeInt(getStatus());
-  }
-
-  @Override
-  public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-    setStatus(in.readInt());
-  }
+    public void setValue(O value) {
+        setStatus(CHANGED);
+        this.value = value;
+    }
 
 }

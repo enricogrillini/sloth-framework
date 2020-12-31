@@ -1,13 +1,16 @@
 package it.eg.sloth.webdesktop.dto;
 
 import it.eg.sloth.form.Form;
-import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.common.message.MessageList;
 import it.eg.sloth.framework.security.User;
 import it.eg.sloth.webdesktop.search.SearchManager;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,27 +29,42 @@ import java.util.Map;
  * @author Enrico Grillini
  */
 @Getter
-public class WebDesktopDto extends FrameComponent {
+@ToString
+public class WebDesktopDto implements Serializable {
 
     @Setter
-    private User user;
+    private transient User user;
     @Setter
-    private Form form;
+    private transient Form form;
     @Setter
-    private String lastController;
+    private transient String lastController;
 
-    private MessageList messageList;
-    private SearchManager searchManager;
-    private Map<String, Object> map;
+    private transient MessageList messageList;
+    private transient SearchManager searchManager;
+    private transient Map<String, Object> map;
 
     public WebDesktopDto() {
         this.user = null;
+        init();
+    }
+
+    private void init() {
+        this.user = null;
         this.form = null;
         this.lastController = null;
+
         this.messageList = new MessageList();
         this.searchManager = new SearchManager();
-
         this.map = new HashMap<>();
+    }
+
+    public boolean isUserLoaded() {
+        return getUser() != null && getUser().getId() != null;
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        // Inizializzo gli attributi "transient"
+        init();
     }
 
 }

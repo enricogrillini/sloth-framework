@@ -1,9 +1,9 @@
 package it.eg.sloth.db.datasource.table.sort;
 
-import it.eg.sloth.framework.FrameComponent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Project: sloth-framework
@@ -23,19 +23,20 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class SortingRule extends FrameComponent {
+@ToString
+public class SortingRule {
 
-  public static final int SORT_ASC_NULLS_LAST = 1;
-  public static final int SORT_DESC_NULLS_LAST = -1;
+    public static final int SORT_ASC_NULLS_LAST = 1;
+    public static final int SORT_DESC_NULLS_LAST = -1;
 
-  public static final int SORT_ASC_NULLS_FIRST = 2;
-  public static final int SORT_DESC_NULLS_FIRST = -2;
+    public static final int SORT_ASC_NULLS_FIRST = 2;
+    public static final int SORT_DESC_NULLS_FIRST = -2;
 
-  private String fieldName;
-  private int sortType;
+    private String fieldName;
+    private int sortType;
 
-  public SortingRule(String fieldName) {
-    this(fieldName, SORT_ASC_NULLS_LAST);
-  }
+    public SortingRule(String fieldName) {
+        this(fieldName, SORT_ASC_NULLS_LAST);
+    }
 
 }

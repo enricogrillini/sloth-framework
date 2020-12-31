@@ -1,21 +1,14 @@
 package it.eg.sloth.webdesktop.controller.page;
 
-import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.form.tabsheet.Tab;
 import it.eg.sloth.form.tabsheet.TabSheet;
-import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.pageinfo.PageStatus;
-import it.eg.sloth.framework.utility.FileType;
-import it.eg.sloth.framework.utility.xlsx.GridXlsxWriter;
 import it.eg.sloth.webdesktop.controller.common.grid.MasterDetailGridNavigationInterface;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.OutputStream;
 
 /**
  * Project: sloth-framework
@@ -38,7 +31,7 @@ import java.io.OutputStream;
  * @author Enrico Grillini
  */
 @Slf4j
-public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extends SimplePage<F> implements MasterDetailGridNavigationInterface {
+public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extends SimplePage<F> implements MasterDetailGridNavigationInterface<F> {
 
     public MasterDetailPage() {
         super();
@@ -169,13 +162,13 @@ public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extend
     @Override
     public void onLoad() throws Exception {
         getForm().getPageInfo().setPageStatus(PageStatus.MASTER);
-        execLoad();
+        MasterDetailGridNavigationInterface.super.onLoad();
     }
 
     @Override
     public void onReset() throws Exception {
         getForm().getPageInfo().setPageStatus(PageStatus.MASTER);
-        execReset();
+        MasterDetailGridNavigationInterface.super.onReset();
     }
 
     @Override
@@ -288,28 +281,6 @@ public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extend
         Tab tab = tabSheet.getElement(tabName);
 
         execSelectTab(tabSheet, tab);
-    }
-
-    @Override
-    public void onSort(Grid<?> grid, String fieldName, int sortType) throws Exception {
-        DataTable<?> dataTable = grid.getDataSource();
-
-        dataTable.clearSortingRules();
-        dataTable.addSortingRule(fieldName, sortType);
-        dataTable.applySort(false);
-    }
-
-    @Override
-    public void onExcel(Grid<?> grid) throws Exception {
-        try (OutputStream outputStream = getResponse().getOutputStream()) {
-            String fileName = BaseFunction.nvl(grid.getTitle(), grid.getName()) + FileType.XLSX.getExtension();
-            fileName = StringUtil.toFileName(fileName);
-
-            setModelAndView(fileName, FileType.XLSX);
-
-            GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
-            gridXlsxWriter.getWorkbook().write(outputStream);
-        }
     }
 
 }

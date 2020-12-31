@@ -1,20 +1,13 @@
 package it.eg.sloth.webdesktop.controller.page;
 
 import it.eg.sloth.db.DataManager;
-import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.grid.Grid;
-import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.pageinfo.ViewModality;
-import it.eg.sloth.framework.utility.FileType;
-import it.eg.sloth.framework.utility.xlsx.GridXlsxWriter;
 import it.eg.sloth.webdesktop.controller.common.editable.FullEditingInterface;
 import it.eg.sloth.webdesktop.controller.common.grid.EditableGridNavigationInterface;
-
-import java.io.OutputStream;
 
 /**
  * Project: sloth-framework
@@ -36,7 +29,7 @@ import java.io.OutputStream;
  * @param <G>
  * @author Enrico Grillini
  */
-public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extends EditablePage<F> implements EditableGridNavigationInterface, FullEditingInterface {
+public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extends EditablePage<F> implements EditableGridNavigationInterface<F>, FullEditingInterface<F> {
 
     public EditableGridPage() {
         super();
@@ -138,31 +131,19 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
     }
 
     public boolean execGoToRecord(int record) throws Exception {
-        if (ViewModality.VIEW_VISUALIZZAZIONE.equals(getForm().getPageInfo().getViewModality())) {
+        if (ViewModality.VIEW_VISUALIZZAZIONE.equals(getForm().getPageInfo().getViewModality()) || execPostDetail(true)) {
             getGrid().getDataSource().setCurrentRow(record);
             getGrid().copyFromDataSource(getGrid().getDataSource());
-            return true;
-        } else if (execPostDetail(true)) {
-            getGrid().getDataSource().setCurrentRow(record);
-            getGrid().copyFromDataSource(getGrid().getDataSource());
-            return true;
-        } else {
-            return true;
         }
+        return true;
     }
 
     public boolean execInsert() throws Exception {
-        if (ViewModality.VIEW_VISUALIZZAZIONE.equals(getForm().getPageInfo().getViewModality())) {
+        if (ViewModality.VIEW_VISUALIZZAZIONE.equals(getForm().getPageInfo().getViewModality()) || execPostDetail(true)) {
             getGrid().clearData();
             getGrid().getDataSource().add();
-            return true;
-        } else if (execPostDetail(true)) {
-            getGrid().clearData();
-            getGrid().getDataSource().add();
-            return true;
-        } else {
-            return true;
         }
+        return true;
     }
 
     @Override
@@ -189,33 +170,11 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
     }
 
     @Override
-    public void onInsert() throws Exception {
-        if (execInsert()) {
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_MODIFICA);
-        }
-    }
-
-    @Override
-    public void onDelete() throws Exception {
-        if (execDelete()) {
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_MODIFICA);
-        }
-    }
-
-    @Override
     public void onGoToRecord(int record) throws Exception {
         if (execPreMove() && getGrid().getDataSource().size() > record) {
             getGrid().getDataSource().setCurrentRow(record);
             execPostMove();
         }
-    }
-
-    public void onLoad() throws Exception {
-        execLoad();
-    }
-
-    public void onReset() throws Exception {
-        execReset();
     }
 
     @Override
@@ -263,28 +222,6 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
         if (execPreMove()) {
             getGrid().getDataSource().last();
             execPostMove();
-        }
-    }
-
-    @Override
-    public void onSort(Grid<?> grid, String fieldName, int sortType) throws Exception {
-        DataTable<?> dataTable = grid.getDataSource();
-
-        dataTable.clearSortingRules();
-        dataTable.addSortingRule(fieldName, sortType);
-        dataTable.applySort(false);
-    }
-
-    @Override
-    public void onExcel(Grid<?> grid) throws Exception {
-        try (OutputStream outputStream = getResponse().getOutputStream()) {
-            String fileName = BaseFunction.nvl(grid.getTitle(), grid.getName()) + FileType.XLSX.getExtension();
-            fileName = StringUtil.toFileName(fileName);
-
-            setModelAndView(fileName, FileType.XLSX);
-
-            GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
-            gridXlsxWriter.getWorkbook().write(outputStream);
         }
     }
 

@@ -4,10 +4,10 @@
 
     <groupId>it.eg.sloth</groupId>
     <artifactId>sloth-framework</artifactId>
-    <version>2.0.0-BETA</version>
+    <version>2.0.2</version>
     <packaging>jar</packaging>
 
-    <name>SlothFramework</name>
+    <name>Sloth Framework</name>
     <url>https://github.com/enricogrillini/sloth-framework</url>
 
     <properties>
@@ -15,9 +15,9 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
-        <org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
+        <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
 
-        <lombok.version>1.18.12</lombok.version>
+        <lombok.version>1.18.14</lombok.version>
         <jackson.version>2.11.1</jackson.version>
     </properties>
 
@@ -27,23 +27,34 @@
         <version>2.2.8.RELEASE</version>
         <relativePath/>
     </parent>
+    
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub enricogrillini Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/enricogrillini/sloth-framework</url>
+        </repository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13</version>
+            <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -55,7 +66,7 @@
         <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
-            <version>3.0.0</version>
+            <version>4.0.3</version>
             <scope>test</scope>
         </dependency>
 
@@ -127,7 +138,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.6</version>
+            <version>2.8.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -165,10 +176,9 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.3.3</version>
+            <version>3.5.13</version>
             <scope>test</scope>
         </dependency>
-
 
     </dependencies>
 
@@ -183,7 +193,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <!-- <compilerArgument>-Xlint:unchecked</compilerArgument> -->
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -221,6 +230,28 @@
                             </sources>
                             <clearOutputDir>false</clearOutputDir>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- JaCoCo -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- attached to Maven test phase -->
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

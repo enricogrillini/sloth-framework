@@ -6,7 +6,6 @@ import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.pageinfo.PageStatus;
 import it.eg.sloth.framework.pageinfo.ViewModality;
-import it.eg.sloth.webdesktop.controller.common.editable.FullEditingInterface;
 import it.eg.sloth.webdesktop.controller.common.editable.SubEditingInterface;
 import it.eg.sloth.webdesktop.controller.common.grid.BaseGridNavigationInterface;
 
@@ -29,7 +28,7 @@ import it.eg.sloth.webdesktop.controller.common.grid.BaseGridNavigationInterface
  * @param <G>
  * @author Enrico Grillini
  */
-public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>> extends MasterDetailPage<F, G> implements FullEditingInterface, SubEditingInterface, BaseGridNavigationInterface {
+public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>> extends MasterDetailPage<F, G> implements SubEditingInterface<F>, BaseGridNavigationInterface<F> {
 
     public EditableMasterDetailPage() {
         super();
@@ -44,35 +43,42 @@ public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>
         String[] navigation = getWebRequest().getNavigation();
 
         if (navigation.length == 1) {
-            if (NavigationConst.COMMIT.equals(navigation[0])) {
-                onCommit();
-                return true;
-            } else if (NavigationConst.ROLLBACK.equals(navigation[0])) {
-                onRollback();
-                return true;
+            switch (navigation[0]) {
+                case NavigationConst.COMMIT:
+                    onCommit();
+                    return true;
+                case NavigationConst.ROLLBACK:
+                    onRollback();
+                    return true;
+                default:
+                    // NOP
             }
         }
 
         if (navigation.length == 2) {
             Grid<?> grid = (Grid<?>) getForm().getElement(navigation[1]);
+            switch (navigation[0]) {
+                case NavigationConst.INSERT:
+                    if (grid == getGrid()) {
+                        onInsert();
+                    } else {
+                        onSubInsert(grid);
+                    }
+                    return true;
 
-            if (NavigationConst.INSERT.equals(navigation[0])) {
-                if (grid == getGrid()) {
-                    onInsert();
-                } else {
-                    onSubInsert(grid);
-                }
-                return true;
-            } else if (NavigationConst.DELETE.equals(navigation[0])) {
-                if (grid == getGrid()) {
-                    onDelete();
-                } else {
-                    onSubDelete(grid);
-                }
-                return true;
-            } else if (NavigationConst.UPDATE.equals(navigation[0])) {
-                onUpdate();
-                return true;
+                case NavigationConst.DELETE:
+                    if (grid == getGrid()) {
+                        onDelete();
+                    } else {
+                        onSubDelete(grid);
+                    }
+                    return true;
+
+                case NavigationConst.UPDATE:
+                    onUpdate();
+                    return true;
+                default:
+                    // NOP
             }
         }
 
@@ -181,11 +187,6 @@ public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>
             getForm().getPageInfo().setPageStatus(PageStatus.DELETING);
             getForm().getPageInfo().setViewModality(ViewModality.VIEW_VISUALIZZAZIONE);
         }
-    }
-
-    @Override
-    public void onSubDelete(Grid<?> grid) throws Exception {
-        execSubDelete(grid);
     }
 
     @Override

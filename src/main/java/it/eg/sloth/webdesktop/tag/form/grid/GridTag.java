@@ -26,7 +26,7 @@ public class GridTag extends AbstractGridTag<Grid<?>> {
         if (getElement().getDataSource() != null) {
             writeln(GridWriter.openTable(getElement(), true, true, true));
             writeln(GridWriter.header(getElement(), getDetailFields(), true));
-            writeln(GridWriter.rows(getElement(), getDetailFields(), getForm().getPageInfo().getViewModality()));
+            writeln(GridWriter.rows(getElement(), getDetailFields(), getForm().getPageInfo().getViewModality(), true));
 
             if (getElement().hasTotalizer()) {
                 writeln(GridWriter.total(getElement(), hasDetail()));

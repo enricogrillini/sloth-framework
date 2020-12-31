@@ -1,7 +1,7 @@
 package it.eg.sloth.webdesktop.tag.form.field;
 
 import it.eg.sloth.webdesktop.tag.form.base.BaseControlTag;
-import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
+import it.eg.sloth.webdesktop.tag.form.field.writer.LabelControlWriter;
 
 import java.io.IOException;
 
@@ -23,6 +23,6 @@ public class LabelTag extends BaseControlTag {
 
     @Override
     protected void writeField() throws IOException {
-        write(FormControlWriter.writeLabel(getElement()));
+        write(LabelControlWriter.writeLabel(getElement()));
     }
 }

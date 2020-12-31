@@ -131,7 +131,7 @@ public class StringUtilTest {
         assertEquals(null, StringUtil.parseCodiceFiscale(""));
 
         // Valid
-        assertEquals("RSSMRA80A01A944I", StringUtil.parseCodiceFiscale("RSSMRA80A01A944I"));
+        assertEquals("PPRPLN80A01A944I", StringUtil.parseCodiceFiscale("PPRPLN80A01A944I"));
         assertEquals("BNCMRA65A01A944P", StringUtil.parseCodiceFiscale("BNCMRA65A01A944P"));
     }
 
@@ -152,12 +152,17 @@ public class StringUtilTest {
         assertEquals("Impossibile validare il valore passato - Trovati caratteri non validi", frameworkException.getMessage());
 
 
-        // Lunghezza codice fiscale errata
+        // Codice di controllo non valido
         frameworkException = assertThrows(FrameworkException.class, () -> {
             StringUtil.parseCodiceFiscale("RSSMRA80A01A944H");
         });
         assertEquals("Impossibile validare il valore passato - Codice di controllo non valido", frameworkException.getMessage());
 
+        // Casi standard di invalidità
+        frameworkException = assertThrows(FrameworkException.class, () -> {
+            StringUtil.parseCodiceFiscale("XXXXXXXXXXXXXXXX");
+        });
+        assertEquals("Impossibile validare il valore passato - Trovati caratteri non validi", frameworkException.getMessage());
     }
 
 

@@ -25,7 +25,6 @@ import java.sql.SQLException;
  */
 public class Table extends TableAbstract<Row> {
 
-
     public Table(DataTable<?> dataTable) {
         super(dataTable);
     }

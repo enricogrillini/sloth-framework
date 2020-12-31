@@ -1,5 +1,6 @@
 package it.eg.sloth.webdesktop.tag;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.table.Table;
@@ -81,7 +82,7 @@ public class ChartWriterTest {
     }
 
     @Test
-    public void writeScriptTest() throws ParseException, FrameworkException {
+    public void writeScriptTest() throws ParseException, FrameworkException, JsonProcessingException {
         assertEquals(SCRIPT_TEMPLATE, ChartWriter.writeScript(simpleChart));
     }
 

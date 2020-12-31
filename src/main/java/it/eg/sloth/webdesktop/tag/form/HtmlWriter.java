@@ -31,6 +31,10 @@ public abstract class HtmlWriter {
 
     public static final String CLOSE_DIV = "</div>";
 
+    public static final String LINK = "<div class=\"input-group-append\"><a href=\"{0}\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a></div>";
+
+    public static final String ON_CLICK = "onclick";
+
     public static final String ATTR_ID = "id";
     public static final String ATTR_NAME = "name";
     public static final String ATTR_TYPE = "type";
@@ -43,8 +47,14 @@ public abstract class HtmlWriter {
     public static final String ATTR_DISABLED = "disabled";
     public static final String ATTR_CHECKED = "checked";
 
+    public static final String ATTR_DATA_TITLE = "data-title";
+    public static final String ATTR_DATA_DESCRIPTION = "data-description";
+
     private static final String ATTR_TOOLTIP = "data-toggle=\"tooltip\" data-placement=\"bottom\" title";
     private static final String ATTR_POPOVER = "data-toggle=\"popover\" data-placement=\"bottom\" data-container=\"body\" data-trigger=\"hover\" data-html=\"true\" data-original-title=\"{0}\" data-content=\"{1}\"";
+
+    public static final String VAL_ATTR_TYPE_RADIO = "radio";
+    public static final String VAL_ATTR_TYPE_CHECKBOX = "checkbox";
 
     public static String getElement(String element) {
         return "<" + element + ">";
@@ -67,7 +77,7 @@ public abstract class HtmlWriter {
     }
 
     public static String getAttribute(String property, boolean condizione, String value) {
-        return condizione ? " " + property + "=\"" + value + "\"" : "";
+        return condizione ? " " + property + "=\"" + value + "\"" : StringUtil.EMPTY;
     }
 
     public static String getAttribute(String property, boolean condizione, String valTrue, String valFalse) {

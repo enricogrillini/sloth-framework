@@ -2,6 +2,7 @@ package it.eg.sloth.form.fields.field.base;
 
 import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.db.datasource.row.lob.LobData;
+import it.eg.sloth.form.Escaper;
 import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.framework.common.base.BaseFunction;
@@ -10,8 +11,7 @@ import it.eg.sloth.framework.common.casting.Validator;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.Locale;
@@ -33,23 +33,28 @@ import java.util.Locale;
  */
 @Getter
 @Setter
+@ToString
 @SuperBuilder(toBuilder = true)
-public abstract class TextField<T extends Object> implements DataField<T> {
-
-    // Contiente il valore informativo come stringa
-    String data;
+public abstract class TextField<T> implements DataField<T> {
 
     String name;
     Locale locale;
+
     String description;
     String tooltip;
 
+    String data;
+
     String alias;
+    String orderByAlias;
     DataTypes dataType;
     String format;
     String baseLink;
+    String linkField;
 
     Boolean hidden;
+    Escaper htmlEscaper;
+    Escaper jsEscaper;
 
     public TextField(String name, String description, DataTypes dataType) {
         this.name = name;
@@ -72,6 +77,11 @@ public abstract class TextField<T extends Object> implements DataField<T> {
         return BaseFunction.isBlank(alias) ? getName() : alias.toLowerCase();
     }
 
+    @Override
+    public String getOrderByAlias() {
+        return BaseFunction.isBlank(orderByAlias) ? getAlias() : orderByAlias.toLowerCase();
+    }
+
     public T getValue() throws FrameworkException {
         return (T) getDataType().parseValue(data, getLocale(), getFormat());
     }
@@ -90,7 +100,7 @@ public abstract class TextField<T extends Object> implements DataField<T> {
         if (dataSource != null) {
             Object object = dataSource.getObject(getAlias());
 
-            // TODO: Sarebbe pià corretto rendere questo passaggio trasparente rispetto alla gestione dei LOB che dovrebbe essere demandata ai Bean
+            // Nota: Sarebbe più corretto rendere questo passaggio trasparente rispetto alla gestione dei LOB che dovrebbe essere demandata ai Bean
             if (object instanceof LobData) {
                 object = ((LobData<?>) object).getValue();
             }

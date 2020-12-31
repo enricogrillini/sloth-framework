@@ -70,6 +70,21 @@ public class StringUtil {
     }
 
     /**
+     * Ripulisce il testo passato. Efftua il trim del testo e rimuove gli spazi doppi tra le parole
+     *
+     * @param text
+     * @return
+     */
+    public static String clean(String text) {
+        if (BaseFunction.isBlank(text)) {
+            return EMPTY;
+        } else {
+            return text.trim().replaceAll(" +", " ");
+        }
+    }
+
+
+    /**
      * Ritorna la lista delle parole che compongono la stringa passata
      *
      * @param text
@@ -279,6 +294,17 @@ public class StringUtil {
     }
 
     /**
+     * Rimuove gli spazi a destra e a sinistra
+     *
+     * @param string
+     * @return
+     */
+    public static String trim(String string) {
+        return ltrim(rtrim(string));
+    }
+
+
+    /**
      * Trasforma la prima lettera di ogni parola in maiuscolo
      *
      * @param string
@@ -302,7 +328,7 @@ public class StringUtil {
             return string;
         }
     }
-
+    
     public static String toJavaClassName(String string) {
         if (BaseFunction.isBlank(string)) {
             return "";
@@ -356,27 +382,6 @@ public class StringUtil {
         }
 
         return result.toString().replace("--", "-");
-    }
-
-    public static String toXlsxSheetName(String string) {
-        if (BaseFunction.isBlank(string)) {
-            return "";
-        }
-
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < string.length(); i++) {
-            if (string.charAt(i) == ' ') {
-                result.append(" ");
-            } else if (string.charAt(i) == '/') {
-                result.append(" ");
-            } else if (string.charAt(i) >= 48 && string.charAt(i) <= 57 ||
-                    string.charAt(i) >= 65 && string.charAt(i) <= 90 ||
-                    string.charAt(i) >= 97 && string.charAt(i) <= 122 || string.charAt(i) == '-' || string.charAt(i) == '_' || i > 0 && string.charAt(i) == '.') {
-                result.append(string.charAt(i));
-            }
-        }
-
-        return result.toString().replace("  ", " ");
     }
 
     public static boolean contains(String string, String inStr) {
@@ -485,7 +490,9 @@ public class StringUtil {
             throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Lunghezza codice fiscale errata");
         }
 
-        if (!codiceFiscale.matches("^[0-9A-Z]{16}$")) {
+        // Reg Ex semplice   ^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$
+        // Reg Ex articolata ^[a-zA-Z]{6}[0-9]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9]{2}([a-zA-Z]{1}[0-9]{3})[a-zA-Z]{1}$
+        if (!codiceFiscale.matches("^[A-Z]{6}[0-9]{2}[ABCDEHLMPRST]{1}[0-9]{2}([A-Z]{1}[0-9]{3})[A-Z]{1}$")) {
             throw new FrameworkException(ExceptionCode.PARSE_ERROR, "Trovati caratteri non validi");
         }
 

@@ -33,6 +33,7 @@ import java.util.Map.Entry;
 public class MonitorSingleton {
 
     public static final String PAGE = "Page";
+    public static final String API = "Api";
     public static final String JOB = "Job";
     public static final String INITIALIZER = "Initializer";
 
@@ -112,6 +113,10 @@ public class MonitorSingleton {
         } else {
             return 0;
         }
+    }
+
+    public synchronized MonitorEvent getEvent(long eventId) {
+        return runningEvent.get(eventId);
     }
 
     public synchronized void endEvent(long eventId) {
