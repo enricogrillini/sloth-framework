@@ -3,7 +3,6 @@ package it.eg.sloth.webdesktop.tag.form.tabsheet;
 import it.eg.sloth.form.tabsheet.Tab;
 import it.eg.sloth.form.tabsheet.TabSheet;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Project: sloth-framework

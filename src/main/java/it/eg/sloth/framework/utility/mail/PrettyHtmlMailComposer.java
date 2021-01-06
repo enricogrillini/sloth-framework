@@ -1,19 +1,12 @@
 package it.eg.sloth.framework.utility.mail;
 
-import it.eg.sloth.framework.utility.mail.element.HtmlElement;
 import it.eg.sloth.framework.utility.mail.element.MailElement;
-import it.eg.sloth.framework.utility.mail.element.TextElement;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 
-@Data
-public class PrettyHtmlMailComposer {
+
+public class PrettyHtmlMailComposer extends MailComposer {
+
 
     private static final String OPEN_MAIL = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n" +
             "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
@@ -36,19 +29,9 @@ public class PrettyHtmlMailComposer {
 
     private static final String CLOSE_ROW = "</td></tr>";
 
-    private String title;
-
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    private List<MailElement> elements;
 
     public PrettyHtmlMailComposer(String title) {
-        this.title = title;
-        elements = new ArrayList<>();
-    }
-
-    public void clear() {
-        elements.clear();
+        super(title);
     }
 
     public String getHtml() {
@@ -67,11 +50,4 @@ public class PrettyHtmlMailComposer {
         return builder.toString();
     }
 
-    public void addTextElement(String text) {
-        elements.add(new TextElement(text));
-    }
-
-    public void addHtmlElement(String html) {
-        elements.add(new HtmlElement(html));
-    }
 }
