@@ -4,14 +4,14 @@ import it.eg.sloth.framework.utility.mail.element.HtmlElement;
 import it.eg.sloth.framework.utility.mail.element.MailElement;
 import it.eg.sloth.framework.utility.mail.element.TextElement;
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 public abstract class MailComposer {
 
     private String title;

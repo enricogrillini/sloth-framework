@@ -20,16 +20,16 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class NumerFormat extends FrameComponent {
+public class NumerFormat {
 
-  public static final NumerFormat CURRENCY_FORMAT = new NumerFormat(2, ",", ".", " €");
-  public static final NumerFormat DECIMAL_FORMAT = new NumerFormat(2, ",", ".", "");
-  public static final NumerFormat INTEGER_FORMAT = new NumerFormat(0, ",", ".", "");
-  public static final NumerFormat PERC_FORMAT = new NumerFormat(2, ",", ".", " %");
+    public static final NumerFormat CURRENCY_FORMAT = new NumerFormat(2, ",", ".", " €");
+    public static final NumerFormat DECIMAL_FORMAT = new NumerFormat(2, ",", ".", "");
+    public static final NumerFormat INTEGER_FORMAT = new NumerFormat(0, ",", ".", "");
+    public static final NumerFormat PERC_FORMAT = new NumerFormat(2, ",", ".", " %");
 
-  int decimals;
-  String decimalSeparator;
-  String thousandsSeparator;
-  String suffix;
+    int decimals;
+    String decimalSeparator;
+    String thousandsSeparator;
+    String suffix;
 
 }

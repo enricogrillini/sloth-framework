@@ -368,20 +368,27 @@ public class StringUtil {
             return "";
         }
 
-        StringBuilder result = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         for (int i = 0; i < string.length(); i++) {
             if (string.charAt(i) == ' ') {
-                result.append("-");
+                builder.append("_");
             } else if (string.charAt(i) == '/') {
-                result.append("-");
+                builder.append("-");
             } else if (string.charAt(i) >= 48 && string.charAt(i) <= 57 ||
                     string.charAt(i) >= 65 && string.charAt(i) <= 90 ||
                     string.charAt(i) >= 97 && string.charAt(i) <= 122 || string.charAt(i) == '-' || string.charAt(i) == '_' || i > 0 && string.charAt(i) == '.') {
-                result.append(string.charAt(i));
+                builder.append(string.charAt(i));
             }
         }
 
-        return result.toString().replace("--", "-");
+        String result = builder.toString();
+
+        result = result.replace("--", "-");
+        result = result.replace("_-", "_");
+        result = result.replace("-_", "_");
+        result = result.replace("__", "_");
+
+        return result;
     }
 
     public static boolean contains(String string, String inStr) {

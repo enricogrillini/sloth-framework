@@ -301,7 +301,7 @@ public class GridWriter extends HtmlWriter {
         }
 
         for (SimpleField field : grid.getElements()) {
-            if (field instanceof TextField && ((TextField<?>) field).isHidden())
+            if (field instanceof TextField && ((TextField<?>) field).isHidden() || field instanceof Hidden<?>)
                 continue;
 
             if (field instanceof TextTotalizer || field instanceof InputTotalizer) {

@@ -8,7 +8,6 @@ import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.framework.utility.xlsx.GridXlsxWriter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,7 +41,9 @@ public class GridXlsWriterTest {
     Grid<Table> grid;
 
     @Before
-    public void init() {
+    public void init() throws IOException {
+        TestUtil.createOutputDir();
+
         table = new Table();
         Row row = table.add();
         row.setString("campo1", "valore1");

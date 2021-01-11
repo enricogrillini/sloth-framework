@@ -7,11 +7,10 @@ import it.eg.sloth.form.fields.field.DecodedDataField;
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.InputField;
+import it.eg.sloth.form.fields.field.impl.Hidden;
 import it.eg.sloth.form.fields.field.impl.Semaphore;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.base.TimeStampUtil;
-import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelContainer;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelFont;
@@ -20,8 +19,6 @@ import org.apache.poi.hssf.usermodel.HeaderFooter;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
-
-import java.util.Locale;
 
 /**
  * Project: sloth-framework
@@ -83,38 +80,6 @@ public class GridXlsxWriter extends BaseXlsxWriter {
         }
     }
 
-    protected int addSheetTitle(String title, String subTitle, Locale locale, int size) throws FrameworkException {
-        int row = 0;
-
-        // Titolo
-        if (!BaseFunction.isBlank(title)) {
-            // Titolo
-            setCellValue(row, 0, title);
-            setCellStyle(row, 0, null, BaseExcelFont.TITLE, null, null);
-            getRow(row).setHeight((short) 450);
-            addMergedRegion(row, 0, row, size - 1);
-            row++;
-        }
-
-        // Sotto titolo
-        if (!BaseFunction.isBlank(subTitle)) {
-            setCellValue(row, 0, subTitle);
-            setCellStyle(row, 0, null, BaseExcelFont.SUB_TITLE, null, null);
-            getRow(row).setHeight((short) 400);
-            addMergedRegion(row, 0, row, size - 1);
-            row++;
-        }
-
-        // Data estrazione
-        setCellValue(row, 0, "Estratto il " + DataTypes.DATE.formatText(TimeStampUtil.sysdate(), locale) + " alle " + DataTypes.TIME.formatText(TimeStampUtil.sysdate(), locale));
-        setCellStyle(row, 0, null, BaseExcelFont.COMMENT, null, null);
-        addMergedRegion(row, 0, row, size - 1);
-        row++;
-
-        return row;
-    }
-
-
     /**
      * Aggiungeuna Grid al foglio excel
      *
@@ -128,13 +93,12 @@ public class GridXlsxWriter extends BaseXlsxWriter {
 
         // Titolo Foglio
         if (title) {
-            rowIndex = addSheetTitle(grid.getTitle(), grid.getDescription(), grid.getLocale(), grid.getElements().size());
+            rowIndex = addGridTitle(rowIndex, grid);
             rowIndex++;
         }
 
         // Intestazioni di colonna
         rowIndex = addGridHeader(rowIndex, grid);
-        rowIndex++;
 
         getSheet().setRepeatingRows(CellRangeAddress.valueOf("1:" + rowIndex));
         getSheet().createFreezePane(0, rowIndex);
@@ -143,13 +107,29 @@ public class GridXlsxWriter extends BaseXlsxWriter {
         rowIndex = addGridData(rowIndex, grid);
 
         // Gestione colonne nascoste
-        hideColumn(grid);
+        autoSizeColumn(grid);
+    }
+
+    protected int addGridTitle(int rowIndex, Grid<?> grid) throws FrameworkException {
+        int size = 0;
+        for (SimpleField field : grid.getElements()) {
+            if (field instanceof Hidden) {
+                continue;
+            }
+            size++;
+        }
+
+        return rowIndex = addSheetTitle(rowIndex, grid.getTitle(), grid.getDescription(), grid.getLocale(), size);
     }
 
     protected int addGridHeader(int rowIndex, Grid<?> grid) {
         // Intestazioni di colonna
         int cellIndex = 0;
         for (SimpleField field : grid.getElements()) {
+            if (field instanceof Hidden) {
+                continue;
+            }
+
             if (field instanceof DataField) {
                 DataField<?> dataField = (DataField<?>) field;
                 setCellValue(rowIndex, cellIndex, dataField.getDescription());
@@ -157,6 +137,8 @@ public class GridXlsxWriter extends BaseXlsxWriter {
                 cellIndex++;
             }
         }
+
+        rowIndex++;
 
         return rowIndex;
     }
@@ -169,8 +151,11 @@ public class GridXlsxWriter extends BaseXlsxWriter {
         for (DataRow dataRow : dataTable) {
             cellIndex = 0;
             for (SimpleField field : grid) {
-                SimpleField appField = field.newInstance();
+                if (field instanceof Hidden) {
+                    continue;
+                }
 
+                SimpleField appField = field.newInstance();
                 if (appField instanceof DataField) {
                     DataField<?> dataField = (DataField<?>) appField;
                     dataField.copyFromDataSource(dataRow);
@@ -184,6 +169,10 @@ public class GridXlsxWriter extends BaseXlsxWriter {
         // Totali
         cellIndex = 0;
         for (SimpleField field : grid) {
+            if (field instanceof Hidden) {
+                continue;
+            }
+
             if (field instanceof DataField) {
                 if (field.getFieldType() == FieldType.TEXT_TOTALIZER || field.getFieldType() == FieldType.INPUT_TOTALIZER) {
                     DataField<?> dataField = (DataField<?>) field;
@@ -205,9 +194,13 @@ public class GridXlsxWriter extends BaseXlsxWriter {
      *
      * @param grid
      */
-    protected void hideColumn(Grid<?> grid) {
+    protected void autoSizeColumn(Grid<?> grid) {
         int i = 0;
         for (SimpleField simpleField : grid) {
+            if (simpleField instanceof Hidden) {
+                continue;
+            }
+
             if (simpleField instanceof InputField && ((InputField<?>) simpleField).isHidden()) {
                 setColumnsWidth(i, i, 0);
             } else {

@@ -45,7 +45,10 @@ public class StringUtilTest {
 
     @Test
     public void toFileNameTest() throws ParseException {
-        assertEquals("aaa-bbb", StringUtil.toFileName("aaa/\\ bbb"));
+        assertEquals("Dal_01-01-2020_al_31-01-2020", StringUtil.toFileName("Dal 01/01/2020 al 31/01/2020"));
+        assertEquals("01-01-2020_31-01-2020", StringUtil.toFileName("01/01/2020 31/01/2020"));
+        assertEquals("01-01-2020_31-01-2020", StringUtil.toFileName("01/01/2020 - 31/01/2020"));
+        assertEquals("aaa_bbb", StringUtil.toFileName("aaa/\\ bbb"));
     }
 
     @Test

@@ -1,6 +1,10 @@
 package it.eg.sloth.framework.utility.xlsx;
 
+import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
+import it.eg.sloth.framework.common.base.TimeStampUtil;
+import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelContainer;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelFont;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelStyle;
@@ -16,6 +20,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -78,6 +83,35 @@ public class BaseXlsxWriter implements Closeable {
         sheet.setFitToPage(true);
 
         return sheet;
+    }
+
+    public int addSheetTitle(int rowIndex, String title, String subTitle, Locale locale, int size) throws FrameworkException {
+        // Titolo
+        if (!BaseFunction.isBlank(title)) {
+            // Titolo
+            setCellValue(rowIndex, 0, title);
+            setCellStyle(rowIndex, 0, null, BaseExcelFont.TITLE, null, null);
+            getRow(rowIndex).setHeight((short) 450);
+            addMergedRegion(rowIndex, 0, rowIndex, size - 1);
+            rowIndex++;
+        }
+
+        // Sotto titolo
+        if (!BaseFunction.isBlank(subTitle)) {
+            setCellValue(rowIndex, 0, subTitle);
+            setCellStyle(rowIndex, 0, null, BaseExcelFont.SUB_TITLE, null, null);
+            getRow(rowIndex).setHeight((short) 400);
+            addMergedRegion(rowIndex, 0, rowIndex, size - 1);
+            rowIndex++;
+        }
+
+        // Data estrazione
+        setCellValue(rowIndex, 0, "Estratto il " + DataTypes.DATE.formatText(TimeStampUtil.sysdate(), locale) + " alle " + DataTypes.TIME.formatText(TimeStampUtil.sysdate(), locale));
+        setCellStyle(rowIndex, 0, null, BaseExcelFont.COMMENT, null, null);
+        addMergedRegion(rowIndex, 0, rowIndex, size - 1);
+        rowIndex++;
+
+        return rowIndex;
     }
 
     public CellStyle getStyle(BaseExcelContainer baseExcelContainer, BaseExcelFont baseExcelFont, BaseExcelType baseExcelType, HorizontalAlignment horizontalAlignment) {
@@ -154,10 +188,11 @@ public class BaseXlsxWriter implements Closeable {
 
     /**
      * Adatta la larghezza delle colonne indicate
+     *
      * @param columnIndex1
      * @param columnIndex2
      */
-    public void  autoSizeColumns(int columnIndex1, int columnIndex2) {
+    public void autoSizeColumns(int columnIndex1, int columnIndex2) {
         for (int i = columnIndex1; i <= columnIndex2; i++) {
             getSheet().autoSizeColumn(i);
         }
