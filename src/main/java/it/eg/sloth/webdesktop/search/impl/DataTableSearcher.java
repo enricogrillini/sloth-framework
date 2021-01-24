@@ -84,7 +84,7 @@ public class DataTableSearcher<T extends DataRow> extends InMemorySearcher<T> {
     @Override
     protected boolean match(T row, List<String> words) {
         String text = BaseFunction.nvl(row.getString(getValueField()), "");
-        if (!BaseFunction.isBlank(keyField)) {
+        if (!BaseFunction.isBlank(getSubValueField())) {
             text += " " + BaseFunction.nvl(row.getString(getSubValueField()), "");
         }
 

@@ -1,6 +1,7 @@
 package it.eg.sloth.webdesktop.tag.form.field;
 
 import it.eg.sloth.form.fields.field.DataField;
+import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.webdesktop.tag.form.base.BaseControlTag;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,14 +33,16 @@ public class TextMdTag extends BaseControlTag {
 
     @Override
     protected void writeField() throws IOException {
-        if (getElement() instanceof DataField ) {
+        if (getElement() instanceof DataField) {
             DataField<?> field = (DataField<?>) getElement();
 
-            Parser parser = Parser.builder().build();
-            Node document = parser.parse(field.getData());
-            HtmlRenderer renderer = HtmlRenderer.builder().build();
+            if (!BaseFunction.isBlank(field.getData())) {
+                Parser parser = Parser.builder().build();
+                Node document = parser.parse(field.getData());
+                HtmlRenderer renderer = HtmlRenderer.builder().build();
 
-            write(renderer.render(document));
+                write(renderer.render(document));
+            }
         }
     }
 

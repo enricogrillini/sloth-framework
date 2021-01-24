@@ -52,7 +52,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
         }
     }
 
-    public void setCell(int row, int cellindex, DataField<?> dataField) throws FrameworkException {
+    protected void setCell(int row, int cellindex, DataField<?> dataField, DataRow dataRow) throws FrameworkException {
         if (dataField instanceof Semaphore) {
             Semaphore semaforo = (Semaphore) dataField;
 
@@ -75,7 +75,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
             setCellStyle(row, cellindex, getStyle(BaseExcelContainer.WHITE_BORDERED, null, null, null));
 
         } else {
-            setCellValue(row, cellindex, dataField.getValue());
+            setCellValue(row, cellindex, dataRow.getObject(dataField.getAlias()));
             setCellStyle(row, cellindex, BaseExcelContainer.WHITE_BORDERED, null, BaseExcelType.Factory.fromDataType(dataField.getDataType()), null);
         }
     }
@@ -106,6 +106,9 @@ public class GridXlsxWriter extends BaseXlsxWriter {
         // Dati Griglia
         rowIndex = addGridData(rowIndex, grid);
 
+        // Totali Griglia
+        rowIndex = addGridTotal(rowIndex, grid);
+
         // Gestione colonne nascoste
         autoSizeColumn(grid);
     }
@@ -119,7 +122,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
             size++;
         }
 
-        return rowIndex = addSheetTitle(rowIndex, grid.getTitle(), grid.getDescription(), grid.getLocale(), size);
+        return addSheetTitle(rowIndex, grid.getTitle(), grid.getDescription(), grid.getLocale(), size);
     }
 
     protected int addGridHeader(int rowIndex, Grid<?> grid) {
@@ -146,7 +149,6 @@ public class GridXlsxWriter extends BaseXlsxWriter {
     protected int addGridData(int rowIndex, Grid<?> grid) throws FrameworkException {
         int cellIndex = 0;
 
-        // Dati
         DataTable<?> dataTable = grid.getDataSource();
         for (DataRow dataRow : dataTable) {
             cellIndex = 0;
@@ -158,16 +160,17 @@ public class GridXlsxWriter extends BaseXlsxWriter {
                 SimpleField appField = field.newInstance();
                 if (appField instanceof DataField) {
                     DataField<?> dataField = (DataField<?>) appField;
-                    dataField.copyFromDataSource(dataRow);
-
-                    setCell(rowIndex, cellIndex++, dataField);
+                    setCell(rowIndex, cellIndex++, dataField, dataRow);
                 }
             }
             rowIndex++;
         }
 
-        // Totali
-        cellIndex = 0;
+        return rowIndex;
+    }
+
+    protected int addGridTotal(int rowIndex, Grid<?> grid) {
+        int cellIndex = 0;
         for (SimpleField field : grid) {
             if (field instanceof Hidden) {
                 continue;
@@ -185,6 +188,8 @@ public class GridXlsxWriter extends BaseXlsxWriter {
                 cellIndex++;
             }
         }
+
+        rowIndex++;
 
         return rowIndex;
     }

@@ -1,6 +1,5 @@
 package it.eg.sloth.webdesktop.tag.form.chart.pojo;
 
-import it.eg.sloth.framework.FrameComponent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

@@ -35,7 +35,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class GridXlsWriterTest {
 
-    private static final String GRID = TestUtil.OUTPUT_DIR + "/Grid.xlsx";
+    private static final String GRID = TestUtil.OUTPUT_DIR + "/GridXlsWriter.xlsx";
 
     Table table;
     Grid<Table> grid;
@@ -48,12 +48,17 @@ public class GridXlsWriterTest {
         Row row = table.add();
         row.setString("campo1", "valore1");
         row.setString("campo2", "A");
-        row.setBigDecimal("campo3", BigDecimal.valueOf(3));
+        row.setBigDecimal("campo3", BigDecimal.valueOf(3.333));
 
         row = table.add();
         row.setString("campo1", "valore2");
         row.setString("campo2", "B");
-        row.setBigDecimal("campo3", BigDecimal.valueOf(-3));
+        row.setBigDecimal("campo3", BigDecimal.valueOf(-3.444));
+
+        row = table.add();
+        row.setString("campo1", "valore2");
+        row.setString("campo2", "B");
+        row.setBigDecimal("campo3", BigDecimal.valueOf(-1));
 
         grid = new Grid<>("provaGrid");
         grid.setTitle("Prova Grid");
@@ -65,7 +70,7 @@ public class GridXlsWriterTest {
     }
 
     @Test
-    public void gridDetailTest() throws FrameworkException, IOException {
+    public void gridWriterTest() throws FrameworkException, IOException {
         GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             gridXlsxWriter.getWorkbook().write(outputStream);

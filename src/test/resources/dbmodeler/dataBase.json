@@ -1,0 +1,43 @@
+{
+  "dbConnection" : {
+    "name" : null,
+    "driverName" : "oracle.jdbc.driver.OracleDriver",
+    "jdbcUrl" : "jdbc:oracle:thin:@localhost:1521:XE",
+    "dbUser" : "gilda",
+    "dbPassword" : "gilda",
+    "dbOwner" : "gilda"
+  },
+  "dataBaseType" : "ORACLE",
+  "schema" : {
+    "sequenceCollection" : [ {
+      "name" : "Seq_Idlogelaborazionedettaglio"
+    }, {
+      "name" : "Seq_Idprofilo"
+    }, {
+      "name" : "Batch_Iddata"
+    }, {
+      "name" : "Frame_Seq_Idalerts"
+    }, {
+      "name" : "Seq_Idcliente"
+    }, {
+      "name" : "Batch_Idjob"
+    }, {
+      "name" : "Batch_Idcrontrigger"
+    }, {
+      "name" : "Seq_Idesecuzionedettaglio"
+    }, {
+      "name" : "Monitor_Idlogin"
+    }, {
+      "name" : "Batch_Idesecuzione"
+    }, {
+      "name" : "Sec_Seq_Idutente"
+    }, {
+      "name" : "Seq_Idlogelaborazione"
+    }, {
+      "name" : "Seq_Idordine"
+    }, {
+      "name" : "Seq_Idlogin"
+    } ],
+    "tableCollection" : [ ]
+  }
+}

@@ -1,7 +1,6 @@
 package it.eg.sloth.framework.utility.mail;
 
 import it.eg.sloth.framework.utility.mail.element.MailElement;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
