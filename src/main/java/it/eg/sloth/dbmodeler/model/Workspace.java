@@ -14,6 +14,7 @@ public class Workspace {
 
     BigDecimal idWorkspace;
     String name;
+    
     List<DbConnection> dbConnectionList;
     Schema schema;
 

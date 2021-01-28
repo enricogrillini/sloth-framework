@@ -55,24 +55,24 @@ public class GridWriterTest {
 
     private static final String CONTENT_TEMPLATE_DETAIL = " <tbody>\n" +
             "  <tr id=\"navigationprefix___row___provagrid___0\">\n" +
-            "   <td class=\"text-center tableDetail\"><i class=\"tableDetail text-info fa fa-chevron-down collapsed\" href=\"#navigationprefix___row___provagrid___0___detail\" data-toggle=\"collapse\" aria-expanded=\"true\" aria-controls=\"collapse-collapsed\"></i></td>\n" +
+            "   <td class=\"text-center tableDetail noselect\"><i class=\"text-info fa fa-chevron-down collapsed\" href=\"#navigationprefix___row___provagrid___0___detail\" data-toggle=\"collapse\" aria-expanded=\"true\" aria-controls=\"collapse-collapsed\"></i></td>\n" +
             "   <td class=\"text-left\">valore1</td>\n" +
             "   <td class=\"text-left\">A</td>\n" +
             "  </tr>\n" +
             "  <tr  id=\"navigationprefix___row___provagrid___0___detail\" class=\"frDetail collapse\">\n" +
             "   <td>&nbsp;</td>\n" +
-            "   <td colspan=\"2\">\n" +
+            "   <td class=\"tableDetail\" colspan=\"2\">\n" +
             "    <b style=\"color:#660000\">campo3: </b><span>Lorem ipsum A</span>\n" +
             "   </td>\n" +
             "  </tr>\n" +
             "  <tr id=\"navigationprefix___row___provagrid___1\" class=\"table-primary\">\n" +
-            "   <td class=\"text-center tableDetail\"><i class=\"tableDetail text-info fa fa-chevron-down collapsed\" href=\"#navigationprefix___row___provagrid___1___detail\" data-toggle=\"collapse\" aria-expanded=\"true\" aria-controls=\"collapse-collapsed\"></i></td>\n" +
+            "   <td class=\"text-center tableDetail noselect\"><i class=\"text-info fa fa-chevron-down collapsed\" href=\"#navigationprefix___row___provagrid___1___detail\" data-toggle=\"collapse\" aria-expanded=\"true\" aria-controls=\"collapse-collapsed\"></i></td>\n" +
             "   <td class=\"text-left\">valore2</td>\n" +
             "   <td class=\"text-left\">B</td>\n" +
             "  </tr>\n" +
             "  <tr  id=\"navigationprefix___row___provagrid___1___detail\" class=\"frDetail collapse\">\n" +
             "   <td>&nbsp;</td>\n" +
-            "   <td colspan=\"2\">\n" +
+            "   <td class=\"tableDetail\" colspan=\"2\">\n" +
             "    <b style=\"color:#660000\">campo3: </b><span>Lorem ipsum B</span>\n" +
             "   </td>\n" +
             "  </tr>\n" +

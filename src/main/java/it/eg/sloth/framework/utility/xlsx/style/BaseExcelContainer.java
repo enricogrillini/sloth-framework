@@ -35,8 +35,8 @@ public class BaseExcelContainer {
     public static final BaseExcelContainer WHITE = new BaseExcelContainer(Integer.valueOf(IndexedColors.WHITE.getIndex()), null, null, null, null);
     public static final BaseExcelContainer WHITE_BORDERED = new BaseExcelContainer(Integer.valueOf(IndexedColors.WHITE.getIndex()), BorderStyle.THIN, BorderStyle.THIN, BorderStyle.THIN, BorderStyle.THIN);
     public static final BaseExcelContainer WHITE_BORDERED_BOTTOM = new BaseExcelContainer(Integer.valueOf(IndexedColors.WHITE.getIndex()), null, null, BorderStyle.THIN, null);
-    public static final BaseExcelContainer DARK_BLUE = new BaseExcelContainer(Integer.valueOf(IndexedColors.DARK_BLUE.getIndex()), null, null, null, null);
-    public static final BaseExcelContainer DARK_BLUE_BORDERED = new BaseExcelContainer(Integer.valueOf(IndexedColors.DARK_BLUE.getIndex()), BorderStyle.THIN, BorderStyle.THIN, BorderStyle.THIN, BorderStyle.THIN);
+    public static final BaseExcelContainer DARK_BLUE = new BaseExcelContainer(Integer.valueOf(IndexedColors.ROYAL_BLUE.getIndex()), null, null, null, null);
+    public static final BaseExcelContainer DARK_BLUE_BORDERED = new BaseExcelContainer(Integer.valueOf(IndexedColors.ROYAL_BLUE.getIndex()), BorderStyle.THIN, BorderStyle.THIN, BorderStyle.THIN, BorderStyle.THIN);
     public static final BaseExcelContainer GRAY = new BaseExcelContainer(Integer.valueOf(IndexedColors.GREY_50_PERCENT.getIndex()), null, null, null, null);
     public static final BaseExcelContainer GRAY_BORDERED = new BaseExcelContainer(Integer.valueOf(IndexedColors.GREY_50_PERCENT.getIndex()), BorderStyle.THIN, BorderStyle.THIN, BorderStyle.THIN, BorderStyle.THIN);
     public static final BaseExcelContainer LIGHT_GRAY = new BaseExcelContainer(Integer.valueOf(IndexedColors.GREY_25_PERCENT.getIndex()), null, null, null, null);

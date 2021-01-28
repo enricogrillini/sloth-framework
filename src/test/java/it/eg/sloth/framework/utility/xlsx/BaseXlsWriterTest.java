@@ -32,8 +32,9 @@ import static org.junit.Assert.*;
 public class BaseXlsWriterTest {
 
 
-    private static final String SIMPLE_REPORT = TestUtil.OUTPUT_DIR + "/SimpleReport.xlsx";
-    private static final String STYLE_REPORT = TestUtil.OUTPUT_DIR + "/StyleReport.xlsx";
+    private static final String SIMPLE_REPORT = TestUtil.OUTPUT_DIR + "/BaseXlsWriter-SimpleReport.xlsx";
+    private static final String STYLE_REPORT = TestUtil.OUTPUT_DIR + "/BaseXlsWriter-StyleReport.xlsx";
+    private static final String COLOR_REPORT = TestUtil.OUTPUT_DIR + "/BaseXlsWriter-ColorReport.xlsx";
 
     @BeforeClass
     public static void initClass() throws IOException {
@@ -80,8 +81,8 @@ public class BaseXlsWriterTest {
             baseXlsxWriter.setCellValue(row, 0, "NO FONT");
             row++;
 
-            baseXlsxWriter.setColumnsWidth(0,0,10000);
-            baseXlsxWriter.autoSizeColumns(0,0);
+            baseXlsxWriter.setColumnsWidth(0, 0, 10000);
+            baseXlsxWriter.autoSizeColumns(0, 0);
 
             baseXlsxWriter.getWorkbook().write(outputStream);
         }
@@ -121,6 +122,39 @@ public class BaseXlsWriterTest {
 
             Cell cell = row.getCell(0);
             assertEquals("Titolo 1", cell.getStringCellValue());
+        }
+    }
+
+
+    @Test
+    public void colorReportTest() throws IOException {
+        // Creo il report Excel
+        try (OutputStream outputStream = new FileOutputStream(COLOR_REPORT); BaseXlsxWriter baseXlsxWriter = new SimpleReport()) {
+            baseXlsxWriter.addSheet("Prova", true);
+
+            int row = 0;
+            for (IndexedColors indexedColor : IndexedColors.values()) {
+                BaseExcelContainer baseExcelContainer = new BaseExcelContainer(row, null, null, null, null);
+                baseXlsxWriter.setCellStyle(row, 0, baseExcelContainer, null, null, HorizontalAlignment.LEFT);
+                baseXlsxWriter.setCellValue(row, 1, "-->" + indexedColor);
+
+                baseXlsxWriter.setColumnsWidth(0, 1, 5000);
+
+                row++;
+            }
+
+            baseXlsxWriter.getWorkbook().write(outputStream);
+        }
+
+        // Verifico che  il report Excel sia corretto
+        try (InputStream inp = new FileInputStream(COLOR_REPORT); Workbook wb = WorkbookFactory.create(inp);) {
+
+            Sheet sheet = wb.getSheetAt(0);
+
+            int row = 0;
+            for (IndexedColors indexedColor : IndexedColors.values()) {
+                assertNotNull(sheet.getRow(row++));
+            }
         }
     }
 

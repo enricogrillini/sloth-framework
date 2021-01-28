@@ -54,7 +54,8 @@ public class GridXlsxWriter extends BaseXlsxWriter {
 
     protected void setCell(int row, int cellindex, DataField<?> dataField, DataRow dataRow) throws FrameworkException {
         if (dataField instanceof Semaphore) {
-            Semaphore semaforo = (Semaphore) dataField;
+            Semaphore semaforo = (Semaphore) dataField.newInstance();
+            semaforo.copyFromDataSource(dataRow);
 
             setCellValue(row, cellindex, semaforo.getDecodedText());
             if (Semaphore.WHITE.equals(semaforo.getValue())) {
@@ -70,7 +71,9 @@ public class GridXlsxWriter extends BaseXlsxWriter {
             }
 
         } else if (dataField instanceof DecodedDataField) {
-            DecodedDataField<?> comboBox = (DecodedDataField<?>) dataField;
+            DecodedDataField<?> comboBox = (DecodedDataField<?>) dataField.newInstance();
+            comboBox.copyFromDataSource(dataRow);
+
             setCellValue(row, cellindex, comboBox.getDecodedText());
             setCellStyle(row, cellindex, getStyle(BaseExcelContainer.WHITE_BORDERED, null, null, null));
 

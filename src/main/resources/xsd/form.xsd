@@ -373,6 +373,7 @@
   <complexContent>
    <extension base="tns:Field">
     <attribute name="Required" type="boolean"></attribute>
+    <attribute name="ReadOnly" type="boolean"></attribute>
    </extension>
   </complexContent>
  </complexType>

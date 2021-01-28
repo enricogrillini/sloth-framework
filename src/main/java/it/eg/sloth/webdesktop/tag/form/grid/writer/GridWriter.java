@@ -42,7 +42,7 @@ public class GridWriter extends HtmlWriter {
     private static final String ROW_CLOSE = "  </tr>\n";
 
 
-    private static final String CELL_DETAIL = "   <td class=\"text-center tableDetail\"><i class=\"tableDetail text-info fa fa-chevron-down collapsed\" href=\"#{0}\" data-toggle=\"collapse\" aria-expanded=\"true\" aria-controls=\"collapse-collapsed\"></i></td>\n";
+    private static final String CELL_DETAIL = "   <td class=\"text-center tableDetail noselect\"><i class=\"text-info fa fa-chevron-down collapsed\" href=\"#{0}\" data-toggle=\"collapse\" aria-expanded=\"true\" aria-controls=\"collapse-collapsed\"></i></td>\n";
 
 
     public static String openTable(Grid<?> grid, boolean border, boolean hover, boolean small) {
@@ -282,7 +282,7 @@ public class GridWriter extends HtmlWriter {
                     dataField.copyFromDataSource(dataRow);
                 }
 
-                result.append("   <td colspan=\"" + grid.getElements().size() + "\">\n");
+                result.append("   <td class=\"tableDetail\" colspan=\"" + grid.getElements().size() + "\">\n");
                 result.append("    <b style=\"color:#660000\">" + fieldClone.getHtmlDescription() + ": </b><span>" + TextControlWriter.writeControl(fieldClone, grid) + "</span>\n");
                 result.append("   </td>\n");
             }

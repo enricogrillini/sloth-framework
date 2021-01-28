@@ -491,13 +491,8 @@ public class FormControlWriter extends HtmlWriter {
                 .append(getAttribute(ATTR_ID, comboBox.getName()))
                 .append(getAttribute(ATTR_NAME, comboBox.getName()))
                 .append(getAttribute(ATTR_VALUE, comboBox.escapeHtmlValue()))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS));
-
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
-            result.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
-        } else {
-            result.append(getAttribute(ATTR_READONLY, comboBox.isReadOnly(), ""));
-        }
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
+                .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE || comboBox.isReadOnly(), ""));
 
         result.append(">");
 
