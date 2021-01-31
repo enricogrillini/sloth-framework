@@ -22,8 +22,8 @@ public class PojoDataSourceTest {
         samplePojoRow.setBlob("BlobData".getBytes());
 
         // Verifico
-        assertEquals(4, samplePojoRow.keys().size());
-        assertEquals(4, samplePojoRow.values().size());
+        assertEquals(7, samplePojoRow.keys().size());
+        assertEquals(7, samplePojoRow.values().size());
         assertEquals(samplePojoRow.getTesto(), samplePojoRow.getString("TESTO"));
         assertEquals("Prova", samplePojoRow.getString("TESTO"));
         assertEquals(samplePojoRow.getNumero(), samplePojoRow.getBigDecimal("Numero"));
@@ -43,8 +43,8 @@ public class PojoDataSourceTest {
         samplePojoRow.setByte("Blob", "BlobData".getBytes());
 
         // Verifico
-        assertEquals(4, samplePojoRow.keys().size());
-        assertEquals(4, samplePojoRow.values().size());
+        assertEquals(7, samplePojoRow.keys().size());
+        assertEquals(7, samplePojoRow.values().size());
         assertEquals(samplePojoRow.getTesto(), samplePojoRow.getString("TESTO"));
         assertEquals("Prova", samplePojoRow.getString("TESTO"));
         assertEquals(samplePojoRow.getNumero(), samplePojoRow.getBigDecimal("Numero"));
@@ -55,8 +55,8 @@ public class PojoDataSourceTest {
 
         // Clear
         samplePojoRow.clear();
-        assertEquals(4, samplePojoRow.keys().size());
-        assertEquals(4, samplePojoRow.values().size());
+        assertEquals(7, samplePojoRow.keys().size());
+        assertEquals(7, samplePojoRow.values().size());
         assertEquals(null, samplePojoRow.getString("TESTO"));
         assertEquals(null, samplePojoRow.getBigDecimal("Numero"));
         assertEquals(null, samplePojoRow.getTimestamp("Data"));
@@ -85,8 +85,8 @@ public class PojoDataSourceTest {
         samplePojoRow.loadFromDataSource(row);
 
         // Verifico
-        assertEquals(4, samplePojoRow.keys().size());
-        assertEquals(4, samplePojoRow.values().size());
+        assertEquals(7, samplePojoRow.keys().size());
+        assertEquals(7, samplePojoRow.values().size());
         assertEquals(samplePojoRow.getTesto(), samplePojoRow.getString("TESTO"));
         assertEquals("Prova", samplePojoRow.getString("TESTO"));
         assertEquals(samplePojoRow.getNumero(), samplePojoRow.getBigDecimal("Numero"));

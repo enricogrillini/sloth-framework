@@ -8,6 +8,7 @@ import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.base.TextField;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.MessageList;
+import it.eg.sloth.webdesktop.api.request.BffFields;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -70,6 +71,24 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
     }
 
     /**
+     * Popola i campi con i valori del DataSource
+     *
+     * @param dataSource
+     */
+    public void copyFromDataSource(DataSource dataSource) throws FrameworkException {
+        if (dataSource == null)
+            return;
+
+        for (SimpleField element : getElements()) {
+            if (element instanceof TextField) {
+                TextField<?> field = (TextField<?>) element;
+                field.copyFromDataSource(dataSource);
+            }
+        }
+    }
+
+
+    /**
      * Ricopia il contenuto della griglia sulla DataRow associata
      */
     public void copyToDataSource() throws FrameworkException {
@@ -93,18 +112,40 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
     }
 
     /**
-     * Popola i campi con i valori del DataSource
+     * Popola i campi di un BffFields
      *
-     * @param dataSource
+     * @param bffFields
      */
-    public void copyFromDataSource(DataSource dataSource) throws FrameworkException {
-        if (dataSource == null)
+    public void copyToBffFields(BffFields bffFields) throws FrameworkException {
+        if (bffFields == null)
             return;
 
         for (SimpleField element : getElements()) {
             if (element instanceof TextField) {
                 TextField<?> field = (TextField<?>) element;
+                field.copyToBffFields(bffFields);
+            }
+        }
+    }
+
+
+    /**
+     * Popola i valori da un DataSource ad un BffFields
+     *
+     * @param dataSource
+     * @param bffFields
+     * @throws FrameworkException
+     */
+    public void copyFromDataSourceToBffFields(DataSource dataSource, BffFields bffFields) throws FrameworkException {
+        if (bffFields == null || dataSource == null) {
+            return;
+        }
+
+        for (SimpleField element : getElements()) {
+            if (element instanceof TextField) {
+                TextField<?> field = (TextField<?>) element.newInstance();
                 field.copyFromDataSource(dataSource);
+                field.copyToBffFields(bffFields);
             }
         }
     }
@@ -140,19 +181,27 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
         }
     }
 
+    /**
+     * Ricopia il contenuto della request nei campi
+     *
+     * @param bffFields
+     */
+    public void post(BffFields bffFields) throws FrameworkException {
+        for (SimpleField element : getElements()) {
+            if (element instanceof SimpleField) {
+                element.post(bffFields);
+            }
+        }
+    }
+
     public boolean postAndValidate(WebRequest webRequest, MessageList messageList) throws FrameworkException {
         post(webRequest);
         return validate(messageList);
     }
 
-    public boolean postValidateCopy(WebRequest webRequest, MessageList messageList, DataSource dataSource) throws FrameworkException {
-        post(webRequest);
-        if (validate(messageList)) {
-            copyToDataSource(dataSource);
-            return true;
-        }
-
-        return false;
+    public boolean postAndValidate(BffFields bffFields, MessageList messageList) throws FrameworkException {
+        post(bffFields);
+        return validate(messageList);
     }
 
 }

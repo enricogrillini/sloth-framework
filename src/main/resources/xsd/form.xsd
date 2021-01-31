@@ -521,8 +521,7 @@
     <attribute name="Required" type="boolean"></attribute>
     <attribute name="ReadOnly" type="boolean"></attribute>
     <attribute name="Hidden" type="boolean"></attribute>
-    <attribute name="ViewModality" type="tns:ViewModality"></attribute>
-    <attribute name="Values" type="string"></attribute>
+    <attribute name="ViewModality" type="tns:ViewModality"></attribute>
    </extension>
   </complexContent>
  </complexType>

@@ -5,6 +5,7 @@ import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.jaxb.form.ButtonType;
+import it.eg.sloth.webdesktop.api.request.BffFields;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -105,6 +106,12 @@ public class Button implements SimpleField {
             setIndex(null);
         }
     }
+
+    @Override
+    public void post(BffFields bffFields) {
+        // NOP
+    }
+
 
     public Button newInstance() {
         return toBuilder().build();

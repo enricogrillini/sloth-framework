@@ -11,7 +11,10 @@ import it.eg.sloth.framework.common.casting.Validator;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
-import lombok.*;
+import it.eg.sloth.webdesktop.api.request.BffFields;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.util.Locale;
@@ -56,7 +59,7 @@ public abstract class TextField<T> implements DataField<T> {
     Escaper htmlEscaper;
     Escaper jsEscaper;
 
-    public TextField(String name, String description, DataTypes dataType) {
+    protected TextField(String name, String description, DataTypes dataType) {
         this.name = name;
         this.description = description;
         this.dataType = dataType;
@@ -117,6 +120,13 @@ public abstract class TextField<T> implements DataField<T> {
     }
 
     @Override
+    public void copyToBffFields(BffFields bffFields) throws FrameworkException {
+        if (bffFields != null) {
+            bffFields.setString(getName(), getData());
+        }
+    }
+
+    @Override
     public boolean isValid() {
         return check() == null;
     }
@@ -135,5 +145,11 @@ public abstract class TextField<T> implements DataField<T> {
     public void post(WebRequest webRequest) throws FrameworkException {
         // Il campo è presentato in sola visualizzazione e non è modificabile dal Browser
     }
+
+    @Override
+    public void post(BffFields bffFields) throws FrameworkException {
+        // Il campo è presentato in sola visualizzazione e non è modificabile dal Browser
+    }
+
 
 }

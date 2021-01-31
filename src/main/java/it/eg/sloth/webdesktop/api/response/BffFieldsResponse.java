@@ -1,7 +1,7 @@
-package it.eg.sloth.framework.pageinfo;
+package it.eg.sloth.webdesktop.api.response;
 
-import it.eg.sloth.framework.common.casting.Casting;
-import lombok.AllArgsConstructor;
+import it.eg.sloth.webdesktop.api.model.BffResponse;
+import it.eg.sloth.webdesktop.api.request.BffFields;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,26 +24,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(callSuper=true)
-@AllArgsConstructor
-public class Breadcrumb {
+public class BffFieldsResponse<F extends BffFields> extends BffResponse {
 
-  String titolo;
-  String hint;
-  String link;
-
-  public String getText() {
-    return titolo;
-  }
-
-  public String getHtml() {
-    if (link == null)
-      return Casting.getHtml(titolo);
-    else {
-      if (hint == null)
-        return "<a href=\"" + link + "\">" + Casting.getHtml(titolo) + "</a>";
-      else
-        return "<a href=\"" + link + "\" title=\"" + hint + "\">" + Casting.getHtml(titolo) + "</a>";
-    }
-  }
+   F fields;
 
 }

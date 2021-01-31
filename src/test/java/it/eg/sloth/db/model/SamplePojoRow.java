@@ -10,8 +10,11 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class SamplePojoRow extends PojoRow {
+    String autocomplete;
     String testo;
     BigDecimal numero;
+    BigDecimal decimal;
+    BigDecimal currency;
     Timestamp data;
     byte[] blob;
 }

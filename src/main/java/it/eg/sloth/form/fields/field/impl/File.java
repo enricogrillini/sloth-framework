@@ -5,6 +5,7 @@ import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.pageinfo.ViewModality;
+import it.eg.sloth.webdesktop.api.request.BffFields;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -100,6 +101,11 @@ public class File implements SimpleField {
         if (!isReadOnly()) {
             setPart(webRequest.getPart(getName()));
         }
+    }
+
+    @Override
+    public void post(BffFields bffFields) {
+        // NOP
     }
 
     public String getPartFileName() {

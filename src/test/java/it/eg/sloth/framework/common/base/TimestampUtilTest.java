@@ -85,9 +85,16 @@ public class TimestampUtilTest {
 
     @Test
     public void genericTestKo() throws FrameworkException {
-        // Lunghezza codice fiscale errata
+        // Formato data errato
         FrameworkException frameworkException = assertThrows(FrameworkException.class, () -> {
             TimeStampUtil.parseTimestamp("aaaa", "dd/MM/yyyy");
+        });
+        assertEquals(ExceptionCode.PARSE_ERROR, frameworkException.getExceptionCode());
+
+
+        // Formato data errato
+        frameworkException = assertThrows(FrameworkException.class, () -> {
+            TimeStampUtil.parseTimestamp("32/01/2021", "dd/MM/yyyy");
         });
         assertEquals(ExceptionCode.PARSE_ERROR, frameworkException.getExceptionCode());
     }

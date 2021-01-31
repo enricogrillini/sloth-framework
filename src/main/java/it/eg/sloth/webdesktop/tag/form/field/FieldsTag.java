@@ -27,6 +27,7 @@ public class FieldsTag<T extends Fields<?>> extends BaseElementTag<T> {
 
     private static final long serialVersionUID = 1L;
 
+
     @Override
     protected int startTag() throws IOException, FrameworkException {
 

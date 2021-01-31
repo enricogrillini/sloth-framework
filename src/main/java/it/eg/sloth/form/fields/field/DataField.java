@@ -7,6 +7,7 @@ import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
+import it.eg.sloth.webdesktop.api.request.BffFields;
 
 import java.text.ParseException;
 
@@ -162,6 +163,13 @@ public interface DataField<T> extends SimpleField {
      * @param dataSource
      */
     void copyToDataSource(DataSource dataSource) throws FrameworkException;
+
+    /**
+     * Imposta il valore sul BffFields passato
+     *
+     * @param bffFields
+     */
+    void copyToBffFields(BffFields bffFields) throws FrameworkException ;
 
     /**
      * Ritorna il testo del campo nel formato nativo

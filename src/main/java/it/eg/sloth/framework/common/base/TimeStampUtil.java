@@ -1,7 +1,7 @@
 package it.eg.sloth.framework.common.base;
 
-import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.exception.ExceptionCode;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -95,15 +95,14 @@ public class TimeStampUtil {
             format = DEFAULT_FORMAT;
         }
 
-        DateFormat formatter = new SimpleDateFormat(format, new DateFormatSymbols());
-
-        Date date;
         try {
-            date = formatter.parse(strDate);
+            DateFormat formatter = new SimpleDateFormat(format, new DateFormatSymbols());
+            formatter.setLenient(false);
+
+            return new Timestamp(formatter.parse(strDate).getTime());
         } catch (ParseException e) {
             throw new FrameworkException(ExceptionCode.PARSE_ERROR, e);
         }
-        return new Timestamp(date.getTime());
     }
 
     /**

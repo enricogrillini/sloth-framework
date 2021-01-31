@@ -303,7 +303,7 @@ public enum DataTypes {
     }
 
     /**
-     * Elabora il dato conservato in una forma ritonandone il testo in HTML
+     * Elabora il dato conservato in una forma ritorandone il testo in HTML
      *
      * @param data
      * @param locale

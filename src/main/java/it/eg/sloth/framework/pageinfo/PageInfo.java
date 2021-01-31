@@ -1,12 +1,12 @@
 package it.eg.sloth.framework.pageinfo;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import it.eg.sloth.framework.FrameComponent;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Project: sloth-framework
@@ -25,41 +25,42 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class PageInfo extends FrameComponent {
+@ToString(callSuper = true)
+public class PageInfo {
 
-  String title;
-  String description;
-  String keyWords;
-  Breadcrumbs breadcrumbs;
-  ViewModality viewModality;
-  PageStatus pageStatus;
+    String title;
+    String description;
+    String keyWords;
+    Breadcrumbs breadcrumbs;
+    ViewModality viewModality;
+    PageStatus pageStatus;
 
-  @Getter(AccessLevel.PRIVATE)
-  @Setter(AccessLevel.PRIVATE)
-  Map<String, Object> objects;
+    @Getter(AccessLevel.PRIVATE)
+    @Setter(AccessLevel.PRIVATE)
+    Map<String, Object> objects;
 
-  public PageInfo(String title) {
-    this.title = title;
-    this.breadcrumbs = new Breadcrumbs();
-    this.viewModality = ViewModality.VIEW_VISUALIZZAZIONE;
-    this.pageStatus = PageStatus.MASTER;
-    this.objects = new HashMap<>();
-  }
+    public PageInfo(String title) {
+        this.title = title;
+        this.breadcrumbs = new Breadcrumbs();
+        this.viewModality = ViewModality.VIEW_VISUALIZZAZIONE;
+        this.pageStatus = PageStatus.MASTER;
+        this.objects = new HashMap<>();
+    }
 
-  public void clearObjects() {
-    objects.clear();
-  }
+    public void clearObjects() {
+        objects.clear();
+    }
 
-  public void putObject(String key, Object value) {
-    objects.put(key, value);
-  }
+    public void putObject(String key, Object value) {
+        objects.put(key, value);
+    }
 
-  public Object getObject(String key) {
-    return objects.get(key);
-  }
+    public Object getObject(String key) {
+        return objects.get(key);
+    }
 
-  public boolean containsObject(String key) {
-    return objects.containsKey(key);
-  }
+    public boolean containsObject(String key) {
+        return objects.containsKey(key);
+    }
 
 }

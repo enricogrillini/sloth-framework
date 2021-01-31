@@ -1,7 +1,6 @@
 package it.eg.sloth.form;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import it.eg.sloth.framework.FrameComponent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 
@@ -28,7 +27,7 @@ import java.util.*;
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @Slf4j
-public class WebRequest extends FrameComponent {
+public class WebRequest {
 
     Map<String, List<Object>> map;
 

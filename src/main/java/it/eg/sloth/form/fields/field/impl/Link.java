@@ -4,6 +4,7 @@ import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.jaxb.form.ButtonType;
+import it.eg.sloth.webdesktop.api.request.BffFields;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -79,6 +80,11 @@ public class Link implements SimpleField {
 
     @Override
     public void post(WebRequest webRequest) {
+        // NOP - Non sono gestite operazioni server side
+    }
+
+    @Override
+    public void post(BffFields bffFields) {
         // NOP - Non sono gestite operazioni server side
     }
 

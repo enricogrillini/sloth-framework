@@ -4,6 +4,8 @@ import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 
@@ -21,6 +23,8 @@ import java.io.IOException;
  *
  * @author Enrico Grillini
  */
+@Getter
+@Setter
 public class ControlTag extends BaseElementTag<SimpleField> {
 
     @Override

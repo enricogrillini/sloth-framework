@@ -23,6 +23,8 @@ public enum ExceptionCode {
     PARSE_ERROR("business.exception.parseError", ExceptionType.BUSINESS),
     ROLLUP_CALCULATE_ERROR("business.exception.rollupCalculateError", ExceptionType.BUSINESS),
     INVALID_CONTROL("business.exception.invalidControl", ExceptionType.BUSINESS),
+    INVALID_GET("business.exception.invalidGet", ExceptionType.BUSINESS),
+    INVALID_SET("business.exception.invalidSet", ExceptionType.BUSINESS),
 
     // System Exception
     GENERIC_SYSTEM_ERROR("system.exception.genericError", ExceptionType.SYSTEM),

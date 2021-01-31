@@ -12,6 +12,7 @@ import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.Message;
+import it.eg.sloth.webdesktop.api.request.BffFields;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -80,6 +81,13 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
     }
 
     @Override
+    public void copyToBffFields(BffFields bffFields) throws FrameworkException {
+        if (bffFields != null) {
+            bffFields.setString(getName(), getDecodedText());
+        }
+    }
+
+    @Override
     public Message check() {
         // Verifico che quanto imputato sia un valore ammissibile
         if (!BaseFunction.isBlank(getDecodedText()) && BaseFunction.isBlank(getData())) {
@@ -99,6 +107,14 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
     public void post(WebRequest webRequest) throws FrameworkException {
         if (!isReadOnly()) {
             setDecodedText(webRequest.getString(getName()));
+            setData(getDataType().formatValue(getDecodeMap().encode(getDecodedText()), getLocale(), getFormat()));
+        }
+    }
+
+    @Override
+    public void post(BffFields bffFields) throws FrameworkException {
+        if (!isReadOnly()) {
+            setDecodedText(bffFields.getString(getName()));
             setData(getDataType().formatValue(getDecodeMap().encode(getDecodedText()), getLocale(), getFormat()));
         }
     }

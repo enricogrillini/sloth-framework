@@ -1,6 +1,6 @@
 package it.eg.sloth.framework.pageinfo;
 
-import it.eg.sloth.framework.FrameComponent;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,7 +21,8 @@ import java.util.List;
  *
  * @author Enrico Grillini
  */
-public class Breadcrumbs extends FrameComponent implements Iterable<Breadcrumb> {
+@ToString(callSuper = true)
+public class Breadcrumbs implements Iterable<Breadcrumb> {
 
     private List<Breadcrumb> list;
 
