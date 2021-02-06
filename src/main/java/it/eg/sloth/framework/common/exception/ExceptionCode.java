@@ -21,7 +21,7 @@ public enum ExceptionCode {
     GENERIC_BUSINESS_ERROR("business.exception.genericError", ExceptionType.BUSINESS),
     FORMAT_ERROR("business.exception.formatError", ExceptionType.BUSINESS),
     PARSE_ERROR("business.exception.parseError", ExceptionType.BUSINESS),
-    ROLLUP_CALCULATE_ERROR("business.exception.rollupCalculateError", ExceptionType.BUSINESS),
+    PIVOT_ELEMENT_NOT_FOUND("business.exception.pivotElementNotFound", ExceptionType.BUSINESS),
     INVALID_CONTROL("business.exception.invalidControl", ExceptionType.BUSINESS),
     INVALID_GET("business.exception.invalidGet", ExceptionType.BUSINESS),
     INVALID_SET("business.exception.invalidSet", ExceptionType.BUSINESS),

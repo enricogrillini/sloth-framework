@@ -1,8 +1,8 @@
-package it.eg.sloth.form.dwh;
+package it.eg.sloth.form.pivot;
 
-import it.eg.sloth.form.fields.field.FieldType;
-import it.eg.sloth.form.fields.field.base.DecodedTextField;
-import it.eg.sloth.framework.common.casting.DataTypes;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -20,21 +20,10 @@ import lombok.experimental.SuperBuilder;
  *
  * @author Enrico Grillini
  */
+@Getter
+@Setter
+@ToString(callSuper = true)
 @SuperBuilder(toBuilder = true)
-public class Attribute<T> extends DecodedTextField<T> {
-
-  public Attribute(String name, String alias, String description, String tootip, DataTypes dataType, String format, String baseLink) {
-    super(name, alias, description, tootip, dataType, format, baseLink);
-  }
-
-  @Override
-  public FieldType getFieldType() {
-    return FieldType.ATTRIBUTE;
-  }
-
-  @Override
-  public Attribute<T> newInstance() {
-    return toBuilder().build();
-  }
-  
+public class PivotColumn extends PivotElement {
+    
 }

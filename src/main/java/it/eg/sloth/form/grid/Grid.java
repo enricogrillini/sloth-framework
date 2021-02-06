@@ -7,11 +7,18 @@ import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.TextField;
 import it.eg.sloth.form.fields.field.impl.InputTotalizer;
 import it.eg.sloth.form.fields.field.impl.TextTotalizer;
+import it.eg.sloth.form.pivot.Pivot;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.MessageList;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
+import lombok.ToString;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Project: sloth-framework
@@ -30,10 +37,14 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Getter
 @Setter
-@Slf4j
+@ToString(callSuper = true)
 public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
 
-    String title;
+    private String title;
+
+    @Getter(value = AccessLevel.PRIVATE)
+    @Setter(value = AccessLevel.PRIVATE)
+    private Map<String, Pivot> mapPivot;
 
     boolean backButtonHidden;
     boolean selectButtonHidden;
@@ -75,6 +86,8 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
         this.updateButtonHidden = updateButtonHidden != null && updateButtonHidden;
         this.commitButtonHidden = commitButtonHidden != null && commitButtonHidden;
         this.rollbackButtonHidden = rollbackButtonHidden != null && rollbackButtonHidden;
+
+        mapPivot = new LinkedHashMap<>();
     }
 
     public boolean isEmpty() {
@@ -150,4 +163,21 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
         return result;
     }
 
+    /**
+     * Aggiunge una pivot
+     *
+     * @param pivot
+     */
+    public void addPivot(Pivot pivot) {
+        mapPivot.put(pivot.getName(), pivot);
+    }
+
+    /**
+     * Ritorna le pivot
+     *
+     * @return
+     */
+    public Collection<Pivot> getPivots() {
+        return Collections.unmodifiableCollection(mapPivot.values());
+    }
 }

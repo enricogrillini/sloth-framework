@@ -1,11 +1,9 @@
-package it.eg.sloth.form.dwh;
+package it.eg.sloth.form.pivot;
 
-import it.eg.sloth.db.datasource.table.sort.SortingRule;
-import it.eg.sloth.form.fields.field.FieldType;
-import it.eg.sloth.form.fields.field.base.DecodedTextField;
-import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.form.base.AbstractElements;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -25,28 +23,14 @@ import lombok.experimental.SuperBuilder;
  */
 @Getter
 @Setter
+@ToString(callSuper=true)
 @SuperBuilder(toBuilder = true)
-public class Level<T> extends DecodedTextField<T> {
+public class Pivot extends AbstractElements<PivotElement> {
 
-    private Integer sortType;
+    private String title;
 
-    public Level(String name, String alias, String description, String tootip, DataTypes dataType, String format, String baseLink) {
-        super(name, alias, description, tootip, dataType, format, baseLink);
-        this.sortType = SortingRule.SORT_ASC_NULLS_LAST;
+    public Pivot(String name) {
+        super(name);
     }
 
-
-    public int getSortType() {
-        return sortType == null ? 0 : sortType;
-    }
-
-    @Override
-    public FieldType getFieldType() {
-        return FieldType.LEVEL;
-    }
-
-    @Override
-    public Level<T> newInstance() {
-        return toBuilder().build();
-    }
 }

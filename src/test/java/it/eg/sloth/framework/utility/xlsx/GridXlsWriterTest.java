@@ -5,8 +5,6 @@ import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
 import it.eg.sloth.form.fields.field.impl.ComboBox;
-import it.eg.sloth.form.fields.field.impl.Text;
-import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -68,9 +66,6 @@ public class GridXlsWriterTest {
         grid = new Grid<>("provaGrid");
         grid.setTitle("Prova Grid");
         grid.setDescription("Prova sottotitolo");
-//        grid.addChild(new Text<String>("campo1", "campo 1", DataTypes.STRING));
-//        grid.addChild(new Text<String>("campo2", "campo 2", DataTypes.STRING));
-//        grid.addChild(new TextTotalizer("campo3", "campo 3", DataTypes.CURRENCY));
         grid.addChild(new ComboBox<String>("campo4", "campo 4", DataTypes.STRING));
 
         ComboBox<String> comboBox = (ComboBox<String>) grid.getElement("campo4");
@@ -94,3 +89,5 @@ public class GridXlsWriterTest {
     }
 
 }
+
+

@@ -10,15 +10,29 @@ import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.impl.Hidden;
 import it.eg.sloth.form.fields.field.impl.Semaphore;
 import it.eg.sloth.form.grid.Grid;
+import it.eg.sloth.form.pivot.*;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.exception.ExceptionCode;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelContainer;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelFont;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelType;
+import it.eg.sloth.jaxb.form.DataType;
 import org.apache.poi.hssf.usermodel.HeaderFooter;
+import org.apache.poi.ss.SpreadsheetVersion;
+import org.apache.poi.ss.usermodel.DataConsolidateFunction;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.AreaReference;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.xssf.usermodel.XSSFPivotTable;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTDataField;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTField;
+import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTPivotField;
+
+import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -37,11 +51,9 @@ import org.apache.poi.ss.util.CellReference;
  */
 public class GridXlsxWriter extends BaseXlsxWriter {
 
-    protected int rowIndex;
 
     public GridXlsxWriter() {
         super();
-        rowIndex = 0;
     }
 
     public GridXlsxWriter(boolean title, Grid<?>... grids) throws FrameworkException {
@@ -89,6 +101,8 @@ public class GridXlsxWriter extends BaseXlsxWriter {
      * @param grid
      */
     public void addGrid(boolean title, Grid<?> grid) throws FrameworkException {
+        int rowIndex = 0;
+
         addSheet(BaseFunction.nvl(grid.getTitle(), grid.getName()), false);
 
         getSheet().setMargin(Sheet.FooterMargin, 0.25);
@@ -101,6 +115,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
         }
 
         // Intestazioni di colonna
+        int topRow = rowIndex;
         rowIndex = addGridHeader(rowIndex, grid);
 
         getSheet().setRepeatingRows(CellRangeAddress.valueOf("1:" + rowIndex));
@@ -110,22 +125,21 @@ public class GridXlsxWriter extends BaseXlsxWriter {
         rowIndex = addGridData(rowIndex, grid);
 
         // Totali Griglia
-        rowIndex = addGridTotal(rowIndex, grid);
+        int bottomRow = rowIndex - 1;
+        addGridTotal(rowIndex, grid);
 
         // Gestione colonne nascoste
         autoSizeColumn(grid);
+
+        // Aggiunge le Pivot
+        CellReference topLeft = new CellReference(topRow, 0);
+        CellReference bottomRight = new CellReference(bottomRow, getColumnCount(grid) - 1);
+        addPivots(title, grid, topLeft, bottomRight);
     }
 
-    protected int addGridTitle(int rowIndex, Grid<?> grid) throws FrameworkException {
-        int size = 0;
-        for (SimpleField field : grid.getElements()) {
-            if (field instanceof Hidden) {
-                continue;
-            }
-            size++;
-        }
 
-        return addSheetTitle(rowIndex, grid.getTitle(), grid.getDescription(), grid.getLocale(), size);
+    protected int addGridTitle(int rowIndex, Grid<?> grid) throws FrameworkException {
+        return addSheetTitle(rowIndex, grid.getTitle(), grid.getDescription(), grid.getLocale(), getColumnCount(grid));
     }
 
     protected int addGridHeader(int rowIndex, Grid<?> grid) {
@@ -202,6 +216,23 @@ public class GridXlsxWriter extends BaseXlsxWriter {
      *
      * @param grid
      */
+    protected int getColumnCount(Grid<?> grid) {
+        int i = 0;
+        for (SimpleField simpleField : grid) {
+            if (simpleField instanceof Hidden) {
+                continue;
+            }
+            i++;
+        }
+
+        return i;
+    }
+
+    /**
+     * Nascondo le colonne Hidden
+     *
+     * @param grid
+     */
     protected void autoSizeColumn(Grid<?> grid) {
         int i = 0;
         for (SimpleField simpleField : grid) {
@@ -217,6 +248,95 @@ public class GridXlsxWriter extends BaseXlsxWriter {
 
             i++;
         }
+    }
+
+
+    /**
+     * Aggiunge le pivot al foglio excel
+     *
+     * @param grid
+     */
+    public void addPivots(boolean title, Grid<?> grid, CellReference topLeft, CellReference bottomRight) throws FrameworkException {
+        int rowIndex = 0;
+        XSSFSheet dataSheet = getSheet();
+
+        if (grid.getPivots() != null) {
+            for (Pivot pivot : grid.getPivots()) {
+                // Aggiungo il foglio per la Pivot
+                addSheet(BaseFunction.nvl(pivot.getTitle(), pivot.getName()), false);
+
+                // Titolo Foglio
+                if (title) {
+                    rowIndex = addSheetTitle(rowIndex, pivot.getTitle(), null, grid.getLocale(), pivot.getElements().size());
+                    rowIndex++;
+                }
+
+                addPivot(grid, pivot, rowIndex, dataSheet, new AreaReference(topLeft, bottomRight, SpreadsheetVersion.EXCEL2007));
+
+                getSheet().setMargin(Sheet.FooterMargin, 0.25);
+                getSheet().getFooter().setCenter("Pag. " + HeaderFooter.page() + " di " + HeaderFooter.numPages());
+            }
+        }
+
+    }
+
+    public void addPivot(Grid<?> grid, Pivot pivot, int rowIndex, Sheet dataSource, AreaReference areaReference) throws FrameworkException {
+        // Aggiungo la Pivot
+        XSSFPivotTable pivotTable = getSheet().createPivotTable(areaReference, new CellReference(rowIndex + 2, 0),
+                dataSource);
+
+        // Aggiungo i campi della pivot
+        DataFormat df = getWorkbook().createDataFormat();
+        int valueCount = 0;
+        for (PivotElement pivotElement : pivot.getElements()) {
+            int col = getPivotIndex(grid, pivotElement);
+
+            // Informazioni sul formato
+            SimpleField field = grid.getElement(pivotElement.getFieldAlias());
+            BaseExcelType baseExcelType = null;
+            if (field instanceof DataField) {
+                DataField dataField = (DataField) field;
+                baseExcelType = BaseExcelType.Factory.fromDataType(dataField.getDataType());
+            }
+
+            if (pivotElement instanceof PivotFilter) {
+                pivotTable.addReportFilter(col);
+            } else if (pivotElement instanceof PivotRow) {
+                pivotTable.addRowLabel(col);
+            } else if (pivotElement instanceof PivotColumn) {
+                pivotTable.addColLabel(col);
+
+            } else if (pivotElement instanceof PivotValue) {
+                PivotValue pivotValue = (PivotValue) pivotElement;
+                pivotTable.addColumnLabel(DataConsolidateFunction.valueOf(pivotValue.getConsolidateFunction().value()), col);
+
+                if (baseExcelType != null) {
+                    CTDataField ctDataField = pivotTable.getCTPivotTableDefinition().getDataFields().getDataFieldArray(valueCount);
+                    ctDataField.setName(BaseFunction.isBlank(pivotElement.getDescription()) ? field.getDescription() : pivotElement.getDescription());
+                    ctDataField.setNumFmtId(df.getFormat(baseExcelType.getFormat()));
+                }
+                valueCount++;
+            }
+
+
+        }
+    }
+
+
+    private int getPivotIndex(Grid<?> grid, PivotElement pivotElement) throws FrameworkException {
+        int i = 0;
+        for (SimpleField simpleField : grid) {
+            if (simpleField instanceof Hidden) {
+                continue;
+            }
+
+            if (simpleField.getName().equalsIgnoreCase(pivotElement.getFieldAlias())) {
+                return i;
+            }
+            i++;
+        }
+
+        throw new FrameworkException(ExceptionCode.PIVOT_ELEMENT_NOT_FOUND, pivotElement.getFieldAlias());
     }
 
 }

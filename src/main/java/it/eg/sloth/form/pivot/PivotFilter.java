@@ -1,8 +1,8 @@
-package it.eg.sloth.form.dwh;
+package it.eg.sloth.form.pivot;
 
-import it.eg.sloth.form.fields.field.FieldType;
-import it.eg.sloth.form.fields.field.base.TextField;
-import it.eg.sloth.framework.common.casting.DataTypes;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -20,21 +20,10 @@ import lombok.experimental.SuperBuilder;
  *
  * @author Enrico Grillini
  */
+@Getter
+@Setter
+@ToString(callSuper = true)
 @SuperBuilder(toBuilder = true)
-public class Measure<T> extends TextField<T> {
-
-    public Measure(String name, String description, DataTypes dataType) {
-        super(name, description, dataType);
-    }
-
-    @Override
-    public FieldType getFieldType() {
-        return FieldType.MEASURE;
-    }
-
-    @Override
-    public Measure<T> newInstance() {
-        return toBuilder().build();
-    }
-
+public class PivotFilter extends PivotElement {
+    
 }

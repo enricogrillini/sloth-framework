@@ -14,7 +14,6 @@ import it.eg.sloth.framework.common.message.MessageList;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import lombok.extern.slf4j.Slf4j;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -35,7 +34,6 @@ import java.util.*;
  *
  * @author Enrico Grillini
  */
-@Slf4j
 @Getter
 @Setter
 @SuperBuilder(toBuilder = true)

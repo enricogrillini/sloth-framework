@@ -2,6 +2,8 @@ package it.eg.sloth.form.base;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 import java.util.*;
 
@@ -22,6 +24,8 @@ import java.util.*;
  */
 @Getter
 @Setter
+@ToString(callSuper = true)
+@SuperBuilder(toBuilder = true)
 public abstract class AbstractElements<T extends Element> implements Elements<T> {
 
     private String name;
@@ -30,35 +34,46 @@ public abstract class AbstractElements<T extends Element> implements Elements<T>
 
     public AbstractElements(String name) {
         this.name = name.toLowerCase();
-        this.locale = Locale.getDefault();
-        this.map = new LinkedHashMap<>();
+    }
+
+    public Map<String, T> getMap() {
+        if (map == null) {
+            map = new LinkedHashMap<>();
+        }
+
+        return map;
+    }
+
+    @Override
+    public Locale getLocale() {
+        return this.locale == null ? Locale.getDefault() : this.locale;
     }
 
     public void setLocale(Locale locale) {
         this.locale = locale;
-        for (T element : map.values()) {
+        for (T element : getMap().values()) {
             element.setLocale(locale);
         }
     }
 
     @Override
     public void addChild(T element) {
-        map.put(element.getName(), element);
+        getMap().put(element.getName(), element);
     }
 
     @Override
     public void removeChild(T element) {
-        map.remove(element.getName());
+        getMap().remove(element.getName());
     }
 
     @Override
     public void removeChild(String name) {
-        map.remove(name.toLowerCase());
+        getMap().remove(name.toLowerCase());
     }
 
     @Override
     public void removeChilds() {
-        map.clear();
+        getMap().clear();
     }
 
     @Override
@@ -67,7 +82,7 @@ public abstract class AbstractElements<T extends Element> implements Elements<T>
         int i = name.indexOf('.');
 
         if (i > 0) {
-            T element = map.get(name.substring(0, i));
+            T element = getMap().get(name.substring(0, i));
 
             if (element == null) {
                 return null;
@@ -80,7 +95,7 @@ public abstract class AbstractElements<T extends Element> implements Elements<T>
             }
 
         } else {
-            return map.get(name);
+            return getMap().get(name);
         }
     }
 
@@ -93,12 +108,12 @@ public abstract class AbstractElements<T extends Element> implements Elements<T>
 
     @Override
     public List<T> getElements() {
-        return new ArrayList<>(map.values());
+        return new ArrayList<>(getMap().values());
     }
 
     @Override
     public Iterator<T> iterator() {
-        return map.values().iterator();
+        return getMap().values().iterator();
     }
 
 }

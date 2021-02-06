@@ -1,9 +1,9 @@
-package it.eg.sloth.webdesktop.api.model;
+package it.eg.sloth.form.pivot;
 
-import it.eg.sloth.framework.common.message.MessageList;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Project: sloth-framework
@@ -23,14 +23,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class BffResponse {
-
-    private boolean sessionExpired;
-    private boolean wrongPage;
-    private MessageList messageList;
-
-    public BffResponse() {
-        messageList = new MessageList();
-    }
-
+@SuperBuilder(toBuilder = true)
+public class PivotRow extends PivotElement {
+    
 }

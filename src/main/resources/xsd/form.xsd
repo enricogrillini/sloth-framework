@@ -9,7 +9,6 @@
 
     <element name="TabSheet" type="tns:TabSheet"></element>
 
-    <element name="Rollup" type="tns:Rollup"></element>
     <element name="Skipper" type="tns:Skipper"></element>
 
     <element name="SimpleChart" type="tns:SimpleChart"></element>
@@ -81,6 +80,7 @@
      <element name="AutoComplete" type="tns:AutoComplete" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="TextTotalizer" type="tns:TextTotalizer" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="InputTotalizer" type="tns:InputTotalizer" maxOccurs="unbounded" minOccurs="0"></element>
+     <element name="Pivot" type="tns:Pivot" maxOccurs="unbounded" minOccurs="0"></element>
     </choice>
     <attribute name="Description" type="string"></attribute>
     <attribute name="Title" type="string"></attribute>
@@ -121,18 +121,7 @@
   </complexContent>
  </complexType>
 
- <complexType name="Level">
-  <complexContent>
-   <extension base="tns:DecodedText" />
-  </complexContent>
- </complexType>
 
- <complexType name="Measure">
-  <complexContent>
-   <extension base="tns:Field">
-   </extension>
-  </complexContent>
- </complexType>
 
  <complexType name="Text">
   <complexContent>
@@ -336,18 +325,6 @@
   <attribute name="Name" type="string" use="required"></attribute>
  </complexType>
 
- <complexType name="Rollup">
-  <complexContent>
-   <extension base="tns:Elements">
-    <choice minOccurs="0" maxOccurs="unbounded">
-     <element name="Level" type="tns:Level"></element>
-     <element name="Measure" type="tns:Measure"></element>
-     <element name="Attribute" type="tns:Attribute"></element>
-    </choice>
-    <attribute name="Description" type="string"></attribute>
-   </extension>
-  </complexContent>
- </complexType>
 
  <complexType name="Elements">
   <complexContent>
@@ -387,11 +364,6 @@
   </complexContent>
  </complexType>
 
- <complexType name="Attribute">
-  <complexContent>
-   <extension base="tns:DecodedText"></extension>
-  </complexContent>
- </complexType>
 
  <complexType name="AutoComplete">
   <complexContent>
@@ -521,8 +493,69 @@
     <attribute name="Required" type="boolean"></attribute>
     <attribute name="ReadOnly" type="boolean"></attribute>
     <attribute name="Hidden" type="boolean"></attribute>
-    <attribute name="ViewModality" type="tns:ViewModality"></attribute>
+    <attribute name="ViewModality" type="tns:ViewModality"></attribute>
    </extension>
   </complexContent>
  </complexType>
+
+ <complexType name="Pivot">
+  <complexContent>
+   <extension base="tns:Elements">
+    <choice minOccurs="0" maxOccurs="unbounded">
+     <element name="PivotFilter" type="tns:PivotFilter" maxOccurs="unbounded" minOccurs="0"></element>
+     <element name="PivotRow" type="tns:PivotRow" maxOccurs="unbounded" minOccurs="0"></element>
+     <element name="PivotColumn" type="tns:PivotColumn" maxOccurs="unbounded" minOccurs="0"></element>
+     <element name="PivotValue" type="tns:PivotValue" maxOccurs="unbounded" minOccurs="0"></element>
+    </choice>
+    <attribute name="Title" type="string"></attribute>
+   </extension>
+  </complexContent>
+ </complexType>
+
+ <complexType name="PivotElement">
+  <complexContent>
+   <extension base="tns:Element">
+    <attribute name="Description" type="string" use="required"></attribute>
+    <attribute name="FieldAlias" type="string"></attribute>
+   </extension>
+  </complexContent>
+ </complexType>
+
+ <complexType name="PivotFilter">
+  <complexContent>
+   <extension base="tns:PivotElement">
+   </extension>
+  </complexContent>
+ </complexType>
+
+ <complexType name="PivotRow">
+  <complexContent>
+   <extension base="tns:PivotElement" />
+  </complexContent>
+ </complexType>
+
+ <complexType name="PivotColumn">
+  <complexContent>
+   <extension base="tns:PivotElement" />
+  </complexContent>
+ </complexType>
+
+ <complexType name="PivotValue">
+  <complexContent>
+   <extension base="tns:PivotElement">
+    <attribute name="ConsolidateFunction" type="tns:ConsolidateFunction" use="required"></attribute>
+   </extension>
+  </complexContent>
+ </complexType>
+
+ <simpleType name="ConsolidateFunction">
+  <restriction base="string">
+   <enumeration value="AVERAGE"></enumeration>
+   <enumeration value="COUNT"></enumeration>
+   <enumeration value="MAX"></enumeration>
+   <enumeration value="MIN"></enumeration>
+   <enumeration value="SUM"></enumeration>
+  </restriction>
+ </simpleType>
+
 </schema>

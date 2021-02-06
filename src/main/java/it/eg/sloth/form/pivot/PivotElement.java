@@ -1,9 +1,13 @@
-package it.eg.sloth.webdesktop.api.model;
+package it.eg.sloth.form.pivot;
 
-import it.eg.sloth.framework.common.message.MessageList;
+import it.eg.sloth.form.base.Element;
+import it.eg.sloth.framework.common.base.BaseFunction;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+
+import java.util.Locale;
 
 /**
  * Project: sloth-framework
@@ -23,14 +27,31 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class BffResponse {
+@SuperBuilder(toBuilder = true)
+public abstract class PivotElement implements Element, Cloneable {
 
-    private boolean sessionExpired;
-    private boolean wrongPage;
-    private MessageList messageList;
+    private String name;
+    private Locale locale;
+    private String description;
+    private String fieldAlias;
 
-    public BffResponse() {
-        messageList = new MessageList();
+    protected PivotElement(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    @Override
+    public String getName() {
+        return name.toLowerCase();
+    }
+
+    @Override
+    public Locale getLocale() {
+        return this.locale == null ? Locale.getDefault() : this.locale;
+    }
+
+    public String getFieldAlias() {
+        return BaseFunction.isBlank(fieldAlias) ? getName() : fieldAlias.toLowerCase();
     }
 
 }
