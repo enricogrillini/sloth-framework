@@ -6,11 +6,8 @@
    <choice minOccurs="0" maxOccurs="unbounded">
     <element name="Fields" type="tns:Fields"></element>
     <element name="Grid" type="tns:Grid"></element>
-
     <element name="TabSheet" type="tns:TabSheet"></element>
-
     <element name="Skipper" type="tns:Skipper"></element>
-
     <element name="SimpleChart" type="tns:SimpleChart"></element>
    </choice>
    <attribute name="Title" type="string"></attribute>
@@ -117,6 +114,8 @@
     <attribute name="ToolTip" type="string"></attribute>
     <attribute name="Hidden" type="boolean"></attribute>
     <attribute name="Disabled" type="boolean"></attribute>
+    <attribute name="BadgeHtml" type="string"></attribute>
+    <attribute name="BadgeType" type="tns:BadgeType"></attribute>
    </extension>
   </complexContent>
  </complexType>
@@ -558,4 +557,16 @@
   </restriction>
  </simpleType>
 
+ <simpleType name="BadgeType">
+  <restriction base="string">
+   <enumeration value="badge-primary"></enumeration>
+   <enumeration value="badge-secondary"></enumeration>
+   <enumeration value="badge-success"></enumeration>
+   <enumeration value="badge-danger"></enumeration>
+   <enumeration value="badge-warning"></enumeration>
+   <enumeration value="badge-info"></enumeration>
+   <enumeration value="badge-light"></enumeration>
+   <enumeration value="badge-dark"></enumeration>
+  </restriction>
+ </simpleType>
 </schema>

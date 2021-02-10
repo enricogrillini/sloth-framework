@@ -3,6 +3,8 @@ package it.eg.sloth.form.tabsheet;
 import it.eg.sloth.form.base.AbstractElements;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Project: sloth-framework
@@ -21,6 +23,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString(callSuper=true)
+@SuperBuilder(toBuilder = true)
 public class TabSheet extends AbstractElements<Tab> {
 
     private String currentTabName;
@@ -28,6 +32,8 @@ public class TabSheet extends AbstractElements<Tab> {
     public TabSheet(String name) {
         super(name);
     }
+
+
 
     /**
      * Imposta il primo tab visibile come corrente
@@ -43,6 +49,10 @@ public class TabSheet extends AbstractElements<Tab> {
                 }
             }
         }
+    }
+
+    public void setCurrentTabName(String currentTabName) {
+        this.currentTabName = currentTabName.toLowerCase();
     }
 
     public Tab getCurrentTab() {

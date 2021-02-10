@@ -16,7 +16,6 @@ import it.eg.sloth.form.fields.field.impl.Hidden;
 import it.eg.sloth.form.fields.field.impl.InputTotalizer;
 import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.form.grid.Grid;
-import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -307,11 +306,7 @@ public class GridWriter extends HtmlWriter {
             if (field instanceof TextTotalizer || field instanceof InputTotalizer) {
                 TextField<BigDecimal> textField = (TextField<BigDecimal>) field.newInstance();
 
-                BigDecimal totale = new BigDecimal(0);
-                for (DataRow dataRow : grid.getDataSource()) {
-                    totale = totale.add(BaseFunction.nvl(dataRow.getBigDecimal(textField.getAlias()), new BigDecimal(0)));
-                }
-
+                BigDecimal totale = grid.getDataSource().sum(((TextField<?>) field).getAlias());
                 textField.setValue(totale);
 
                 result.append("  <td class=\"sum\">" + textField.escapeHtmlText() + "</td>\n");

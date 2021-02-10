@@ -20,4 +20,8 @@ public class ResourceUtil {
         return new String(bdata, StandardCharsets.UTF_8);
     }
 
+    public static String normalizedResourceAsString(String path) {
+        return resourceAsString(path).replace("\r\n", "\n");
+    }
+
 }

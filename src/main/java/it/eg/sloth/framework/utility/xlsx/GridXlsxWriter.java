@@ -17,7 +17,6 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelContainer;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelFont;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelType;
-import it.eg.sloth.jaxb.form.DataType;
 import org.apache.poi.hssf.usermodel.HeaderFooter;
 import org.apache.poi.ss.SpreadsheetVersion;
 import org.apache.poi.ss.usermodel.DataConsolidateFunction;
@@ -29,10 +28,6 @@ import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFPivotTable;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTDataField;
-import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTField;
-import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTPivotField;
-
-import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -295,7 +290,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
             SimpleField field = grid.getElement(pivotElement.getFieldAlias());
             BaseExcelType baseExcelType = null;
             if (field instanceof DataField) {
-                DataField dataField = (DataField) field;
+                DataField<?> dataField = (DataField) field;
                 baseExcelType = BaseExcelType.Factory.fromDataType(dataField.getDataType());
             }
 

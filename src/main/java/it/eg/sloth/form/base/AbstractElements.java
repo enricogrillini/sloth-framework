@@ -45,6 +45,11 @@ public abstract class AbstractElements<T extends Element> implements Elements<T>
     }
 
     @Override
+    public String getName() {
+        return name.toLowerCase();
+    }
+
+    @Override
     public Locale getLocale() {
         return this.locale == null ? Locale.getDefault() : this.locale;
     }

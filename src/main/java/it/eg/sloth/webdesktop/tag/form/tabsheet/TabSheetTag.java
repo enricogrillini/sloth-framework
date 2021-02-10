@@ -23,7 +23,7 @@ import java.io.IOException;
 public class TabSheetTag extends BaseElementTag<TabSheet> {
 
     public int startTag() throws IOException {
-        write(TabSheetWriter.tabsheet(getElement(), getWebDesktopDto().getLastController()));
+        write(TabSheetWriter.tabsheet(getElement(), getWebDesktopDto().getLastController(), getViewModality()));
 
         return EVAL_BODY_INCLUDE;
     }

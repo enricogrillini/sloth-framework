@@ -1,8 +1,11 @@
+
 package it.eg.sloth.form.tabsheet;
 
 import it.eg.sloth.form.base.Element;
+import it.eg.sloth.jaxb.form.BadgeType;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Locale;
 
@@ -23,6 +26,7 @@ import java.util.Locale;
  */
 @Getter
 @Setter
+@SuperBuilder(toBuilder = true)
 public class Tab implements Element {
 
     private String name;
@@ -30,24 +34,32 @@ public class Tab implements Element {
 
     private String description;
     private String tooltip;
-    private boolean hidden;
-    private boolean disabled;
+    private Boolean hidden;
+    private Boolean disabled;
+
+    private String badgeHtml;
+    private BadgeType badgeType;
 
     public Tab(String name, String description) {
-        this(name, description, null, false, false);
-    }
-
-    public Tab(String name, String description, String tooltip, Boolean hidden, Boolean disabled) {
-        this.name = name.toLowerCase();
-        this.locale = Locale.getDefault();
-        this.description = description;
-        this.tooltip = tooltip;
-        this.hidden = hidden != null && hidden;
-        this.disabled = disabled != null && disabled;
-    }
-
-    public void setDescription(String description) {
+        this.name = name;
         this.description = description;
     }
 
+    @Override
+    public String getName() {
+        return name.toLowerCase();
+    }
+
+    @Override
+    public Locale getLocale() {
+        return this.locale == null ? Locale.getDefault() : this.locale;
+    }
+
+    public boolean isHidden() {
+        return hidden != null && hidden;
+    }
+
+    public boolean isDisabled() {
+        return disabled != null && disabled;
+    }
 }

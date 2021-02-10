@@ -11,6 +11,5 @@ public class TestUtil {
     public static void createOutputDir() throws IOException {
         Files.createDirectories(Paths.get(OUTPUT_DIR));
     }
-
-
+    
 }

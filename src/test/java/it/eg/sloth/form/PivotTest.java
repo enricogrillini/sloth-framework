@@ -7,10 +7,12 @@ import it.eg.sloth.form.pivot.PivotValue;
 import it.eg.sloth.jaxb.form.ConsolidateFunction;
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
+
 public class PivotTest {
 
     @Test
-    public void radioButtonsBuilderTest() {
+    public void pivotTest() {
         Pivot pivot = Pivot.builder().name("Prova").title("Pivot").build();
         pivot.addChild(PivotRow.builder().name("idProgetto").fieldAlias(null).description("Progetto").build());
         pivot.addChild(PivotRow.builder().name("idSottoProgetto").fieldAlias(null).description("Sotto Progetto").build());
@@ -21,5 +23,6 @@ public class PivotTest {
         pivot.addChild(PivotValue.builder().name("ggTotali").fieldAlias(null).description("gg Tot").consolidateFunction(ConsolidateFunction.SUM).build());
         pivot.addChild(PivotValue.builder().name("importoTotale").fieldAlias(null).description("Imp Tot").consolidateFunction(ConsolidateFunction.SUM).build());
 
+        assertFalse(pivot.getElements().isEmpty());
     }
 }

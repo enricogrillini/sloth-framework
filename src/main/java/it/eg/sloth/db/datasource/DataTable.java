@@ -1,16 +1,16 @@
 package it.eg.sloth.db.datasource;
 
-import java.math.BigDecimal;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.db.datasource.table.sort.SortingRules;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.BigDecimalUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+
+import java.math.BigDecimal;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Project: sloth-framework
@@ -262,123 +262,111 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
      */
     void clearSortingRules();
 
-    static class Util {
-        private Util() {
-            // NOP
-        }
+    /**
+     * Ritorna il set con i valori della colonna specificata applicando i filtri
+     * passati
+     *
+     * @param filterNames
+     * @param filterValues
+     * @param columnName
+     * @return
+     */
+    default Set<Object> distinct(String[] filterNames, Object[] filterValues, String columnName) {
+        Set<Object> result = new LinkedHashSet<>();
 
-        /**
-         * Ritorna il set con i valori della colonna specificata applicando i filtri
-         * passati
-         *
-         * @param dataTable
-         * @param filterNames
-         * @param filterValues
-         * @param columnName
-         * @return
-         */
-        public static final Set<Object> distinct(DataTable<?> dataTable, String[] filterNames, Object[] filterValues, String columnName) {
-            Set<Object> result = new LinkedHashSet<>();
-
-            for (DataRow row : dataTable) {
-                boolean filter = true;
-                if (filterNames != null) {
-                    for (int i = 0; i < filterNames.length; i++) {
-                        if (!BaseFunction.equals(row.getObject(filterNames[i]), filterValues[i])) {
-                            filter = false;
-                            break;
-                        }
+        for (DataRow row : this) {
+            boolean filter = true;
+            if (filterNames != null) {
+                for (int i = 0; i < filterNames.length; i++) {
+                    if (!BaseFunction.equals(row.getObject(filterNames[i]), filterValues[i])) {
+                        filter = false;
+                        break;
                     }
-                }
-
-                if (filter && !result.contains(row.getObject(columnName))) {
-                    result.add(row.getObject(columnName));
                 }
             }
 
-            return result;
+            if (filter && !result.contains(row.getObject(columnName))) {
+                result.add(row.getObject(columnName));
+            }
         }
 
-        /**
-         * Ritorna il set con i valori della colonna specificata applicando i filtro
-         * passato
-         *
-         * @param dataTable
-         * @param filterName
-         * @param filterValue
-         * @param columnName
-         * @return
-         */
-        public static final Set<Object> distinct(DataTable<?> dataTable, String filterName, Object filterValue, String columnName) {
-            return distinct(dataTable, new String[]{filterName}, new Object[]{filterValue}, columnName);
-        }
+        return result;
+    }
 
-        /**
-         * Ritorna il set con i valori della colonna specificata
-         *
-         * @param dataTable
-         * @param columnName
-         * @return
-         */
-        public static final Set<Object> distinct(DataTable<?> dataTable, String columnName) {
-            return distinct(dataTable, (String[]) null, (Object[]) null, columnName);
-        }
+    /**
+     * Ritorna il set con i valori della colonna specificata applicando i filtro
+     * passato
+     *
+     * @param filterName
+     * @param filterValue
+     * @param columnName
+     * @return
+     */
+    default Set<Object> distinct(String filterName, Object filterValue, String columnName) {
+        return distinct(new String[]{filterName}, new Object[]{filterValue}, columnName);
+    }
 
-        /**
-         * Effettua la somma sulla dataTable passata applicando i filtri indicati
-         *
-         * @param dataTable
-         * @param filterNames
-         * @param filterValues
-         * @param columnName
-         * @return
-         */
-        public static final BigDecimal sum(DataTable<?> dataTable, String[] filterNames, Object[] filterValues, String columnName) {
-            BigDecimal result = null;
+    /**
+     * Ritorna il set con i valori della colonna specificata
+     *
+     * @param columnName
+     * @return
+     */
+    default Set<Object> distinct(String columnName) {
+        return distinct((String[]) null, (Object[]) null, columnName);
+    }
 
-            for (DataRow row : dataTable) {
-                boolean filter = true;
-                if (filterNames != null) {
-                    for (int i = 0; i < filterNames.length; i++) {
-                        if (!BaseFunction.equals(row.getObject(filterNames[i]), filterValues[i])) {
-                            filter = false;
-                            break;
-                        }
+    /**
+     * Effettua la somma sulla dataTable passata applicando i filtri indicati
+     *
+     * @param filterNames
+     * @param filterValues
+     * @param columnName
+     * @return
+     */
+    default BigDecimal sum(String[] filterNames, Object[] filterValues, String columnName) {
+        BigDecimal result = null;
+
+        for (DataRow row : this) {
+            boolean filter = true;
+            if (filterNames != null) {
+                for (int i = 0; i < filterNames.length; i++) {
+                    if (!BaseFunction.equals(row.getObject(filterNames[i]), filterValues[i])) {
+                        filter = false;
+                        break;
                     }
-                }
-
-                if (filter) {
-                    result = BigDecimalUtil.sum(result, row.getBigDecimal(columnName));
-
                 }
             }
 
-            return result;
+            if (filter) {
+                result = BigDecimalUtil.sum(result, row.getBigDecimal(columnName));
+
+            }
         }
 
-        /**
-         * Effettua la somma sulla dataTable passata applicando il filtro indicato
-         *
-         * @param dataTable
-         * @param filterName
-         * @param filterValue
-         * @param columnName
-         * @return
-         */
-        public static final BigDecimal sum(DataTable<?> dataTable, String filterName, Object filterValue, String columnName) {
-            return sum(dataTable, new String[]{filterName}, new Object[]{filterValue}, columnName);
-        }
+        return result;
+    }
 
-        /**
-         * Effettua la somma sulla dataTable passata
-         *
-         * @param dataTable
-         * @param columnName
-         * @return
-         */
-        public static final BigDecimal sum(DataTable<?> dataTable, String columnName) {
-            return sum(dataTable, (String[]) null, (Object[]) null, columnName);
-        }
+    /**
+     * Effettua la somma sulla dataTable passata applicando il filtro indicato
+     *
+     * @param filterName
+     * @param filterValue
+     * @param columnName
+     * @return
+     */
+    default BigDecimal sum(String filterName, Object filterValue, String columnName) {
+        return sum(new String[]{filterName}, new Object[]{filterValue}, columnName);
+    }
+
+    /**
+     * Effettua la somma sulla dataTable passata
+     *
+     * @param columnName
+     * @return
+     */
+    default BigDecimal sum(String columnName) {
+        return sum((String[]) null, (Object[]) null, columnName);
     }
 
 }

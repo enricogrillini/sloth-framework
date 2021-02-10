@@ -1,5 +1,7 @@
 package it.eg.sloth.form;
 
+import it.eg.sloth.form.tabsheet.Tab;
+import it.eg.sloth.form.tabsheet.TabSheet;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -18,19 +20,32 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Enrico Grillini
  */
-public class NavigationConstTest {
+public class TabSheetTest {
 
     @Test
-    public void navStrTest() {
-        assertEquals("navigationprefix___aa", NavigationConst.navStr("aa"));
-        assertEquals("navigationprefix___aa___bb", NavigationConst.navStr("aa", "bb"));
-        assertEquals("navigationprefix___aa___bb___cc", NavigationConst.navStr("aa", "bb", "cc"));
-    }
+    public void tabTest() {
+        TabSheet tabSheet = new TabSheet("TabSheetName");
 
-    @Test
-    public void hrefTest() {
-        assertEquals("page.html?navigationprefix___aa=x", NavigationConst.hrefStr("page.html", "aa"));
-        assertEquals("page.html?navigationprefix___aa___bb=x", NavigationConst.hrefStr("page.html", "aa", "bb"));
-        assertEquals("page.html?navigationprefix___aa___bb___cc=x", NavigationConst.hrefStr("page.html", "aa", "bb", "cc"));
+        Tab tab1 = Tab.builder()
+                .name("Name1")
+                .description("description1")
+                .build();
+
+        tabSheet.addChild(tab1);
+
+        Tab tab2 = Tab.builder()
+                .name("Name2")
+                .description("description2")
+                .build();
+
+        tabSheet.addChild(tab2);
+
+
+        assertEquals(tab1, tabSheet.getCurrentTab());
+        //assertEquals("name", tabSheet.getCurrentTabName());
+
+        tabSheet.setCurrentTabName("name2");
+        assertEquals(tab2, tabSheet.getCurrentTab());
+
     }
 }
