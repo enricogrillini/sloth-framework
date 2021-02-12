@@ -1,19 +1,18 @@
 package it.eg.sloth.form;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
-import it.eg.sloth.db.datasource.table.sort.SortingRule;
+import it.eg.sloth.db.datasource.table.sort.SortType;
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
 import it.eg.sloth.form.fields.field.impl.AutoComplete;
+import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import org.junit.Before;
 import org.junit.Test;
 
-import it.eg.sloth.form.grid.Grid;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Project: sloth-framework
@@ -87,12 +86,12 @@ public class GridTest {
 
         grid.addChild(autoComplete);
 
-        grid.orderBy("campo", SortingRule.SORT_ASC_NULLS_LAST);
+        grid.orderBy("campo", SortType.SORT_ASC_NULLS_LAST);
         assertEquals("A", ((DataRow) grid.getDataSource().getRows().get(0)).getString("campo"));
         assertEquals("B", ((DataRow) grid.getDataSource().getRows().get(1)).getString("campo"));
         assertEquals("C", ((DataRow) grid.getDataSource().getRows().get(2)).getString("campo"));
 
-        grid.orderBy("campo", SortingRule.SORT_DESC_NULLS_LAST);
+        grid.orderBy("campo", SortType.SORT_DESC_NULLS_LAST);
         assertEquals("C", ((DataRow) grid.getDataSource().getRows().get(0)).getString("campo"));
         assertEquals("B", ((DataRow) grid.getDataSource().getRows().get(1)).getString("campo"));
         assertEquals("A", ((DataRow) grid.getDataSource().getRows().get(2)).getString("campo"));
@@ -114,12 +113,12 @@ public class GridTest {
         grid.addChild(autoComplete);
 
 
-        grid.orderBy("campo", SortingRule.SORT_ASC_NULLS_LAST);
+        grid.orderBy("campo", SortType.SORT_ASC_NULLS_LAST);
         assertEquals("B", ((DataRow) grid.getDataSource().getRows().get(0)).getString("campo"));
         assertEquals("A", ((DataRow) grid.getDataSource().getRows().get(1)).getString("campo"));
         assertEquals("C", ((DataRow) grid.getDataSource().getRows().get(2)).getString("campo"));
 
-        grid.orderBy("campo", SortingRule.SORT_DESC_NULLS_LAST);
+        grid.orderBy("campo", SortType.SORT_DESC_NULLS_LAST);
         assertEquals("C", ((DataRow) grid.getDataSource().getRows().get(0)).getString("campo"));
         assertEquals("A", ((DataRow) grid.getDataSource().getRows().get(1)).getString("campo"));
         assertEquals("B", ((DataRow) grid.getDataSource().getRows().get(2)).getString("campo"));

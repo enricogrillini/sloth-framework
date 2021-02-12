@@ -1,9 +1,11 @@
-package it.eg.sloth.db.datasource.table.sort;
+package it.eg.sloth.webdesktop.tag.form.tabsheet;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import it.eg.sloth.form.tabsheet.TabSheet;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
+import it.eg.sloth.webdesktop.tag.form.tabsheet.writer.TabSheetWriter;
+
+import java.io.IOException;
 
 /**
  * Project: sloth-framework
@@ -16,21 +18,19 @@ import lombok.ToString;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
  * <p>
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * <p>
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
-@AllArgsConstructor
-@ToString
-public class SortingRule {
+public class TabSheetListTag extends BaseElementTag<TabSheet> {
 
-    private String fieldName;
-    private SortType sortType;
+    public int startTag() throws IOException, FrameworkException {
+        write(TabSheetWriter.tabsheetList(getElement(), getWebDesktopDto().getLastController()));
 
-    public SortingRule(String fieldName) {
-        this(fieldName, SortType.SORT_ASC_NULLS_LAST);
+        return EVAL_BODY_INCLUDE;
+    }
+
+    protected void endTag() {
+        // NOP
     }
 
 }

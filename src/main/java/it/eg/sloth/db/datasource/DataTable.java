@@ -1,5 +1,6 @@
 package it.eg.sloth.db.datasource;
 
+import it.eg.sloth.db.datasource.table.sort.SortType;
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.db.datasource.table.sort.SortingRules;
 import it.eg.sloth.framework.common.base.BaseFunction;
@@ -224,7 +225,7 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
      * @param sortType
      * @return
      */
-    SortingRule addSortingRule(String fieldName, int sortType);
+    SortingRule addSortingRule(String fieldName, SortType sortType);
 
     /**
      * Applica l'ordinamento memorizzato
@@ -234,7 +235,7 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
     /**
      * Applica l'ordinamento passato
      */
-    void applySort(String fieldName, int sortType);
+    void applySort(String fieldName, SortType sortType);
 
     /**
      * Applica l'ordinamento passato

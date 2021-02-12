@@ -1,5 +1,6 @@
 package it.eg.sloth.webdesktop.controller.common;
 
+import it.eg.sloth.db.datasource.table.sort.SortType;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.BaseFunction;
@@ -59,7 +60,7 @@ public interface SimpleSearchPageInterface<F extends Form> extends FormPageInter
      * @param sortType
      * @throws Exception
      */
-    default void onSort(Grid<?> grid, String fieldName, int sortType) throws Exception {
+    default void onSort(Grid<?> grid, String fieldName, SortType sortType) throws Exception {
         grid.orderBy(fieldName, sortType);
     }
 

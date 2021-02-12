@@ -4,6 +4,7 @@ import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.table.filter.FilterRules;
+import it.eg.sloth.db.datasource.table.sort.SortType;
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.db.datasource.table.sort.SortingRules;
 import it.eg.sloth.db.query.SelectQueryInterface;
@@ -404,7 +405,7 @@ public abstract class TableAbstract<T extends DataRow> implements DataTable<T> {
     }
 
     @Override
-    public SortingRule addSortingRule(String fieldName, int sortType) {
+    public SortingRule addSortingRule(String fieldName, SortType sortType) {
         return sortingRules.add(fieldName, sortType);
     }
 
@@ -437,7 +438,7 @@ public abstract class TableAbstract<T extends DataRow> implements DataTable<T> {
     }
 
     @Override
-    public void applySort(String fieldName, int sortType) {
+    public void applySort(String fieldName, SortType sortType) {
         clearSortingRules();
         sortingRules.add(fieldName, sortType);
         applySort();

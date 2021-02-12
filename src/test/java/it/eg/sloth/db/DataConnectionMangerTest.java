@@ -3,6 +3,7 @@ package it.eg.sloth.db;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.RowStatus;
 import it.eg.sloth.db.datasource.table.Table;
+import it.eg.sloth.db.datasource.table.sort.SortType;
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.db.manager.DataConnectionManager;
 import it.eg.sloth.db.model.ProvaRowBean;
@@ -171,7 +172,7 @@ public class DataConnectionMangerTest {
 
         // Rileggo la tabella
         ProvaTableBean provaTableBean2 = ProvaTableBean.Factory.load(null);
-        provaTableBean2.addSortingRule(ProvaRowBean.ID, SortingRule.SORT_DESC_NULLS_LAST);
+        provaTableBean2.addSortingRule(ProvaRowBean.ID, SortType.SORT_DESC_NULLS_LAST);
         provaTableBean2.applySort();
 
         // Verifico che esista il record inserito corettamente

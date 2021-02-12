@@ -46,13 +46,13 @@ public class SortingRules<T extends DataRow>  implements Comparator<T> {
     }
 
     public SortingRule add(String fieldName) {
-        SortingRule sortingRule = new SortingRule(fieldName, SortingRule.SORT_ASC_NULLS_LAST);
+        SortingRule sortingRule = new SortingRule(fieldName, SortType.SORT_ASC_NULLS_LAST);
         list.add(sortingRule);
 
         return sortingRule;
     }
 
-    public SortingRule add(String fieldName, int sortType) {
+    public SortingRule add(String fieldName, SortType sortType) {
         SortingRule sortingRule = new SortingRule(fieldName, sortType);
         list.add(sortingRule);
 
@@ -64,14 +64,14 @@ public class SortingRules<T extends DataRow>  implements Comparator<T> {
             return 0;
 
         if (value1 != null && value2 == null) {
-            if (sortingRule.getSortType() == SortingRule.SORT_ASC_NULLS_LAST || sortingRule.getSortType() == SortingRule.SORT_DESC_NULLS_LAST)
+            if (sortingRule.getSortType() == SortType.SORT_ASC_NULLS_LAST || sortingRule.getSortType() == SortType.SORT_DESC_NULLS_LAST)
                 return -1;
             else
                 return 1;
         }
 
         if (value1 == null) {
-            if (sortingRule.getSortType() == SortingRule.SORT_ASC_NULLS_LAST || sortingRule.getSortType() == SortingRule.SORT_DESC_NULLS_LAST)
+            if (sortingRule.getSortType() == SortType.SORT_ASC_NULLS_LAST || sortingRule.getSortType() == SortType.SORT_DESC_NULLS_LAST)
                 return 1;
             else
                 return -1;
@@ -83,7 +83,7 @@ public class SortingRules<T extends DataRow>  implements Comparator<T> {
     private int check(SortingRule sortingRule, BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
         if (bigDecimal1.equals(bigDecimal2))
             return 0;
-        else if (sortingRule.getSortType() == SortingRule.SORT_ASC_NULLS_LAST || sortingRule.getSortType() == SortingRule.SORT_ASC_NULLS_FIRST)
+        else if (sortingRule.getSortType() == SortType.SORT_ASC_NULLS_LAST || sortingRule.getSortType() == SortType.SORT_ASC_NULLS_FIRST)
             return bigDecimal1.compareTo(bigDecimal2) > 0 ? 1 : -1;
         else
             return bigDecimal1.compareTo(bigDecimal2) > 0 ? -1 : 1;
@@ -92,17 +92,19 @@ public class SortingRules<T extends DataRow>  implements Comparator<T> {
     private int check(SortingRule sortingRule, Timestamp timestamp1, Timestamp timestamp2) {
         if (timestamp1.equals(timestamp2))
             return 0;
-        else if (sortingRule.getSortType() == SortingRule.SORT_ASC_NULLS_LAST || sortingRule.getSortType() == SortingRule.SORT_ASC_NULLS_FIRST)
+        else if (sortingRule.getSortType() == SortType.SORT_ASC_NULLS_LAST || sortingRule.getSortType() == SortType.SORT_ASC_NULLS_FIRST)
             return timestamp1.compareTo(timestamp2) > 0 ? 1 : -1;
         else
             return timestamp1.compareTo(timestamp2) > 0 ? -1 : 1;
     }
 
     private int check(SortingRule sortingRule, String string1, String string2) {
-        if (!string1.equals(string2))
-            return string1.compareTo(string2) * sortingRule.getSortType();
-        else
+        if (string1.equals(string2))
             return 0;
+        else if (sortingRule.getSortType() == SortType.SORT_ASC_NULLS_LAST || sortingRule.getSortType() == SortType.SORT_ASC_NULLS_FIRST)
+            return string1.compareTo(string2) > 0 ? 1 : -1;
+        else
+            return string1.compareTo(string2) > 0 ? -1 : 1;
     }
 
     @Override

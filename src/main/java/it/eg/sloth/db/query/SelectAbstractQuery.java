@@ -35,7 +35,7 @@ public abstract class SelectAbstractQuery implements SelectQueryInterface {
 
     private String statement;
 
-    public SelectAbstractQuery(String statement) {
+    protected SelectAbstractQuery(String statement) {
         this.statement = statement;
     }
 

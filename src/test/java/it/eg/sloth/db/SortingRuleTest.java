@@ -1,7 +1,7 @@
 package it.eg.sloth.db;
 
 import it.eg.sloth.db.datasource.row.Row;
-import it.eg.sloth.db.datasource.table.sort.SortingRule;
+import it.eg.sloth.db.datasource.table.sort.SortType;
 import it.eg.sloth.db.datasource.table.sort.SortingRules;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -37,14 +37,14 @@ public class SortingRuleTest {
         row2.setBigDecimal("provaBigDecimal", BigDecimal.valueOf(10));
 
         SortingRules sortingRules = new SortingRules();
-        sortingRules.add("provaBigDecimal", SortingRule.SORT_ASC_NULLS_LAST);
+        sortingRules.add("provaBigDecimal", SortType.SORT_ASC_NULLS_LAST);
         assertEquals(0, sortingRules.compare(row1, row1));
         assertTrue(sortingRules.compare(row1, row2) > 0);
         assertTrue(sortingRules.compare(row2, row1) < 0);
 
 
         sortingRules = new SortingRules();
-        sortingRules.add("provaBigDecimal", SortingRule.SORT_DESC_NULLS_LAST);
+        sortingRules.add("provaBigDecimal", SortType.SORT_DESC_NULLS_LAST);
         assertEquals(0, sortingRules.compare(row1, row1));
         assertTrue(sortingRules.compare(row1, row2) < 0);
         assertTrue(sortingRules.compare(row2, row1) > 0);
@@ -59,14 +59,14 @@ public class SortingRuleTest {
         row2.setTimestamp("provaTimestamp", TimeStampUtil.parseTimestamp("01/01/2019", "dd/mm/yyyy"));
 
         SortingRules sortingRules = new SortingRules();
-        sortingRules.add("provaTimestamp", SortingRule.SORT_ASC_NULLS_LAST);
+        sortingRules.add("provaTimestamp", SortType.SORT_ASC_NULLS_LAST);
         assertEquals(0, sortingRules.compare(row1, row1));
         assertTrue(sortingRules.compare(row1, row2) > 0);
         assertTrue(sortingRules.compare(row2, row1) < 0);
 
 
         sortingRules = new SortingRules();
-        sortingRules.add("provaTimestamp", SortingRule.SORT_DESC_NULLS_LAST);
+        sortingRules.add("provaTimestamp", SortType.SORT_DESC_NULLS_LAST);
         assertEquals(0, sortingRules.compare(row1, row1));
         assertTrue(sortingRules.compare(row1, row2) < 0);
         assertTrue(sortingRules.compare(row2, row1) > 0);

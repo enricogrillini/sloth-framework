@@ -12,15 +12,23 @@ import java.text.MessageFormat;
 
 public class TabSheetWriter extends HtmlWriter {
 
+    // TabSheet
     private static final String OPEN_TABSHEET = "\n" +
             "<!-- TabSheet -->\n" +
             "<ul class=\"nav nav-tabs small\">\n";
 
     private static final String TAB_VIEW = " <li class=\"nav-item\"><a{0}{1}{2}>{3}</a></li>\n";
-
     private static final String TAB_EDIT = " <li class=\"nav-item\"><span{0}{1}>{2}</span></li>\n";
-
     private static final String CLOSE_TABSHEET = "</ul>";
+
+    // TabSheet List
+    private static final String OPEN_TABSHEET_LIST = "\n" +
+            "<!-- TabSheet -->\n" +
+            "<div class=\"list-group list-group-flush\">\n";
+
+    private static final String TAB_LIST_VIEW = " <span class=\"list-group-item\"><a{0}{1}>{2}</a></span>\n";
+    private static final String CLOSE_TABSHEET_LIST = "</div>";
+
 
     public static String tabsheet(TabSheet tabSheet, String lastController, ViewModality viewModality) {
         StringBuilder result = new StringBuilder().append(OPEN_TABSHEET);
@@ -52,5 +60,26 @@ public class TabSheetWriter extends HtmlWriter {
         }
 
         return result.append(CLOSE_TABSHEET).toString();
+    }
+
+
+    public static String tabsheetList(TabSheet tabSheet, String lastController) {
+        StringBuilder result = new StringBuilder().append(OPEN_TABSHEET_LIST);
+        for (Tab tab : tabSheet) {
+            if (!tab.isHidden()) {
+                String description = Casting.getHtml(tab.getDescription());
+                if (!BaseFunction.isBlank(tab.getBadgeHtml())) {
+                    description += MessageFormat.format(" <span class=\"badge badge-pill {0}\">{1}</span>", tab.getBadgeType() == null ? "" : tab.getBadgeType().value(), tab.getBadgeHtml());
+                }
+
+                result.append(MessageFormat.format(
+                        TAB_LIST_VIEW,
+                        getAttribute("href", lastController + "?" + NavigationConst.navStr(NavigationConst.TAB, tabSheet.getName(), tab.getName())),
+                        getAttributeTooltip(tab.getTooltip()),
+                        description));
+            }
+        }
+
+        return result.append(CLOSE_TABSHEET_LIST).toString();
     }
 }

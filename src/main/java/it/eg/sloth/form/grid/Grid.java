@@ -2,6 +2,7 @@ package it.eg.sloth.form.grid;
 
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
+import it.eg.sloth.db.datasource.table.sort.SortType;
 import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.TextField;
@@ -143,7 +144,7 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
         return false;
     }
 
-    public void orderBy(String fieldName, int sortType) {
+    public void orderBy(String fieldName, SortType sortType) {
         if (getElement(fieldName) instanceof TextField) {
             TextField<?> textField = (TextField<?>) getElement(fieldName);
 

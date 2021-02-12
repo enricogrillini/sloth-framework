@@ -2,6 +2,7 @@ package it.eg.sloth.webdesktop.tag.form.grid.writer;
 
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
+import it.eg.sloth.db.datasource.table.sort.SortType;
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.fields.Fields;
@@ -98,7 +99,7 @@ public class GridWriter extends HtmlWriter {
 
                 SortingRule sortingRule = grid.getDataSource().getSortingRules().getFirstRule();
                 if (sortingRule != null && sortingRule.getFieldName().equalsIgnoreCase(textField.getOrderByAlias())) {
-                    if (sortingRule.getSortType() == SortingRule.SORT_ASC_NULLS_LAST) {
+                    if (sortingRule.getSortType() == SortType.SORT_ASC_NULLS_LAST) {
                         iconHtml = getAttribute(ATTR_CLASS, "fas fa-sort-up m-1");
                         buttonNameHtml = getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.SORT_DESC, grid.getName(), textField.getName()));
                     } else {

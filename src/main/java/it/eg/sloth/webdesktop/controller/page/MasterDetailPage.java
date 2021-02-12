@@ -1,6 +1,6 @@
 package it.eg.sloth.webdesktop.controller.page;
 
-import it.eg.sloth.db.datasource.table.sort.SortingRule;
+import it.eg.sloth.db.datasource.table.sort.SortType;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.grid.Grid;
@@ -122,11 +122,11 @@ public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extend
                 return true;
             } else if (NavigationConst.SORT_ASC.equals(navigation[0])) {
                 Grid<?> grid = (Grid<?>) getForm().getElement(navigation[1]);
-                onSort(grid, navigation[2], SortingRule.SORT_ASC_NULLS_LAST);
+                onSort(grid, navigation[2], SortType.SORT_ASC_NULLS_LAST);
                 return true;
             } else if (NavigationConst.SORT_DESC.equals(navigation[0])) {
                 Grid<?> grid = (Grid<?>) getForm().getElement(navigation[1]);
-                onSort(grid, navigation[2], SortingRule.SORT_DESC_NULLS_LAST);
+                onSort(grid, navigation[2], SortType.SORT_DESC_NULLS_LAST);
                 return true;
             } else if (NavigationConst.TAB.equals(navigation[0])) {
                 onSelectTab(navigation[1], navigation[2]);
