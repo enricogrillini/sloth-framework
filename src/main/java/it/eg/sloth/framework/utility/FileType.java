@@ -22,7 +22,7 @@ public enum FileType {
   JPEG(".jpeg", "image/jpeg"),
 
   TXT(".txt", "text/plain"), 
-  CSV(".csv", "text/csv"),
+  CSV(".csv", "application/csv"),
   XML(".xml", "text/xml");
 
   private final String extension;
