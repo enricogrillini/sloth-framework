@@ -1,6 +1,7 @@
 package it.eg.sloth.webdesktop.controller.common.editable;
 
 import it.eg.sloth.form.Form;
+import it.eg.sloth.framework.pageinfo.PageStatus;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 
 /**
@@ -27,12 +28,14 @@ public interface FullEditingInterface<F extends Form> extends BaseEditingInterfa
 
     default void onInsert() throws Exception {
         if (execInsert()) {
+            getForm().getPageInfo().setPageStatus(PageStatus.UPDATING);
             getForm().getPageInfo().setViewModality(ViewModality.VIEW_MODIFICA);
         }
     }
 
     default void onDelete() throws Exception {
         if (execDelete()) {
+            getForm().getPageInfo().setPageStatus(PageStatus.UPDATING);
             getForm().getPageInfo().setViewModality(ViewModality.VIEW_MODIFICA);
         }
     }

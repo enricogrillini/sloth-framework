@@ -1,5 +1,10 @@
 package it.eg.sloth.webdesktop.tag.form.toolbar;
 
+import it.eg.sloth.form.grid.Grid;
+import it.eg.sloth.webdesktop.tag.form.toolbar.writer.ToolbarWriter;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.IOException;
 
 /**
@@ -16,32 +21,32 @@ import java.io.IOException;
  *
  * @author Enrico Grillini
  */
-public class EditableMasterDetailBarTag extends MasterDetailBarTag {
+@Getter
+@Setter
+public class EditableMasterDetailBarTag extends SimpleGridBarTag<Grid<?>> {
 
     private static final long serialVersionUID = 1L;
 
+    boolean insertButtonHidden;
+    boolean deleteButtonHidden;
+    boolean updateButtonHidden;
+    boolean commitButtonHidden;
+    boolean rollbackButtonHidden;
+
+    @Override
+    public int startTag() throws IOException {
+        write(ToolbarWriter.openLeft());
+        write(ToolbarWriter.gridNavigationMasterDetail(getElement(), getWebDesktopDto().getLastController(), getForm().getPageInfo().getPageStatus()));
+
+        return EVAL_BODY_INCLUDE;
+    }
+
     @Override
     protected void endTag() throws IOException {
-        if (getElement().getDataSource() == null) {
-            return;
-        }
-
-        closeLeft();
-
-        if (getElement().getDataSource() != null) {
-            openRight();
-
-            if (getForm().getPageInfo().getPageStatus().isClean()) {
-                insertButton();
-                deleteButton();
-                updateButton();
-            } else {
-                commitButton();
-                rollbackButton();
-            }
-
-            closeRight();
-        }
+        write(ToolbarWriter.closeLeft());
+        write(ToolbarWriter.openRight());
+        write(ToolbarWriter.gridEditingMasterDetail(getElement(), getForm().getPageInfo().getPageStatus(), insertButtonHidden, deleteButtonHidden, updateButtonHidden, commitButtonHidden, rollbackButtonHidden));
+        write(ToolbarWriter.closeRight());
     }
 
 }

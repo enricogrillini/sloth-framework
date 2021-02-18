@@ -2,15 +2,15 @@ package it.eg.sloth.webdesktop.tag;
 
 import static org.junit.Assert.assertEquals;
 
-import java.text.MessageFormat;
-
+import it.eg.sloth.framework.common.base.StringUtil;
+import it.eg.sloth.framework.pageinfo.PageStatus;
+import it.eg.sloth.framework.utility.resource.ResourceUtil;
 import org.junit.Before;
 import org.junit.Test;
 
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.form.grid.Grid;
-import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.webdesktop.tag.form.toolbar.writer.ToolbarWriter;
 
 /**
@@ -29,25 +29,23 @@ import it.eg.sloth.webdesktop.tag.form.toolbar.writer.ToolbarWriter;
  */
 public class ToolBarWriterTest {
 
-    static final String ELENCO = "<button name=\"navigationprefix___elenco\"{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Ritorna all''elenco\"><i class=\"fas fa-table\"></i> Elenco</button>";
+    static final String GRID_NAVIGATION_SIMPLE = ResourceUtil.normalizedResourceAsString("snippet-html/toolbar/toolbar-gridNavigationSimple.html");
+    static final String GRID_NAVIGATION_SIMPLE_PAGED = ResourceUtil.normalizedResourceAsString("snippet-html/toolbar/toolbar-gridNavigationSimple-paged.html");
 
-    static final String FIRST_ROW_GRID = "<button name=\"navigationprefix___firstpage___prova\"{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Primo record\"><i class=\"fas fa-fast-backward\"></i></button>";
-    static final String PREV_PAGE_GRID = "<button name=\"navigationprefix___prevpage___prova\"{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Pagina precedende\"><i class=\"fas fa-backward\"></i></button>";
-    static final String PREV_GRID = "<button name=\"navigationprefix___prev___prova\"{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Record precedende\"><i class=\"fas fa-step-backward\"></i></button>";
+    static final String GRID_EDITING_SIMPLE_MASTER = ResourceUtil.normalizedResourceAsString("snippet-html/toolbar/toolbar-gridEditingSimple-master.html");
+    static final String GRID_EDITING_SIMPLE_UPDATING = ResourceUtil.normalizedResourceAsString("snippet-html/toolbar/toolbar-gridEditingSimple-updating.html");
 
-    static final String NEXT_GRID = "<button name=\"navigationprefix___next___prova\"{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Record successivo\"><i class=\"fas fa-step-forward\"></i></button>";
-    static final String NEXT_PAGE_GRID = "<button name=\"navigationprefix___nextpage___prova\"{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Pagina sucessiva\"><i class=\"fas fa-forward\"></i></button>";
-    static final String LAST_ROW_GRID = "<button name=\"navigationprefix___lastrow___prova\"{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Ultimo record\"><i class=\"fas fa-fast-forward\"></i></button>";
+    static final String GRID_NAVIGATION_EDITABLE = ResourceUtil.normalizedResourceAsString("snippet-html/toolbar/toolbar-gridNavigationEditable.html");
+    static final String GRID_NAVIGATION_EDITABLE_PAGED = ResourceUtil.normalizedResourceAsString("snippet-html/toolbar/toolbar-gridNavigationEditable-paged.html");
 
-    static final String INSERT_GRID = "<button name=\"navigationprefix___insert___prova\" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Inserisci record\"><i class=\"fas fa-plus\"></i> Inserisci</button>";
-    static final String DELETE_GRID = "<button name=\"navigationprefix___delete___prova\"{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Elimina il record corrente\"><i class=\"far fa-trash-alt\"></i> Elimina</button>";
-    static final String UPDATE_GRID = "<button name=\"navigationprefix___update___prova\"{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Modifica il record corrente\"><i class=\"fas fa-pencil-alt\"></i> Modifica</button>";
+    static final String GRID_NAVIGATION_MASTER_DETAIL_MASTER = ResourceUtil.normalizedResourceAsString("snippet-html/toolbar/toolbar-gridNavigationMasterDetail-master.html");
+    static final String GRID_NAVIGATION_MASTER_DETAIL_DETAIL = ResourceUtil.normalizedResourceAsString("snippet-html/toolbar/toolbar-gridNavigationMasterDetail-detail.html");
+    static final String GRID_NAVIGATION_MASTER_DETAIL_UPDATING = ResourceUtil.normalizedResourceAsString("snippet-html/toolbar/toolbar-gridNavigationMasterDetail-updating.html");
 
-    static final String COMMIT = "<button name=\"navigationprefix___commit\" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Salva\"><i class=\"fas fa-save\"></i> Salva</button>";
-    static final String ROLLBACK = "<button name=\"navigationprefix___rollback\" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Annulla modifiche\"><i class=\"fas fa-undo-alt\"></i> Annulla</button>";
+    static final String GRID_EDITING_MASTER_DETAIL_MASTER = ResourceUtil.normalizedResourceAsString("snippet-html/toolbar/toolbar-gridEditingMasterDetail-master.html");
+    static final String GRID_EDITING_MASTER_DETAIL_UPDATING = ResourceUtil.normalizedResourceAsString("snippet-html/toolbar/toolbar-gridEditingMasterDetail-updating.html");
 
-    static final String UPDATE = "<button name=\"navigationprefix___update___{0}\"{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Modifica il record corrente\"><i class=\"fas fa-pencil-alt\"></i> Modifica</button>";
-
+    static final String GRID_EDITING_SUB_MASTER_DETAIL_UPDATING = ResourceUtil.normalizedResourceAsString("snippet-html/toolbar/toolbar-gridEditingSubMasterDetail-updating.html");
 
     Grid<DataTable<?>> grid;
 
@@ -65,128 +63,47 @@ public class ToolBarWriterTest {
     }
 
     @Test
-    public void elencoButtonTest() {
-        assertEquals(MessageFormat.format(ELENCO, ""), ToolbarWriter.elencoButton(false));
-        assertEquals(MessageFormat.format(ELENCO, " disabled=\"\""), ToolbarWriter.elencoButton(true));
+    public void gridNavigationSimpleTest() {
+        assertEquals(GRID_NAVIGATION_SIMPLE_PAGED, ToolbarWriter.gridNavigationSimple(grid, "ProvaPage.html", PageStatus.MASTER));
+
+        grid.getDataSource().setPageSize(-1);
+        assertEquals(GRID_NAVIGATION_SIMPLE, ToolbarWriter.gridNavigationSimple(grid, "ProvaPage.html", PageStatus.MASTER));
     }
 
     @Test
-    public void firstRowButtonTest() {
-        grid.getDataSource().last();
-        assertEquals(MessageFormat.format(FIRST_ROW_GRID, ""), ToolbarWriter.firstRowButton(grid, false));
-
-        grid.getDataSource().first();
-        assertEquals(MessageFormat.format(FIRST_ROW_GRID, " disabled=\"\""), ToolbarWriter.firstRowButton(grid, false));
-
-        // Hidden
-        grid.setFirstButtonHidden(true);
-        assertEquals(StringUtil.EMPTY, ToolbarWriter.firstRowButton(grid, false));
+    public void gridEditingSimpleTest() {
+        assertEquals(GRID_EDITING_SIMPLE_MASTER, ToolbarWriter.gridEditingSimple(grid, PageStatus.MASTER));
+        assertEquals(GRID_EDITING_SIMPLE_UPDATING, ToolbarWriter.gridEditingSimple(grid, PageStatus.UPDATING));
     }
 
     @Test
-    public void prevPageButtonTest() {
-        grid.getDataSource().last();
-        assertEquals(MessageFormat.format(PREV_PAGE_GRID, ""), ToolbarWriter.prevPageButton(grid, false));
+    public void gridNavigationEditableTest() {
+        assertEquals(GRID_NAVIGATION_EDITABLE_PAGED, ToolbarWriter.gridNavigationEditable(grid, "ProvaPage.html", PageStatus.MASTER));
 
-        grid.getDataSource().first();
-        assertEquals(MessageFormat.format(PREV_PAGE_GRID, " disabled=\"\""), ToolbarWriter.prevPageButton(grid, false));
-
-        // Hidden
-        grid.setPrevPageButtonHidden(true);
-        assertEquals(StringUtil.EMPTY, ToolbarWriter.prevPageButton(grid, false));
+        grid.getDataSource().setPageSize(-1);
+        assertEquals(GRID_NAVIGATION_EDITABLE, ToolbarWriter.gridNavigationEditable(grid, "ProvaPage.html", PageStatus.MASTER));
     }
 
     @Test
-    public void prevButtonTest() {
-        grid.getDataSource().last();
-        assertEquals(MessageFormat.format(PREV_GRID, ""), ToolbarWriter.prevButton(grid, false));
+    public void gridNavigationMasterDetailTest() {
+        assertEquals(GRID_NAVIGATION_MASTER_DETAIL_MASTER, ToolbarWriter.gridNavigationMasterDetail(grid, "ProvaPage.html", PageStatus.MASTER));
 
-        grid.getDataSource().first();
-        assertEquals(MessageFormat.format(PREV_GRID, " disabled=\"\""), ToolbarWriter.prevButton(grid, false));
+        assertEquals(GRID_NAVIGATION_MASTER_DETAIL_DETAIL, ToolbarWriter.gridNavigationMasterDetail(grid, "ProvaPage.html", PageStatus.DETAIL));
 
-        // Hidden
-        grid.setPrevButtonHidden(true);
-        assertEquals(StringUtil.EMPTY, ToolbarWriter.prevButton(grid, false));
+        assertEquals(GRID_NAVIGATION_MASTER_DETAIL_UPDATING, ToolbarWriter.gridNavigationMasterDetail(grid, "ProvaPage.html", PageStatus.UPDATING));
+    }
+
+
+    @Test
+    public void gridEditingMasterDetailTest() {
+        assertEquals(GRID_EDITING_MASTER_DETAIL_MASTER, ToolbarWriter.gridEditingMasterDetail(grid, PageStatus.MASTER, false, false, false, false, false));
+        assertEquals(GRID_EDITING_MASTER_DETAIL_UPDATING, ToolbarWriter.gridEditingMasterDetail(grid, PageStatus.UPDATING, false, false, false, false, false));
     }
 
     @Test
-    public void nextButtonTest() {
-        grid.getDataSource().first();
-        assertEquals(MessageFormat.format(NEXT_GRID, ""), ToolbarWriter.nextButton(grid, false));
-
-        grid.getDataSource().last();
-        assertEquals(MessageFormat.format(NEXT_GRID, " disabled=\"\""), ToolbarWriter.nextButton(grid, false));
-
-        // Hidden
-        grid.setNextButtonHidden(true);
-        assertEquals(StringUtil.EMPTY, ToolbarWriter.nextButton(grid, false));
-    }
-
-    @Test
-    public void nextPageButtonTest() {
-        grid.getDataSource().first();
-        assertEquals(MessageFormat.format(NEXT_PAGE_GRID, ""), ToolbarWriter.nextPageButton(grid, false));
-
-        grid.getDataSource().last();
-        assertEquals(MessageFormat.format(NEXT_PAGE_GRID, " disabled=\"\""), ToolbarWriter.nextPageButton(grid, false));
-
-        // Hidden
-        grid.setNextPageButtonHidden(true);
-        assertEquals(StringUtil.EMPTY, ToolbarWriter.nextPageButton(grid, false));
-    }
-
-    @Test
-    public void lastRowButtonTest() {
-        grid.getDataSource().first();
-        assertEquals(MessageFormat.format(LAST_ROW_GRID, ""), ToolbarWriter.lastRowButton(grid, false));
-
-        grid.getDataSource().last();
-        assertEquals(MessageFormat.format(LAST_ROW_GRID, " disabled=\"\""), ToolbarWriter.lastRowButton(grid, false));
-
-        // Hidden
-        grid.setLastButtonHidden(true);
-        assertEquals(StringUtil.EMPTY, ToolbarWriter.lastRowButton(grid, false));
-    }
-
-    @Test
-    public void commitButtonTest() {
-        assertEquals(COMMIT, ToolbarWriter.commitButton());
-    }
-
-    @Test
-    public void rollbackButtonTest() {
-        assertEquals(ROLLBACK, ToolbarWriter.rollbackButton());
-    }
-
-    @Test
-    public void insertButtonTest() {
-        // Grid
-        assertEquals(MessageFormat.format(INSERT_GRID, ""), ToolbarWriter.insertButton(grid));
-
-        // Hidden
-        grid.setInsertButtonHidden(true);
-        assertEquals(StringUtil.EMPTY, ToolbarWriter.insertButton(grid));
-    }
-
-    @Test
-    public void deleteButtonTest() {
-        // Grid
-        assertEquals(MessageFormat.format(DELETE_GRID, ""), ToolbarWriter.deleteButton(grid));
-
-        // Hidden
-        grid.setDeleteButtonHidden(true);
-        assertEquals(StringUtil.EMPTY, ToolbarWriter.deleteButton(grid));
-    }
-
-    @Test
-    public void updateButtonTest() {
-        // Grid
-        assertEquals(MessageFormat.format(UPDATE_GRID, ""), ToolbarWriter.updateButton(grid));
-
-        // Altro
-        assertEquals(StringUtil.EMPTY, ToolbarWriter.updateButton("prova", true, true));
-        assertEquals(MessageFormat.format(UPDATE, "prova", StringUtil.EMPTY), ToolbarWriter.updateButton("prova", false, false));
-        assertEquals(MessageFormat.format(UPDATE, "prova", " disabled=\"\""), ToolbarWriter.updateButton("prova", false, true));
+    public void gridEditingSubMasterDetailTest() {
+        assertEquals(StringUtil.EMPTY, ToolbarWriter.gridEditingSubMasterDetail(grid, PageStatus.DETAIL));
+        assertEquals(GRID_EDITING_SUB_MASTER_DETAIL_UPDATING, ToolbarWriter.gridEditingSubMasterDetail(grid, PageStatus.UPDATING));
     }
 
 }

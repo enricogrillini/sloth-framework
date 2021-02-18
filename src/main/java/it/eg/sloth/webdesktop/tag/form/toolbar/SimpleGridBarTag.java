@@ -1,7 +1,11 @@
 package it.eg.sloth.webdesktop.tag.form.toolbar;
 
-import it.eg.sloth.db.datasource.DataTable;
+import it.eg.sloth.form.Form;
 import it.eg.sloth.form.grid.Grid;
+import it.eg.sloth.webdesktop.tag.WebDesktopTag;
+import it.eg.sloth.webdesktop.tag.form.toolbar.writer.ToolbarWriter;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 
@@ -19,71 +23,31 @@ import java.io.IOException;
  *
  * @author Enrico Grillini
  */
-public class SimpleGridBarTag extends AbstractGridToolBarTag<Grid<?>> {
+@Getter
+@Setter
+public class SimpleGridBarTag<E extends Grid<?>> extends WebDesktopTag<Form> {
 
     private static final long serialVersionUID = 1L;
 
-    private boolean navigation = true;
-    private boolean excel = true;
+    private String name = "";
 
-    public boolean isNavigation() {
-        return navigation;
-    }
-
-    public void setNavigation(boolean navigation) {
-        this.navigation = navigation;
-    }
-
-    public boolean isExcel() {
-        return excel;
-    }
-
-    public void setExcel(boolean excel) {
-        this.excel = excel;
+    protected E getElement() {
+        return (E) getForm().getElement(getName());
     }
 
     @Override
     public int startTag() throws IOException {
-        DataTable<?> dataTable = getElement().getDataSource();
-        if (dataTable == null) {
-            return SKIP_BODY;
-        }
-
-        openLeft();
-
-        // Pulsanti di navigazione
-        if (isNavigation()) {
-            firstRowButton(false);
-            prevPageButton(false);
-            nextPageButton(false);
-            lastRowButton(false);
-
-            // Informazioni di sintesi
-            if (dataTable.size() > 0) {
-                write(" Rec. " + (dataTable.getCurrentRow() + 1) + " di " + dataTable.size());
-                if (dataTable.getPageSize() > 0) {
-                    write(", Pag. " + (dataTable.getCurrentPage() + 1) + " di " + dataTable.pages());
-                }
-            }
-        } else {
-            write("&nbsp;Rec. " + dataTable.size());
-        }
-
-        // Estrazione Excel
-        if (isExcel()) {
-            excelButton();
-        }
+        write(ToolbarWriter.openLeft());
+        write(ToolbarWriter.gridNavigationSimple(getElement(), getWebDesktopDto().getLastController(), getForm().getPageInfo().getPageStatus()));
 
         return EVAL_BODY_INCLUDE;
     }
 
     @Override
     protected void endTag() throws IOException {
-        if (getElement().getDataSource() == null) {
-            return;
-        }
-
-        closeLeft();
+        write(ToolbarWriter.closeLeft());
+        write(ToolbarWriter.openRight());
+        write(ToolbarWriter.closeRight());
     }
 
 }

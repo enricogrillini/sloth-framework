@@ -1,6 +1,9 @@
 package it.eg.sloth.webdesktop.tag.form.toolbar;
 
+import it.eg.sloth.form.Form;
 import it.eg.sloth.framework.pageinfo.ViewModality;
+import it.eg.sloth.webdesktop.tag.WebDesktopTag;
+import it.eg.sloth.webdesktop.tag.form.toolbar.writer.ToolbarWriter;
 
 import java.io.IOException;
 
@@ -19,29 +22,29 @@ import java.io.IOException;
  *
  * @author Enrico Grillini
  */
-public class EditablePageBarTag extends AbstractToolBarTag {
+public class EditablePageBarTag extends WebDesktopTag<Form> {
 
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  @Override
-  public int startTag() throws IOException {
-    openLeft();
+    @Override
+    public int startTag() throws IOException {
+        writeln(ToolbarWriter.openLeft());
 
-    return EVAL_BODY_INCLUDE;
-  }
-
-  @Override
-  protected void endTag() throws IOException {
-    closeLeft();
-    openRight();
-    
-    if (getForm().getPageInfo().getViewModality().equals(ViewModality.VIEW_VISUALIZZAZIONE)) {
-      updateButton();
-    } else {
-      commitButton();
-      rollbackButton();
+        return EVAL_BODY_INCLUDE;
     }
-    closeRight();
-  }
+
+    @Override
+    protected void endTag() throws IOException {
+        write(ToolbarWriter.closeLeft());
+        write(ToolbarWriter.openRight());
+
+        if (getForm().getPageInfo().getViewModality().equals(ViewModality.VIEW_VISUALIZZAZIONE)) {
+            write(ToolbarWriter.updateButton("", false, false));
+        } else {
+            write(ToolbarWriter.commitButton());
+            write(ToolbarWriter.rollbackButton());
+        }
+        write(ToolbarWriter.closeRight());
+    }
 
 }

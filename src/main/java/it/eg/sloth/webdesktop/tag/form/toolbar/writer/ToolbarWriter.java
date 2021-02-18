@@ -3,7 +3,10 @@ package it.eg.sloth.webdesktop.tag.form.toolbar.writer;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.StringUtil;
+import it.eg.sloth.framework.pageinfo.PageStatus;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
+
+import java.text.MessageFormat;
 
 /**
  * Project: sloth-framework
@@ -21,6 +24,38 @@ import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
  */
 public class ToolbarWriter extends HtmlWriter {
 
+    private static final String OPEN_BAR = "\n" +
+            "<!-- Toolbar -->\n" +
+            "<div class=\"d-flex justify-content-between p-1\">\n";
+
+    private static final String OPEN_SECTION = " <div>\n";
+
+    private static final String CLOSE_SECTION = " </div>\n";
+
+    private static final String CLOSE_BAR = "</div>\n";
+
+    private static final String EXCEL = "  <a{0} class=\"btn btn-link btn-sm{1}\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Esporta in excel\"><i class=\"far fa-file-excel\"></i> Excel</a>\n";
+
+    private static final String ELENCO = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Ritorna all''elenco\"><i class=\"fas fa-table\"></i> Elenco</button>\n";
+
+    private static final String FIRST_ROW = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Primo record\"><i class=\"fas fa-fast-backward\"></i></button>\n";
+    private static final String PREV_PAGE = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Pagina precedende\"><i class=\"fas fa-backward\"></i></button>\n";
+    private static final String PREV = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Record precedende\"><i class=\"fas fa-step-backward\"></i></button>\n";
+    private static final String NEXT = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Record successivo\"><i class=\"fas fa-step-forward\"></i></button>\n";
+    private static final String NEXT_PAGE = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Pagina sucessiva\"><i class=\"fas fa-forward\"></i></button>\n";
+    private static final String LAST_ROW = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Ultimo record\"><i class=\"fas fa-fast-forward\"></i></button>\n";
+
+    private static final String INSERT = "  <button{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Inserisci record\"><i class=\"fas fa-plus\"></i> Inserisci</button>\n";
+    private static final String DELETE = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Elimina il record corrente\"><i class=\"far fa-trash-alt\"></i> Elimina</button>\n";
+    private static final String UPDATE = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Modifica il record corrente\"><i class=\"fas fa-pencil-alt\"></i> Modifica</button>\n";
+
+    private static final String COMMIT = "  <button{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Salva\"><i class=\"fas fa-save\"></i> Salva</button>\n";
+    private static final String ROLLBACK = "  <button{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Annulla modifiche\"><i class=\"fas fa-undo-alt\"></i> Annulla</button>\n";
+
+    private static final String INFO_EMPTY = "  <span class=\"btn-sm align-middle\"> Tabella vuota</span>";
+    private static final String INFO_RECORDS = "  <span class=\"btn-sm align-middle\"> {0} Records</span>\n";
+    private static final String INFO_REC = "  <span class=\"btn-sm align-middle\"> Rec. {0} di {1}</span>\n";
+    private static final String INFO_PAG = "  <span class=\"btn-sm align-middle\"> Pag. {0} di {1}</span>\n";
 
     /**
      * excelButton
@@ -28,14 +63,9 @@ public class ToolbarWriter extends HtmlWriter {
      * @return
      */
     public static String excelButton(String name, String lastController, boolean disabled) {
-        String hrefHtml = " href=\"" + lastController + "?" + NavigationConst.navStr(NavigationConst.EXCEL, name) + "=true\"";
-
-        String disabledHtml = "";
-        if (disabled) {
-            disabledHtml = " disabled=\"\"";
-        }
-
-        return " <a" + hrefHtml + disabledHtml + " class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Esporta in excel\"><i class=\"far fa-file-excel\"></i> Excel</a>";
+        return MessageFormat.format(EXCEL,
+                getAttribute("href", lastController + "?" + NavigationConst.navStr(NavigationConst.EXCEL, name) + "=true"),
+                disabled ? " disabled" : "");
     }
 
     /**
@@ -45,12 +75,9 @@ public class ToolbarWriter extends HtmlWriter {
      * @return
      */
     public static String elencoButton(boolean disabled) {
-        return new StringBuilder()
-                .append(BEGIN_BUTTON)
-                .append(getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.ELENCO)))
-                .append(getAttribute(ATTR_DISABLED, disabled, ""))
-                .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Ritorna all'elenco\"><i class=\"fas fa-table\"></i> Elenco</button>")
-                .toString();
+        return MessageFormat.format(ELENCO,
+                getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.ELENCO)),
+                getAttribute(ATTR_DISABLED, disabled, ""));
     }
 
     /**
@@ -64,12 +91,9 @@ public class ToolbarWriter extends HtmlWriter {
         if (grid.isFirstButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
-            return new StringBuilder()
-                    .append(BEGIN_BUTTON)
-                    .append(getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.FIRST_ROW, grid.getName())))
-                    .append(getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isFirst(), ""))
-                    .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Primo record\"><i class=\"fas fa-fast-backward\"></i></button>")
-                    .toString();
+            return MessageFormat.format(FIRST_ROW,
+                    getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.FIRST_ROW, grid.getName())),
+                    getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isFirst(), ""));
         }
     }
 
@@ -84,12 +108,9 @@ public class ToolbarWriter extends HtmlWriter {
         if (grid.isPrevPageButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
-            return new StringBuilder()
-                    .append(BEGIN_BUTTON)
-                    .append(getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.PREV_PAGE, grid.getName())))
-                    .append(getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isFirstPage(), ""))
-                    .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Pagina precedende\"><i class=\"fas fa-backward\"></i></button>")
-                    .toString();
+            return MessageFormat.format(PREV_PAGE,
+                    getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.PREV_PAGE, grid.getName())),
+                    getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isFirstPage(), ""));
         }
     }
 
@@ -104,12 +125,9 @@ public class ToolbarWriter extends HtmlWriter {
         if (grid.isPrevButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
-            return new StringBuilder()
-                    .append(BEGIN_BUTTON)
-                    .append(getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.PREV, grid.getName())))
-                    .append(getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isFirst(), ""))
-                    .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Record precedende\"><i class=\"fas fa-step-backward\"></i></button>")
-                    .toString();
+            return MessageFormat.format(PREV,
+                    getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.PREV, grid.getName())),
+                    getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isFirst(), ""));
         }
     }
 
@@ -124,12 +142,9 @@ public class ToolbarWriter extends HtmlWriter {
         if (grid.isNextButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
-            return new StringBuilder()
-                    .append(BEGIN_BUTTON)
-                    .append(getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.NEXT, grid.getName())))
-                    .append(getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isLast(), ""))
-                    .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Record successivo\"><i class=\"fas fa-step-forward\"></i></button>")
-                    .toString();
+            return MessageFormat.format(NEXT,
+                    getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.NEXT, grid.getName())),
+                    getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isLast(), ""));
         }
     }
 
@@ -144,12 +159,9 @@ public class ToolbarWriter extends HtmlWriter {
         if (grid.isNextPageButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
-            return new StringBuilder()
-                    .append(BEGIN_BUTTON)
-                    .append(getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.NEXT_PAGE, grid.getName())))
-                    .append(getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isLastPage(), ""))
-                    .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Pagina sucessiva\"><i class=\"fas fa-forward\"></i></button>")
-                    .toString();
+            return MessageFormat.format(NEXT_PAGE,
+                    getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.NEXT_PAGE, grid.getName())),
+                    getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isLastPage(), ""));
         }
     }
 
@@ -164,36 +176,10 @@ public class ToolbarWriter extends HtmlWriter {
         if (grid.isLastButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
-            return new StringBuilder()
-                    .append(BEGIN_BUTTON)
-                    .append(getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.LAST_ROW, grid.getName())))
-                    .append(getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isLast(), ""))
-                    .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Ultimo record\"><i class=\"fas fa-fast-forward\"></i></button>")
-                    .toString();
+            return MessageFormat.format(LAST_ROW,
+                    getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.LAST_ROW, grid.getName())),
+                    getAttribute(ATTR_DISABLED, disabled || grid.getDataSource().isLast(), ""));
         }
-    }
-
-
-    /**
-     * Scrive il pulsante Commit
-     */
-    public static String commitButton() {
-        return new StringBuilder()
-                .append(BEGIN_BUTTON)
-                .append(getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.COMMIT)))
-                .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Salva\"><i class=\"fas fa-save\"></i> Salva</button>")
-                .toString();
-    }
-
-    /**
-     * Scrive il pulsante Rollback
-     */
-    public static String rollbackButton() {
-        return new StringBuilder()
-                .append(BEGIN_BUTTON)
-                .append(getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.ROLLBACK)))
-                .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Annulla modifiche\"><i class=\"fas fa-undo-alt\"></i> Annulla</button>")
-                .toString();
     }
 
     /**
@@ -206,11 +192,8 @@ public class ToolbarWriter extends HtmlWriter {
         if (grid.isInsertButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
-            return new StringBuilder()
-                    .append(BEGIN_BUTTON)
-                    .append(getAttribute(ATTR_NAME,NavigationConst.navStr(NavigationConst.INSERT, grid.getName())))
-                    .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Inserisci record\"><i class=\"fas fa-plus\"></i> Inserisci</button>")
-                    .toString();
+            return MessageFormat.format(INSERT,
+                    getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.INSERT, grid.getName())));
         }
     }
 
@@ -224,12 +207,9 @@ public class ToolbarWriter extends HtmlWriter {
         if (grid.isDeleteButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
-            return new StringBuilder()
-                    .append(BEGIN_BUTTON)
-                    .append(getAttribute(ATTR_NAME,NavigationConst.navStr(NavigationConst.DELETE, grid.getName())))
-                    .append(getAttribute(ATTR_DISABLED, grid.getDataSource().size() == 0, ""))
-                    .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Elimina il record corrente\"><i class=\"far fa-trash-alt\"></i> Elimina</button>")
-                    .toString();
+            return MessageFormat.format(DELETE,
+                    getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.DELETE, grid.getName())),
+                    getAttribute(ATTR_DISABLED, grid.getDataSource().size() == 0, ""));
         }
     }
 
@@ -255,13 +235,223 @@ public class ToolbarWriter extends HtmlWriter {
         if (hidden) {
             return StringUtil.EMPTY;
         } else {
-            return new StringBuilder()
-                    .append(BEGIN_BUTTON)
-                    .append(getAttribute(ATTR_NAME,NavigationConst.navStr(NavigationConst.UPDATE, name)))
-                    .append(getAttribute(ATTR_DISABLED, disabled, ""))
-                    .append(" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Modifica il record corrente\"><i class=\"fas fa-pencil-alt\"></i> Modifica</button>")
-                    .toString();
+            return MessageFormat.format(UPDATE,
+                    getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.UPDATE, name)),
+                    getAttribute(ATTR_DISABLED, disabled, ""));
         }
     }
+
+    /**
+     * Scrive il pulsante Commit
+     */
+    public static String commitButton() {
+        return MessageFormat.format(COMMIT,
+                getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.COMMIT)));
+    }
+
+    /**
+     * Scrive il pulsante Rollback
+     */
+    public static String rollbackButton() {
+        return MessageFormat.format(ROLLBACK,
+                getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.ROLLBACK)));
+    }
+
+
+    /**
+     * Apre la sezione di sinistra
+     */
+    public static String openLeft() {
+        return OPEN_BAR + OPEN_SECTION;
+    }
+
+    /**
+     * Chiude la sezione di sinistra
+     */
+    public static String closeLeft() {
+        return CLOSE_SECTION;
+    }
+
+    /**
+     * Apre la sezione di destra
+     */
+    public static String openRight() {
+        return OPEN_SECTION;
+    }
+
+    /**
+     * Chiude la sezione di destra
+     */
+    public static String closeRight() {
+        return CLOSE_SECTION + CLOSE_BAR;
+    }
+
+
+    /**
+     * Barra di navigazione semplice: non gestisce il concetto di record corrente
+     *
+     * @param grid
+     * @return
+     */
+    public static String gridNavigationSimple(Grid<?> grid, String lastController, PageStatus pageStatus) {
+        StringBuilder result = new StringBuilder();
+        if (grid.getDataSource() == null || grid.getDataSource().size() == 0) {
+            result.append(INFO_EMPTY);
+        } else {
+            if (grid.getDataSource().getPageSize() > 0) {
+                result
+                        .append(firstRowButton(grid, pageStatus.isChanging()))
+                        .append(prevPageButton(grid, pageStatus.isChanging()))
+                        .append(nextPageButton(grid, pageStatus.isChanging()))
+                        .append(lastRowButton(grid, pageStatus.isChanging()))
+                        .append(MessageFormat.format(INFO_PAG, (grid.getDataSource().getCurrentPage() + 1), grid.getDataSource().pages()));
+            } else {
+                result.append(MessageFormat.format(INFO_RECORDS, grid.getDataSource().size()));
+            }
+
+            result.append(excelButton(grid.getName(), lastController, pageStatus.isChanging()));
+        }
+
+        return result.toString();
+    }
+
+    public static String gridEditingSimple(Grid<?> grid, PageStatus pageStatus) {
+        if (grid.getDataSource() == null) {
+            return StringUtil.EMPTY;
+        }
+
+        StringBuilder result = new StringBuilder()
+                .append(ToolbarWriter.insertButton(grid))
+                .append(ToolbarWriter.deleteButton(grid));
+
+        if (pageStatus.isChanging()) {
+            result
+                    .append(ToolbarWriter.commitButton())
+                    .append(ToolbarWriter.rollbackButton());
+        } else {
+            result.append(ToolbarWriter.updateButton(grid));
+        }
+
+        return result.toString();
+    }
+
+    public static String gridNavigationEditable(Grid<?> grid, String lastController, PageStatus pageStatus) {
+        StringBuilder result = new StringBuilder();
+        if (grid.getDataSource() == null || grid.getDataSource().size() == 0) {
+            result.append(INFO_EMPTY);
+        } else {
+            if (grid.getDataSource().getPageSize() > 0) {
+                result
+                        .append(firstRowButton(grid, false))
+                        .append(prevPageButton(grid, false))
+                        .append(prevButton(grid, false))
+                        .append(nextButton(grid, false))
+                        .append(nextPageButton(grid, false))
+                        .append(lastRowButton(grid, false));
+            } else {
+                result
+                        .append(firstRowButton(grid, false))
+                        .append(prevButton(grid, false))
+                        .append(nextButton(grid, false))
+                        .append(lastRowButton(grid, false));
+            }
+
+            result.append(excelButton(grid.getName(), lastController, pageStatus.isChanging()));
+
+            // Informazioni di sintesi
+            if (grid.getDataSource().size() > 0) {
+                result.append(MessageFormat.format(INFO_REC, (grid.getDataSource().getCurrentRow() + 1), grid.getDataSource().size()));
+                if (grid.getDataSource().getPageSize() > 0) {
+                    result.append(MessageFormat.format(INFO_PAG, (grid.getDataSource().getCurrentPage() + 1), grid.getDataSource().pages()));
+                }
+            }
+        }
+        return result.toString();
+    }
+
+    public static String gridNavigationMasterDetail(Grid<?> grid, String lastController, PageStatus pageStatus) {
+        StringBuilder result = new StringBuilder();
+        if (grid.getDataSource() == null || grid.getDataSource().size() == 0) {
+            result.append(INFO_EMPTY);
+        } else {
+            if (grid.getDataSource().getPageSize() > 0) {
+                result
+                        .append(firstRowButton(grid, pageStatus.isChanging()))
+                        .append(prevPageButton(grid, pageStatus.isChanging()))
+                        .append(prevButton(grid, pageStatus.isChanging()))
+                        .append(nextButton(grid, pageStatus.isChanging()))
+                        .append(nextPageButton(grid, pageStatus.isChanging()))
+                        .append(lastRowButton(grid, pageStatus.isChanging()));
+            } else {
+                result
+                        .append(firstRowButton(grid, pageStatus.isChanging()))
+                        .append(prevButton(grid, pageStatus.isChanging()))
+                        .append(nextButton(grid, pageStatus.isChanging()))
+                        .append(lastRowButton(grid, pageStatus.isChanging()));
+            }
+
+            if (pageStatus == PageStatus.MASTER) {
+                result.append(excelButton(grid.getName(), lastController, pageStatus.isChanging()));
+            } else {
+                result.append(elencoButton(pageStatus.isChanging()));
+            }
+
+            // Informazioni di sintesi
+            if (grid.getDataSource().size() > 0) {
+                result.append(MessageFormat.format(INFO_REC, (grid.getDataSource().getCurrentRow() + 1), grid.getDataSource().size()));
+                if (grid.getDataSource().getPageSize() > 0) {
+                    result.append(MessageFormat.format(INFO_PAG, (grid.getDataSource().getCurrentPage() + 1), grid.getDataSource().pages()));
+                }
+            }
+        }
+
+        return result.toString();
+    }
+
+    public static String gridEditingMasterDetail(Grid<?> grid, PageStatus pageStatus, boolean insertButtonHidden, boolean deleteButtonHidden, boolean updateButtonHidden, boolean commitButtonHidden, boolean rollbackButtonHidden) {
+        if (grid == null) {
+            return StringUtil.EMPTY;
+        }
+
+        StringBuilder result = new StringBuilder();
+        if (pageStatus.isClean()) {
+            if (!insertButtonHidden) {
+                result.append(ToolbarWriter.insertButton(grid));
+            }
+
+            if (!deleteButtonHidden) {
+                result.append(ToolbarWriter.deleteButton(grid));
+            }
+
+            if (!updateButtonHidden) {
+                result.append(ToolbarWriter.updateButton(grid));
+            }
+        } else {
+            if (!commitButtonHidden) {
+                result.append(ToolbarWriter.commitButton());
+            }
+
+            if (!rollbackButtonHidden) {
+                result.append(ToolbarWriter.rollbackButton());
+            }
+        }
+
+        return result.toString();
+    }
+
+    public static String gridEditingSubMasterDetail(Grid<?> grid, PageStatus pageStatus) {
+        if (grid == null) {
+            return StringUtil.EMPTY;
+        }
+
+        StringBuilder result = new StringBuilder();
+        if (pageStatus.isChanging()) {
+            result.append(ToolbarWriter.insertButton(grid))
+                    .append(ToolbarWriter.deleteButton(grid));
+        }
+
+        return result.toString();
+    }
+
 
 }

@@ -1,7 +1,7 @@
 package it.eg.sloth.webdesktop.tag.form.toolbar;
 
-import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.form.grid.Grid;
+import it.eg.sloth.webdesktop.tag.form.toolbar.writer.ToolbarWriter;
 
 import java.io.IOException;
 
@@ -19,54 +19,24 @@ import java.io.IOException;
  *
  * @author Enrico Grillini
  */
-public class SubMasterDetailBarTag extends AbstractGridToolBarTag<Grid<?>> {
+public class SubMasterDetailBarTag extends SimpleGridBarTag<Grid<?>> {
 
     private static final long serialVersionUID = 1L;
 
     @Override
     public int startTag() throws IOException {
-        DataTable<?> dataTable = getElement().getDataSource();
+        write(ToolbarWriter.openLeft());
+        write(ToolbarWriter.gridNavigationEditable(getElement(), getWebDesktopDto().getLastController(), getForm().getPageInfo().getPageStatus()));
 
-        if (dataTable == null) {
-            return SKIP_BODY;
-        }
-
-        openLeft();
-
-        // Pulsanti
-        firstRowButton(false);
-        prevPageButton(false);
-        prevButton(false);
-        nextButton(false);
-        nextPageButton(false);
-        lastRowButton(false);
-
-        excelButton();
-
-        // Informazioni di sintesi
-        if (dataTable.size() > 0) {
-            write(" Rec. " + (dataTable.getCurrentRow() + 1) + " di " + dataTable.size());
-            if (dataTable.getPageSize() > 0) {
-                write(", Pag. " + (dataTable.getCurrentPage() + 1) + " di " + dataTable.pages());
-            }
-            writeln("");
-        }
         return EVAL_BODY_INCLUDE;
     }
 
     @Override
     protected void endTag() throws IOException {
-        if (getElement().getDataSource() == null) {
-            return;
-        }
-
-        closeLeft();
-        openRight();
-        if (getForm().getPageInfo().getPageStatus().isChanging()) {
-            insertButton();
-            deleteButton();
-        }
-        closeRight();
+        write(ToolbarWriter.closeLeft());
+        write(ToolbarWriter.openRight());
+        write(ToolbarWriter.gridEditingSubMasterDetail(getElement(), getForm().getPageInfo().getPageStatus()));
+        write(ToolbarWriter.closeRight());
     }
 
 }
