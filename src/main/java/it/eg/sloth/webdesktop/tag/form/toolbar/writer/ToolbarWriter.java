@@ -88,7 +88,7 @@ public class ToolbarWriter extends HtmlWriter {
      * @return
      */
     public static String firstRowButton(Grid<?> grid, boolean disabled) {
-        if (grid.isFirstButtonHidden()) {
+        if (grid == null || grid.getDataSource() == null || grid.isFirstButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
             return MessageFormat.format(FIRST_ROW,
@@ -105,7 +105,7 @@ public class ToolbarWriter extends HtmlWriter {
      * @return
      */
     public static String prevPageButton(Grid<?> grid, boolean disabled) {
-        if (grid.isPrevPageButtonHidden()) {
+        if (grid == null || grid.getDataSource() == null || grid.isPrevPageButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
             return MessageFormat.format(PREV_PAGE,
@@ -122,7 +122,7 @@ public class ToolbarWriter extends HtmlWriter {
      * @return
      */
     public static String prevButton(Grid<?> grid, boolean disabled) {
-        if (grid.isPrevButtonHidden()) {
+        if (grid == null || grid.getDataSource() == null || grid.isPrevButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
             return MessageFormat.format(PREV,
@@ -139,7 +139,7 @@ public class ToolbarWriter extends HtmlWriter {
      * @return
      */
     public static String nextButton(Grid<?> grid, boolean disabled) {
-        if (grid.isNextButtonHidden()) {
+        if (grid == null || grid.getDataSource() == null || grid.isNextButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
             return MessageFormat.format(NEXT,
@@ -156,7 +156,7 @@ public class ToolbarWriter extends HtmlWriter {
      * @return
      */
     public static String nextPageButton(Grid<?> grid, boolean disabled) {
-        if (grid.isNextPageButtonHidden()) {
+        if (grid == null || grid.getDataSource() == null || grid.isNextPageButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
             return MessageFormat.format(NEXT_PAGE,
@@ -173,7 +173,7 @@ public class ToolbarWriter extends HtmlWriter {
      * @return
      */
     public static String lastRowButton(Grid<?> grid, boolean disabled) {
-        if (grid.isLastButtonHidden()) {
+        if (grid == null || grid.getDataSource() == null || grid.isLastButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
             return MessageFormat.format(LAST_ROW,
@@ -189,7 +189,7 @@ public class ToolbarWriter extends HtmlWriter {
      * @return
      */
     public static String insertButton(Grid<?> grid) {
-        if (grid.isInsertButtonHidden()) {
+        if (grid == null || grid.getDataSource() == null || grid.isInsertButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
             return MessageFormat.format(INSERT,
@@ -204,7 +204,7 @@ public class ToolbarWriter extends HtmlWriter {
      * @return
      */
     public static String deleteButton(Grid<?> grid) {
-        if (grid.isDeleteButtonHidden()) {
+        if (grid == null || grid.getDataSource() == null || grid.isDeleteButtonHidden()) {
             return StringUtil.EMPTY;
         } else {
             return MessageFormat.format(DELETE,
@@ -220,7 +220,11 @@ public class ToolbarWriter extends HtmlWriter {
      * @return
      */
     public static String updateButton(Grid<?> grid) {
-        return updateButton(grid.getName(), grid.isUpdateButtonHidden(), grid.getDataSource().size() == 0);
+        if (grid == null || grid.getDataSource() == null || grid.isUpdateButtonHidden()) {
+            return StringUtil.EMPTY;
+        } else {
+            return updateButton(grid.getName(), grid.isUpdateButtonHidden(), grid.getDataSource().size() == 0);
+        }
     }
 
     /**
