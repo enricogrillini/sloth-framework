@@ -28,7 +28,7 @@ public class ToolbarWriter extends HtmlWriter {
             "<!-- Toolbar -->\n" +
             "<div class=\"d-flex justify-content-between p-1\">\n";
 
-    private static final String OPEN_SECTION = " <div>\n";
+    private static final String OPEN_SECTION = " <div class=\"form-inline\">\n";
 
     private static final String CLOSE_SECTION = " </div>\n";
 
