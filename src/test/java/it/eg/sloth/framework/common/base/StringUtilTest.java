@@ -69,11 +69,21 @@ public class StringUtilTest {
     }
 
     @Test
+    public void toJavaClassNameTest() {
+        assertEquals(StringUtil.EMPTY, StringUtil.toJavaClassName(null));
+        assertEquals("Prova", StringUtil.toJavaClassName("prova"));
+        assertEquals("ProvaProva", StringUtil.toJavaClassName("prova_prova"));
+        assertEquals("ProvaProva", StringUtil.toJavaClassName("provaProva"));
+        assertEquals("ProvaProva", StringUtil.toJavaClassName("prova-Prova"));
+    }
+
+    @Test
     public void toJavaConstantNameTest() {
         assertEquals(StringUtil.EMPTY, StringUtil.toJavaConstantName(null));
         assertEquals("PROVA", StringUtil.toJavaConstantName("prova"));
         assertEquals("PROVA_PROVA", StringUtil.toJavaConstantName("prova_prova"));
         assertEquals("PROVA_PROVA", StringUtil.toJavaConstantName("provaProva"));
+        assertEquals("PROVA_PROVA", StringUtil.toJavaConstantName("prova-Prova"));
     }
 
     @Test
