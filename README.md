@@ -12,7 +12,7 @@ mvn deploy
 
 ## Prerequisiti
 
-Il progetto swaps si basa sul framework `sloth` rilasciato con licenza open source su GitHub. Per poter utilizzare gli artefatti del framework è necessaria la seguente configurazione maven (file `.m2/settings.xml`).
+Per poter utilizzare gli artefatti del framework è necessaria la seguente configurazione maven (file `.m2/settings.xml`).
 
 **Nota: sostituire `###USERNAME###` `###TOKEN###` con le proprie credenziali git hub**
 

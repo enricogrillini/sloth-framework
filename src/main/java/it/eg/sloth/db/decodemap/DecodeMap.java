@@ -25,7 +25,7 @@ public interface DecodeMap<T, V extends DecodeValue<T>> extends Iterable<V> {
      * @param descrizione
      * @return
      */
-    public T encode(String descrizione);
+    T encode(String descrizione);
 
     /**
      * Ritorna la descrizione corrispondente al codice passato
@@ -33,7 +33,7 @@ public interface DecodeMap<T, V extends DecodeValue<T>> extends Iterable<V> {
      * @param code
      * @return
      */
-    public String decode(T code);
+    String decode(T code);
 
     /**
      * Verifica se il codice passato à contenuto nella mappa
@@ -41,40 +41,40 @@ public interface DecodeMap<T, V extends DecodeValue<T>> extends Iterable<V> {
      * @param code
      * @return
      */
-    public boolean contains(T code);
+    boolean contains(T code);
 
     /**
      * Ritorna il primo valore della Mappa
      *
      * @return
      */
-    public T getFirst();
+    T getFirst();
 
     /**
      * Verifica se la decodifica à popolata
      *
      * @return
      */
-    public boolean isEmpty();
+    boolean isEmpty();
 
     /**
      * Ritorna la dimesione della mappa
      *
      * @return
      */
-    public int size();
+    int size();
 
     /**
      * Svuota la DecoodeMap
      */
-    public void clear();
+    void clear();
 
     /**
      * Estrae i soli record validi
      *
      * @return
      */
-    public List<V> valid();
+    List<V> valid();
 
     /**
      * Effettua una ricerca nella Map
@@ -82,7 +82,7 @@ public interface DecodeMap<T, V extends DecodeValue<T>> extends Iterable<V> {
      * @param code
      * @return
      */
-    public List<V> performSearch(T code);
+    List<V> performSearch(T code);
 
     /**
      * Effettua una ricerca nella Map
@@ -91,6 +91,6 @@ public interface DecodeMap<T, V extends DecodeValue<T>> extends Iterable<V> {
      * @param searchType
      * @return
      */
-    public List<V> performSearch(String description, MapSearchType searchType, Integer sizeLimit);
+    List<V> performSearch(String description, MapSearchType searchType, Integer sizeLimit);
 
 }

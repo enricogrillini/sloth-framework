@@ -8,6 +8,7 @@ import it.eg.sloth.form.fields.field.DecodedDataField;
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Level;
@@ -107,7 +108,11 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
     public void post(WebRequest webRequest) throws FrameworkException {
         if (!isReadOnly()) {
             setDecodedText(webRequest.getString(getName()));
-            setData(getDataType().formatValue(getDecodeMap().encode(getDecodedText()), getLocale(), getFormat()));
+            if (BaseFunction.isBlank(getDecodedText())) {
+                setData(StringUtil.EMPTY);
+            } else {
+                setData(getDataType().formatValue(getDecodeMap().encode(getDecodedText()), getLocale(), getFormat()));
+            }
         }
     }
 
@@ -115,7 +120,11 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
     public void post(BffFields bffFields) throws FrameworkException {
         if (!isReadOnly()) {
             setDecodedText(bffFields.getString(getName()));
-            setData(getDataType().formatValue(getDecodeMap().encode(getDecodedText()), getLocale(), getFormat()));
+            if (BaseFunction.isBlank(getDecodedText())) {
+                setData(StringUtil.EMPTY);
+            } else {
+                setData(getDataType().formatValue(getDecodeMap().encode(getDecodedText()), getLocale(), getFormat()));
+            }
         }
     }
 
