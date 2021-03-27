@@ -17,7 +17,7 @@
 
         <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
 
-        <lombok.version>1.18.16</lombok.version>
+        <lombok.version>1.18.18</lombok.version>
         <jackson.version>2.11.1</jackson.version>
     </properties>
 
