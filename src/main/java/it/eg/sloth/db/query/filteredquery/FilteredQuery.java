@@ -115,7 +115,7 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
     }
 
     /**
-     * Aggiunge un filtro
+     * Aggiunge un filtro. Esempio d'uso: addTextSearch("upper(table.column) like '%' || ? || '%'", value)
      *
      * @param sql
      * @param value

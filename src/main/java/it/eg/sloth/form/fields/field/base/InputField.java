@@ -38,7 +38,7 @@ public abstract class InputField<T> extends TextField<T> {
     private Boolean readOnly;
     private ViewModality viewModality;
 
-    public InputField(String name, String description, DataTypes dataType) {
+    protected InputField(String name, String description, DataTypes dataType) {
         super(name, description, dataType);
     }
 

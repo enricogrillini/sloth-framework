@@ -328,7 +328,7 @@ public class StringUtil {
             return string;
         }
     }
-    
+
     public static String toJavaClassName(String string) {
         if (BaseFunction.isBlank(string)) {
             return "";
@@ -361,6 +361,15 @@ public class StringUtil {
         }
 
         return result.toString().toUpperCase();
+    }
+
+    public static String toJavaStringParameter(String string) {
+        if (BaseFunction.isBlank(string)) {
+            return "null";
+        }
+
+        String result = string.replace("\n", "\\n");
+        return "\"" + result + "\"";
     }
 
     public static String toFileName(String string) {

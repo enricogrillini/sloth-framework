@@ -177,20 +177,19 @@ public class BigDecimalUtil {
 
 
     public static int intValue(BigDecimal bigDecimal) {
-        if (bigDecimal == null) {
-            return 0;
-        } else {
-            return bigDecimal.intValue();
-        }
+        return bigDecimal == null ? 0 : bigDecimal.intValue();
+    }
+
+    public static Integer intObject(BigDecimal bigDecimal) {
+        return bigDecimal == null ? null : bigDecimal.intValue();
     }
 
     public static double doubleValue(BigDecimal bigDecimal) {
-        if (bigDecimal == null) {
-            return 0;
-        } else {
-            return bigDecimal.doubleValue();
-        }
+        return bigDecimal == null ? 0 : bigDecimal.doubleValue();
     }
 
+    public static Double doubleObject(BigDecimal bigDecimal) {
+        return bigDecimal == null ? null : bigDecimal.doubleValue();
+    }
 
 }

@@ -87,6 +87,13 @@ public class StringUtilTest {
     }
 
     @Test
+    public void toJavaStringParameterTest() {
+        assertEquals("null", StringUtil.toJavaStringParameter(null));
+        assertEquals("\"prova\"", StringUtil.toJavaStringParameter("prova"));
+        assertEquals("\"pro\\nva\"", StringUtil.toJavaStringParameter("pro\nva"));
+    }
+
+    @Test
     public void toFileName() {
         assertEquals(StringUtil.EMPTY, StringUtil.toFileName(null));
         assertEquals("prova", StringUtil.toFileName("prova"));

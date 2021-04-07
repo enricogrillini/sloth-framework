@@ -26,9 +26,9 @@ public class ProvaRowBean extends DbRow {
     public static final String DATA = "data";
 
     public static final Column[] columns = {
-            new Column(ID, false, false, Types.DECIMAL),
-            new Column(TESTO, false, false, Types.VARCHAR),
-            new Column(DATA, false, false, Types.DATE)
+            new Column(ID, null, false, false, 10, Types.DECIMAL),
+            new Column(TESTO, null, false, false, 10, Types.VARCHAR),
+            new Column(DATA, null, false, false, null, Types.DATE)
     };
 
     private static String strSelect = "Select *\n" +

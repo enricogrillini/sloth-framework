@@ -46,6 +46,12 @@ public final class CacheSingleton {
         }
     }
 
+    public boolean cointains(String name) {
+      synchronized (CacheSingleton.class) {
+          return map.containsKey(name);
+      }
+  }
+    
     public void put(String name, Object object) {
         synchronized (CacheSingleton.class) {
             map.put(name, object);

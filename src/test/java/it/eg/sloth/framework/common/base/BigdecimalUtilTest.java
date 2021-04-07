@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Project: sloth-framework
@@ -47,9 +48,21 @@ public class BigdecimalUtilTest {
     }
 
     @Test
+    public void intObjectTest() {
+        assertNull(BigDecimalUtil.intObject(null));
+        assertEquals(10.0, BigDecimalUtil.intObject(BigDecimal.valueOf(10)), 0.0);
+    }
+
+    @Test
     public void doubleValueTest() {
         assertEquals(0.0, BigDecimalUtil.doubleValue(null), 0.0);
         assertEquals(10.0, BigDecimalUtil.doubleValue(BigDecimal.valueOf(10)), 0.0);
     }
-    
+
+    @Test
+    public void doubleObjectTest() {
+        assertNull(BigDecimalUtil.doubleObject(null));
+        assertEquals(10.0, BigDecimalUtil.doubleObject(BigDecimal.valueOf(10)), 0.0);
+    }
+
 }
