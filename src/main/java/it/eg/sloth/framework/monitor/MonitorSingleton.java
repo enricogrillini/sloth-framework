@@ -1,6 +1,7 @@
 package it.eg.sloth.framework.monitor;
 
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.BigDecimalUtil;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.monitor.model.*;
@@ -164,11 +165,7 @@ public class MonitorSingleton {
         return dataTable;
     }
 
-    public synchronized MonitorTrendTable getTrend() throws FrameworkException {
-        return getTrend(null, null);
-    }
-
-    public synchronized MonitorTrendTable getTrend(Timestamp dataDa, Timestamp dataA) throws FrameworkException {
+    private Map<Timestamp, Integer> getTrend(Timestamp dataDa, Timestamp dataA) throws FrameworkException {
         if (dataDa == null) {
             dataDa = BaseFunction.trunc(startupTime);
         } else {
@@ -181,14 +178,44 @@ public class MonitorSingleton {
             dataA = TimeStampUtil.add(BaseFunction.trunc(dataA), 1);
         }
 
-        MonitorTrendTable dataTable = new MonitorTrendTable();
+        Map<Timestamp, Integer> appTrend = new LinkedHashMap<>();
+
         for (Entry<Timestamp, Integer> entry : trend.entrySet()) {
             if (entry.getKey().compareTo(dataDa) >= 0 && entry.getKey().compareTo(dataA) < 0) {
-                MonitorTrendRow row = dataTable.add();
-
-                row.setHour(entry.getKey());
-                row.setExecutions(BigDecimal.valueOf(entry.getValue()));
+                appTrend.put(entry.getKey(), entry.getValue());
             }
+        }
+
+        return trend;
+    }
+
+    public synchronized MonitorTrendTable getDayTrendTable(Timestamp dataDa, Timestamp dataA) throws FrameworkException {
+        Map<Timestamp, Integer> appTrend = getTrend(dataDa, dataA);
+
+        MonitorTrendTable dataTable = new MonitorTrendTable();
+        for (Entry<Timestamp, Integer> entry : appTrend.entrySet()) {
+            MonitorTrendRow row = dataTable.getRow();
+            if (row == null || !dataTable.getRow().getTime().equals(BaseFunction.trunc(entry.getKey()))) {
+                row = dataTable.add();
+                row.setTime(BaseFunction.trunc(entry.getKey()));
+                row.setExecutions(BigDecimal.ZERO);
+            }
+
+            row.setExecutions(BigDecimalUtil.sum(row.getExecutions(), BigDecimal.valueOf(entry.getValue())));
+        }
+
+        dataTable.first();
+        return dataTable;
+    }
+
+    public synchronized MonitorTrendTable getHourTrendTable(Timestamp dataDa, Timestamp dataA) throws FrameworkException {
+        Map<Timestamp, Integer> appTrend = getTrend(dataDa, dataA);
+
+        MonitorTrendTable dataTable = new MonitorTrendTable();
+        for (Entry<Timestamp, Integer> entry : appTrend.entrySet()) {
+            MonitorTrendRow row = dataTable.add();
+            row.setTime(entry.getKey());
+            row.setExecutions(BigDecimal.valueOf(entry.getValue()));
         }
 
         dataTable.first();

@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Setter
 public class MonitorTrendRow extends PojoRow {
 
-    Timestamp hour;
+    Timestamp time;
     BigDecimal executions;
 
 }

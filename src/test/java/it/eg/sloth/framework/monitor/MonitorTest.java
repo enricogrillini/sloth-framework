@@ -1,10 +1,16 @@
 package it.eg.sloth.framework.monitor;
 
+import it.eg.sloth.framework.common.base.TimeStampUtil;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.monitor.model.MonitorMapper;
 import it.eg.sloth.framework.monitor.model.MonitorStatisticsRow;
+import it.eg.sloth.framework.monitor.model.MonitorTrendTable;
 import org.awaitility.Awaitility;
+
 import java.time.Duration;
+
 import org.junit.Test;
+
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
@@ -25,6 +31,27 @@ import static org.junit.Assert.assertNotEquals;
  * @author Enrico Grillini
  */
 public class MonitorTest {
+
+    @Test
+    public void monitorSingletonTest() throws FrameworkException {
+        MonitorSingleton.getInstance().start();
+
+        long id = MonitorSingleton.getInstance().startEvent("aaa", "bbb", null);
+        MonitorSingleton.getInstance().endEvent(id);
+
+        id = MonitorSingleton.getInstance().startEvent("aaa", "bbb", null);
+        MonitorSingleton.getInstance().endEvent(id);
+
+        id = MonitorSingleton.getInstance().startEvent("aaa", "ccc", null);
+        MonitorSingleton.getInstance().endEvent(id);
+
+        MonitorTrendTable monitorTrendTable = MonitorSingleton.getInstance().getDayTrendTable(null, null);
+        assertEquals(3, monitorTrendTable.getRow().getExecutions().intValue());
+
+        monitorTrendTable = MonitorSingleton.getInstance().getDayTrendTable(null, TimeStampUtil.truncSysdate());
+        assertEquals(3, monitorTrendTable.getRow().getExecutions().intValue());
+    }
+
 
     @Test
     public void monitorStatisticsTest() {
