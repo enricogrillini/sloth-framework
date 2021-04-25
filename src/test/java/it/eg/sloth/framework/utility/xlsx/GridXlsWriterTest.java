@@ -10,16 +10,15 @@ import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * Project: sloth-framework
@@ -35,15 +34,15 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Enrico Grillini
  */
-public class GridXlsWriterTest {
+class GridXlsWriterTest {
 
     private static final String GRID = TestUtil.OUTPUT_DIR + "/GridXlsWriter.xlsx";
 
     Table table;
     Grid<Table> grid;
 
-    @Before
-    public void init() throws IOException {
+    @BeforeEach
+    void init() throws IOException {
         TestUtil.createOutputDir();
 
         table = new Table();
@@ -80,12 +79,12 @@ public class GridXlsWriterTest {
     }
 
     @Test
-    public void gridWriterTest() throws FrameworkException, IOException {
+    void gridWriterTest() throws FrameworkException, IOException {
         GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             gridXlsxWriter.getWorkbook().write(outputStream);
 
-            assertTrue(outputStream.toByteArray().length > 0);
+            Assertions.assertTrue(outputStream.toByteArray().length > 0);
         }
 
         try (OutputStream outputStream = new FileOutputStream(GRID)) {

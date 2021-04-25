@@ -1,13 +1,5 @@
 package it.eg.sloth.webdesktop.search;
 
-import static org.junit.Assert.assertEquals;
-
-import java.math.BigDecimal;
-import java.util.List;
-
-import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.framework.security.Menu;
@@ -16,6 +8,13 @@ import it.eg.sloth.webdesktop.search.impl.DataTableSearcher;
 import it.eg.sloth.webdesktop.search.impl.MenuSearcher;
 import it.eg.sloth.webdesktop.search.model.suggestion.SimpleSuggestion;
 import it.eg.sloth.webdesktop.search.model.suggestion.Suggestion;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -30,7 +29,6 @@ import it.eg.sloth.webdesktop.search.model.suggestion.Suggestion;
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
- *
  */
 @Slf4j
 public class SearchTest {
@@ -94,9 +92,8 @@ public class SearchTest {
         return searchManager;
     }
 
-
     @Test
-    public void searcherManagerTest() {
+    void searcherManagerTest() {
         SearchManager searchManager = getSearchManager();
 
         // Test: ricerca libera datatable
@@ -141,7 +138,7 @@ public class SearchTest {
 
 
     @Test
-    public void searcherManagerApplyTest() {
+    void searcherManagerApplyTest() {
         SearchManager searchManager = getSearchManager();
 
         searchManager.applySearch("cliente bob", 10);

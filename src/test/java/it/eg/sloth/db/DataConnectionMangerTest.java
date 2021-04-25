@@ -4,7 +4,6 @@ import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.RowStatus;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.db.datasource.table.sort.SortType;
-import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.db.manager.DataConnectionManager;
 import it.eg.sloth.db.model.ProvaRowBean;
 import it.eg.sloth.db.model.ProvaTableBean;
@@ -12,21 +11,21 @@ import it.eg.sloth.db.query.filteredquery.FilteredQuery;
 import it.eg.sloth.db.query.query.Query;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.sql.Types;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class DataConnectionMangerTest {
+@TestMethodOrder(MethodOrderer.MethodName.class)
+class DataConnectionMangerTest {
 
     private static final String FILTERED_QUERY_TO_STRING = "\n" +
             "Statement: Select * from Prova /*W*/\n" +
@@ -46,7 +45,7 @@ public class DataConnectionMangerTest {
     private static final String userName = "gilda";
     private static final String password = "gilda";
 
-    @BeforeClass
+    @BeforeAll
     public static void init() {
         DataConnectionManager.getInstance().registerDefaultDataSource(driverClassName, url, userName, password, 1, 100, 1);
     }
@@ -59,7 +58,7 @@ public class DataConnectionMangerTest {
      * @throws FrameworkException
      */
     @Test
-    public void ds0EmptyTest() throws SQLException, IOException, FrameworkException {
+    void ds0EmptyTest() throws SQLException, IOException, FrameworkException {
         Table dataTable = new Table();
 
         assertEquals(0, dataTable.values().size());
@@ -75,7 +74,7 @@ public class DataConnectionMangerTest {
      * @throws FrameworkException
      */
     @Test
-    public void ds1QuerySelectTest() throws SQLException, IOException, FrameworkException {
+    void ds1QuerySelectTest() throws SQLException, IOException, FrameworkException {
         Query query = new Query("Select * from Prova order by 1");
         DataTable dataTable = query.selectTable();
 
@@ -92,7 +91,7 @@ public class DataConnectionMangerTest {
     }
 
     @Test
-    public void ds2QueryExecuteTest() throws SQLException, IOException, FrameworkException {
+    void ds2QueryExecuteTest() throws SQLException, IOException, FrameworkException {
         Query query = new Query("Update Prova set testo = testo || 'X'");
         query.execute();
 
@@ -113,7 +112,7 @@ public class DataConnectionMangerTest {
      * @throws FrameworkException
      */
     @Test
-    public void ds3FilteredQueryTest() throws SQLException, IOException, FrameworkException {
+    void ds3FilteredQueryTest() throws SQLException, IOException, FrameworkException {
         // Simple Filter
         FilteredQuery query = new FilteredQuery("Select * from Prova /*W*/");
         query.addFilter("Id = ?", Types.INTEGER, 2);
@@ -143,7 +142,7 @@ public class DataConnectionMangerTest {
      * @throws FrameworkException
      */
     @Test
-    public void ds4LoadTableBeanTest() throws SQLException, IOException, FrameworkException {
+    void ds4LoadTableBeanTest() throws SQLException, IOException, FrameworkException {
         ProvaTableBean provaTableBean = ProvaTableBean.Factory.load(null);
 
         assertEquals(2, provaTableBean.size());
@@ -160,7 +159,7 @@ public class DataConnectionMangerTest {
      * @throws FrameworkException
      */
     @Test
-    public void ds5WriteTableBeanTest() throws SQLException, IOException, FrameworkException {
+    void ds5WriteTableBeanTest() throws SQLException, IOException, FrameworkException {
         ProvaTableBean provaTableBean = new ProvaTableBean();
 
         ProvaRowBean provaRowBean = provaTableBean.add();
@@ -192,7 +191,7 @@ public class DataConnectionMangerTest {
      * @throws FrameworkException
      */
     @Test
-    public void ds6RowBeanTest() throws SQLException, IOException, FrameworkException {
+    void ds6RowBeanTest() throws SQLException, IOException, FrameworkException {
         Query query = new Query("Select * from Prova where id = 4");
 
         ProvaRowBean provaRowBean = new ProvaRowBean();
@@ -247,7 +246,7 @@ public class DataConnectionMangerTest {
     }
 
     @Test
-    public void ds7TableBeanExceptionTest() throws SQLException, IOException, FrameworkException {
+    void ds7TableBeanExceptionTest() throws SQLException, IOException, FrameworkException {
 
         ProvaTableBean provaTableBean = new ProvaTableBean();
 
@@ -267,7 +266,7 @@ public class DataConnectionMangerTest {
 
 
     @Test
-    public void queryToStringTest() throws SQLException, IOException, FrameworkException {
+    void queryToStringTest() throws SQLException, IOException, FrameworkException {
         // FilteredQuery
         FilteredQuery filteredQuery = new FilteredQuery("Select * from Prova /*W*/");
         filteredQuery.addFilter("Id = ?", Types.INTEGER, 2);
@@ -282,7 +281,7 @@ public class DataConnectionMangerTest {
     }
 
     @Test
-    public void tableToStringTest() throws SQLException, IOException, FrameworkException {
+    void tableToStringTest() throws SQLException, IOException, FrameworkException {
         // Simple Filter
         FilteredQuery query = new FilteredQuery("Select * from Prova /*W*/");
         query.addFilter("Id = ?", Types.INTEGER, 2);

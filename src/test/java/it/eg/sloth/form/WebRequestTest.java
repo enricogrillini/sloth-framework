@@ -1,11 +1,11 @@
 package it.eg.sloth.form;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -29,14 +29,14 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Enrico Grillini
  */
-@RunWith(MockitoJUnitRunner.class)
-public class WebRequestTest {
+@ExtendWith(MockitoExtension.class)
+class WebRequestTest {
 
     @Mock
     HttpServletRequest httpServletRequest;
 
-    @Before
-    public void init() throws IOException, ServletException {
+    @BeforeEach
+    void init() throws IOException, ServletException {
         Map<String, String[]> map = new HashMap<>();
         map.put("provaKey1", new String[]{"provaValue1", "provaValuea"});
         map.put("provaKey2", new String[]{"provaValue2"});
@@ -49,7 +49,7 @@ public class WebRequestTest {
     }
 
     @Test
-    public void webRequestTest() throws IOException, ServletException {
+    void webRequestTest() throws IOException, ServletException {
         WebRequest webRequest = new WebRequest(httpServletRequest);
 
         assertEquals("provaValue1", webRequest.getString("provaKey1"));

@@ -1,13 +1,13 @@
 package it.eg.sloth.framework.common.exception;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FrameworkExcpetionTest {
+class FrameworkExcpetionTest {
 
     @Test
-    public void frameworkExcpetionTest() {
+    void frameworkExcpetionTest() {
         FrameworkException frameworkExcpetion = new FrameworkException(ExceptionCode.GENERIC_BUSINESS_ERROR, "prova");
 
         assertEquals("Errore generico - prova", frameworkExcpetion.getMessage());

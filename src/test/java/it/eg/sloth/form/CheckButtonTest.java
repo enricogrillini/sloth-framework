@@ -4,8 +4,8 @@ import it.eg.sloth.form.fields.field.impl.CheckButtons;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.servlet.ServletException;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -31,13 +31,13 @@ import static org.mockito.Mockito.when;
  *
  * @author Enrico Grillini
  */
-public class CheckButtonTest {
+class CheckButtonTest {
 
     CheckButtons<List<String>, String> checkButtons;
     HttpServletRequest request;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         checkButtons = CheckButtons.<List<String>, String>builder()
                 .name("Name")
                 .description("description")
@@ -54,7 +54,7 @@ public class CheckButtonTest {
     }
 
     @Test
-    public void checkButtonBuilderTest() {
+    void checkButtonBuilderTest() {
         assertEquals("name", checkButtons.getName());
         assertEquals("description", checkButtons.getDescription());
         assertEquals("name", checkButtons.getAlias());
@@ -65,7 +65,7 @@ public class CheckButtonTest {
     }
 
     @Test
-    public void checkButtonWebRequestTest() throws IOException, ServletException, FrameworkException {
+    void checkButtonWebRequestTest() throws IOException, ServletException, FrameworkException {
         WebRequest webRequest = new WebRequest(request);
         checkButtons.post(webRequest);
 

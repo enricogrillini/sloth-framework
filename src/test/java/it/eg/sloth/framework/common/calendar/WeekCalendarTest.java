@@ -1,14 +1,12 @@
 package it.eg.sloth.framework.common.calendar;
 
-import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
-
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -24,32 +22,32 @@ import static org.junit.Assert.*;
  *
  * @author Enrico Grillini
  */
-public class WeekCalendarTest {
+class WeekCalendarTest {
 
     private WeekCalendar weekCalendar;
 
-    @Before
-    public void init() throws FrameworkException {
+    @BeforeEach
+    void init() throws FrameworkException {
         weekCalendar = new WeekCalendar(TimeStampUtil.parseTimestamp("07/07/2020", "dd/MM/yyyy"));
     }
 
 
     @Test
-    public void weekTest() throws FrameworkException {
+    void weekTest() throws FrameworkException {
         assertEquals(TimeStampUtil.parseTimestamp("06/07/2020", "dd/MM/yyyy"), weekCalendar.firstWeekDay());
         assertEquals(TimeStampUtil.parseTimestamp("12/07/2020", "dd/MM/yyyy"), weekCalendar.lastWeekDay());
     }
 
 
     @Test
-    public void prevWeekTest() throws FrameworkException {
+    void prevWeekTest() throws FrameworkException {
         weekCalendar.prev();
         assertEquals(TimeStampUtil.parseTimestamp("29/06/2020", "dd/MM/yyyy"), weekCalendar.firstWeekDay());
         assertEquals(TimeStampUtil.parseTimestamp("05/07/2020", "dd/MM/yyyy"), weekCalendar.lastWeekDay());
     }
 
     @Test
-    public void nextWeekTest() throws FrameworkException {
+    void nextWeekTest() throws FrameworkException {
         weekCalendar.next();
         assertEquals(TimeStampUtil.parseTimestamp("13/07/2020", "dd/MM/yyyy"), weekCalendar.firstWeekDay());
         assertEquals(TimeStampUtil.parseTimestamp("19/07/2020", "dd/MM/yyyy"), weekCalendar.lastWeekDay());

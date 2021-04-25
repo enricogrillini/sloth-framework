@@ -14,15 +14,15 @@ import it.eg.sloth.jaxb.form.ChartType;
 import it.eg.sloth.jaxb.form.LegendPosition;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJs;
 import it.eg.sloth.webdesktop.tag.form.chart.writer.ChartWriter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.text.ParseException;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Project: sloth-framework
@@ -38,7 +38,7 @@ import static org.junit.Assert.*;
  *
  * @author Enrico Grillini
  */
-public class ChartWriterTest {
+class ChartWriterTest {
 
     static final String CONTENT_TEMPLATE = "<!-- ChartCanvas -->\n" +
             "<div class=\"chart-area\">\n" +
@@ -53,8 +53,8 @@ public class ChartWriterTest {
 
     SimpleChart<DataTable<?>> simpleChart;
 
-    @Before
-    public void init() throws FrameworkException {
+    @BeforeEach
+    void init() throws FrameworkException {
         simpleChart = new SimpleChart<>("Prova", ChartType.LINE, "Prova", LegendPosition.TOP);
 
         simpleChart.addChild(new Labels<Timestamp>("Ora", "Ora", DataTypes.MONTH));
@@ -77,17 +77,17 @@ public class ChartWriterTest {
     }
 
     @Test
-    public void writeCanvasTest() {
+    void writeCanvasTest() {
         assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "prova"), ChartWriter.writeCanvas(simpleChart));
     }
 
     @Test
-    public void writeScriptTest() throws ParseException, FrameworkException, JsonProcessingException {
+    void writeScriptTest() throws ParseException, FrameworkException, JsonProcessingException {
         assertEquals(SCRIPT_TEMPLATE, ChartWriter.writeScript(simpleChart));
     }
 
     @Test
-    public void populateChartDataTest() throws ParseException, FrameworkException {
+    void populateChartDataTest() throws ParseException, FrameworkException {
         ChartJs chartJs = ChartWriter.populateChart(simpleChart);
 
         assertEquals(3, chartJs.getData().getLabels().size());

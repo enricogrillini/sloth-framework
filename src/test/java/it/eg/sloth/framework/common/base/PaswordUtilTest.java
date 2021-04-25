@@ -1,14 +1,14 @@
 package it.eg.sloth.framework.common.base;
 
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class PaswordUtilTest {
+class PaswordUtilTest {
 
     @Test
-    public void isPasswordValidTest() throws FrameworkException {
+    void isPasswordValidTest() throws FrameworkException {
         assertTrue(PasswordUtil.isPasswordValid("ILoveJava"));
         assertTrue(PasswordUtil.isPasswordValid("LoveJava"));
         assertTrue(PasswordUtil.isPasswordValid("LoveJavaLoveJava"));
@@ -21,7 +21,7 @@ public class PaswordUtilTest {
     }
 
     @Test
-    public void maskTest() {
+    void maskTest() {
         assertEquals("[Empty]", PasswordUtil.mask(null));
         assertEquals("123******012", PasswordUtil.mask("123456789012"));
         assertEquals("12****78", PasswordUtil.mask("12345678"));
@@ -29,7 +29,7 @@ public class PaswordUtilTest {
     }
 
     @Test
-    public void hashSecretTest() throws FrameworkException {
+    void hashSecretTest() throws FrameworkException {
         String hash1 = PasswordUtil.hash("ILoveJava");
         String hash2 = PasswordUtil.hash("ILoveJava");
 

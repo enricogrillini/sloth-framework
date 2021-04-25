@@ -2,17 +2,15 @@ package it.eg.sloth.framework.common.casting;
 
 import it.eg.sloth.framework.common.base.BigDecimalUtil;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
-import it.eg.sloth.framework.common.base.TimestampUtilTest;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.jaxb.form.DataType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Locale;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Project: sloth-framework
@@ -28,10 +26,10 @@ import static org.junit.Assert.assertThrows;
  *
  * @author Enrico Grillini
  */
-public class DataTypesTest {
+class DataTypesTest {
 
     @Test
-    public void timestampFormatTextTest() throws FrameworkException {
+    void timestampFormatTextTest() throws FrameworkException {
         Timestamp timestamp = TimeStampUtil.parseTimestamp("01/06/2020", "dd/MM/yyyy");
 
         assertEquals("01/06/2020", DataTypes.DATE.formatText(timestamp, Locale.ITALY));
@@ -43,7 +41,7 @@ public class DataTypesTest {
 
 
     @Test
-    public void bigDecimalFormatValueTest() throws FrameworkException {
+    void bigDecimalFormatValueTest() throws FrameworkException {
         assertEquals("1,000.00", DataTypes.DECIMAL.formatValue(BigDecimal.valueOf(1000), Locale.US));
         assertEquals("1.000,00", DataTypes.DECIMAL.formatValue(BigDecimal.valueOf(1000), Locale.ITALY));
         assertEquals("10,00", DataTypes.DECIMAL.formatValue(BigDecimal.valueOf(10), Locale.ITALY));
@@ -72,7 +70,7 @@ public class DataTypesTest {
 
 
     @Test
-    public void bigDecimalParseValueTest1() throws FrameworkException {
+    void bigDecimalParseValueTest1() throws FrameworkException {
         // Integer
         assertEquals(BigDecimal.valueOf(1000), DataTypes.DECIMAL.parseValue("1000.00", Locale.US));
         assertEquals(BigDecimal.valueOf(1000), DataTypes.DECIMAL.parseValue("1000,00", Locale.ITALY));
@@ -103,7 +101,7 @@ public class DataTypesTest {
     }
 
     @Test
-    public void bigDecimalParseValueTest2() throws FrameworkException {
+    void bigDecimalParseValueTest2() throws FrameworkException {
         // Percentuale
         assertEquals(BigDecimal.valueOf(1234), DataTypes.PERC.parseValue("12.34", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(12.34), DataTypes.PERC.parseValue("12,34", Locale.ITALY));
@@ -118,7 +116,7 @@ public class DataTypesTest {
     }
 
     @Test
-    public void bigDecimalFormatTextTest() throws FrameworkException {
+    void bigDecimalFormatTextTest() throws FrameworkException {
         assertEquals("1,000.00", DataTypes.DECIMAL.formatText(BigDecimal.valueOf(1000), Locale.US));
         assertEquals("1.000,00", DataTypes.DECIMAL.formatText(BigDecimal.valueOf(1000), Locale.ITALY));
         assertEquals("10,00", DataTypes.DECIMAL.formatText(BigDecimal.valueOf(10), Locale.ITALY));
@@ -147,7 +145,7 @@ public class DataTypesTest {
 
 
     @Test
-    public void stringParseTest() throws FrameworkException {
+    void stringParseTest() throws FrameworkException {
         FrameworkException frameworkException;
 
         // Mail non valida
@@ -178,8 +176,6 @@ public class DataTypesTest {
 
         // Partita IVA valida
         assertEquals("00000000000", DataTypes.PARTITA_IVA.parseValue("00000000000", Locale.ITALY));
-
     }
-
 
 }

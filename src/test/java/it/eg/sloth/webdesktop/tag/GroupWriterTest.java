@@ -1,13 +1,14 @@
 package it.eg.sloth.webdesktop.tag;
 
-import static org.junit.Assert.assertEquals;
-
-import java.text.MessageFormat;
-
-import org.junit.Test;
 
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.group.writer.GroupWriter;
+import org.junit.jupiter.api.Test;
+
+import java.text.MessageFormat;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  * Project: sloth-framework
@@ -23,7 +24,7 @@ import it.eg.sloth.webdesktop.tag.form.group.writer.GroupWriter;
  *
  * @author Enrico Grillini
  */
-public class GroupWriterTest {
+class GroupWriterTest {
 
     private static final String OPEN_GROUP = "<filedset>{0}";
     private static final String CLOSE_GROUP = "</filedset>";
@@ -35,35 +36,35 @@ public class GroupWriterTest {
     private static final String CLOSE_CELL = "</div>";
 
     @Test
-    public void openGroupTest() throws FrameworkException {
+    void openGroupTest() throws FrameworkException {
         assertEquals(MessageFormat.format(OPEN_GROUP, ""), GroupWriter.openGroup(null));
         assertEquals(MessageFormat.format(OPEN_GROUP, "<legend>prova</legend>"), GroupWriter.openGroup("prova"));
     }
 
     @Test
-    public void closeGroupTest() throws FrameworkException {
+    void closeGroupTest() throws FrameworkException {
         assertEquals(CLOSE_GROUP, GroupWriter.closeGroup());
     }
 
     @Test
-    public void openRowTest() throws FrameworkException {
+    void openRowTest() throws FrameworkException {
         assertEquals(OPEN_ROW, GroupWriter.openRow());
     }
 
     @Test
-    public void closeRowTest() throws FrameworkException {
+    void closeRowTest() throws FrameworkException {
         assertEquals(CLOSE_ROW, GroupWriter.closeRow());
     }
 
     @Test
-    public void openCellTest() throws FrameworkException {
+    void openCellTest() throws FrameworkException {
         assertEquals(OPEN_CELL, GroupWriter.openCell(null));
         assertEquals(OPEN_CELL, GroupWriter.openCell("10%"));
         assertEquals(OPEN_CELL, GroupWriter.openCell(""));
     }
 
     @Test
-    public void closeCellTest() {
+    void closeCellTest() {
         assertEquals(CLOSE_CELL, GroupWriter.closeCell());
     }
 

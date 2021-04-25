@@ -4,16 +4,16 @@ import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.model.SamplePojoRow;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PojoDataSourceTest {
+class PojoDataSourceTest {
 
     @Test
-    public void pojoDataSourceTest1() throws FrameworkException {
+    void pojoDataSourceTest1() throws FrameworkException {
         // Inizializzo - Pojo mode
         SamplePojoRow samplePojoRow = new SamplePojoRow();
         samplePojoRow.setTesto("Prova");
@@ -34,7 +34,7 @@ public class PojoDataSourceTest {
     }
 
     @Test
-    public void pojoDataSourceTest2() throws FrameworkException {
+    void pojoDataSourceTest2() throws FrameworkException {
         // Inizializzo - Datasource Mode
         SamplePojoRow samplePojoRow = new SamplePojoRow();
         samplePojoRow.setString("Testo", "Prova");
@@ -73,7 +73,7 @@ public class PojoDataSourceTest {
     }
 
     @Test
-    public void pojoDataSourceCopyTest() throws FrameworkException {
+    void pojoDataSourceCopyTest() throws FrameworkException {
         SamplePojoRow samplePojoRow = new SamplePojoRow();
         samplePojoRow.setTesto("Prova");
         samplePojoRow.setNumero(BigDecimal.valueOf(0));

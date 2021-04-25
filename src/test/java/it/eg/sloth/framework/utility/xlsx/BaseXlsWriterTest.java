@@ -2,18 +2,16 @@ package it.eg.sloth.framework.utility.xlsx;
 
 import it.eg.sloth.TestUtil;
 import it.eg.sloth.framework.utility.report.SimpleReport;
-import it.eg.sloth.framework.utility.xlsx.BaseXlsxWriter;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelContainer;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelFont;
-import org.apache.poi.hssf.usermodel.HSSFPrintSetup;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Project: sloth-framework
@@ -29,20 +27,20 @@ import static org.junit.Assert.*;
  *
  * @author Enrico Grillini
  */
-public class BaseXlsWriterTest {
+class BaseXlsWriterTest {
 
 
     private static final String SIMPLE_REPORT = TestUtil.OUTPUT_DIR + "/BaseXlsWriter-SimpleReport.xlsx";
     private static final String STYLE_REPORT = TestUtil.OUTPUT_DIR + "/BaseXlsWriter-StyleReport.xlsx";
     private static final String COLOR_REPORT = TestUtil.OUTPUT_DIR + "/BaseXlsWriter-ColorReport.xlsx";
 
-    @BeforeClass
-    public static void initClass() throws IOException {
+    @BeforeAll
+    static void initClass() throws IOException {
         TestUtil.createOutputDir();
     }
 
     @Test
-    public void styleReportTest() throws IOException {
+    void styleReportTest() throws IOException {
         // Creo il report Excel
         try (OutputStream outputStream = new FileOutputStream(STYLE_REPORT); BaseXlsxWriter baseXlsxWriter = new SimpleReport()) {
 
@@ -101,7 +99,7 @@ public class BaseXlsWriterTest {
     }
 
     @Test
-    public void simpleReportTest() throws IOException {
+    void simpleReportTest() throws IOException {
         // Creo il report Excel
         try (OutputStream outputStream = new FileOutputStream(SIMPLE_REPORT);
              SimpleReport simpleReport = new SimpleReport()) {
@@ -127,7 +125,7 @@ public class BaseXlsWriterTest {
 
 
     @Test
-    public void colorReportTest() throws IOException {
+    void colorReportTest() throws IOException {
         // Creo il report Excel
         try (OutputStream outputStream = new FileOutputStream(COLOR_REPORT); BaseXlsxWriter baseXlsxWriter = new SimpleReport()) {
             baseXlsxWriter.addSheet("Prova", true);

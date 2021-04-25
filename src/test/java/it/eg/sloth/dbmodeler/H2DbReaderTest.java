@@ -6,20 +6,20 @@ import it.eg.sloth.dbmodeler.model.connection.DbConnection;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.reader.DbSchemaReader;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class H2DbReaderTest {
+class H2DbReaderTest {
 
     private static final String H2_DATABASE_JSON = TestUtil.OUTPUT_DIR + "/h2DataBase.json";
 
     private DataBase dataBase;
 
-    @Before
-    public void init() throws IOException {
+    @BeforeEach
+    void init() throws IOException {
         // Persistenza semplice su file
         // jdbc:h2:file:./outputDb;MODE=DB2;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:create.sql'
 
@@ -41,7 +41,7 @@ public class H2DbReaderTest {
     }
 
     @Test
-    public void readSchemaTest() throws SQLException, IOException, FrameworkException, ClassNotFoundException {
+    void readSchemaTest() throws SQLException, IOException, FrameworkException, ClassNotFoundException {
         DbSchemaReader dbReader = DbSchemaReader.Factory.getDbSchemaReader(dataBase.getDbConnection());
         dbReader.refreshSchema(dataBase);
         dbReader.writeFile(H2_DATABASE_JSON, dataBase);

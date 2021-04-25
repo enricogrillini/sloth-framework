@@ -2,9 +2,9 @@ package it.eg.sloth.form;
 
 import it.eg.sloth.form.fields.field.impl.CheckBox;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -20,10 +20,10 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Enrico Grillini
  */
-public class CheckBoxTest {
+class CheckBoxTest {
 
     @Test
-    public void buttonTest() {
+    void buttonTest() {
         CheckBox<String> button = new CheckBox<String>("name", "description", DataTypes.STRING);
         assertEquals(CheckBox.DEFAULT_VAL_CHECKED, button.getValChecked());
         assertEquals(CheckBox.DEFAULT_VAL_UN_CHECKED, button.getValUnChecked());

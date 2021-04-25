@@ -1,11 +1,8 @@
 package it.eg.sloth.framework.utility.xlsx;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import it.eg.sloth.TestUtil;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
-import it.eg.sloth.db.decodemap.map.StringDecodeMap;
-import it.eg.sloth.form.fields.field.impl.ComboBox;
 import it.eg.sloth.form.fields.field.impl.Input;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.form.pivot.Pivot;
@@ -14,22 +11,16 @@ import it.eg.sloth.form.pivot.PivotValue;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.jaxb.form.ConsolidateFunction;
-import org.apache.poi.ss.SpreadsheetVersion;
-import org.apache.poi.ss.usermodel.DataConsolidateFunction;
-import org.apache.poi.ss.usermodel.DataFormat;
-import org.apache.poi.ss.util.AreaReference;
-import org.apache.poi.ss.util.CellReference;
-import org.apache.poi.xssf.usermodel.XSSFPivotTable;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.junit.Before;
-import org.junit.Test;
-import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTPivotField;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Project: sloth-framework
@@ -45,15 +36,15 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Enrico Grillini
  */
-public class GridXlsPivotWriterTest {
+class GridXlsPivotWriterTest {
 
     private static final String GRID = TestUtil.OUTPUT_DIR + "/GridXlsPivotWriter.xlsx";
 
     Table table;
     Grid<Table> grid;
 
-    @Before
-    public void init() throws IOException {
+    @BeforeEach
+    void init() throws IOException {
         TestUtil.createOutputDir();
 
         table = new Table();
@@ -100,7 +91,7 @@ public class GridXlsPivotWriterTest {
     }
 
     @Test
-    public void gridPivotWriterTest() throws IOException, FrameworkException {
+    void gridPivotWriterTest() throws IOException, FrameworkException {
         GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             gridXlsxWriter.getWorkbook().write(outputStream);

@@ -1,27 +1,8 @@
 package it.eg.sloth.webdesktop.tag;
 
-import static org.junit.Assert.assertEquals;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.MessageFormat;
-import java.util.Locale;
-
-import it.eg.sloth.form.fields.Fields;
-import org.junit.Before;
-import org.junit.Test;
-
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
-import it.eg.sloth.form.fields.field.impl.Button;
-import it.eg.sloth.form.fields.field.impl.CheckBox;
-import it.eg.sloth.form.fields.field.impl.ComboBox;
-import it.eg.sloth.form.fields.field.impl.DecodedText;
-import it.eg.sloth.form.fields.field.impl.Hidden;
-import it.eg.sloth.form.fields.field.impl.Input;
-import it.eg.sloth.form.fields.field.impl.InputTotalizer;
-import it.eg.sloth.form.fields.field.impl.Text;
-import it.eg.sloth.form.fields.field.impl.TextArea;
-import it.eg.sloth.form.fields.field.impl.TextTotalizer;
+import it.eg.sloth.form.fields.Fields;
+import it.eg.sloth.form.fields.field.impl.*;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
@@ -29,6 +10,15 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 import it.eg.sloth.webdesktop.tag.form.field.writer.TextControlWriter;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.MessageFormat;
+import java.util.Locale;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -44,26 +34,26 @@ import it.eg.sloth.webdesktop.tag.form.field.writer.TextControlWriter;
  *
  * @author Enrico Grillini
  */
-public class TextControlWriterTest {
+class TextControlWriterTest {
 
     private static final String BASE_CHECKBOX = "<div class=\"custom-control custom-checkbox\"><input type=\"checkbox\" class=\"custom-control-input\"{0} disabled=\"\"/><span class=\"custom-control-label\"></span></div>";
 
     Fields fields;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         fields = new Fields("Master");
     }
 
     @Test
-    public void buttonTest() throws FrameworkException {
+    void buttonTest() throws FrameworkException {
         Button field = new Button("name", "description");
         fields.addChild(field);
         assertEquals(FormControlWriter.writeButton(field), TextControlWriter.writeControl(field, fields));
     }
 
     @Test
-    public void checkBoxTest() throws FrameworkException {
+    void checkBoxTest() throws FrameworkException {
         CheckBox<String> field = new CheckBox<String>("name", "description", DataTypes.STRING);
         assertEquals(MessageFormat.format(BASE_CHECKBOX, ""), TextControlWriter.writeControl(field, fields));
 
@@ -78,7 +68,7 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void comboBoxTest() throws FrameworkException {
+    void comboBoxTest() throws FrameworkException {
         ComboBox<String> field = new ComboBox<String>("name", "description", DataTypes.STRING);
         fields.addChild(field);
 
@@ -91,7 +81,7 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void decodedTextTest() throws FrameworkException {
+    void decodedTextTest() throws FrameworkException {
         DecodedText<String> field = new DecodedText<String>("name", "description", "tooltip", DataTypes.STRING);
         fields.addChild(field);
 
@@ -105,7 +95,7 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void hiddenTest() throws FrameworkException {
+    void hiddenTest() throws FrameworkException {
         Hidden<String> field = new Hidden<String>("name", "description", DataTypes.STRING);
         fields.addChild(field);
 
@@ -116,7 +106,7 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void inputTest() throws FrameworkException {
+    void inputTest() throws FrameworkException {
         Input<String> field = new Input<String>("name", "description", DataTypes.STRING);
         fields.addChild(field);
 
@@ -127,7 +117,7 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void inputDataTest() throws FrameworkException {
+    void inputDataTest() throws FrameworkException {
         Input<Timestamp> field = new Input<Timestamp>("name", "description", DataTypes.DATE);
         fields.addChild(field);
 
@@ -140,7 +130,7 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void inputTotalizerTest() throws FrameworkException {
+    void inputTotalizerTest() throws FrameworkException {
         InputTotalizer field = new InputTotalizer("name", "description", DataTypes.INTEGER);
         fields.addChild(field);
 
@@ -151,7 +141,7 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void textTest() throws FrameworkException {
+    void textTest() throws FrameworkException {
         Text<String> field = new Text<String>("name", "description", DataTypes.STRING);
         fields.addChild(field);
 
@@ -162,7 +152,7 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void textAreaTest() throws FrameworkException {
+    void textAreaTest() throws FrameworkException {
         TextArea<String> field = new TextArea<String>("name", "description", DataTypes.STRING);
         fields.addChild(field);
 
@@ -173,7 +163,7 @@ public class TextControlWriterTest {
     }
 
     @Test
-    public void textTotalizerTest() throws FrameworkException {
+    void textTotalizerTest() throws FrameworkException {
         TextTotalizer field = new TextTotalizer("name", "description", DataTypes.INTEGER);
         fields.addChild(field);
 

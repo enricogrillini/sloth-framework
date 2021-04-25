@@ -9,10 +9,10 @@ import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.form.grid.writer.GridWriter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Enrico Grillini
  */
-public class GridWriterTest {
+class GridWriterTest {
 
     private static final String CONTENT_TEMPLATE = " <tbody>\n" +
             "  <tr id=\"navigationprefix___row___provagrid___0\">\n" +
@@ -81,8 +81,8 @@ public class GridWriterTest {
     Table table;
     Grid<Table> grid;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         table = new Table();
         Row row = table.add();
         row.setString("campo1", "valore1");
@@ -101,14 +101,14 @@ public class GridWriterTest {
     }
 
     @Test
-    public void gridTest() throws FrameworkException {
+    void gridTest() throws FrameworkException {
         assertEquals(CONTENT_TEMPLATE, GridWriter.rows(grid, null, ViewModality.VIEW_VISUALIZZAZIONE, true));
 
         assertEquals(CONTENT_TEMPLATE_NO_CURRENT_ROW, GridWriter.rows(grid, null, ViewModality.VIEW_VISUALIZZAZIONE, false));
     }
 
     @Test
-    public void gridDetailTest() throws FrameworkException {
+    void gridDetailTest() throws FrameworkException {
         Fields<Table> fields = new Fields<>("provaFields");
         fields.addChild(new Text<String>("campo3", "campo3", DataTypes.STRING));
         fields.setDataSource(table);

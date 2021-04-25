@@ -1,16 +1,16 @@
 package it.eg.sloth.webdesktop.tag;
 
-import static org.junit.Assert.assertEquals;
-
-import java.text.MessageFormat;
-import java.util.Locale;
-
-import org.junit.Test;
 
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.search.SearchManager;
 import it.eg.sloth.webdesktop.search.SearchTest;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.SearchWriter;
+import org.junit.jupiter.api.Test;
+
+import java.text.MessageFormat;
+import java.util.Locale;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -25,9 +25,8 @@ import it.eg.sloth.webdesktop.tag.pagearea.writer.SearchWriter;
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
- *
  */
-public class SearchWriterTest {
+class SearchWriterTest {
 
     private static final String SEARCH_BAR_TEMPLATE = "<!-- Search bar -->\n" +
             "<div class=\"input-group\">\n" +
@@ -71,7 +70,7 @@ public class SearchWriterTest {
             "</div>\n";
 
     @Test
-    public void fieldCardContentTest() throws FrameworkException {
+    void fieldCardContentTest() throws FrameworkException {
         SearchManager searchManager = SearchTest.getSearchManager();
         searchManager.applySearch("cliente bob", 10);
 

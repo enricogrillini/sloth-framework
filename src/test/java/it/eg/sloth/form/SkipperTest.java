@@ -1,10 +1,10 @@
 package it.eg.sloth.form;
 
 import it.eg.sloth.form.skipper.Skipper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Project: sloth-framework
@@ -20,10 +20,10 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Enrico Grillini
  */
-public class SkipperTest {
+class SkipperTest {
 
     @Test
-    public void skipperTest() {
+    void skipperTest() {
         Skipper skipper = new Skipper("prova", false);
         assertFalse(skipper.isSkipBody());
 

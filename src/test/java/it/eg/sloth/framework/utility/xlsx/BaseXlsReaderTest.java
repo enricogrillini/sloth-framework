@@ -5,16 +5,14 @@ import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.MessageList;
-import it.eg.sloth.framework.utility.xlsx.BaseXlsReader;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Project: sloth-framework
@@ -30,13 +28,13 @@ import static org.junit.Assert.*;
  *
  * @author Enrico Grillini
  */
-public class BaseXlsReaderTest {
+class BaseXlsReaderTest {
 
     private static final String XLS_FILE = "excel/TestReader.xls";
     private static final String XLSX_FILE = "excel/TestReader.xlsx";
 
     @Test
-    public void xlsReaderTest() throws IOException, FrameworkException {
+    void xlsReaderTest() throws IOException, FrameworkException {
         ClassPathResource classPathResource = new ClassPathResource(XLS_FILE);
         try (InputStream inputStream = classPathResource.getInputStream()) {
             BaseXlsReader baseXlsReader = new BaseXlsReader(inputStream);
@@ -46,7 +44,7 @@ public class BaseXlsReaderTest {
     }
 
     @Test
-    public void xlsxReaderTest() throws IOException, FrameworkException {
+    void xlsxReaderTest() throws IOException, FrameworkException {
         ClassPathResource classPathResource = new ClassPathResource(XLSX_FILE);
         try (InputStream inputStream = classPathResource.getInputStream()) {
             BaseXlsReader baseXlsReader = new BaseXlsReader(inputStream);

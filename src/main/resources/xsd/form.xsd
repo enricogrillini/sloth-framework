@@ -42,6 +42,7 @@
      <element name="DecodedText" type="tns:DecodedText" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="ComboBox" type="tns:ComboBox" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="CheckBox" type="tns:CheckBox" maxOccurs="unbounded" minOccurs="0"></element>
+     <element name="Switch" type="tns:Switch" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="CheckButtons" type="tns:CheckButtons" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="Semaphore" type="tns:Semaphore" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="File" type="tns:File" maxOccurs="unbounded" minOccurs="0"></element>
@@ -69,6 +70,7 @@
      <element name="DecodedText" type="tns:DecodedText" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="ComboBox" type="tns:ComboBox" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="CheckBox" type="tns:CheckBox" maxOccurs="unbounded" minOccurs="0"></element>
+     <element name="Switch" type="tns:Switch" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="RadioGroup" type="tns:RadioGroup" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="Semaphore" type="tns:Semaphore" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="File" type="tns:File" maxOccurs="unbounded" minOccurs="0"></element>
@@ -569,4 +571,10 @@
    <enumeration value="badge-dark"></enumeration>
   </restriction>
  </simpleType>
+
+ <complexType name="Switch">
+  <complexContent>
+   <extension base="tns:CheckBox"></extension>
+  </complexContent>
+ </complexType>
 </schema>

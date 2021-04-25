@@ -1,9 +1,9 @@
 package it.eg.sloth.framework.utility;
 
 import it.eg.sloth.framework.utility.security.RandomString;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * Project: sloth-framework
@@ -19,10 +19,10 @@ import static org.junit.Assert.assertNotEquals;
  *
  * @author Enrico Grillini
  */
-public class RandomStringTest {
+class RandomStringTest {
 
     @Test
-    public void randomStringTest() {
+    void randomStringTest() {
         RandomString randomString = new RandomString(10);
 
         assertNotEquals("", randomString.nextString());

@@ -1,6 +1,5 @@
 package it.eg.sloth.form;
 
-import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
 import it.eg.sloth.db.model.SamplePojoRow;
@@ -10,17 +9,16 @@ import it.eg.sloth.form.fields.field.impl.Input;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.jaxb.form.DataType;
 import it.eg.sloth.webdesktop.api.model.BffFieldsProva;
 import it.eg.sloth.webdesktop.api.response.BffFieldsResponse;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Locale;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Project: sloth-framework
@@ -36,7 +34,7 @@ import static org.junit.Assert.*;
  *
  * @author Enrico Grillini
  */
-public class FieldsInputTest {
+class FieldsInputTest {
 
     Fields<SamplePojoRow> inputFields;
 
@@ -47,11 +45,11 @@ public class FieldsInputTest {
     Input<BigDecimal> currency;
     Input<Timestamp> data;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         // Fields
         inputFields = new Fields<>("prova");
-        autoComplete  = new AutoComplete<>("AutoComplete", "AutoComplete", DataTypes.STRING);
+        autoComplete = new AutoComplete<>("AutoComplete", "AutoComplete", DataTypes.STRING);
         autoComplete.setDecodeMap(new StringDecodeMap("A,Ancora;B,Basta;T,Tutti"));
 
         testo = new Input<String>("Testo", "Testo", DataTypes.STRING);
@@ -71,7 +69,7 @@ public class FieldsInputTest {
     }
 
     @Test
-    public void fieldsInputTest() throws FrameworkException {
+    void fieldsInputTest() throws FrameworkException {
         // DataSource
         SamplePojoRow samplePojoRow = new SamplePojoRow();
         samplePojoRow.setAutocomplete("A");
@@ -103,9 +101,9 @@ public class FieldsInputTest {
     }
 
     @Test
-    public void bffPostAndValidateTest() throws FrameworkException {
+    void bffPostAndValidateTest() throws FrameworkException {
         BffFieldsProva fieldsProva = new BffFieldsProva();
-        fieldsProva.setAutocomplete ("Ancora");
+        fieldsProva.setAutocomplete("Ancora");
         fieldsProva.setTesto("description");
         fieldsProva.setNumero("10");
         fieldsProva.setDecimal("10");
@@ -131,7 +129,7 @@ public class FieldsInputTest {
     }
 
     @Test
-    public void bffCopyFromDataSourceTest() throws FrameworkException {
+    void bffCopyFromDataSourceTest() throws FrameworkException {
         Row row = new Row();
         row.setString("Autocomplete", "A");
         row.setString("Testo", "description");
@@ -151,6 +149,5 @@ public class FieldsInputTest {
         assertEquals("10,00 €", bffFields.getCurrency());
         assertEquals("2021-01-01", bffFields.getData());
     }
-
 
 }

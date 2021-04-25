@@ -1,16 +1,17 @@
 package it.eg.sloth.webdesktop.tag;
 
-import static org.junit.Assert.assertEquals;
-
-import it.eg.sloth.framework.utility.resource.ResourceUtil;
-import org.junit.Before;
-import org.junit.Test;
 
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.StringUtil;
+import it.eg.sloth.framework.utility.resource.ResourceUtil;
 import it.eg.sloth.webdesktop.tag.form.toolbar.writer.ToolbarWriter;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  * Project: sloth-framework
@@ -26,7 +27,7 @@ import it.eg.sloth.webdesktop.tag.form.toolbar.writer.ToolbarWriter;
  *
  * @author Enrico Grillini
  */
-public class ToolBarButtonWriterTest {
+class ToolBarButtonWriterTest {
 
     static final String EXCEL = ResourceUtil.normalizedResourceAsString("snippet-html/toolbar-button/toolbar-excel.html");
     static final String EXCEL_DISABLED = ResourceUtil.normalizedResourceAsString("snippet-html/toolbar-button/toolbar-excel-disabled.html");
@@ -61,8 +62,8 @@ public class ToolBarButtonWriterTest {
 
     Grid<DataTable<?>> grid;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         grid = new Grid<>("prova", null, null, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
         DataTable<?> table = new Table();
         table.setPageSize(5);
@@ -75,19 +76,19 @@ public class ToolBarButtonWriterTest {
     }
 
     @Test
-    public void excelButtonTest() {
+    void excelButtonTest() {
         assertEquals(EXCEL, ToolbarWriter.excelButton("Master", "ProvaPage.html", false));
         assertEquals(EXCEL_DISABLED, ToolbarWriter.excelButton("Master", "ProvaPage.html", true));
     }
 
     @Test
-    public void elencoButtonTest() {
+    void elencoButtonTest() {
         assertEquals(ELENCO, ToolbarWriter.elencoButton(false));
         assertEquals(ELENCO_DISABLED, ToolbarWriter.elencoButton(true));
     }
 
     @Test
-    public void firstRowButtonTest() {
+    void firstRowButtonTest() {
         grid.getDataSource().last();
         assertEquals(FIRST_ROW, ToolbarWriter.firstRowButton(grid, false));
 
@@ -100,7 +101,7 @@ public class ToolBarButtonWriterTest {
     }
 
     @Test
-    public void prevPageButtonTest() {
+    void prevPageButtonTest() {
         grid.getDataSource().last();
         assertEquals(PREV_PAGE, ToolbarWriter.prevPageButton(grid, false));
 
@@ -113,7 +114,7 @@ public class ToolBarButtonWriterTest {
     }
 
     @Test
-    public void prevButtonTest() {
+    void prevButtonTest() {
         grid.getDataSource().last();
         assertEquals(PREV, ToolbarWriter.prevButton(grid, false));
 
@@ -126,7 +127,7 @@ public class ToolBarButtonWriterTest {
     }
 
     @Test
-    public void nextButtonTest() {
+    void nextButtonTest() {
         grid.getDataSource().first();
         assertEquals(NEXT, ToolbarWriter.nextButton(grid, false));
 
@@ -139,7 +140,7 @@ public class ToolBarButtonWriterTest {
     }
 
     @Test
-    public void nextPageButtonTest() {
+    void nextPageButtonTest() {
         grid.getDataSource().first();
         assertEquals(NEXT_PAGE, ToolbarWriter.nextPageButton(grid, false));
 
@@ -152,7 +153,7 @@ public class ToolBarButtonWriterTest {
     }
 
     @Test
-    public void lastRowButtonTest() {
+    void lastRowButtonTest() {
         grid.getDataSource().first();
         assertEquals(LAST_ROW, ToolbarWriter.lastRowButton(grid, false));
 
@@ -166,7 +167,7 @@ public class ToolBarButtonWriterTest {
 
 
     @Test
-    public void insertButtonTest() {
+    void insertButtonTest() {
         // Grid
         assertEquals(INSERT, ToolbarWriter.insertButton(grid));
 
@@ -176,7 +177,7 @@ public class ToolBarButtonWriterTest {
     }
 
     @Test
-    public void deleteButtonTest() {
+    void deleteButtonTest() {
         // Grid
         assertEquals(DELETE, ToolbarWriter.deleteButton(grid));
 
@@ -186,7 +187,7 @@ public class ToolBarButtonWriterTest {
     }
 
     @Test
-    public void updateButtonTest() {
+    void updateButtonTest() {
         // Grid
         assertEquals(UPDATE, ToolbarWriter.updateButton(grid));
 
@@ -197,16 +198,14 @@ public class ToolBarButtonWriterTest {
     }
 
     @Test
-    public void commitButtonTest() {
+    void commitButtonTest() {
         assertEquals(COMMIT, ToolbarWriter.commitButton());
     }
 
     @Test
-    public void rollbackButtonTest() {
+    void rollbackButtonTest() {
         assertEquals(ROLLBACK, ToolbarWriter.rollbackButton());
     }
-
-
 
 
 }

@@ -3,9 +3,9 @@ package it.eg.sloth.framework.common.util;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.html.HtmlColor;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -21,10 +21,10 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Enrico Grillini
  */
-public class HtmlColorUtilTest {
+class HtmlColorUtilTest {
 
     @Test
-    public void rgbFromHexTest() throws FrameworkException {
+    void rgbFromHexTest() throws FrameworkException {
         assertEquals("rgb(78, 115, 223)", HtmlColor.rgbFromHex("#4e73df"));
         assertEquals("rgb(78, 115, 223)", HtmlColor.rgbFromHex("#4E73DF"));
         assertEquals("rgb(255, 255, 255)", HtmlColor.rgbFromHex("#FFFFFF"));
@@ -32,7 +32,7 @@ public class HtmlColorUtilTest {
     }
 
     @Test
-    public void rgbaFromHexTest() throws FrameworkException {
+    void rgbaFromHexTest() throws FrameworkException {
         assertEquals("rgba(78, 115, 223, 0.05)", HtmlColor.rgbaFromHex("#4e73df", 0.05));
         assertEquals("rgba(78, 115, 223, 0.05)", HtmlColor.rgbaFromHex("#4E73DF", 0.05));
         assertEquals("rgba(255, 255, 255, 0.05)", HtmlColor.rgbaFromHex("#FFFFFF", 0.05));

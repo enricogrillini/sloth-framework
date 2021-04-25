@@ -5,9 +5,8 @@ import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.api.model.BffFieldsProva;
-import it.eg.sloth.webdesktop.api.request.BffFields;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import javax.servlet.ServletException;
@@ -15,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -32,12 +31,12 @@ import static org.mockito.Mockito.when;
  *
  * @author Enrico Grillini
  */
-public class RadioButtonsTest {
+class RadioButtonsTest {
 
     RadioButtons<String> radioButtons1;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         radioButtons1 = RadioButtons.<String>builder()
                 .name("testo")
                 .description("description")
@@ -46,7 +45,7 @@ public class RadioButtonsTest {
     }
 
     @Test
-    public void radioButtonsBuilderTest() {
+    void radioButtonsBuilderTest() {
         assertEquals("testo", radioButtons1.getName());
         assertEquals("description", radioButtons1.getDescription());
         assertEquals("testo", radioButtons1.getAlias());
@@ -57,7 +56,7 @@ public class RadioButtonsTest {
     }
 
     @Test
-    public void radioButtonsWebRequestTest() throws IOException, ServletException, FrameworkException {
+    void radioButtonsWebRequestTest() throws IOException, ServletException, FrameworkException {
         // Mock HttpServletRequest
         HashMap<String, String[]> map = new HashMap<>();
         map.put("testo", new String[]{"AA", "BB"});
@@ -81,7 +80,7 @@ public class RadioButtonsTest {
     }
 
     @Test
-    public void radioButtonsBffTest() throws IOException, ServletException, FrameworkException {
+    void radioButtonsBffTest() throws IOException, ServletException, FrameworkException {
         BffFieldsProva bffFields = new BffFieldsProva();
         bffFields.setTesto("Aa");
 

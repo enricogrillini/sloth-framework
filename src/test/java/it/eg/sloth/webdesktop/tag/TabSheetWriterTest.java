@@ -7,10 +7,10 @@ import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
 import it.eg.sloth.jaxb.form.BadgeType;
 import it.eg.sloth.webdesktop.tag.form.tabsheet.writer.TabSheetWriter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -26,15 +26,15 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Enrico Grillini
  */
-public class TabSheetWriterTest {
+class TabSheetWriterTest {
 
     private static final String TAB_SHEET_VIEW = ResourceUtil.normalizedResourceAsString("snippet-html/tab-sheet_view.html");
     private static final String TAB_SHEET_EDIT = ResourceUtil.normalizedResourceAsString("snippet-html/tab-sheet_edit.html");
 
     private TabSheet tabSheet;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         tabSheet = TabSheet.builder()
                 .name("TabSheetProva")
                 .build();
@@ -58,12 +58,12 @@ public class TabSheetWriterTest {
     }
 
     @Test
-    public void tabSheetViewTest() throws FrameworkException {
+    void tabSheetViewTest() throws FrameworkException {
         assertEquals(TAB_SHEET_VIEW, TabSheetWriter.tabsheet(tabSheet, "page", ViewModality.VIEW_VISUALIZZAZIONE));
     }
 
     @Test
-    public void tabSheetEditTest() throws FrameworkException {
+    void tabSheetEditTest() throws FrameworkException {
         assertEquals(TAB_SHEET_EDIT, TabSheetWriter.tabsheet(tabSheet, "page", ViewModality.VIEW_MODIFICA));
     }
 

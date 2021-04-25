@@ -6,12 +6,12 @@ import it.eg.sloth.form.fields.field.impl.Text;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -27,10 +27,10 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Enrico Grillini
  */
-public class FieldsTextTest {
+class FieldsTextTest {
 
     @Test
-    public void fieldsTextTest() throws FrameworkException {
+    void fieldsTextTest() throws FrameworkException {
         // Fields
         Fields<SamplePojoRow> fields = new Fields("prova");
         Text<String> testo = new Text<String>("Testo", "Testo", DataTypes.STRING);

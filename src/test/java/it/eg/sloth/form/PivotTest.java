@@ -5,14 +5,14 @@ import it.eg.sloth.form.pivot.PivotColumn;
 import it.eg.sloth.form.pivot.PivotRow;
 import it.eg.sloth.form.pivot.PivotValue;
 import it.eg.sloth.jaxb.form.ConsolidateFunction;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class PivotTest {
+ class PivotTest {
 
     @Test
-    public void pivotTest() {
+    void pivotTest() {
         Pivot pivot = Pivot.builder().name("Prova").title("Pivot").build();
         pivot.addChild(PivotRow.builder().name("idProgetto").fieldAlias(null).description("Progetto").build());
         pivot.addChild(PivotRow.builder().name("idSottoProgetto").fieldAlias(null).description("Sotto Progetto").build());

@@ -2,11 +2,11 @@ package it.eg.sloth.framework.common.calendar;
 
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Project: sloth-framework
@@ -22,18 +22,18 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Enrico Grillini
  */
-public class MonthCalendarTest {
+class MonthCalendarTest {
 
     private MonthCalendar<Object, DayInfo> monthCalendar;
 
-    @Before
-    public void init() throws FrameworkException {
+    @BeforeEach
+    void init() throws FrameworkException {
         monthCalendar = new MonthCalendar<Object, DayInfo>(TimeStampUtil.parseTimestamp("07/07/2020", "dd/MM/yyyy"));
     }
 
 
     @Test
-    public void monthTest() throws FrameworkException {
+    void monthTest() throws FrameworkException {
         assertEquals(TimeStampUtil.parseTimestamp("01/07/2020", "dd/MM/yyyy"), monthCalendar.firstMonthDay());
         assertEquals(TimeStampUtil.parseTimestamp("31/07/2020", "dd/MM/yyyy"), monthCalendar.lastMonthDay());
 
@@ -42,7 +42,7 @@ public class MonthCalendarTest {
     }
 
     @Test
-    public void monthTest2() throws FrameworkException {
+    void monthTest2() throws FrameworkException {
         int i = 0;
         for (Day<Object, DayInfo> day : monthCalendar) {
             if (i == 0) {
@@ -57,12 +57,12 @@ public class MonthCalendarTest {
     }
 
     @Test
-    public void holldayTest() throws FrameworkException {
+    void holldayTest() throws FrameworkException {
         assertTrue(monthCalendar.getDay(TimeStampUtil.parseTimestamp("12/07/2020", "dd/MM/yyyy")).isHoliday());
     }
 
     @Test
-    public void prevMonthTest() throws FrameworkException {
+    void prevMonthTest() throws FrameworkException {
         monthCalendar.prev();
         assertEquals(TimeStampUtil.parseTimestamp("01/06/2020", "dd/MM/yyyy"), monthCalendar.firstMonthDay());
         assertEquals(TimeStampUtil.parseTimestamp("30/06/2020", "dd/MM/yyyy"), monthCalendar.lastMonthDay());
@@ -72,7 +72,7 @@ public class MonthCalendarTest {
     }
 
     @Test
-    public void nextMonthTest() throws FrameworkException {
+    void nextMonthTest() throws FrameworkException {
         monthCalendar.next();
         assertEquals(TimeStampUtil.parseTimestamp("01/08/2020", "dd/MM/yyyy"), monthCalendar.firstMonthDay());
         assertEquals(TimeStampUtil.parseTimestamp("31/08/2020", "dd/MM/yyyy"), monthCalendar.lastMonthDay());

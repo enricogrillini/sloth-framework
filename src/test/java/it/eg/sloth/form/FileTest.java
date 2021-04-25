@@ -2,11 +2,11 @@ package it.eg.sloth.form;
 
 import it.eg.sloth.form.fields.field.impl.File;
 import it.eg.sloth.framework.pageinfo.ViewModality;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Project: sloth-framework
@@ -22,10 +22,10 @@ import static org.junit.Assert.*;
  *
  * @author Enrico Grillini
  */
-public class FileTest {
+class FileTest {
 
     @Test
-    public void fileTest() {
+    void fileTest() {
         File file = new File("name", "description");
         assertEquals("name", file.getName());
         assertEquals(Locale.getDefault(), file.getLocale());
@@ -38,7 +38,7 @@ public class FileTest {
     }
 
     @Test
-    public void fileBuilderTest1() {
+    void fileBuilderTest1() {
         File file = File.builder()
                 .name("Name")
                 .alias(null)
@@ -83,7 +83,7 @@ public class FileTest {
     }
 
     @Test
-    public void fileBuilderTest2() {
+    void fileBuilderTest2() {
         File file = File.builder()
                 .locale(Locale.ITALY)
                 .name("Name")

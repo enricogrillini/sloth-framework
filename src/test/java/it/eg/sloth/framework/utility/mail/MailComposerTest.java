@@ -1,10 +1,10 @@
 package it.eg.sloth.framework.utility.mail;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MailComposerTest {
+class MailComposerTest {
 
     private static final String SIMPLE_MAIL = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n" +
             "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
@@ -36,7 +36,7 @@ public class MailComposerTest {
             "</html>";
 
     @Test
-    public void simpleHtmlMailComposerTest() {
+    void simpleHtmlMailComposerTest() {
         SimpleHtmlMailComposer simpleHtmlMailComposer = new SimpleHtmlMailComposer("Titolo");
         simpleHtmlMailComposer.addTextElement("prova");
         simpleHtmlMailComposer.addHtmlElement("<b>prova</b>");
@@ -45,7 +45,7 @@ public class MailComposerTest {
     }
 
     @Test
-    public void prettyHtmlMailComposerTest() {
+    void prettyHtmlMailComposerTest() {
         PrettyHtmlMailComposer simpleHtmlMailComposer = new PrettyHtmlMailComposer("Titolo");
         simpleHtmlMailComposer.addTextElement("prova");
         simpleHtmlMailComposer.addHtmlElement("<b>prova</b>");

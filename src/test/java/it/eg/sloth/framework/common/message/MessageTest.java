@@ -1,8 +1,8 @@
 package it.eg.sloth.framework.common.message;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Project: sloth-framework
@@ -18,10 +18,10 @@ import static org.junit.Assert.*;
  *
  * @author Enrico Grillini
  */
-public class MessageTest {
+class MessageTest {
 
     @Test
-    public void levelTest() {
+    void levelTest() {
         assertFalse(Level.INFO.hasHigerSeverity(Level.SUCCESS));
         assertFalse(Level.SUCCESS.hasHigerSeverity(Level.WARN));
         assertFalse(Level.WARN.hasHigerSeverity(Level.ERROR));
@@ -31,9 +31,8 @@ public class MessageTest {
         assertTrue(Level.ERROR.hasHigerSeverity(Level.WARN));
     }
 
-
     @Test
-    public void messageListTest() {
+    void messageListTest() {
         MessageList messageList = new MessageList();
         messageList.addBaseError("addBaseError");
         messageList.addBaseWarning("addBaseWarning");

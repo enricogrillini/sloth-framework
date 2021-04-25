@@ -2,14 +2,14 @@ package it.eg.sloth.db;
 
 import it.eg.sloth.db.decodemap.MapSearchType;
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DecodeMapTest {
+class DecodeMapTest {
 
     @Test
-    public void decodeMapTest() {
+    void decodeMapTest() {
         StringDecodeMap decodeMap = new StringDecodeMap("A,Prova testo 1;B,Prova testo 2;C,Prova testo 3");
 
         // Exact Search

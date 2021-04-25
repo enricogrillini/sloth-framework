@@ -2,11 +2,11 @@ package it.eg.sloth.framework.common.calendar;
 
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Project: sloth-framework
@@ -22,19 +22,19 @@ import static org.junit.Assert.assertNull;
  *
  * @author Enrico Grillini
  */
-public class RollingWeekCalendarTest {
+class RollingWeekCalendarTest {
 
     private RollingWeekCalendar rollingWeekCalendar;
     private RollingWeekCalendar rollingWeekCalendarFromToday;
 
-    @Before
-    public void init() throws FrameworkException {
+    @BeforeEach
+    void init() throws FrameworkException {
         rollingWeekCalendar = new RollingWeekCalendar(TimeStampUtil.parseTimestamp("07/07/2020", "dd/MM/yyyy"));
         rollingWeekCalendarFromToday = new RollingWeekCalendar(TimeStampUtil.truncSysdate());
     }
 
     @Test
-    public void weekTest() throws FrameworkException {
+    void weekTest() throws FrameworkException {
         assertEquals(TimeStampUtil.parseTimestamp("07/07/2020", "dd/MM/yyyy"), rollingWeekCalendar.firstCalendarDay());
         assertEquals(TimeStampUtil.parseTimestamp("13/07/2020", "dd/MM/yyyy"), rollingWeekCalendar.lastCalendarDay());
         assertEquals(TimeStampUtil.parseTimestamp("08/07/2020", "dd/MM/yyyy"), rollingWeekCalendar.getDay(TimeStampUtil.parseTimestamp("08/07/2020", "dd/MM/yyyy")).getCurrentDay());

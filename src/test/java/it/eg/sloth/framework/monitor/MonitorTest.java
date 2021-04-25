@@ -6,15 +6,13 @@ import it.eg.sloth.framework.monitor.model.MonitorMapper;
 import it.eg.sloth.framework.monitor.model.MonitorStatisticsRow;
 import it.eg.sloth.framework.monitor.model.MonitorTrendTable;
 import org.awaitility.Awaitility;
-
-import java.time.Duration;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * Project: sloth-framework
@@ -30,10 +28,10 @@ import static org.junit.Assert.assertNotEquals;
  *
  * @author Enrico Grillini
  */
-public class MonitorTest {
+class MonitorTest {
 
     @Test
-    public void monitorSingletonTest() throws FrameworkException {
+    void monitorSingletonTest() throws FrameworkException {
         MonitorSingleton.getInstance().start();
 
         long id = MonitorSingleton.getInstance().startEvent("aaa", "bbb", null);
@@ -54,14 +52,14 @@ public class MonitorTest {
 
 
     @Test
-    public void monitorStatisticsTest() {
+    void monitorStatisticsTest() {
         MonitorStatistics monitorStatistics = new MonitorStatistics("Page", "prova.page");
         assertEquals("page", monitorStatistics.getShortName());
     }
 
 
     @Test
-    public void copyToPojoRowTest() {
+    void copyToPojoRowTest() {
         MonitorEvent monitorEvent = new MonitorEvent("Page", "prova.page", null);
         monitorEvent.start();
         Awaitility.await().pollDelay(Duration.ofMillis(1)).until(() -> true);

@@ -1,11 +1,12 @@
 package it.eg.sloth.framework.common.base;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Project: sloth-framework
@@ -21,10 +22,10 @@ import static org.junit.Assert.assertNull;
  *
  * @author Enrico Grillini
  */
-public class BigdecimalUtilTest {
+class BigdecimalUtilTest {
 
     @Test
-    public void sumTest() {
+    void sumTest() {
         assertEquals(null, BigDecimalUtil.sum(null, null));
         assertEquals(BigDecimal.valueOf(1), BigDecimalUtil.sum(BigDecimal.valueOf(1), null));
         assertEquals(BigDecimal.valueOf(1), BigDecimalUtil.sum(null, BigDecimal.valueOf(1)));
@@ -32,7 +33,7 @@ public class BigdecimalUtilTest {
     }
 
     @Test
-    public void greatestTest() {
+    void greatestTest() {
         assertEquals(null, BigDecimalUtil.greatest(null, null));
         assertEquals(null, BigDecimalUtil.greatest(BigDecimal.valueOf(1), null));
         assertEquals(null, BigDecimalUtil.greatest(null, BigDecimal.valueOf(1)));
@@ -42,25 +43,25 @@ public class BigdecimalUtilTest {
 
 
     @Test
-    public void intValueTest() {
+    void intValueTest() {
         assertEquals(0, BigDecimalUtil.intValue(null));
         assertEquals(10, BigDecimalUtil.intValue(BigDecimal.valueOf(10)));
     }
 
     @Test
-    public void intObjectTest() {
+    void intObjectTest() {
         assertNull(BigDecimalUtil.intObject(null));
         assertEquals(10.0, BigDecimalUtil.intObject(BigDecimal.valueOf(10)), 0.0);
     }
 
     @Test
-    public void doubleValueTest() {
+    void doubleValueTest() {
         assertEquals(0.0, BigDecimalUtil.doubleValue(null), 0.0);
         assertEquals(10.0, BigDecimalUtil.doubleValue(BigDecimal.valueOf(10)), 0.0);
     }
 
     @Test
-    public void doubleObjectTest() {
+    void doubleObjectTest() {
         assertNull(BigDecimalUtil.doubleObject(null));
         assertEquals(10.0, BigDecimalUtil.doubleObject(BigDecimal.valueOf(10)), 0.0);
     }

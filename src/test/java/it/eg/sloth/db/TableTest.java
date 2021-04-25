@@ -3,14 +3,15 @@ package it.eg.sloth.db;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Project: sloth-framework
@@ -26,13 +27,13 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Enrico Grillini
  */
-public class TableTest {
+class TableTest {
 
     private static final String TO_STRING = ResourceUtil.normalizedResourceAsString("snippet-text/table-to-string.txt");
 
     Table table;
 
-    @Before
+    @BeforeEach
     public void init() {
         table = new Table();
         Row row = table.add();
@@ -48,7 +49,7 @@ public class TableTest {
      * Verifica il toString
      */
     @Test
-    public void tableToStringTest() {
+    void tableToStringTest() {
         assertEquals(TO_STRING, table.toString());
     }
 
@@ -56,7 +57,7 @@ public class TableTest {
      * Verifica il Sum
      */
     @Test
-    public void tableSumTest() {
+    void tableSumTest() {
         assertEquals(BigDecimal.valueOf(40), table.sum("key2"));
     }
 
@@ -64,7 +65,7 @@ public class TableTest {
      * Verifica il Distinct
      */
     @Test
-    public void tableDistinctTest() {
+    void tableDistinctTest() {
         Set<Object> set = table.distinct("key1");
 
         assertEquals(2, set.size());

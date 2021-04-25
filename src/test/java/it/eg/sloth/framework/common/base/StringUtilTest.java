@@ -1,13 +1,13 @@
 package it.eg.sloth.framework.common.base;
 
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Project: sloth-framework
@@ -23,10 +23,10 @@ import static org.junit.Assert.*;
  *
  * @author Enrico Grillini
  */
-public class StringUtilTest {
+class StringUtilTest {
 
     @Test
-    public void rtrimTest() throws ParseException {
+    void rtrimTest() throws ParseException {
         assertEquals(StringUtil.EMPTY, StringUtil.rtrim(""));
         assertEquals(StringUtil.EMPTY, StringUtil.rtrim(null));
 
@@ -35,7 +35,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void ltrimTest() throws ParseException {
+    void ltrimTest() throws ParseException {
         assertEquals(StringUtil.EMPTY, StringUtil.ltrim(""));
         assertEquals(StringUtil.EMPTY, StringUtil.ltrim(null));
 
@@ -44,7 +44,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void toFileNameTest() throws ParseException {
+    void toFileNameTest() throws ParseException {
         assertEquals("Dal_01-01-2020_al_31-01-2020", StringUtil.toFileName("Dal 01/01/2020 al 31/01/2020"));
         assertEquals("01-01-2020_31-01-2020", StringUtil.toFileName("01/01/2020 31/01/2020"));
         assertEquals("01-01-2020_31-01-2020", StringUtil.toFileName("01/01/2020 - 31/01/2020"));
@@ -52,14 +52,14 @@ public class StringUtilTest {
     }
 
     @Test
-    public void replaceTest() {
+    void replaceTest() {
         assertEquals(StringUtil.EMPTY, StringUtil.replace(null, "\"", "\\\""));
         assertEquals(StringUtil.EMPTY, StringUtil.replace("", "\"", "\\\""));
         assertEquals(">>\\\"<<", StringUtil.replace(">>\"<<", "\"", "\\\""));
     }
 
     @Test
-    public void containsAllWordsTest() throws FrameworkException {
+    void containsAllWordsTest() throws FrameworkException {
         List<String> words = Arrays.asList("Bob", "Alice");
 
         assertTrue(StringUtil.containsAllWords("Bob and Alice", words));
@@ -69,7 +69,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void toJavaClassNameTest() {
+    void toJavaClassNameTest() {
         assertEquals(StringUtil.EMPTY, StringUtil.toJavaClassName(null));
         assertEquals("Prova", StringUtil.toJavaClassName("prova"));
         assertEquals("ProvaProva", StringUtil.toJavaClassName("prova_prova"));
@@ -78,7 +78,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void toJavaConstantNameTest() {
+    void toJavaConstantNameTest() {
         assertEquals(StringUtil.EMPTY, StringUtil.toJavaConstantName(null));
         assertEquals("PROVA", StringUtil.toJavaConstantName("prova"));
         assertEquals("PROVA_PROVA", StringUtil.toJavaConstantName("prova_prova"));
@@ -87,14 +87,14 @@ public class StringUtilTest {
     }
 
     @Test
-    public void toJavaStringParameterTest() {
+    void toJavaStringParameterTest() {
         assertEquals("null", StringUtil.toJavaStringParameter(null));
         assertEquals("\"prova\"", StringUtil.toJavaStringParameter("prova"));
         assertEquals("\"pro\\nva\"", StringUtil.toJavaStringParameter("pro\nva"));
     }
 
     @Test
-    public void toFileName() {
+    void toFileName() {
         assertEquals(StringUtil.EMPTY, StringUtil.toFileName(null));
         assertEquals("prova", StringUtil.toFileName("prova"));
         assertEquals("prova-prova", StringUtil.toFileName("prova/prova"));
@@ -102,14 +102,14 @@ public class StringUtilTest {
     }
 
     @Test
-    public void parseStringTest() throws FrameworkException {
+    void parseStringTest() throws FrameworkException {
         assertEquals(null, StringUtil.parseString(null));
         assertEquals(null, StringUtil.parseString(""));
         assertEquals("aaaa", StringUtil.parseString("aaaa"));
     }
 
     @Test
-    public void parseMailOkTest() throws FrameworkException {
+    void parseMailOkTest() throws FrameworkException {
         assertEquals(null, StringUtil.parseMail(null));
         assertEquals(null, StringUtil.parseMail(""));
 
@@ -119,7 +119,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void parseMailKoTest() throws FrameworkException {
+    void parseMailKoTest() throws FrameworkException {
         FrameworkException frameworkException;
 
         // Mail non valida
@@ -145,7 +145,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void codiceFiscaleOkTest() throws FrameworkException {
+    void codiceFiscaleOkTest() throws FrameworkException {
         // Empty
         assertEquals(null, StringUtil.parseCodiceFiscale(null));
         assertEquals(null, StringUtil.parseCodiceFiscale(""));
@@ -156,7 +156,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void codiceFiscaleKoTest() throws FrameworkException {
+    void codiceFiscaleKoTest() throws FrameworkException {
         FrameworkException frameworkException;
 
         // Lunghezza codice fiscale errata
@@ -187,7 +187,7 @@ public class StringUtilTest {
 
 
     @Test
-    public void partitaIvaOkTest() throws FrameworkException {
+    void partitaIvaOkTest() throws FrameworkException {
         // Empty
         assertEquals(null, StringUtil.parsePartitaIva(null));
         assertEquals(null, StringUtil.parsePartitaIva(""));
@@ -204,7 +204,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void partitaIvaKoTest()  {
+    void partitaIvaKoTest() {
         FrameworkException frameworkException;
 
         // Lunghezza partita iva errata
@@ -228,13 +228,13 @@ public class StringUtilTest {
     }
 
     @Test
-    public void tokenizeTest () {
+    void tokenizeTest() {
 
-        assertEquals(4 , StringUtil.split(" aaa , bbb ,ccc,ddd", ",").length);
-        assertEquals("aaa" , StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[0]);
-        assertEquals("bbb" , StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[1]);
-        assertEquals("ccc" , StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[2]);
-        assertEquals("ddd" , StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[3]);
+        assertEquals(4, StringUtil.split(" aaa , bbb ,ccc,ddd", ",").length);
+        assertEquals("aaa", StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[0]);
+        assertEquals("bbb", StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[1]);
+        assertEquals("ccc", StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[2]);
+        assertEquals("ddd", StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[3]);
 
     }
 

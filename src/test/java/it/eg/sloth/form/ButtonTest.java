@@ -2,11 +2,11 @@ package it.eg.sloth.form;
 
 import it.eg.sloth.form.fields.field.impl.Button;
 import it.eg.sloth.jaxb.form.ButtonType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Project: sloth-framework
@@ -22,10 +22,10 @@ import static org.junit.Assert.*;
  *
  * @author Enrico Grillini
  */
-public class ButtonTest {
+class ButtonTest {
 
     @Test
-    public void buttonTest() {
+    void buttonTest() {
         Button button = new Button("name", "description");
         assertEquals("name", button.getName());
         assertEquals(Locale.getDefault(), button.getLocale());
@@ -36,7 +36,7 @@ public class ButtonTest {
 
 
     @Test
-    public void buttonBuilderTest() {
+    void buttonBuilderTest() {
         // Default
         Button button = Button.builder()
                 .name("Name")

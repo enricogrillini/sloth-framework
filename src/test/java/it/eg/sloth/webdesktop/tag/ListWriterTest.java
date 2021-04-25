@@ -9,12 +9,13 @@ import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.list.writer.ListWriter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.text.MessageFormat;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -30,7 +31,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Enrico Grillini
  */
-public class ListWriterTest {
+class ListWriterTest {
 
     static final String TITLE_TEMPLATE = "<h2>{0}</h2><br>";
 
@@ -42,8 +43,8 @@ public class ListWriterTest {
 
     Grid<DataTable<?>> grid;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         grid = new Grid<>("Prova");
         grid.setTitle("Titolo");
         grid.addChild(new Text<String>("Ora", "Ora", DataTypes.STRING));
@@ -62,7 +63,7 @@ public class ListWriterTest {
     }
 
     @Test
-    public void writeTitleTest() {
+    void writeTitleTest() {
         assertEquals(MessageFormat.format(TITLE_TEMPLATE, "Titolo"), ListWriter.writeTitle(grid));
 
         grid.setTitle(null);
@@ -70,9 +71,8 @@ public class ListWriterTest {
     }
 
     @Test
-    public void writeListTest() throws FrameworkException {
+    void writeListTest() throws FrameworkException {
         assertEquals(LIST_TEMPLATE, ListWriter.writeList(grid));
     }
-
 
 }

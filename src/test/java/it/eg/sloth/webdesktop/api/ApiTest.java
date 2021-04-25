@@ -2,12 +2,12 @@ package it.eg.sloth.webdesktop.api;
 
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.api.model.BffFieldsProva;
-import it.eg.sloth.webdesktop.api.response.BffFieldsResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -24,12 +24,12 @@ import static org.junit.Assert.assertEquals;
  * @author Enrico Grillini
  */
 @Slf4j
-public class ApiTest {
+class ApiTest {
 
     BffFieldsProva fieldsProva;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         fieldsProva = new BffFieldsProva();
         fieldsProva.setTesto("description");
         fieldsProva.setNumero("10");
@@ -37,10 +37,10 @@ public class ApiTest {
     }
 
     @Test
-    public void BffFieldsTest() throws FrameworkException {
+    void BffFieldsTest() throws FrameworkException {
         assertEquals("description", fieldsProva.getString("testo"));
         assertEquals("10", fieldsProva.getString("numero"));
         assertEquals("2021-01-01", fieldsProva.getString("data"));
     }
-    
+
 }

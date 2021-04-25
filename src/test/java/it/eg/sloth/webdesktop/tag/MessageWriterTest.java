@@ -1,13 +1,12 @@
 package it.eg.sloth.webdesktop.tag;
 
-import static org.junit.Assert.assertEquals;
+import it.eg.sloth.framework.common.message.MessageList;
+import it.eg.sloth.webdesktop.tag.pagearea.writer.MessageWriter;
+import org.junit.jupiter.api.Test;
 
 import java.text.MessageFormat;
 
-import org.junit.Test;
-
-import it.eg.sloth.framework.common.message.MessageList;
-import it.eg.sloth.webdesktop.tag.pagearea.writer.MessageWriter;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -22,24 +21,23 @@ import it.eg.sloth.webdesktop.tag.pagearea.writer.MessageWriter;
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
- *
  */
-public class MessageWriterTest {
+class MessageWriterTest {
 
-  private static final String CONTENT_TEMPLATE = "\n" +
-                                                 "    <div class=\"alert alert-dismissible alert-danger\">\n" +
-                                                 "{0}" +
-                                                 "     <p class=\"mb-0  font-weight-bold\">{1}</p>\n" +
-                                                 "    </div>\n" +
-                                                 "";
+    private static final String CONTENT_TEMPLATE = "\n" +
+            "    <div class=\"alert alert-dismissible alert-danger\">\n" +
+            "{0}" +
+            "     <p class=\"mb-0  font-weight-bold\">{1}</p>\n" +
+            "    </div>\n" +
+            "";
 
-  @Test
-  public void writeMessageListTest() {
-    MessageList messageList = new MessageList();
-    messageList.addBaseError("Si è rotto");
+    @Test
+    void writeMessageListTest() {
+        MessageList messageList = new MessageList();
+        messageList.addBaseError("Si è rotto");
 
-    assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "     <h4 class=\"alert-heading\">Errore!</h4>\n", "Si &egrave; rotto"), MessageWriter.writeMessages(messageList, true));
-    assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "", "Si &egrave; rotto"), MessageWriter.writeMessages(messageList, false));
-  }
+        assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "     <h4 class=\"alert-heading\">Errore!</h4>\n", "Si &egrave; rotto"), MessageWriter.writeMessages(messageList, true));
+        assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "", "Si &egrave; rotto"), MessageWriter.writeMessages(messageList, false));
+    }
 
 }

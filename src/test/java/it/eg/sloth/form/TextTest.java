@@ -4,10 +4,10 @@ import it.eg.sloth.form.fields.field.impl.Text;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.MessageList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Project: sloth-framework
@@ -23,10 +23,10 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Enrico Grillini
  */
-public class TextTest {
+class TextTest {
 
     @Test
-    public void validateText() throws FrameworkException {
+    void validateText() throws FrameworkException {
         MessageList messageList = new MessageList();
 
         Text<String> testo = new Text<String>("Testo", "Testo", DataTypes.STRING);

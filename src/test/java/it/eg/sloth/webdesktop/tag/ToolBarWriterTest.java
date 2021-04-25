@@ -1,17 +1,16 @@
 package it.eg.sloth.webdesktop.tag;
 
-import static org.junit.Assert.assertEquals;
-
-import it.eg.sloth.framework.common.base.StringUtil;
-import it.eg.sloth.framework.pageinfo.PageStatus;
-import it.eg.sloth.framework.utility.resource.ResourceUtil;
-import org.junit.Before;
-import org.junit.Test;
-
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.form.grid.Grid;
+import it.eg.sloth.framework.common.base.StringUtil;
+import it.eg.sloth.framework.pageinfo.PageStatus;
+import it.eg.sloth.framework.utility.resource.ResourceUtil;
 import it.eg.sloth.webdesktop.tag.form.toolbar.writer.ToolbarWriter;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -27,7 +26,7 @@ import it.eg.sloth.webdesktop.tag.form.toolbar.writer.ToolbarWriter;
  *
  * @author Enrico Grillini
  */
-public class ToolBarWriterTest {
+class ToolBarWriterTest {
 
     static final String GRID_NAVIGATION_SIMPLE = ResourceUtil.normalizedResourceAsString("snippet-html/toolbar/toolbar-gridNavigationSimple.html");
     static final String GRID_NAVIGATION_SIMPLE_PAGED = ResourceUtil.normalizedResourceAsString("snippet-html/toolbar/toolbar-gridNavigationSimple-paged.html");
@@ -49,8 +48,8 @@ public class ToolBarWriterTest {
 
     Grid<DataTable<?>> grid;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         grid = new Grid<>("prova", null, null, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
         DataTable<?> table = new Table();
         table.setPageSize(5);
@@ -63,7 +62,7 @@ public class ToolBarWriterTest {
     }
 
     @Test
-    public void gridNavigationSimpleTest() {
+    void gridNavigationSimpleTest() {
         assertEquals(GRID_NAVIGATION_SIMPLE_PAGED, ToolbarWriter.gridNavigationSimple(grid, "ProvaPage.html", PageStatus.MASTER));
 
         grid.getDataSource().setPageSize(-1);
@@ -71,13 +70,13 @@ public class ToolBarWriterTest {
     }
 
     @Test
-    public void gridEditingSimpleTest() {
+    void gridEditingSimpleTest() {
         assertEquals(GRID_EDITING_SIMPLE_MASTER, ToolbarWriter.gridEditingSimple(grid, PageStatus.MASTER));
         assertEquals(GRID_EDITING_SIMPLE_UPDATING, ToolbarWriter.gridEditingSimple(grid, PageStatus.UPDATING));
     }
 
     @Test
-    public void gridNavigationEditableTest() {
+    void gridNavigationEditableTest() {
         assertEquals(GRID_NAVIGATION_EDITABLE_PAGED, ToolbarWriter.gridNavigationEditable(grid, "ProvaPage.html", PageStatus.MASTER));
 
         grid.getDataSource().setPageSize(-1);
@@ -85,7 +84,7 @@ public class ToolBarWriterTest {
     }
 
     @Test
-    public void gridNavigationMasterDetailTest() {
+    void gridNavigationMasterDetailTest() {
         assertEquals(GRID_NAVIGATION_MASTER_DETAIL_MASTER, ToolbarWriter.gridNavigationMasterDetail(grid, "ProvaPage.html", PageStatus.MASTER));
 
         assertEquals(GRID_NAVIGATION_MASTER_DETAIL_DETAIL, ToolbarWriter.gridNavigationMasterDetail(grid, "ProvaPage.html", PageStatus.DETAIL));
@@ -95,13 +94,13 @@ public class ToolBarWriterTest {
 
 
     @Test
-    public void gridEditingMasterDetailTest() {
+    void gridEditingMasterDetailTest() {
         assertEquals(GRID_EDITING_MASTER_DETAIL_MASTER, ToolbarWriter.gridEditingMasterDetail(grid, PageStatus.MASTER, false, false, false, false, false));
         assertEquals(GRID_EDITING_MASTER_DETAIL_UPDATING, ToolbarWriter.gridEditingMasterDetail(grid, PageStatus.UPDATING, false, false, false, false, false));
     }
 
     @Test
-    public void gridEditingSubMasterDetailTest() {
+    void gridEditingSubMasterDetailTest() {
         assertEquals(StringUtil.EMPTY, ToolbarWriter.gridEditingSubMasterDetail(grid, PageStatus.DETAIL));
         assertEquals(GRID_EDITING_SUB_MASTER_DETAIL_UPDATING, ToolbarWriter.gridEditingSubMasterDetail(grid, PageStatus.UPDATING));
     }

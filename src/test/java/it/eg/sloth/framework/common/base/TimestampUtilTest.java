@@ -2,11 +2,11 @@ package it.eg.sloth.framework.common.base;
 
 import it.eg.sloth.framework.common.exception.ExceptionCode;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Project: sloth-framework
@@ -22,10 +22,10 @@ import static org.junit.Assert.*;
  *
  * @author Enrico Grillini
  */
-public class TimestampUtilTest {
+class TimestampUtilTest {
 
     @Test
-    public void genericTestOk() throws FrameworkException {
+    void genericTestOk() throws FrameworkException {
         Timestamp timestamp = TimeStampUtil.parseTimestamp("01/06/2020", "dd/MM/yyyy");
 
         // get Year
@@ -64,7 +64,7 @@ public class TimestampUtilTest {
     }
 
     @Test
-    public void genericTestHolliday() throws FrameworkException {
+    void genericTestHolliday() throws FrameworkException {
         assertTrue(TimeStampUtil.isHoliday(TimeStampUtil.parseTimestamp("01/01/2020", "dd/MM/yyyy")));
 
         // Pasqua
@@ -84,7 +84,7 @@ public class TimestampUtilTest {
     }
 
     @Test
-    public void genericTestKo() throws FrameworkException {
+    void genericTestKo() throws FrameworkException {
         // Formato data errato
         FrameworkException frameworkException = assertThrows(FrameworkException.class, () -> {
             TimeStampUtil.parseTimestamp("aaaa", "dd/MM/yyyy");

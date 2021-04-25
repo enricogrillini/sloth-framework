@@ -1,14 +1,14 @@
 package it.eg.sloth.framework.common.casting;
 
 import it.eg.sloth.framework.common.base.StringUtil;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CastingTest {
+class CastingTest {
 
     @Test
-    public void getHtmlTest() {
+    void getHtmlTest() {
         assertEquals(StringUtil.EMPTY, Casting.getHtml(null));
         assertEquals(StringUtil.EMPTY, Casting.getHtml(""));
 
@@ -20,7 +20,7 @@ public class CastingTest {
     }
 
     @Test
-    public void getJsTest() {
+    void getJsTest() {
         assertEquals(StringUtil.EMPTY, Casting.getJs(null));
         assertEquals(StringUtil.EMPTY, Casting.getJs(""));
 

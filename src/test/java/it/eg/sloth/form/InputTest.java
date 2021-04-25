@@ -7,11 +7,11 @@ import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.MessageList;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.jaxb.form.ForceCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Project: sloth-framework
@@ -27,10 +27,10 @@ import static org.junit.Assert.*;
  *
  * @author Enrico Grillini
  */
-public class InputTest {
+class InputTest {
 
     @Test
-    public void validateInputOk() throws FrameworkException {
+    void validateInputOk() throws FrameworkException {
         MessageList messageList = new MessageList();
 
         // Valid
@@ -40,11 +40,11 @@ public class InputTest {
 
         assertTrue(input.isValid());
         assertEquals(null, input.check());
-        assertTrue( messageList.isEmpty());
+        assertTrue(messageList.isEmpty());
     }
 
     @Test
-    public void validateInputKo() throws FrameworkException {
+    void validateInputKo() throws FrameworkException {
         MessageList messageList = new MessageList();
 
         // Valid
@@ -54,7 +54,7 @@ public class InputTest {
 
         assertFalse(input.isValid());
         assertNotEquals(null, input.check().getSeverity());
-        assertFalse( messageList.isEmpty());
+        assertFalse(messageList.isEmpty());
         assertEquals(Level.WARN, messageList.get(0).getSeverity());
 
         assertThrows(FrameworkException.class, () -> {
@@ -65,7 +65,7 @@ public class InputTest {
     }
 
     @Test
-    public void inputBuilderTest1() {
+    void inputBuilderTest1() {
         // Default
         Input<String> input = Input.<String>builder()
                 .name("Name")
@@ -107,7 +107,7 @@ public class InputTest {
     }
 
     @Test
-    public void inputBuilderTest2() {
+    void inputBuilderTest2() {
         // True
         Input<String> input = Input.<String>builder()
                 .name("Name")

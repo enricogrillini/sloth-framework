@@ -2,11 +2,11 @@ package it.eg.sloth.form;
 
 import it.eg.sloth.form.fields.field.impl.Link;
 import it.eg.sloth.jaxb.form.ButtonType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Project: sloth-framework
@@ -22,10 +22,10 @@ import static org.junit.Assert.*;
  *
  * @author Enrico Grillini
  */
-public class LinkTest {
+class LinkTest {
 
     @Test
-    public void linkTest() {
+    void linkTest() {
         Link link = new Link("name", "description", "href");
         assertEquals("name", link.getName());
         assertEquals(Locale.getDefault(), link.getLocale());
@@ -35,7 +35,7 @@ public class LinkTest {
     }
 
     @Test
-    public void linkBuilderTest() {
+    void linkBuilderTest() {
         Link link = Link.builder()
                 .name("Name")
                 .description("description")

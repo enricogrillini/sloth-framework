@@ -3,9 +3,9 @@ package it.eg.sloth.webdesktop.tag;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.configuration.ConfigSingleton;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.EnvironmentWriter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -21,12 +21,12 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Enrico Grillini
  */
-public class EnvironmentWriterTest {
+class EnvironmentWriterTest {
 
     private static final String CONTENT = "<div class=\"text-right p-2\">Ambiente: &nbsp;<span class=\"badge badge-danger small\">Local</span></div>";
 
     @Test
-    public void fieldCardContentTest() throws FrameworkException {
+    void fieldCardContentTest() throws FrameworkException {
         ConfigSingleton.getInstance().addProperty(ConfigSingleton.FRAMEWORK_ENVIRONMENT, "Local");
         assertEquals(CONTENT, EnvironmentWriter.writeEnvironment(true));
     }

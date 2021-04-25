@@ -8,11 +8,11 @@ import it.eg.sloth.db.decodemap.map.StringDecodeMap;
 import it.eg.sloth.form.fields.field.impl.AutoComplete;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Project: sloth-framework
@@ -28,14 +28,14 @@ import static org.junit.Assert.assertFalse;
  *
  * @author Enrico Grillini
  */
-public class GridTest {
+class GridTest {
 
     private Grid<Table> grid;
     private StringDecodeMap decodeMap = new StringDecodeMap("A,2222;B,11111;C,33333");
     Table table;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         grid = new Grid<>("name", "description", "title", null, null, null, null, null, null, null, null, null, null, null, null, null, null);
         decodeMap = new StringDecodeMap("A,2222;B,11111;C,33333");
         table = new Table();
@@ -55,7 +55,7 @@ public class GridTest {
     }
 
     @Test
-    public void gridTest() {
+    void gridTest() {
         assertFalse(grid.isBackButtonHidden());
         assertFalse(grid.isSelectButtonHidden());
         assertFalse(grid.isFirstButtonHidden());
@@ -74,7 +74,7 @@ public class GridTest {
 
 
     @Test
-    public void gridSortTest() {
+    void gridSortTest() {
         grid.setDataSource(table);
 
         AutoComplete<String> autoComplete = AutoComplete.<String>builder()
@@ -99,7 +99,7 @@ public class GridTest {
 
 
     @Test
-    public void gridOrderByAliasTest() {
+    void gridOrderByAliasTest() {
         grid.setDataSource(table);
 
         AutoComplete<String> autoComplete = AutoComplete.<String>builder()

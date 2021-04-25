@@ -4,12 +4,12 @@ import it.eg.sloth.form.fields.field.impl.Text;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.card.writer.CardWriter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -25,7 +25,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Enrico Grillini
  */
-public class CardWriterTest {
+class CardWriterTest {
 
     private static final String CONTENT_TEMPLATE =
             "   <div class=\"col mr-2\"{2}>\n" +
@@ -39,7 +39,7 @@ public class CardWriterTest {
                     "{3}";
 
     @Test
-    public void fieldCardContentTest() throws FrameworkException {
+    void fieldCardContentTest() throws FrameworkException {
         Text<BigDecimal> field = new Text<BigDecimal>("name", "description", DataTypes.INTEGER);
         assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "description", "", "", ""), CardWriter.fieldCardContent(field));
 

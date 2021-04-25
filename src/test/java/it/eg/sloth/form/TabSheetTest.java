@@ -2,9 +2,9 @@ package it.eg.sloth.form;
 
 import it.eg.sloth.form.tabsheet.Tab;
 import it.eg.sloth.form.tabsheet.TabSheet;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -20,10 +20,10 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Enrico Grillini
  */
-public class TabSheetTest {
+class TabSheetTest {
 
     @Test
-    public void tabTest() {
+    void tabTest() {
         TabSheet tabSheet = new TabSheet("TabSheetName");
 
         Tab tab1 = Tab.builder()
@@ -39,7 +39,6 @@ public class TabSheetTest {
                 .build();
 
         tabSheet.addChild(tab2);
-
 
         assertEquals(tab1, tabSheet.getCurrentTab());
         //assertEquals("name", tabSheet.getCurrentTabName());

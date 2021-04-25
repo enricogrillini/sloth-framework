@@ -1,8 +1,8 @@
 package it.eg.sloth.framework.pageinfo;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -17,18 +17,17 @@ import static org.junit.Assert.assertEquals;
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
- *
  */
-public class PageInfoTest {
+class PageInfoTest {
 
-  @Test
-  public void breadcrumbsTest() {
-    Breadcrumbs breadcrumbs = new Breadcrumbs();
-    breadcrumbs.add("titolo1");
-    breadcrumbs.add("titolo2");
+    @Test
+    void breadcrumbsTest() {
+        Breadcrumbs breadcrumbs = new Breadcrumbs();
+        breadcrumbs.add("titolo1");
+        breadcrumbs.add("titolo2");
 
-    assertEquals("titolo1 > titolo2", breadcrumbs.getText());
-    assertEquals("titolo1 > titolo2", breadcrumbs.getHtml());
-  }
+        assertEquals("titolo1 > titolo2", breadcrumbs.getText());
+        assertEquals("titolo1 > titolo2", breadcrumbs.getHtml());
+    }
 
 }

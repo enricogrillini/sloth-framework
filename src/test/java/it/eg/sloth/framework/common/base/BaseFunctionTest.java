@@ -1,13 +1,11 @@
 package it.eg.sloth.framework.common.base;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import org.junit.Test;
-
-import it.eg.sloth.framework.common.base.BaseFunction;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Project: sloth-framework
@@ -22,21 +20,20 @@ import it.eg.sloth.framework.common.base.BaseFunction;
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
- *
  */
-public class BaseFunctionTest {
+class BaseFunctionTest {
 
     @Test
-    public void equalsTest() {
+    void equalsTest() {
         assertTrue(BaseFunction.equals(null, null));
-        assertFalse(BaseFunction.equals( BigDecimal.valueOf(0), null));
-        assertFalse(BaseFunction.equals(null,BigDecimal.valueOf(0)));
+        assertFalse(BaseFunction.equals(BigDecimal.valueOf(0), null));
+        assertFalse(BaseFunction.equals(null, BigDecimal.valueOf(0)));
         assertFalse(BaseFunction.equals(BigDecimal.valueOf(0), BigDecimal.valueOf(1)));
         assertTrue(BaseFunction.equals(BigDecimal.valueOf(0), BigDecimal.valueOf(0)));
     }
 
     @Test
-    public void isBlankTest() {
+    void isBlankTest() {
         assertTrue(BaseFunction.isBlank(null));
         assertTrue(BaseFunction.isBlank(""));
         assertTrue(BaseFunction.isBlank("   "));
@@ -44,11 +41,10 @@ public class BaseFunctionTest {
     }
 
     @Test
-    public void isNullTest() {
+    void isNullTest() {
         assertTrue(BaseFunction.isNull(null));
         assertTrue(BaseFunction.isNull(""));
         assertFalse(BaseFunction.isNull(new BigDecimal(0)));
     }
-
 
 }

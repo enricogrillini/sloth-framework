@@ -5,12 +5,12 @@ import it.eg.sloth.db.datasource.table.sort.SortType;
 import it.eg.sloth.db.datasource.table.sort.SortingRules;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Project: sloth-framework
@@ -26,10 +26,10 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Enrico Grillini
  */
-public class SortingRuleTest {
+class SortingRuleTest {
 
     @Test
-    public void sortingRuleBigDecimalTest() {
+    void sortingRuleBigDecimalTest() {
         Row row1 = new Row();
         row1.setBigDecimal("provaBigDecimal", BigDecimal.valueOf(100));
 
@@ -51,7 +51,7 @@ public class SortingRuleTest {
     }
 
     @Test
-    public void sortingRuleTimestampTest() throws FrameworkException {
+    void sortingRuleTimestampTest() throws FrameworkException {
         Row row1 = new Row();
         row1.setTimestamp("provaTimestamp", TimeStampUtil.parseTimestamp("01/01/2020", "dd/mm/yyyy"));
 
