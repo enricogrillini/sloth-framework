@@ -38,6 +38,8 @@ class TextControlWriterTest {
 
     private static final String BASE_CHECKBOX = "<div class=\"custom-control custom-checkbox\"><input type=\"checkbox\" class=\"custom-control-input\"{0} disabled=\"\"/><span class=\"custom-control-label\"></span></div>";
 
+    private static final String BASE_SWITCH = "<div class=\"custom-control custom-switch\"><input type=\"checkbox\" class=\"custom-control-input\"{0} disabled=\"\"/><span class=\"custom-control-label\"></span></div>";
+
     Fields fields;
 
     @BeforeEach
@@ -54,7 +56,7 @@ class TextControlWriterTest {
 
     @Test
     void checkBoxTest() throws FrameworkException {
-        CheckBox<String> field = new CheckBox<String>("name", "description", DataTypes.STRING);
+        CheckBox field = new CheckBox("name", "description", DataTypes.STRING);
         assertEquals(MessageFormat.format(BASE_CHECKBOX, ""), TextControlWriter.writeControl(field, fields));
 
         field.setChecked();
@@ -138,6 +140,21 @@ class TextControlWriterTest {
 
         field.setValue(BigDecimal.valueOf(10));
         assertEquals("10", TextControlWriter.writeControl(field, fields));
+    }
+
+    @Test
+    void switchTest() throws FrameworkException {
+        Switch field = new Switch("name", "description", DataTypes.STRING);
+        assertEquals(MessageFormat.format(BASE_SWITCH, ""), TextControlWriter.writeControl(field, fields));
+
+        field.setChecked();
+        assertEquals(MessageFormat.format(BASE_SWITCH, " checked=\"\""), TextControlWriter.writeControl(field, fields));
+
+        field.setUnChecked();
+        assertEquals(MessageFormat.format(BASE_SWITCH, ""), TextControlWriter.writeControl(field, fields));
+
+        // Generico controllo
+        assertEquals(MessageFormat.format(BASE_SWITCH, ""), TextControlWriter.writeControl(field, fields));
     }
 
     @Test

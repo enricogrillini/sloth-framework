@@ -1,6 +1,7 @@
 package it.eg.sloth.form;
 
 import it.eg.sloth.form.fields.field.impl.CheckBox;
+import it.eg.sloth.form.fields.field.impl.Switch;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import org.junit.jupiter.api.Test;
 
@@ -20,11 +21,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author Enrico Grillini
  */
-class CheckBoxTest {
+class SwitchTest {
 
     @Test
     void buttonTest() {
-        CheckBox<String> field = new CheckBox<>("name", "description", DataTypes.STRING);
+        Switch<String> field = new Switch<>("name", "description", DataTypes.STRING);
         assertEquals(CheckBox.DEFAULT_VAL_CHECKED, field.getValChecked());
         assertEquals(CheckBox.DEFAULT_VAL_UN_CHECKED, field.getValUnChecked());
 

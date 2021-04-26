@@ -37,39 +37,41 @@ public class FormControlWriter extends HtmlWriter {
     public static String writeControl(SimpleField element, Elements<?> parentElement, ViewModality pageViewModality) throws FrameworkException {
         switch (element.getFieldType()) {
             case AUTO_COMPLETE:
-                return writeAutoComplete((AutoComplete<?>) element, parentElement, pageViewModality);
+                return writeAutoComplete((AutoComplete) element, parentElement, pageViewModality);
             case BUTTON:
                 return writeButton((Button) element);
             case CHECK_BOX:
-                return writeCheckBox((CheckBox<?>) element, pageViewModality);
+                return writeCheckBox((CheckBox) element, pageViewModality);
             case CHECK_BUTTONS:
                 return writeCheckButtons((CheckButtons<?, Object>) element, pageViewModality);
             case CHECK_GROUP:
                 return writeCheckGroups((CheckGroup<?, Object>) element, pageViewModality);
             case COMBO_BOX:
-                return writeComboBox((ComboBox<?>) element, pageViewModality);
+                return writeComboBox((ComboBox) element, pageViewModality);
             case DECODED_TEXT:
-                return writeDecodedText((DecodedText<?>) element);
+                return writeDecodedText((DecodedText) element);
             case FILE:
                 return writeFile((File) element, pageViewModality);
             case HIDDEN:
-                return writeHidden((Hidden<?>) element);
+                return writeHidden((Hidden) element);
             case INPUT:
-                return writeInput((Input<?>) element, pageViewModality);
+                return writeInput((Input) element, pageViewModality);
             case INPUT_TOTALIZER:
                 return writeInputTotalizer((InputTotalizer) element, pageViewModality);
             case LINK:
                 return writeLink((Link) element);
             case RADIO_BUTTONS:
-                return writeRadioButtons((RadioButtons<?>) element, pageViewModality);
+                return writeRadioButtons((RadioButtons) element, pageViewModality);
             case RADIO_GROUP:
-                return writeRadioGroup((RadioGroup<?>) element, pageViewModality);
+                return writeRadioGroup((RadioGroup) element, pageViewModality);
             case SEMAPHORE:
                 return writeSemaphore((Semaphore) element, pageViewModality);
+            case SWITCH:
+                return writeSwitch((Switch) element, pageViewModality);
             case TEXT:
-                return writeText((Text<?>) element);
+                return writeText((Text) element);
             case TEXT_AREA:
-                return writeTextArea((TextArea<?>) element, pageViewModality);
+                return writeTextArea((TextArea) element, pageViewModality);
             case TEXT_TOTALIZER:
                 return writeTextTotalizer((TextTotalizer) element);
             default:
@@ -155,185 +157,6 @@ public class FormControlWriter extends HtmlWriter {
     }
 
     /**
-     * Scrive un campo: Text
-     *
-     * @param text
-     * @return
-     */
-    public static String writeText(Text<?> text) {
-        StringBuilder result = new StringBuilder()
-                .append(BEGIN_INPUT)
-                .append(getAttribute(ATTR_ID, text.getName()))
-                .append(getAttribute(ATTR_NAME, text.getName()))
-                .append(getAttribute(ATTR_TYPE, "text"))
-                .append(getAttribute(ATTR_VALUE, text.escapeHtmlText()))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
-                .append(getAttribute(ATTR_DISABLED, ""))
-                .append(getAttributeTooltip(text.getTooltip()))
-                .append("/>");
-
-        return result.toString();
-    }
-
-    /**
-     * Scrive un campo: TextTotalizer
-     *
-     * @param textTotalizer
-     * @return
-     */
-
-    public static String writeTextTotalizer(TextTotalizer textTotalizer) {
-        return writeText(textTotalizer);
-    }
-
-    /**
-     * Scrive un campo: DecodedText
-     *
-     * @param decodedText
-     * @return
-     */
-    public static String writeDecodedText(DecodedText<?> decodedText) throws FrameworkException {
-        StringBuilder input = new StringBuilder()
-                .append(BEGIN_INPUT)
-                .append(getAttribute(ATTR_ID, decodedText.getName()))
-                .append(getAttribute(ATTR_NAME, decodedText.getName()))
-                .append(getAttribute(ATTR_VALUE, decodedText.escapeHtmlDecodedText()))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
-                .append(getAttribute(ATTR_DISABLED, ""))
-                .append("/>");
-
-        // Gestione link
-        if (!BaseFunction.isBlank(decodedText.getBaseLink())) {
-            StringBuilder result = new StringBuilder()
-                    .append("<div class=\"input-group input-group-sm\">")
-                    .append(input)
-                    .append(MessageFormat.format(LINK, decodedText.getBaseLink() + decodedText.escapeHtmlValue()))
-                    .append("</div>");
-
-            return result.toString();
-        } else {
-            return input.toString();
-        }
-    }
-
-    /**
-     * Scrive un campo: Hidden
-     *
-     * @param input
-     * @return
-     */
-    public static String writeHidden(Hidden<?> input) {
-        return new StringBuilder()
-                .append(BEGIN_INPUT)
-                .append(getAttribute(ATTR_ID, input.getName()))
-                .append(getAttribute(ATTR_NAME, input.getName()))
-                .append(getAttribute(ATTR_TYPE, "hidden"))
-                .append(getAttribute(ATTR_VALUE, input.escapeHtmlText()))
-                .append("/>")
-                .toString();
-    }
-
-
-    /**
-     * Scrive un campo: Input
-     *
-     * @param input
-     * @param pageViewModality
-     * @return
-     */
-    public static String writeInput(Input<?> input, ViewModality pageViewModality) {
-        if (input.isHidden()) {
-            return StringUtil.EMPTY;
-        }
-
-        ViewModality viewModality = input.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : input.getViewModality();
-
-        StringBuilder field = new StringBuilder()
-                .append(BEGIN_INPUT)
-                .append(getAttribute(ATTR_ID, input.getName()))
-                .append(getAttribute(ATTR_NAME, input.getName()));
-
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
-            field
-                    .append(getAttribute(ATTR_TYPE, "text"))
-                    .append(getAttribute(ATTR_VALUE, input.escapeHtmlText()))
-                    .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
-                    .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
-        } else {
-            field
-                    .append(getAttribute(ATTR_TYPE, input.getDataType().getHtmlType()))
-                    .append(getAttribute(ATTR_VALUE, input.escapeHtmlValue()))
-                    .append(getAttribute("placeholder", DataTypes.MONTH == input.getDataType(), "yyyy-mm"))
-                    .append(getAttribute("step", DataTypes.DATETIME == input.getDataType() || DataTypes.TIME == input.getDataType(), "1"))
-                    .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
-                    .append(getAttribute(ATTR_READONLY, input.isReadOnly(), ""))
-                    .append(getAttribute("maxlength", input.getMaxLength() > 0, "" + input.getMaxLength()));
-        }
-
-        field
-                .append(getAttributeTooltip(input.getTooltip()))
-                .append("/>");
-
-
-        // Gestione link
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE && !BaseFunction.isBlank(input.getBaseLink())) {
-            StringBuilder result = new StringBuilder()
-                    .append("<div class=\"input-group input-group-sm\">")
-                    .append(field)
-                    .append(MessageFormat.format(LINK, input.getBaseLink() + input.escapeHtmlValue()))
-                    .append("</div>");
-
-            return result.toString();
-        } else {
-            return field.toString();
-        }
-    }
-
-    /**
-     * Scrive un campo: InputTotalizer
-     *
-     * @param inputTotalizer
-     * @param pageViewModality
-     * @return
-     */
-    public static String writeInputTotalizer(InputTotalizer inputTotalizer, ViewModality pageViewModality) {
-        return writeInput(inputTotalizer, pageViewModality);
-    }
-
-    /**
-     * Scrive un campo: TextArea
-     *
-     * @param textArea
-     * @param pageViewModality
-     * @return
-     */
-    public static String writeTextArea(TextArea<?> textArea, ViewModality pageViewModality) {
-        if (textArea.isHidden()) {
-            return StringUtil.EMPTY;
-        }
-
-        ViewModality viewModality = textArea.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : textArea.getViewModality();
-        StringBuilder result = new StringBuilder()
-                .append("<textarea")
-                .append(getAttribute(ATTR_ID, textArea.getName()))
-                .append(getAttribute(ATTR_NAME, textArea.getName()))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS));
-
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
-            result.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
-        } else {
-            result
-                    .append(getAttribute(ATTR_READONLY, textArea.isReadOnly(), ""))
-                    .append(getAttribute("maxlength", textArea.getMaxLength() > 0, "" + textArea.getMaxLength()));
-
-        }
-        result.append(">" + textArea.escapeHtmlValue() + "</textarea>");
-
-        return result.toString();
-    }
-
-
-    /**
      * Scrive un campo: CheckBox
      *
      * @param checkBox
@@ -374,6 +197,14 @@ public class FormControlWriter extends HtmlWriter {
                 .toString();
     }
 
+    /**
+     * Scrive un campo: CheckButtons
+     *
+     * @param checkButtons
+     * @param pageViewModality
+     * @return
+     * @throws FrameworkException
+     */
     public static String writeCheckButtons(CheckButtons<?, Object> checkButtons, ViewModality pageViewModality) throws FrameworkException {
         if (checkButtons.isHidden()) {
             return StringUtil.EMPTY;
@@ -417,7 +248,7 @@ public class FormControlWriter extends HtmlWriter {
     }
 
     /**
-     * Scribe un Check Groups
+     * Scrive un campo: CheckGroups
      *
      * @param checkGroup
      * @param pageViewModality
@@ -523,9 +354,38 @@ public class FormControlWriter extends HtmlWriter {
         return result.toString();
     }
 
+    /**
+     * Scrive un campo: DecodedText
+     *
+     * @param decodedText
+     * @return
+     */
+    public static String writeDecodedText(DecodedText<?> decodedText) throws FrameworkException {
+        StringBuilder input = new StringBuilder()
+                .append(BEGIN_INPUT)
+                .append(getAttribute(ATTR_ID, decodedText.getName()))
+                .append(getAttribute(ATTR_NAME, decodedText.getName()))
+                .append(getAttribute(ATTR_VALUE, decodedText.escapeHtmlDecodedText()))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
+                .append(getAttribute(ATTR_DISABLED, ""))
+                .append("/>");
+
+        // Gestione link
+        if (!BaseFunction.isBlank(decodedText.getBaseLink())) {
+            StringBuilder result = new StringBuilder()
+                    .append("<div class=\"input-group input-group-sm\">")
+                    .append(input)
+                    .append(MessageFormat.format(LINK, decodedText.getBaseLink() + decodedText.escapeHtmlValue()))
+                    .append("</div>");
+
+            return result.toString();
+        } else {
+            return input.toString();
+        }
+    }
 
     /**
-     * Scrive un campo di input di tipo File
+     * Scrive un campo: File
      *
      * @param file
      * @param pageViewModality
@@ -559,6 +419,90 @@ public class FormControlWriter extends HtmlWriter {
     }
 
     /**
+     * Scrive un campo: Hidden
+     *
+     * @param input
+     * @return
+     */
+    public static String writeHidden(Hidden<?> input) {
+        return new StringBuilder()
+                .append(BEGIN_INPUT)
+                .append(getAttribute(ATTR_ID, input.getName()))
+                .append(getAttribute(ATTR_NAME, input.getName()))
+                .append(getAttribute(ATTR_TYPE, "hidden"))
+                .append(getAttribute(ATTR_VALUE, input.escapeHtmlText()))
+                .append("/>")
+                .toString();
+    }
+
+
+    /**
+     * Scrive un campo: Input
+     *
+     * @param input
+     * @param pageViewModality
+     * @return
+     */
+    public static String writeInput(Input<?> input, ViewModality pageViewModality) {
+        if (input.isHidden()) {
+            return StringUtil.EMPTY;
+        }
+
+        ViewModality viewModality = input.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : input.getViewModality();
+
+        StringBuilder field = new StringBuilder()
+                .append(BEGIN_INPUT)
+                .append(getAttribute(ATTR_ID, input.getName()))
+                .append(getAttribute(ATTR_NAME, input.getName()));
+
+        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+            field
+                    .append(getAttribute(ATTR_TYPE, "text"))
+                    .append(getAttribute(ATTR_VALUE, input.escapeHtmlText()))
+                    .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
+                    .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
+        } else {
+            field
+                    .append(getAttribute(ATTR_TYPE, input.getDataType().getHtmlType()))
+                    .append(getAttribute(ATTR_VALUE, input.escapeHtmlValue()))
+                    .append(getAttribute("placeholder", DataTypes.MONTH == input.getDataType(), "yyyy-mm"))
+                    .append(getAttribute("step", DataTypes.DATETIME == input.getDataType() || DataTypes.TIME == input.getDataType(), "1"))
+                    .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
+                    .append(getAttribute(ATTR_READONLY, input.isReadOnly(), ""))
+                    .append(getAttribute("maxlength", input.getMaxLength() > 0, "" + input.getMaxLength()));
+        }
+
+        field
+                .append(getAttributeTooltip(input.getTooltip()))
+                .append("/>");
+
+
+        // Gestione link
+        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE && !BaseFunction.isBlank(input.getBaseLink())) {
+            StringBuilder result = new StringBuilder()
+                    .append("<div class=\"input-group input-group-sm\">")
+                    .append(field)
+                    .append(MessageFormat.format(LINK, input.getBaseLink() + input.escapeHtmlValue()))
+                    .append("</div>");
+
+            return result.toString();
+        } else {
+            return field.toString();
+        }
+    }
+
+    /**
+     * Scrive un campo: InputTotalizer
+     *
+     * @param inputTotalizer
+     * @param pageViewModality
+     * @return
+     */
+    public static String writeInputTotalizer(InputTotalizer inputTotalizer, ViewModality pageViewModality) {
+        return writeInput(inputTotalizer, pageViewModality);
+    }
+
+    /**
      * Scrive un campo: Link
      *
      * @param link
@@ -585,6 +529,14 @@ public class FormControlWriter extends HtmlWriter {
         return result.toString();
     }
 
+    /**
+     * Scrive un campo: RadioButtons
+     *
+     * @param radioButtons
+     * @param pageViewModality
+     * @return
+     * @throws FrameworkException
+     */
     public static String writeRadioButtons(RadioButtons<?> radioButtons, ViewModality pageViewModality) throws FrameworkException {
         if (radioButtons.isHidden()) {
             return StringUtil.EMPTY;
@@ -752,4 +704,108 @@ public class FormControlWriter extends HtmlWriter {
                 .toString();
     }
 
+    /**
+     * Scrive un campo: Switch
+     *
+     * @param field
+     * @param pageViewModality
+     * @return
+     */
+    public static String writeSwitch(Switch<?> field, ViewModality pageViewModality) {
+        if (field.isHidden()) {
+            return StringUtil.EMPTY;
+        }
+
+        ViewModality viewModality = field.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : field.getViewModality();
+        StringBuilder result = new StringBuilder()
+                .append("<div class=\"custom-control custom-switch\"><input")
+                .append(getAttribute(ATTR_ID, field.getName()))
+                .append(getAttribute(ATTR_NAME, field.getName()))
+                .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_CHECKBOX))
+                .append(getAttribute(ATTR_VALUE, field.getValChecked().toString()))
+                .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE || field.isReadOnly(), ""))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.CHECK_CLASS))
+                .append(getAttribute(ATTR_CHECKED, field.isChecked(), ""))
+                .append("/>");
+
+        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+            result.append("<div")
+                    .append(getAttribute(ATTR_CLASS, "custom-control-label"))
+                    .append("></div>");
+        } else {
+            result
+                    .append("<label")
+                    .append(getAttribute(ATTR_CLASS, "custom-control-label"))
+                    .append(getAttribute("for", field.getName()))
+                    .append("></label>");
+        }
+
+        return result
+                .append("</div>")
+                .toString();
+    }
+
+    /**
+     * Scrive un campo: Text
+     *
+     * @param text
+     * @return
+     */
+    public static String writeText(Text<?> text) {
+        StringBuilder result = new StringBuilder()
+                .append(BEGIN_INPUT)
+                .append(getAttribute(ATTR_ID, text.getName()))
+                .append(getAttribute(ATTR_NAME, text.getName()))
+                .append(getAttribute(ATTR_TYPE, "text"))
+                .append(getAttribute(ATTR_VALUE, text.escapeHtmlText()))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
+                .append(getAttribute(ATTR_DISABLED, ""))
+                .append(getAttributeTooltip(text.getTooltip()))
+                .append("/>");
+
+        return result.toString();
+    }
+
+    /**
+     * Scrive un campo: TextArea
+     *
+     * @param textArea
+     * @param pageViewModality
+     * @return
+     */
+    public static String writeTextArea(TextArea<?> textArea, ViewModality pageViewModality) {
+        if (textArea.isHidden()) {
+            return StringUtil.EMPTY;
+        }
+
+        ViewModality viewModality = textArea.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : textArea.getViewModality();
+        StringBuilder result = new StringBuilder()
+                .append("<textarea")
+                .append(getAttribute(ATTR_ID, textArea.getName()))
+                .append(getAttribute(ATTR_NAME, textArea.getName()))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS));
+
+        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+            result.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
+        } else {
+            result
+                    .append(getAttribute(ATTR_READONLY, textArea.isReadOnly(), ""))
+                    .append(getAttribute("maxlength", textArea.getMaxLength() > 0, "" + textArea.getMaxLength()));
+
+        }
+        result.append(">" + textArea.escapeHtmlValue() + "</textarea>");
+
+        return result.toString();
+    }
+
+    /**
+     * Scrive un campo: TextTotalizer
+     *
+     * @param textTotalizer
+     * @return
+     */
+
+    public static String writeTextTotalizer(TextTotalizer textTotalizer) {
+        return writeText(textTotalizer);
+    }
 }

@@ -1,10 +1,10 @@
-package it.eg.sloth.form;
+package it.eg.sloth.form.fields.field.impl;
 
-import it.eg.sloth.form.fields.field.impl.CheckBox;
+import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Project: sloth-framework
@@ -17,22 +17,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
  * <p>
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * <p>
  *
  * @author Enrico Grillini
  */
-class CheckBoxTest {
+@Getter
+@Setter
+@SuperBuilder(toBuilder = true)
+public class Switch<T> extends CheckBox<T> {
 
-    @Test
-    void buttonTest() {
-        CheckBox<String> field = new CheckBox<>("name", "description", DataTypes.STRING);
-        assertEquals(CheckBox.DEFAULT_VAL_CHECKED, field.getValChecked());
-        assertEquals(CheckBox.DEFAULT_VAL_UN_CHECKED, field.getValUnChecked());
-
-        field.setValChecked("1");
-        field.setValUnChecked("2");
-        assertEquals("1", field.getValChecked());
-        assertEquals("2", field.getValUnChecked());
+    public Switch(String name, String description, DataTypes dataType) {
+        super(name, description, dataType);
     }
 
+    @Override
+    public FieldType getFieldType() {
+        return FieldType.SWITCH;
+    }
 
 }

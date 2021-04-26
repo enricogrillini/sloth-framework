@@ -40,7 +40,7 @@ public class Column {
 
     public <T> InputField<T> getInputField() {
         if (getName().toLowerCase().startsWith("flag")) {
-            return CheckBox.<T>builder()
+            return (InputField<T>) CheckBox.builder()
                     .name(getName())
                     .description(BaseFunction.nvl(getDescription(), getName()))
                     .dataType(getDataTypes())

@@ -61,6 +61,9 @@ class FormControlWriterTest {
     private static final String BASE_SEMAPHORE = "<div class=\"btn-group btn-group-toggle d-flex\" data-toggle=\"buttons\"><label class=\"btn btn-outline-success btn-sm disabled\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-warning btn-sm disabled\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-danger btn-sm disabled\"><i class=\"far fa-circle\"></i></label></div>";
     private static final String BASE_SEMAPHORE_MOD = "<div class=\"btn-group btn-group-toggle d-flex\" data-toggle=\"buttons\"><label class=\"btn btn-outline-success btn-sm \"><input  id=\"name\" name=\"name\" type=\"radio\" value=\"G\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-warning btn-sm \"><input  id=\"name\" name=\"name\" type=\"radio\" value=\"Y\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-danger btn-sm \"><input  id=\"name\" name=\"name\" type=\"radio\" value=\"R\"><i class=\"far fa-circle\"></i></label></div>";
 
+    private static final String BASE_SWITCH_VIS = "<div class=\"custom-control custom-switch\"><input id=\"name\" name=\"name\" type=\"checkbox\" value=\"S\" disabled=\"\" class=\"custom-control-input\"/><div class=\"custom-control-label\"></div></div>";
+    private static final String BASE_SWITCH_MOD = "<div class=\"custom-control custom-switch\"><input id=\"name\" name=\"name\" type=\"checkbox\" value=\"S\" class=\"custom-control-input\"{0}/><label class=\"custom-control-label\" for=\"name\"></label></div>";
+
     private static final String BASE_RADIOGROUP_VIS = " <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n" +
             "  <input id=\"name0\" name=\"name\" type=\"radio\" value=\"S\" disabled=\"\" checked=\"\" class=\"custom-control-input\"><div class=\"custom-control-label\">S&igrave;</div>\n" +
             " </div>\n" +
@@ -140,7 +143,7 @@ class FormControlWriterTest {
 
     @Test
     void checkBoxTest() throws FrameworkException {
-        CheckBox<String> checkBox = new CheckBox<String>("name", "description", DataTypes.STRING);
+        CheckBox checkBox = new CheckBox("name", "description", DataTypes.STRING);
         assertEquals(BASE_CHECKBOX_VIS, FormControlWriter.writeCheckBox(checkBox, ViewModality.VIEW_VISUALIZZAZIONE));
 
         checkBox.setChecked();
@@ -155,7 +158,6 @@ class FormControlWriterTest {
         // Empty
         checkBox.setHidden(true);
         assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(checkBox, null, ViewModality.VIEW_MODIFICA));
-
     }
 
     @Test
@@ -370,6 +372,25 @@ class FormControlWriterTest {
         // Controllo generico
         assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "testo", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
 
+    }
+
+    @Test
+    void switchTest() throws FrameworkException {
+        Switch field = new Switch("name", "description", DataTypes.STRING);
+        assertEquals(BASE_SWITCH_VIS, FormControlWriter.writeSwitch(field, ViewModality.VIEW_VISUALIZZAZIONE));
+
+        field.setChecked();
+        assertEquals(MessageFormat.format(BASE_SWITCH_MOD, " checked=\"\""), FormControlWriter.writeSwitch(field, ViewModality.VIEW_MODIFICA));
+
+        field.setUnChecked();
+        assertEquals(MessageFormat.format(BASE_SWITCH_MOD, ""), FormControlWriter.writeSwitch(field, ViewModality.VIEW_MODIFICA));
+
+        // Controllo generico
+        assertEquals(MessageFormat.format(BASE_SWITCH_MOD, ""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+
+        // Empty
+        field.setHidden(true);
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
     }
 
     @Test

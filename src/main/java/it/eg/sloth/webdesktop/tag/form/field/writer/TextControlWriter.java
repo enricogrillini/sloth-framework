@@ -40,7 +40,7 @@ public class TextControlWriter extends HtmlWriter {
             case BUTTON:
                 return FormControlWriter.writeButton((Button) simpleField);
             case CHECK_BOX:
-                return writeCheckBox((CheckBox<?>) simpleField);
+                return writeCheckBox((CheckBox) simpleField);
             case COMBO_BOX:
                 return writeDecoDecodedDataField((ComboBox<?>) simpleField, parentElement);
             case DECODED_TEXT:
@@ -55,6 +55,8 @@ public class TextControlWriter extends HtmlWriter {
                 return writeDataField((InputTotalizer) simpleField, parentElement);
             case SEMAPHORE:
                 return writeSemaphore((Semaphore) simpleField);
+            case SWITCH:
+                return writeSwitch((Switch) simpleField);
             case TEXT:
                 return writeDataField((Text<?>) simpleField, parentElement);
             case TEXT_AREA:
@@ -79,11 +81,11 @@ public class TextControlWriter extends HtmlWriter {
         StringBuilder result = new StringBuilder()
                 .append("<div class=\"custom-control custom-checkbox\"><input")
                 .append(getAttribute("type", "checkbox"))
-                .append(getAttribute("class", BootStrapClass.CHECK_CLASS))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.CHECK_CLASS))
                 .append(getAttribute("checked", checkBox.getValChecked().toString().equalsIgnoreCase(checkBox.getData()), ""))
                 .append(getAttribute("disabled", ""))
                 .append("/><span")
-                .append(getAttribute("class", "custom-control-label"))
+                .append(getAttribute(ATTR_CLASS, "custom-control-label"))
                 .append("></span></div>");
 
         return result.toString();
@@ -138,5 +140,29 @@ public class TextControlWriter extends HtmlWriter {
             return dataField.escapeHtmlDecodedText();
         }
     }
+
+    /**
+     * Switch
+     *
+     * @param field
+     * @return
+     */
+    private static String writeSwitch(Switch<?> field) {
+        if (field.isHidden())
+            return StringUtil.EMPTY;
+
+        StringBuilder result = new StringBuilder()
+                .append("<div class=\"custom-control custom-switch\"><input")
+                .append(getAttribute("type", "checkbox"))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.CHECK_CLASS))
+                .append(getAttribute("checked", field.getValChecked().toString().equalsIgnoreCase(field.getData()), ""))
+                .append(getAttribute("disabled", ""))
+                .append("/><span")
+                .append(getAttribute(ATTR_CLASS, "custom-control-label"))
+                .append("></span></div>");
+
+        return result.toString();
+    }
+
 
 }
