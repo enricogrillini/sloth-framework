@@ -20,7 +20,8 @@ public enum FileType {
   XLS(".xls", "application/xls"),
   XLSX(".xlsx", "application/xlsx"), 
   JPEG(".jpeg", "image/jpeg"),
-
+  PNG(".jpeg", "image/png"),
+  
   TXT(".txt", "text/plain"), 
   CSV(".csv", "application/csv"),
   XML(".xml", "text/xml");

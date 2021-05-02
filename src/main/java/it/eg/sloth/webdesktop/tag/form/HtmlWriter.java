@@ -31,24 +31,22 @@ public abstract class HtmlWriter {
 
     public static final String CLOSE_DIV = "</div>";
 
-    public static final String LINK = "<div class=\"input-group-append\"><a href=\"{0}\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a></div>";
-
     public static final String ON_CLICK = "onclick";
 
+    public static final String ATTR_CLASS = "class";
+    public static final String ATTR_CHECKED = "checked";
+    public static final String ATTR_DATA_DESCRIPTION = "data-description";
+    public static final String ATTR_DATA_TITLE = "data-title";
+    public static final String ATTR_DISABLED = "disabled";
+    public static final String ATTR_FOR = "for";
+    public static final String ATTR_HREF = "href";
     public static final String ATTR_ID = "id";
     public static final String ATTR_NAME = "name";
+    public static final String ATTR_TARGET = "target";
     public static final String ATTR_TYPE = "type";
-    public static final String ATTR_VALUE = "value";
-    public static final String ATTR_FOR = "for";
-
-    public static final String ATTR_CLASS = "class";
-    public static final String ATTR_STYLE = "style";
     public static final String ATTR_READONLY = "readonly";
-    public static final String ATTR_DISABLED = "disabled";
-    public static final String ATTR_CHECKED = "checked";
-
-    public static final String ATTR_DATA_TITLE = "data-title";
-    public static final String ATTR_DATA_DESCRIPTION = "data-description";
+    public static final String ATTR_STYLE = "style";
+    public static final String ATTR_VALUE = "value";
 
     private static final String ATTR_TOOLTIP = "data-toggle=\"tooltip\" data-placement=\"bottom\" title";
     private static final String ATTR_POPOVER = "data-toggle=\"popover\" data-placement=\"bottom\" data-container=\"body\" data-trigger=\"hover\" data-html=\"true\" data-original-title=\"{0}\" data-content=\"{1}\"";

@@ -13,6 +13,7 @@ import it.eg.sloth.webdesktop.controller.common.SimplePageInterface;
 import it.eg.sloth.webdesktop.search.model.SimpleSuggestionList;
 import it.eg.sloth.webdesktop.search.model.suggestion.SimpleSuggestion;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.nio.charset.StandardCharsets;
@@ -144,6 +145,8 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
     public void setModelAndView(String fileName, FileType fileType) {
         if (fileType != null) {
             getResponse().setContentType(fileType.getContentType());
+        } else {
+            getResponse().setContentType("application/" + FilenameUtils.getExtension(fileName));
         }
 
         getResponse().setHeader("Content-Disposition", "attachment; filename=" + StringUtil.toFileName(fileName));

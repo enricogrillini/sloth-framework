@@ -59,13 +59,19 @@ class StringUtilTest {
     }
 
     @Test
-    void containsAllWordsTest() throws FrameworkException {
+    void containsAllWordsTest() {
         List<String> words = Arrays.asList("Bob", "Alice");
 
         assertTrue(StringUtil.containsAllWords("Bob and Alice", words));
         assertTrue(StringUtil.containsAllWords("Alice and Bob", words));
         assertFalse(StringUtil.containsAllWords("Only Bob ", words));
         assertFalse(StringUtil.containsAllWords("", words));
+    }
+
+    @Test
+    void inTest() {
+        assertTrue(StringUtil.in("bbbb", "aaaa", "bbbb", "cccc"));
+        assertFalse(StringUtil.in("dddd", "aaaa", "bbbb", "cccc"));
     }
 
     @Test

@@ -2,6 +2,7 @@ package it.eg.sloth.webdesktop.tag.form.field.writer;
 
 import it.eg.sloth.db.decodemap.DecodeMap;
 import it.eg.sloth.db.decodemap.DecodeValue;
+import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.base.Element;
 import it.eg.sloth.form.base.Elements;
 import it.eg.sloth.form.fields.field.SimpleField;
@@ -33,6 +34,8 @@ import java.text.MessageFormat;
  * @author Enrico Grillini
  */
 public class FormControlWriter extends HtmlWriter {
+
+    public static final String LINK = "<div class=\"input-group-append\"><a href=\"{0}\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a></div>";
 
     public static String writeControl(SimpleField element, Elements<?> parentElement, ViewModality pageViewModality) throws FrameworkException {
         switch (element.getFieldType()) {
@@ -188,7 +191,7 @@ public class FormControlWriter extends HtmlWriter {
             result
                     .append("<label")
                     .append(getAttribute(ATTR_CLASS, "custom-control-label"))
-                    .append(getAttribute("for", checkBox.getName()))
+                    .append(getAttribute(ATTR_FOR, checkBox.getName()))
                     .append("></label>");
         }
 
@@ -400,18 +403,19 @@ public class FormControlWriter extends HtmlWriter {
 
         StringBuilder result = new StringBuilder();
         if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
-            result
-                    .append("<div class=\"input-group input-group-sm\"><a href=\"ClientiPage.html?idcliente=3\" class=\"form-control form-control-sm btn btn-outline-secondary\">Download</a></div>");
+            result.append(
+                    MessageFormat.format("<button{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Download file\"><i class=\"fas fa-download\"></i> Download</button>",
+                            getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.BUTTON, file.getName()))
+                    ));
         } else {
-            result
-                    .append("<div class=\"custom-file small\"><input")
-                    .append(getAttribute(ATTR_ID, file.getName()))
-                    .append(getAttribute(ATTR_NAME, file.getName()))
-                    .append(getAttribute(ATTR_TYPE, "file"))
-                    .append(getAttributeTooltip(file.getTooltip()))
-                    .append(" class=\"custom-file-input\"><label class=\"custom-file-label\"")
-                    .append(getAttribute("for", file.getName()))
-                    .append(">Choose file</label></div>");
+            result.append(
+                    MessageFormat.format("<div class=\"custom-file small\"><input{0}{1}{2}{3} class=\"custom-file-input\"><label class=\"custom-file-label\"{4}>Choose file</label></div>",
+                            getAttribute(ATTR_ID, file.getName()),
+                            getAttribute(ATTR_NAME, file.getName()),
+                            getAttribute(ATTR_TYPE, "file"),
+                            getAttributeTooltip(file.getTooltip()),
+                            getAttribute(ATTR_FOR, file.getName())
+                    ));
         }
 
         return result.toString();
@@ -515,8 +519,8 @@ public class FormControlWriter extends HtmlWriter {
 
         StringBuilder result = new StringBuilder()
                 .append("<a")
-                .append(getAttribute("href", !BaseFunction.isBlank(link.getHref()), link.getHref()))
-                .append(getAttribute("target", !BaseFunction.isBlank(link.getTarget()), link.getTarget()))
+                .append(getAttribute(ATTR_HREF, !BaseFunction.isBlank(link.getHref()), link.getHref()))
+                .append(getAttribute(ATTR_TARGET, !BaseFunction.isBlank(link.getTarget()), link.getTarget()))
                 .append(getAttribute(ATTR_CLASS, MessageFormat.format(BootStrapClass.BUTTON_CLASS, link.getButtonType().value())))
                 .append(getAttribute(ATTR_DISABLED, link.isDisabled(), ""))
                 .append(getAttributeTooltip(link.getTooltip()))

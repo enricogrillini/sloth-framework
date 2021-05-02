@@ -176,35 +176,13 @@ public class StringUtil {
         }
     }
 
-    /**
-     * Ritorna il substr delle stringa passata arrotondata alla parola (delimitata
-     * da spazi)
-     *
-     * @param string
-     * @param start
-     * @param length
-     * @return
-     */
-    public static String substrWord(String string, int start, int length) {
-        if (BaseFunction.isBlank(string)) {
-            return "";
-        } else if (length > string.length() - start) {
-            return string.substring(start);
-        } else {
-            String result = substr(string, start, length);
-
-            if (BaseFunction.isBlank(result)) {
-                return "";
-            } else {
-                for (int i = result.length() - 1; i >= 0; i--) {
-                    if (result.charAt(i) == ' ') {
-                        return substr(result, 0, i).trim();
-                    }
-                }
-
-                return "";
+    public static boolean in(String source, String... targetStrings) {
+        for (String target : targetStrings) {
+            if (BaseFunction.equals(source, target)) {
+                return true;
             }
         }
+        return false;
     }
 
     /**

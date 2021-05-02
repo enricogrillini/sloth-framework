@@ -49,7 +49,7 @@ class FormControlWriterTest {
 
     private static final String BASE_TEXT = "<input id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm\" disabled=\"\"/>";
 
-    private static final String BASE_FILE_VIEW = "<div class=\"input-group input-group-sm\"><a href=\"ClientiPage.html?idcliente=3\" class=\"form-control form-control-sm btn btn-outline-secondary\">Download</a></div>";
+    private static final String BASE_FILE_VIEW = "<button name=\"navigationprefix___button___name\" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Download file\"><i class=\"fas fa-download\"></i> Download</button>";
     private static final String BASE_FILE_MODIFY = "<div class=\"custom-file small\"><input id=\"{0}\" name=\"{0}\" type=\"file\" data-toggle=\"tooltip\"{1}><label class=\"custom-file-label\" for=\"name\">Choose file</label></div>";
 
     private static final String BASE_HIDDEN = "<input id=\"{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>";
