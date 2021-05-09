@@ -4,6 +4,8 @@ import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.configuration.ConfigSingleton;
 
+import java.text.MessageFormat;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -21,22 +23,20 @@ import it.eg.sloth.framework.configuration.ConfigSingleton;
  */
 public class EnvironmentWriter {
 
+    private static final String HTML_ENV = "<div class=\"text-right p-2 pb-0\">{0}<span class=\"badge badge-danger small\">{1}</div>";
+
     private EnvironmentWriter() {
         // NOP
     }
 
-    public static String writeEnvironment(boolean label) {
+    public static String writeEnvironment(boolean writeLabel) {
+        String label = writeLabel ? "Ambiente: &nbsp;" : "";
         String environment = ConfigSingleton.getInstance().getString(ConfigSingleton.FRAMEWORK_ENVIRONMENT);
 
         if (BaseFunction.isBlank(environment)) {
             return StringUtil.EMPTY;
         } else {
-            return new StringBuilder()
-                    .append("<div class=\"text-right p-2\">")
-                    .append(label ? "Ambiente: &nbsp;" : "")
-                    .append("<span class=\"badge badge-danger small\">" + environment + "</span>")
-                    .append("</div>")
-                    .toString();
+            return MessageFormat.format(HTML_ENV, label, environment);
         }
     }
 

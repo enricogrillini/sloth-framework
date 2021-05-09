@@ -132,12 +132,7 @@ public enum DataTypes {
                 DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
                 decimalFormatSymbols.setDecimalSeparator(valueBundle.getString(Localization.PROP_DECIMAL_SEPARATOR).charAt(0));
                 decimalFormatSymbols.setGroupingSeparator(valueBundle.getString(Localization.PROP_THOUSAND_SEPARATOR).charAt(0));
-
-                if (BaseFunction.isBlank(format)) {
-                    return BigDecimalUtil.parseBigDecimal(value, valueBundle.getString(NUMBER.formatProperties), decimalFormatSymbols);
-                } else {
-                    return BigDecimalUtil.parseBigDecimal(value, format, decimalFormatSymbols);
-                }
+                return BigDecimalUtil.parseBigDecimal(value, valueBundle.getString(NUMBER.formatProperties), decimalFormatSymbols);
 
             case MAIL:
                 return StringUtil.parseMail(value);

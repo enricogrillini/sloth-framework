@@ -1,17 +1,11 @@
 package it.eg.sloth.webdesktop.search;
 
-import it.eg.sloth.db.datasource.row.Row;
-import it.eg.sloth.db.datasource.table.Table;
-import it.eg.sloth.framework.security.Menu;
-import it.eg.sloth.framework.security.VoiceType;
-import it.eg.sloth.webdesktop.search.impl.DataTableSearcher;
-import it.eg.sloth.webdesktop.search.impl.MenuSearcher;
+import it.eg.sloth.TestFactory;
 import it.eg.sloth.webdesktop.search.model.suggestion.SimpleSuggestion;
 import it.eg.sloth.webdesktop.search.model.suggestion.Suggestion;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,70 +25,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Enrico Grillini
  */
 @Slf4j
-public class SearchTest {
-
-    private static MenuSearcher getMenuSearcher() {
-        Menu menu = new Menu()
-                .addChild("CLI", VoiceType.VOICE, "Clienti", "Gestione clienti", "immagine", "#")
-                .addChild("ORD", VoiceType.VOICE, "Ordini", "Gestione ordini", "immagine", "#")
-                .addChild("OFF", VoiceType.VOICE, "Offerte", "Gestione offerte", "immagine", "#")
-                .addChild("DEC", VoiceType.VOICE, "Decodifiche", "Decodifiche", null, null);
-
-        menu.getChilds().get("DEC").addChild("TIP", VoiceType.VOICE, "Tipo Clienti", "Tipo Clienti", null, "#");
-
-        return new MenuSearcher(menu);
-    }
-
-    private static DataTableSearcher<Row> getClientiSearcher() {
-        Table table = new Table();
-        Row row = table.add();
-        row.setBigDecimal("Id", BigDecimal.valueOf(1));
-        row.setString("value", "Bob");
-        row.setString("subValue", "Bob the Builder - Tipo costrutture");
-
-        row = table.add();
-        row.setBigDecimal("Id", BigDecimal.valueOf(2));
-        row.setString("value", "Alice");
-        row.setString("subValue", "Alice in wonderland - Tipo manager");
-
-        DataTableSearcher<Row> dataTableSearcher = new DataTableSearcher<>("Clienti", "id", "value", "subValue", "prova.html?id=");
-        dataTableSearcher.setKeyWords("Clienti", "Cliente", "Cli");
-        dataTableSearcher.addData(table);
-
-        return dataTableSearcher;
-    }
-
-    private static DataTableSearcher<Row> getOrdiniSearcher() {
-        Table table = new Table();
-        Row row = table.add();
-        row.setBigDecimal("Id", BigDecimal.valueOf(1));
-        row.setString("value", "Ordine cliente Bob");
-        row.setString("subValue", "5 prodotti - 1.000€");
-
-        row = table.add();
-        row.setBigDecimal("Id", BigDecimal.valueOf(2));
-        row.setString("value", "Ordine cliente Alice");
-        row.setString("subValue", "4 prodotti - 500€");
-
-        DataTableSearcher<Row> dataTableSearcher = new DataTableSearcher<>("Ordini", "id", "value", "subValue", "prova.html?id=");
-        dataTableSearcher.setKeyWords("Ordini", "Ordine", "Ord");
-        dataTableSearcher.addData(table);
-
-        return dataTableSearcher;
-    }
-
-    public static SearchManager getSearchManager() {
-        SearchManager searchManager = new SearchManager();
-        searchManager.addSearcher(getMenuSearcher(), SearchRelevance.VERY_HIGH);
-        searchManager.addSearcher(getClientiSearcher(), SearchRelevance.MEDIUM);
-        searchManager.addSearcher(getOrdiniSearcher(), SearchRelevance.MEDIUM);
-
-        return searchManager;
-    }
+class SearchTest {
 
     @Test
     void searcherManagerTest() {
-        SearchManager searchManager = getSearchManager();
+        SearchManager searchManager = TestFactory.getSearchManager();
 
         // Test: ricerca libera datatable
         List<SimpleSuggestion> simpleSuggestionList = searchManager.simpleSearch("Bob", 10);
@@ -139,7 +74,7 @@ public class SearchTest {
 
     @Test
     void searcherManagerApplyTest() {
-        SearchManager searchManager = getSearchManager();
+        SearchManager searchManager = TestFactory.getSearchManager();
 
         searchManager.applySearch("cliente bob", 10);
 

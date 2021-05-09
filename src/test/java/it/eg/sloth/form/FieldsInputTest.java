@@ -3,6 +3,7 @@ package it.eg.sloth.form;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
 import it.eg.sloth.db.model.SamplePojoRow;
+import it.eg.sloth.form.base.Element;
 import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.impl.AutoComplete;
 import it.eg.sloth.form.fields.field.impl.Input;
@@ -13,6 +14,7 @@ import it.eg.sloth.webdesktop.api.model.BffFieldsProva;
 import it.eg.sloth.webdesktop.api.response.BffFieldsResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.util.AntPathMatcher;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -150,4 +152,18 @@ class FieldsInputTest {
         assertEquals("2021-01-01", bffFields.getData());
     }
 
+
+    @Test
+    void removeTest() {
+        assertEquals(6, inputFields.getElements().size());
+
+        inputFields.removeChilds("*rr*");
+        assertEquals(5, inputFields.getElements().size());
+
+        inputFields.removeChilds("d*");
+        assertEquals(3, inputFields.getElements().size());
+
+        inputFields.removeChilds("d*");
+        assertEquals(3, inputFields.getElements().size());
+    }
 }

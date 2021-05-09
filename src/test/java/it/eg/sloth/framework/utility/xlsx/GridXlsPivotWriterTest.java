@@ -1,6 +1,6 @@
 package it.eg.sloth.framework.utility.xlsx;
 
-import it.eg.sloth.TestUtil;
+import it.eg.sloth.TestFactory;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.form.fields.field.impl.Input;
@@ -38,42 +38,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class GridXlsPivotWriterTest {
 
-    private static final String GRID = TestUtil.OUTPUT_DIR + "/GridXlsPivotWriter.xlsx";
+    private static final String GRID = TestFactory.OUTPUT_DIR + "/GridXlsPivotWriter.xlsx";
 
-    Table table;
     Grid<Table> grid;
 
     @BeforeEach
     void init() throws IOException {
-        TestUtil.createOutputDir();
-
-        table = new Table();
-        Row row = table.add();
-        row.setString("campo1", "Aaaa");
-        row.setString("campo2", "1111");
-        row.setBigDecimal("campo3", BigDecimal.valueOf(10));
-        row.setBigDecimal("campo4", BigDecimal.valueOf(100));
-
-        row = table.add();
-        row.setString("campo1", "Aaaa");
-        row.setString("campo2", "2222");
-        row.setBigDecimal("campo3", BigDecimal.valueOf(20));
-        row.setBigDecimal("campo4", BigDecimal.valueOf(200));
-
-        row = table.add();
-        row.setString("campo1", "Bbbb");
-        row.setString("campo2", "1111");
-        row.setBigDecimal("campo3", BigDecimal.valueOf(30));
-        row.setBigDecimal("campo4", BigDecimal.valueOf(300));
-
-        grid = new Grid<>("provaGrid");
-        grid.setTitle("Prova Grid");
-        grid.setDescription("Prova sottotitolo");
-
-        grid.addChild(new Input<>("campo1", "Colonna1", DataTypes.STRING));
-        grid.addChild(new Input<>("campo2", "Colonna2", DataTypes.STRING));
-        grid.addChild(new Input<>("campo3", "valore1", DataTypes.DECIMAL));
-        grid.addChild(new Input<>("campo4", "valore2", DataTypes.CURRENCY));
+        TestFactory.createOutputDir();
+        grid = TestFactory.getGrid();
 
         Pivot pivot = new Pivot("Pivot");
         pivot.setTitle("Pivot di Prova");
@@ -86,8 +58,6 @@ class GridXlsPivotWriterTest {
         grid.addPivot(pivot);
 
         pivot.getElements().size();
-
-        grid.setDataSource(table);
     }
 
     @Test

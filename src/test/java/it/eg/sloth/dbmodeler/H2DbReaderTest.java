@@ -1,6 +1,6 @@
 package it.eg.sloth.dbmodeler;
 
-import it.eg.sloth.TestUtil;
+import it.eg.sloth.TestFactory;
 import it.eg.sloth.dbmodeler.model.DataBase;
 import it.eg.sloth.dbmodeler.model.connection.DbConnection;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 class H2DbReaderTest {
 
-    private static final String H2_DATABASE_JSON = TestUtil.OUTPUT_DIR + "/h2DataBase.json";
+    private static final String H2_DATABASE_JSON = TestFactory.OUTPUT_DIR + "/h2DataBase.json";
 
     private DataBase dataBase;
 
@@ -37,7 +37,7 @@ class H2DbReaderTest {
         dataBase = new DataBase();
         dataBase.setDbConnection(dbConnection);
 
-        TestUtil.createOutputDir();
+        TestFactory.createOutputDir();
     }
 
     @Test

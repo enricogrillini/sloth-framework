@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class EnvironmentWriterTest {
 
-    private static final String CONTENT = "<div class=\"text-right p-2\">Ambiente: &nbsp;<span class=\"badge badge-danger small\">Local</span></div>";
+    private static final String CONTENT = "<div class=\"text-right p-2 pb-0\">Ambiente: &nbsp;<span class=\"badge badge-danger small\">Local</div>";
 
     @Test
     void fieldCardContentTest() throws FrameworkException {

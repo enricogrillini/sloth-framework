@@ -27,6 +27,8 @@ public interface Elements<T extends Element> extends Element, Iterable<T> {
 
     void removeChild(String name);
 
+    void removeChilds(String pattern);
+
     void removeChilds();
 
     List<T> getElements();

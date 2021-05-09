@@ -1,17 +1,20 @@
-package it.eg.sloth.framework.utility.xlsx;
+package it.eg.sloth.framework.utility.csv;
 
 import it.eg.sloth.TestFactory;
+import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.table.Table;
+import it.eg.sloth.form.fields.field.DataField;
+import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import org.junit.jupiter.api.Assertions;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -27,9 +30,9 @@ import java.io.OutputStream;
  *
  * @author Enrico Grillini
  */
-class GridXlsWriterTest {
+class GridCsvWriterTest {
 
-    private static final String GRID = TestFactory.OUTPUT_DIR + "/GridXlsWriter.xlsx";
+    private static final String SIMPLE_CSV = TestFactory.OUTPUT_DIR + "/BaseCsvWriter.csv";
 
     Grid<Table> grid;
 
@@ -41,19 +44,11 @@ class GridXlsWriterTest {
     }
 
     @Test
-    void gridWriterTest() throws FrameworkException, IOException {
-        GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);
-        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-            gridXlsxWriter.getWorkbook().write(outputStream);
-
-            Assertions.assertTrue(outputStream.toByteArray().length > 0);
-        }
-
-        try (OutputStream outputStream = new FileOutputStream(GRID)) {
-            gridXlsxWriter.getWorkbook().write(outputStream);
+    void writeTest() throws IOException, FrameworkException {
+        GridCsvWiter gridCsvWiter = new GridCsvWiter(grid);
+        try (OutputStream outputStream = new FileOutputStream(SIMPLE_CSV)) {
+            gridCsvWiter.write(outputStream);
         }
     }
 
 }
-
-

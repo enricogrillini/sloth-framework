@@ -1,9 +1,9 @@
 package it.eg.sloth.webdesktop.tag;
 
 
+import it.eg.sloth.TestFactory;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.search.SearchManager;
-import it.eg.sloth.webdesktop.search.SearchTest;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.SearchWriter;
 import org.junit.jupiter.api.Test;
 
@@ -71,7 +71,7 @@ class SearchWriterTest {
 
     @Test
     void fieldCardContentTest() throws FrameworkException {
-        SearchManager searchManager = SearchTest.getSearchManager();
+        SearchManager searchManager = TestFactory.getSearchManager();
         searchManager.applySearch("cliente bob", 10);
 
         // SearchBar

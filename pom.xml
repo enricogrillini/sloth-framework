@@ -144,6 +144,12 @@
             <artifactId>commons-text</artifactId>
             <version>1.8</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.8</version>
+        </dependency>
+
 
         <!-- Apache Poi -->
         <dependency>

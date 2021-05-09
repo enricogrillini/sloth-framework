@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.springframework.util.AntPathMatcher;
 
 import java.util.*;
 
@@ -80,6 +81,15 @@ public abstract class AbstractElements<T extends Element> implements Elements<T>
     public void removeChilds() {
         getMap().clear();
     }
+
+    @Override
+    public void removeChilds(String pattern) {
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
+        antPathMatcher.setCaseSensitive(false);
+
+        map.entrySet().removeIf(e -> antPathMatcher.match(pattern, e.getValue().getName()));
+    }
+
 
     @Override
     public T getElement(String name) {

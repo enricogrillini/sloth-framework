@@ -1,6 +1,6 @@
 package it.eg.sloth.dbmodeler;
 
-import it.eg.sloth.TestUtil;
+import it.eg.sloth.TestFactory;
 import it.eg.sloth.dbmodeler.model.DataBase;
 import it.eg.sloth.dbmodeler.model.connection.DbConnection;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
@@ -16,7 +16,7 @@ import java.sql.SQLException;
 @Disabled
 class PostgresDbReaderTest {
 
-    private static final String POSTGRES_DATABASE_JSON = TestUtil.OUTPUT_DIR + "/postgresDataBase.json";
+    private static final String POSTGRES_DATABASE_JSON = TestFactory.OUTPUT_DIR + "/postgresDataBase.json";
 
     private DataBase dataBase;
 
@@ -33,7 +33,7 @@ class PostgresDbReaderTest {
         dataBase = new DataBase();
         dataBase.setDbConnection(dbConnection);
 
-        TestUtil.createOutputDir();
+        TestFactory.createOutputDir();
     }
 
     @Test

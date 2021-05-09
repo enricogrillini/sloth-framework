@@ -1,6 +1,6 @@
 package it.eg.sloth.framework.utility.xlsx;
 
-import it.eg.sloth.TestUtil;
+import it.eg.sloth.TestFactory;
 import it.eg.sloth.framework.utility.report.SimpleReport;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelContainer;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelFont;
@@ -30,13 +30,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class BaseXlsWriterTest {
 
 
-    private static final String SIMPLE_REPORT = TestUtil.OUTPUT_DIR + "/BaseXlsWriter-SimpleReport.xlsx";
-    private static final String STYLE_REPORT = TestUtil.OUTPUT_DIR + "/BaseXlsWriter-StyleReport.xlsx";
-    private static final String COLOR_REPORT = TestUtil.OUTPUT_DIR + "/BaseXlsWriter-ColorReport.xlsx";
+    private static final String SIMPLE_REPORT = TestFactory.OUTPUT_DIR + "/BaseXlsWriter-SimpleReport.xlsx";
+    private static final String STYLE_REPORT = TestFactory.OUTPUT_DIR + "/BaseXlsWriter-StyleReport.xlsx";
+    private static final String COLOR_REPORT = TestFactory.OUTPUT_DIR + "/BaseXlsWriter-ColorReport.xlsx";
 
     @BeforeAll
     static void initClass() throws IOException {
-        TestUtil.createOutputDir();
+        TestFactory.createOutputDir();
     }
 
     @Test

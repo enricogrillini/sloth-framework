@@ -1,6 +1,6 @@
 package it.eg.sloth.dbmodeler;
 
-import it.eg.sloth.TestUtil;
+import it.eg.sloth.TestFactory;
 import it.eg.sloth.dbmodeler.model.DataBase;
 import it.eg.sloth.dbmodeler.model.connection.DbConnection;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
@@ -17,7 +17,7 @@ import java.sql.SQLException;
 class OracleDbReaderTest {
 
 
-    private static final String ORACLE_DATABASE_JSON = TestUtil.OUTPUT_DIR + "/oracleDataBase.json";
+    private static final String ORACLE_DATABASE_JSON = TestFactory.OUTPUT_DIR + "/oracleDataBase.json";
 
     private DataBase dataBase;
 
@@ -34,7 +34,7 @@ class OracleDbReaderTest {
         dataBase = new DataBase();
         dataBase.setDbConnection(dbConnection);
 
-        TestUtil.createOutputDir();
+        TestFactory.createOutputDir();
     }
 
     @Test

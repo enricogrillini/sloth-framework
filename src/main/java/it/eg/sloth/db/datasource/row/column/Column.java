@@ -45,6 +45,7 @@ public class Column {
                     .description(BaseFunction.nvl(getDescription(), getName()))
                     .dataType(getDataTypes())
                     .viewModality(ViewModality.VIEW_AUTO)
+                    .required(!isNullable())
                     .build();
         } else {
             return Input.<T>builder()
@@ -53,6 +54,7 @@ public class Column {
                     .dataType(getDataTypes())
                     .viewModality(ViewModality.VIEW_AUTO)
                     .maxLength(getMaxLength())
+                    .required(!isNullable())
                     .build();
         }
     }

@@ -116,6 +116,13 @@ class DataTypesTest {
     }
 
     @Test
+    void bigDecimalParseValueTest3() throws FrameworkException {
+        assertEquals(BigDecimal.valueOf(12.67), DataTypes.DECIMAL.parseValue("12,67 mm/s", Locale.ITALY));
+
+        assertEquals(BigDecimal.valueOf(499), DataTypes.DECIMAL.parseValue("499 rpm", Locale.ITALY));
+    }
+
+    @Test
     void bigDecimalFormatTextTest() throws FrameworkException {
         assertEquals("1,000.00", DataTypes.DECIMAL.formatText(BigDecimal.valueOf(1000), Locale.US));
         assertEquals("1.000,00", DataTypes.DECIMAL.formatText(BigDecimal.valueOf(1000), Locale.ITALY));
