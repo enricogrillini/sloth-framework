@@ -181,4 +181,13 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
     public Collection<Pivot> getPivots() {
         return Collections.unmodifiableCollection(mapPivot.values());
     }
+
+    /**
+     *
+     * @param grid
+     * @return
+     */
+    public boolean manageNav(Grid<?> grid) {
+        return (grid == null || grid == this) && this.size() > 0;
+    }
 }

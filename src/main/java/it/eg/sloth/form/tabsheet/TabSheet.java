@@ -1,8 +1,6 @@
 package it.eg.sloth.form.tabsheet;
 
 import it.eg.sloth.form.base.AbstractElements;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
@@ -21,9 +19,7 @@ import lombok.experimental.SuperBuilder;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
-@ToString(callSuper=true)
+@ToString(callSuper = true)
 @SuperBuilder(toBuilder = true)
 public class TabSheet extends AbstractElements<Tab> {
 
@@ -33,20 +29,17 @@ public class TabSheet extends AbstractElements<Tab> {
         super(name);
     }
 
-
-
     /**
      * Imposta il primo tab visibile come corrente
      *
      * @return
      */
     public void setCurrentTab() {
-        if (getCurrentTab().isHidden()) {
-            for (Tab tab : this) {
-                if (!tab.isHidden()) {
-                    setCurrentTabName(tab.getName());
-                    break;
-                }
+        currentTabName = null;
+        for (Tab tab : this) {
+            if (!tab.isHidden()) {
+                setCurrentTabName(tab.getName());
+                break;
             }
         }
     }
@@ -59,13 +52,24 @@ public class TabSheet extends AbstractElements<Tab> {
         if (getElements() == null || getElements().isEmpty())
             return null;
 
-        if (getCurrentTabName() == null)
-            return getElements().get(0);
+        if (currentTabName == null || getElement(currentTabName) == null || getElement(currentTabName).isHidden()) {
+            // Imposto il primo tab visibile come corrente
+            setCurrentTab();
+        }
 
-        if (getElement(getCurrentTabName()) != null)
-            return getElement(getCurrentTabName());
+        if (currentTabName != null) {
+            return getElement(currentTabName);
+        } else {
+            return null;
+        }
+    }
 
-        return getElements().get(0);
+    public boolean currentTabEquals(String name) {
+        return getCurrentTab() != null && getCurrentTab().getName().equalsIgnoreCase(name);
+    }
+
+    public boolean currentTabStartWith(String name) {
+        return getCurrentTab() != null && getCurrentTab().getName().startsWith(name.toLowerCase());
     }
 
 }
