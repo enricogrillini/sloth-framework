@@ -28,8 +28,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class TabSheetWriterTest {
 
-    private static final String TAB_SHEET_VIEW = ResourceUtil.normalizedResourceAsString("snippet-html/tab-sheet_view.html");
-    private static final String TAB_SHEET_EDIT = ResourceUtil.normalizedResourceAsString("snippet-html/tab-sheet_edit.html");
+    private static final String TAB_SHEET_VIEW = ResourceUtil.normalizedResourceAsString("snippet-html/tab-sheet/tab-sheet_view.html");
+    private static final String TAB_SHEET_EDIT = ResourceUtil.normalizedResourceAsString("snippet-html/tab-sheet/tab-sheet_edit.html");
 
     private TabSheet tabSheet;
 

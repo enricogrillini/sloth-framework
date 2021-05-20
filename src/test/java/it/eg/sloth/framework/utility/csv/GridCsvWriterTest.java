@@ -7,14 +7,19 @@ import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.utility.resource.ResourceUtil;
+import it.eg.sloth.webdesktop.tag.pagearea.writer.EnvironmentWriter;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -32,22 +37,16 @@ import java.util.List;
  */
 class GridCsvWriterTest {
 
-    private static final String SIMPLE_CSV = TestFactory.OUTPUT_DIR + "/BaseCsvWriter.csv";
-
-    Grid<Table> grid;
-
-    @BeforeEach
-    void init() throws IOException {
-        TestFactory.createOutputDir();
-
-        grid = TestFactory.getGrid();
-    }
+    private static final String CSV_WRITER_OUTPUT = ResourceUtil.normalizedResourceAsString("snippet-csv/csv-writer-output.csv");
 
     @Test
     void writeTest() throws IOException, FrameworkException {
+        Grid<Table> grid = TestFactory.getGrid();
         GridCsvWiter gridCsvWiter = new GridCsvWiter(grid);
-        try (OutputStream outputStream = new FileOutputStream(SIMPLE_CSV)) {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             gridCsvWiter.write(outputStream);
+
+            assertEquals(CSV_WRITER_OUTPUT, ResourceUtil.normalizedResourceAsString(outputStream.toByteArray()));
         }
     }
 

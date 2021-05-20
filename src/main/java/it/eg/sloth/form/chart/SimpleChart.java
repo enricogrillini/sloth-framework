@@ -1,6 +1,7 @@
 package it.eg.sloth.form.chart;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import it.eg.sloth.db.datasource.DataTable;
@@ -36,6 +37,7 @@ public class SimpleChart<D extends DataTable<?>> extends AbstractElements<Abstra
     ChartType chartType;
     String title;
     LegendPosition legendPosition;
+    List<String> palette;
 
     public SimpleChart(String name, ChartType chartType, String title, LegendPosition legendPosition) {
         super(name);
@@ -76,6 +78,10 @@ public class SimpleChart<D extends DataTable<?>> extends AbstractElements<Abstra
         }
 
         return list;
+    }
+
+    public void setPalette(String... color) {
+        palette = Arrays.asList(color);
     }
 
 }

@@ -1,5 +1,7 @@
 package it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset;
 
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.utility.html.HtmlColor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,12 +34,12 @@ public class DataSetMonoColor extends DataSet {
         borderWidth = 2;
     }
 
-    public void setColors(String borderColor, String backgroundColor, String pointColor) {
-        this.borderColor = borderColor;
-        this.backgroundColor = backgroundColor;
+    public void setColors(String color) throws FrameworkException {
+        this.borderColor = color;
+        this.backgroundColor = HtmlColor.rgbaFromHex(color, 0.05);
 
-        this.pointBackgroundColor = pointColor;
-        this.pointBorderColor = pointColor;
+        this.pointBackgroundColor = color;
+        this.pointBorderColor = color;
     }
 
 }

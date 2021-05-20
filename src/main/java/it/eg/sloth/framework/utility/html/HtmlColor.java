@@ -31,7 +31,16 @@ public class HtmlColor {
         // NOP
     }
 
-    private static final List<String> COLOR_1 = Arrays.asList("#4e73df", "#1cc88a", "#36b9cc", "#f6c23e", "#e74a3b", "#858796");
+
+    public static final String PRIMARY = "#4e73df";
+    public static final String SUCCESS = "#1cc88a";
+    public static final String INFO = "#36b9cc";
+    public static final String WARNING = "#f6c23e";
+    public static final String DANGER = "#e74a3b";
+    public static final String SECONDARY = "#858796";
+
+
+    private static final List<String> COLOR_1 = Arrays.asList(PRIMARY, WARNING, DANGER, SUCCESS, INFO, SECONDARY);
     private static final List<String> COLOR_2 = Arrays.asList("#5668E2", "#8A56E2", "#CF56E2", "#E256AE", "#E25668", "#E28956", "#E2CF56", "#AEE256", "#68E256", "#56E289", "#56E2CF", "#56AEE2");
 
     private static String rgbFromHex(String hexColor, String open, String close) throws FrameworkException {

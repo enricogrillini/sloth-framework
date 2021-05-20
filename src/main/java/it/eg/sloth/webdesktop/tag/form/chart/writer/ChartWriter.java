@@ -14,6 +14,7 @@ import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJsData;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJsLegend;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJsTitle;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset.DataSetMonoColor;
+import it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset.DataSetMultiColor;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -57,7 +58,6 @@ public class ChartWriter extends HtmlWriter {
                 .append("<!-- ChartScript -->\n")
                 .append("<script>\n")
                 .append(" var chartData = " + chartJsHtml + ";\n")
-                //.append(" var chartData = " + chartJs.getData().toString() + ";\n")
                 .append(" chart(\"" + simpleChart.getName() + "\", chartData);\n")
                 .append("</script>\n")
                 .toString();
@@ -65,7 +65,7 @@ public class ChartWriter extends HtmlWriter {
 
     public static final ChartJs populateChart(SimpleChart<?> simpleChart) throws FrameworkException {
         ChartJs chartJs = new ChartJs();
-        chartJs.setType(simpleChart.getChartType().toString().toLowerCase());
+        chartJs.setType(simpleChart.getChartType().value());
         chartJs.setData(populateChartData(simpleChart));
         chartJs.getOptions().setTitle(new ChartJsTitle(simpleChart.getTitle()));
         chartJs.getOptions().setLegend(new ChartJsLegend(simpleChart.getLegendPosition()));
@@ -94,12 +94,18 @@ public class ChartWriter extends HtmlWriter {
             switch (simpleChart.getChartType()) {
                 case LINE:
                 case BAR:
+                case RADAR:
                     dataSetMonoColor(simpleChart, chartData);
                     break;
 
                 case PIE:
+                case POLAR_AREA:
+                case DOUGHNUT:
                     dataSetMultiColor(simpleChart, chartData);
+                    break;
 
+                default:
+                    dataSetMonoColor(simpleChart, chartData);
             }
         }
 
@@ -109,7 +115,11 @@ public class ChartWriter extends HtmlWriter {
     private static final void dataSetMonoColor(SimpleChart<?> simpleChart, ChartJsData chartData) throws FrameworkException {
         // Datasets
         List<Series> seriesList = simpleChart.getSeriesList();
-        List<String> palette = HtmlColor.getColorPalette(seriesList.size());
+
+        List<String> palette = simpleChart.getPalette();
+        if (palette == null) {
+            palette = HtmlColor.getColorPalette(seriesList.size());
+        }
 
         int i = 0;
         for (Series series : seriesList) {
@@ -127,15 +137,44 @@ public class ChartWriter extends HtmlWriter {
                 }
             }
 
-            dataSet.setColors(palette.get(i), HtmlColor.rgbaFromHex(palette.get(i), 0.05), palette.get(i));
+            dataSet.setColors(palette.get(i));
             chartData.getDatasets().add(dataSet);
 
             i++;
         }
     }
 
-    private static final void dataSetMultiColor(SimpleChart simpleChart, ChartJsData chartData) {
-// TODO
+    private static final void dataSetMultiColor(SimpleChart<?> simpleChart, ChartJsData chartData) throws FrameworkException {
+        List<Series> seriesList = simpleChart.getSeriesList();
+        List<String> palette = simpleChart.getPalette();
+        if (palette == null) {
+            palette = HtmlColor.getColorPalette(simpleChart.getDataTable().size());
+        }
+
+        for (Series series : seriesList) {
+            Series seriesClone = series.newInstance();
+
+            DataSetMultiColor dataSet = new DataSetMultiColor();
+            dataSet.setLabel(series.getDescription());
+            int i = 0;
+            for (DataRow row : simpleChart.getDataTable()) {
+                seriesClone.copyFromDataSource(row);
+
+                if (seriesClone.getValue() instanceof BigDecimal) {
+                    dataSet.getData().add(seriesClone.getValue());
+                } else {
+                    dataSet.getData().add(null);
+                }
+
+                dataSet.addColors(palette.get(i));
+                i++;
+            }
+
+
+            chartData.getDatasets().add(dataSet);
+
+
+        }
     }
 
 }

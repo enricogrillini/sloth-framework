@@ -1,5 +1,13 @@
 package it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset;
 
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.utility.html.HtmlColor;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -14,7 +22,31 @@ package it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset;
  *
  * @author Enrico Grillini
  */
+@Getter
+@Setter
 public class DataSetMultiColor extends DataSet {
 
+    int borderWidth;
+    List<String> borderColor;
+    List<String> backgroundColor;
+    List<String> pointBackgroundColor;
+    List<String> pointBorderColor;
 
+    public DataSetMultiColor() {
+        super();
+        borderWidth = 1;
+
+        borderColor = new ArrayList<>();
+        backgroundColor = new ArrayList<>();
+        pointBackgroundColor = new ArrayList<>();
+        pointBorderColor = new ArrayList<>();
+    }
+
+    public void addColors(String color) throws FrameworkException {
+        this.borderColor.add(color);
+        this.backgroundColor.add(HtmlColor.rgbaFromHex(color, 0.9));
+
+        this.pointBackgroundColor.add(color);
+        this.pointBorderColor.add(color);
+    }
 }

@@ -9,6 +9,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class GridCsvWiter {
     }
 
     public void write(OutputStream outputStream) throws IOException, FrameworkException {
-        try (Writer writer = new OutputStreamWriter(outputStream)) {
+        try (Writer writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8)) {
             CSVFormat csvFormat = getCSVFormat();
 
             printData(writer, csvFormat);

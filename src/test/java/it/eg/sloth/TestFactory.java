@@ -1,15 +1,24 @@
 package it.eg.sloth;
 
+import it.eg.sloth.db.datasource.DataRow;
+import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
+import it.eg.sloth.form.chart.SimpleChart;
+import it.eg.sloth.form.chart.element.Labels;
+import it.eg.sloth.form.chart.element.Series;
 import it.eg.sloth.form.fields.field.impl.ComboBox;
 import it.eg.sloth.form.fields.field.impl.Text;
 import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.form.grid.Grid;
+import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.security.Menu;
 import it.eg.sloth.framework.security.VoiceType;
+import it.eg.sloth.jaxb.form.ChartType;
+import it.eg.sloth.jaxb.form.LegendPosition;
 import it.eg.sloth.webdesktop.search.SearchManager;
 import it.eg.sloth.webdesktop.search.SearchRelevance;
 import it.eg.sloth.webdesktop.search.impl.DataTableSearcher;
@@ -19,6 +28,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.util.Locale;
 
 public class TestFactory {
 
@@ -62,7 +73,33 @@ public class TestFactory {
 
         grid.setDataSource(table);
 
+        grid.setLocale(Locale.ITALY);
+
         return grid;
+    }
+
+    public static SimpleChart<DataTable<?>> getSimpleChart(ChartType chartType) throws FrameworkException {
+        SimpleChart<DataTable<?>> simpleChart = new SimpleChart<>("Prova", chartType, "Prova", LegendPosition.TOP);
+
+        simpleChart.addChild(new Labels<Timestamp>("Ora", "Ora", DataTypes.MONTH));
+        simpleChart.addChild(new Series("Excecutions", "Excecutions", DataTypes.INTEGER));
+
+        DataTable<?> table = new Table();
+        DataRow row = table.add();
+        row.setTimestamp("Ora", TimeStampUtil.parseTimestamp("01/01/2020"));
+        row.setBigDecimal("Excecutions", BigDecimal.valueOf(25));
+
+        row = table.add();
+        row.setTimestamp("Ora", TimeStampUtil.parseTimestamp("01/02/2020"));
+        row.setBigDecimal("Excecutions", BigDecimal.valueOf(15));
+
+        row = table.add();
+        row.setTimestamp("Ora", TimeStampUtil.parseTimestamp("01/03/2020"));
+        row.setBigDecimal("Excecutions", BigDecimal.valueOf(35));
+
+        simpleChart.setDataTable(table);
+
+        return simpleChart;
     }
 
     public static SearchManager getSearchManager() {

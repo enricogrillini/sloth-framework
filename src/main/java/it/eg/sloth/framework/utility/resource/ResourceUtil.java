@@ -24,4 +24,8 @@ public class ResourceUtil {
         return resourceAsString(path).replace("\r\n", "\n");
     }
 
+    public static String normalizedResourceAsString(byte[] resource) {
+        return new String(resource, StandardCharsets.UTF_8).replace("\r\n", "\n");
+    }
+
 }

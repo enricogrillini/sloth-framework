@@ -397,8 +397,11 @@
  <simpleType name="ChartType">
   <restriction base="string">
    <enumeration value="bar"></enumeration>
+   <enumeration value="doughnut"></enumeration>
    <enumeration value="line"></enumeration>
    <enumeration value="pie"></enumeration>
+   <enumeration value="polarArea"></enumeration>
+   <enumeration value="radar"></enumeration>
   </restriction>
  </simpleType>
 
