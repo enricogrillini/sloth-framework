@@ -8,6 +8,7 @@ import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.utility.resource.ResourceUtil;
 import it.eg.sloth.webdesktop.tag.form.list.writer.ListWriter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,11 +36,7 @@ class ListWriterTest {
 
     static final String TITLE_TEMPLATE = "<h2>{0}</h2><br>";
 
-    static final String LIST_TEMPLATE = "<div class=\"list-group list-group-flush\">\n" +
-            " <span class=\"list-group-item\">02/04 13</span>\n" +
-            " <span class=\"list-group-item\">02/04 14</span>\n" +
-            " <span class=\"list-group-item\">02/04 15</span>\n" +
-            "</div>\n";
+    private static final String LIST_TEMPLATE = ResourceUtil.normalizedResourceAsString("snippet-html/list/list.html");
 
     Grid<DataTable<?>> grid;
 
@@ -50,14 +47,9 @@ class ListWriterTest {
         grid.addChild(new Text<String>("Ora", "Ora", DataTypes.STRING));
 
         DataTable<?> table = new Table();
-        DataRow row = table.add();
-        row.setString("Ora", "02/04 13");
-
-        row = table.add();
-        row.setString("Ora", "02/04 14");
-
-        row = table.add();
-        row.setString("Ora", "02/04 15");
+        table.add().setString("Ora", "02/04 13");
+        table.add().setString("Ora", "02/04 14");
+        table.add().setString("Ora", "02/04 15");
 
         grid.setDataSource(table);
     }

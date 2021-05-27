@@ -33,7 +33,7 @@ public abstract class AbstractElements<T extends Element> implements Elements<T>
     private Locale locale;
     private Map<String, T> map;
 
-    public AbstractElements(String name) {
+    protected AbstractElements(String name) {
         this.name = name.toLowerCase();
     }
 

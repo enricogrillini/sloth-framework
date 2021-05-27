@@ -68,10 +68,13 @@ public class TransactionalRow extends Row implements TransactionalDataRow {
     }
 
     @Override
-    public void setObject(String name, Object value) {
+    public TransactionalRow setObject(String name, Object value) {
         super.setObject(name, value);
-        if (status == RowStatus.CLEAN)
+        if (status == RowStatus.CLEAN) {
             status = RowStatus.UPDATED;
+        }
+
+        return this;
     }
 
     @Override

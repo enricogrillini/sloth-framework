@@ -20,7 +20,6 @@ public abstract class DbSchemaAbstractReader {
     @Setter
     private Connection connection;
 
-
     public DbSchemaAbstractReader(DbConnection dbConnection) {
         this.dbConnection = dbConnection;
     }

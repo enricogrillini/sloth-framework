@@ -42,22 +42,22 @@ public interface DataSource {
         return (byte[]) getObject(name);
     }
 
-    void setObject(String name, Object value);
+    DataSource setObject(String name, Object value);
 
-    default void setBigDecimal(String name, BigDecimal value) {
-        setObject(name, value);
+    default DataSource setBigDecimal(String name, BigDecimal value) {
+       return setObject(name, value);
     }
 
-    default void setTimestamp(String name, Timestamp value) {
-        setObject(name, value);
+    default DataSource setTimestamp(String name, Timestamp value) {
+        return setObject(name, value);
     }
 
-    default void setString(String name, String value) {
-        setObject(name, value);
+    default DataSource setString(String name, String value) {
+        return setObject(name, value);
     }
 
-    default void setByte(String name, byte[] value) {
-        setObject(name, value);
+    default DataSource setByte(String name, byte[] value) {
+        return setObject(name, value);
     }
 
     void clear();

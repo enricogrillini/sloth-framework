@@ -12,6 +12,8 @@ import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 import it.eg.sloth.webdesktop.tag.form.field.writer.TextControlWriter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.text.MessageFormat;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
@@ -29,6 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ListWriter extends HtmlWriter {
 
+    private static final String ITEM = " <span class=\"list-group-item p-1\">{0}</span>\n";
+
     public static String writeTitle(Grid<?> grid) {
         if (BaseFunction.isBlank(grid.getTitle())) {
             return StringUtil.EMPTY;
@@ -43,7 +47,7 @@ public class ListWriter extends HtmlWriter {
 
     public static String writeList(Grid<?> grid) throws FrameworkException {
         StringBuilder result = new StringBuilder()
-                .append("<div class=\"list-group list-group-flush\">\n");
+                .append("<div class=\"list-group list-group-flush\" style=\"font-size: 0.875rem\">\n");
 
         Grid<?> appGrid = grid.newInstance();
         DataTable<?> dataTable = grid.getDataSource();
@@ -52,11 +56,8 @@ public class ListWriter extends HtmlWriter {
             appGrid.copyFromDataSource(dataRow);
 
             for (SimpleField field : appGrid.getElements()) {
-                if (field instanceof DataField) {
-                    result
-                            .append(" <span class=\"list-group-item\">")
-                            .append(TextControlWriter.writeControl(field, appGrid))
-                            .append("</span>\n");
+                if (field instanceof DataField && !((DataField<?>) field).isHidden()) {
+                    result.append(MessageFormat.format(ITEM, TextControlWriter.writeControl(field, appGrid)));
 
                     // NOTA - Stampo solo il primo campo
                     break;

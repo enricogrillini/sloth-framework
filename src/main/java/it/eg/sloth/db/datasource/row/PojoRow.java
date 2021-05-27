@@ -19,7 +19,7 @@ public abstract class PojoRow implements DataRow {
     Map<String, String> names;
     Map<String, Class<?>> types;
 
-    public PojoRow() {
+    protected PojoRow() {
         names = new LinkedHashMap<>();
         types = new LinkedHashMap<>();
         Field[] fields = this.getClass().getDeclaredFields();
@@ -52,7 +52,7 @@ public abstract class PojoRow implements DataRow {
     }
 
     @Override
-    public void setObject(String name, Object value) {
+    public PojoRow setObject(String name, Object value) {
         try {
             name = name.toLowerCase();
             if (names.containsKey(name)) {
@@ -62,6 +62,8 @@ public abstract class PojoRow implements DataRow {
         } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             log.error(LOG_MESSAGE, name, e);
         }
+
+        return this;
     }
 
     @Override

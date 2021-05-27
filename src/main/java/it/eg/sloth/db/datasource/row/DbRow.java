@@ -37,7 +37,7 @@ public abstract class DbRow extends TransactionalRow implements DbDataRow {
 
     private boolean autoloadLob;
 
-    public DbRow() {
+    protected DbRow() {
         super();
         this.autoloadLob = false;
     }

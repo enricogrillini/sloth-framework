@@ -22,7 +22,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 public abstract class AbstractChartField<T> extends TextField<T> {
 
-    public AbstractChartField(String name,  String description, DataTypes dataType) {
+    protected AbstractChartField(String name,  String description, DataTypes dataType) {
         super(name, description, dataType);
     }
 }

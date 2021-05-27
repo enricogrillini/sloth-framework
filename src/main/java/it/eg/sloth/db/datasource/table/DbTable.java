@@ -29,7 +29,7 @@ public abstract class DbTable<T extends DbDataRow> extends TransactionalTableAbs
 
     private boolean autoloadLob;
 
-    public DbTable() {
+    protected DbTable() {
         this.autoloadLob = false;
     }
 

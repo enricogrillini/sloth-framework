@@ -33,7 +33,7 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> ext
 
     private Map<T, V> map;
 
-    public AbstractDecodeMap() {
+    protected AbstractDecodeMap() {
         map = new LinkedHashMap<>();
     }
 

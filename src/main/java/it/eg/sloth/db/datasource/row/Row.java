@@ -43,8 +43,9 @@ public class Row implements DataRow {
     }
 
     @Override
-    public void setObject(String name, Object value) {
+    public Row setObject(String name, Object value) {
         values.put(name.toLowerCase(), value);
+        return this;
     }
 
     @Override

@@ -43,13 +43,13 @@ public abstract class TableAbstract<T extends DataRow> implements DataTable<T> {
     protected int currentRow;
     protected int pageSize;
 
-    public TableAbstract() {
+    protected TableAbstract() {
         pageSize = -1;
 
         clear();
     }
 
-    public TableAbstract(DataTable<?> dataTable) {
+    protected TableAbstract(DataTable<?> dataTable) {
         this();
 
         for (DataRow dataRow : dataTable) {
@@ -294,30 +294,12 @@ public abstract class TableAbstract<T extends DataRow> implements DataTable<T> {
     }
 
     @Override
-    public void setObject(String name, Object value) {
+    public TableAbstract<T> setObject(String name, Object value) {
         if (size() > 0) {
             getRow().setObject(name, value);
         }
-    }
 
-    @Override
-    public void setBigDecimal(String name, BigDecimal value) {
-        setObject(name, value);
-    }
-
-    @Override
-    public void setTimestamp(String name, Timestamp value) {
-        setObject(name, value);
-    }
-
-    @Override
-    public void setString(String name, String value) {
-        setObject(name, value);
-    }
-
-    @Override
-    public void setByte(String name, byte[] value) {
-        setObject(name, value);
+        return this;
     }
 
     @Override

@@ -13,7 +13,7 @@ public abstract class AbstractFrameCalendar<E, I extends DayInfo> implements Fra
     private Map<Timestamp, Day<E, I>> dayMap;
     private Timestamp[] otherHolidays;
 
-    public AbstractFrameCalendar(Timestamp timestamp, Timestamp... otherHolidays) throws FrameworkException {
+    protected AbstractFrameCalendar(Timestamp timestamp, Timestamp... otherHolidays) throws FrameworkException {
         dayMap = new LinkedHashMap<>();
         set(timestamp);
         this.otherHolidays = otherHolidays;

@@ -27,7 +27,7 @@ public abstract class AbstractSearcher implements Searcher {
     @Getter
     Set<String> keyWords;
 
-    public AbstractSearcher() {
+    protected AbstractSearcher() {
         keyWords = new HashSet<>();
     }
 
