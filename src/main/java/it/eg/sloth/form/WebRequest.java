@@ -1,14 +1,21 @@
 package it.eg.sloth.form;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
-import java.io.IOException;
-import java.util.*;
+
+import org.springframework.http.MediaType;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
+import lombok.ToString;
 
 /**
  * Project: sloth-framework
@@ -26,7 +33,7 @@ import java.util.*;
  * @author Enrico Grillini
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-@Slf4j
+@ToString
 public class WebRequest {
 
     Map<String, List<Object>> map;

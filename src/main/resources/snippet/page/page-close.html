@@ -1,0 +1,102 @@
+ </div>
+
+ <!-- Scroll to Top Button-->
+ <a class="scroll-to-top rounded" href="#page-top"> <i class="fas fa-angle-up"></i></a>
+
+ <script src="../vendor/jquery/jquery.min.js"></script>
+ <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+ <script src="../vendor/jquery-autocomplete/jquery.autocomplete.js"></script>
+ <script src="../js/sb-admin-2.js"></script>
+ <script src="../js/web-desktop.js"></script>
+ <script src="../vendor/chart.js/Chart.min.js"></script>
+ <script src="../js/web-desktop-chart.js"></script>
+
+ <!-- Logout Modal-->
+ <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+   <div class="modal-content">
+    <div class="modal-header">
+     <h5 class="modal-title" id="exampleModalLabel">Vuoi uscire?</h5>
+     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+     </button>
+    </div>
+    <div class="modal-body">Selezionare "Esci" per terminare la sessione corrente.</div>
+    <div class="modal-footer">
+     <button class="btn btn-secondary" type="button" data-dismiss="modal">Annulla</button>
+     <a class="btn btn-primary" href="../sec/logout">Esci</a>
+    </div>
+   </div>
+  </div>
+ </div>
+
+ <!-- Job Modal-->
+ <div class="modal fade" id="jobModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+   <div class="modal-content">
+    <div class="modal-header">
+     <h5 class="modal-title" id="jobHeader">Job XXX</h5>
+     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+     </button>
+    </div>
+    <div id="jobStartBody" class="modal-body">
+     <div class="alert">
+      <h4 id="jobStartText" class="alert-heading">Vuoi avviare il Job XXXX</h4>
+     </div>
+    </div>
+    <div id="jobStartFooter" class="modal-footer">
+     <button class="btn btn-secondary" type="button" data-dismiss="modal">Annulla</button>
+     <button class="btn btn-primary" type="button" onclick="startJob()">Avvia</button>
+    </div>
+    <div id="jobStatusBody" class="modal-body">
+     <div id="jobMessageAlert" class="alert">
+      <h4 id="jobStatus" class="alert-heading"></h4>
+      <p id="jobMessage" class="mb-0 font-weight-bold"></p>
+      <p id="jobDetail" class="mb-0 small"></p>
+     </div>
+     <div class="progress">
+      <div id="jobProgessBar" class="progress-bar progress-bar-striped bg-primary" role="progressbar" style="width: 80%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+     </div>
+    </div>
+    <div id="jobStatusFooter" class="modal-footer">
+     <button class="btn btn-secondary" type="button" data-dismiss="modal">Chiudi</button>
+    </div>
+   </div>
+  </div>
+ </div>
+
+ <!-- AlertModal -->
+ <div class="modal fade" id="alertModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+   <div class="modal-content">
+    <div class="modal-header">
+     <h5 id="alertModalTitle" class="modal-title text-primary"></h5>
+     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+     </button>
+    </div>
+    <div id="alertModalDescription" class="modal-body"></div>
+   </div>
+  </div>
+ </div>
+
+ <!-- ConfirmModal -->
+ <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+   <div class="modal-content">
+    <div class="modal-header">
+     <h5 id="confirmModalTitle" class="modal-title text-primary"></h5>
+     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+     </button>
+    </div>
+    <div id="confirmModalDescription" class="modal-body"></div>
+    <div class="modal-footer">
+     <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal">Annulla</button>
+     <button id="confirmModalSubmit" type="button" class="btn btn-outline-primary btn-sm" data-dismiss="modal">Conferma</button>
+    </div>
+   </div>
+  </div>
+ </div>

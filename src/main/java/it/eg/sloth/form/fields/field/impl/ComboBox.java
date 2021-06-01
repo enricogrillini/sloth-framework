@@ -5,11 +5,7 @@ import it.eg.sloth.db.decodemap.DecodeValue;
 import it.eg.sloth.form.fields.field.DecodedDataField;
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.base.InputField;
-import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.base.StringUtil;
-import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
-import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -43,22 +39,6 @@ public class ComboBox<T> extends InputField<T> implements DecodedDataField<T> {
     @Override
     public FieldType getFieldType() {
         return FieldType.COMBO_BOX;
-    }
-
-    @Override
-    public String getDecodedText() throws FrameworkException {
-        if (BaseFunction.isBlank(getData())) {
-            return StringUtil.EMPTY;
-        } else if (getDecodeMap() == null || getDecodeMap().isEmpty()) {
-            return getData();
-        } else {
-            return getDecodeMap().decode(getValue());
-        }
-    }
-
-    @Override
-    public String escapeJsDecodedText() throws FrameworkException {
-        return Casting.getJs(getDecodedText());
     }
 
     @Override

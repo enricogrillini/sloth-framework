@@ -1,10 +1,13 @@
-package it.eg.sloth.webdesktop.tag.pagearea;
+package it.eg.sloth.webdesktop.tag.form.modal;
 
-import it.eg.sloth.form.Form;
+import it.eg.sloth.form.modal.Modal;
+import it.eg.sloth.framework.common.base.StringUtil;
+import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
-import it.eg.sloth.webdesktop.tag.WebDesktopTag;
+import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 
 /**
  * Project: sloth-framework
@@ -17,27 +20,27 @@ import java.io.IOException;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
  * <p>
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * <p>
  *
  * @author Enrico Grillini
  */
-public class PageTag extends WebDesktopTag<Form> {
+public class ModalTag extends BaseElementTag<Modal> {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String PAGE_OPEN = ResourceUtil.resourceAsString("snippet/page/page-open.html");
-    public static final String PAGE_CLOSE = ResourceUtil.resourceAsString("snippet/page/page-close.html");
+    public static final String MODAL_OPEN = ResourceUtil.resourceAsString("snippet/modal/modal-open.html");
+    public static final String MODAL_CLOSE = ResourceUtil.resourceAsString("snippet/modal/modal-close.html");
 
-    @Override
-    protected int startTag() throws IOException {
-        writeln(PAGE_OPEN);
+    public int startTag() throws IOException {
+        String name = StringUtil.toJavaObjectName(getElement().getName());
+        String title = Casting.getHtml(getElement().getTitle());
+
+        writeln(MessageFormat.format(MODAL_OPEN, name, title));
 
         return EVAL_BODY_INCLUDE;
     }
 
-    @Override
     protected void endTag() throws IOException {
-        writeln(PAGE_CLOSE);
+        writeln(MODAL_CLOSE);
     }
 
 }

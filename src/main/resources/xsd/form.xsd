@@ -6,9 +6,10 @@
    <choice minOccurs="0" maxOccurs="unbounded">
     <element name="Fields" type="tns:Fields"></element>
     <element name="Grid" type="tns:Grid"></element>
-    <element name="TabSheet" type="tns:TabSheet"></element>
+                <element name="Modal" type="tns:Modal"></element>
+                <element name="TabSheet" type="tns:TabSheet"></element>
     <element name="Skipper" type="tns:Skipper"></element>
-    <element name="SimpleChart" type="tns:SimpleChart"></element>
+    <element name="SimpleChart" type="tns:SimpleChart"></element>
    </choice>
    <attribute name="Title" type="string"></attribute>
    <attribute name="ParentClassName" type="string"></attribute>
@@ -59,6 +60,13 @@
  </complexType>
 
 
+<complexType name="Modal">
+  <complexContent>
+   <extension base="tns:Elements">
+    <attribute name="Title" type="string"></attribute>
+   </extension>
+  </complexContent>
+ </complexType>
 
  <complexType name="Grid">
   <complexContent>

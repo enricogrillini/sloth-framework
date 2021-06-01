@@ -24,56 +24,46 @@ import java.text.MessageFormat;
  */
 public class GroupWriter extends HtmlWriter {
 
-    static final String BASE_CELL_CLASS = "m-0 pl-1 pr-1 {0}";
-    static final String ROW_CLASS = "row form-group mb-2";
+    static final String ROW_OPEN = "<div class=\"row form-group mb-2\">";
+    static final String ROW_CLOSE = "</div>";
+
+    static final String CELL_OPEN = "<div class=\"m-0 pl-1 pr-1 {0}\">";
+    static final String CELL_CLOSE = "</div>";
 
     public static String openGroup(String legend) {
         return new StringBuilder()
-                .append("<filedset>")
+                .append("<fieldset>")
                 .append(getElement("legend", !BaseFunction.isBlank(legend), legend))
                 .toString();
     }
 
     public static String closeGroup() {
         return new StringBuilder()
-                .append("</filedset>")
+                .append("</fieldset>")
                 .toString();
     }
 
     public static String openRow() {
-        return new StringBuilder()
-                .append("<div")
-                .append(getAttribute("class", ROW_CLASS))
-                .append(">")
-                .toString();
+        return ROW_OPEN;
     }
 
     public static String closeRow() {
-        return new StringBuilder()
-                .append("</div>")
-                .toString();
+        return ROW_CLOSE;
     }
 
     public static String openCell(String width) throws FrameworkException {
-        // class
+        // Cell class
         String widthClass = "col-2";
         if (!BaseFunction.isBlank(width) && width.indexOf("cols") >= 0) {
             BigDecimal bigDecimal = BigDecimalUtil.parseBigDecimal(width.replace("cols", ""));
             widthClass = "col-" + bigDecimal.intValue();
-        } 
+        }
 
-        return new StringBuilder()
-                .append("<div")
-                .append(getAttribute("class", MessageFormat.format(BASE_CELL_CLASS, widthClass)))
-                .append(">")
-                .toString();
-
+        return MessageFormat.format(CELL_OPEN, widthClass);
     }
 
     public static String closeCell() {
-        return new StringBuilder()
-                .append("</div>")
-                .toString();
+        return CELL_CLOSE;
     }
 
 }

@@ -34,13 +34,12 @@ public class CellTag extends WebDesktopTag<Form> {
     @Override
     public int startTag() throws IOException, FrameworkException {
         write(GroupWriter.openCell(getWidth()));
-
         return EVAL_BODY_INCLUDE;
     }
 
     @Override
     protected void endTag() throws IOException {
-        write("</div>");
+        write(GroupWriter.closeCell());
     }
 
 }

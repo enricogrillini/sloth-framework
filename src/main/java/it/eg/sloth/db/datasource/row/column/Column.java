@@ -2,6 +2,7 @@ package it.eg.sloth.db.datasource.row.column;
 
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.impl.CheckBox;
+import it.eg.sloth.form.fields.field.impl.ComboBox;
 import it.eg.sloth.form.fields.field.impl.Input;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.DataTypes;
@@ -57,6 +58,17 @@ public class Column {
                     .required(!isNullable())
                     .build();
         }
+    }
+
+    public <T> ComboBox<T> getComboBox() {
+        return ComboBox.<T>builder()
+                .name(getName())
+                .description(BaseFunction.nvl(getDescription(), getName()))
+                .dataType(getDataTypes())
+                .viewModality(ViewModality.VIEW_AUTO)
+                .required(!isNullable())
+                .build();
+
     }
 
     private Integer getMaxLength() {

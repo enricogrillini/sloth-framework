@@ -26,8 +26,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class GroupWriterTest {
 
-    private static final String OPEN_GROUP = "<filedset>{0}";
-    private static final String CLOSE_GROUP = "</filedset>";
+    private static final String OPEN_GROUP = "<fieldset>{0}";
+    private static final String CLOSE_GROUP = "</fieldset>";
 
     private static final String OPEN_ROW = "<div class=\"row form-group mb-2\">";
     private static final String CLOSE_ROW = "</div>";

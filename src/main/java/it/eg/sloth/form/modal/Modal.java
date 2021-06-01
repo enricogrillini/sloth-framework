@@ -1,10 +1,10 @@
-package it.eg.sloth.webdesktop.tag.pagearea;
+package it.eg.sloth.form.modal;
 
-import it.eg.sloth.form.Form;
-import it.eg.sloth.framework.utility.resource.ResourceUtil;
-import it.eg.sloth.webdesktop.tag.WebDesktopTag;
+import it.eg.sloth.form.base.Element;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Project: sloth-framework
@@ -21,23 +21,19 @@ import java.io.IOException;
  *
  * @author Enrico Grillini
  */
-public class PageTag extends WebDesktopTag<Form> {
+@Getter
+@Setter
+public class Modal implements Element {
 
-    private static final long serialVersionUID = 1L;
+    String name;
+    Locale locale;
+    String title;
 
-    public static final String PAGE_OPEN = ResourceUtil.resourceAsString("snippet/page/page-open.html");
-    public static final String PAGE_CLOSE = ResourceUtil.resourceAsString("snippet/page/page-close.html");
-
-    @Override
-    protected int startTag() throws IOException {
-        writeln(PAGE_OPEN);
-
-        return EVAL_BODY_INCLUDE;
+    public Modal(String name, String title) {
+        this.name = name.toLowerCase();
+        this.locale = Locale.getDefault();
+        this.title = title;
     }
 
-    @Override
-    protected void endTag() throws IOException {
-        writeln(PAGE_CLOSE);
-    }
 
 }
