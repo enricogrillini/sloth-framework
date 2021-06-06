@@ -1,4 +1,13 @@
-package it.eg.sloth.framework.utility;
+package it.eg.sloth.webdesktop.tag.form.field;
+
+import it.eg.sloth.form.fields.field.impl.File;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
+import it.eg.sloth.webdesktop.tag.form.field.writer.FileWriter;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.IOException;
 
 /**
  * Project: sloth-framework
@@ -11,35 +20,21 @@ package it.eg.sloth.framework.utility;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
  * <p>
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * <p>
  *
  * @author Enrico Grillini
  */
-public enum FileType {
-  PDF(".pdf", "application/pdf"),
-  XLS(".xls", "application/xls"),
-  XLSX(".xlsx", "application/xlsx"), 
-  JPEG(".jpeg", "image/jpeg"),
-  PNG(".jpeg", "image/png"),
-  
-  TXT(".txt", "text/plain"), 
-  CSV(".csv", "application/csv"),
-  XML(".xml", "text/xml");
+@Getter
+@Setter
+public class FileTag extends BaseElementTag<File> {
 
-  private final String extension;
-  private final String contentType;
+    @Override
+    protected int startTag() throws FrameworkException, IOException {
+        write(FileWriter.writeFile(getElement(), getViewModality(), getWebDesktopDto().getLastController()));
+        return SKIP_BODY;
+    }
 
-  FileType(String extension, String contentType) {
-    this.extension = extension;
-    this.contentType = contentType;
-  }
-
-  public String getExtension() {
-    return this.extension;
-  }
-
-  public String getContentType() {
-    return this.contentType;
-  }
-
+    @Override
+    protected void endTag() {
+        // NOP
+    }
 }

@@ -4,6 +4,8 @@ import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.form.grid.writer.GridWriter;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 
@@ -21,14 +23,19 @@ import java.io.IOException;
  *
  * @author Enrico Grillini
  */
+@Getter
+@Setter
 public class SimpleGridTag extends AbstractGridTag<Grid<?>> {
 
     private static final long serialVersionUID = 1L;
 
+    private boolean bordered = true;
+    private boolean sortable = true;
+
     public int startTag() throws IOException, FrameworkException {
         if (getElement().getDataSource() != null) {
-            writeln(GridWriter.openTable(getElement(), true, false, true));
-            writeln(GridWriter.header(getElement(), getDetailFields(), true));
+            writeln(GridWriter.openTable(getElement(), bordered, false, true));
+            writeln(GridWriter.header(getElement(), getDetailFields(), sortable));
             writeln(GridWriter.rows(getElement(), getDetailFields(), ViewModality.VIEW_VISUALIZZAZIONE, false));
 
             if (getElement().hasTotalizer()) {

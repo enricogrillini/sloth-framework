@@ -285,8 +285,9 @@
     <attribute name="ReadOnly" type="boolean"></attribute>
     <attribute name="Hidden" type="boolean"></attribute>
     <attribute name="ViewModality" type="tns:ViewModality"></attribute>
-    <attribute name="MaxSize" type="int" use="optional"></attribute>
-   </extension>
+    <attribute name="MaxSize" type="int" use="optional"></attribute>
+                <attribute name="HtmlFileType" type="tns:HtmlFileType"></attribute>
+            </extension>
   </complexContent>
  </complexType>
 
@@ -588,4 +589,11 @@
    <extension base="tns:CheckBox"></extension>
   </complexContent>
  </complexType>
+
+ <simpleType name="HtmlFileType">
+  <restriction base="string">
+   <enumeration value="GENERIC"></enumeration>
+   <enumeration value="PDF"></enumeration>
+  </restriction>
+ </simpleType>
 </schema>

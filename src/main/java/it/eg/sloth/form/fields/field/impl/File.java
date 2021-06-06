@@ -5,7 +5,9 @@ import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.pageinfo.ViewModality;
+import it.eg.sloth.jaxb.form.HtmlFileType;
 import it.eg.sloth.webdesktop.api.request.BffFields;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -48,8 +50,12 @@ public class File implements SimpleField {
     Boolean hidden;
     ViewModality viewModality;
     Integer maxSize;
+    HtmlFileType htmlFileType;
 
     private Part part;
+
+    @Getter(AccessLevel.NONE)
+    private boolean exists;
 
     public File(String name, String description) {
         this.name = name;
@@ -90,6 +96,13 @@ public class File implements SimpleField {
         return maxSize != null ? maxSize : 0;
     }
 
+    public HtmlFileType getHtmlFileType() {
+        return htmlFileType != null ? htmlFileType : HtmlFileType.GENERIC;
+    }
+
+    public boolean exists() {
+        return this.exists;
+    }
 
     @Override
     public FieldType getFieldType() {
