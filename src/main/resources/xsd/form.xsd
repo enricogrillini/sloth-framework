@@ -55,12 +55,13 @@
      <element name="RadioButtons" type="tns:RadioButtons" maxOccurs="unbounded" minOccurs="0"></element>
     </choice>
     <attribute name="Description" type="string"></attribute>
+    <attribute name="Title" type="string"></attribute>
    </extension>
   </complexContent>
  </complexType>
 
 
-<complexType name="Modal">
+ <complexType name="Modal">
   <complexContent>
    <extension base="tns:Elements">
     <attribute name="Title" type="string"></attribute>

@@ -64,7 +64,7 @@ class ToolBarButtonWriterTest {
 
     @BeforeEach
     void init() {
-        grid = new Grid<>("prova", null, null, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+        grid = new Grid<>("prova", null);
         DataTable<?> table = new Table();
         table.setPageSize(5);
 

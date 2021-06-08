@@ -41,54 +41,87 @@ import java.util.Map;
 @ToString(callSuper = true)
 public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
 
-    private String title;
-
     @Getter(value = AccessLevel.PRIVATE)
     @Setter(value = AccessLevel.PRIVATE)
     private Map<String, Pivot> mapPivot;
 
-    boolean backButtonHidden;
-    boolean selectButtonHidden;
+    Boolean backButtonHidden;
+    Boolean selectButtonHidden;
 
-    boolean firstButtonHidden;
-    boolean prevPageButtonHidden;
-    boolean prevButtonHidden;
-    boolean detailButtonHidden;
-    boolean nextButtonHidden;
-    boolean nextPageButtonHidden;
-    boolean lastButtonHidden;
-    boolean insertButtonHidden;
-    boolean deleteButtonHidden;
-    boolean updateButtonHidden;
-    boolean commitButtonHidden;
-    boolean rollbackButtonHidden;
+    Boolean firstButtonHidden;
+    Boolean prevPageButtonHidden;
+    Boolean prevButtonHidden;
+    Boolean detailButtonHidden;
+    Boolean nextButtonHidden;
+    Boolean nextPageButtonHidden;
+    Boolean lastButtonHidden;
 
-    public Grid(String name) {
-        this(name, null, null, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
-    }
+    Boolean insertButtonHidden;
+    Boolean deleteButtonHidden;
+    Boolean updateButtonHidden;
+    Boolean commitButtonHidden;
+    Boolean rollbackButtonHidden;
 
-    public Grid(String name, String description, String title, Boolean backButtonHidden, Boolean selectPageButtonHidden, Boolean firstButtonHidden, Boolean prevPageButtonHidden,
-                Boolean prevButtonHidden, Boolean detailButtonHidden, Boolean nextButtonHidden, Boolean nextPageButtonHidden, Boolean lastPageButtonHidden, Boolean insertButtonHidden,
-                Boolean deleteButtonHidden, Boolean updateButtonHidden, Boolean commitButtonHidden, Boolean rollbackButtonHidden) {
+    public Grid(String name, String description) {
         super(name, description);
 
-        this.title = title;
-        this.backButtonHidden = backButtonHidden != null && backButtonHidden;
-        this.selectButtonHidden = selectPageButtonHidden != null && selectPageButtonHidden;
-        this.firstButtonHidden = firstButtonHidden != null && firstButtonHidden;
-        this.prevPageButtonHidden = prevPageButtonHidden != null && prevPageButtonHidden;
-        this.prevButtonHidden = prevButtonHidden != null && prevButtonHidden;
-        this.detailButtonHidden = detailButtonHidden != null && detailButtonHidden;
-        this.nextButtonHidden = nextButtonHidden != null && nextButtonHidden;
-        this.nextPageButtonHidden = nextPageButtonHidden != null && nextPageButtonHidden;
-        this.lastButtonHidden = lastPageButtonHidden != null && lastPageButtonHidden;
-        this.insertButtonHidden = insertButtonHidden != null && insertButtonHidden;
-        this.deleteButtonHidden = deleteButtonHidden != null && deleteButtonHidden;
-        this.updateButtonHidden = updateButtonHidden != null && updateButtonHidden;
-        this.commitButtonHidden = commitButtonHidden != null && commitButtonHidden;
-        this.rollbackButtonHidden = rollbackButtonHidden != null && rollbackButtonHidden;
-
         mapPivot = new LinkedHashMap<>();
+    }
+
+    public boolean isBackButtonHidden() {
+        return backButtonHidden != null && backButtonHidden;
+    }
+
+    public boolean isSelectButtonHidden() {
+        return selectButtonHidden != null && selectButtonHidden;
+    }
+
+    public boolean isFirstButtonHidden() {
+        return firstButtonHidden != null && firstButtonHidden;
+    }
+
+    public boolean isPrevPageButtonHidden() {
+        return prevPageButtonHidden != null && prevPageButtonHidden;
+    }
+
+    public boolean isPrevButtonHidden() {
+        return prevButtonHidden != null && prevButtonHidden;
+    }
+
+    public boolean isDetailButtonHidden() {
+        return detailButtonHidden != null && detailButtonHidden;
+    }
+
+    public boolean isNextButtonHidden() {
+        return nextButtonHidden != null && nextButtonHidden;
+    }
+
+    public boolean isNextPageButtonHidden() {
+        return nextPageButtonHidden != null && nextPageButtonHidden;
+    }
+
+    public boolean isLastButtonHidden() {
+        return lastButtonHidden != null && lastButtonHidden;
+    }
+
+    public boolean isInsertButtonHidden() {
+        return insertButtonHidden != null && insertButtonHidden;
+    }
+
+    public boolean isDeleteButtonHidden() {
+        return deleteButtonHidden != null && deleteButtonHidden;
+    }
+
+    public boolean isUpdateButtonHidden() {
+        return updateButtonHidden != null && updateButtonHidden;
+    }
+
+    public boolean isCommitButtonHidden() {
+        return commitButtonHidden != null && commitButtonHidden;
+    }
+
+    public boolean isRollbackButtonHidden() {
+        return rollbackButtonHidden != null && rollbackButtonHidden;
     }
 
     public boolean isEmpty() {
@@ -156,7 +189,7 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
     }
 
     public Grid<D> newInstance() {
-        Grid<D> result = new Grid<>(getName());
+        Grid<D> result = new Grid<>(getName(), getDescription());
         for (SimpleField field : this.getElements()) {
             result.addChild(field.newInstance());
         }
@@ -183,7 +216,6 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
     }
 
     /**
-     *
      * @param grid
      * @return
      */

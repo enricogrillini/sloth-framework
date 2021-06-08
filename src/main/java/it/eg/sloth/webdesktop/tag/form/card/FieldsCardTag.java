@@ -1,4 +1,11 @@
-package it.eg.sloth.db.datasource.row.lob;
+package it.eg.sloth.webdesktop.tag.form.card;
+
+import it.eg.sloth.form.fields.Fields;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
+import it.eg.sloth.webdesktop.tag.form.card.writer.CardWriter;
+
+import java.io.IOException;
 
 /**
  * Project: sloth-framework
@@ -11,40 +18,23 @@ package it.eg.sloth.db.datasource.row.lob;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
  * <p>
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * <p>
  *
  * @author Enrico Grillini
  */
-public abstract class LobData<O extends Object> {
+public class FieldsCardTag extends BaseElementTag<Fields<?>> {
 
-    public static final int OFF_LINE = 0;
-    public static final int ON_LINE = 1;
-    public static final int CHANGED = 2;
+    private static final long serialVersionUID = 1L;
 
-    private int status;
+    @Override
+    protected int startTag() throws IOException, FrameworkException {
+        writeln(CardWriter.fieldsCardOpen(getElement()));
 
-    protected O value;
-
-    protected LobData() {
-        setStatus(OFF_LINE);
-        value = null;
+        return EVAL_BODY_INCLUDE;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public O getValue() {
-        return value;
-    }
-
-    public void setValue(O value) {
-        setStatus(CHANGED);
-        this.value = value;
+    @Override
+    protected void endTag() throws IOException {
+        writeln(CardWriter.closeCard());
     }
 
 }

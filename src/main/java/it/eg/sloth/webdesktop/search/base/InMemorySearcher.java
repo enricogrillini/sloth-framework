@@ -37,7 +37,7 @@ public abstract class InMemorySearcher<T> extends AbstractSearcher {
 
     protected abstract boolean match(T object, List<String> words);
 
-    public InMemorySearcher() {
+    protected InMemorySearcher() {
         super();
         searchSuggestionList = new ArrayList<>();
     }

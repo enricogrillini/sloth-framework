@@ -44,7 +44,7 @@ public abstract class FormPage<F extends Form> extends BasePage implements FormP
 
     public abstract F createForm();
 
-    public FormPage() {
+    protected FormPage() {
         super();
 
         this.webRequest = null;

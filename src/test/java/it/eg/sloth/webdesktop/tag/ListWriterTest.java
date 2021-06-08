@@ -42,7 +42,7 @@ class ListWriterTest {
 
     @BeforeEach
     void init() {
-        grid = new Grid<>("Prova");
+        grid = new Grid<>("Prova", null);
         grid.setTitle("Titolo");
         grid.addChild(new Text<String>("Ora", "Ora", DataTypes.STRING));
 

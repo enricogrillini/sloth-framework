@@ -20,7 +20,7 @@ public abstract class MailComposer {
     @Setter(AccessLevel.NONE)
     protected List<MailElement> elements;
 
-    public MailComposer(String title) {
+    protected MailComposer(String title) {
         this.title = title;
         elements = new ArrayList<>();
     }

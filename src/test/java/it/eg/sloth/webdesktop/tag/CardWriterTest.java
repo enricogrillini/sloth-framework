@@ -1,13 +1,20 @@
 package it.eg.sloth.webdesktop.tag;
 
+import it.eg.sloth.TestFactory;
+import it.eg.sloth.form.fields.Fields;
+import it.eg.sloth.form.fields.field.impl.ComboBox;
 import it.eg.sloth.form.fields.field.impl.Text;
+import it.eg.sloth.form.fields.field.impl.TextTotalizer;
+import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.utility.resource.ResourceUtil;
 import it.eg.sloth.webdesktop.tag.form.card.writer.CardWriter;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,16 +34,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class CardWriterTest {
 
-    private static final String CONTENT_TEMPLATE =
-            "   <div class=\"col mr-2\"{2}>\n" +
-                    "    <div class=\"text-xs font-weight-bold text-primary text-uppercase mb-1\">{0}</div>\n" +
-                    "    <div class=\"row no-gutters align-items-center\">\n" +
-                    "     <div class=\"col-auto\">\n" +
-                    "      <div class=\"h5 mb-0 mr-3 font-weight-bold text-gray-800\">{1}</div>\n" +
-                    "     </div>\n" +
-                    "    </div>\n" +
-                    "   </div>\n" +
-                    "{3}";
+    private static final String CONTENT_TEMPLATE = ResourceUtil.normalizedResourceAsString("snippet-html/card/field-card.html");
+
+    private static final String FIELDS_CARD_OPEN = ResourceUtil.normalizedResourceAsString("snippet-html/card/fields-card-open.html");
 
     @Test
     void fieldCardContentTest() throws FrameworkException {
@@ -53,4 +53,26 @@ class CardWriterTest {
         assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "description", "10", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\"", "   <a href=\"www?10\" class=\"stretched-link\"></a>\n"), CardWriter.fieldCardContent(field));
     }
 
+
+    @Test
+    void fieldsCardOpenTest() throws FrameworkException {
+        Fields fields = new Grid<>("prova", null);
+        fields.setDescription("Prova sottotitolo");
+
+        Text<BigDecimal> text = new Text("campo1", "campo 1", DataTypes.CURRENCY);
+        text.setLocale(Locale.ITALY);
+        text.setValue(BigDecimal.valueOf(100));
+        fields.addChild(text);
+
+        text = new Text("campo2", "campo 2", DataTypes.CURRENCY);
+        text.setLocale(Locale.ITALY);
+        fields.addChild(text);
+
+        text = new Text("campo3", "campo 3", DataTypes.CURRENCY);
+        text.setLocale(Locale.ITALY);
+        text.setValue(BigDecimal.valueOf(300));
+        fields.addChild(text);
+
+        assertEquals(FIELDS_CARD_OPEN, CardWriter.fieldsCardOpen(fields));
+    }
 }

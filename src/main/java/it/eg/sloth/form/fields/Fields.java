@@ -3,6 +3,7 @@ package it.eg.sloth.form.fields;
 import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.base.AbstractElements;
+import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.base.TextField;
@@ -13,6 +14,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -34,6 +37,7 @@ import java.text.ParseException;
 public class Fields<D extends DataSource> extends AbstractElements<SimpleField> {
 
     String description;
+    String title;
     D dataSource;
 
     public Fields(String name) {
@@ -204,4 +208,14 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
         return validate(messageList);
     }
 
+    public <T> List<DataField<T>> getDataFieldList() {
+        List<DataField<T>> list = new ArrayList<>();
+        for (SimpleField field : this) {
+            if (field instanceof DataField) {
+                list.add((DataField<T>) field);
+            }
+        }
+
+        return list;
+    }
 }

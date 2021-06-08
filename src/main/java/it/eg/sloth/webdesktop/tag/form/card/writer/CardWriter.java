@@ -1,8 +1,18 @@
 package it.eg.sloth.webdesktop.tag.form.card.writer;
 
+import it.eg.sloth.form.fields.Fields;
+import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.form.fields.field.base.TextField;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.casting.Casting;
+import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.utility.resource.ResourceUtil;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
+
+import java.math.BigDecimal;
+import java.text.MessageFormat;
+
 
 /**
  * Project: sloth-framework
@@ -22,24 +32,22 @@ import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
  */
 public class CardWriter extends HtmlWriter {
 
+    public static final String CARD_OPEN = ResourceUtil.normalizedResourceAsString("snippet/card/card-open.html");
+    public static final String CARD_CLOSE = ResourceUtil.normalizedResourceAsString("snippet/card/card-close.html");
+
+    public static final String FIELDS_CARD_TITLE = ResourceUtil.normalizedResourceAsString("snippet/card/fields-card-title.html");
+    public static final String FIELDS_CARD_ROW = ResourceUtil.normalizedResourceAsString("snippet/card/fields-card-row.html");
+
     private CardWriter() {
         // NOP
     }
 
-    public static final String openCard(String borderLeft) {
-        return new StringBuilder()
-                .append("<div class=\"card shadow " + borderLeft + " py-0\">\n")
-                .append(" <div class=\"card-body\">\n")
-                .append("  <div class=\"row no-gutters align-items-center\">\n")
-                .toString();
+    public static final String openCard() {
+        return CARD_OPEN;
     }
 
     public static final String closeCard() {
-        return new StringBuilder()
-                .append("  </div>\n")
-                .append(" </div>\n")
-                .append("</div>")
-                .toString();
+        return CARD_CLOSE;
     }
 
     public static final String fieldCardContent(TextField<?> field) {
@@ -62,5 +70,57 @@ public class CardWriter extends HtmlWriter {
         return result.toString();
     }
 
+    public static final String fieldsCardOpen(Fields<?> fields) throws FrameworkException {
+        StringBuilder result = new StringBuilder()
+                .append(MessageFormat.format(CARD_OPEN, Casting.getHtml(fields.getDescription())))
+                .append(MessageFormat.format(FIELDS_CARD_TITLE, Casting.getHtml(fields.getDescription())));
+
+        double min = getMinValue(fields);
+        double max = getMaxValue(fields);
+        double delta = max - min;
+        for (DataField<?> dataField : fields.getDataFieldList()) {
+            if (BaseFunction.in(dataField.getDataType(), DataTypes.DECIMAL, DataTypes.INTEGER, DataTypes.CURRENCY, DataTypes.PERC, DataTypes.NUMBER)) {
+                if (delta == 0 || dataField.getValue() == null) {
+                    result.append(MessageFormat.format(FIELDS_CARD_ROW, dataField.getHtmlDescription(), "", "0"));
+                } else {
+                    BigDecimal value = (BigDecimal) dataField.getValue();
+                    double valuePerc = Math.round((value.doubleValue() - min) / delta * 100);
+                    result.append(MessageFormat.format(FIELDS_CARD_ROW, dataField.getHtmlDescription(), dataField.escapeHtmlText(), String.valueOf(valuePerc)));
+                }
+            }
+        }
+
+        return result
+                .append("   </div>")
+                .toString();
+    }
+
+    private static double getMinValue(Fields<?> fields) throws FrameworkException {
+        double min = 0;
+        for (DataField<?> dataField : fields.getDataFieldList()) {
+            if (BaseFunction.in(dataField.getDataType(), DataTypes.DECIMAL, DataTypes.INTEGER, DataTypes.CURRENCY, DataTypes.PERC, DataTypes.NUMBER)) {
+                BigDecimal value = (BigDecimal) dataField.getValue();
+                if (value != null && min > value.doubleValue()) {
+                    min = value.doubleValue();
+                }
+            }
+        }
+
+        return min;
+    }
+
+    private static double getMaxValue(Fields<?> fields) throws FrameworkException {
+        double max = 0;
+        for (DataField<?> dataField : fields.getDataFieldList()) {
+            if (BaseFunction.in(dataField.getDataType(), DataTypes.DECIMAL, DataTypes.INTEGER, DataTypes.CURRENCY, DataTypes.PERC, DataTypes.NUMBER)) {
+                BigDecimal value = (BigDecimal) dataField.getValue();
+                if (value != null && max < value.doubleValue()) {
+                    max = value.doubleValue();
+                }
+            }
+        }
+
+        return max;
+    }
 
 }

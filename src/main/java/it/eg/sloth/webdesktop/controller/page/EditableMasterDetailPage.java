@@ -30,7 +30,7 @@ import it.eg.sloth.webdesktop.controller.common.grid.BaseGridNavigationInterface
  */
 public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>> extends MasterDetailPage<F, G> implements SubEditingInterface<F>, BaseGridNavigationInterface<F> {
 
-    public EditableMasterDetailPage() {
+    protected EditableMasterDetailPage() {
         super();
     }
 

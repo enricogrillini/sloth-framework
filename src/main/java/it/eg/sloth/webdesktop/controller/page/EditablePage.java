@@ -26,7 +26,7 @@ import it.eg.sloth.webdesktop.controller.common.editable.BaseEditingInterface;
  */
 public abstract class EditablePage<F extends Form> extends SimplePage<F> implements BaseEditingInterface<F> {
 
-    public EditablePage() {
+    protected EditablePage() {
         super();
     }
 

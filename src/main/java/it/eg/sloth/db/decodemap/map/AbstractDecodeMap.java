@@ -1,18 +1,14 @@
 package it.eg.sloth.db.decodemap.map;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import it.eg.sloth.db.decodemap.DecodeMap;
 import it.eg.sloth.db.decodemap.DecodeValue;
 import it.eg.sloth.db.decodemap.MapSearchType;
 import it.eg.sloth.db.decodemap.value.AbstractDecodeValue;
-import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
+import lombok.ToString;
+
+import java.util.*;
 
 /**
  * Project: sloth-framework
@@ -29,7 +25,8 @@ import it.eg.sloth.framework.common.base.StringUtil;
  *
  * @author Enrico Grillini
  */
-public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> extends FrameComponent implements DecodeMap<T, V> {
+@ToString
+public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> implements DecodeMap<T, V> {
 
     private Map<T, V> map;
 

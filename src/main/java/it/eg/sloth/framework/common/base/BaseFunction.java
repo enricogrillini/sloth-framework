@@ -103,6 +103,16 @@ public class BaseFunction {
         return obj1.equals(obj2);
     }
 
+    public static boolean in(Object obj1, Object... objects) {
+        for (Object object : objects) {
+            if (equals(obj1, object)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Arrotonda un bigDecimal
      *

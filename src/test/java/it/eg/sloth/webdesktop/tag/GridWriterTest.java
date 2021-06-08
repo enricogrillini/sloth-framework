@@ -94,7 +94,7 @@ class GridWriterTest {
         row.setString("campo2", "B");
         row.setString("campo3", "Lorem ipsum B");
 
-        grid = new Grid<>("provaGrid");
+        grid = new Grid<>("provaGrid", null);
         grid.addChild(new Text<String>("campo1", "campo1", DataTypes.STRING));
         grid.addChild(new Text<String>("campo2", "campo2", DataTypes.STRING));
         grid.setDataSource(table);

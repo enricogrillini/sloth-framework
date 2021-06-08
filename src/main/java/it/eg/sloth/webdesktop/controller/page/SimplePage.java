@@ -44,7 +44,7 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
 
     protected abstract String getJspName();
 
-    public SimplePage() {
+    protected SimplePage() {
         this.modelAndView = null;
     }
 

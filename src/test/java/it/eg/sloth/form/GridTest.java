@@ -36,7 +36,8 @@ class GridTest {
 
     @BeforeEach
     void init() {
-        grid = new Grid<>("name", "description", "title", null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+        grid = new Grid<>("name", "description");
+        grid.setTitle("title");
         decodeMap = new StringDecodeMap("A,2222;B,11111;C,33333");
         table = new Table();
 

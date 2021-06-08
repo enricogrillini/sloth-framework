@@ -1,7 +1,6 @@
 package it.eg.sloth.webdesktop.tag.form.card;
 
 import it.eg.sloth.form.Form;
-import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import it.eg.sloth.webdesktop.tag.form.card.writer.CardWriter;
 
@@ -27,8 +26,7 @@ public class SimpleCardTag extends WebDesktopTag<Form> {
 
     @Override
     protected int startTag() throws IOException {
-        writeln("<!-- SimpleCard -->");
-        writeln(CardWriter.openCard(BootStrapClass.BORDER_LEFT_NONE));
+        writeln(CardWriter.openCard());
 
         return EVAL_BODY_INCLUDE;
     }

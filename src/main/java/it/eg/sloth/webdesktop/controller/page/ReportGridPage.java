@@ -25,7 +25,7 @@ import it.eg.sloth.webdesktop.controller.common.grid.ReportGridNavigationInterfa
  */
 public abstract class ReportGridPage<F extends Form> extends SimplePage<F> implements ReportGridNavigationInterface<F> {
 
-    public ReportGridPage() {
+    protected ReportGridPage() {
         super();
     }
 

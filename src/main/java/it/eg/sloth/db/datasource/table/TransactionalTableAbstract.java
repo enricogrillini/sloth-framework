@@ -41,7 +41,7 @@ public abstract class TransactionalTableAbstract<T extends TransactionalDataRow>
     protected List<T> oldRows;
     protected Set<T> rowsDeleted;
 
-    public TransactionalTableAbstract() {
+    protected TransactionalTableAbstract() {
         super();
         oldRows = new ArrayList<>();
         rowsDeleted = new HashSet<>();
@@ -49,6 +49,7 @@ public abstract class TransactionalTableAbstract<T extends TransactionalDataRow>
 
     protected abstract T createRow();
 
+    @Override
     public T remove() throws FrameworkException {
         T row = super.remove();
 

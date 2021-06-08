@@ -60,7 +60,7 @@ public class TestFactory {
         row.setBigDecimal("campo3", BigDecimal.valueOf(-1));
         row.setString("campo4", "A");
 
-        Grid grid = new Grid<>("provaGrid");
+        Grid grid = new Grid<>("provaGrid", null);
         grid.setTitle("Prova Grid");
         grid.setDescription("Prova sottotitolo");
         grid.addChild(new Text<String>("campo1", "campo 1", DataTypes.STRING));

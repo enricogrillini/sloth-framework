@@ -1,7 +1,6 @@
 package it.eg.sloth.webdesktop.tag.form.card;
 
 import it.eg.sloth.form.fields.field.base.TextField;
-import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import it.eg.sloth.webdesktop.tag.form.card.writer.CardWriter;
 
@@ -27,8 +26,7 @@ public class FieldCardTag extends BaseElementTag<TextField<?>> {
 
     @Override
     protected int startTag() throws IOException {
-        writeln("<!-- SimpleCard -->");
-        writeln(CardWriter.openCard(BootStrapClass.BORDER_LEFT_PRIMARY));
+        writeln(CardWriter.openCard());
         writeln(CardWriter.fieldCardContent(getElement()));
 
         return EVAL_BODY_INCLUDE;
