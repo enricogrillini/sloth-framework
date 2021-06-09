@@ -4,9 +4,11 @@ import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.base.AbstractElements;
 import it.eg.sloth.form.fields.field.DataField;
+import it.eg.sloth.form.fields.field.DecodedDataField;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.base.TextField;
+import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.MessageList;
 import it.eg.sloth.webdesktop.api.request.BffFields;
@@ -217,5 +219,27 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
         }
 
         return list;
+    }
+
+    public String getValuesDescription() throws FrameworkException {
+        StringBuilder result = new StringBuilder();
+        for (DataField dataField : getDataFieldList()) {
+
+            if (!BaseFunction.isNull(dataField.getValue())) {
+                String valueAsString = dataField.getText();
+                if (dataField instanceof DecodedDataField) {
+                    valueAsString = ((DecodedDataField) dataField).getDecodedText();
+                }
+
+                if (!BaseFunction.isBlank(valueAsString)) {
+                    if (result.length() != 0) {
+                        result.append(" | ");
+                    }
+                    result.append(dataField.getDescription() + ": " + valueAsString);
+                }
+            }
+        }
+
+        return result.toString();
     }
 }

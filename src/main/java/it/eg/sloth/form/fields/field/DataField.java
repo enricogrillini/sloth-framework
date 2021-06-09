@@ -169,15 +169,26 @@ public interface DataField<T> extends SimpleField {
      *
      * @param bffFields
      */
-    void copyToBffFields(BffFields bffFields) throws FrameworkException ;
+    void copyToBffFields(BffFields bffFields) throws FrameworkException;
 
     /**
-     * Ritorna il testo del campo nel formato nativo
+     * Ritorna il valore nel formato nativo
      *
      * @return
      * @throws ParseException
      */
     T getValue() throws FrameworkException;
+
+
+    /**
+     * Ritorna il valore come stringa formattata
+     *
+     * @return
+     * @throws FrameworkException
+     */
+    default String getText() throws FrameworkException {
+        return getDataType().formatText(getValue(), getLocale(), getFormat());
+    }
 
     /**
      * @return

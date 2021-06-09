@@ -50,7 +50,6 @@ public class CheckGroup<L extends List<T>, T> extends InputField<L> {
         return FieldType.CHECK_GROUP;
     }
 
-
     public String[] getSplittedValues() {
         return StringUtil.split(getValues(), SEPARATOR);
     }
@@ -63,6 +62,24 @@ public class CheckGroup<L extends List<T>, T> extends InputField<L> {
         return StringUtil.split(getTooltips(), SEPARATOR);
     }
 
+    @Override
+    public String getText() throws FrameworkException {
+        StringBuilder builder = new StringBuilder();
+
+        String[] values = getSplittedValues();
+        String[] descriptions = getSplittedDescriptions();
+        for (int i = 0; i < values.length; i++) {
+            T value = (T) getDataType().parseValue(values[i], getLocale(), getFormat());
+            if (isChecked(value)) {
+                if (builder.length() != 0) {
+                    builder.append(", ");
+                }
+                builder.append(descriptions[i]);
+            }
+        }
+
+        return builder.toString();
+    }
 
     @Override
     public L getValue() throws FrameworkException {
