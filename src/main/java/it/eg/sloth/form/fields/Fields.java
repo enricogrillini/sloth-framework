@@ -66,17 +66,6 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
     }
 
     /**
-     * Imposta il contenuto della griglia prelevandolo dal DataRow associato
-     */
-    public void copyFromDataSource() throws FrameworkException {
-        if (getDataSource() != null) {
-            copyFromDataSource(getDataSource());
-        } else {
-            clearData();
-        }
-    }
-
-    /**
      * Popola i campi con i valori del DataSource
      *
      * @param dataSource
@@ -223,7 +212,7 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
 
     public String getValuesDescription() throws FrameworkException {
         StringBuilder result = new StringBuilder();
-        for (DataField dataField : getDataFieldList()) {
+        for (DataField<?> dataField : getDataFieldList()) {
 
             if (!BaseFunction.isNull(dataField.getValue())) {
                 String valueAsString = dataField.getText();

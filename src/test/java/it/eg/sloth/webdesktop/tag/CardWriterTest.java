@@ -1,10 +1,8 @@
 package it.eg.sloth.webdesktop.tag;
 
-import it.eg.sloth.TestFactory;
+import it.eg.sloth.form.ControlState;
 import it.eg.sloth.form.fields.Fields;
-import it.eg.sloth.form.fields.field.impl.ComboBox;
 import it.eg.sloth.form.fields.field.impl.Text;
-import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -34,23 +32,26 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class CardWriterTest {
 
-    private static final String CONTENT_TEMPLATE = ResourceUtil.normalizedResourceAsString("snippet-html/card/field-card.html");
+    private static final String CONTENT_TEMPLATE_1 = ResourceUtil.normalizedResourceAsString("snippet-html/card/field-card-content-1.html");
+    private static final String CONTENT_TEMPLATE_2 = ResourceUtil.normalizedResourceAsString("snippet-html/card/field-card-content-2.html");
+    private static final String CONTENT_TEMPLATE_3 = ResourceUtil.normalizedResourceAsString("snippet-html/card/field-card-content-3.html");
+    private static final String CONTENT_TEMPLATE_4 = ResourceUtil.normalizedResourceAsString("snippet-html/card/field-card-content-4.html");
 
     private static final String FIELDS_CARD_OPEN = ResourceUtil.normalizedResourceAsString("snippet-html/card/fields-card-open.html");
 
     @Test
     void fieldCardContentTest() throws FrameworkException {
         Text<BigDecimal> field = new Text<BigDecimal>("name", "description", DataTypes.INTEGER);
-        assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "description", "", "", ""), CardWriter.fieldCardContent(field));
+        assertEquals(CONTENT_TEMPLATE_1, CardWriter.fieldCardContent(field));
 
         field.setValue(BigDecimal.valueOf(10));
-        assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "description", "10", "", ""), CardWriter.fieldCardContent(field));
+        assertEquals(CONTENT_TEMPLATE_2, CardWriter.fieldCardContent(field));
 
         field.setBaseLink("www?");
-        assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "description", "10", "", "   <a href=\"www?10\" class=\"stretched-link\"></a>\n"), CardWriter.fieldCardContent(field));
+        assertEquals(CONTENT_TEMPLATE_3, CardWriter.fieldCardContent(field));
 
         field.setTooltip("tooltip");
-        assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "description", "10", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\"", "   <a href=\"www?10\" class=\"stretched-link\"></a>\n"), CardWriter.fieldCardContent(field));
+        assertEquals(CONTENT_TEMPLATE_4, CardWriter.fieldCardContent(field));
     }
 
 
@@ -71,6 +72,12 @@ class CardWriterTest {
         text = new Text("campo3", "campo 3", DataTypes.CURRENCY);
         text.setLocale(Locale.ITALY);
         text.setValue(BigDecimal.valueOf(300));
+        fields.addChild(text);
+
+        text = new Text("campo4", "campo 4", DataTypes.CURRENCY);
+        text.setLocale(Locale.ITALY);
+        text.setValue(BigDecimal.valueOf(400));
+        text.setState(ControlState.DANGER);
         fields.addChild(text);
 
         assertEquals(FIELDS_CARD_OPEN, CardWriter.fieldsCardOpen(fields));

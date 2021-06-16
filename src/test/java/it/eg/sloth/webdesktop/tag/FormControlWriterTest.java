@@ -4,7 +4,6 @@ import it.eg.sloth.db.decodemap.map.StringDecodeMap;
 import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.impl.*;
 import it.eg.sloth.framework.common.base.StringUtil;
-import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
@@ -13,9 +12,7 @@ import it.eg.sloth.webdesktop.tag.support.SampleEscaper;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -54,7 +51,7 @@ class FormControlWriterTest {
 
     private static final String BASE_HIDDEN = "<input id=\"{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>";
 
-    private static final String BASE_INPUT = "<input id=\"{0}\" name=\"{0}\" type=\"{1}\" value=\"{2}\"{3} class=\"form-control form-control-sm\"{4}{5}/>";
+    //private static final String BASE_INPUT_OLD = "<input id=\"{0}\" name=\"{0}\" type=\"{1}\" value=\"{2}\"{3} class=\"form-control form-control-sm\"{4}{5}/>";
 
     private static final String BASE_LINK = "<a href=\"{1}\" class=\"btn btn-outline-primary btn-sm\"/>{0}</a>";
 
@@ -85,7 +82,7 @@ class FormControlWriterTest {
             " </div>\n";
 
 
-    private static final String BASE_TEXTAREA = "<textarea id=\"{0}\" name=\"{0}\" class=\"" + BootStrapClass.CONTROL_CLASS + "\"{1}>{2}</textarea>";
+    private static final String BASE_TEXTAREA = "<textarea id=\"{0}\" name=\"{0}\" class=\"form-control form-control-sm\"{1}>{2}</textarea>";
 
 
     @Test
@@ -186,17 +183,17 @@ class FormControlWriterTest {
         DecodedText<String> field = new DecodedText<String>("name", "description", "tooltip", DataTypes.STRING);
         field.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
 
-        assertEquals(MessageFormat.format(BASE_TEXT, "name", ""), FormControlWriter.writeDecodedText(field));
+        assertEquals(MessageFormat.format(BASE_TEXT, "name", ""), FormControlWriter.writeDecodedText(field, null));
 
         field.setValue("A");
-        assertEquals(MessageFormat.format(BASE_TEXT, "name", "Scelta A"), FormControlWriter.writeDecodedText(field));
+        assertEquals(MessageFormat.format(BASE_TEXT, "name", "Scelta A"), FormControlWriter.writeDecodedText(field, null));
 
         // Controllo generico
         assertEquals(MessageFormat.format(BASE_TEXT, "name", "Scelta A"), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
 
         // Link
         field.setBaseLink("destPage.html?name=");
-        assertEquals(MessageFormat.format(LINK_DECODEDTEXT, "name", "Scelta A", "destPage.html?name=A"), FormControlWriter.writeDecodedText(field));
+        assertEquals(MessageFormat.format(LINK_DECODEDTEXT, "name", "Scelta A", "destPage.html?name=A"), FormControlWriter.writeDecodedText(field, null));
     }
 
     @Test
@@ -223,83 +220,6 @@ class FormControlWriterTest {
 
         // Controllo generico
         assertEquals(MessageFormat.format(BASE_HIDDEN, "name", "testo"), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
-    }
-
-
-    @Test
-    void inputTest() throws FrameworkException {
-        Input<String> field = new Input<String>("name", "description", DataTypes.STRING);
-        field.setTooltip("tooltip");
-
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_VISUALIZZAZIONE));
-
-        field.setValue("testo");
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "testo", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_VISUALIZZAZIONE));
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "testo", "", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_MODIFICA));
-
-        // Controllo generico
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "testo", "", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
-
-        // Empty
-        field.setHidden(true);
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
-    }
-
-    /**
-     * input - Date
-     *
-     * @throws FrameworkException
-     */
-    @Test
-    void inputDateTest() throws FrameworkException {
-        Input<Timestamp> field = new Input<Timestamp>("name", "description", DataTypes.DATE);
-        field.setLocale(Locale.ITALY);
-        field.setTooltip("tooltip");
-
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_VISUALIZZAZIONE));
-
-        field.setValue(TimeStampUtil.parseTimestamp("01/01/2020", "dd/MM/yyyy"));
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "01/01/2020", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_VISUALIZZAZIONE));
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "date", "2020-01-01", "", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_MODIFICA));
-
-        // Controllo generico
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "date", "2020-01-01", "", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
-    }
-
-    /**
-     * input - Datetime
-     *
-     * @throws FrameworkException
-     */
-    @Test
-    void inputDatetimeTest() throws FrameworkException {
-        Input<Timestamp> field = new Input<Timestamp>("name", "description", DataTypes.DATETIME);
-        field.setLocale(Locale.ITALY);
-        field.setTooltip("tooltip");
-
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_VISUALIZZAZIONE));
-
-        field.setValue(TimeStampUtil.parseTimestamp("01/01/2020 10:11:12", "dd/MM/yyyy hh:mm:ss"));
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "01/01/2020 10:11:12", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_VISUALIZZAZIONE));
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "datetime-local", "2020-01-01T10:11:12", " step=\"1\"", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_MODIFICA));
-
-        // Controllo generico
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "datetime-local", "2020-01-01T10:11:12", " step=\"1\"", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
-    }
-
-    @Test
-    void inputTotalizerTest() throws FrameworkException {
-        InputTotalizer field = new InputTotalizer("name", "description", DataTypes.INTEGER);
-        field.setTooltip("tooltip");
-
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_VISUALIZZAZIONE));
-
-        field.setValue(BigDecimal.valueOf(10));
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "10", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_VISUALIZZAZIONE));
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "number", "10", "", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeInput(field, ViewModality.VIEW_MODIFICA));
-
-        // Controllo generico
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "number", "10", "", "", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
     }
 
     @Test
@@ -356,25 +276,6 @@ class FormControlWriterTest {
     }
 
     @Test
-    void textTest() throws FrameworkException {
-        Text<String> field = Text.<String>builder()
-                .name("name")
-                .description("description")
-                .dataType(DataTypes.STRING)
-                .tooltip("tooltip")
-                .build();
-
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeText(field));
-
-        field.setValue("testo");
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "testo", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeText(field));
-
-        // Controllo generico
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "testo", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
-
-    }
-
-    @Test
     void switchTest() throws FrameworkException {
         Switch field = new Switch("name", "description", DataTypes.STRING);
         assertEquals(BASE_SWITCH_VIS, FormControlWriter.writeSwitch(field, ViewModality.VIEW_VISUALIZZAZIONE));
@@ -411,25 +312,6 @@ class FormControlWriterTest {
         // Empty
         field.setHidden(true);
         assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
-    }
-
-    @Test
-    void textTotalizerTest() throws FrameworkException {
-        TextTotalizer field = TextTotalizer.builder()
-                .name("name")
-                .description("description")
-                .dataType(DataTypes.INTEGER)
-                .tooltip("tooltip")
-                .build();
-
-        // TextTotalizer field = new TextTotalizer("name", "description",  DataTypes.INTEGER);
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeTextTotalizer(field));
-
-        field.setValue(BigDecimal.valueOf(10));
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "10", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeTextTotalizer(field));
-
-        // Generico controllo
-        assertEquals(MessageFormat.format(BASE_INPUT, "name", "text", "10", "", " disabled=\"\"", " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
     }
 
 }

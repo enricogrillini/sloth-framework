@@ -34,15 +34,6 @@ public class NavigationConst {
     public static final String LOAD = "load";
     public static final String RESET = "reset";
 
-    // POPUP
-    public static final String PARENT_OPEN_POPUP = "parentOpenPopup";
-    public static final String PARENT_SELECT_POPUP = "parentSelectPopup";
-    public static final String PARENT_CLOSE_POPUP = "parentClosePopup";
-
-    public static final String CHILD_OPEN_POPUP = "childOpenPopup";
-    public static final String CHILD_SELECT_POPUP = "childSelectPopup";
-    public static final String CHILD_CLOSE_POPUP = "childClosePopup";
-
     // Navigazione elenchi
     public static final String BACK = "back";
     public static final String FIRST_ROW = "firstpage";

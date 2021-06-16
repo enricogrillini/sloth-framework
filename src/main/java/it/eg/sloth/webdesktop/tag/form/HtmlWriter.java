@@ -48,7 +48,7 @@ public abstract class HtmlWriter {
     public static final String ATTR_STYLE = "style";
     public static final String ATTR_VALUE = "value";
 
-    private static final String ATTR_TOOLTIP = "data-toggle=\"tooltip\" data-placement=\"bottom\" title";
+    private static final String TOOLTIP = " data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{0}\"";
     private static final String ATTR_POPOVER = "data-toggle=\"popover\" data-placement=\"bottom\" data-container=\"body\" data-trigger=\"hover\" data-html=\"true\" data-original-title=\"{0}\" data-content=\"{1}\"";
 
     public static final String VAL_ATTR_TYPE_RADIO = "radio";
@@ -82,8 +82,12 @@ public abstract class HtmlWriter {
         return condizione ? " " + property + "=\"" + valTrue + "\"" : " " + property + "=\"" + valFalse + "\"";
     }
 
-    public static String getAttributeTooltip(String tooltip) {
-        return getAttribute(ATTR_TOOLTIP, !BaseFunction.isBlank(tooltip), tooltip);
+    public static String getTooltipAttributes(String tooltip) {
+        if (BaseFunction.isBlank(tooltip)) {
+            return StringUtil.EMPTY;
+        } else {
+            return MessageFormat.format(TOOLTIP, Casting.getHtml(tooltip));
+        }
     }
 
 

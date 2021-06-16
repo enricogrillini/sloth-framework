@@ -37,5 +37,4 @@ public class Text<T> extends TextField<T> {
         return toBuilder().build();
     }
 
-
 }

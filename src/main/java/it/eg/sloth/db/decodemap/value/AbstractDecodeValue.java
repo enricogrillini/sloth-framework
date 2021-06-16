@@ -1,7 +1,6 @@
 package it.eg.sloth.db.decodemap.value;
 
 import it.eg.sloth.db.decodemap.DecodeValue;
-import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.common.base.BaseFunction;
 
 /**
@@ -19,7 +18,7 @@ import it.eg.sloth.framework.common.base.BaseFunction;
  *
  * @author Enrico Grillini
  */
-public abstract class AbstractDecodeValue<T> extends FrameComponent implements DecodeValue<T> {
+public abstract class AbstractDecodeValue<T> implements DecodeValue<T> {
 
   private boolean valid;
 

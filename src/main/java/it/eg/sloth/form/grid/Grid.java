@@ -131,7 +131,6 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
     /**
      * Imposta il contenuto della griglia prelevandolo dal DataTable associato
      */
-    @Override
     public void copyFromDataSource() throws FrameworkException {
         if (getDataSource() != null) {
             copyFromDataSource(getDataSource());

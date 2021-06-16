@@ -66,15 +66,15 @@ public class CheckGroup<L extends List<T>, T> extends InputField<L> {
     public String getText() throws FrameworkException {
         StringBuilder builder = new StringBuilder();
 
-        String[] values = getSplittedValues();
-        String[] descriptions = getSplittedDescriptions();
-        for (int i = 0; i < values.length; i++) {
-            T value = (T) getDataType().parseValue(values[i], getLocale(), getFormat());
+        String[] splittedValues = getSplittedValues();
+        String[] splittedDescriptions = getSplittedDescriptions();
+        for (int i = 0; i < splittedValues.length; i++) {
+            T value = (T) getDataType().parseValue(splittedValues[i], getLocale(), getFormat());
             if (isChecked(value)) {
                 if (builder.length() != 0) {
                     builder.append(", ");
                 }
-                builder.append(descriptions[i]);
+                builder.append(splittedDescriptions[i]);
             }
         }
 

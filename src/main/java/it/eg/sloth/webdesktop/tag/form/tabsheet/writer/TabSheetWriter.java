@@ -46,14 +46,14 @@ public class TabSheetWriter extends HtmlWriter {
                             TAB_VIEW,
                             getAttribute("href", current, "#", lastController + "?" + NavigationConst.navStr(NavigationConst.TAB, tabSheet.getName(), tab.getName())),
                             getAttribute(ATTR_CLASS, current, "nav-link active", "nav-link"),
-                            getAttributeTooltip(tab.getTooltip()),
+                            getTooltipAttributes(tab.getTooltip()),
                             description));
 
                 } else {
                     result.append(MessageFormat.format(
                             TAB_EDIT,
                             getAttribute(ATTR_CLASS, current, "nav-link active", "nav-link"),
-                            getAttributeTooltip(tab.getTooltip()),
+                            getTooltipAttributes(tab.getTooltip()),
                             description));
                 }
             }
@@ -75,7 +75,7 @@ public class TabSheetWriter extends HtmlWriter {
                 result.append(MessageFormat.format(
                         TAB_LIST_VIEW,
                         getAttribute("href", lastController + "?" + NavigationConst.navStr(NavigationConst.TAB, tabSheet.getName(), tab.getName())),
-                        getAttributeTooltip(tab.getTooltip()),
+                        getTooltipAttributes(tab.getTooltip()),
                         description));
             }
         }

@@ -3,8 +3,8 @@ package it.eg.sloth.webdesktop.tag.form.field.writer;
 import it.eg.sloth.db.decodemap.DecodeMap;
 import it.eg.sloth.db.decodemap.DecodeValue;
 import it.eg.sloth.form.NavigationConst;
-import it.eg.sloth.form.base.Element;
 import it.eg.sloth.form.base.Elements;
+import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.impl.*;
 import it.eg.sloth.framework.common.base.BaseFunction;
@@ -34,10 +34,16 @@ import java.text.MessageFormat;
  * @author Enrico Grillini
  */
 public class FormControlWriter extends HtmlWriter {
+
+    public static final String INPUT = "<input id=\"{0}\" name=\"{0}\" type=\"{1}\" value=\"{2}\"{3}/>";
+
     public static final String FILE_GENERIC_VIEW = "<button{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Download file\"><i class=\"fas fa-download\"></i> Download</button>";
     public static final String FILE_GENERIC_EDIT = "<div class=\"custom-file small\"><input{0}{1}{2}{3} class=\"custom-file-input\"><label class=\"custom-file-label\"{4}>Choose file</label></div>";
 
-    public static final String LINK = "<div class=\"input-group-append\"><a href=\"{0}\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a></div>";
+    public static final String INPUT_GROUP = "<div class=\"input-group input-group-sm\">{0}{1}</div>{2}";
+    public static final String INPUT_GROUP_LINK = "<div class=\"input-group-append\"><a href=\"{0}\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a></div>";
+    public static final String INPUT_GROUP_STATE_MESSAGE = "<div class=\"small {0}\">{1}</div>";
+
 
     public static String writeControl(SimpleField element, Elements<?> parentElement, ViewModality pageViewModality) throws FrameworkException {
         switch (element.getFieldType()) {
@@ -54,15 +60,15 @@ public class FormControlWriter extends HtmlWriter {
             case COMBO_BOX:
                 return writeComboBox((ComboBox) element, pageViewModality);
             case DECODED_TEXT:
-                return writeDecodedText((DecodedText) element);
+                return writeDecodedText((DecodedText) element, parentElement);
             case FILE:
                 return writeFile((File) element, pageViewModality);
             case HIDDEN:
                 return writeHidden((Hidden) element);
             case INPUT:
-                return writeInput((Input) element, pageViewModality);
+                return writeInput((Input) element, parentElement, pageViewModality);
             case INPUT_TOTALIZER:
-                return writeInputTotalizer((InputTotalizer) element, pageViewModality);
+                return writeInputTotalizer((InputTotalizer) element, parentElement, pageViewModality);
             case LINK:
                 return writeLink((Link) element);
             case RADIO_BUTTONS:
@@ -74,11 +80,11 @@ public class FormControlWriter extends HtmlWriter {
             case SWITCH:
                 return writeSwitch((Switch) element, pageViewModality);
             case TEXT:
-                return writeText((Text) element);
+                return writeText((Text) element, parentElement);
             case TEXT_AREA:
                 return writeTextArea((TextArea) element, pageViewModality);
             case TEXT_TOTALIZER:
-                return writeTextTotalizer((TextTotalizer) element);
+                return writeTextTotalizer((TextTotalizer) element, parentElement);
             default:
                 throw new FrameworkException(ExceptionCode.INVALID_CONTROL);
         }
@@ -93,7 +99,7 @@ public class FormControlWriter extends HtmlWriter {
      * @param pageViewModality
      * @return
      */
-    public static String writeAutoComplete(AutoComplete<?> autocomplete, Element parentElement, ViewModality pageViewModality) {
+    public static String writeAutoComplete(AutoComplete<?> autocomplete, Elements<?> parentElement, ViewModality pageViewModality) {
         if (autocomplete.isHidden()) {
             return StringUtil.EMPTY;
         }
@@ -105,7 +111,7 @@ public class FormControlWriter extends HtmlWriter {
                 .append(getAttribute(ATTR_ID, autocomplete.getName()))
                 .append(getAttribute(ATTR_NAME, autocomplete.getName()))
                 .append(getAttribute(ATTR_VALUE, Casting.getHtml(autocomplete.getDecodedText(), true, true)))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS + " autoComplete"));
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(autocomplete)));
 
         if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
             input.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
@@ -117,18 +123,8 @@ public class FormControlWriter extends HtmlWriter {
 
         input.append("/>");
 
-        // Gestione link
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE && !BaseFunction.isBlank(autocomplete.getBaseLink())) {
-            StringBuilder result = new StringBuilder()
-                    .append("<div class=\"input-group input-group-sm\">")
-                    .append(input)
-                    .append(MessageFormat.format(LINK, autocomplete.getBaseLink() + autocomplete.escapeHtmlValue()))
-                    .append("</div>");
-
-            return result.toString();
-        } else {
-            return input.toString();
-        }
+        // Gestione link/stato
+        return toInputGroup(autocomplete, parentElement, viewModality, input.toString());
     }
 
     /**
@@ -151,7 +147,7 @@ public class FormControlWriter extends HtmlWriter {
                 .append(getAttribute(ON_CLICK, !BaseFunction.isBlank(button.getConfirmMessage()), "buttonConfirm(this);"))
                 .append(getAttribute(ATTR_DATA_TITLE, !BaseFunction.isBlank(button.getConfirmMessage()), "Conferma"))
                 .append(getAttribute(ATTR_DATA_DESCRIPTION, !BaseFunction.isBlank(button.getConfirmMessage()), Casting.getHtml(button.getConfirmMessage())))
-                .append(getAttributeTooltip(button.getTooltip()))
+                .append(getTooltipAttributes(button.getTooltip()))
                 .append(">")
                 .append(BaseFunction.nvl(button.getImgHtml(), ""))
                 .append(BaseFunction.isBlank(button.getImgHtml()) || BaseFunction.isBlank(button.getDescription()) ? "" : "&nbsp;")
@@ -327,7 +323,7 @@ public class FormControlWriter extends HtmlWriter {
                 .append(getAttribute(ATTR_ID, comboBox.getName()))
                 .append(getAttribute(ATTR_NAME, comboBox.getName()))
                 .append(getAttribute(ATTR_VALUE, comboBox.escapeHtmlValue()))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(comboBox)))
                 .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE || comboBox.isReadOnly(), ""));
 
         result.append(">");
@@ -365,28 +361,18 @@ public class FormControlWriter extends HtmlWriter {
      * @param decodedText
      * @return
      */
-    public static String writeDecodedText(DecodedText<?> decodedText) throws FrameworkException {
+    public static String writeDecodedText(DecodedText<?> decodedText, Elements<?> parentElement) throws FrameworkException {
         StringBuilder input = new StringBuilder()
                 .append(BEGIN_INPUT)
                 .append(getAttribute(ATTR_ID, decodedText.getName()))
                 .append(getAttribute(ATTR_NAME, decodedText.getName()))
                 .append(getAttribute(ATTR_VALUE, decodedText.escapeHtmlDecodedText()))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(decodedText)))
                 .append(getAttribute(ATTR_DISABLED, ""))
                 .append("/>");
 
-        // Gestione link
-        if (!BaseFunction.isBlank(decodedText.getBaseLink())) {
-            StringBuilder result = new StringBuilder()
-                    .append("<div class=\"input-group input-group-sm\">")
-                    .append(input)
-                    .append(MessageFormat.format(LINK, decodedText.getBaseLink() + decodedText.escapeHtmlValue()))
-                    .append("</div>");
-
-            return result.toString();
-        } else {
-            return input.toString();
-        }
+        // Gestione link/stato
+        return toInputGroup(decodedText, parentElement, ViewModality.VIEW_VISUALIZZAZIONE, input.toString());
     }
 
     /**
@@ -409,7 +395,7 @@ public class FormControlWriter extends HtmlWriter {
                     getAttribute(ATTR_ID, file.getName()),
                     getAttribute(ATTR_NAME, file.getName()),
                     getAttribute(ATTR_TYPE, "file"),
-                    getAttributeTooltip(file.getTooltip()),
+                    getTooltipAttributes(file.getTooltip()),
                     getAttribute(ATTR_FOR, file.getName()));
         }
     }
@@ -439,52 +425,38 @@ public class FormControlWriter extends HtmlWriter {
      * @param pageViewModality
      * @return
      */
-    public static String writeInput(Input<?> input, ViewModality pageViewModality) {
+    public static String writeInput(Input<?> input, Elements<?> parentElement, ViewModality pageViewModality) {
         if (input.isHidden()) {
             return StringUtil.EMPTY;
         }
 
         ViewModality viewModality = input.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : input.getViewModality();
 
-        StringBuilder field = new StringBuilder()
-                .append(BEGIN_INPUT)
-                .append(getAttribute(ATTR_ID, input.getName()))
-                .append(getAttribute(ATTR_NAME, input.getName()));
-
+        String field;
         if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
-            field
-                    .append(getAttribute(ATTR_TYPE, "text"))
-                    .append(getAttribute(ATTR_VALUE, input.escapeHtmlText()))
-                    .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
-                    .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
+            field = MessageFormat.format(INPUT,
+                    input.getName(),
+                    "text",
+                    input.escapeHtmlText(),
+                    getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(input)) +
+                            getAttribute(ATTR_DISABLED, "") +
+                            getTooltipAttributes(input.getTooltip()));
+
         } else {
-            field
-                    .append(getAttribute(ATTR_TYPE, input.getDataType().getHtmlType()))
-                    .append(getAttribute(ATTR_VALUE, input.escapeHtmlValue()))
-                    .append(getAttribute("placeholder", DataTypes.MONTH == input.getDataType(), "yyyy-mm"))
-                    .append(getAttribute("step", DataTypes.DATETIME == input.getDataType() || DataTypes.TIME == input.getDataType(), "1"))
-                    .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
-                    .append(getAttribute(ATTR_READONLY, input.isReadOnly(), ""))
-                    .append(getAttribute("maxlength", input.getMaxLength() > 0, "" + input.getMaxLength()));
+            field = MessageFormat.format(INPUT,
+                    input.getName(),
+                    input.getDataType().getHtmlType(),
+                    input.escapeHtmlValue(),
+                    getAttribute("step", DataTypes.DATETIME == input.getDataType() || DataTypes.TIME == input.getDataType(), "1") +
+                            getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(input)) +
+                            getAttribute("placeholder", DataTypes.MONTH == input.getDataType(), "yyyy-mm") +
+                            getAttribute(ATTR_READONLY, input.isReadOnly(), "") +
+                            getAttribute("maxlength", input.getMaxLength() > 0, "" + input.getMaxLength()) +
+                            getTooltipAttributes(input.getTooltip()));
         }
 
-        field
-                .append(getAttributeTooltip(input.getTooltip()))
-                .append("/>");
-
-
-        // Gestione link
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE && !BaseFunction.isBlank(input.getBaseLink())) {
-            StringBuilder result = new StringBuilder()
-                    .append("<div class=\"input-group input-group-sm\">")
-                    .append(field)
-                    .append(MessageFormat.format(LINK, input.getBaseLink() + input.escapeHtmlValue()))
-                    .append("</div>");
-
-            return result.toString();
-        } else {
-            return field.toString();
-        }
+        // Gestione link/stato
+        return toInputGroup(input, parentElement, viewModality, field);
     }
 
     /**
@@ -494,8 +466,8 @@ public class FormControlWriter extends HtmlWriter {
      * @param pageViewModality
      * @return
      */
-    public static String writeInputTotalizer(InputTotalizer inputTotalizer, ViewModality pageViewModality) {
-        return writeInput(inputTotalizer, pageViewModality);
+    public static String writeInputTotalizer(InputTotalizer inputTotalizer, Elements<?> parentElement, ViewModality pageViewModality) {
+        return writeInput(inputTotalizer, parentElement, pageViewModality);
     }
 
     /**
@@ -515,7 +487,7 @@ public class FormControlWriter extends HtmlWriter {
                 .append(getAttribute(ATTR_TARGET, !BaseFunction.isBlank(link.getTarget()), link.getTarget()))
                 .append(getAttribute(ATTR_CLASS, MessageFormat.format(BootStrapClass.BUTTON_CLASS, link.getButtonType().value())))
                 .append(getAttribute(ATTR_DISABLED, link.isDisabled(), ""))
-                .append(getAttributeTooltip(link.getTooltip()))
+                .append(getTooltipAttributes(link.getTooltip()))
                 .append("/>")
                 .append(BaseFunction.nvl(link.getImgHtml(), ""))
                 .append(BaseFunction.isBlank(link.getImgHtml()) || BaseFunction.isBlank(link.getDescription()) ? "" : "&nbsp;")
@@ -747,19 +719,24 @@ public class FormControlWriter extends HtmlWriter {
      * @param text
      * @return
      */
-    public static String writeText(Text<?> text) {
-        StringBuilder result = new StringBuilder()
-                .append(BEGIN_INPUT)
-                .append(getAttribute(ATTR_ID, text.getName()))
-                .append(getAttribute(ATTR_NAME, text.getName()))
-                .append(getAttribute(ATTR_TYPE, "text"))
-                .append(getAttribute(ATTR_VALUE, text.escapeHtmlText()))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS))
-                .append(getAttribute(ATTR_DISABLED, ""))
-                .append(getAttributeTooltip(text.getTooltip()))
-                .append("/>");
+    public static String writeText(Text<?> text, Elements<?> parentElement) {
+        if (text.isHidden()) {
+            return StringUtil.EMPTY;
+        }
 
-        return result.toString();
+        String field = MessageFormat.format(INPUT,
+                text.getName(),
+                text.getDataType().getHtmlType(),
+                text.escapeHtmlValue(),
+                getAttribute("step", DataTypes.DATETIME == text.getDataType() || DataTypes.TIME == text.getDataType(), "1") +
+                        getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(text)) +
+                        getAttribute("placeholder", DataTypes.MONTH == text.getDataType(), "yyyy-mm") +
+                        getAttribute(ATTR_DISABLED, "") +
+                        getTooltipAttributes(text.getTooltip()));
+
+
+        // Gestione link/stato
+        return toInputGroup(text, parentElement, ViewModality.VIEW_VISUALIZZAZIONE, field);
     }
 
     /**
@@ -779,7 +756,7 @@ public class FormControlWriter extends HtmlWriter {
                 .append("<textarea")
                 .append(getAttribute(ATTR_ID, textArea.getName()))
                 .append(getAttribute(ATTR_NAME, textArea.getName()))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.CONTROL_CLASS));
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(textArea)));
 
         if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
             result.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
@@ -800,8 +777,33 @@ public class FormControlWriter extends HtmlWriter {
      * @param textTotalizer
      * @return
      */
+    public static String writeTextTotalizer(TextTotalizer textTotalizer, Elements<?> parentElement) {
+        return writeText(textTotalizer, parentElement);
+    }
 
-    public static String writeTextTotalizer(TextTotalizer textTotalizer) {
-        return writeText(textTotalizer);
+    private static final String toInputGroup(DataField<?> textField, Elements<?> parentElement, ViewModality viewModality, String fieldHtml) {
+        String href = textField.getHref(parentElement);
+        String linkHtml = BaseFunction.isBlank(href) ? "" : MessageFormat.format(INPUT_GROUP_LINK, href);
+
+        String stateMessageHtml = "";
+        if (textField.getState() != null || !BaseFunction.isBlank(textField.getStateMessage())) {
+            stateMessageHtml = MessageFormat.format(INPUT_GROUP_STATE_MESSAGE, BootStrapClass.getBootstrapTextClass(textField.getState()), Casting.getHtml(textField.getStateMessage()));
+        }
+
+        if (BaseFunction.isBlank(href) && textField.getState() == null) {
+            return fieldHtml;
+        } else if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+            return MessageFormat.format(INPUT_GROUP,
+                    fieldHtml,
+                    linkHtml,
+                    stateMessageHtml
+            );
+        } else {
+            return MessageFormat.format(INPUT_GROUP,
+                    fieldHtml,
+                    "",
+                    stateMessageHtml
+            );
+        }
     }
 }

@@ -28,7 +28,7 @@ public class LabelControlWriter extends HtmlWriter {
                 .append("<label")
                 .append(getAttribute("for", simpleField.getName()))
                 .append(getAttribute(ATTR_CLASS, BootStrapClass.LABEL_CLASS))
-                .append(getAttributeTooltip(simpleField.getTooltip()))
+                .append(getTooltipAttributes(simpleField.getTooltip()))
                 .append(">" + simpleField.getHtmlDescription() + strRequired + ":</label>")
                 .toString();
     }

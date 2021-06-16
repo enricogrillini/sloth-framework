@@ -37,6 +37,7 @@ public class StringUtil {
     }
 
     public static final String EMPTY = "";
+    public static final String SPACE = " ";
     public static final String TAB = String.valueOf((char) 9);
     public static final String SEPARATOR = ",";
 

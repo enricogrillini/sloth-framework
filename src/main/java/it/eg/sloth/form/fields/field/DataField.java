@@ -1,7 +1,10 @@
 package it.eg.sloth.form.fields.field;
 
 import it.eg.sloth.db.datasource.DataSource;
+import it.eg.sloth.form.ControlState;
 import it.eg.sloth.form.Escaper;
+import it.eg.sloth.form.base.Elements;
+import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -98,6 +101,14 @@ public interface DataField<T> extends SimpleField {
     void setLinkField(String linkField);
 
     String getLinkField();
+
+    void setState(ControlState state);
+
+    ControlState getState();
+
+    void setStateMessage(String stateMessage);
+
+    String getStateMessage();
 
     void setHidden(Boolean hidden);
 
@@ -209,5 +220,21 @@ public interface DataField<T> extends SimpleField {
      * @return
      */
     boolean validate(MessageList messages) throws FrameworkException;
+
+    default String getHref(Elements<?> parentElement) {
+        if (!BaseFunction.isBlank(getBaseLink())) {
+            if (BaseFunction.isBlank(getLinkField())) {
+                return getBaseLink() + escapeHtmlValue();
+            } else {
+                DataField<?> linkField = (DataField<?>) parentElement.getElement(getLinkField());
+                return getBaseLink() + linkField.escapeHtmlValue();
+            }
+        } else if (DataTypes.URL == getDataType()) {
+            return escapeHtmlValue();
+        } else {
+            return "";
+        }
+
+    }
 
 }

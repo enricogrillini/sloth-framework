@@ -1,5 +1,6 @@
 package it.eg.sloth.webdesktop.tag.form.card.writer;
 
+import it.eg.sloth.form.ControlState;
 import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.form.fields.field.base.TextField;
@@ -8,6 +9,7 @@ import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
+import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
 import java.math.BigDecimal;
@@ -35,6 +37,8 @@ public class CardWriter extends HtmlWriter {
     public static final String CARD_OPEN = ResourceUtil.normalizedResourceAsString("snippet/card/card-open.html");
     public static final String CARD_CLOSE = ResourceUtil.normalizedResourceAsString("snippet/card/card-close.html");
 
+    public static final String FIELD_CARD_CONTENT = ResourceUtil.normalizedResourceAsString("snippet/card/field-card-content.html");
+
     public static final String FIELDS_CARD_TITLE = ResourceUtil.normalizedResourceAsString("snippet/card/fields-card-title.html");
     public static final String FIELDS_CARD_ROW = ResourceUtil.normalizedResourceAsString("snippet/card/fields-card-row.html");
 
@@ -52,16 +56,7 @@ public class CardWriter extends HtmlWriter {
 
     public static final String fieldCardContent(TextField<?> field) {
         StringBuilder result = new StringBuilder()
-                .append("   <div class=\"col mr-2\"")
-                .append(getAttributeTooltip(field.getTooltip()))
-                .append(">\n")
-                .append("    <div class=\"text-xs font-weight-bold text-primary text-uppercase mb-1\">" + field.getHtmlDescription() + CLOSE_DIV + "\n")
-                .append("    <div class=\"row no-gutters align-items-center\">\n")
-                .append("     <div class=\"col-auto\">\n")
-                .append("      <div class=\"h5 mb-0 mr-3 font-weight-bold text-gray-800\">" + field.escapeHtmlText() + CLOSE_DIV + "\n")
-                .append("     </div>\n")
-                .append("    </div>\n")
-                .append("   </div>\n");
+                .append(MessageFormat.format(FIELD_CARD_CONTENT, getTooltipAttributes(field.getTooltip()), field.getHtmlDescription(), field.escapeHtmlText()));
 
         if (!BaseFunction.isBlank(field.getBaseLink())) {
             result.append("   <a href=\"" + field.getBaseLink() + field.escapeHtmlValue() + "\" class=\"stretched-link\"></a>\n");
@@ -81,11 +76,13 @@ public class CardWriter extends HtmlWriter {
         for (DataField<?> dataField : fields.getDataFieldList()) {
             if (BaseFunction.in(dataField.getDataType(), DataTypes.DECIMAL, DataTypes.INTEGER, DataTypes.CURRENCY, DataTypes.PERC, DataTypes.NUMBER)) {
                 if (delta == 0 || dataField.getValue() == null) {
-                    result.append(MessageFormat.format(FIELDS_CARD_ROW, dataField.getHtmlDescription(), "", "0"));
+                    result.append(MessageFormat.format(FIELDS_CARD_ROW, dataField.getHtmlDescription(), "", "0", BootStrapClass.getStateBackgroundClass(ControlState.DEFAULT)));
                 } else {
                     BigDecimal value = (BigDecimal) dataField.getValue();
                     double valuePerc = Math.round((value.doubleValue() - min) / delta * 100);
-                    result.append(MessageFormat.format(FIELDS_CARD_ROW, dataField.getHtmlDescription(), dataField.escapeHtmlText(), String.valueOf(valuePerc)));
+                    ControlState controlState = (ControlState) BaseFunction.nvl(dataField.getState(), ControlState.DEFAULT);
+
+                    result.append(MessageFormat.format(FIELDS_CARD_ROW, dataField.getHtmlDescription(), dataField.escapeHtmlText(), String.valueOf(valuePerc), BootStrapClass.getStateBackgroundClass(controlState)));
                 }
             }
         }

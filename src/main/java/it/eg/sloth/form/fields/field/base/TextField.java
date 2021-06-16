@@ -2,6 +2,7 @@ package it.eg.sloth.form.fields.field.base;
 
 import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.db.datasource.row.lob.LobData;
+import it.eg.sloth.form.ControlState;
 import it.eg.sloth.form.Escaper;
 import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.fields.field.DataField;
@@ -54,6 +55,9 @@ public abstract class TextField<T> implements DataField<T> {
     String format;
     String baseLink;
     String linkField;
+
+    ControlState state;
+    String stateMessage;
 
     Boolean hidden;
     Escaper htmlEscaper;
@@ -150,6 +154,5 @@ public abstract class TextField<T> implements DataField<T> {
     public void post(BffFields bffFields) throws FrameworkException {
         // Il campo è presentato in sola visualizzazione e non è modificabile dal Browser
     }
-
 
 }
