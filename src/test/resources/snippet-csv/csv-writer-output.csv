@@ -1,4 +1,4 @@
-campo 1,campo 2,campo 3,campo 4
-valore1,A,"3,33 €",U
-valore2,B,"-3,44 €",B
-valore2,B,"-1,00 €",A
+campo 1,campo 2,campo 3,campo 4,campo 5
+valore1,A,2020-01,"3,33 €",U
+valore2,B,2020-01,"-3,44 €",B
+valore2,B,2020-02,"-1,00 €",A

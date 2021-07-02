@@ -34,7 +34,7 @@ class GridXlsWriterTest {
     Grid<Table> grid;
 
     @BeforeEach
-    void init() throws IOException {
+    void init() throws IOException, FrameworkException {
         TestFactory.createOutputDir();
 
         grid = TestFactory.getGrid();

@@ -6,6 +6,7 @@ import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.form.fields.field.impl.Input;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.form.pivot.Pivot;
+import it.eg.sloth.form.pivot.PivotColumn;
 import it.eg.sloth.form.pivot.PivotRow;
 import it.eg.sloth.form.pivot.PivotValue;
 import it.eg.sloth.framework.common.casting.DataTypes;
@@ -43,7 +44,7 @@ class GridXlsPivotWriterTest {
     Grid<Table> grid;
 
     @BeforeEach
-    void init() throws IOException {
+    void init() throws IOException, FrameworkException {
         TestFactory.createOutputDir();
         grid = TestFactory.getGrid();
 
@@ -51,10 +52,17 @@ class GridXlsPivotWriterTest {
         pivot.setTitle("Pivot di Prova");
         pivot.addChild(PivotRow.builder().name("campo1").description("piv campo 1").build());
         pivot.addChild(PivotRow.builder().name("campo2").description("piv campo 2").build());
-        pivot.addChild(PivotValue.builder().name("campo3").description("piv val 1").consolidateFunction(ConsolidateFunction.SUM).build());
-        pivot.addChild(PivotValue.builder().name("campo4").description("piv val 2").consolidateFunction(ConsolidateFunction.SUM).build());
-        pivot.addChild(PivotValue.builder().name("campo5").fieldAlias("campo3").description("piv val 3").consolidateFunction(ConsolidateFunction.AVERAGE).build());
+        pivot.addChild(PivotValue.builder().name("campo4").description("piv val 1").consolidateFunction(ConsolidateFunction.SUM).build());
+        pivot.addChild(PivotValue.builder().name("campo5").description("piv val 2").consolidateFunction(ConsolidateFunction.SUM).build());
         pivot.addChild(PivotValue.builder().name("campo6").fieldAlias("campo4").description("piv val 4").consolidateFunction(ConsolidateFunction.AVERAGE).build());
+        pivot.addChild(PivotValue.builder().name("campo7").fieldAlias("campo5").description("piv val 5").consolidateFunction(ConsolidateFunction.AVERAGE).build());
+        grid.addPivot(pivot);
+
+        pivot = new Pivot("Pivot2");
+        pivot.setTitle("Pivot di Prova 2");
+        pivot.addChild(PivotRow.builder().name("campo1").description("piv campo 1").build());
+        pivot.addChild(PivotColumn.builder().name("campo3").description("piv campo 3").build());
+        pivot.addChild(PivotValue.builder().name("campo4").description("piv val 1").consolidateFunction(ConsolidateFunction.SUM).build());
         grid.addPivot(pivot);
 
         pivot.getElements().size();

@@ -1,20 +1,31 @@
 package it.eg.sloth.webdesktop.tag;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.text.MessageFormat;
+
+import org.junit.jupiter.api.Test;
+
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
 import it.eg.sloth.form.fields.Fields;
-import it.eg.sloth.form.fields.field.impl.*;
+import it.eg.sloth.form.fields.field.impl.AutoComplete;
+import it.eg.sloth.form.fields.field.impl.Button;
+import it.eg.sloth.form.fields.field.impl.CheckBox;
+import it.eg.sloth.form.fields.field.impl.ComboBox;
+import it.eg.sloth.form.fields.field.impl.DecodedText;
+import it.eg.sloth.form.fields.field.impl.File;
+import it.eg.sloth.form.fields.field.impl.Hidden;
+import it.eg.sloth.form.fields.field.impl.Link;
+import it.eg.sloth.form.fields.field.impl.RadioGroup;
+import it.eg.sloth.form.fields.field.impl.Semaphore;
+import it.eg.sloth.form.fields.field.impl.Switch;
+import it.eg.sloth.form.fields.field.impl.TextArea;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 import it.eg.sloth.webdesktop.tag.support.SampleEscaper;
-import org.junit.jupiter.api.Test;
-
-import java.math.BigDecimal;
-import java.text.MessageFormat;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -238,7 +249,7 @@ class FormControlWriterTest {
     @Test
     void radioGroupTest() throws FrameworkException {
         RadioGroup<String> radioGroup = new RadioGroup<String>("name", "description", DataTypes.STRING);
-        radioGroup.setDecodeMap(StringDecodeMap.SI_NO_TUTTI);
+        radioGroup.setDecodeMap(StringDecodeMap.Factory.DECODE_MAP_SNT);
         radioGroup.setValue("S");
 
         assertEquals(BASE_RADIOGROUP_VIS, FormControlWriter.writeRadioGroup(radioGroup, ViewModality.VIEW_VISUALIZZAZIONE));

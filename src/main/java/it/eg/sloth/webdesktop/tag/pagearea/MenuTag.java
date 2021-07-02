@@ -35,7 +35,7 @@ public class MenuTag extends WebDesktopTag<Form> {
             String childDescrizioneHtml = Casting.getHtml(child.getShortDescription());
 
             if (VoiceType.SEPARATOR == child.getVoiceType()) {
-                writeln("   <hr class=\"sidebar-divider\">");
+                writeln("   <hr class=\"m-1 ml-4 mr-4\">");
             } else if (VoiceType.TITLE == child.getVoiceType()) {
                 writeln("   <h6 class=\"collapse-header\">" + childDescrizioneHtml + "</h6>");
             } else {

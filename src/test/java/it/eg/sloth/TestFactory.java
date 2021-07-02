@@ -12,6 +12,7 @@ import it.eg.sloth.form.fields.field.impl.ComboBox;
 import it.eg.sloth.form.fields.field.impl.Text;
 import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.form.grid.Grid;
+import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -39,36 +40,40 @@ public class TestFactory {
         Files.createDirectories(Paths.get(OUTPUT_DIR));
     }
 
-    public static Grid getGrid() {
+    public static Grid getGrid() throws FrameworkException {
 
         Table table = new Table();
         Row row = table.add();
         row.setString("campo1", "valore1");
         row.setString("campo2", "A");
-        row.setBigDecimal("campo3", BigDecimal.valueOf(3.333));
-        row.setString("campo4", "U");
+        row.setTimestamp("campo3", TimeStampUtil.parseTimestamp("01/01/2020", TimeStampUtil.DEFAULT_FORMAT));
+        row.setBigDecimal("campo4", BigDecimal.valueOf(3.333));
+        row.setString("campo5", "U");
 
         row = table.add();
         row.setString("campo1", "valore2");
         row.setString("campo2", "B");
-        row.setBigDecimal("campo3", BigDecimal.valueOf(-3.444));
-        row.setString("campo4", "B");
+        row.setTimestamp("campo3", TimeStampUtil.parseTimestamp("01/01/2020", TimeStampUtil.DEFAULT_FORMAT));
+        row.setBigDecimal("campo4", BigDecimal.valueOf(-3.444));
+        row.setString("campo5", "B");
 
         row = table.add();
         row.setString("campo1", "valore2");
         row.setString("campo2", "B");
-        row.setBigDecimal("campo3", BigDecimal.valueOf(-1));
-        row.setString("campo4", "A");
+        row.setTimestamp("campo3", TimeStampUtil.parseTimestamp("01/02/2020", TimeStampUtil.DEFAULT_FORMAT));
+        row.setBigDecimal("campo4", BigDecimal.valueOf(-1));
+        row.setString("campo5", "A");
 
         Grid grid = new Grid<>("provaGrid", null);
         grid.setTitle("Prova Grid");
         grid.setDescription("Prova sottotitolo");
         grid.addChild(new Text<String>("campo1", "campo 1", DataTypes.STRING));
         grid.addChild(new Text<String>("campo2", "campo 2", DataTypes.STRING));
-        grid.addChild(new TextTotalizer("campo3", "campo 3", DataTypes.CURRENCY));
-        grid.addChild(new ComboBox<String>("campo4", "campo 4", DataTypes.STRING));
+        grid.addChild(new Text<Timestamp>("campo3", "campo 3", DataTypes.MONTH));
+        grid.addChild(new TextTotalizer("campo4", "campo 4", DataTypes.CURRENCY));
+        grid.addChild(new ComboBox<String>("campo5", "campo 5", DataTypes.STRING));
 
-        ComboBox<String> comboBox = (ComboBox<String>) grid.getElement("campo4");
+        ComboBox<String> comboBox = (ComboBox<String>) grid.getElement("campo5");
         comboBox.setDecodeMap(new StringDecodeMap("A,Ancora;B,Basta;U,Un po'"));
 
         grid.setDataSource(table);

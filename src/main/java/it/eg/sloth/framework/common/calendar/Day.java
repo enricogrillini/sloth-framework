@@ -23,6 +23,10 @@ public class Day<E, I extends DayInfo> implements Iterable<E> {
   @Getter
   @Setter
   private Level level;
+  
+  @Getter
+  @Setter
+  private String title;
 
   @Getter
   @Setter
@@ -40,6 +44,7 @@ public class Day<E, I extends DayInfo> implements Iterable<E> {
     this.holiday = holiday;
     this.locked = false;
     this.level = null;
+    this.title = null;
     this.message = null;
     this.eventList = new ArrayList<>();
     this.infoMap = new LinkedHashMap<>();

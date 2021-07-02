@@ -11,7 +11,6 @@ import org.apache.poi.xssf.usermodel.XSSFPivotTable;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTDataFields;
-import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTPivotField;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,8 +20,8 @@ import java.util.Optional;
 public class CreatePivotTableSimple {
 
     private static void setFormatPivotField(XSSFPivotTable pivotTable,
-                                                long fieldIndex,
-                                                Integer numFmtId) {
+                                            long fieldIndex,
+                                            Integer numFmtId) {
         Optional.ofNullable(pivotTable
                 .getCTPivotTableDefinition()
                 .getPivotFields())
@@ -32,9 +31,7 @@ public class CreatePivotTableSimple {
                         .setNumFmtId(numFmtId));
     }
 
-    private static void setFormatDataField(XSSFPivotTable pivotTable,
-                                               long fieldIndex,
-                                               long numFmtId) {
+    private static void setFormatDataField(XSSFPivotTable pivotTable, long fieldIndex, long numFmtId) {
         Optional.ofNullable(pivotTable
                 .getCTPivotTableDefinition()
                 .getDataFields())
@@ -44,7 +41,7 @@ public class CreatePivotTableSimple {
                         .filter(dataField -> dataField.getFld() == fieldIndex)
                         .findFirst()
                         .ifPresent(dataField -> dataField.setNumFmtId(numFmtId)));
-    }    
+    }
 
     public static void main(String[] args) throws IOException, InvalidFormatException {
 
@@ -67,7 +64,6 @@ public class CreatePivotTableSimple {
         pivotTable.addRowLabel(0); // set first column as 2-th level of rows
         pivotTable.addColumnLabel(DataConsolidateFunction.SUM, 2); // Sum up the second column
         setFormatDataField(pivotTable, 2, 3); //set format of value field numFmtId=3 # ##0
-
 
 
         FileOutputStream fileOut = new FileOutputStream("stackoverflow-pivottable.xlsx");

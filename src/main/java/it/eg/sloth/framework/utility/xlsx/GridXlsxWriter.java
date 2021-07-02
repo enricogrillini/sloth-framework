@@ -252,11 +252,11 @@ public class GridXlsxWriter extends BaseXlsxWriter {
      * @param grid
      */
     public void addPivots(boolean title, Grid<?> grid, CellReference topLeft, CellReference bottomRight) throws FrameworkException {
-        int rowIndex = 0;
         XSSFSheet dataSheet = getSheet();
-
         if (grid.getPivots() != null) {
             for (Pivot pivot : grid.getPivots()) {
+                int rowIndex = 0;
+
                 // Aggiungo il foglio per la Pivot
                 addSheet(BaseFunction.nvl(pivot.getTitle(), pivot.getName()), false);
 
@@ -299,7 +299,11 @@ public class GridXlsxWriter extends BaseXlsxWriter {
             } else if (pivotElement instanceof PivotRow) {
                 pivotTable.addRowLabel(col);
             } else if (pivotElement instanceof PivotColumn) {
-                pivotTable.addColLabel(col);
+                if (baseExcelType != null) {
+                    pivotTable.addColLabel(col, baseExcelType.getFormat());
+                } else {
+                    pivotTable.addColLabel(col);
+                }
 
             } else if (pivotElement instanceof PivotValue) {
                 PivotValue pivotValue = (PivotValue) pivotElement;
