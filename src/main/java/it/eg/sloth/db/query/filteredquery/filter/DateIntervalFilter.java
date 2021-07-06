@@ -34,6 +34,14 @@ public class DateIntervalFilter extends FrameComponent implements Filter {
   private Object filterDateFrom;
   private Object filterDateTo;
 
+  /**
+   *
+   * @param intervalType
+   * @param sqlDateFrom
+   * @param sqlDateTo
+   * @param filterDateFrom
+   * @param filterDateTo
+   */
   public DateIntervalFilter(IntervalType intervalType, String sqlDateFrom, String sqlDateTo, Object filterDateFrom, Object filterDateTo) {
     this.intervalType = intervalType;
     this.sqlDateFrom = sqlDateFrom;

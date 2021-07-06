@@ -1,15 +1,12 @@
 package it.eg.sloth.framework.utility.xlsx;
 
 import it.eg.sloth.TestFactory;
-import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
-import it.eg.sloth.form.fields.field.impl.Input;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.form.pivot.Pivot;
 import it.eg.sloth.form.pivot.PivotColumn;
 import it.eg.sloth.form.pivot.PivotRow;
 import it.eg.sloth.form.pivot.PivotValue;
-import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.jaxb.form.ConsolidateFunction;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +16,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
