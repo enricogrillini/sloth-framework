@@ -450,8 +450,11 @@ public class ToolbarWriter extends HtmlWriter {
 
         StringBuilder result = new StringBuilder();
         if (pageStatus.isChanging()) {
-            result.append(ToolbarWriter.insertButton(grid))
-                    .append(ToolbarWriter.deleteButton(grid));
+            result.append(ToolbarWriter.insertButton(grid));
+
+            if (!grid.isCurrentRowLocked()) {
+                result.append(ToolbarWriter.deleteButton(grid));
+            }
         }
 
         return result.toString();

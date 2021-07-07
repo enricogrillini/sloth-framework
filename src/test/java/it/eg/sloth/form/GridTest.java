@@ -1,6 +1,7 @@
 package it.eg.sloth.form;
 
 import it.eg.sloth.db.datasource.DataRow;
+import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.db.datasource.table.sort.SortType;
@@ -11,8 +12,7 @@ import it.eg.sloth.framework.common.casting.DataTypes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Project: sloth-framework
@@ -123,6 +123,17 @@ class GridTest {
         assertEquals("C", ((DataRow) grid.getDataSource().getRows().get(0)).getString("campo"));
         assertEquals("A", ((DataRow) grid.getDataSource().getRows().get(1)).getString("campo"));
         assertEquals("B", ((DataRow) grid.getDataSource().getRows().get(2)).getString("campo"));
+    }
+
+    @Test
+    void gridGenericTest() {
+        assertTrue(grid.isEmpty());
+
+        grid.setDataSource(new Table());
+        assertTrue(grid.isEmpty());
+
+        grid.setDataSource(table);
+        assertFalse(grid.isEmpty());
     }
 
 }

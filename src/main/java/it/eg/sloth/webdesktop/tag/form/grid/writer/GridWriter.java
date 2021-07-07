@@ -189,7 +189,7 @@ public class GridWriter extends HtmlWriter {
             if (dataTable.getPageSize() <= 0 || (dataTable.getPageStart() <= rowNumber && dataTable.getPageEnd() >= rowNumber)) {
                 String classHtml = getAttribute("class", manageCurrentRow && rowNumber == dataTable.getCurrentRow(), "table-primary");
 
-                if (rowNumber == dataTable.getCurrentRow() && ViewModality.VIEW_MODIFICA == viewModality) {
+                if (rowNumber == dataTable.getCurrentRow() && ViewModality.VIEW_MODIFICA == viewModality && !grid.isCurrentRowLocked()) {
                     // Riga corrente in edit mode
                     result.append(writeCurrentRowEditMode(grid, detailFields, rowNumber, classHtml));
                 } else {

@@ -62,6 +62,9 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
     Boolean commitButtonHidden;
     Boolean rollbackButtonHidden;
 
+    Boolean currentRowLocked;
+
+
     public Grid(String name, String description) {
         super(name, description);
 
@@ -125,7 +128,11 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
     }
 
     public boolean isEmpty() {
-        return getDataSource() == null || getDataSource().size() == 1;
+        return getDataSource() == null || getDataSource().size() == 0;
+    }
+
+    public boolean isCurrentRowLocked() {
+        return currentRowLocked != null && currentRowLocked;
     }
 
     /**
