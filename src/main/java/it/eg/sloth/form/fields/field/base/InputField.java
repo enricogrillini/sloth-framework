@@ -51,7 +51,7 @@ public abstract class InputField<T> extends TextField<T> {
     }
 
     public ViewModality getViewModality() {
-        return viewModality != null ? viewModality : ViewModality.VIEW_AUTO;
+        return viewModality != null ? viewModality : ViewModality.AUTO;
     }
 
     @Override

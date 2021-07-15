@@ -52,7 +52,7 @@ class RadioButtonsTest {
         assertFalse(radioButtons1.isRequired());
         assertFalse(radioButtons1.isReadOnly());
         assertFalse(radioButtons1.isHidden());
-        assertEquals(ViewModality.VIEW_AUTO, radioButtons1.getViewModality());
+        assertEquals(ViewModality.AUTO, radioButtons1.getViewModality());
     }
 
     @Test

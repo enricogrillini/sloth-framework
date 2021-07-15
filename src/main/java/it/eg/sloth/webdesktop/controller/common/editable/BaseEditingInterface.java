@@ -34,21 +34,21 @@ public interface BaseEditingInterface<F extends Form> extends FormPageInterface<
     default void onUpdate() throws Exception {
         if (execUpdate()) {
             getForm().getPageInfo().setPageStatus(PageStatus.UPDATING);
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_MODIFICA);
+            getForm().getPageInfo().setViewModality(ViewModality.EDIT);
         }
     }
 
     default void onCommit() throws Exception {
         if (execCommit()) {
             getForm().getPageInfo().setPageStatus(PageStatus.MASTER);
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_VISUALIZZAZIONE);
+            getForm().getPageInfo().setViewModality(ViewModality.VIEW);
         }
     }
 
     default void onRollback() throws Exception {
         if (execRollback()) {
             getForm().getPageInfo().setPageStatus(PageStatus.MASTER);
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_VISUALIZZAZIONE);
+            getForm().getPageInfo().setViewModality(ViewModality.VIEW);
         }
     }
 }

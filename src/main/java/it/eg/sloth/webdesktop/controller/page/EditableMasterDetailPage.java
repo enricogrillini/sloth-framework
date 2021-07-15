@@ -172,7 +172,7 @@ public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>
     public void onInsert() throws Exception {
         if (execInsert()) {
             getForm().getPageInfo().setPageStatus(PageStatus.INSERTING);
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_MODIFICA);
+            getForm().getPageInfo().setViewModality(ViewModality.EDIT);
         }
     }
 
@@ -185,13 +185,13 @@ public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>
     public void onDelete() throws Exception {
         if (execDelete()) {
             getForm().getPageInfo().setPageStatus(PageStatus.DELETING);
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_VISUALIZZAZIONE);
+            getForm().getPageInfo().setViewModality(ViewModality.VIEW);
         }
     }
 
     @Override
     public void onSubGoToRecord(Grid<?> grid, int record) throws Exception {
-        if (getForm().getPageInfo().getViewModality() == ViewModality.VIEW_MODIFICA) {
+        if (getForm().getPageInfo().getViewModality() == ViewModality.EDIT) {
             execPostDetail(false);
             if (execPostSubDetail(grid, true)) {
                 grid.getDataSource().setCurrentRow(record);
@@ -207,7 +207,7 @@ public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>
     public void onUpdate() throws Exception {
         if (execUpdate()) {
             getForm().getPageInfo().setPageStatus(PageStatus.UPDATING);
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_MODIFICA);
+            getForm().getPageInfo().setViewModality(ViewModality.EDIT);
         }
     }
 
@@ -220,7 +220,7 @@ public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>
                 getForm().getPageInfo().setPageStatus(PageStatus.DETAIL);
                 execLoadDetail();
             }
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_VISUALIZZAZIONE);
+            getForm().getPageInfo().setViewModality(ViewModality.VIEW);
         }
     }
 
@@ -233,7 +233,7 @@ public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>
                 getForm().getPageInfo().setPageStatus(PageStatus.DETAIL);
                 execLoadDetail();
             }
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_VISUALIZZAZIONE);
+            getForm().getPageInfo().setViewModality(ViewModality.VIEW);
         }
     }
 

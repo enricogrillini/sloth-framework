@@ -23,7 +23,7 @@ public class SkipEditTag extends WebDesktopTag<Form> {
     private static final long serialVersionUID = 1L;
 
     public int startTag() {
-        if (getForm().getPageInfo().getViewModality() == ViewModality.VIEW_MODIFICA) {
+        if (getForm().getPageInfo().getViewModality() == ViewModality.EDIT) {
             return SKIP_BODY;
         } else {
             return EVAL_BODY_INCLUDE;

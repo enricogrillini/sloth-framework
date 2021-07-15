@@ -99,7 +99,7 @@ public class MessageWriter {
                 result.append("     <h4 class=\"alert-heading\">" + getTitle(message.getSeverity()) + "</h4>\n");
             }
 
-            result.append("     <p class=\"mb-0  font-weight-bold\">" + Casting.getHtml(message.getDescription()) + "</p>\n");
+            result.append("     <p class=\"mb-0 font-weight-bold\">" + Casting.getHtml(message.getDescription()) + "</p>\n");
 
             if (!BaseFunction.isBlank(message.getSubDescription())) {
                 result.append("     <p class=\"mb-0\">" + Casting.getHtml(message.getSubDescription()) + "</p>\n");

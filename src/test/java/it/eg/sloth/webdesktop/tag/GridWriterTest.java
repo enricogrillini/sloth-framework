@@ -102,9 +102,9 @@ class GridWriterTest {
 
     @Test
     void gridTest() throws FrameworkException {
-        assertEquals(CONTENT_TEMPLATE, GridWriter.rows(grid, null, ViewModality.VIEW_VISUALIZZAZIONE, true));
+        assertEquals(CONTENT_TEMPLATE, GridWriter.rows(grid, null, ViewModality.VIEW, true));
 
-        assertEquals(CONTENT_TEMPLATE_NO_CURRENT_ROW, GridWriter.rows(grid, null, ViewModality.VIEW_VISUALIZZAZIONE, false));
+        assertEquals(CONTENT_TEMPLATE_NO_CURRENT_ROW, GridWriter.rows(grid, null, ViewModality.VIEW, false));
     }
 
     @Test
@@ -113,7 +113,7 @@ class GridWriterTest {
         fields.addChild(new Text<String>("campo3", "campo3", DataTypes.STRING));
         fields.setDataSource(table);
 
-        assertEquals(CONTENT_TEMPLATE_DETAIL, GridWriter.rows(grid, fields, ViewModality.VIEW_VISUALIZZAZIONE, true));
+        assertEquals(CONTENT_TEMPLATE_DETAIL, GridWriter.rows(grid, fields, ViewModality.VIEW, true));
     }
 
 }

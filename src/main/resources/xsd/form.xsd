@@ -51,6 +51,7 @@
      <element name="Link" type="tns:Link" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="Hidden" type="tns:Hidden" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="AutoComplete" type="tns:AutoComplete" maxOccurs="unbounded" minOccurs="0"></element>
+     <element name="MultipleAutoComplete" type="tns:MultipleAutoComplete" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="RadioGroup" type="tns:RadioGroup" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="RadioButtons" type="tns:RadioButtons" maxOccurs="unbounded" minOccurs="0"></element>
     </choice>
@@ -597,4 +598,10 @@
    <enumeration value="PDF"></enumeration>
   </restriction>
  </simpleType>
+
+ <complexType name="MultipleAutoComplete">
+  <complexContent>
+   <extension base="tns:AutoComplete"></extension>
+  </complexContent>
+ </complexType>
 </schema>

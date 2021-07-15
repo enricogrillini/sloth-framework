@@ -62,8 +62,6 @@ class FormControlWriterTest {
 
     private static final String BASE_HIDDEN = "<input id=\"{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>";
 
-    //private static final String BASE_INPUT_OLD = "<input id=\"{0}\" name=\"{0}\" type=\"{1}\" value=\"{2}\"{3} class=\"form-control form-control-sm\"{4}{5}/>";
-
     private static final String BASE_LINK = "<a href=\"{1}\" class=\"btn btn-outline-primary btn-sm\"/>{0}</a>";
 
     private static final String BASE_SEMAPHORE = "<div class=\"btn-group btn-group-toggle d-flex\" data-toggle=\"buttons\"><label class=\"btn btn-outline-success btn-sm disabled\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-warning btn-sm disabled\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-danger btn-sm disabled\"><i class=\"far fa-circle\"></i></label></div>";
@@ -118,22 +116,22 @@ class FormControlWriterTest {
     private void verifyAutoComplete(AutoComplete<String> autocomplete) throws FrameworkException {
         Fields fields = new Fields("Master");
 
-        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "", "", " disabled=\"\""), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "", "", " disabled=\"\""), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW));
 
         autocomplete.setValue("A");
-        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "Scelta A", "", " disabled=\"\""), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW_VISUALIZZAZIONE));
-        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "Scelta A", " fields=\"master\"", ""), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "Scelta A", "", " disabled=\"\""), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW));
+        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "Scelta A", " fields=\"master\"", ""), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.EDIT));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "Scelta A", " fields=\"master\"", ""), FormControlWriter.writeControl(autocomplete, fields, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "Scelta A", " fields=\"master\"", ""), FormControlWriter.writeControl(autocomplete, fields, ViewModality.EDIT));
 
         // Link
         autocomplete.setBaseLink("destPage.html?name=");
-        assertEquals(MessageFormat.format(LINK_AUTOCOMPLETE, "name", "Scelta A", "destPage.html?name=A"), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(MessageFormat.format(LINK_AUTOCOMPLETE, "name", "Scelta A", "destPage.html?name=A"), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW));
 
         // Empty
         autocomplete.setHidden(true);
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(autocomplete, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(autocomplete, null, ViewModality.EDIT));
     }
 
     @Test
@@ -142,30 +140,30 @@ class FormControlWriterTest {
         assertEquals(BASE_BUTTON, FormControlWriter.writeButton(button));
 
         // Controllo generico
-        assertEquals(BASE_BUTTON, FormControlWriter.writeControl(button, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(BASE_BUTTON, FormControlWriter.writeControl(button, null, ViewModality.EDIT));
 
         // Empty
         button.setHidden(true);
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(button, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(button, null, ViewModality.EDIT));
     }
 
     @Test
     void checkBoxTest() throws FrameworkException {
         CheckBox checkBox = new CheckBox("name", "description", DataTypes.STRING);
-        assertEquals(BASE_CHECKBOX_VIS, FormControlWriter.writeCheckBox(checkBox, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(BASE_CHECKBOX_VIS, FormControlWriter.writeCheckBox(checkBox, ViewModality.VIEW));
 
         checkBox.setChecked();
-        assertEquals(MessageFormat.format(BASE_CHECKBOX_MOD, " checked=\"\""), FormControlWriter.writeCheckBox(checkBox, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_CHECKBOX_MOD, " checked=\"\""), FormControlWriter.writeCheckBox(checkBox, ViewModality.EDIT));
 
         checkBox.setUnChecked();
-        assertEquals(MessageFormat.format(BASE_CHECKBOX_MOD, ""), FormControlWriter.writeCheckBox(checkBox, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_CHECKBOX_MOD, ""), FormControlWriter.writeCheckBox(checkBox, ViewModality.EDIT));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_CHECKBOX_MOD, ""), FormControlWriter.writeControl(checkBox, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_CHECKBOX_MOD, ""), FormControlWriter.writeControl(checkBox, null, ViewModality.EDIT));
 
         // Empty
         checkBox.setHidden(true);
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(checkBox, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(checkBox, null, ViewModality.EDIT));
     }
 
     @Test
@@ -176,17 +174,17 @@ class FormControlWriterTest {
         ComboBox<String> field = new ComboBox<String>("name", "description", DataTypes.STRING);
         field.setDecodeMap(stringDecodeMap);
 
-        assertEquals(MessageFormat.format(BASE_COMBOBOX, "name", "", " disabled=\"\"", ""), FormControlWriter.writeComboBox(field, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(MessageFormat.format(BASE_COMBOBOX, "name", "", " disabled=\"\"", ""), FormControlWriter.writeComboBox(field, ViewModality.VIEW));
 
         field.setValue("A");
-        assertEquals(MessageFormat.format(BASE_COMBOBOX, "name", "A", "", " selected=\"selected\""), FormControlWriter.writeComboBox(field, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_COMBOBOX, "name", "A", "", " selected=\"selected\""), FormControlWriter.writeComboBox(field, ViewModality.EDIT));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_COMBOBOX, "name", "A", "", " selected=\"selected\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_COMBOBOX, "name", "A", "", " selected=\"selected\""), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
 
         // Empty
         field.setHidden(true);
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.EDIT));
     }
 
     @Test
@@ -200,7 +198,7 @@ class FormControlWriterTest {
         assertEquals(MessageFormat.format(BASE_TEXT, "name", "Scelta A"), FormControlWriter.writeDecodedText(field, null));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_TEXT, "name", "Scelta A"), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_TEXT, "name", "Scelta A"), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
 
         // Link
         field.setBaseLink("destPage.html?name=");
@@ -212,12 +210,12 @@ class FormControlWriterTest {
         File field = new File("name", "description");
         field.setTooltip("tooltip");
 
-        assertEquals(MessageFormat.format(BASE_FILE_VIEW, "name", "text", "", "", " disabled=\"\""), FormControlWriter.writeFile(field, ViewModality.VIEW_VISUALIZZAZIONE));
-        assertEquals(MessageFormat.format(BASE_FILE_MODIFY, "name", " data-placement=\"bottom\" title=\"tooltip\" class=\"custom-file-input\""), FormControlWriter.writeFile(field, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_FILE_VIEW, "name", "text", "", "", " disabled=\"\""), FormControlWriter.writeFile(field, ViewModality.VIEW));
+        assertEquals(MessageFormat.format(BASE_FILE_MODIFY, "name", " data-placement=\"bottom\" title=\"tooltip\" class=\"custom-file-input\""), FormControlWriter.writeFile(field, ViewModality.EDIT));
 
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_FILE_MODIFY, "name", " data-placement=\"bottom\" title=\"tooltip\" class=\"custom-file-input\""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_FILE_MODIFY, "name", " data-placement=\"bottom\" title=\"tooltip\" class=\"custom-file-input\""), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
     }
 
     @Test
@@ -230,7 +228,7 @@ class FormControlWriterTest {
         assertEquals(MessageFormat.format(BASE_HIDDEN, "name", "testo"), FormControlWriter.writeHidden(field));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_HIDDEN, "name", "testo"), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_HIDDEN, "name", "testo"), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
     }
 
     @Test
@@ -239,11 +237,11 @@ class FormControlWriterTest {
         assertEquals(MessageFormat.format(BASE_LINK, "description", "www"), FormControlWriter.writeLink(link));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_LINK, "description", "www"), FormControlWriter.writeControl(link, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_LINK, "description", "www"), FormControlWriter.writeControl(link, null, ViewModality.EDIT));
 
         // Empty
         link.setHidden(true);
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(link, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(link, null, ViewModality.EDIT));
     }
 
     @Test
@@ -252,15 +250,15 @@ class FormControlWriterTest {
         radioGroup.setDecodeMap(StringDecodeMap.Factory.DECODE_MAP_SNT);
         radioGroup.setValue("S");
 
-        assertEquals(BASE_RADIOGROUP_VIS, FormControlWriter.writeRadioGroup(radioGroup, ViewModality.VIEW_VISUALIZZAZIONE));
-        assertEquals(MessageFormat.format(BASE_RADIOGROUP_MOD, " checked=\"\""), FormControlWriter.writeRadioGroup(radioGroup, ViewModality.VIEW_MODIFICA));
+        assertEquals(BASE_RADIOGROUP_VIS, FormControlWriter.writeRadioGroup(radioGroup, ViewModality.VIEW));
+        assertEquals(MessageFormat.format(BASE_RADIOGROUP_MOD, " checked=\"\""), FormControlWriter.writeRadioGroup(radioGroup, ViewModality.EDIT));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_RADIOGROUP_MOD, ""), FormControlWriter.writeControl(radioGroup, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_RADIOGROUP_MOD, ""), FormControlWriter.writeControl(radioGroup, null, ViewModality.EDIT));
 
         // Empty
         radioGroup.setHidden(true);
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(radioGroup, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(radioGroup, null, ViewModality.EDIT));
     }
 
     @Test
@@ -270,59 +268,59 @@ class FormControlWriterTest {
                 .name("name")
                 .description("Semaphore")
                 .dataType(DataTypes.STRING)
-                .viewModality(ViewModality.VIEW_AUTO)
+                .viewModality(ViewModality.AUTO)
                 .build();
 
-        assertEquals(BASE_SEMAPHORE, FormControlWriter.writeSemaphore(semaphore, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(BASE_SEMAPHORE, FormControlWriter.writeSemaphore(semaphore, ViewModality.VIEW));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_SEMAPHORE, ""), FormControlWriter.writeControl(semaphore, null, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(MessageFormat.format(BASE_SEMAPHORE, ""), FormControlWriter.writeControl(semaphore, null, ViewModality.VIEW));
 
         // VIEW_MODIFICA ancora non gestita
-        assertEquals(BASE_SEMAPHORE_MOD, FormControlWriter.writeControl(semaphore, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(BASE_SEMAPHORE_MOD, FormControlWriter.writeControl(semaphore, null, ViewModality.EDIT));
 
         // Empty
         semaphore.setHidden(true);
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(semaphore, null, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(semaphore, null, ViewModality.VIEW));
     }
 
     @Test
     void switchTest() throws FrameworkException {
         Switch field = new Switch("name", "description", DataTypes.STRING);
-        assertEquals(BASE_SWITCH_VIS, FormControlWriter.writeSwitch(field, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(BASE_SWITCH_VIS, FormControlWriter.writeSwitch(field, ViewModality.VIEW));
 
         field.setChecked();
-        assertEquals(MessageFormat.format(BASE_SWITCH_MOD, " checked=\"\""), FormControlWriter.writeSwitch(field, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_SWITCH_MOD, " checked=\"\""), FormControlWriter.writeSwitch(field, ViewModality.EDIT));
 
         field.setUnChecked();
-        assertEquals(MessageFormat.format(BASE_SWITCH_MOD, ""), FormControlWriter.writeSwitch(field, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_SWITCH_MOD, ""), FormControlWriter.writeSwitch(field, ViewModality.EDIT));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_SWITCH_MOD, ""), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_SWITCH_MOD, ""), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
 
         // Empty
         field.setHidden(true);
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.EDIT));
     }
 
     @Test
     void textAreaTest() throws FrameworkException {
         TextArea<String> field = new TextArea<String>("name", "description", DataTypes.STRING);
-        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", " disabled=\"\"", ""), FormControlWriter.writeTextArea(field, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", " disabled=\"\"", ""), FormControlWriter.writeTextArea(field, ViewModality.VIEW));
 
         field.setValue("testo");
-        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", " disabled=\"\"", "testo"), FormControlWriter.writeTextArea(field, ViewModality.VIEW_VISUALIZZAZIONE));
-        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", "", "testo"), FormControlWriter.writeTextArea(field, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", " disabled=\"\"", "testo"), FormControlWriter.writeTextArea(field, ViewModality.VIEW));
+        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", "", "testo"), FormControlWriter.writeTextArea(field, ViewModality.EDIT));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", "", "testo"), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", "", "testo"), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
 
         field.setValue("testo\ntesto");
-        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", "", "testo\ntesto"), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", "", "testo\ntesto"), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
 
         // Empty
         field.setHidden(true);
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.EDIT));
     }
 
 }

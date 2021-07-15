@@ -41,7 +41,7 @@ class CheckButtonsTest {
                 .required(null)
                 .readOnly(null)
                 .hidden(null)
-                .viewModality(ViewModality.VIEW_MODIFICA)
+                .viewModality(ViewModality.EDIT)
                 .values("Consuntivati|Fatturazione|Trasferta|Previsionale")
                 .descriptions("Cons.|Fatt.|Trasf.|Prev.")
                 .tooltips(null)

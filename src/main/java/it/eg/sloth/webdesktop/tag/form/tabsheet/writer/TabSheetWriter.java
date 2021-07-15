@@ -41,7 +41,7 @@ public class TabSheetWriter extends HtmlWriter {
                     description += MessageFormat.format(" <span class=\"badge badge-pill {0}\">{1}</span>", tab.getBadgeType() == null ? "" : tab.getBadgeType().value(), tab.getBadgeHtml());
                 }
 
-                if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+                if (viewModality == ViewModality.VIEW) {
                     result.append(MessageFormat.format(
                             TAB_VIEW,
                             getAttribute("href", current, "#", lastController + "?" + NavigationConst.navStr(NavigationConst.TAB, tabSheet.getName(), tab.getName())),

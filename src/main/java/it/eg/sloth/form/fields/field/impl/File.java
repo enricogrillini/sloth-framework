@@ -89,7 +89,7 @@ public class File implements SimpleField {
     }
 
     public ViewModality getViewModality() {
-        return viewModality != null ? viewModality : ViewModality.VIEW_AUTO;
+        return viewModality != null ? viewModality : ViewModality.AUTO;
     }
 
     public int getMaxSize() {

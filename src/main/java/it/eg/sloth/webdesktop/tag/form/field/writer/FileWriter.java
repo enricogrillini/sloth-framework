@@ -18,8 +18,8 @@ public class FileWriter extends HtmlWriter {
             return StringUtil.EMPTY;
         }
 
-        ViewModality viewModality = file.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : file.getViewModality();
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+        ViewModality viewModality = file.getViewModality() == ViewModality.AUTO ? pageViewModality : file.getViewModality();
+        if (viewModality == ViewModality.VIEW) {
             switch (file.getHtmlFileType()) {
                 case PDF:
                     if (file.exists()) {

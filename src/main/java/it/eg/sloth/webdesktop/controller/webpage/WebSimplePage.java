@@ -8,6 +8,7 @@ import it.eg.sloth.db.decodemap.MapSearchType;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.fields.field.DecodedDataField;
+import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.utility.FileType;
 import it.eg.sloth.webdesktop.controller.common.SimplePageInterface;
@@ -79,12 +80,14 @@ public abstract class WebSimplePage<F extends Form> extends FormPage<F> implemen
     }
 
     protected boolean defaultNavigation() throws Exception {
-
         String[] navigation = getWebRequest().getNavigation();
         if (navigation.length == 2 && NavigationConst.AUTOCOMPLETE.equals(navigation[0])) {
             DecodeMap<?, ?> decodeMap = null;
             if (getForm().getElement(navigation[1]) instanceof DecodedDataField) {
                 DecodedDataField<?> decodedDataField = (DecodedDataField<?>) getForm().getElement(navigation[1]);
+                decodeMap = decodedDataField.getDecodeMap();
+            } else if (getForm().getElement(navigation[1]) instanceof MultipleAutoComplete) {
+                MultipleAutoComplete<?> decodedDataField = (MultipleAutoComplete<?>) getForm().getElement(navigation[1]);
                 decodeMap = decodedDataField.getDecodeMap();
             }
 

@@ -29,14 +29,14 @@ public interface FullEditingInterface<F extends Form> extends BaseEditingInterfa
     default void onInsert() throws Exception {
         if (execInsert()) {
             getForm().getPageInfo().setPageStatus(PageStatus.UPDATING);
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_MODIFICA);
+            getForm().getPageInfo().setViewModality(ViewModality.EDIT);
         }
     }
 
     default void onDelete() throws Exception {
         if (execDelete()) {
             getForm().getPageInfo().setPageStatus(PageStatus.UPDATING);
-            getForm().getPageInfo().setViewModality(ViewModality.VIEW_MODIFICA);
+            getForm().getPageInfo().setViewModality(ViewModality.EDIT);
         }
     }
 

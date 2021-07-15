@@ -57,28 +57,28 @@ class FormControlInputWriterTest {
         Input<String> field = new Input<String>("name", "description", DataTypes.STRING);
         field.setTooltip("tooltip");
 
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "", "", ATTR_VIEW), FormControlWriter.writeInput(field, null, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "", "", ATTR_VIEW), FormControlWriter.writeInput(field, null, ViewModality.VIEW));
 
         field.setValue("testo");
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "testo", "", ATTR_VIEW), FormControlWriter.writeInput(field, null, ViewModality.VIEW_VISUALIZZAZIONE));
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "testo", "", ATTR_EDIT), FormControlWriter.writeInput(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "testo", "", ATTR_VIEW), FormControlWriter.writeInput(field, null, ViewModality.VIEW));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "testo", "", ATTR_EDIT), FormControlWriter.writeInput(field, null, ViewModality.EDIT));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "testo", "", ATTR_EDIT), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "testo", "", ATTR_EDIT), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
 
         // State
         field.setState(ControlState.DANGER);
         field.setStateMessage("Lorem ipsum");
-        assertEquals(MessageFormat.format(CTRL_INPUT_GROUP, "name", "text", "testo", "", ATTR_EDIT_DANGER), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(CTRL_INPUT_GROUP, "name", "text", "testo", "", ATTR_EDIT_DANGER), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
 
         // Link
         field.setBaseLink("/api/");
-        assertEquals(MessageFormat.format(CTRL_INPUT_GROUP, "name", "text", "testo", "", ATTR_EDIT_DANGER), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
-        assertEquals(MessageFormat.format(CTRL_INPUT_GROUP_LINK, "name", "text", "testo", "", ATTR_VIEW_DANGER), FormControlWriter.writeControl(field, null, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(MessageFormat.format(CTRL_INPUT_GROUP, "name", "text", "testo", "", ATTR_EDIT_DANGER), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
+        assertEquals(MessageFormat.format(CTRL_INPUT_GROUP_LINK, "name", "text", "testo", "", ATTR_VIEW_DANGER), FormControlWriter.writeControl(field, null, ViewModality.VIEW));
 
         // Empty
         field.setHidden(true);
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.EDIT));
     }
 
     // Input - Date
@@ -88,14 +88,14 @@ class FormControlInputWriterTest {
         field.setLocale(Locale.ITALY);
         field.setTooltip("tooltip");
 
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "", "", ATTR_VIEW), FormControlWriter.writeInput(field, null, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "", "", ATTR_VIEW), FormControlWriter.writeInput(field, null, ViewModality.VIEW));
 
         field.setValue(TimeStampUtil.parseTimestamp("01/01/2020", "dd/MM/yyyy"));
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "01/01/2020", "", ATTR_VIEW), FormControlWriter.writeInput(field, null, ViewModality.VIEW_VISUALIZZAZIONE));
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "date", "2020-01-01", "", ATTR_EDIT), FormControlWriter.writeInput(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "01/01/2020", "", ATTR_VIEW), FormControlWriter.writeInput(field, null, ViewModality.VIEW));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "date", "2020-01-01", "", ATTR_EDIT), FormControlWriter.writeInput(field, null, ViewModality.EDIT));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "date", "2020-01-01", "", ATTR_EDIT), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "date", "2020-01-01", "", ATTR_EDIT), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
     }
 
     // Input - DateTime
@@ -105,14 +105,14 @@ class FormControlInputWriterTest {
         field.setLocale(Locale.ITALY);
         field.setTooltip("tooltip");
 
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "", "", ATTR_VIEW), FormControlWriter.writeInput(field, null, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "", "", ATTR_VIEW), FormControlWriter.writeInput(field, null, ViewModality.VIEW));
 
         field.setValue(TimeStampUtil.parseTimestamp("01/01/2020 10:11:12", "dd/MM/yyyy hh:mm:ss"));
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "01/01/2020 10:11:12", "", ATTR_VIEW), FormControlWriter.writeInput(field, null, ViewModality.VIEW_VISUALIZZAZIONE));
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "datetime-local", "2020-01-01T10:11:12", ATTR_STEP, ATTR_EDIT), FormControlWriter.writeInput(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "01/01/2020 10:11:12", "", ATTR_VIEW), FormControlWriter.writeInput(field, null, ViewModality.VIEW));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "datetime-local", "2020-01-01T10:11:12", ATTR_STEP, ATTR_EDIT), FormControlWriter.writeInput(field, null, ViewModality.EDIT));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "datetime-local", "2020-01-01T10:11:12", ATTR_STEP, ATTR_EDIT), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "datetime-local", "2020-01-01T10:11:12", ATTR_STEP, ATTR_EDIT), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
     }
 
     // InputTotalizer - Integer
@@ -121,14 +121,14 @@ class FormControlInputWriterTest {
         InputTotalizer field = new InputTotalizer("name", "description", DataTypes.INTEGER);
         field.setTooltip("tooltip");
 
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "", "", ATTR_VIEW), FormControlWriter.writeInput(field, null, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "", "", ATTR_VIEW), FormControlWriter.writeInput(field, null, ViewModality.VIEW));
 
         field.setValue(BigDecimal.valueOf(10));
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "10", "", ATTR_VIEW), FormControlWriter.writeInput(field, null, ViewModality.VIEW_VISUALIZZAZIONE));
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "number", "10", "", ATTR_EDIT), FormControlWriter.writeInput(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "10", "", ATTR_VIEW), FormControlWriter.writeInput(field, null, ViewModality.VIEW));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "number", "10", "", ATTR_EDIT), FormControlWriter.writeInput(field, null, ViewModality.EDIT));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "number", "10", "", ATTR_EDIT), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "number", "10", "", ATTR_EDIT), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
     }
 
     @Test
@@ -146,17 +146,17 @@ class FormControlInputWriterTest {
         assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "testo", "", ATTR_VIEW), FormControlWriter.writeText(field, null));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "testo", "", ATTR_VIEW), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "text", "testo", "", ATTR_VIEW), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
 
         // State
         field.setState(ControlState.DANGER);
         field.setStateMessage("Lorem ipsum");
-        assertEquals(MessageFormat.format(CTRL_INPUT_GROUP, "name", "text", "testo", "", ATTR_VIEW_DANGER), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(CTRL_INPUT_GROUP, "name", "text", "testo", "", ATTR_VIEW_DANGER), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
 
         // Link
         field.setBaseLink("/api/");
-        assertEquals(MessageFormat.format(CTRL_INPUT_GROUP_LINK, "name", "text", "testo", "", ATTR_VIEW_DANGER), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
-        assertEquals(MessageFormat.format(CTRL_INPUT_GROUP_LINK, "name", "text", "testo", "", ATTR_VIEW_DANGER), FormControlWriter.writeControl(field, null, ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(MessageFormat.format(CTRL_INPUT_GROUP_LINK, "name", "text", "testo", "", ATTR_VIEW_DANGER), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
+        assertEquals(MessageFormat.format(CTRL_INPUT_GROUP_LINK, "name", "text", "testo", "", ATTR_VIEW_DANGER), FormControlWriter.writeControl(field, null, ViewModality.VIEW));
     }
 
     @Test
@@ -175,7 +175,7 @@ class FormControlInputWriterTest {
         assertEquals(MessageFormat.format(CTRL_INPUT, "name", "number", "10", "", ATTR_VIEW), FormControlWriter.writeTextTotalizer(field, null));
 
         // Generico controllo
-        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "number", "10", "", ATTR_VIEW), FormControlWriter.writeControl(field, null, ViewModality.VIEW_MODIFICA));
+        assertEquals(MessageFormat.format(CTRL_INPUT, "name", "number", "10", "", ATTR_VIEW), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
     }
 
 }

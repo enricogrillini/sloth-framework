@@ -78,7 +78,7 @@ class InputTest {
         assertFalse(input.isRequired());
         assertFalse(input.isReadOnly());
         assertFalse(input.isHidden());
-        assertEquals(ViewModality.VIEW_AUTO, input.getViewModality());
+        assertEquals(ViewModality.AUTO, input.getViewModality());
         assertEquals(ForceCase.NONE, input.getForceCase());
         assertEquals(0, input.getMaxLength());
 
@@ -90,7 +90,7 @@ class InputTest {
                 .required(false)
                 .readOnly(false)
                 .hidden(false)
-                .viewModality(ViewModality.VIEW_MODIFICA)
+                .viewModality(ViewModality.EDIT)
                 .forceCase(ForceCase.UPPER)
                 .maxLength(10)
                 .build();
@@ -101,7 +101,7 @@ class InputTest {
         assertFalse(input.isRequired());
         assertFalse(input.isReadOnly());
         assertFalse(input.isHidden());
-        assertEquals(ViewModality.VIEW_MODIFICA, input.getViewModality());
+        assertEquals(ViewModality.EDIT, input.getViewModality());
         assertEquals(ForceCase.UPPER, input.getForceCase());
         assertEquals(10, input.getMaxLength());
     }
@@ -116,7 +116,7 @@ class InputTest {
                 .required(true)
                 .readOnly(true)
                 .hidden(true)
-                .viewModality(ViewModality.VIEW_MODIFICA)
+                .viewModality(ViewModality.EDIT)
                 .forceCase(ForceCase.UPPER)
                 .maxLength(10)
                 .build();
@@ -127,7 +127,7 @@ class InputTest {
         assertTrue(input.isRequired());
         assertTrue(input.isReadOnly());
         assertTrue(input.isHidden());
-        assertEquals(ViewModality.VIEW_MODIFICA, input.getViewModality());
+        assertEquals(ViewModality.EDIT, input.getViewModality());
         assertEquals(ForceCase.UPPER, input.getForceCase());
         assertEquals(10, input.getMaxLength());
 

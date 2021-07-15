@@ -42,7 +42,7 @@ public class PageInfo {
     public PageInfo(String title) {
         this.title = title;
         this.breadcrumbs = new Breadcrumbs();
-        this.viewModality = ViewModality.VIEW_VISUALIZZAZIONE;
+        this.viewModality = ViewModality.VIEW;
         this.pageStatus = PageStatus.MASTER;
         this.objects = new HashMap<>();
     }

@@ -1,10 +1,10 @@
 package it.eg.sloth.webdesktop.tag;
 
 import it.eg.sloth.framework.common.message.MessageList;
+import it.eg.sloth.framework.utility.resource.ResourceUtil;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.MessageWriter;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.text.MessageFormat;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,20 +24,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class MessageWriterTest {
 
-    private static final String CONTENT_TEMPLATE = "\n" +
-            "    <div class=\"alert alert-dismissible alert-danger\">\n" +
-            "{0}" +
-            "     <p class=\"mb-0  font-weight-bold\">{1}</p>\n" +
-            "    </div>\n" +
-            "";
+    private static final String MESSAGE_OPEN = ResourceUtil.normalizedResourceAsString("snippet-html/message/message-open.html");
+    private static final String MESSAGE_CLOSE = ResourceUtil.normalizedResourceAsString("snippet-html/message/message-close.html");
+
+    private static final String MESSAGE_CONTENT = ResourceUtil.normalizedResourceAsString("snippet-html/message/message-content.html");
+    private static final String MESSAGE_CONTENT_SEVERITY = ResourceUtil.normalizedResourceAsString("snippet-html/message/message-content-severity.html");
+
+    MessageList messageList;
+
+    @BeforeEach
+    void init() {
+        messageList = new MessageList();
+        messageList.addBaseError("Si è rotto");
+    }
+
+    @Test
+    void writeDialogTest() {
+        assertEquals(MESSAGE_OPEN, MessageWriter.openDialog(messageList));
+        assertEquals(MESSAGE_CLOSE, MessageWriter.closeDialog());
+    }
 
     @Test
     void writeMessageListTest() {
-        MessageList messageList = new MessageList();
-        messageList.addBaseError("Si è rotto");
-
-        assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "     <h4 class=\"alert-heading\">Errore!</h4>\n", "Si &egrave; rotto"), MessageWriter.writeMessages(messageList, true));
-        assertEquals(MessageFormat.format(CONTENT_TEMPLATE, "", "Si &egrave; rotto"), MessageWriter.writeMessages(messageList, false));
+        assertEquals(MESSAGE_CONTENT, MessageWriter.writeMessages(messageList, false));
+        assertEquals(MESSAGE_CONTENT_SEVERITY, MessageWriter.writeMessages(messageList, true));
     }
 
 }

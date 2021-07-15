@@ -18,6 +18,7 @@ import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -69,6 +70,8 @@ public class FormControlWriter extends HtmlWriter {
                 return writeInput((Input) element, parentElement, pageViewModality);
             case INPUT_TOTALIZER:
                 return writeInputTotalizer((InputTotalizer) element, parentElement, pageViewModality);
+            case MULTIPLE_AUTO_COMPLETE:
+                return writeMultipleAutoComplete((MultipleAutoComplete) element, parentElement, pageViewModality);
             case LINK:
                 return writeLink((Link) element);
             case RADIO_BUTTONS:
@@ -104,7 +107,7 @@ public class FormControlWriter extends HtmlWriter {
             return StringUtil.EMPTY;
         }
 
-        ViewModality viewModality = autocomplete.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : autocomplete.getViewModality();
+        ViewModality viewModality = autocomplete.getViewModality() == ViewModality.AUTO ? pageViewModality : autocomplete.getViewModality();
 
         StringBuilder input = new StringBuilder()
                 .append(BEGIN_INPUT)
@@ -113,8 +116,8 @@ public class FormControlWriter extends HtmlWriter {
                 .append(getAttribute(ATTR_VALUE, Casting.getHtml(autocomplete.getDecodedText(), true, true)))
                 .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(autocomplete)));
 
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
-            input.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
+        if (viewModality == ViewModality.VIEW) {
+            input.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW, ""));
         } else {
             input
                     .append(getAttribute("fields", parentElement.getName()))
@@ -169,19 +172,19 @@ public class FormControlWriter extends HtmlWriter {
             return StringUtil.EMPTY;
         }
 
-        ViewModality viewModality = checkBox.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : checkBox.getViewModality();
+        ViewModality viewModality = checkBox.getViewModality() == ViewModality.AUTO ? pageViewModality : checkBox.getViewModality();
         StringBuilder result = new StringBuilder()
                 .append("<div class=\"custom-control custom-checkbox\"><input")
                 .append(getAttribute(ATTR_ID, checkBox.getName()))
                 .append(getAttribute(ATTR_NAME, checkBox.getName()))
                 .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_CHECKBOX))
                 .append(getAttribute(ATTR_VALUE, checkBox.getValChecked().toString()))
-                .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE || checkBox.isReadOnly(), ""))
+                .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW || checkBox.isReadOnly(), ""))
                 .append(getAttribute(ATTR_CLASS, BootStrapClass.CHECK_CLASS))
                 .append(getAttribute(ATTR_CHECKED, checkBox.isChecked(), ""))
                 .append("/>");
 
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+        if (viewModality == ViewModality.VIEW) {
             result.append("<div")
                     .append(getAttribute(ATTR_CLASS, "custom-control-label"))
                     .append("></div>");
@@ -214,7 +217,7 @@ public class FormControlWriter extends HtmlWriter {
         String[] values = checkButtons.getSplittedValues();
         String[] descriptions = checkButtons.getSplittedDescriptions();
 
-        ViewModality viewModality = checkButtons.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : checkButtons.getViewModality();
+        ViewModality viewModality = checkButtons.getViewModality() == ViewModality.AUTO ? pageViewModality : checkButtons.getViewModality();
         StringBuilder result = new StringBuilder()
                 .append("<div class=\"btn-group btn-group-toggle d-flex\" data-toggle=\"buttons\">");
 
@@ -224,7 +227,7 @@ public class FormControlWriter extends HtmlWriter {
             String description = descriptions.length > i ? descriptions[i] : StringUtil.EMPTY;
             boolean active = checkButtons.isChecked(checkButtons.getDataType().parseValue(value, checkButtons.getLocale(), checkButtons.getFormat()));
 
-            if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+            if (viewModality == ViewModality.VIEW) {
                 result.append(MessageFormat.format("<label{0}>", getAttribute(ATTR_CLASS, active, "btn btn-primary btn-sm disabled", "btn btn-outline-primary btn-sm disabled")))
                         .append(Casting.getHtml(description));
             } else {
@@ -264,7 +267,7 @@ public class FormControlWriter extends HtmlWriter {
         String[] values = checkGroup.getSplittedValues();
         String[] descriptions = checkGroup.getSplittedDescriptions();
 
-        ViewModality viewModality = checkGroup.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : checkGroup.getViewModality();
+        ViewModality viewModality = checkGroup.getViewModality() == ViewModality.AUTO ? pageViewModality : checkGroup.getViewModality();
         StringBuilder result = new StringBuilder();
 
         int i = 0;
@@ -281,12 +284,12 @@ public class FormControlWriter extends HtmlWriter {
                     .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_CHECKBOX))
                     .append(getAttribute(ATTR_VALUE, htmlValue))
                     .append(getAttribute(ATTR_READONLY, checkGroup.isReadOnly(), ""))
-                    .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""))
+                    .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW, ""))
                     .append(getAttribute(ATTR_CHECKED, active, ""))
                     .append(getAttribute(ATTR_CLASS, "custom-control-input"))
                     .append(">");
 
-            if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+            if (viewModality == ViewModality.VIEW) {
                 result.append("<div class=\"custom-control-label\">")
                         .append(Casting.getHtml(description))
                         .append("</div>\n");
@@ -317,14 +320,14 @@ public class FormControlWriter extends HtmlWriter {
         if (comboBox.isHidden())
             return StringUtil.EMPTY;
 
-        ViewModality viewModality = comboBox.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : comboBox.getViewModality();
+        ViewModality viewModality = comboBox.getViewModality() == ViewModality.AUTO ? pageViewModality : comboBox.getViewModality();
         StringBuilder result = new StringBuilder()
                 .append("<select")
                 .append(getAttribute(ATTR_ID, comboBox.getName()))
                 .append(getAttribute(ATTR_NAME, comboBox.getName()))
                 .append(getAttribute(ATTR_VALUE, comboBox.escapeHtmlValue()))
                 .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(comboBox)))
-                .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE || comboBox.isReadOnly(), ""));
+                .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW || comboBox.isReadOnly(), ""));
 
         result.append(">");
 
@@ -372,7 +375,7 @@ public class FormControlWriter extends HtmlWriter {
                 .append("/>");
 
         // Gestione link/stato
-        return toInputGroup(decodedText, parentElement, ViewModality.VIEW_VISUALIZZAZIONE, input.toString());
+        return toInputGroup(decodedText, parentElement, ViewModality.VIEW, input.toString());
     }
 
     /**
@@ -387,8 +390,8 @@ public class FormControlWriter extends HtmlWriter {
             return StringUtil.EMPTY;
         }
 
-        ViewModality viewModality = file.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : file.getViewModality();
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+        ViewModality viewModality = file.getViewModality() == ViewModality.AUTO ? pageViewModality : file.getViewModality();
+        if (viewModality == ViewModality.VIEW) {
             return MessageFormat.format(FILE_GENERIC_VIEW, getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.BUTTON, file.getName())));
         } else {
             return MessageFormat.format(FILE_GENERIC_EDIT,
@@ -430,10 +433,10 @@ public class FormControlWriter extends HtmlWriter {
             return StringUtil.EMPTY;
         }
 
-        ViewModality viewModality = input.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : input.getViewModality();
+        ViewModality viewModality = input.getViewModality() == ViewModality.AUTO ? pageViewModality : input.getViewModality();
 
         String field;
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+        if (viewModality == ViewModality.VIEW) {
             field = MessageFormat.format(INPUT,
                     input.getName(),
                     "text",
@@ -498,6 +501,49 @@ public class FormControlWriter extends HtmlWriter {
     }
 
     /**
+     * Scrive un campo: MultipleAutoComplete
+     *
+     * @param multipleAutoComplete
+     * @param parentElement
+     * @param pageViewModality
+     * @return
+     */
+    public static <T> String writeMultipleAutoComplete(MultipleAutoComplete<T> multipleAutoComplete, Elements<?> parentElement, ViewModality pageViewModality) throws FrameworkException {
+        if (multipleAutoComplete.isHidden()) {
+            return StringUtil.EMPTY;
+        }
+
+        ViewModality viewModality = multipleAutoComplete.getViewModality() == ViewModality.AUTO ? pageViewModality : multipleAutoComplete.getViewModality();
+
+        StringBuilder input = new StringBuilder();
+        if (viewModality == ViewModality.VIEW) {
+            input.append("<div>");
+            List<T> values = multipleAutoComplete.getValue();
+            if (values != null) {
+                for (T value : values) {
+                    input.append("<span class=\"badge bg-gray-200 p-2 font-weight-normal\">" + multipleAutoComplete.getDecodeMap().decode(value) + "</span> ");
+                }
+            }
+            input.append("</div>");
+
+        } else {
+            input
+                    .append(BEGIN_INPUT)
+                    .append(getAttribute(ATTR_ID, multipleAutoComplete.getName()))
+                    .append(getAttribute(ATTR_NAME, multipleAutoComplete.getName()))
+                    .append(getAttribute(ATTR_VALUE, Casting.getHtml(multipleAutoComplete.getDecodedText(), true, true)))
+                    .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(multipleAutoComplete)))
+                    .append(getAttribute("fields", parentElement.getName()))
+                    .append(getAttribute(ATTR_READONLY, multipleAutoComplete.isReadOnly(), ""))
+                    .append("/>");
+        }
+
+        // Gestione link/stato
+        return  input.toString();
+    }
+
+
+    /**
      * Scrive un campo: RadioButtons
      *
      * @param radioButtons
@@ -510,7 +556,7 @@ public class FormControlWriter extends HtmlWriter {
             return StringUtil.EMPTY;
         }
 
-        ViewModality viewModality = radioButtons.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : radioButtons.getViewModality();
+        ViewModality viewModality = radioButtons.getViewModality() == ViewModality.AUTO ? pageViewModality : radioButtons.getViewModality();
         StringBuilder result = new StringBuilder()
                 .append("<div class=\"btn-group btn-group-toggle d-flex\" data-toggle=\"buttons\">");
 
@@ -521,7 +567,7 @@ public class FormControlWriter extends HtmlWriter {
                 String htmlValue = Casting.getHtml(radioButtons.getDataType().formatValue(value.getCode(), radioButtons.getLocale(), radioButtons.getFormat()));
                 boolean active = value.getCode() != null && value.getCode().equals(radioButtons.getValue());
 
-                if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+                if (viewModality == ViewModality.VIEW) {
                     result.append(MessageFormat.format("<label{0}>", getAttribute(ATTR_CLASS, active, "btn btn-primary btn-sm disabled", "btn btn-outline-primary btn-sm disabled")))
                             .append(Casting.getHtml(value.getDescription()));
                 } else {
@@ -557,7 +603,7 @@ public class FormControlWriter extends HtmlWriter {
             return StringUtil.EMPTY;
         }
 
-        ViewModality viewModality = radioGroup.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : radioGroup.getViewModality();
+        ViewModality viewModality = radioGroup.getViewModality() == ViewModality.AUTO ? pageViewModality : radioGroup.getViewModality();
         StringBuilder result = new StringBuilder();
 
         // Opzioni
@@ -575,12 +621,12 @@ public class FormControlWriter extends HtmlWriter {
                         .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_RADIO))
                         .append(getAttribute(ATTR_VALUE, htmlValue))
                         .append(getAttribute(ATTR_READONLY, radioGroup.isReadOnly(), ""))
-                        .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""))
+                        .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW, ""))
                         .append(getAttribute(ATTR_CHECKED, value.getCode() != null && value.getCode().equals(radioGroup.getValue()), ""))
                         .append(getAttribute(ATTR_CLASS, "custom-control-input"))
                         .append(">");
 
-                if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+                if (viewModality == ViewModality.VIEW) {
                     result.append("<div class=\"custom-control-label\">")
                             .append(Casting.getHtml(value.getDescription()))
                             .append("</div>\n");
@@ -613,7 +659,7 @@ public class FormControlWriter extends HtmlWriter {
             return StringUtil.EMPTY;
         }
 
-        ViewModality viewModality = semaphore.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : semaphore.getViewModality();
+        ViewModality viewModality = semaphore.getViewModality() == ViewModality.AUTO ? pageViewModality : semaphore.getViewModality();
         StringBuilder result = new StringBuilder()
                 .append("<div class=\"btn-group btn-group-toggle d-flex\" data-toggle=\"buttons\">");
 
@@ -649,7 +695,7 @@ public class FormControlWriter extends HtmlWriter {
                 }
 
 
-                if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+                if (viewModality == ViewModality.VIEW) {
                     result.append(MessageFormat.format("<label{0}>", getAttribute(ATTR_CLASS, active, "btn " + btn + " btn-sm disabled", "btn " + btnOutline + " btn-sm disabled")))
                             .append("<i class=\"far fa-circle\"></i>");
                 } else {
@@ -684,19 +730,19 @@ public class FormControlWriter extends HtmlWriter {
             return StringUtil.EMPTY;
         }
 
-        ViewModality viewModality = field.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : field.getViewModality();
+        ViewModality viewModality = field.getViewModality() == ViewModality.AUTO ? pageViewModality : field.getViewModality();
         StringBuilder result = new StringBuilder()
                 .append("<div class=\"custom-control custom-switch\"><input")
                 .append(getAttribute(ATTR_ID, field.getName()))
                 .append(getAttribute(ATTR_NAME, field.getName()))
                 .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_CHECKBOX))
                 .append(getAttribute(ATTR_VALUE, field.getValChecked().toString()))
-                .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE || field.isReadOnly(), ""))
+                .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW || field.isReadOnly(), ""))
                 .append(getAttribute(ATTR_CLASS, BootStrapClass.CHECK_CLASS))
                 .append(getAttribute(ATTR_CHECKED, field.isChecked(), ""))
                 .append("/>");
 
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+        if (viewModality == ViewModality.VIEW) {
             result.append("<div")
                     .append(getAttribute(ATTR_CLASS, "custom-control-label"))
                     .append("></div>");
@@ -736,7 +782,7 @@ public class FormControlWriter extends HtmlWriter {
 
 
         // Gestione link/stato
-        return toInputGroup(text, parentElement, ViewModality.VIEW_VISUALIZZAZIONE, field);
+        return toInputGroup(text, parentElement, ViewModality.VIEW, field);
     }
 
     /**
@@ -751,15 +797,15 @@ public class FormControlWriter extends HtmlWriter {
             return StringUtil.EMPTY;
         }
 
-        ViewModality viewModality = textArea.getViewModality() == ViewModality.VIEW_AUTO ? pageViewModality : textArea.getViewModality();
+        ViewModality viewModality = textArea.getViewModality() == ViewModality.AUTO ? pageViewModality : textArea.getViewModality();
         StringBuilder result = new StringBuilder()
                 .append("<textarea")
                 .append(getAttribute(ATTR_ID, textArea.getName()))
                 .append(getAttribute(ATTR_NAME, textArea.getName()))
                 .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(textArea)));
 
-        if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
-            result.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW_VISUALIZZAZIONE, ""));
+        if (viewModality == ViewModality.VIEW) {
+            result.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW, ""));
         } else {
             result
                     .append(getAttribute(ATTR_READONLY, textArea.isReadOnly(), ""))
@@ -792,7 +838,7 @@ public class FormControlWriter extends HtmlWriter {
 
         if (BaseFunction.isBlank(href) && textField.getState() == null) {
             return fieldHtml;
-        } else if (viewModality == ViewModality.VIEW_VISUALIZZAZIONE) {
+        } else if (viewModality == ViewModality.VIEW) {
             return MessageFormat.format(INPUT_GROUP,
                     fieldHtml,
                     linkHtml,

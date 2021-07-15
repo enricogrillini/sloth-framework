@@ -1,22 +1,15 @@
 package it.eg.sloth.db;
 
-import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.row.column.Column;
-import it.eg.sloth.db.datasource.table.Table;
-import it.eg.sloth.db.model.ProvaRowBean;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.impl.ComboBox;
-import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.pageinfo.ViewModality;
-import it.eg.sloth.framework.utility.resource.ResourceUtil;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.sql.Types;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,21 +36,21 @@ class ColumnTest {
         assertEquals("id", bigDecimalField.getName());
         assertEquals("Id", bigDecimalField.getDescription());
         assertEquals(DataTypes.INTEGER, bigDecimalField.getDataType());
-        assertEquals(ViewModality.VIEW_AUTO, bigDecimalField.getViewModality());
+        assertEquals(ViewModality.AUTO, bigDecimalField.getViewModality());
         assertTrue(bigDecimalField.isRequired());
 
         InputField<String> inputField = new Column("Testo", "Testo", false, true, 10, Types.VARCHAR).getInputField();
         assertEquals("testo", inputField.getName());
         assertEquals("Testo", inputField.getDescription());
         assertEquals(DataTypes.STRING, inputField.getDataType());
-        assertEquals(ViewModality.VIEW_AUTO, inputField.getViewModality());
+        assertEquals(ViewModality.AUTO, inputField.getViewModality());
         assertFalse(inputField.isRequired());
 
         InputField<Timestamp> timestampField = new Column("Data", "Data", false, false, null, Types.DATE).getInputField();
         assertEquals("data", timestampField.getName());
         assertEquals("Data", timestampField.getDescription());
         assertEquals(DataTypes.DATE, timestampField.getDataType());
-        assertEquals(ViewModality.VIEW_AUTO, timestampField.getViewModality());
+        assertEquals(ViewModality.AUTO, timestampField.getViewModality());
         assertTrue(timestampField.isRequired());
     }
 
@@ -67,7 +60,7 @@ class ColumnTest {
         assertEquals("id", bigDecimalField.getName());
         assertEquals("Id", bigDecimalField.getDescription());
         assertEquals(DataTypes.INTEGER, bigDecimalField.getDataType());
-        assertEquals(ViewModality.VIEW_AUTO, bigDecimalField.getViewModality());
+        assertEquals(ViewModality.AUTO, bigDecimalField.getViewModality());
         assertTrue(bigDecimalField.isRequired());
     }
 

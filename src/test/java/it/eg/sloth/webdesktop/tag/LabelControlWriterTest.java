@@ -42,13 +42,13 @@ class LabelControlWriterTest {
         Input<String> field = new Input<String>("name", "description", DataTypes.STRING);
         field.setTooltip("tooltip");
 
-        assertEquals(MessageFormat.format(AAA, "name", "description", "tooltip", ""), LabelControlWriter.writeLblControl(field, null, ViewModality.VIEW_MODIFICA, "1cols", "1cols"));
+        assertEquals(MessageFormat.format(AAA, "name", "description", "tooltip", ""), LabelControlWriter.writeLblControl(field, null, ViewModality.EDIT, "1cols", "1cols"));
 
         field.setRequired(true);
-        assertEquals(MessageFormat.format(AAA, "name", "description", "tooltip", "*"), LabelControlWriter.writeLblControl(field, null, ViewModality.VIEW_MODIFICA, "1cols", "1cols"));
+        assertEquals(MessageFormat.format(AAA, "name", "description", "tooltip", "*"), LabelControlWriter.writeLblControl(field, null, ViewModality.EDIT, "1cols", "1cols"));
 
         // Controlli senza label (Button)
         Button button = new Button("name", "description");
-        assertEquals(MessageFormat.format(BBB, "name", "description"), LabelControlWriter.writeLblControl(button, null, ViewModality.VIEW_MODIFICA, "1cols", "1cols"));
+        assertEquals(MessageFormat.format(BBB, "name", "description"), LabelControlWriter.writeLblControl(button, null, ViewModality.EDIT, "1cols", "1cols"));
     }
 }

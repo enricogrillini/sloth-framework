@@ -59,12 +59,12 @@ class TabSheetWriterTest {
 
     @Test
     void tabSheetViewTest() throws FrameworkException {
-        assertEquals(TAB_SHEET_VIEW, TabSheetWriter.tabsheet(tabSheet, "page", ViewModality.VIEW_VISUALIZZAZIONE));
+        assertEquals(TAB_SHEET_VIEW, TabSheetWriter.tabsheet(tabSheet, "page", ViewModality.VIEW));
     }
 
     @Test
     void tabSheetEditTest() throws FrameworkException {
-        assertEquals(TAB_SHEET_EDIT, TabSheetWriter.tabsheet(tabSheet, "page", ViewModality.VIEW_MODIFICA));
+        assertEquals(TAB_SHEET_EDIT, TabSheetWriter.tabsheet(tabSheet, "page", ViewModality.EDIT));
     }
 
 }

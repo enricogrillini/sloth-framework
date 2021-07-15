@@ -17,12 +17,12 @@ package it.eg.sloth.db.decodemap;
  */
 public interface DecodeValue<T> {
 
-    public T getCode();
+    T getCode();
 
-    public String getDescription();
+    String getDescription();
 
-    public boolean isValid();
+    boolean isValid();
 
-    public boolean match(String matchString);
+    boolean match(String matchString);
 
 }

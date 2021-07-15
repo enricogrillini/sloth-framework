@@ -119,7 +119,7 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
     }
 
     public boolean execPreMove() throws Exception {
-        if (ViewModality.VIEW_VISUALIZZAZIONE.equals(getForm().getPageInfo().getViewModality())) {
+        if (ViewModality.VIEW.equals(getForm().getPageInfo().getViewModality())) {
             return true;
         } else {
             return execPostDetail(true);
@@ -131,7 +131,7 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
     }
 
     public boolean execGoToRecord(int record) throws Exception {
-        if (ViewModality.VIEW_VISUALIZZAZIONE.equals(getForm().getPageInfo().getViewModality()) || execPostDetail(true)) {
+        if (ViewModality.VIEW.equals(getForm().getPageInfo().getViewModality()) || execPostDetail(true)) {
             getGrid().getDataSource().setCurrentRow(record);
             getGrid().copyFromDataSource(getGrid().getDataSource());
         }
@@ -139,7 +139,7 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
     }
 
     public boolean execInsert() throws Exception {
-        if (ViewModality.VIEW_VISUALIZZAZIONE.equals(getForm().getPageInfo().getViewModality()) || execPostDetail(true)) {
+        if (ViewModality.VIEW.equals(getForm().getPageInfo().getViewModality()) || execPostDetail(true)) {
             getGrid().clearData();
             getGrid().getDataSource().add();
         }

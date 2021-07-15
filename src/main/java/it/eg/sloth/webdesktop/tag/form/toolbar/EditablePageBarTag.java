@@ -38,7 +38,7 @@ public class EditablePageBarTag extends WebDesktopTag<Form> {
         write(ToolbarWriter.closeLeft());
         write(ToolbarWriter.openRight());
 
-        if (getForm().getPageInfo().getViewModality().equals(ViewModality.VIEW_VISUALIZZAZIONE)) {
+        if (getForm().getPageInfo().getViewModality().equals(ViewModality.VIEW)) {
             write(ToolbarWriter.updateButton("", false, false));
         } else {
             write(ToolbarWriter.commitButton());

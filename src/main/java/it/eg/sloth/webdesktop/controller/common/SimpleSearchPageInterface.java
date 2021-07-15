@@ -40,7 +40,7 @@ public interface SimpleSearchPageInterface<F extends Form> extends FormPageInter
      */
     default void onLoad() throws Exception {
         execLoad();
-        getForm().getPageInfo().setViewModality(ViewModality.VIEW_VISUALIZZAZIONE);
+        getForm().getPageInfo().setViewModality(ViewModality.VIEW);
     }
 
     /**

@@ -4,7 +4,9 @@ import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
+import it.eg.sloth.db.decodemap.map.BaseDecodeMap;
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
+import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.chart.SimpleChart;
 import it.eg.sloth.form.chart.element.Labels;
 import it.eg.sloth.form.chart.element.Series;
@@ -12,7 +14,6 @@ import it.eg.sloth.form.fields.field.impl.ComboBox;
 import it.eg.sloth.form.fields.field.impl.Text;
 import it.eg.sloth.form.fields.field.impl.TextTotalizer;
 import it.eg.sloth.form.grid.Grid;
-import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -24,13 +25,19 @@ import it.eg.sloth.webdesktop.search.SearchManager;
 import it.eg.sloth.webdesktop.search.SearchRelevance;
 import it.eg.sloth.webdesktop.search.impl.DataTableSearcher;
 import it.eg.sloth.webdesktop.search.impl.MenuSearcher;
+import org.mockito.Mockito;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.Locale;
+import java.util.Map;
+
+import static org.mockito.Mockito.when;
 
 public class TestFactory {
 
@@ -41,7 +48,6 @@ public class TestFactory {
     }
 
     public static Grid getGrid() throws FrameworkException {
-
         Table table = new Table();
         Row row = table.add();
         row.setString("campo1", "valore1");
@@ -64,30 +70,30 @@ public class TestFactory {
         row.setBigDecimal("campo4", BigDecimal.valueOf(-1));
         row.setString("campo5", "A");
 
-        Grid grid = new Grid<>("provaGrid", null);
-        grid.setTitle("Prova Grid");
-        grid.setDescription("Prova sottotitolo");
-        grid.addChild(new Text<String>("campo1", "campo 1", DataTypes.STRING));
-        grid.addChild(new Text<String>("campo2", "campo 2", DataTypes.STRING));
-        grid.addChild(new Text<Timestamp>("campo3", "campo 3", DataTypes.MONTH));
-        grid.addChild(new TextTotalizer("campo4", "campo 4", DataTypes.CURRENCY));
-        grid.addChild(new ComboBox<String>("campo5", "campo 5", DataTypes.STRING));
+        Grid result = new Grid<>("provaGrid", null);
+        result.setTitle("Prova Grid");
+        result.setDescription("Prova sottotitolo");
+        result.addChild(new Text<String>("campo1", "campo 1", DataTypes.STRING));
+        result.addChild(new Text<String>("campo2", "campo 2", DataTypes.STRING));
+        result.addChild(new Text<Timestamp>("campo3", "campo 3", DataTypes.MONTH));
+        result.addChild(new TextTotalizer("campo4", "campo 4", DataTypes.CURRENCY));
+        result.addChild(new ComboBox<String>("campo5", "campo 5", DataTypes.STRING));
 
-        ComboBox<String> comboBox = (ComboBox<String>) grid.getElement("campo5");
+        ComboBox<String> comboBox = (ComboBox<String>) result.getElement("campo5");
         comboBox.setDecodeMap(new StringDecodeMap("A,Ancora;B,Basta;U,Un po'"));
 
-        grid.setDataSource(table);
+        result.setDataSource(table);
 
-        grid.setLocale(Locale.ITALY);
+        result.setLocale(Locale.ITALY);
 
-        return grid;
+        return result;
     }
 
     public static SimpleChart<DataTable<?>> getSimpleChart(ChartType chartType) throws FrameworkException {
-        SimpleChart<DataTable<?>> simpleChart = new SimpleChart<>("Prova", chartType, "Prova", LegendPosition.TOP);
+        SimpleChart<DataTable<?>> result = new SimpleChart<>("Prova", chartType, "Prova", LegendPosition.TOP);
 
-        simpleChart.addChild(new Labels<Timestamp>("Ora", "Ora", DataTypes.MONTH));
-        simpleChart.addChild(new Series("Excecutions", "Excecutions", DataTypes.INTEGER));
+        result.addChild(new Labels<Timestamp>("Ora", "Ora", DataTypes.MONTH));
+        result.addChild(new Series("Excecutions", "Excecutions", DataTypes.INTEGER));
 
         DataTable<?> table = new Table();
         DataRow row = table.add();
@@ -102,13 +108,13 @@ public class TestFactory {
         row.setTimestamp("Ora", TimeStampUtil.parseTimestamp("01/03/2020"));
         row.setBigDecimal("Excecutions", BigDecimal.valueOf(35));
 
-        simpleChart.setDataTable(table);
+        result.setDataTable(table);
 
-        return simpleChart;
+        return result;
     }
 
     public static SearchManager getSearchManager() {
-        SearchManager searchManager = new SearchManager();
+        SearchManager result = new SearchManager();
 
         // MenuSearcher
         Menu menu = new Menu()
@@ -119,7 +125,7 @@ public class TestFactory {
 
         menu.getChilds().get("DEC").addChild("TIP", VoiceType.VOICE, "Tipo Clienti", "Tipo Clienti", null, "#");
 
-        searchManager.addSearcher(new MenuSearcher(menu), SearchRelevance.VERY_HIGH);
+        result.addSearcher(new MenuSearcher(menu), SearchRelevance.VERY_HIGH);
 
         // DataTableSearcher 1
         Table table1 = new Table();
@@ -137,7 +143,7 @@ public class TestFactory {
         dataTableSearcher1.setKeyWords("Clienti", "Cliente", "Cli");
         dataTableSearcher1.addData(table1);
 
-        searchManager.addSearcher(dataTableSearcher1, SearchRelevance.MEDIUM);
+        result.addSearcher(dataTableSearcher1, SearchRelevance.MEDIUM);
 
         // DataTableSearcher 2
         Table table2 = new Table();
@@ -155,9 +161,28 @@ public class TestFactory {
         dataTableSearcher2.setKeyWords("Ordini", "Ordine", "Ord");
         dataTableSearcher2.addData(table2);
 
-        searchManager.addSearcher(dataTableSearcher2, SearchRelevance.MEDIUM);
+        result.addSearcher(dataTableSearcher2, SearchRelevance.MEDIUM);
 
-        return searchManager;
+        return result;
     }
+
+    public static BaseDecodeMap<BigDecimal> getBaseDecodeMap() {
+        BaseDecodeMap<BigDecimal> result = new BaseDecodeMap<>();
+        result.put(BigDecimal.valueOf(1), "Valore A");
+        result.put(BigDecimal.valueOf(2), "Valore B");
+        result.put(BigDecimal.valueOf(3), "Valore C");
+        result.put(BigDecimal.valueOf(4), "Valore D");
+
+        return result;
+    }
+
+
+    public static WebRequest getMockedWebRequest(Map<String, String[]> map) throws ServletException, IOException {
+        HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+        when(request.getParameterMap()).thenReturn(map);
+
+        return new WebRequest(request);
+    }
+
 
 }

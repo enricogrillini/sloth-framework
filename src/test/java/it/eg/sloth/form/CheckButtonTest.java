@@ -61,7 +61,7 @@ class CheckButtonTest {
         assertFalse(checkButtons.isRequired());
         assertFalse(checkButtons.isReadOnly());
         assertFalse(checkButtons.isHidden());
-        assertEquals(ViewModality.VIEW_AUTO, checkButtons.getViewModality());
+        assertEquals(ViewModality.AUTO, checkButtons.getViewModality());
     }
 
     @Test

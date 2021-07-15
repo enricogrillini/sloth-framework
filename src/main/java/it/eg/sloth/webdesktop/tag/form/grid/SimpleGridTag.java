@@ -36,7 +36,7 @@ public class SimpleGridTag extends AbstractGridTag<Grid<?>> {
         if (getElement().getDataSource() != null) {
             writeln(GridWriter.openTable(getElement(), bordered, false, true));
             writeln(GridWriter.header(getElement(), getDetailFields(), sortable));
-            writeln(GridWriter.rows(getElement(), getDetailFields(), ViewModality.VIEW_VISUALIZZAZIONE, false));
+            writeln(GridWriter.rows(getElement(), getDetailFields(), ViewModality.VIEW, false));
 
             if (getElement().hasTotalizer()) {
                 writeln(GridWriter.total(getElement(), hasDetail()));

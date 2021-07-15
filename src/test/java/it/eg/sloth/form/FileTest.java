@@ -33,7 +33,7 @@ class FileTest {
         assertFalse(file.isRequired());
         assertFalse(file.isReadOnly());
         assertFalse(file.isHidden());
-        assertEquals(ViewModality.VIEW_AUTO, file.getViewModality());
+        assertEquals(ViewModality.AUTO, file.getViewModality());
         assertEquals(0, file.getMaxSize());
     }
 
@@ -57,7 +57,7 @@ class FileTest {
         assertFalse(file.isRequired());
         assertFalse(file.isReadOnly());
         assertFalse(file.isHidden());
-        assertEquals(ViewModality.VIEW_AUTO, file.getViewModality());
+        assertEquals(ViewModality.AUTO, file.getViewModality());
         assertEquals(0, file.getMaxSize());
 
         file = File.builder()
@@ -68,7 +68,7 @@ class FileTest {
                 .required(false)
                 .readOnly(false)
                 .hidden(false)
-                .viewModality(ViewModality.VIEW_MODIFICA)
+                .viewModality(ViewModality.EDIT)
                 .maxSize(0)
                 .build();
 
@@ -78,7 +78,7 @@ class FileTest {
         assertFalse(file.isRequired());
         assertFalse(file.isReadOnly());
         assertFalse(file.isHidden());
-        assertEquals(ViewModality.VIEW_MODIFICA, file.getViewModality());
+        assertEquals(ViewModality.EDIT, file.getViewModality());
         assertEquals(0, file.getMaxSize());
     }
 
@@ -93,7 +93,7 @@ class FileTest {
                 .required(true)
                 .readOnly(true)
                 .hidden(true)
-                .viewModality(ViewModality.VIEW_MODIFICA)
+                .viewModality(ViewModality.EDIT)
                 .maxSize(0)
                 .build();
 
@@ -103,7 +103,7 @@ class FileTest {
         assertTrue(file.isRequired());
         assertTrue(file.isReadOnly());
         assertTrue(file.isHidden());
-        assertEquals(ViewModality.VIEW_MODIFICA, file.getViewModality());
+        assertEquals(ViewModality.EDIT, file.getViewModality());
         assertEquals(0, file.getMaxSize());
 
         // NewInstance

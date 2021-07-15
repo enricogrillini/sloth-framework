@@ -42,6 +42,7 @@ public class BootStrapClass {
         return new StringBuilder()
                 .append(CONTROL_CLASS)
                 .append(dataField.getFieldType() == FieldType.AUTO_COMPLETE ? " autoComplete" : "")
+                .append(dataField.getFieldType() == FieldType.MULTIPLE_AUTO_COMPLETE ? " multipleAutoComplete" : "")
                 .append(dataField.getState() == null ? StringUtil.EMPTY : StringUtil.SPACE + getStateClass(dataField.getState()))
                 .toString();
     }

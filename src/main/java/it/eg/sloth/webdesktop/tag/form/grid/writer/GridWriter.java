@@ -166,7 +166,7 @@ public class GridWriter extends HtmlWriter {
         StringBuilder result = new StringBuilder()
                 .append(openCell(field, false, false));
 
-        if (ViewModality.VIEW_VISUALIZZAZIONE == viewModality) {
+        if (ViewModality.VIEW == viewModality) {
             result.append(TextControlWriter.writeControl(field, grid));
         } else {
             result.append(FormControlWriter.writeControl(field, grid, viewModality));
@@ -189,7 +189,7 @@ public class GridWriter extends HtmlWriter {
             if (dataTable.getPageSize() <= 0 || (dataTable.getPageStart() <= rowNumber && dataTable.getPageEnd() >= rowNumber)) {
                 String classHtml = getAttribute("class", manageCurrentRow && rowNumber == dataTable.getCurrentRow(), "table-primary");
 
-                if (rowNumber == dataTable.getCurrentRow() && ViewModality.VIEW_MODIFICA == viewModality && !grid.isCurrentRowLocked()) {
+                if (rowNumber == dataTable.getCurrentRow() && ViewModality.EDIT == viewModality && !grid.isCurrentRowLocked()) {
                     // Riga corrente in edit mode
                     result.append(writeCurrentRowEditMode(grid, detailFields, rowNumber, classHtml));
                 } else {
@@ -225,7 +225,7 @@ public class GridWriter extends HtmlWriter {
                 button.setIndex(rowNumber);
             }
 
-            result.append(GridWriter.cell(grid, field, ViewModality.VIEW_MODIFICA));
+            result.append(GridWriter.cell(grid, field, ViewModality.EDIT));
         }
 
         result.append(ROW_CLOSE);
@@ -256,7 +256,7 @@ public class GridWriter extends HtmlWriter {
                 button.setIndex(rowNumber);
             }
 
-            result.append(GridWriter.cell(appGrid, field, ViewModality.VIEW_VISUALIZZAZIONE));
+            result.append(GridWriter.cell(appGrid, field, ViewModality.VIEW));
         }
         result.append(ROW_CLOSE);
 

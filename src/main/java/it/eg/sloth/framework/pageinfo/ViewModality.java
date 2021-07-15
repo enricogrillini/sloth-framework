@@ -16,5 +16,5 @@ package it.eg.sloth.framework.pageinfo;
  * @author Enrico Grillini
  */
 public enum ViewModality {
-  VIEW_AUTO, VIEW_VISUALIZZAZIONE, VIEW_MODIFICA
+  AUTO, VIEW, EDIT
 }

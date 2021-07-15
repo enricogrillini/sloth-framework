@@ -23,7 +23,7 @@ public class SkipViewTag extends WebDesktopTag<Form> {
     private static final long serialVersionUID = 1L;
 
     public int startTag() {
-        if (getForm().getPageInfo().getViewModality() == ViewModality.VIEW_VISUALIZZAZIONE) {
+        if (getForm().getPageInfo().getViewModality() == ViewModality.VIEW) {
             return SKIP_BODY;
         } else {
             return EVAL_BODY_INCLUDE;

@@ -45,7 +45,7 @@ public class Column {
                     .name(getName())
                     .description(BaseFunction.nvl(getDescription(), getName()))
                     .dataType(getDataTypes())
-                    .viewModality(ViewModality.VIEW_AUTO)
+                    .viewModality(ViewModality.AUTO)
                     .required(!isNullable())
                     .build();
         } else {
@@ -53,7 +53,7 @@ public class Column {
                     .name(getName())
                     .description(BaseFunction.nvl(getDescription(), getName()))
                     .dataType(getDataTypes())
-                    .viewModality(ViewModality.VIEW_AUTO)
+                    .viewModality(ViewModality.AUTO)
                     .maxLength(getMaxLength())
                     .required(!isNullable())
                     .build();
@@ -65,7 +65,7 @@ public class Column {
                 .name(getName())
                 .description(BaseFunction.nvl(getDescription(), getName()))
                 .dataType(getDataTypes())
-                .viewModality(ViewModality.VIEW_AUTO)
+                .viewModality(ViewModality.AUTO)
                 .required(!isNullable())
                 .build();
 

@@ -39,7 +39,6 @@ import lombok.experimental.SuperBuilder;
 public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T> {
 
     String decodedText;
-
     private DecodeMap<T, ? extends DecodeValue<T>> decodeMap;
 
     public AutoComplete(String name, String description, DataTypes dataType) {
@@ -49,16 +48,6 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
     @Override
     public FieldType getFieldType() {
         return FieldType.AUTO_COMPLETE;
-    }
-
-    @Override
-    public DecodeMap<T, ? extends DecodeValue<T>> getDecodeMap() {
-        return decodeMap;
-    }
-
-    @Override
-    public void setDecodeMap(DecodeMap<T, ? extends DecodeValue<T>> decodeMap) {
-        this.decodeMap = decodeMap;
     }
 
     @Override
@@ -106,20 +95,17 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
 
     @Override
     public void post(WebRequest webRequest) throws FrameworkException {
-        if (!isReadOnly()) {
-            setDecodedText(webRequest.getString(getName()));
-            if (BaseFunction.isBlank(getDecodedText())) {
-                setData(StringUtil.EMPTY);
-            } else {
-                setData(getDataType().formatValue(getDecodeMap().encode(getDecodedText()), getLocale(), getFormat()));
-            }
-        }
+        postString(webRequest.getString(getName()));
     }
 
     @Override
     public void post(BffFields bffFields) throws FrameworkException {
+        postString(bffFields.getString(getName()));
+    }
+
+    private void postString(String decodedText) throws FrameworkException {
         if (!isReadOnly()) {
-            setDecodedText(bffFields.getString(getName()));
+            setDecodedText(decodedText);
             if (BaseFunction.isBlank(getDecodedText())) {
                 setData(StringUtil.EMPTY);
             } else {
