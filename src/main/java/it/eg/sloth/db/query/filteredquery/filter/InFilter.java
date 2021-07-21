@@ -1,11 +1,12 @@
 package it.eg.sloth.db.query.filteredquery.filter;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 import it.eg.sloth.framework.FrameComponent;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -26,39 +27,40 @@ import lombok.Setter;
 @Setter
 public class InFilter extends FrameComponent implements Filter {
 
-  int sqlTypes;
-  Object[] values;
-  String sql;
+    int sqlTypes;
+    List<?> values;
+    String sql;
 
-  public InFilter(String sql, int sqlTypes, Object... values) {
-    this.sql = sql;
-    this.sqlTypes = sqlTypes;
-    this.values = values;
-  }
-
-  @Override
-  public String getWhereCondition() {
-    if (getValues().length > 0) {
-      StringBuilder inStatement = new StringBuilder(getSql() + " In (");
-      for (int i = 0; i < getValues().length; i++) {
-        inStatement.append(i == 0 ? "?" : ", ?");
-      }
-      inStatement.append(")");
-
-      return inStatement.toString();
-
-    } else {
-      return "";
-    }
-  }
-
-  @Override
-  public int addValues(PreparedStatement statement, int i) throws SQLException {
-    for (Object object : getValues()) {
-      statement.setObject(i++, object, getSqlTypes());
+    public InFilter(String sql, int sqlTypes, List<?> values) {
+        this.sql = sql;
+        this.sqlTypes = sqlTypes;
+        this.values = values;
     }
 
-    return i;
-  }
+    @Override
+    public String getWhereCondition() {
+        if (getValues() != null && !getValues().isEmpty()) {
+            StringBuilder inStatement = new StringBuilder(getSql() + " In (");
+            for (int i = 0; i < getValues().size(); i++) {
+                inStatement.append(i == 0 ? "?" : ", ?");
+            }
+            inStatement.append(")");
+
+            return inStatement.toString();
+
+        } else {
+            return "";
+        }
+    }
+
+    @Override
+    public int addValues(PreparedStatement statement, int i) throws SQLException {
+        if (getValues() != null) {
+            for (Object object : getValues()) {
+                statement.setObject(i++, object, getSqlTypes());
+            }
+        }
+        return i;
+    }
 
 }

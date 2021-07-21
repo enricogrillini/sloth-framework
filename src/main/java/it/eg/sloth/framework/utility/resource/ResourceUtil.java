@@ -4,12 +4,20 @@ import lombok.SneakyThrows;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class ResourceUtil {
 
     private ResourceUtil() {
         // NOP
+    }
+
+    public static File resourceFile(String path) throws IOException {
+        ClassPathResource resource = new ClassPathResource(path);
+
+        return new File(resource.getURI());
     }
 
     @SneakyThrows

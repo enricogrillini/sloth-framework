@@ -8,6 +8,7 @@ import it.eg.sloth.form.fields.field.DecodedDataField;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.base.TextField;
+import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.MessageList;
@@ -216,7 +217,9 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
 
             if (!BaseFunction.isNull(dataField.getValue())) {
                 String valueAsString = dataField.getText();
-                if (dataField instanceof DecodedDataField) {
+                if (dataField instanceof MultipleAutoComplete) {
+                    valueAsString = ((MultipleAutoComplete) dataField).getDecodedText();
+                } else if (dataField instanceof DecodedDataField) {
                     valueAsString = ((DecodedDataField) dataField).getDecodedText();
                 }
 

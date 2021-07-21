@@ -20,11 +20,6 @@ public class Workspace {
 
     String activeDbConnection;
 
-    /**
-     * Imposta la connessione attiva
-     *
-     * @param dbConnectionName
-     */
     public void setDbActiveConnection(String dbConnectionName) {
         if (dbConnectionList.isEmpty()) {
             activeDbConnection = null;
@@ -39,5 +34,7 @@ public class Workspace {
             activeDbConnection = dbConnectionList.get(0).getName();
         }
     }
+
+
 
 }

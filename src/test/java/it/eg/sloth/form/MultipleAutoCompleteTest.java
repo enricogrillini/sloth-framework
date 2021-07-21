@@ -3,6 +3,7 @@ package it.eg.sloth.form;
 import it.eg.sloth.TestFactory;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.MessageList;
@@ -17,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Project: sloth-framework
@@ -52,7 +52,13 @@ class MultipleAutoCompleteTest {
         multipleAutoComplete.setValue(values);
 
         assertEquals("1,2", multipleAutoComplete.getData());
+        assertEquals("Valore A, Valore B", multipleAutoComplete.getText());
         assertEquals("Valore A,Valore B", multipleAutoComplete.getDecodedText());
+
+        multipleAutoComplete.setValue(null);
+        assertEquals(StringUtil.EMPTY, multipleAutoComplete.getData());
+        assertEquals(StringUtil.EMPTY, multipleAutoComplete.getText());
+        assertEquals(null, multipleAutoComplete.getDecodedText());
     }
 
     @Test
@@ -65,6 +71,7 @@ class MultipleAutoCompleteTest {
         multipleAutoComplete.post(webRequest);
 
         assertEquals("1,2,3", multipleAutoComplete.getData());
+        assertEquals("Valore A, Valore B, Valore C", multipleAutoComplete.getText());
         assertEquals("Valore A,Valore B,Valore C", multipleAutoComplete.getDecodedText());
 
         MessageList messageList = new MessageList();
@@ -80,7 +87,8 @@ class MultipleAutoCompleteTest {
         WebRequest webRequest = TestFactory.getMockedWebRequest(map);
         multipleAutoComplete.post(webRequest);
 
-        assertEquals("", multipleAutoComplete.getData());
+        assertEquals(StringUtil.EMPTY, multipleAutoComplete.getData());
+        assertEquals(StringUtil.EMPTY, multipleAutoComplete.getText());
         assertEquals("Valore A,Valore B,Valore X", multipleAutoComplete.getDecodedText());
 
         MessageList messageList = new MessageList();

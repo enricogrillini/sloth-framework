@@ -194,4 +194,19 @@ public class MultipleAutoComplete<T> extends InputField<List<T>> {
         return toBuilder().build();
     }
 
+    @Override
+    public String getText() throws FrameworkException {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (getValue() != null) {
+            for (T value : getValue()) {
+                if (stringBuilder.length() != 0) {
+                    stringBuilder.append(", ");
+                }
+                stringBuilder.append(getDecodeMap().decode(value));
+            }
+        }
+
+        return stringBuilder.toString();
+    }
+
 }

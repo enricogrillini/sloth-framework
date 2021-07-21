@@ -2,17 +2,13 @@ package it.eg.sloth.dbmodeler.reader;
 
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import it.eg.sloth.dbmodeler.model.DataBase;
-import it.eg.sloth.dbmodeler.model.connection.DbConnection;
+import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.schema.Schema;
 import it.eg.sloth.dbmodeler.model.schema.sequence.Sequence;
-import it.eg.sloth.dbmodeler.reader.h2.H2SchemaReader;
-import it.eg.sloth.dbmodeler.reader.oracle.OracleSchemaReader;
-import it.eg.sloth.dbmodeler.reader.postgres.PostgresSchemaReader;
+import it.eg.sloth.dbmodeler.model.schema.table.Table;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -20,34 +16,35 @@ import java.util.Collection;
 
 public interface DbSchemaReader {
 
-    Connection getJdbcConnection() throws SQLException;
+    DataBaseType getDataBaseType();
 
-    //    public Tables loadTables() throws SQLException, IOException, FrameworkException;
-//
+    String getOwner();
+
+
+    default Collection<Table> loadTables(Connection connection) throws SQLException, IOException, FrameworkException {
+        return loadTables(connection, null);
+    }
+
+    Collection<Table> loadTables(Connection connection, String tableName) throws SQLException, IOException, FrameworkException;
+
+    //
 //    public Views loadViews() throws SQLException, IOException, FrameworkException;
 //
 //    public Packages loadPackages() throws SQLException, IOException, FrameworkException;
 //
-    Collection<Sequence> loadSequences() throws SQLException, IOException, FrameworkException;
+    Collection<Sequence> loadSequences(Connection connection) throws SQLException, IOException, FrameworkException;
 
-    default boolean testConnection() throws SQLException {
-        return getJdbcConnection() != null;
-    }
 
-    default void refreshSchema(DataBase dataBase) throws SQLException, IOException, FrameworkException {
-        // Pulisco lo schema
-        dataBase.setSchema(new Schema());
+    default Schema refreshSchema(Connection connection) throws SQLException, IOException, FrameworkException {
+        Schema schema = new Schema();
 
-        if (testConnection()) {
-            // Carico i sequence
-            dataBase.getSchema().addSequence(loadSequences());
-        }
-    }
+        // Carico le tabelle
+        schema.setTableCollection(loadTables(connection));
 
-    default void writeFile(String fileName, DataBase dataBase) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
-        writer.writeValue(new File(fileName), dataBase);
+        // Carico i sequence
+        schema.setSequenceCollection(loadSequences(connection));
+
+        return schema;
     }
 
     default String writeString(DataBase dataBase) throws IOException {
@@ -57,20 +54,20 @@ public interface DbSchemaReader {
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(dataBase);
     }
 
-    public static class Factory {
+    class Factory {
         private Factory() {
             // NOP
         }
 
-        public static DbSchemaReader getDbSchemaReader(DbConnection dbConnection) {
+        public static DbSchemaReader getDbSchemaReader(DataBaseType dataBaseType, String owner) {
             // Imposto il reader corretto
-            switch (dbConnection.getDataBaseType()) {
+            switch (dataBaseType) {
                 case H2:
-                    return new H2SchemaReader(dbConnection);
+                    return new H2SchemaReader(dataBaseType, owner);
                 case ORACLE:
-                    return new OracleSchemaReader(dbConnection);
+                    return new OracleSchemaReader(dataBaseType, owner);
                 case POSTGRES:
-                    return new PostgresSchemaReader(dbConnection);
+                    return new PostgresSchemaReader(dataBaseType, owner);
 
                 default:
                     // NOP
@@ -78,8 +75,5 @@ public interface DbSchemaReader {
 
             return null;
         }
-
     }
-
-
 }

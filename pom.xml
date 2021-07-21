@@ -19,12 +19,14 @@
 
         <lombok.version>1.18.20</lombok.version>
         <jackson.version>2.11.1</jackson.version>
+        <postgres.version>42.2.23</postgres.version>
+        <oracle.version>19.7.0.0</oracle.version>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.1</version>
+        <version>2.5.2</version>
     </parent>
 
     <distributionManagement>
@@ -190,6 +192,18 @@
             <artifactId>mockito-junit-jupiter</artifactId>
             <version>3.9.0</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Database -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgres.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc8</artifactId>
+            <version>${oracle.version}</version>
         </dependency>
 
     </dependencies>

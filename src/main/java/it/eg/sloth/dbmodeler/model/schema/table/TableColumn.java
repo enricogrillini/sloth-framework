@@ -5,21 +5,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Table {
+public class TableColumn {
 
     private String name;
     private String description;
-    private String tablespace;
-    private Long initial;
-    private Boolean temporary;
-    private String duration;
+    private Boolean nullable;
+    private String type;
+    private Integer position;
+    private Integer dataLength;
+    private Integer dataPrecision;
 
-    private List<TableColumn> columnCollection;
+    private Boolean primaryKey;
+    private String defaultValue;
 
 }

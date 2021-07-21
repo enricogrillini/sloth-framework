@@ -1,0 +1,104 @@
+-- Create Table AFORISMI
+Create Table AFORISMI
+      (IDAFORISMA INTEGER,
+       AFORISMA VARCHAR(1000),
+       AUTORE VARCHAR(100),
+       DATAULTIMAPUBLICAZIONE DATE)
+Tablespace USERS;
+
+-- Create Table SEC_Dec_Funzioni
+Create Table SEC_Dec_Funzioni
+      (CODFUNZIONE VARCHAR(100),
+       DESCRIZIONEBREVE VARCHAR(20),
+       DESCRIZIONELUNGA VARCHAR(100),
+       POSIZIONE INTEGER,
+       FLAGVALIDO VARCHAR(1))
+Tablespace USERS;
+
+-- Create Table SEC_Dec_Menu
+Create Table SEC_Dec_Menu
+      (CODMENU VARCHAR(100),
+       DESCRIZIONEBREVE VARCHAR(20),
+       DESCRIZIONELUNGA VARCHAR(100),
+       POSIZIONE INTEGER,
+       FLAGVALIDO VARCHAR(1),
+       CODTIPOVOCE VARCHAR(10),
+       LIVELLO INTEGER,
+       IMGHTML VARCHAR(100),
+       LINK VARCHAR(200))
+Tablespace USERS;
+
+-- Create Table SEC_Dec_Menuutente
+Create Table SEC_Dec_Menuutente
+      (CODMENUUTENTE VARCHAR(100),
+       DESCRIZIONEBREVE VARCHAR(20),
+       DESCRIZIONELUNGA VARCHAR(100),
+       POSIZIONE INTEGER,
+       FLAGVALIDO VARCHAR(1),
+       CODTIPOVOCE VARCHAR(10),
+       IMGHTML VARCHAR(100),
+       LINK VARCHAR(200))
+Tablespace USERS;
+
+-- Create Table SEC_Dec_Ruoli
+Create Table SEC_Dec_Ruoli
+      (CODRUOLO VARCHAR(10),
+       DESCRIZIONEBREVE VARCHAR(20),
+       DESCRIZIONELUNGA VARCHAR(100),
+       POSIZIONE INTEGER,
+       FLAGVALIDO VARCHAR(1))
+Tablespace USERS;
+
+-- Create Table SEC_Dec_Tipivoce
+Create Table SEC_Dec_Tipivoce
+      (CODTIPOVOCE VARCHAR(10),
+       DESCRIZIONEBREVE VARCHAR(20),
+       DESCRIZIONELUNGA VARCHAR(100),
+       POSIZIONE INTEGER,
+       FLAGVALIDO VARCHAR(1),
+       FLAGMENUUTENTE VARCHAR(1))
+Tablespace USERS;
+
+-- Create Table SEC_Funzioniruoli
+Create Table SEC_Funzioniruoli
+      (CODFUNZIONE VARCHAR(100),
+       CODRUOLO VARCHAR(10),
+       FLAGACCESSO VARCHAR(1))
+Tablespace USERS;
+
+-- Create Table SEC_Menuruoli
+Create Table SEC_Menuruoli
+      (CODMENU VARCHAR(100),
+       CODRUOLO VARCHAR(10),
+       FLAGACCESSO VARCHAR(1))
+Tablespace USERS;
+
+-- Create Table SEC_Menuutenteruoli
+Create Table SEC_Menuutenteruoli
+      (CODMENUUTENTE VARCHAR(100),
+       CODRUOLO VARCHAR(10),
+       FLAGACCESSO VARCHAR(1))
+Tablespace USERS;
+
+-- Create Table SEC_Profili
+Create Table SEC_Profili
+      (IDPROFILO INTEGER,
+       IDUTENTE INTEGER,
+       CODRUOLO VARCHAR(10),
+       DATAINIZIO DATE,
+       DATAFINE DATE)
+Tablespace USERS;
+
+-- Create Table SEC_Utenti
+Create Table SEC_Utenti
+      (IDUTENTE INTEGER,
+       NOME VARCHAR(100),
+       COGNOME VARCHAR(100),
+       USERID VARCHAR(10),
+       PASSWORD VARCHAR(10),
+       EMAIL VARCHAR(100),
+       EMAILPASSWORD VARCHAR(100),
+       LOCALE VARCHAR(5),
+       FOTO BYTEA)
+Tablespace USERS;
+

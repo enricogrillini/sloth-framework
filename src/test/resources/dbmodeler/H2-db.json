@@ -1,0 +1,18 @@
+{
+  "dbConnection" : {
+    "name" : null,
+    "jdbcUrl" : "jdbc:h2:mem:outputDb;MODE=Oracle;INIT=RUNSCRIPT FROM 'classpath:dbmodeler/create-h2.sql'",
+    "dbUser" : "sa",
+    "dbPassword" : "",
+    "dbOwner" : "PUBLIC",
+    "dataBaseType" : "H2"
+  },
+  "schema" : {
+    "sequenceCollection" : [ {
+      "name" : "Sec_Seq_Idutente"
+    }, {
+      "name" : "Seq_Idprofilo"
+    } ],
+    "tableCollection" : [ ]
+  }
+}

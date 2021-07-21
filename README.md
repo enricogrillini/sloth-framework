@@ -1,19 +1,5 @@
 # Sloth framework
 
-### Pom
-
-```xml
-  <!-- SlothFramework -->
-  <dependency>
-   <groupId>it.eg.sloth</groupId>
-   <artifactId>sloth-framework</artifactId>
-   <version>2.3.0-SNAPSHOT</version>
-   <scope>compile</scope>
-  </dependency>
-```
-
-
-
 ## Riferimenti
 
 - [Doc github](https://docs.github.com/en/free-pro-team@latest/packages/guides/configuring-apache-maven-for-use-with-github-packages)
@@ -82,4 +68,5 @@ Per poter utilizzare gli artefatti del framework è necessaria la seguente confi
  </servers>
 </settings>
 ```
+
 

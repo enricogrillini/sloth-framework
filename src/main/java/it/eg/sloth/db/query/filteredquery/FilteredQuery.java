@@ -132,7 +132,7 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
      * @param sqlTypes
      * @param values
      */
-    public void addInFilter(String sql, int sqlTypes, Object... values) {
+    public void addInFilter(String sql, int sqlTypes, List<?> values) {
         filterList.add(new InFilter(sql, sqlTypes, values));
     }
 

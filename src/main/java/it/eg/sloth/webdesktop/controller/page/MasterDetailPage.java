@@ -44,6 +44,7 @@ public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extend
         }
 
         String[] navigation = getWebRequest().getNavigation();
+        log.info("navigation {}", navigation);
 
         if (navigation.length == 1) {
             if (NavigationConst.LOAD.equals(navigation[0])) {

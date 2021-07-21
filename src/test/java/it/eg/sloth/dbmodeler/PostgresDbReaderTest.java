@@ -1,10 +1,6 @@
 package it.eg.sloth.dbmodeler;
 
-import it.eg.sloth.TestFactory;
-import it.eg.sloth.dbmodeler.model.DataBase;
-import it.eg.sloth.dbmodeler.model.connection.DbConnection;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
-import it.eg.sloth.dbmodeler.reader.DbSchemaReader;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -14,35 +10,18 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @Disabled
-class PostgresDbReaderTest {
-
-    private static final String POSTGRES_DATABASE_JSON = TestFactory.OUTPUT_DIR + "/postgresDataBase.json";
-
-    private DataBase dataBase;
+class PostgresDbReaderTest extends AbstractReaderTest {
 
     @BeforeEach
-    void init() throws IOException {
-        DbConnection dbConnection = DbConnection.builder()
-                .jdbcUrl("jdbc:postgresql://localhost:5432/postgres")
-                .dbUser("postgres")
-                .dbPassword("example")
-                .dbOwner("PUBLIC")
-                .dataBaseType(DataBaseType.POSTGRES)
-                .build();
+    void init() throws IOException, SQLException {
+        init("jdbc:postgresql://localhost:5432/postgres");
 
-        dataBase = new DataBase();
-        dataBase.setDbConnection(dbConnection);
-
-        TestFactory.createOutputDir();
+        //init("jdbc:h2:mem:outputDb;MODE=Oracle;INIT=RUNSCRIPT FROM 'classpath:dbmodeler/POSTGRES-create.sql'", DataBaseType.POSTGRES);
     }
 
     @Test
-    void readSchemaTest() throws SQLException, IOException, FrameworkException, ClassNotFoundException {
-        DbSchemaReader dbReader = DbSchemaReader.Factory.getDbSchemaReader(dataBase.getDbConnection());
-        dbReader.refreshSchema(dataBase);
-        dbReader.writeFile(POSTGRES_DATABASE_JSON, dataBase);
-
-        System.out.println(dbReader.writeString(dataBase));
+    void readSchemaTest() throws SQLException, IOException, FrameworkException {
+        super.readSchemaTest(DataBaseType.POSTGRES, "gildace");
     }
 
 }
