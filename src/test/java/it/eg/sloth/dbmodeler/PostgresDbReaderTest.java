@@ -14,9 +14,9 @@ class PostgresDbReaderTest extends AbstractReaderTest {
 
     @BeforeEach
     void init() throws IOException, SQLException {
-        init("jdbc:postgresql://localhost:5432/postgres");
+        //init("jdbc:postgresql://localhost:5432/postgres");
 
-        //init("jdbc:h2:mem:outputDb;MODE=Oracle;INIT=RUNSCRIPT FROM 'classpath:dbmodeler/POSTGRES-create.sql'", DataBaseType.POSTGRES);
+        init(DataBaseType.POSTGRES);
     }
 
     @Test

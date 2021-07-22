@@ -7,12 +7,13 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 
 class H2DbReaderTest extends AbstractReaderTest {
 
     @BeforeEach
     void init() throws IOException, SQLException {
-        init("jdbc:h2:mem:outputDb;MODE=Oracle;INIT=RUNSCRIPT FROM 'classpath:dbmodeler/H2-create.sql'");
+        init(DataBaseType.H2);
     }
 
     @Test

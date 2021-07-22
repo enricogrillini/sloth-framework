@@ -13,7 +13,7 @@ class OracleDbReaderTest extends AbstractReaderTest {
     @BeforeEach
     void init() throws IOException, SQLException {
         //init("jdbc:oracle:thin:@localhost:1521:XE");
-        init("jdbc:h2:mem:outputDb;MODE=Oracle;INIT=RUNSCRIPT FROM 'classpath:dbmodeler/ORACLE-create.sql'");
+        init(DataBaseType.ORACLE);
     }
 
     @Test

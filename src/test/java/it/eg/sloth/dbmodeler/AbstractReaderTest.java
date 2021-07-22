@@ -17,9 +17,11 @@ public abstract class AbstractReaderTest {
 
     private Connection connection;
 
-    void init(String jdbcUrl) throws IOException, SQLException {
+    void init(DataBaseType dataBaseType) throws IOException, SQLException {
         DriverManager.setLoginTimeout(1);
-        connection = DriverManager.getConnection(jdbcUrl, "gildace", "gildace");
+
+        String type = dataBaseType.name().toUpperCase();
+        connection = DriverManager.getConnection("jdbc:h2:mem:outputDb" + type + ";MODE=Oracle;INIT=RUNSCRIPT FROM 'classpath:dbmodeler/" + type + "-create.sql'", "gildace", "gildace");
 
         TestFactory.createOutputDir();
     }
