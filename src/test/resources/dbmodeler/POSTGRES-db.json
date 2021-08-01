@@ -1,11 +1,11 @@
 {
   "dbConnection" : {
-    "name" : null,
-    "jdbcUrl" : "jdbc:postgresql://localhost:5432/postgres",
-    "dbUser" : "gilda",
-    "dbPassword" : "gilda",
-    "dbOwner" : "gilda",
-    "dataBaseType" : "POSTGRES"
+    "dataBaseType" : "POSTGRES",
+    "dbOwner" : "gildace",
+    "dbPassword" : null,
+    "dbUser" : null,
+    "jdbcUrl" : null,
+    "name" : "gildaceOnPOSTGRES"
   },
   "schema" : {
     "sequenceCollection" : [ {
@@ -14,693 +14,964 @@
       "name" : "Seq_Idprofilo"
     } ],
     "tableCollection" : [ {
-      "name" : "AFORISMI",
+      "constraintCollection" : [ {
+        "columns" : [ "Idaforisma" ],
+        "generated" : false,
+        "name" : "aforismi_pk",
+        "referenceTable" : null,
+        "searchCondition" : null,
+        "type" : "PRIMARY_KEY"
+      } ],
       "description" : null,
-      "tablespace" : "USERS",
-      "initial" : 65536,
-      "temporary" : false,
-      "duration" : null,
-      "columnCollection" : [ {
-        "name" : "IDAFORISMA",
+      "duration" : "",
+      "indexCollection" : [ {
+        "columns" : [ "idaforisma" ],
+        "initial" : 0,
+        "name" : "aforismi_pk",
+        "tablespace" : "",
+        "uniqueness" : false
+      } ],
+      "initial" : 0,
+      "name" : "Aforismi",
+      "tableColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Idaforisma",
         "nullable" : false,
-        "type" : "NUMBER(38,0)",
         "position" : 0,
-        "dataLength" : 22,
-        "dataPrecision" : 38,
-        "primaryKey" : false,
-        "defaultValue" : null
+        "primaryKey" : true,
+        "type" : "integer"
       }, {
-        "name" : "AFORISMA",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Aforisma",
         "nullable" : true,
-        "type" : "VARCHAR2(1000)",
         "position" : 1,
-        "dataLength" : 1000,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(1000)"
       }, {
-        "name" : "AUTORE",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Autore",
         "nullable" : true,
-        "type" : "VARCHAR2(100)",
         "position" : 2,
-        "dataLength" : 100,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(100)"
       }, {
-        "name" : "DATAULTIMAPUBLICAZIONE",
-        "description" : null,
-        "nullable" : true,
-        "type" : "DATE",
-        "position" : 3,
-        "dataLength" : 7,
+        "dataLength" : 0,
         "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Dataultimapublicazione",
+        "nullable" : true,
+        "position" : 3,
         "primaryKey" : false,
-        "defaultValue" : null
-      } ]
+        "type" : "date"
+      } ],
+      "tablespace" : "",
+      "temporary" : false
     }, {
-      "name" : "SEC_Dec_Funzioni",
+      "constraintCollection" : [ {
+        "columns" : [ "Codfunzione" ],
+        "generated" : false,
+        "name" : "sec_dec_funzioni_pk",
+        "referenceTable" : null,
+        "searchCondition" : null,
+        "type" : "PRIMARY_KEY"
+      } ],
       "description" : null,
-      "tablespace" : "USERS",
-      "initial" : 65536,
-      "temporary" : false,
-      "duration" : null,
-      "columnCollection" : [ {
-        "name" : "CODFUNZIONE",
+      "duration" : "",
+      "indexCollection" : [ {
+        "columns" : [ "codfunzione" ],
+        "initial" : 0,
+        "name" : "sec_dec_funzioni_pk",
+        "tablespace" : "",
+        "uniqueness" : false
+      } ],
+      "initial" : 0,
+      "name" : "Sec_Dec_Funzioni",
+      "tableColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Codfunzione",
         "nullable" : false,
-        "type" : "VARCHAR2(100)",
         "position" : 0,
-        "dataLength" : 100,
-        "dataPrecision" : null,
-        "primaryKey" : false,
-        "defaultValue" : null
+        "primaryKey" : true,
+        "type" : "character varying(100)"
       }, {
-        "name" : "DESCRIZIONEBREVE",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Descrizionebreve",
         "nullable" : false,
-        "type" : "VARCHAR2(20)",
         "position" : 1,
-        "dataLength" : 20,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(20)"
       }, {
-        "name" : "DESCRIZIONELUNGA",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Descrizionelunga",
         "nullable" : false,
-        "type" : "VARCHAR2(100)",
         "position" : 2,
-        "dataLength" : 100,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(100)"
       }, {
-        "name" : "POSIZIONE",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Posizione",
         "nullable" : false,
-        "type" : "NUMBER(38,0)",
         "position" : 3,
-        "dataLength" : 22,
-        "dataPrecision" : 38,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "integer"
       }, {
-        "name" : "FLAGVALIDO",
-        "description" : null,
-        "nullable" : false,
-        "type" : "VARCHAR2(1)",
-        "position" : 4,
-        "dataLength" : 1,
+        "dataLength" : 0,
         "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Flagvalido",
+        "nullable" : false,
+        "position" : 4,
         "primaryKey" : false,
-        "defaultValue" : null
-      } ]
+        "type" : "character varying(1)"
+      } ],
+      "tablespace" : "",
+      "temporary" : false
     }, {
-      "name" : "SEC_Dec_Menu",
+      "constraintCollection" : [ {
+        "columns" : [ "Codmenu" ],
+        "generated" : false,
+        "name" : "sec_dec_menu_pk",
+        "referenceTable" : null,
+        "searchCondition" : null,
+        "type" : "PRIMARY_KEY"
+      }, {
+        "columns" : [ "Codtipovoce" ],
+        "generated" : false,
+        "name" : "sec_menu_fk1",
+        "referenceTable" : "sec_dec_tipivoce",
+        "searchCondition" : null,
+        "type" : "FOREIGN_KEY"
+      } ],
       "description" : null,
-      "tablespace" : "USERS",
-      "initial" : 65536,
-      "temporary" : false,
-      "duration" : null,
-      "columnCollection" : [ {
-        "name" : "CODMENU",
+      "duration" : "",
+      "indexCollection" : [ {
+        "columns" : [ "codmenu" ],
+        "initial" : 0,
+        "name" : "sec_dec_menu_pk",
+        "tablespace" : "",
+        "uniqueness" : false
+      } ],
+      "initial" : 0,
+      "name" : "Sec_Dec_Menu",
+      "tableColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Codmenu",
         "nullable" : false,
-        "type" : "VARCHAR2(100)",
         "position" : 0,
-        "dataLength" : 100,
-        "dataPrecision" : null,
-        "primaryKey" : false,
-        "defaultValue" : null
+        "primaryKey" : true,
+        "type" : "character varying(100)"
       }, {
-        "name" : "DESCRIZIONEBREVE",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Descrizionebreve",
         "nullable" : false,
-        "type" : "VARCHAR2(20)",
         "position" : 1,
-        "dataLength" : 20,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(20)"
       }, {
-        "name" : "DESCRIZIONELUNGA",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Descrizionelunga",
         "nullable" : false,
-        "type" : "VARCHAR2(100)",
         "position" : 2,
-        "dataLength" : 100,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(100)"
       }, {
-        "name" : "POSIZIONE",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Posizione",
         "nullable" : false,
-        "type" : "NUMBER(38,0)",
         "position" : 3,
-        "dataLength" : 22,
-        "dataPrecision" : 38,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "integer"
       }, {
-        "name" : "FLAGVALIDO",
-        "description" : null,
-        "nullable" : false,
-        "type" : "VARCHAR2(1)",
-        "position" : 4,
-        "dataLength" : 1,
+        "dataLength" : 0,
         "dataPrecision" : null,
-        "primaryKey" : false,
-        "defaultValue" : null
-      }, {
-        "name" : "CODTIPOVOCE",
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Flagvalido",
         "nullable" : false,
-        "type" : "VARCHAR2(10)",
+        "position" : 4,
+        "primaryKey" : false,
+        "type" : "character varying(1)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Codtipovoce",
+        "nullable" : false,
         "position" : 5,
-        "dataLength" : 10,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(10)"
       }, {
-        "name" : "LIVELLO",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Livello",
         "nullable" : false,
-        "type" : "NUMBER(38,0)",
         "position" : 6,
-        "dataLength" : 22,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "integer"
       }, {
-        "name" : "IMGHTML",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Imghtml",
         "nullable" : true,
-        "type" : "VARCHAR2(100)",
         "position" : 7,
-        "dataLength" : 100,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(100)"
       }, {
-        "name" : "LINK",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Link",
         "nullable" : true,
-        "type" : "VARCHAR2(200)",
         "position" : 8,
-        "dataLength" : 200,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
-      } ]
+        "type" : "character varying(200)"
+      } ],
+      "tablespace" : "",
+      "temporary" : false
     }, {
-      "name" : "SEC_Dec_Menuutente",
+      "constraintCollection" : [ {
+        "columns" : [ "Codtipovoce" ],
+        "generated" : false,
+        "name" : "sec_dec_menuutente_fk1",
+        "referenceTable" : "sec_dec_tipivoce",
+        "searchCondition" : null,
+        "type" : "FOREIGN_KEY"
+      }, {
+        "columns" : [ "Codmenuutente" ],
+        "generated" : false,
+        "name" : "sec_dec_menuutente_pk",
+        "referenceTable" : null,
+        "searchCondition" : null,
+        "type" : "PRIMARY_KEY"
+      } ],
       "description" : null,
-      "tablespace" : "USERS",
-      "initial" : 65536,
-      "temporary" : false,
-      "duration" : null,
-      "columnCollection" : [ {
-        "name" : "CODMENUUTENTE",
+      "duration" : "",
+      "indexCollection" : [ {
+        "columns" : [ "codmenuutente" ],
+        "initial" : 0,
+        "name" : "sec_dec_menuutente_pk",
+        "tablespace" : "",
+        "uniqueness" : false
+      } ],
+      "initial" : 0,
+      "name" : "Sec_Dec_Menuutente",
+      "tableColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Codmenuutente",
         "nullable" : false,
-        "type" : "VARCHAR2(100)",
         "position" : 0,
-        "dataLength" : 100,
-        "dataPrecision" : null,
-        "primaryKey" : false,
-        "defaultValue" : null
+        "primaryKey" : true,
+        "type" : "character varying(100)"
       }, {
-        "name" : "DESCRIZIONEBREVE",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Descrizionebreve",
         "nullable" : false,
-        "type" : "VARCHAR2(20)",
         "position" : 1,
-        "dataLength" : 20,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(20)"
       }, {
-        "name" : "DESCRIZIONELUNGA",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Descrizionelunga",
         "nullable" : false,
-        "type" : "VARCHAR2(100)",
         "position" : 2,
-        "dataLength" : 100,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(100)"
       }, {
-        "name" : "POSIZIONE",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Posizione",
         "nullable" : false,
-        "type" : "NUMBER(38,0)",
         "position" : 3,
-        "dataLength" : 22,
-        "dataPrecision" : 38,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "integer"
       }, {
-        "name" : "FLAGVALIDO",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Flagvalido",
         "nullable" : false,
-        "type" : "VARCHAR2(1)",
         "position" : 4,
-        "dataLength" : 1,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(1)"
       }, {
-        "name" : "CODTIPOVOCE",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Codtipovoce",
         "nullable" : false,
-        "type" : "VARCHAR2(10)",
         "position" : 5,
-        "dataLength" : 10,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(10)"
       }, {
-        "name" : "IMGHTML",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Imghtml",
         "nullable" : true,
-        "type" : "VARCHAR2(100)",
         "position" : 6,
-        "dataLength" : 100,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(100)"
       }, {
-        "name" : "LINK",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Link",
         "nullable" : true,
-        "type" : "VARCHAR2(200)",
         "position" : 7,
-        "dataLength" : 200,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
-      } ]
+        "type" : "character varying(200)"
+      } ],
+      "tablespace" : "",
+      "temporary" : false
     }, {
-      "name" : "SEC_Dec_Ruoli",
+      "constraintCollection" : [ {
+        "columns" : [ "Codruolo" ],
+        "generated" : false,
+        "name" : "sec_dec_ruoli_pk",
+        "referenceTable" : null,
+        "searchCondition" : null,
+        "type" : "PRIMARY_KEY"
+      } ],
       "description" : null,
-      "tablespace" : "USERS",
-      "initial" : 65536,
-      "temporary" : false,
-      "duration" : null,
-      "columnCollection" : [ {
-        "name" : "CODRUOLO",
+      "duration" : "",
+      "indexCollection" : [ {
+        "columns" : [ "codruolo" ],
+        "initial" : 0,
+        "name" : "sec_dec_ruoli_pk",
+        "tablespace" : "",
+        "uniqueness" : false
+      } ],
+      "initial" : 0,
+      "name" : "Sec_Dec_Ruoli",
+      "tableColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Codruolo",
         "nullable" : false,
-        "type" : "VARCHAR2(10)",
         "position" : 0,
-        "dataLength" : 10,
-        "dataPrecision" : null,
-        "primaryKey" : false,
-        "defaultValue" : null
+        "primaryKey" : true,
+        "type" : "character varying(10)"
       }, {
-        "name" : "DESCRIZIONEBREVE",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Descrizionebreve",
         "nullable" : false,
-        "type" : "VARCHAR2(20)",
         "position" : 1,
-        "dataLength" : 20,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(20)"
       }, {
-        "name" : "DESCRIZIONELUNGA",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Descrizionelunga",
         "nullable" : false,
-        "type" : "VARCHAR2(100)",
         "position" : 2,
-        "dataLength" : 100,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(100)"
       }, {
-        "name" : "POSIZIONE",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Posizione",
         "nullable" : false,
-        "type" : "NUMBER(38,0)",
         "position" : 3,
-        "dataLength" : 22,
-        "dataPrecision" : 38,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "integer"
       }, {
-        "name" : "FLAGVALIDO",
-        "description" : null,
-        "nullable" : false,
-        "type" : "VARCHAR2(1)",
-        "position" : 4,
-        "dataLength" : 1,
+        "dataLength" : 0,
         "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Flagvalido",
+        "nullable" : false,
+        "position" : 4,
         "primaryKey" : false,
-        "defaultValue" : null
-      } ]
+        "type" : "character varying(1)"
+      } ],
+      "tablespace" : "",
+      "temporary" : false
     }, {
-      "name" : "SEC_Dec_Tipivoce",
+      "constraintCollection" : [ {
+        "columns" : [ "Codtipovoce" ],
+        "generated" : false,
+        "name" : "sec_dec_tipivoce_pk",
+        "referenceTable" : null,
+        "searchCondition" : null,
+        "type" : "PRIMARY_KEY"
+      } ],
       "description" : null,
-      "tablespace" : "USERS",
-      "initial" : 65536,
-      "temporary" : false,
-      "duration" : null,
-      "columnCollection" : [ {
-        "name" : "CODTIPOVOCE",
+      "duration" : "",
+      "indexCollection" : [ {
+        "columns" : [ "codtipovoce" ],
+        "initial" : 0,
+        "name" : "sec_dec_tipivoce_pk",
+        "tablespace" : "",
+        "uniqueness" : false
+      } ],
+      "initial" : 0,
+      "name" : "Sec_Dec_Tipivoce",
+      "tableColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Codtipovoce",
         "nullable" : false,
-        "type" : "VARCHAR2(10)",
         "position" : 0,
-        "dataLength" : 10,
-        "dataPrecision" : null,
-        "primaryKey" : false,
-        "defaultValue" : null
+        "primaryKey" : true,
+        "type" : "character varying(10)"
       }, {
-        "name" : "DESCRIZIONEBREVE",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Descrizionebreve",
         "nullable" : false,
-        "type" : "VARCHAR2(20)",
         "position" : 1,
-        "dataLength" : 20,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(20)"
       }, {
-        "name" : "DESCRIZIONELUNGA",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Descrizionelunga",
         "nullable" : false,
-        "type" : "VARCHAR2(100)",
         "position" : 2,
-        "dataLength" : 100,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(100)"
       }, {
-        "name" : "POSIZIONE",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Posizione",
         "nullable" : false,
-        "type" : "NUMBER(38,0)",
         "position" : 3,
-        "dataLength" : 22,
-        "dataPrecision" : 38,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "integer"
       }, {
-        "name" : "FLAGVALIDO",
-        "description" : null,
-        "nullable" : false,
-        "type" : "VARCHAR2(1)",
-        "position" : 4,
-        "dataLength" : 1,
+        "dataLength" : 0,
         "dataPrecision" : null,
-        "primaryKey" : false,
-        "defaultValue" : null
-      }, {
-        "name" : "FLAGMENUUTENTE",
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Flagvalido",
+        "nullable" : false,
+        "position" : 4,
+        "primaryKey" : false,
+        "type" : "character varying(1)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Flagmenuutente",
         "nullable" : true,
-        "type" : "VARCHAR2(1)",
         "position" : 5,
-        "dataLength" : 1,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
-      } ]
+        "type" : "character varying(1)"
+      } ],
+      "tablespace" : "",
+      "temporary" : false
     }, {
-      "name" : "SEC_Funzioniruoli",
+      "constraintCollection" : [ {
+        "columns" : [ "Codfunzione" ],
+        "generated" : false,
+        "name" : "sec_funzioniruoli_fk1",
+        "referenceTable" : "sec_dec_funzioni",
+        "searchCondition" : null,
+        "type" : "FOREIGN_KEY"
+      }, {
+        "columns" : [ "Codruolo" ],
+        "generated" : false,
+        "name" : "sec_funzioniruoli_fk2",
+        "referenceTable" : "sec_dec_ruoli",
+        "searchCondition" : null,
+        "type" : "FOREIGN_KEY"
+      }, {
+        "columns" : [ "Codfunzione", "Codruolo" ],
+        "generated" : false,
+        "name" : "sec_funzioniruoli_pk",
+        "referenceTable" : null,
+        "searchCondition" : null,
+        "type" : "PRIMARY_KEY"
+      } ],
       "description" : null,
-      "tablespace" : "USERS",
-      "initial" : 65536,
-      "temporary" : false,
-      "duration" : null,
-      "columnCollection" : [ {
-        "name" : "CODFUNZIONE",
+      "duration" : "",
+      "indexCollection" : [ {
+        "columns" : [ "codruolo" ],
+        "initial" : 0,
+        "name" : "sec_funzioniruoli_idx1",
+        "tablespace" : "",
+        "uniqueness" : false
+      }, {
+        "columns" : [ "codfunzione" ],
+        "initial" : 0,
+        "name" : "sec_funzioniruoli_idx2",
+        "tablespace" : "",
+        "uniqueness" : false
+      }, {
+        "columns" : [ "codfunzione", "codruolo" ],
+        "initial" : 0,
+        "name" : "sec_funzioniruoli_pk",
+        "tablespace" : "",
+        "uniqueness" : false
+      } ],
+      "initial" : 0,
+      "name" : "Sec_Funzioniruoli",
+      "tableColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Codfunzione",
         "nullable" : false,
-        "type" : "VARCHAR2(100)",
         "position" : 0,
-        "dataLength" : 100,
-        "dataPrecision" : null,
-        "primaryKey" : false,
-        "defaultValue" : null
+        "primaryKey" : true,
+        "type" : "character varying(100)"
       }, {
-        "name" : "CODRUOLO",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Codruolo",
         "nullable" : false,
-        "type" : "VARCHAR2(10)",
         "position" : 1,
-        "dataLength" : 10,
-        "dataPrecision" : null,
-        "primaryKey" : false,
-        "defaultValue" : null
+        "primaryKey" : true,
+        "type" : "character varying(10)"
       }, {
-        "name" : "FLAGACCESSO",
-        "description" : null,
-        "nullable" : true,
-        "type" : "VARCHAR2(1)",
-        "position" : 2,
-        "dataLength" : 1,
+        "dataLength" : 0,
         "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Flagaccesso",
+        "nullable" : true,
+        "position" : 2,
         "primaryKey" : false,
-        "defaultValue" : null
-      } ]
+        "type" : "character varying(1)"
+      } ],
+      "tablespace" : "",
+      "temporary" : false
     }, {
-      "name" : "SEC_Menuruoli",
+      "constraintCollection" : [ {
+        "columns" : [ "Codmenu" ],
+        "generated" : false,
+        "name" : "sec_menuruoli_fk1",
+        "referenceTable" : "sec_dec_menu",
+        "searchCondition" : null,
+        "type" : "FOREIGN_KEY"
+      }, {
+        "columns" : [ "Codruolo" ],
+        "generated" : false,
+        "name" : "sec_menuruoli_fk2",
+        "referenceTable" : "sec_dec_ruoli",
+        "searchCondition" : null,
+        "type" : "FOREIGN_KEY"
+      }, {
+        "columns" : [ "Codmenu", "Codruolo" ],
+        "generated" : false,
+        "name" : "sec_menuruoli_pk",
+        "referenceTable" : null,
+        "searchCondition" : null,
+        "type" : "PRIMARY_KEY"
+      } ],
       "description" : null,
-      "tablespace" : "USERS",
-      "initial" : 65536,
-      "temporary" : false,
-      "duration" : null,
-      "columnCollection" : [ {
-        "name" : "CODMENU",
+      "duration" : "",
+      "indexCollection" : [ {
+        "columns" : [ "codruolo" ],
+        "initial" : 0,
+        "name" : "sec_menuruoli_idx1",
+        "tablespace" : "",
+        "uniqueness" : false
+      }, {
+        "columns" : [ "codmenu" ],
+        "initial" : 0,
+        "name" : "sec_menuruoli_idx2",
+        "tablespace" : "",
+        "uniqueness" : false
+      }, {
+        "columns" : [ "codmenu", "codruolo" ],
+        "initial" : 0,
+        "name" : "sec_menuruoli_pk",
+        "tablespace" : "",
+        "uniqueness" : false
+      } ],
+      "initial" : 0,
+      "name" : "Sec_Menuruoli",
+      "tableColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Codmenu",
         "nullable" : false,
-        "type" : "VARCHAR2(100)",
         "position" : 0,
-        "dataLength" : 100,
-        "dataPrecision" : null,
-        "primaryKey" : false,
-        "defaultValue" : null
+        "primaryKey" : true,
+        "type" : "character varying(100)"
       }, {
-        "name" : "CODRUOLO",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Codruolo",
         "nullable" : false,
-        "type" : "VARCHAR2(10)",
         "position" : 1,
-        "dataLength" : 10,
-        "dataPrecision" : null,
-        "primaryKey" : false,
-        "defaultValue" : null
+        "primaryKey" : true,
+        "type" : "character varying(10)"
       }, {
-        "name" : "FLAGACCESSO",
-        "description" : null,
-        "nullable" : true,
-        "type" : "VARCHAR2(1)",
-        "position" : 2,
-        "dataLength" : 1,
+        "dataLength" : 0,
         "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Flagaccesso",
+        "nullable" : true,
+        "position" : 2,
         "primaryKey" : false,
-        "defaultValue" : null
-      } ]
+        "type" : "character varying(1)"
+      } ],
+      "tablespace" : "",
+      "temporary" : false
     }, {
-      "name" : "SEC_Menuutenteruoli",
+      "constraintCollection" : [ {
+        "columns" : [ "Codmenuutente" ],
+        "generated" : false,
+        "name" : "sec_menuutenteruoli_fk1",
+        "referenceTable" : "sec_dec_menuutente",
+        "searchCondition" : null,
+        "type" : "FOREIGN_KEY"
+      }, {
+        "columns" : [ "Codruolo" ],
+        "generated" : false,
+        "name" : "sec_menuutenteruoli_fk2",
+        "referenceTable" : "sec_dec_ruoli",
+        "searchCondition" : null,
+        "type" : "FOREIGN_KEY"
+      }, {
+        "columns" : [ "Codmenuutente", "Codruolo" ],
+        "generated" : false,
+        "name" : "sec_menuutenteruoli_pk",
+        "referenceTable" : null,
+        "searchCondition" : null,
+        "type" : "PRIMARY_KEY"
+      } ],
       "description" : null,
-      "tablespace" : "USERS",
-      "initial" : 65536,
-      "temporary" : false,
-      "duration" : null,
-      "columnCollection" : [ {
-        "name" : "CODMENUUTENTE",
+      "duration" : "",
+      "indexCollection" : [ {
+        "columns" : [ "codruolo" ],
+        "initial" : 0,
+        "name" : "sec_menuutenteruoli_idx1",
+        "tablespace" : "",
+        "uniqueness" : false
+      }, {
+        "columns" : [ "codmenuutente" ],
+        "initial" : 0,
+        "name" : "sec_menuutenteruoli_idx2",
+        "tablespace" : "",
+        "uniqueness" : false
+      }, {
+        "columns" : [ "codmenuutente", "codruolo" ],
+        "initial" : 0,
+        "name" : "sec_menuutenteruoli_pk",
+        "tablespace" : "",
+        "uniqueness" : false
+      } ],
+      "initial" : 0,
+      "name" : "Sec_Menuutenteruoli",
+      "tableColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Codmenuutente",
         "nullable" : false,
-        "type" : "VARCHAR2(100)",
         "position" : 0,
-        "dataLength" : 100,
-        "dataPrecision" : null,
-        "primaryKey" : false,
-        "defaultValue" : null
+        "primaryKey" : true,
+        "type" : "character varying(100)"
       }, {
-        "name" : "CODRUOLO",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Codruolo",
         "nullable" : false,
-        "type" : "VARCHAR2(10)",
         "position" : 1,
-        "dataLength" : 10,
-        "dataPrecision" : null,
-        "primaryKey" : false,
-        "defaultValue" : null
+        "primaryKey" : true,
+        "type" : "character varying(10)"
       }, {
-        "name" : "FLAGACCESSO",
-        "description" : null,
-        "nullable" : true,
-        "type" : "VARCHAR2(1)",
-        "position" : 2,
-        "dataLength" : 1,
+        "dataLength" : 0,
         "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Flagaccesso",
+        "nullable" : true,
+        "position" : 2,
         "primaryKey" : false,
-        "defaultValue" : null
-      } ]
+        "type" : "character varying(1)"
+      } ],
+      "tablespace" : "",
+      "temporary" : false
     }, {
-      "name" : "SEC_Profili",
+      "constraintCollection" : [ {
+        "columns" : [ "Idutente" ],
+        "generated" : false,
+        "name" : "sec_profili_fk1",
+        "referenceTable" : "sec_utenti",
+        "searchCondition" : null,
+        "type" : "FOREIGN_KEY"
+      }, {
+        "columns" : [ "Codruolo" ],
+        "generated" : false,
+        "name" : "sec_profili_fk2",
+        "referenceTable" : "sec_dec_ruoli",
+        "searchCondition" : null,
+        "type" : "FOREIGN_KEY"
+      }, {
+        "columns" : [ "Idprofilo" ],
+        "generated" : false,
+        "name" : "sec_profili_pk",
+        "referenceTable" : null,
+        "searchCondition" : null,
+        "type" : "PRIMARY_KEY"
+      } ],
       "description" : null,
-      "tablespace" : "USERS",
-      "initial" : 65536,
-      "temporary" : false,
-      "duration" : null,
-      "columnCollection" : [ {
-        "name" : "IDPROFILO",
-        "description" : null,
-        "nullable" : false,
-        "type" : "NUMBER(38,0)",
-        "position" : 0,
-        "dataLength" : 22,
-        "dataPrecision" : 38,
-        "primaryKey" : false,
-        "defaultValue" : null
-      }, {
-        "name" : "IDUTENTE",
-        "description" : null,
-        "nullable" : true,
-        "type" : "NUMBER(38,0)",
-        "position" : 1,
-        "dataLength" : 22,
-        "dataPrecision" : 38,
-        "primaryKey" : false,
-        "defaultValue" : null
-      }, {
-        "name" : "CODRUOLO",
-        "description" : null,
-        "nullable" : true,
-        "type" : "VARCHAR2(10)",
-        "position" : 2,
-        "dataLength" : 10,
+      "duration" : "",
+      "indexCollection" : [ {
+        "columns" : [ "idprofilo" ],
+        "initial" : 0,
+        "name" : "sec_profili_pk",
+        "tablespace" : "",
+        "uniqueness" : false
+      } ],
+      "initial" : 0,
+      "name" : "Sec_Profili",
+      "tableColumnCollection" : [ {
+        "dataLength" : 0,
         "dataPrecision" : null,
-        "primaryKey" : false,
-        "defaultValue" : null
-      }, {
-        "name" : "DATAINIZIO",
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Idprofilo",
         "nullable" : false,
-        "type" : "DATE",
+        "position" : 0,
+        "primaryKey" : true,
+        "type" : "integer"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Idutente",
+        "nullable" : true,
+        "position" : 1,
+        "primaryKey" : false,
+        "type" : "integer"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Codruolo",
+        "nullable" : true,
+        "position" : 2,
+        "primaryKey" : false,
+        "type" : "character varying(10)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Datainizio",
+        "nullable" : false,
         "position" : 3,
-        "dataLength" : 7,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "date"
       }, {
-        "name" : "DATAFINE",
-        "description" : null,
-        "nullable" : true,
-        "type" : "DATE",
-        "position" : 4,
-        "dataLength" : 7,
+        "dataLength" : 0,
         "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Datafine",
+        "nullable" : true,
+        "position" : 4,
         "primaryKey" : false,
-        "defaultValue" : null
-      } ]
+        "type" : "date"
+      } ],
+      "tablespace" : "",
+      "temporary" : false
     }, {
-      "name" : "SEC_Utenti",
+      "constraintCollection" : [ {
+        "columns" : [ "Idutente" ],
+        "generated" : false,
+        "name" : "sec_utenti_pk",
+        "referenceTable" : null,
+        "searchCondition" : null,
+        "type" : "PRIMARY_KEY"
+      } ],
       "description" : null,
-      "tablespace" : "USERS",
-      "initial" : 65536,
-      "temporary" : false,
-      "duration" : null,
-      "columnCollection" : [ {
-        "name" : "IDUTENTE",
+      "duration" : "",
+      "indexCollection" : [ {
+        "columns" : [ "idutente" ],
+        "initial" : 0,
+        "name" : "sec_utenti_pk",
+        "tablespace" : "",
+        "uniqueness" : false
+      } ],
+      "initial" : 0,
+      "name" : "Sec_Utenti",
+      "tableColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Idutente",
         "nullable" : false,
-        "type" : "NUMBER(38,0)",
         "position" : 0,
-        "dataLength" : 22,
-        "dataPrecision" : 38,
-        "primaryKey" : false,
-        "defaultValue" : null
+        "primaryKey" : true,
+        "type" : "integer"
       }, {
-        "name" : "NOME",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Nome",
         "nullable" : true,
-        "type" : "VARCHAR2(100)",
         "position" : 1,
-        "dataLength" : 100,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(100)"
       }, {
-        "name" : "COGNOME",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Cognome",
         "nullable" : true,
-        "type" : "VARCHAR2(100)",
         "position" : 2,
-        "dataLength" : 100,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(100)"
       }, {
-        "name" : "USERID",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Userid",
         "nullable" : true,
-        "type" : "VARCHAR2(10)",
         "position" : 3,
-        "dataLength" : 10,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(10)"
       }, {
-        "name" : "PASSWORD",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Password",
         "nullable" : true,
-        "type" : "VARCHAR2(10)",
         "position" : 4,
-        "dataLength" : 10,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(10)"
       }, {
-        "name" : "EMAIL",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Email",
         "nullable" : true,
-        "type" : "VARCHAR2(100)",
         "position" : 5,
-        "dataLength" : 100,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(100)"
       }, {
-        "name" : "EMAILPASSWORD",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Emailpassword",
         "nullable" : true,
-        "type" : "VARCHAR2(100)",
         "position" : 6,
-        "dataLength" : 100,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(100)"
       }, {
-        "name" : "LOCALE",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Locale",
         "nullable" : true,
-        "type" : "VARCHAR2(5)",
         "position" : 7,
-        "dataLength" : 5,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
+        "type" : "character varying(5)"
       }, {
-        "name" : "FOTO",
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
         "description" : null,
+        "name" : "Foto",
         "nullable" : true,
-        "type" : "BLOB",
         "position" : 8,
-        "dataLength" : 4000,
-        "dataPrecision" : null,
         "primaryKey" : false,
-        "defaultValue" : null
-      } ]
+        "type" : "bytea"
+      } ],
+      "tablespace" : "",
+      "temporary" : false
     } ]
   }
 }

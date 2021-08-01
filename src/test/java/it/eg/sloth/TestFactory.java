@@ -47,6 +47,11 @@ public class TestFactory {
         Files.createDirectories(Paths.get(OUTPUT_DIR));
     }
 
+    public static void createOutputDir(String relativePath) throws IOException {
+        Files.createDirectories(Paths.get(OUTPUT_DIR));
+        Files.createDirectories(Paths.get(OUTPUT_DIR + "/" + relativePath));
+    }
+
     public static Grid getGrid() throws FrameworkException {
         Table table = new Table();
         Row row = table.add();

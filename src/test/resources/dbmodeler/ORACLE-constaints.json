@@ -1,0 +1,581 @@
+[ {
+  "table_name" : "AFORISMI",
+  "ordinamento" : 1,
+  "constraint_name" : "AFORISMI_PK",
+  "position" : 1,
+  "column_name" : "IDAFORISMA",
+  "constraint_type" : "P",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_FUNZIONI",
+  "ordinamento" : 1,
+  "constraint_name" : "SEC_DEC_FUNZIONI_PK",
+  "position" : 1,
+  "column_name" : "CODFUNZIONE",
+  "constraint_type" : "P",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_FUNZIONI",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010472",
+  "position" : null,
+  "column_name" : "DESCRIZIONEBREVE",
+  "constraint_type" : "C",
+  "search_condition" : "\"DESCRIZIONEBREVE\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_FUNZIONI",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010473",
+  "position" : null,
+  "column_name" : "DESCRIZIONELUNGA",
+  "constraint_type" : "C",
+  "search_condition" : "\"DESCRIZIONELUNGA\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_FUNZIONI",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010474",
+  "position" : null,
+  "column_name" : "POSIZIONE",
+  "constraint_type" : "C",
+  "search_condition" : "\"POSIZIONE\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_FUNZIONI",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010475",
+  "position" : null,
+  "column_name" : "FLAGVALIDO",
+  "constraint_type" : "C",
+  "search_condition" : "\"FLAGVALIDO\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_MENU",
+  "ordinamento" : 1,
+  "constraint_name" : "SEC_DEC_MENU_PK",
+  "position" : 1,
+  "column_name" : "CODMENU",
+  "constraint_type" : "P",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_MENU",
+  "ordinamento" : 2,
+  "constraint_name" : "SEC_MENU_FK1",
+  "position" : 1,
+  "column_name" : "CODTIPOVOCE",
+  "constraint_type" : "R",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : "SEC_DEC_TIPIVOCE"
+}, {
+  "table_name" : "SEC_DEC_MENU",
+  "ordinamento" : 3,
+  "constraint_name" : "SEC_DEC_MENU_C1",
+  "position" : null,
+  "column_name" : "FLAGVALIDO",
+  "constraint_type" : "C",
+  "search_condition" : "flagvalido in ('S', 'N')",
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_MENU",
+  "ordinamento" : 3,
+  "constraint_name" : "SEC_DEC_MENU_C2",
+  "position" : null,
+  "column_name" : "LIVELLO",
+  "constraint_type" : "C",
+  "search_condition" : "Livello in (1, 2)",
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_MENU",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010466",
+  "position" : null,
+  "column_name" : "DESCRIZIONEBREVE",
+  "constraint_type" : "C",
+  "search_condition" : "\"DESCRIZIONEBREVE\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_MENU",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010467",
+  "position" : null,
+  "column_name" : "DESCRIZIONELUNGA",
+  "constraint_type" : "C",
+  "search_condition" : "\"DESCRIZIONELUNGA\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_MENU",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010468",
+  "position" : null,
+  "column_name" : "POSIZIONE",
+  "constraint_type" : "C",
+  "search_condition" : "\"POSIZIONE\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_MENU",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010469",
+  "position" : null,
+  "column_name" : "FLAGVALIDO",
+  "constraint_type" : "C",
+  "search_condition" : "\"FLAGVALIDO\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_MENU",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010470",
+  "position" : null,
+  "column_name" : "CODTIPOVOCE",
+  "constraint_type" : "C",
+  "search_condition" : "\"CODTIPOVOCE\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_MENU",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010471",
+  "position" : null,
+  "column_name" : "LIVELLO",
+  "constraint_type" : "C",
+  "search_condition" : "\"LIVELLO\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_MENUUTENTE",
+  "ordinamento" : 1,
+  "constraint_name" : "SEC_DEC_MENUUTENTE_PK",
+  "position" : 1,
+  "column_name" : "CODMENUUTENTE",
+  "constraint_type" : "P",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_MENUUTENTE",
+  "ordinamento" : 2,
+  "constraint_name" : "SEC_DEC_MENUUTENTE_FK1",
+  "position" : 1,
+  "column_name" : "CODTIPOVOCE",
+  "constraint_type" : "R",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : "SEC_DEC_TIPIVOCE"
+}, {
+  "table_name" : "SEC_DEC_MENUUTENTE",
+  "ordinamento" : 3,
+  "constraint_name" : "SEC_DEC_MENUUTENTE_C1",
+  "position" : null,
+  "column_name" : "FLAGVALIDO",
+  "constraint_type" : "C",
+  "search_condition" : "flagvalido in ('S', 'N')",
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_MENUUTENTE",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010456",
+  "position" : null,
+  "column_name" : "DESCRIZIONEBREVE",
+  "constraint_type" : "C",
+  "search_condition" : "\"DESCRIZIONEBREVE\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_MENUUTENTE",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010457",
+  "position" : null,
+  "column_name" : "DESCRIZIONELUNGA",
+  "constraint_type" : "C",
+  "search_condition" : "\"DESCRIZIONELUNGA\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_MENUUTENTE",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010458",
+  "position" : null,
+  "column_name" : "POSIZIONE",
+  "constraint_type" : "C",
+  "search_condition" : "\"POSIZIONE\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_MENUUTENTE",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010459",
+  "position" : null,
+  "column_name" : "FLAGVALIDO",
+  "constraint_type" : "C",
+  "search_condition" : "\"FLAGVALIDO\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_MENUUTENTE",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010460",
+  "position" : null,
+  "column_name" : "CODTIPOVOCE",
+  "constraint_type" : "C",
+  "search_condition" : "\"CODTIPOVOCE\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_RUOLI",
+  "ordinamento" : 1,
+  "constraint_name" : "SEC_DEC_RUOLI_PK",
+  "position" : 1,
+  "column_name" : "CODRUOLO",
+  "constraint_type" : "P",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_RUOLI",
+  "ordinamento" : 3,
+  "constraint_name" : "SEC_DEC_RUOLI_C1",
+  "position" : null,
+  "column_name" : "FLAGVALIDO",
+  "constraint_type" : "C",
+  "search_condition" : "flagvalido in ('S', 'N')",
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_RUOLI",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010450",
+  "position" : null,
+  "column_name" : "CODRUOLO",
+  "constraint_type" : "C",
+  "search_condition" : "\"CODRUOLO\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_RUOLI",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010451",
+  "position" : null,
+  "column_name" : "DESCRIZIONEBREVE",
+  "constraint_type" : "C",
+  "search_condition" : "\"DESCRIZIONEBREVE\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_RUOLI",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010452",
+  "position" : null,
+  "column_name" : "DESCRIZIONELUNGA",
+  "constraint_type" : "C",
+  "search_condition" : "\"DESCRIZIONELUNGA\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_RUOLI",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010453",
+  "position" : null,
+  "column_name" : "POSIZIONE",
+  "constraint_type" : "C",
+  "search_condition" : "\"POSIZIONE\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_RUOLI",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010454",
+  "position" : null,
+  "column_name" : "FLAGVALIDO",
+  "constraint_type" : "C",
+  "search_condition" : "\"FLAGVALIDO\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_TIPIVOCE",
+  "ordinamento" : 1,
+  "constraint_name" : "SEC_DEC_TIPIVOCE_PK",
+  "position" : 1,
+  "column_name" : "CODTIPOVOCE",
+  "constraint_type" : "P",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_TIPIVOCE",
+  "ordinamento" : 3,
+  "constraint_name" : "SEC_DEC_TIPIVOCE_C1",
+  "position" : null,
+  "column_name" : "FLAGVALIDO",
+  "constraint_type" : "C",
+  "search_condition" : "flagvalido in ('S', 'N')",
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_TIPIVOCE",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010461",
+  "position" : null,
+  "column_name" : "CODTIPOVOCE",
+  "constraint_type" : "C",
+  "search_condition" : "\"CODTIPOVOCE\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_TIPIVOCE",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010462",
+  "position" : null,
+  "column_name" : "DESCRIZIONEBREVE",
+  "constraint_type" : "C",
+  "search_condition" : "\"DESCRIZIONEBREVE\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_TIPIVOCE",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010463",
+  "position" : null,
+  "column_name" : "DESCRIZIONELUNGA",
+  "constraint_type" : "C",
+  "search_condition" : "\"DESCRIZIONELUNGA\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_TIPIVOCE",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010464",
+  "position" : null,
+  "column_name" : "POSIZIONE",
+  "constraint_type" : "C",
+  "search_condition" : "\"POSIZIONE\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_DEC_TIPIVOCE",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010465",
+  "position" : null,
+  "column_name" : "FLAGVALIDO",
+  "constraint_type" : "C",
+  "search_condition" : "\"FLAGVALIDO\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_FUNZIONIRUOLI",
+  "ordinamento" : 1,
+  "constraint_name" : "SEC_FUNZIONIRUOLI_PK",
+  "position" : 1,
+  "column_name" : "CODFUNZIONE",
+  "constraint_type" : "P",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_FUNZIONIRUOLI",
+  "ordinamento" : 1,
+  "constraint_name" : "SEC_FUNZIONIRUOLI_PK",
+  "position" : 2,
+  "column_name" : "CODRUOLO",
+  "constraint_type" : "P",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_FUNZIONIRUOLI",
+  "ordinamento" : 2,
+  "constraint_name" : "SEC_FUNZIONIRUOLI_FK1",
+  "position" : 1,
+  "column_name" : "CODFUNZIONE",
+  "constraint_type" : "R",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : "SEC_DEC_FUNZIONI"
+}, {
+  "table_name" : "SEC_FUNZIONIRUOLI",
+  "ordinamento" : 2,
+  "constraint_name" : "SEC_FUNZIONIRUOLI_FK2",
+  "position" : 1,
+  "column_name" : "CODRUOLO",
+  "constraint_type" : "R",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : "SEC_DEC_RUOLI"
+}, {
+  "table_name" : "SEC_FUNZIONIRUOLI",
+  "ordinamento" : 3,
+  "constraint_name" : "SEC_FUNZIONIRUOLI_CK1",
+  "position" : null,
+  "column_name" : "FLAGACCESSO",
+  "constraint_type" : "C",
+  "search_condition" : "FLAGACCESSO in ('S', 'N')",
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_MENURUOLI",
+  "ordinamento" : 1,
+  "constraint_name" : "SEC_MENURUOLI_PK",
+  "position" : 1,
+  "column_name" : "CODMENU",
+  "constraint_type" : "P",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_MENURUOLI",
+  "ordinamento" : 1,
+  "constraint_name" : "SEC_MENURUOLI_PK",
+  "position" : 2,
+  "column_name" : "CODRUOLO",
+  "constraint_type" : "P",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_MENURUOLI",
+  "ordinamento" : 2,
+  "constraint_name" : "SEC_MENURUOLI_FK1",
+  "position" : 1,
+  "column_name" : "CODMENU",
+  "constraint_type" : "R",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : "SEC_DEC_MENU"
+}, {
+  "table_name" : "SEC_MENURUOLI",
+  "ordinamento" : 2,
+  "constraint_name" : "SEC_MENURUOLI_FK2",
+  "position" : 1,
+  "column_name" : "CODRUOLO",
+  "constraint_type" : "R",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : "SEC_DEC_RUOLI"
+}, {
+  "table_name" : "SEC_MENURUOLI",
+  "ordinamento" : 3,
+  "constraint_name" : "SEC_MENURUOLI_CK1",
+  "position" : null,
+  "column_name" : "FLAGACCESSO",
+  "constraint_type" : "C",
+  "search_condition" : "FLAGACCESSO in ('S', 'N')",
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_MENUUTENTERUOLI",
+  "ordinamento" : 1,
+  "constraint_name" : "SEC_MENUUTENTERUOLI_PK",
+  "position" : 1,
+  "column_name" : "CODMENUUTENTE",
+  "constraint_type" : "P",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_MENUUTENTERUOLI",
+  "ordinamento" : 1,
+  "constraint_name" : "SEC_MENUUTENTERUOLI_PK",
+  "position" : 2,
+  "column_name" : "CODRUOLO",
+  "constraint_type" : "P",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_MENUUTENTERUOLI",
+  "ordinamento" : 2,
+  "constraint_name" : "SEC_MENUUTENTERUOLI_FK1",
+  "position" : 1,
+  "column_name" : "CODMENUUTENTE",
+  "constraint_type" : "R",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : "SEC_DEC_MENUUTENTE"
+}, {
+  "table_name" : "SEC_MENUUTENTERUOLI",
+  "ordinamento" : 2,
+  "constraint_name" : "SEC_MENUUTENTERUOLI_FK2",
+  "position" : 1,
+  "column_name" : "CODRUOLO",
+  "constraint_type" : "R",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : "SEC_DEC_RUOLI"
+}, {
+  "table_name" : "SEC_MENUUTENTERUOLI",
+  "ordinamento" : 3,
+  "constraint_name" : "SEC_MENUUTENTERUOLI_CK1",
+  "position" : null,
+  "column_name" : "FLAGACCESSO",
+  "constraint_type" : "C",
+  "search_condition" : "FLAGACCESSO in ('S', 'N')",
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_PROFILI",
+  "ordinamento" : 1,
+  "constraint_name" : "SEC_PROFILI_PK",
+  "position" : 1,
+  "column_name" : "IDPROFILO",
+  "constraint_type" : "P",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_PROFILI",
+  "ordinamento" : 2,
+  "constraint_name" : "SEC_PROFILI_FK1",
+  "position" : 1,
+  "column_name" : "IDUTENTE",
+  "constraint_type" : "R",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : "SEC_UTENTI"
+}, {
+  "table_name" : "SEC_PROFILI",
+  "ordinamento" : 2,
+  "constraint_name" : "SEC_PROFILI_FK2",
+  "position" : 1,
+  "column_name" : "CODRUOLO",
+  "constraint_type" : "R",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : "SEC_DEC_RUOLI"
+}, {
+  "table_name" : "SEC_PROFILI",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0010455",
+  "position" : null,
+  "column_name" : "DATAINIZIO",
+  "constraint_type" : "C",
+  "search_condition" : "\"DATAINIZIO\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "SEC_UTENTI",
+  "ordinamento" : 1,
+  "constraint_name" : "SEC_UTENTI_PK",
+  "position" : 1,
+  "column_name" : "IDUTENTE",
+  "constraint_type" : "P",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : null
+} ]

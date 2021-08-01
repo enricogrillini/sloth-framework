@@ -3,7 +3,6 @@ package it.eg.sloth.db;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +33,7 @@ class TableTest {
     Table table;
 
     @BeforeEach
-    public void init() {
+    void init() {
         table = new Table();
         Row row = table.add();
         row.setString("key1", "value1");

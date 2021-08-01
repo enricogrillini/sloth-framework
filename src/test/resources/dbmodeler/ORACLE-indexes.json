@@ -1,0 +1,181 @@
+[ {
+  "index_name" : "AFORISMI_PK",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "AFORISMI",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 131072,
+  "column_name" : "IDAFORISMA"
+}, {
+  "index_name" : "SEC_DEC_FUNZIONI_PK",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_DEC_FUNZIONI",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 131072,
+  "column_name" : "CODFUNZIONE"
+}, {
+  "index_name" : "SEC_DEC_MENU_PK",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_DEC_MENU",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 131072,
+  "column_name" : "CODMENU"
+}, {
+  "index_name" : "SEC_DEC_MENUUTENTE_PK",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_DEC_MENUUTENTE",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 131072,
+  "column_name" : "CODMENUUTENTE"
+}, {
+  "index_name" : "SEC_DEC_RUOLI_PK",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_DEC_RUOLI",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "CODRUOLO"
+}, {
+  "index_name" : "SEC_DEC_TIPIVOCE_PK",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_DEC_TIPIVOCE",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "CODTIPOVOCE"
+}, {
+  "index_name" : "SEC_FUNZIONIRUOLI_IDX1",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_FUNZIONIRUOLI",
+  "uniqueness" : "NONUNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "CODRUOLO"
+}, {
+  "index_name" : "SEC_FUNZIONIRUOLI_IDX2",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_FUNZIONIRUOLI",
+  "uniqueness" : "NONUNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "CODFUNZIONE"
+}, {
+  "index_name" : "SEC_FUNZIONIRUOLI_PK",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_FUNZIONIRUOLI",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "CODFUNZIONE"
+}, {
+  "index_name" : "SEC_FUNZIONIRUOLI_PK",
+  "column_position" : 2,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_FUNZIONIRUOLI",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "CODRUOLO"
+}, {
+  "index_name" : "SEC_MENURUOLI_IDX1",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_MENURUOLI",
+  "uniqueness" : "NONUNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "CODRUOLO"
+}, {
+  "index_name" : "SEC_MENURUOLI_IDX2",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_MENURUOLI",
+  "uniqueness" : "NONUNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "CODMENU"
+}, {
+  "index_name" : "SEC_MENURUOLI_PK",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_MENURUOLI",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "CODMENU"
+}, {
+  "index_name" : "SEC_MENURUOLI_PK",
+  "column_position" : 2,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_MENURUOLI",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "CODRUOLO"
+}, {
+  "index_name" : "SEC_MENUUTENTERUOLI_IDX1",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_MENUUTENTERUOLI",
+  "uniqueness" : "NONUNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "CODRUOLO"
+}, {
+  "index_name" : "SEC_MENUUTENTERUOLI_IDX2",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_MENUUTENTERUOLI",
+  "uniqueness" : "NONUNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "CODMENUUTENTE"
+}, {
+  "index_name" : "SEC_MENUUTENTERUOLI_PK",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_MENUUTENTERUOLI",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "CODMENUUTENTE"
+}, {
+  "index_name" : "SEC_MENUUTENTERUOLI_PK",
+  "column_position" : 2,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_MENUUTENTERUOLI",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "CODRUOLO"
+}, {
+  "index_name" : "SEC_PROFILI_PK",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_PROFILI",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "IDPROFILO"
+}, {
+  "index_name" : "SEC_UTENTI_PK",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "SEC_UTENTI",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 131072,
+  "column_name" : "IDUTENTE"
+} ]

@@ -3,7 +3,9 @@ package it.eg.sloth.dbmodeler.reader;
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
+import it.eg.sloth.dbmodeler.model.schema.Schema;
 import it.eg.sloth.dbmodeler.model.schema.sequence.Sequence;
+import it.eg.sloth.dbmodeler.model.schema.table.Index;
 import it.eg.sloth.dbmodeler.model.schema.table.Table;
 import it.eg.sloth.dbmodeler.model.schema.table.TableColumn;
 import it.eg.sloth.framework.common.base.BigDecimalUtil;
@@ -14,59 +16,42 @@ import lombok.Getter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.*;
 
 public abstract class DbSchemaAbstractReader implements DbSchemaReader {
 
     @Getter
     private DataBaseType dataBaseType;
 
-    @Getter
-    private String owner;
-
-    protected DbSchemaAbstractReader(DataBaseType dataBaseType, String owner) {
+    protected DbSchemaAbstractReader(DataBaseType dataBaseType) {
         this.dataBaseType = dataBaseType;
-        this.owner = owner;
     }
 
-    protected abstract <R extends DataRow> DataTable<R> tablesData(Connection connection, String tableName) throws FrameworkException, SQLException, IOException;
-
-    protected abstract <R extends DataRow> DataTable<R> sequencesData(Connection connection) throws FrameworkException, SQLException, IOException;
-
-    protected abstract String calcColumnType(DataRow dataRow);
-
     @Override
-    public List<Sequence> loadSequences(Connection connection) throws SQLException, IOException, FrameworkException {
+    public void addSequences(Schema schema, Connection connection, String owner) throws SQLException, IOException, FrameworkException {
         // Sequences Data
-        DataTable<?> dataTable = sequencesData(connection);
+        DataTable<?> dataTable = sequencesData(connection, owner);
 
         // Lettura sequence
-        List<Sequence> sequenceList = new ArrayList<>();
         for (DataRow dataRow : dataTable) {
             Sequence sequence = Sequence.builder()
                     .name(StringUtil.initCap(dataRow.getString("sequence_name").toLowerCase()))
                     .build();
 
-            sequenceList.add(sequence);
+            schema.addSequence(sequence);
         }
-
-        return sequenceList;
     }
 
     @Override
-    public Collection<Table> loadTables(Connection connection, String tableName) throws SQLException, FrameworkException, IOException {
-        Map<String, Table> tableCache = new HashMap<>();
-        Map<String, TableColumn> columnCache = new HashMap<>();
-
+    public void addTables(Schema schema, Connection connection, String owner) throws SQLException, FrameworkException, IOException {
         // Tables Data
-        DataTable<?> dataTable = tablesData(connection, tableName);
+        DataTable<?> dataTable = tablesData(connection, owner);
 
-        List<Table> tableList = new ArrayList<>();
-        Table dbTable = new Table();
         int j = 0;
         for (DataRow dataRow : dataTable) {
             String name = dataRow.getString("table_name");
-            if (!name.equalsIgnoreCase(dbTable.getName())) {
+            Table dbTable = schema.getTable(name);
+
+            if (dbTable == null) {
                 // Inizializzo la nuova tabella
                 dbTable = Table.builder()
                         .name(StringUtil.initCap(name))
@@ -75,26 +60,15 @@ public abstract class DbSchemaAbstractReader implements DbSchemaReader {
                         .initial(dataRow.getBigDecimal("initial_extent").longValue())
                         .temporary("Y".equals(dataRow.getString("temporary_table")))
                         .duration(dataRow.getString("duration"))
-
-                        .columnCollection(new ArrayList<>())
                         .build();
 
-//                dbTable.setIndexes(new Indexes());
-//                dbTable.setConstraints(new Constraints());
-//                dbTable.setTriggers(new Triggers());
-//                dbTable.setForeignKeyReferences(new ForeignKeyReferences());
-//                dbTable.setGrants(new Grants());
-//                dbTable.setPartitions(new Partitions());
-
                 // Aggiungo tabella alla lista e alla cache
-                tableList.add(dbTable);
-                tableCache.put(dbTable.getName().toUpperCase(), dbTable);
-
+                schema.addTable(dbTable);
                 j = 0;
             }
 
             TableColumn dbTableColumn = TableColumn.builder()
-                    .name(dataRow.getString("column_name"))
+                    .name(StringUtil.initCap(dataRow.getString("column_name").toLowerCase()))
                     .primaryKey(false)
                     .description(dataRow.getString("column_comments"))
                     .nullable("Y".equals(dataRow.getString("nullable")))
@@ -105,78 +79,42 @@ public abstract class DbSchemaAbstractReader implements DbSchemaReader {
                     .position(j++)
                     .build();
 
-            dbTable.getColumnCollection().add(dbTableColumn);
-            columnCache.put(dbTable.getName().toUpperCase() + "." + dbTableColumn.getName().toUpperCase(), dbTableColumn);
+            dbTable.addTableColumn(dbTableColumn);
         }
+    }
 
-//// QUI
-//            // Constraints
-//            it.eg.sloth.db.datasource.table.Table sqlDbConstraint = new it.eg.sloth.db.datasource.table.Table();
-//
-//            query = new Query(getSqlStatement(SQL_DB_CONSTRAINT));
-//            query.addParameter(Types.VARCHAR, getOwner());
-//            query.addParameter(Types.VARCHAR, tableName);
-//            query.addParameter(Types.VARCHAR, getOwner());
-//            query.addParameter(Types.VARCHAR, tableName);
-//            query.populateDataTable(sqlDbConstraint);
-//
-//            Constraint dbConstraint = new Constraint();
-//            for (DataRow dataRow : sqlDbConstraint) {
-//                // Rottura su constraint
-//                String name = dataRow.getString("constraint_name");
-//                if (!name.equalsIgnoreCase(dbConstraint.getName())) {
-//                    dbTable = tableCache.get(dataRow.getString("table_name").toUpperCase());
-//
-//                    if (dbTable != null) {
-//                        dbConstraint = new Constraint();
-//                        dbConstraint.setColumns(new ConstraintColumns());
-//
-//                        dbConstraint.setGenerated(GEN_GENERATED_NAME.equals(dataRow.getString("generated")));
-//                        if (!dbConstraint.isGenerated()) {
-//                            dbConstraint.setName(dataRow.getString("constraint_name"));
-//                        }
-//
-//                        dbConstraint.setType(getConstraintType(dataRow.getString("constraint_type")));
-//                        dbConstraint.setSearchCondition(dataRow.getString("search_condition"));
-//                        dbConstraint.setTable(dataRow.getString("tabellaReferenziata"));
-//                        dbTable.getConstraints().getConstraint().add(dbConstraint);
-//
-//                        if (ConstraintType.FOREIGN_KEY == dbConstraint.getType()) {
-//                            Table table = tableCache.get(dbConstraint.getTable());
-//
-//                            if (table != null) {
-//                                ForeignKeyReference dbForeignKeyReference = new ForeignKeyReference();
-//                                dbForeignKeyReference.setTableName(dbTable.getName());
-//
-//                                table.getForeignKeyReferences().getForeignKeyReference().add(dbForeignKeyReference);
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                // Colonna
-//                if (dbTable != null) {
-//                    String columnName = dataRow.getString("column_name");
-//
-//                    if (columnName != null && !"".equals(columnName)) {
-//                        ConstraintColumn constraintColumn = new ConstraintColumn();
-//                        constraintColumn.setName(dataRow.getString("column_name"));
-//                        dbConstraint.getColumns().getConstraintColumn().add(constraintColumn);
-//                    }
-//
-//                    if (dbConstraint.getType() == ConstraintType.PRIMARY_KEY) {
-//                        columnCache.get(dbTable.getName().toUpperCase() + "." + columnName.toUpperCase()).setPrimaryKey(true);
-//                    }
-//                }
-//            }
-//
-//            // Constants
-//            for (Table table : tables.getTable()) {
-//                table.setConstants(getConstants(table.getName(), table.getColumns().getColumn().get(0).getName()));
-//            }
+    public void addIndexes(Schema schema, Connection connection, String owner) throws SQLException, FrameworkException, IOException {
+        // Indexes Data
+        DataTable<?> dataTable = indexesData(connection, owner);
+
+        // Lettura sequence
+        for (DataRow dataRow : dataTable) {
+            String tableName = dataRow.getString("table_name");
+            String indexName = dataRow.getString("index_name");
+
+            Table table = schema.getTable(tableName);
+            Index index = table.getIndex(indexName);
+            if (index == null) {
+                index = Index.builder()
+                        .name(indexName)
+                        .uniqueness("UNIQUE".equalsIgnoreCase(dataRow.getString("uniqueness")))
+                        .tablespace(dataRow.getString("tablespace_name"))
+                        .initial(dataRow.getBigDecimal("initial_extent").longValue())
+                        .build();
+
+                table.addIndex(index);
+            }
+
+            index.addColumn(dataRow.getString("column_name"));
+        }
+    }
+
 
 ////// QUI
-
+//        // Constants
+//        for (Table table : tables.getTable()) {
+//            table.setConstants(getConstants(table.getName(), table.getColumns().getColumn().get(0).getName()));
+//        }
 //
 //        // Triggers
 //        i = 1;
@@ -356,7 +294,6 @@ public abstract class DbSchemaAbstractReader implements DbSchemaReader {
 //            }
 //        }
 //
-        return tableList;
-    }
+
 
 }

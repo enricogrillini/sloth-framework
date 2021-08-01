@@ -1,93 +1,93 @@
--- Create Table AFORISMI
-Create Table AFORISMI
-      (IDAFORISMA INTEGER,
-       AFORISMA VARCHAR(1000),
-       AUTORE VARCHAR(100),
-       DATAULTIMAPUBLICAZIONE DATE);
+-- Create Table Aforismi
+Create Table Aforismi
+      (Idaforisma integer Not Null,
+       Aforisma character varying(1000),
+       Autore character varying(100),
+       Dataultimapublicazione date);
 
--- Create Table SEC_Dec_Funzioni
-Create Table SEC_Dec_Funzioni
-      (CODFUNZIONE VARCHAR(100),
-       DESCRIZIONEBREVE VARCHAR(20),
-       DESCRIZIONELUNGA VARCHAR(100),
-       POSIZIONE INTEGER,
-       FLAGVALIDO VARCHAR(1));
+-- Create Table Sec_Dec_Funzioni
+Create Table Sec_Dec_Funzioni
+      (Codfunzione character varying(100) Not Null,
+       Descrizionebreve character varying(20) Not Null,
+       Descrizionelunga character varying(100) Not Null,
+       Posizione integer Not Null,
+       Flagvalido character varying(1) Not Null);
 
--- Create Table SEC_Dec_Menu
-Create Table SEC_Dec_Menu
-      (CODMENU VARCHAR(100),
-       DESCRIZIONEBREVE VARCHAR(20),
-       DESCRIZIONELUNGA VARCHAR(100),
-       POSIZIONE INTEGER,
-       FLAGVALIDO VARCHAR(1),
-       CODTIPOVOCE VARCHAR(10),
-       LIVELLO INTEGER,
-       IMGHTML VARCHAR(100),
-       LINK VARCHAR(200));
+-- Create Table Sec_Dec_Menu
+Create Table Sec_Dec_Menu
+      (Codmenu character varying(100) Not Null,
+       Descrizionebreve character varying(20) Not Null,
+       Descrizionelunga character varying(100) Not Null,
+       Posizione integer Not Null,
+       Flagvalido character varying(1) Not Null,
+       Codtipovoce character varying(10) Not Null,
+       Livello integer Not Null,
+       Imghtml character varying(100),
+       Link character varying(200));
 
--- Create Table SEC_Dec_Menuutente
-Create Table SEC_Dec_Menuutente
-      (CODMENUUTENTE VARCHAR(100),
-       DESCRIZIONEBREVE VARCHAR(20),
-       DESCRIZIONELUNGA VARCHAR(100),
-       POSIZIONE INTEGER,
-       FLAGVALIDO VARCHAR(1),
-       CODTIPOVOCE VARCHAR(10),
-       IMGHTML VARCHAR(100),
-       LINK VARCHAR(200));
+-- Create Table Sec_Dec_Menuutente
+Create Table Sec_Dec_Menuutente
+      (Codmenuutente character varying(100) Not Null,
+       Descrizionebreve character varying(20) Not Null,
+       Descrizionelunga character varying(100) Not Null,
+       Posizione integer Not Null,
+       Flagvalido character varying(1) Not Null,
+       Codtipovoce character varying(10) Not Null,
+       Imghtml character varying(100),
+       Link character varying(200));
 
--- Create Table SEC_Dec_Ruoli
-Create Table SEC_Dec_Ruoli
-      (CODRUOLO VARCHAR(10),
-       DESCRIZIONEBREVE VARCHAR(20),
-       DESCRIZIONELUNGA VARCHAR(100),
-       POSIZIONE INTEGER,
-       FLAGVALIDO VARCHAR(1));
+-- Create Table Sec_Dec_Ruoli
+Create Table Sec_Dec_Ruoli
+      (Codruolo character varying(10) Not Null,
+       Descrizionebreve character varying(20) Not Null,
+       Descrizionelunga character varying(100) Not Null,
+       Posizione integer Not Null,
+       Flagvalido character varying(1) Not Null);
 
--- Create Table SEC_Dec_Tipivoce
-Create Table SEC_Dec_Tipivoce
-      (CODTIPOVOCE VARCHAR(10),
-       DESCRIZIONEBREVE VARCHAR(20),
-       DESCRIZIONELUNGA VARCHAR(100),
-       POSIZIONE INTEGER,
-       FLAGVALIDO VARCHAR(1),
-       FLAGMENUUTENTE VARCHAR(1));
+-- Create Table Sec_Dec_Tipivoce
+Create Table Sec_Dec_Tipivoce
+      (Codtipovoce character varying(10) Not Null,
+       Descrizionebreve character varying(20) Not Null,
+       Descrizionelunga character varying(100) Not Null,
+       Posizione integer Not Null,
+       Flagvalido character varying(1) Not Null,
+       Flagmenuutente character varying(1));
 
--- Create Table SEC_Funzioniruoli
-Create Table SEC_Funzioniruoli
-      (CODFUNZIONE VARCHAR(100),
-       CODRUOLO VARCHAR(10),
-       FLAGACCESSO VARCHAR(1));
+-- Create Table Sec_Funzioniruoli
+Create Table Sec_Funzioniruoli
+      (Codfunzione character varying(100) Not Null,
+       Codruolo character varying(10) Not Null,
+       Flagaccesso character varying(1));
 
--- Create Table SEC_Menuruoli
-Create Table SEC_Menuruoli
-      (CODMENU VARCHAR(100),
-       CODRUOLO VARCHAR(10),
-       FLAGACCESSO VARCHAR(1));
+-- Create Table Sec_Menuruoli
+Create Table Sec_Menuruoli
+      (Codmenu character varying(100) Not Null,
+       Codruolo character varying(10) Not Null,
+       Flagaccesso character varying(1));
 
--- Create Table SEC_Menuutenteruoli
-Create Table SEC_Menuutenteruoli
-      (CODMENUUTENTE VARCHAR(100),
-       CODRUOLO VARCHAR(10),
-       FLAGACCESSO VARCHAR(1));
+-- Create Table Sec_Menuutenteruoli
+Create Table Sec_Menuutenteruoli
+      (Codmenuutente character varying(100) Not Null,
+       Codruolo character varying(10) Not Null,
+       Flagaccesso character varying(1));
 
--- Create Table SEC_Profili
-Create Table SEC_Profili
-      (IDPROFILO INTEGER,
-       IDUTENTE INTEGER,
-       CODRUOLO VARCHAR(10),
-       DATAINIZIO DATE,
-       DATAFINE DATE);
+-- Create Table Sec_Profili
+Create Table Sec_Profili
+      (Idprofilo integer Not Null,
+       Idutente integer,
+       Codruolo character varying(10),
+       Datainizio date Not Null,
+       Datafine date);
 
--- Create Table SEC_Utenti
-Create Table SEC_Utenti
-      (IDUTENTE INTEGER,
-       NOME VARCHAR(100),
-       COGNOME VARCHAR(100),
-       USERID VARCHAR(10),
-       PASSWORD VARCHAR(10),
-       EMAIL VARCHAR(100),
-       EMAILPASSWORD VARCHAR(100),
-       LOCALE VARCHAR(5),
-       FOTO BYTEA);
+-- Create Table Sec_Utenti
+Create Table Sec_Utenti
+      (Idutente integer Not Null,
+       Nome character varying(100),
+       Cognome character varying(100),
+       Userid character varying(10),
+       Password character varying(10),
+       Email character varying(100),
+       Emailpassword character varying(100),
+       Locale character varying(5),
+       Foto bytea);
 

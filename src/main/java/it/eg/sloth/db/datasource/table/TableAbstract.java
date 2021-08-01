@@ -321,6 +321,11 @@ public abstract class TableAbstract<T extends DataRow> implements DataTable<T> {
     }
 
     @Override
+    public Map<String, Object> entries() {
+        return size() > 0 ? getRow().entries() : new HashMap<>();
+    }
+
+    @Override
     public void copyFromDataSource(DataSource dataSource) {
         if (size() > 0) {
             getRow().copyFromDataSource(dataSource);

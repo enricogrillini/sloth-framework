@@ -6,8 +6,8 @@ import it.eg.sloth.framework.common.base.StringUtil;
 
 public class PostgresSchemaWriter extends DbSchemaAbstractWriter implements DbSchemaWriter {
 
-    public PostgresSchemaWriter(DataBaseType dataBaseType, String owner) {
-        super(dataBaseType, owner);
+    public PostgresSchemaWriter(DataBaseType dataBaseType) {
+        super(dataBaseType);
     }
 
     protected String calcSize(Long size) {
@@ -20,6 +20,10 @@ public class PostgresSchemaWriter extends DbSchemaAbstractWriter implements DbSc
             return "INTEGER";
         } else if (type.startsWith("VARCHAR2")) {
             return type.replace("VARCHAR2", "VARCHAR");
+        } else if (type.startsWith("FLOAT")) {
+            return "FLOAT";
+        } else if (type.equalsIgnoreCase("CLOB")) {
+            return "TEXT";
         } else if (type.equalsIgnoreCase("BLOB")) {
             return "BYTEA";
         } else {
@@ -30,5 +34,10 @@ public class PostgresSchemaWriter extends DbSchemaAbstractWriter implements DbSc
     @Override
     public String sqlTables(Schema schema, boolean tablespace, boolean storage) {
         return super.sqlTables(schema, tablespace, false);
+    }
+
+    @Override
+    public String sqlIndexes(Schema schema, boolean tablespace, boolean storage) {
+        return super.sqlIndexes(schema, true, tablespace, false);
     }
 }

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Project: sloth-framework
@@ -65,6 +66,8 @@ public interface DataSource {
     Collection<String> keys();
 
     Collection<Object> values();
+
+    Map<String, Object> entries();
 
     /**
      * Aggiorna il DataSource prelevando le informazioni dal DataSource passato

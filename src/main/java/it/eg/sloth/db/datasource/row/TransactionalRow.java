@@ -80,14 +80,14 @@ public class TransactionalRow extends Row implements TransactionalDataRow {
     @Override
     public void loadFromDataSource(DataSource dataSource) {
         super.loadFromDataSource(dataSource);
-        oldValues = new HashMap<>(values);
+        oldValues = new HashMap<>(entries);
         status = RowStatus.CLEAN;
     }
 
     @Override
     public void loadFromResultSet(ResultSet resultSet) throws SQLException, FrameworkException {
         super.loadFromResultSet(resultSet);
-        oldValues = new HashMap<>(values);
+        oldValues = new HashMap<>(entries);
         status = RowStatus.CLEAN;
     }
 
@@ -101,7 +101,7 @@ public class TransactionalRow extends Row implements TransactionalDataRow {
     @Override
     public boolean loadFromQuery(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
         boolean result = super.loadFromQuery(query);
-        oldValues = new HashMap<>(values);
+        oldValues = new HashMap<>(entries);
         status = RowStatus.CLEAN;
 
         return result;
@@ -110,7 +110,7 @@ public class TransactionalRow extends Row implements TransactionalDataRow {
     @Override
     public boolean loadFromQuery(SelectQueryInterface query, Connection connection) throws SQLException, IOException, FrameworkException {
         boolean result = super.loadFromQuery(query, connection);
-        oldValues = new HashMap<>(values);
+        oldValues = new HashMap<>(entries);
         status = RowStatus.CLEAN;
 
         return result;
@@ -168,7 +168,7 @@ public class TransactionalRow extends Row implements TransactionalDataRow {
                 throw new FrameworkException(ExceptionCode.TRANSACTION_EXCEPTION_SAVE, getStatus().name());
         }
 
-        oldValues = new HashMap<>(values);
+        oldValues = new HashMap<>(entries);
     }
 
     @Override
@@ -193,13 +193,13 @@ public class TransactionalRow extends Row implements TransactionalDataRow {
                 throw new FrameworkException(ExceptionCode.TRANSACTION_EXCEPTION_UNDO, getStatus().name());
         }
 
-        values = new HashMap<String, Object>(oldValues);
+        entries = new HashMap<String, Object>(oldValues);
     }
 
     @Override
     public void forceClean() {
         setStatus(RowStatus.CLEAN);
-        oldValues = new HashMap<>(values);
+        oldValues = new HashMap<>(entries);
     }
 
 }

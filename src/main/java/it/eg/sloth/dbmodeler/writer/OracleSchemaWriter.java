@@ -1,11 +1,12 @@
 package it.eg.sloth.dbmodeler.writer;
 
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
+import it.eg.sloth.dbmodeler.model.schema.Schema;
 
 public class OracleSchemaWriter extends DbSchemaAbstractWriter implements DbSchemaWriter {
 
-    public OracleSchemaWriter(DataBaseType dataBaseType, String owner) {
-        super(dataBaseType, owner);
+    public OracleSchemaWriter(DataBaseType dataBaseType) {
+        super(dataBaseType);
     }
 
     protected String calcSize(Long size) {
@@ -18,6 +19,11 @@ public class OracleSchemaWriter extends DbSchemaAbstractWriter implements DbSche
 
     protected String calcColumnType(String type) {
         return type;
+    }
+
+    @Override
+    public String sqlIndexes(Schema schema, boolean tablespace, boolean storage) {
+        return super.sqlIndexes(schema, false, tablespace, tablespace);
     }
 
 }

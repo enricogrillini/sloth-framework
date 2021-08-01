@@ -2,9 +2,11 @@ package it.eg.sloth.dbmodeler.reader;
 
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
+import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.db.query.filteredquery.FilteredQuery;
 import it.eg.sloth.db.query.query.Query;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
+import it.eg.sloth.dbmodeler.model.schema.Schema;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 
 import java.io.IOException;
@@ -35,29 +37,43 @@ public class H2SchemaReader extends DbSchemaAbstractReader implements DbSchemaRe
     private static final String SQL_DB_SEQUENCES = "Select sequence_name from INFORMATION_SCHEMA.SEQUENCES Where sequence_Schema = ? Order by sequence_name";
 
 
-    public H2SchemaReader(DataBaseType dataBaseType, String owner) {
-        super(dataBaseType, owner);
+    public H2SchemaReader(DataBaseType dataBaseType) {
+        super(dataBaseType);
     }
 
     @Override
-    protected <R extends DataRow> DataTable<R> tablesData(Connection connection, String tableName) throws FrameworkException, SQLException, IOException {
+    public <R extends DataRow> DataTable<R> tablesData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
         FilteredQuery query = new FilteredQuery(SQL_DB_TABLES);
-        query.addFilter("t.table_schema = ?", Types.VARCHAR, getOwner());
-        query.addFilter("t.table_name = ?", Types.VARCHAR, tableName);
+        query.addFilter("t.table_schema = ?", Types.VARCHAR, owner);
 
         return query.selectTable(connection);
     }
 
     @Override
-    protected <R extends DataRow> DataTable<R> sequencesData(Connection connection) throws FrameworkException, SQLException, IOException {
+    public <R extends DataRow> DataTable<R> constraintsData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+        return (DataTable<R>) new Table();
+    }
+
+    @Override
+    public <R extends DataRow> DataTable<R> indexesData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+        return (DataTable<R>) new Table();
+    }
+
+    @Override
+    public <R extends DataRow> DataTable<R> sequencesData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
         Query query = new Query(SQL_DB_SEQUENCES);
-        query.addParameter(Types.VARCHAR, getOwner());
+        query.addParameter(Types.VARCHAR, owner);
 
         return query.selectTable(connection);
     }
 
     @Override
-    protected String calcColumnType(DataRow dataRow) {
+    public void addConstraints(Schema schema, Connection connection, String owner) throws SQLException, FrameworkException, IOException {
+
+    }
+
+    @Override
+    public String calcColumnType(DataRow dataRow) {
         return dataRow.getString("COLUMN_TYPE").replace(" NOT NULL", "");
     }
 }

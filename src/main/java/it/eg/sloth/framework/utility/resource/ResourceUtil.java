@@ -33,7 +33,11 @@ public class ResourceUtil {
     }
 
     public static String normalizedResourceAsString(byte[] resource) {
-        return new String(resource, StandardCharsets.UTF_8).replace("\r\n", "\n");
+        return normalizeString(new String(resource, StandardCharsets.UTF_8));
+    }
+
+    public static String normalizeString(String resource) {
+        return resource.replace("\r\n", "\n");
     }
 
 }

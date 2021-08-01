@@ -9,6 +9,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,6 +44,10 @@ public class StringUtil {
 
     public static String join(String[] strings) {
         return join(strings, SEPARATOR);
+    }
+
+    public static String join(Collection<String> strings) {
+        return join(strings.toArray(new String[0]));
     }
 
     public static String join(String[] strings, String separator) {

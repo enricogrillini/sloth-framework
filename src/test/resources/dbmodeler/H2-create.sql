@@ -93,4 +93,3 @@ Create Table SEC_Utenti
        EMAILPASSWORD VARCHAR2(100),
        LOCALE VARCHAR2(5),
        FOTO BLOB);
-

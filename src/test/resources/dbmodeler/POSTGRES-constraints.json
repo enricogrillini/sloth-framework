@@ -1,0 +1,148 @@
+[ {
+  "table_name" : "aforismi",
+  "constraint_name" : "aforismi_pk",
+  "search_condition" : null,
+  "references_table" : null,
+  "constraint_type" : "p",
+  "constraint_column_index" : "1"
+}, {
+  "table_name" : "sec_dec_funzioni",
+  "constraint_name" : "sec_dec_funzioni_pk",
+  "search_condition" : null,
+  "references_table" : null,
+  "constraint_type" : "p",
+  "constraint_column_index" : "1"
+}, {
+  "table_name" : "sec_dec_menu",
+  "constraint_name" : "sec_dec_menu_pk",
+  "search_condition" : null,
+  "references_table" : null,
+  "constraint_type" : "p",
+  "constraint_column_index" : "1"
+}, {
+  "table_name" : "sec_dec_menu",
+  "constraint_name" : "sec_menu_fk1",
+  "search_condition" : null,
+  "references_table" : "sec_dec_tipivoce",
+  "constraint_type" : "f",
+  "constraint_column_index" : "6"
+}, {
+  "table_name" : "sec_dec_menuutente",
+  "constraint_name" : "sec_dec_menuutente_fk1",
+  "search_condition" : null,
+  "references_table" : "sec_dec_tipivoce",
+  "constraint_type" : "f",
+  "constraint_column_index" : "6"
+}, {
+  "table_name" : "sec_dec_menuutente",
+  "constraint_name" : "sec_dec_menuutente_pk",
+  "search_condition" : null,
+  "references_table" : null,
+  "constraint_type" : "p",
+  "constraint_column_index" : "1"
+}, {
+  "table_name" : "sec_dec_ruoli",
+  "constraint_name" : "sec_dec_ruoli_pk",
+  "search_condition" : null,
+  "references_table" : null,
+  "constraint_type" : "p",
+  "constraint_column_index" : "1"
+}, {
+  "table_name" : "sec_dec_tipivoce",
+  "constraint_name" : "sec_dec_tipivoce_pk",
+  "search_condition" : null,
+  "references_table" : null,
+  "constraint_type" : "p",
+  "constraint_column_index" : "1"
+}, {
+  "table_name" : "sec_funzioniruoli",
+  "constraint_name" : "sec_funzioniruoli_fk1",
+  "search_condition" : null,
+  "references_table" : "sec_dec_funzioni",
+  "constraint_type" : "f",
+  "constraint_column_index" : "1"
+}, {
+  "table_name" : "sec_funzioniruoli",
+  "constraint_name" : "sec_funzioniruoli_fk2",
+  "search_condition" : null,
+  "references_table" : "sec_dec_ruoli",
+  "constraint_type" : "f",
+  "constraint_column_index" : "2"
+}, {
+  "table_name" : "sec_funzioniruoli",
+  "constraint_name" : "sec_funzioniruoli_pk",
+  "search_condition" : null,
+  "references_table" : null,
+  "constraint_type" : "p",
+  "constraint_column_index" : "1,2"
+}, {
+  "table_name" : "sec_menuruoli",
+  "constraint_name" : "sec_menuruoli_fk1",
+  "search_condition" : null,
+  "references_table" : "sec_dec_menu",
+  "constraint_type" : "f",
+  "constraint_column_index" : "1"
+}, {
+  "table_name" : "sec_menuruoli",
+  "constraint_name" : "sec_menuruoli_fk2",
+  "search_condition" : null,
+  "references_table" : "sec_dec_ruoli",
+  "constraint_type" : "f",
+  "constraint_column_index" : "2"
+}, {
+  "table_name" : "sec_menuruoli",
+  "constraint_name" : "sec_menuruoli_pk",
+  "search_condition" : null,
+  "references_table" : null,
+  "constraint_type" : "p",
+  "constraint_column_index" : "1,2"
+}, {
+  "table_name" : "sec_menuutenteruoli",
+  "constraint_name" : "sec_menuutenteruoli_fk1",
+  "search_condition" : null,
+  "references_table" : "sec_dec_menuutente",
+  "constraint_type" : "f",
+  "constraint_column_index" : "1"
+}, {
+  "table_name" : "sec_menuutenteruoli",
+  "constraint_name" : "sec_menuutenteruoli_fk2",
+  "search_condition" : null,
+  "references_table" : "sec_dec_ruoli",
+  "constraint_type" : "f",
+  "constraint_column_index" : "2"
+}, {
+  "table_name" : "sec_menuutenteruoli",
+  "constraint_name" : "sec_menuutenteruoli_pk",
+  "search_condition" : null,
+  "references_table" : null,
+  "constraint_type" : "p",
+  "constraint_column_index" : "1,2"
+}, {
+  "table_name" : "sec_profili",
+  "constraint_name" : "sec_profili_fk1",
+  "search_condition" : null,
+  "references_table" : "sec_utenti",
+  "constraint_type" : "f",
+  "constraint_column_index" : "2"
+}, {
+  "table_name" : "sec_profili",
+  "constraint_name" : "sec_profili_fk2",
+  "search_condition" : null,
+  "references_table" : "sec_dec_ruoli",
+  "constraint_type" : "f",
+  "constraint_column_index" : "3"
+}, {
+  "table_name" : "sec_profili",
+  "constraint_name" : "sec_profili_pk",
+  "search_condition" : null,
+  "references_table" : null,
+  "constraint_type" : "p",
+  "constraint_column_index" : "1"
+}, {
+  "table_name" : "sec_utenti",
+  "constraint_name" : "sec_utenti_pk",
+  "search_condition" : null,
+  "references_table" : null,
+  "constraint_type" : "p",
+  "constraint_column_index" : "1"
+} ]

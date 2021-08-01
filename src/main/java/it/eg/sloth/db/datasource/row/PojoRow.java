@@ -82,6 +82,15 @@ public abstract class PojoRow implements DataRow {
     }
 
     @Override
+    public Map<String, Object> entries() {
+        Map<String, Object> map = new HashMap<>();
+        for (String name : names.keySet()) {
+            map.put(name, getObject(name));
+        }
+        return map;
+    }
+
+    @Override
     public void clear() {
         for (String name : names.keySet()) {
             setObject(name, null);

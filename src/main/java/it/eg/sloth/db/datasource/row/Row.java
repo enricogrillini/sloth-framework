@@ -26,10 +26,10 @@ import java.util.Map;
 @Slf4j
 public class Row implements DataRow {
 
-    protected Map<String, Object> values;
+    protected Map<String, Object> entries;
 
     public Row() {
-        values = new LinkedHashMap<>();
+        entries = new LinkedHashMap<>();
     }
 
     public Row(DataSource dataSource) {
@@ -39,34 +39,39 @@ public class Row implements DataRow {
 
     @Override
     public Object getObject(String name) {
-        return values.get(name.toLowerCase());
+        return entries.get(name.toLowerCase());
     }
 
     @Override
     public Row setObject(String name, Object value) {
-        values.put(name.toLowerCase(), value);
+        entries.put(name.toLowerCase(), value);
         return this;
     }
 
     @Override
     public void clear() {
-        values.clear();
+        entries.clear();
     }
 
     @Override
     public Collection<String> keys() {
-        return values.keySet();
+        return entries.keySet();
     }
 
     @Override
     public Collection<Object> values() {
-        return values.values();
+        return entries.values();
+    }
+
+    @Override
+    public Map<String, Object> entries() {
+        return entries;
     }
 
     @Override
     public String toString() {
         return "Row{" +
-                "values=" + values +
+                "values=" + entries +
                 '}';
     }
 }

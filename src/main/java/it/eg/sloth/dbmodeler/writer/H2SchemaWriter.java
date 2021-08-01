@@ -6,13 +6,8 @@ import it.eg.sloth.framework.common.base.StringUtil;
 
 public class H2SchemaWriter extends DbSchemaAbstractWriter implements DbSchemaWriter {
 
-    public H2SchemaWriter(DataBaseType dataBaseType, String owner) {
-        super(dataBaseType, owner);
-    }
-
-    @Override
-    public String sqlTables(Schema schema, boolean tablespace, boolean storage) {
-        return "";
+    public H2SchemaWriter(DataBaseType dataBaseType) {
+        super(dataBaseType);
     }
 
     protected String calcSize(Long size) {
@@ -24,4 +19,13 @@ public class H2SchemaWriter extends DbSchemaAbstractWriter implements DbSchemaWr
         return type;
     }
 
+    @Override
+    public String sqlTables(Schema schema, boolean tablespace, boolean storage) {
+        return super.sqlTables(schema, tablespace, false);
+    }
+
+    @Override
+    public String sqlIndexes(Schema schema, boolean tablespace, boolean storage) {
+        return super.sqlIndexes(schema, true, tablespace, false);
+    }
 }

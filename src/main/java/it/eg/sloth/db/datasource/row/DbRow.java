@@ -197,7 +197,7 @@ public abstract class DbRow extends TransactionalRow implements DbDataRow {
         }
 
         // salvo gli oldValues
-        oldValues = new HashMap<String, Object>(values);
+        oldValues = new HashMap<String, Object>(entries);
     }
 
     @Override
