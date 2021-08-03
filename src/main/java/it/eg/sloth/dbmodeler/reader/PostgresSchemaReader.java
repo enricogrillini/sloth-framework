@@ -97,6 +97,16 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
             "order by schema_name,\n" +
             "         specific_name";
 
+    private static final String SQL_STATS = "select *\n" +
+            "From (select sum(pg_relation_size(relid)) table_size, \n" +
+            "             count(*) table_count\n" +
+            "      From pg_catalog.pg_stat_all_tables t\n" +
+            "      Where t.schemaname = ?) tableStats,\n" +
+            "     (select sum(pg_relation_size(relid)) index_size,\n" +
+            "             count(*) index_count\n" +
+            "      From pg_catalog.pg_stat_all_indexes t\n" +
+            "      Where t.schemaname = ?) indexStats";
+
     public PostgresSchemaReader(DataBaseType dataBaseType) {
         super(dataBaseType);
     }
@@ -133,6 +143,14 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
         return query.selectTable(connection);
     }
 
+    @Override
+    public <R extends DataRow> DataTable<R> statisticsData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+        Query query = new Query(SQL_STATS);
+        query.addParameter(Types.VARCHAR, owner);
+        query.addParameter(Types.VARCHAR, owner);
+
+        return query.selectTable(connection);
+    }
 
     @Override
     public String calcColumnType(DataRow dataRow) {

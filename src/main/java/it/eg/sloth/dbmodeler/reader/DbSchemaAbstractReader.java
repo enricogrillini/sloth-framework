@@ -8,6 +8,7 @@ import it.eg.sloth.dbmodeler.model.schema.sequence.Sequence;
 import it.eg.sloth.dbmodeler.model.schema.table.Index;
 import it.eg.sloth.dbmodeler.model.schema.table.Table;
 import it.eg.sloth.dbmodeler.model.schema.table.TableColumn;
+import it.eg.sloth.dbmodeler.model.statistics.Statistics;
 import it.eg.sloth.framework.common.base.BigDecimalUtil;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -15,6 +16,7 @@ import lombok.Getter;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public abstract class DbSchemaAbstractReader implements DbSchemaReader {
@@ -107,6 +109,23 @@ public abstract class DbSchemaAbstractReader implements DbSchemaReader {
 
             index.addColumn(dataRow.getString("column_name"));
         }
+    }
+
+    public Statistics refreshStatistics(Connection connection, String owner) throws SQLException, IOException, FrameworkException {
+        // Statistics Data
+        DataTable<?> dataTable = statisticsData(connection, owner);
+
+        String driverClass = connection == null ? null : DriverManager.getDriver(connection.getMetaData().getURL()).getClass().getName();
+
+        return Statistics.builder()
+                .driverClass(driverClass)
+                .tableCount(BigDecimalUtil.longValue(dataTable.getBigDecimal("table_count")))
+                .tableSize(BigDecimalUtil.longValue(dataTable.getBigDecimal("table_size")))
+                .indexCount(BigDecimalUtil.longValue(dataTable.getBigDecimal("index_count")))
+                .indexSize(BigDecimalUtil.longValue(dataTable.getBigDecimal("index_size")))
+                .recycleBinCount(BigDecimalUtil.longValue(dataTable.getBigDecimal("recyclebin_count")))
+                .recycleBinSize(BigDecimalUtil.longValue(dataTable.getBigDecimal("recyclebin_size")))
+                .build();
     }
 
 }

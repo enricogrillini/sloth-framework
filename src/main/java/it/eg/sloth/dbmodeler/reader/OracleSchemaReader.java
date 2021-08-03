@@ -146,6 +146,16 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
             "      o.object_type = 'PACKAGE'\n" +
             "Order By package_name, object_name, overload, sequence";
 
+    private static String SQL_STATS = "select Sum(decode(s.segment_type, 'TABLE', 1, 0)) Table_Count,\n" +
+            "       Sum(decode(s.segment_type, 'TABLE', s.bytes, 0)) Table_Size,\n" +
+            "       Sum(decode(s.segment_type, 'INDEX', 1, 0)) Index_Count,\n" +
+            "       Sum(decode(s.segment_type, 'INDEX', s.bytes, 0)) Index_Size,\n" +
+            "       Sum(decode(r.object_name, null, 0, 1)) RecycleBin_Count,\n" +
+            "       Sum(decode(r.object_name, null, 0, bytes)) RecycleBin_Size\n" +
+            "from dba_segments s\n" +
+            "     left join dba_recyclebin r on s.segment_name = r.object_name And s.owner = r.owner\n" +
+            "Where s.owner = upper(?)\n";
+
     public OracleSchemaReader(DataBaseType dataBaseType) {
         super(dataBaseType);
     }
@@ -179,6 +189,14 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
     @Override
     public <R extends DataRow> DataTable<R> sequencesData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
         Query query = new Query(SQL_DB_SEQUENCES);
+        query.addParameter(Types.VARCHAR, owner);
+
+        return query.selectTable(connection);
+    }
+
+    @Override
+    public <R extends DataRow> DataTable<R> statisticsData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+        Query query = new Query(SQL_STATS);
         query.addParameter(Types.VARCHAR, owner);
 
         return query.selectTable(connection);

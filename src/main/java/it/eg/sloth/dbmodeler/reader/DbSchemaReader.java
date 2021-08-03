@@ -8,6 +8,7 @@ import it.eg.sloth.dbmodeler.model.DataBase;
 import it.eg.sloth.dbmodeler.model.connection.DbConnection;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.schema.Schema;
+import it.eg.sloth.dbmodeler.model.statistics.Statistics;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 
 import java.io.IOException;
@@ -28,6 +29,8 @@ public interface DbSchemaReader {
     <R extends DataRow> DataTable<R> indexesData(Connection connection, String owner) throws FrameworkException, SQLException, IOException;
 
     <R extends DataRow> DataTable<R> sequencesData(Connection connection, String owner) throws FrameworkException, SQLException, IOException;
+
+    <R extends DataRow> DataTable<R> statisticsData(Connection connection, String owner) throws FrameworkException, SQLException, IOException;
 
     void addTables(Schema schema, Connection connection, String owner) throws SQLException, IOException, FrameworkException;
 
@@ -62,6 +65,8 @@ public interface DbSchemaReader {
         return schema;
     }
 
+    Statistics refreshStatistics(Connection connection, String owner) throws SQLException, IOException, FrameworkException;
+
     default String writeString(DataBase dataBase) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.writer(new DefaultPrettyPrinter());
@@ -74,6 +79,20 @@ public interface DbSchemaReader {
             // NOP
         }
 
+        public static DbSchemaReader getDbSchemaReader(Connection connection) throws SQLException {
+            Class<?> driverClass = DriverManager.getDriver(connection.getMetaData().getURL()).getClass();
+
+            if (driverClass.getName().toLowerCase().contains("h2")) {
+                return DbSchemaReader.Factory.getDbSchemaReader(DataBaseType.H2);
+            } else if (driverClass.getName().toLowerCase().contains("oracle")) {
+                return DbSchemaReader.Factory.getDbSchemaReader(DataBaseType.ORACLE);
+            } else if (driverClass.getName().toLowerCase().contains("postgresql")) {
+                return DbSchemaReader.Factory.getDbSchemaReader(DataBaseType.POSTGRES);
+            } else {
+                return null;
+            }
+        }
+
         public static DbSchemaReader getDbSchemaReader(DataBaseType dataBaseType) {
             // Imposto il reader corretto
             switch (dataBaseType) {
@@ -84,10 +103,8 @@ public interface DbSchemaReader {
                 case POSTGRES:
                     return new PostgresSchemaReader(dataBaseType);
                 default:
-                    // NOP
+                    return null;
             }
-
-            return null;
         }
     }
 }

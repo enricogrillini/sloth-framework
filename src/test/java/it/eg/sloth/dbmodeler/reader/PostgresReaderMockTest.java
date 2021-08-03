@@ -29,6 +29,7 @@ class PostgresReaderMockTest extends AbstractReaderTest {
         Mockito.doCallRealMethod().when(dbSchemaReader).addIndexes(Mockito.any(), Mockito.any(), Mockito.any());
         Mockito.doCallRealMethod().when(dbSchemaReader).addSequences(Mockito.any(), Mockito.any(), Mockito.any());
         Mockito.doCallRealMethod().when(dbSchemaReader).calcColumnType(Mockito.any());
+        Mockito.doCallRealMethod().when(dbSchemaReader).refreshStatistics(Mockito.any(), Mockito.any());
 
         DataTable table = new Table();
         DataTableUtil.loadDataJsonFile(table, ResourceUtil.resourceFile("dbmodeler/POSTGRES-tables.json"));
@@ -45,6 +46,10 @@ class PostgresReaderMockTest extends AbstractReaderTest {
         table = new Table();
         DataTableUtil.loadDataJsonFile(table, ResourceUtil.resourceFile("dbmodeler/POSTGRES-sequences.json"));
         Mockito.when(dbSchemaReader.sequencesData(Mockito.any(), Mockito.any())).thenReturn(table);
+
+        table = new Table();
+        DataTableUtil.loadDataJsonFile(table, ResourceUtil.resourceFile("dbmodeler/POSTGRES-statistics.json"));
+        Mockito.when(dbSchemaReader.statisticsData(Mockito.any(), Mockito.any())).thenReturn(table);
 
         setDbSchemaReader(dbSchemaReader);
     }

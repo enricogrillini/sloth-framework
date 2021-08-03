@@ -36,6 +36,16 @@ public class H2SchemaReader extends DbSchemaAbstractReader implements DbSchemaRe
 
     private static final String SQL_DB_SEQUENCES = "Select sequence_name from INFORMATION_SCHEMA.SEQUENCES Where sequence_Schema = ? Order by sequence_name";
 
+    private static final String SQL_STATS = "select *\n" +
+            "From (select count(*) table_count,\n" +
+            "             sum(DISK_SPACE_USED (t.table_schema || '.' || t.table_name)) table_size\n" +
+            "      from INFORMATION_SCHEMA.TABLES t\n" +
+            "      where t.table_schema = ?) table_stats,\n" +
+            "     (select count(distinct index_name) index_count,\n" +
+            "             null index_size\n" +
+            "      from INFORMATION_SCHEMA.INDEXES t\n" +
+            "      where t.table_schema = ?) index_stats";
+
 
     public H2SchemaReader(DataBaseType dataBaseType) {
         super(dataBaseType);
@@ -62,6 +72,15 @@ public class H2SchemaReader extends DbSchemaAbstractReader implements DbSchemaRe
     @Override
     public <R extends DataRow> DataTable<R> sequencesData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
         Query query = new Query(SQL_DB_SEQUENCES);
+        query.addParameter(Types.VARCHAR, owner);
+
+        return query.selectTable(connection);
+    }
+
+    @Override
+    public <R extends DataRow> DataTable<R> statisticsData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+        Query query = new Query(SQL_STATS);
+        query.addParameter(Types.VARCHAR, owner);
         query.addParameter(Types.VARCHAR, owner);
 
         return query.selectTable(connection);

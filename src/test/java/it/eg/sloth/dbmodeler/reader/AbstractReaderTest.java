@@ -6,6 +6,7 @@ import it.eg.sloth.dbmodeler.model.DataBase;
 import it.eg.sloth.dbmodeler.model.connection.DbConnection;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.schema.Schema;
+import it.eg.sloth.dbmodeler.model.statistics.Statistics;
 import it.eg.sloth.dbmodeler.writer.DbSchemaWriter;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
@@ -19,6 +20,8 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Getter
 @Setter
@@ -35,6 +38,10 @@ public abstract class AbstractReaderTest {
         Assertions.assertEquals(11, schema.getTableCollection().size());
         Assertions.assertEquals(2, schema.getSequenceCollection().size());
 
+        Statistics statistics = getDbSchemaReader().refreshStatistics(getConnection(), getOwner());
+        assertEquals(11, statistics.getTableCount());
+        assertEquals(17, statistics.getIndexCount());
+
         DbConnection dbConnection = DbConnection.builder()
                 .name("gildaceOn" + dataBaseType)
                 .dataBaseType(dataBaseType)
@@ -50,6 +57,7 @@ public abstract class AbstractReaderTest {
             String actual = ResourceUtil.normalizeString(writer.toString());
 
             String expected = ResourceUtil.normalizedResourceAsString("dbmodeler/" + dataBaseType + "-db.json");
+
             Assertions.assertEquals(expected, actual);
         }
 
@@ -77,9 +85,13 @@ public abstract class AbstractReaderTest {
         data = getDbSchemaReader().indexesData(getConnection(), getOwner());
         DataTableUtil.saveDataToJsonFile(data, TestFactory.OUTPUT_DIR + "/dbmodeler/" + dataBaseType + "-indexes.json");
 
-        // // XXX-sequences.json
+        // XXX-sequences.json
         data = getDbSchemaReader().sequencesData(getConnection(), getOwner());
         DataTableUtil.saveDataToJsonFile(data, TestFactory.OUTPUT_DIR + "/dbmodeler/" + dataBaseType + "-sequences.json");
+
+        // XXX-sequences.json
+        data = getDbSchemaReader().statisticsData(getConnection(), getOwner());
+        DataTableUtil.saveDataToJsonFile(data, TestFactory.OUTPUT_DIR + "/dbmodeler/" + dataBaseType + "-statistics.json");
     }
 
     void generateSnippetSql(DataBase dataBase) throws IOException {

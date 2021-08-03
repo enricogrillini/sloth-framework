@@ -14,7 +14,6 @@ public class Schema {
     private Map<String, Table> tableMap;
     private Map<String, Sequence> sequenceMap;
 
-
     public Schema() {
         tableMap = new LinkedHashMap<>();
         sequenceMap = new LinkedHashMap<>();

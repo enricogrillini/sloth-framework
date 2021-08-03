@@ -81,6 +81,14 @@ public class Table {
                 .collect(Collectors.toList());
     }
 
+
+    @JsonIgnore
+    public Collection<TableColumn> getByteaColumnCollection() {
+        return getTableColumnCollection().stream()
+                .filter(TableColumn::isByteA)
+                .collect(Collectors.toList());
+    }
+
     public void setTableColumnCollection(Collection<TableColumn> tableColumnCollection) {
         tableColumnCollection.forEach(this::addTableColumn);
     }

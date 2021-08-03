@@ -184,6 +184,15 @@ public class BigDecimalUtil {
         return bigDecimal == null ? null : bigDecimal.intValue();
     }
 
+    public static long longValue(BigDecimal bigDecimal) {
+        return bigDecimal == null ? 0 : bigDecimal.longValue();
+    }
+
+    public static Long longObject(BigDecimal bigDecimal) {
+        return bigDecimal == null ? null : bigDecimal.longValue();
+    }
+
+
     public static double doubleValue(BigDecimal bigDecimal) {
         return bigDecimal == null ? 0 : bigDecimal.doubleValue();
     }

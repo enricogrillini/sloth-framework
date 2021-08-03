@@ -72,6 +72,10 @@ public abstract class DbRow extends TransactionalRow implements DbDataRow {
                     setTimestamp(resultSetMetaData.getColumnName(i), resultSet.getTimestamp(i));
                     break;
 
+                case Types.BINARY:
+                    super.setByte(resultSetMetaData.getColumnName(i), resultSet.getBytes(i));
+                    break;
+
                 case Types.BLOB:
                     super.setObject(resultSetMetaData.getColumnName(i), new BLobData(isAutoloadLob(), resultSet.getBlob(i)));
                     break;

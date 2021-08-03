@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 public class Constraint {
 
     private String name;

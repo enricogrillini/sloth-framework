@@ -29,13 +29,14 @@ class OracleReaderMockTest extends AbstractReaderTest {
         Mockito.doCallRealMethod().when(dbSchemaReader).addIndexes(Mockito.any(), Mockito.any(), Mockito.any());
         Mockito.doCallRealMethod().when(dbSchemaReader).addSequences(Mockito.any(), Mockito.any(), Mockito.any());
         Mockito.doCallRealMethod().when(dbSchemaReader).calcColumnType(Mockito.any());
+        Mockito.doCallRealMethod().when(dbSchemaReader).refreshStatistics(Mockito.any(), Mockito.any());
 
         DataTable table = new Table();
         DataTableUtil.loadDataJsonFile(table, ResourceUtil.resourceFile("dbmodeler/ORACLE-tables.json"));
         Mockito.when(dbSchemaReader.tablesData(Mockito.any(), Mockito.any())).thenReturn(table);
 
         table = new Table();
-        DataTableUtil.loadDataJsonFile(table, ResourceUtil.resourceFile("dbmodeler/ORACLE-constaints.json"));
+        DataTableUtil.loadDataJsonFile(table, ResourceUtil.resourceFile("dbmodeler/ORACLE-constraints.json"));
         Mockito.when(dbSchemaReader.constraintsData(Mockito.any(), Mockito.any())).thenReturn(table);
 
         table = new Table();
@@ -45,6 +46,10 @@ class OracleReaderMockTest extends AbstractReaderTest {
         table = new Table();
         DataTableUtil.loadDataJsonFile(table, ResourceUtil.resourceFile("dbmodeler/ORACLE-sequences.json"));
         Mockito.when(dbSchemaReader.sequencesData(Mockito.any(), Mockito.any())).thenReturn(table);
+
+        table = new Table();
+        DataTableUtil.loadDataJsonFile(table, ResourceUtil.resourceFile("dbmodeler/ORACLE-statistics.json"));
+        Mockito.when(dbSchemaReader.statisticsData(Mockito.any(), Mockito.any())).thenReturn(table);
 
         setDbSchemaReader(dbSchemaReader);
     }

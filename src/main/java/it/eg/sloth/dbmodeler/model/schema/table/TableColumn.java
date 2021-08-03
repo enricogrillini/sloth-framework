@@ -25,7 +25,7 @@ public class TableColumn {
 
     @JsonIgnore
     public boolean isPlain() {
-        return !isLob() && !isByteA();
+        return !isLob();
     }
 
     @JsonIgnore
