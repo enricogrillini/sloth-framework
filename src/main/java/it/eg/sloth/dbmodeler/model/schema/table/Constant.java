@@ -7,12 +7,12 @@ import lombok.Data;
 public class Constant {
 
     String name;
-    Object values;
+    Object value;
 
     @Builder
-    public Constant(String name, Object values) {
+    public Constant(String name, Object value) {
         this.name = name;
-        this.values = values;
+        this.value = value;
     }
 
     public Constant() {

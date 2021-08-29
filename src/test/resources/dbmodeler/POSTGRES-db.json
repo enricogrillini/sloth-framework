@@ -157,16 +157,16 @@
     }, {
       "constantCollection" : [ {
         "name" : "DECODIFICHE",
-        "values" : "DECODIFICHE"
+        "value" : "DECODIFICHE"
       }, {
         "name" : "HRMSADMIN",
-        "values" : "HRMSADMIN"
+        "value" : "HRMSADMIN"
       }, {
         "name" : "LOGGED",
-        "values" : "LOGGED"
+        "value" : "LOGGED"
       }, {
         "name" : "SYSADMIN",
-        "values" : "SYSADMIN"
+        "value" : "SYSADMIN"
       } ],
       "constraintCollection" : [ {
         "columns" : [ "Codfunzione" ],
@@ -243,40 +243,40 @@
     }, {
       "constantCollection" : [ {
         "name" : "HOME",
-        "values" : "HOME"
+        "value" : "HOME"
       }, {
         "name" : "MONITOR",
-        "values" : "MONITOR"
+        "value" : "MONITOR"
       }, {
         "name" : "SEPARATORE",
-        "values" : "SEP_SYSADMIN"
+        "value" : "SEP_SYSADMIN"
       }, {
         "name" : "PIATTAFORMA",
-        "values" : "SEZIONE_SYSADMIN"
+        "value" : "SEZIONE_SYSADMIN"
       }, {
         "name" : "SICUREZZA",
-        "values" : "SICUREZZA"
+        "value" : "SICUREZZA"
       }, {
         "name" : "FUNZIONI",
-        "values" : "SICUREZZA_FUNZIONI"
+        "value" : "SICUREZZA_FUNZIONI"
       }, {
         "name" : "INTERFACCIA",
-        "values" : "SICUREZZA_INTERFACCIA"
+        "value" : "SICUREZZA_INTERFACCIA"
       }, {
         "name" : "MENU",
-        "values" : "SICUREZZA_MENU"
+        "value" : "SICUREZZA_MENU"
       }, {
         "name" : "MENU_UTENTE",
-        "values" : "SICUREZZA_MENU-UTENTE"
+        "value" : "SICUREZZA_MENU-UTENTE"
       }, {
         "name" : "PROFILAZIONE",
-        "values" : "SICUREZZA_PROFILAZIONE"
+        "value" : "SICUREZZA_PROFILAZIONE"
       }, {
         "name" : "RUOLI",
-        "values" : "SICUREZZA_RUOLI"
+        "value" : "SICUREZZA_RUOLI"
       }, {
         "name" : "UTENTI",
-        "values" : "SICUREZZA_UTENTI"
+        "value" : "SICUREZZA_UTENTI"
       } ],
       "constraintCollection" : [ {
         "columns" : [ "Codmenu" ],
@@ -400,10 +400,10 @@
     }, {
       "constantCollection" : [ {
         "name" : "PROFILO",
-        "values" : "PROFILO"
+        "value" : "PROFILO"
       }, {
         "name" : "SEPARATORE",
-        "values" : "SEP"
+        "value" : "SEP"
       } ],
       "constraintCollection" : [ {
         "columns" : [ "Codtipovoce" ],
@@ -517,13 +517,13 @@
     }, {
       "constantCollection" : [ {
         "name" : "AMMINISTRATORE",
-        "values" : "A"
+        "value" : "A"
       }, {
         "name" : "COMMERCIALE",
-        "values" : "C"
+        "value" : "C"
       }, {
         "name" : "OSPITE",
-        "values" : "E"
+        "value" : "E"
       } ],
       "constraintCollection" : [ {
         "columns" : [ "Codruolo" ],
@@ -600,13 +600,13 @@
     }, {
       "constantCollection" : [ {
         "name" : "SEPARATORE",
-        "values" : "SEPARATOR"
+        "value" : "SEPARATOR"
       }, {
         "name" : "TITOLO",
-        "values" : "TITLE"
+        "value" : "TITLE"
       }, {
         "name" : "VOCE",
-        "values" : "VOICE"
+        "value" : "VOICE"
       } ],
       "constraintCollection" : [ {
         "columns" : [ "Codtipovoce" ],
