@@ -1,0 +1,13 @@
+[ {
+  "view_name" : "view_sec_funzioni",
+  "definition" : " SELECT f.codfunzione,\n    f.descrizionebreve,\n    f.descrizionelunga,\n    f.posizione,\n    f.flagvalido,\n    sec_getruolifunzione(f.codfunzione) AS ruoli\n   FROM sec_dec_funzioni f;",
+  "view_comments" : null
+}, {
+  "view_name" : "view_sec_menu",
+  "definition" : " SELECT m.codmenu,\n    m.descrizionebreve,\n    m.descrizionelunga,\n    m.posizione,\n    m.flagvalido,\n    m.codtipovoce,\n    m.livello,\n    m.imghtml,\n    m.link,\n    sec_getruolimenu(m.codmenu) AS ruoli\n   FROM sec_dec_menu m;",
+  "view_comments" : null
+}, {
+  "view_name" : "view_sec_menuutente",
+  "definition" : " SELECT m.codmenuutente,\n    m.descrizionebreve,\n    m.descrizionelunga,\n    m.posizione,\n    m.flagvalido,\n    m.codtipovoce,\n    m.imghtml,\n    m.link,\n    sec_getruolimenuutente(m.codmenuutente) AS ruoli\n   FROM sec_dec_menuutente m;",
+  "view_comments" : null
+} ]

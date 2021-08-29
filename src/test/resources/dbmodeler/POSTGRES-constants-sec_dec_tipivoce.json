@@ -1,0 +1,22 @@
+[ {
+  "codtipovoce" : "SEPARATOR",
+  "descrizionebreve" : "Separatore",
+  "descrizionelunga" : "Separatore",
+  "posizione" : 20,
+  "flagvalido" : "S",
+  "flagmenuutente" : null
+}, {
+  "codtipovoce" : "TITLE",
+  "descrizionebreve" : "Titolo",
+  "descrizionelunga" : "Titolo",
+  "posizione" : 30,
+  "flagvalido" : "S",
+  "flagmenuutente" : null
+}, {
+  "codtipovoce" : "VOICE",
+  "descrizionebreve" : "Voce",
+  "descrizionelunga" : "Voce",
+  "posizione" : 10,
+  "flagvalido" : "S",
+  "flagmenuutente" : null
+} ]

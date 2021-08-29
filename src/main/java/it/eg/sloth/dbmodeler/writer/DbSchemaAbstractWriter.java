@@ -2,8 +2,11 @@ package it.eg.sloth.dbmodeler.writer;
 
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.schema.Schema;
+import it.eg.sloth.dbmodeler.model.schema.code.Function;
+import it.eg.sloth.dbmodeler.model.schema.code.Procedure;
 import it.eg.sloth.dbmodeler.model.schema.sequence.Sequence;
 import it.eg.sloth.dbmodeler.model.schema.table.*;
+import it.eg.sloth.dbmodeler.model.schema.view.View;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import lombok.Getter;
@@ -17,6 +20,9 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     private static final String TABLE = "-- Create Table {0}\n" +
             "Create Table {0}\n";
 
+    private static final String SQL_COLUMN_COMMENT = "Comment On Column {0}.{1} Is ''{2}'';\n";
+
+
     private static final String INDEX = "-- Create Index {0}\n" +
             "Create {2}Index {0} on {1} ({3})";
 
@@ -29,6 +35,19 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
             "\n";
 
     private static final String SQL_SEQUENCE = "Create Sequence {0};\n";
+
+    private static final String SQL_VIEW = "-- View {0}\n" +
+            "Create or replace view {0} As\n" +
+            "{1};\n" +
+            "\n";
+
+    private static final String SQL_PROCEDURE = "-- Procedure {0}\n" +
+            "{1}\n" +
+            "\n";
+
+    private static final String SQL_FUNCTION = "-- Function {0}\n" +
+            "{1}\n" +
+            "\n";
 
     @Getter
     private DataBaseType dataBaseType;
@@ -88,6 +107,13 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
             }
 
             result.append(";\n\n");
+
+            // Commenti
+            for (TableColumn tableColumn : table.getTableColumnCollection()) {
+                result.append(MessageFormat.format(SQL_COLUMN_COMMENT, table.getName(), tableColumn.getName(), BaseFunction.nvl(tableColumn.getDescription(), "")));
+            }
+
+            result.append("\n");
 
         }
 
@@ -172,5 +198,34 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
         return stringBuilder.toString();
     }
 
+    @Override
+    public String sqlView(Schema schema) {
+        StringBuilder result = new StringBuilder();
+        for (View view : schema.getViewCollection()) {
+            result.append(MessageFormat.format(SQL_VIEW, view.getName(), view.getDefinition()));
+        }
+
+        return result.toString();
+    }
+
+    @Override
+    public String sqlProcedure(Schema schema) {
+        StringBuilder result = new StringBuilder();
+        for (Procedure procedure : schema.getProcedureCollection()) {
+            result.append(MessageFormat.format(SQL_PROCEDURE, procedure.getName(), procedure.getDefinition()));
+        }
+
+        return result.toString();
+    }
+
+    @Override
+    public String sqlFunction(Schema schema) {
+        StringBuilder result = new StringBuilder();
+        for (Function function : schema.getFunctionCollection()) {
+            result.append(MessageFormat.format(SQL_FUNCTION, function.getName(), function.getDefinition()));
+        }
+
+        return result.toString();
+    }
 
 }

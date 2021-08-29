@@ -1,0 +1,19 @@
+[ {
+  "codmenuutente" : "PROFILO",
+  "descrizionebreve" : "Profilo",
+  "descrizionelunga" : "Profilo",
+  "posizione" : 10,
+  "flagvalido" : "S",
+  "codtipovoce" : "VOICE",
+  "imghtml" : "<i class=\"fas fa-user fa-sm fa-fw mr-2 text-gray-400\"></i>",
+  "link" : "ProfiloPage.html"
+}, {
+  "codmenuutente" : "SEP",
+  "descrizionebreve" : "Separatore",
+  "descrizionelunga" : "Separatore",
+  "posizione" : 20,
+  "flagvalido" : "S",
+  "codtipovoce" : "SEPARATOR",
+  "imghtml" : null,
+  "link" : null
+} ]

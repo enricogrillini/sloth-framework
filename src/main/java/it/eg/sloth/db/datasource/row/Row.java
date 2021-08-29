@@ -2,6 +2,7 @@ package it.eg.sloth.db.datasource.row;
 
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataSource;
+import it.eg.sloth.framework.common.base.BaseFunction;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
@@ -44,7 +45,7 @@ public class Row implements DataRow {
 
     @Override
     public Row setObject(String name, Object value) {
-        entries.put(name.toLowerCase(), value);
+        entries.put(name.toLowerCase(), BaseFunction.isNull(value) ? null : value);
         return this;
     }
 

@@ -16,12 +16,13 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.text.MessageFormat;
 
 public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSchemaReader {
 
     private static final String GEN_GENERATED_NAME = "GENERATED NAME";
 
-    private static final String SQL_DB_TABLES = "Select t.table_name,\n" +
+    private static final String SQL_TABLES = "Select lower(t.table_name) table_name,\n" +
             "       c.comments table_comments,\n" +
             "       t.tablespace_name,\n" +
             "       t.initial_extent,\n" +
@@ -115,12 +116,35 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
             "      i.index_type like '%NORMAL%'\n" +
             "Order by 1, 2\n";
 
+    private static final String SQL_CONSTANTS = "select * from {0} Order by NLSSORT({1},''NLS_SORT=BINARY'')";
 
     private static final String SQL_DB_SEQUENCES = "Select sequence_name\n" +
             "From all_sequences\n" +
             "Where sequence_owner = upper(?)\n" +
             "Order By sequence_name";
 
+    private static final String SQL_VIEWS = "Select InitCap(t.view_name) view_name,\n" +
+            "       t.text As definition,\n" +
+            "       c.comments view_comments\n" +
+            "From all_tab_comments c\n" +
+            "     inner join all_Views t on t.owner = c.owner And t.view_name = c.Table_name\n" +
+            "Where t.owner = upper(?) And\n" +
+            "      c.TABLE_TYPE = 'VIEW'\n" +
+            "Order by t.view_name";
+
+    private static final String SQL_VIEWS_COLUMNS = "Select InitCap(t.view_name) view_name,\n" +
+            "       InitCap(tc.column_name) column_name,\n" +
+            "       cc.comments column_comments,\n" +
+            "       tc.nullable,\n" +
+            "       tc.data_type,\n" +
+            "       tc.data_length,\n" +
+            "       tc.data_precision,\n" +
+            "       tc.data_scale\n" +
+            "From All_Views t\n" +
+            "     Inner Join all_tab_columns tc on t.owner = tc.owner And t.view_name = tc.table_name\n" +
+            "     Inner Join all_col_comments cc on tc.owner = cc.owner And tc.table_name = cc.table_name And tc.column_name = cc.column_name\n" +
+            "Where t.owner = upper(?) \n" +
+            "Order by t.view_name, tc.column_id\n";
 
     private static final String SQL_SOURCE = "Select *\n" +
             "From all_source\n" +
@@ -146,7 +170,7 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
             "      o.object_type = 'PACKAGE'\n" +
             "Order By package_name, object_name, overload, sequence";
 
-    private static String SQL_STATS = "select Sum(decode(s.segment_type, 'TABLE', 1, 0)) Table_Count,\n" +
+    private static final String SQL_STATS = "select Sum(decode(s.segment_type, 'TABLE', 1, 0)) Table_Count,\n" +
             "       Sum(decode(s.segment_type, 'TABLE', s.bytes, 0)) Table_Size,\n" +
             "       Sum(decode(s.segment_type, 'INDEX', 1, 0)) Index_Count,\n" +
             "       Sum(decode(s.segment_type, 'INDEX', s.bytes, 0)) Index_Size,\n" +
@@ -156,13 +180,14 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
             "     left join dba_recyclebin r on s.segment_name = r.object_name And s.owner = r.owner\n" +
             "Where s.owner = upper(?)\n";
 
+
     public OracleSchemaReader(DataBaseType dataBaseType) {
         super(dataBaseType);
     }
 
     @Override
     public <R extends DataRow> DataTable<R> tablesData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
-        Query query = new Query(SQL_DB_TABLES);
+        Query query = new Query(SQL_TABLES);
         query.addParameter(Types.VARCHAR, owner);
 
         return query.selectTable(connection);
@@ -187,11 +212,40 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
     }
 
     @Override
+    public <R extends DataRow> DataTable<R> constantsData(Connection connection, String tableName, String keyName) throws FrameworkException, SQLException, IOException {
+        Query query = new Query(MessageFormat.format(SQL_CONSTANTS, tableName, keyName));
+
+        return query.selectTable(connection);
+    }
+
+    @Override
     public <R extends DataRow> DataTable<R> sequencesData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
         Query query = new Query(SQL_DB_SEQUENCES);
         query.addParameter(Types.VARCHAR, owner);
 
         return query.selectTable(connection);
+    }
+
+    @Override
+    public <R extends DataRow> DataTable<R> viewsData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+        Query query = new Query(SQL_VIEWS);
+        query.addParameter(Types.VARCHAR, owner);
+
+        return query.selectTable(connection);
+    }
+
+    @Override
+    public <R extends DataRow> DataTable<R> viewsColumnsData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+        Query query = new Query(SQL_VIEWS_COLUMNS);
+        query.addParameter(Types.VARCHAR, owner);
+
+        return query.selectTable(connection);
+    }
+
+
+    @Override
+    public <R extends DataRow> DataTable<R> storedProcedureData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+        return (DataTable<R>) new it.eg.sloth.db.datasource.table.Table();
     }
 
     @Override
@@ -284,6 +338,11 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
                 dbTable.getTableColumn(columnName).setPrimaryKey(true);
             }
         }
+    }
+
+    @Override
+    public void addStoredProcedure(Schema schema, Connection connection, String owner) throws SQLException, IOException, FrameworkException {
+
     }
 
 }

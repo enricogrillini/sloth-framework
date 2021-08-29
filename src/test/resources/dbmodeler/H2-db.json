@@ -8,12 +8,17 @@
     "name" : "gildaceOnH2"
   },
   "schema" : {
+    "functionCollection" : [ ],
+    "procedureCollection" : [ ],
     "sequenceCollection" : [ {
-      "name" : "Seq_Idprofilo"
+      "name" : "Monitor_Idlogin"
     }, {
-      "name" : "Seq_Idutente"
+      "name" : "Sec_Seq_Idutente"
+    }, {
+      "name" : "Seq_Idprofilo"
     } ],
     "tableCollection" : [ {
+      "constantCollection" : [ ],
       "constraintCollection" : [ ],
       "description" : null,
       "duration" : null,
@@ -26,7 +31,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Idaforisma",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
         "type" : "NUMBER(38, 0)"
@@ -64,6 +69,48 @@
       "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ ],
+      "constraintCollection" : [ ],
+      "description" : null,
+      "duration" : null,
+      "indexCollection" : [ ],
+      "initial" : 0,
+      "name" : "MONITOR_Login",
+      "tableColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Idlogin",
+        "nullable" : false,
+        "position" : 0,
+        "primaryKey" : false,
+        "type" : "NUMBER(38, 0)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Idutente",
+        "nullable" : true,
+        "position" : 1,
+        "primaryKey" : false,
+        "type" : "NUMBER(38, 0)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Dataora",
+        "nullable" : true,
+        "position" : 2,
+        "primaryKey" : false,
+        "type" : "DATE"
+      } ],
+      "tablespace" : null,
+      "temporary" : false
+    }, {
+      "constantCollection" : [ ],
       "constraintCollection" : [ ],
       "description" : null,
       "duration" : null,
@@ -76,7 +123,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Codfunzione",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
         "type" : "VARCHAR2(100)"
@@ -86,7 +133,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Descrizionebreve",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 1,
         "primaryKey" : false,
         "type" : "VARCHAR2(20)"
@@ -96,7 +143,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Descrizionelunga",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 2,
         "primaryKey" : false,
         "type" : "VARCHAR2(100)"
@@ -106,7 +153,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Posizione",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 3,
         "primaryKey" : false,
         "type" : "NUMBER(38, 0)"
@@ -116,7 +163,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Flagvalido",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 4,
         "primaryKey" : false,
         "type" : "VARCHAR2(1)"
@@ -124,6 +171,7 @@
       "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ ],
       "constraintCollection" : [ ],
       "description" : null,
       "duration" : null,
@@ -136,7 +184,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Codmenu",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
         "type" : "VARCHAR2(100)"
@@ -146,7 +194,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Descrizionebreve",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 1,
         "primaryKey" : false,
         "type" : "VARCHAR2(20)"
@@ -156,7 +204,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Descrizionelunga",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 2,
         "primaryKey" : false,
         "type" : "VARCHAR2(100)"
@@ -166,7 +214,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Posizione",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 3,
         "primaryKey" : false,
         "type" : "NUMBER(38, 0)"
@@ -176,7 +224,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Flagvalido",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 4,
         "primaryKey" : false,
         "type" : "VARCHAR2(1)"
@@ -186,7 +234,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Codtipovoce",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 5,
         "primaryKey" : false,
         "type" : "VARCHAR2(10)"
@@ -196,7 +244,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Livello",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 6,
         "primaryKey" : false,
         "type" : "NUMBER(38, 0)"
@@ -224,6 +272,7 @@
       "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ ],
       "constraintCollection" : [ ],
       "description" : null,
       "duration" : null,
@@ -236,7 +285,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Codmenuutente",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
         "type" : "VARCHAR2(100)"
@@ -246,7 +295,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Descrizionebreve",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 1,
         "primaryKey" : false,
         "type" : "VARCHAR2(20)"
@@ -256,7 +305,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Descrizionelunga",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 2,
         "primaryKey" : false,
         "type" : "VARCHAR2(100)"
@@ -266,7 +315,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Posizione",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 3,
         "primaryKey" : false,
         "type" : "NUMBER(38, 0)"
@@ -276,7 +325,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Flagvalido",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 4,
         "primaryKey" : false,
         "type" : "VARCHAR2(1)"
@@ -286,7 +335,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Codtipovoce",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 5,
         "primaryKey" : false,
         "type" : "VARCHAR2(10)"
@@ -314,6 +363,7 @@
       "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ ],
       "constraintCollection" : [ ],
       "description" : null,
       "duration" : null,
@@ -326,7 +376,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Codruolo",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
         "type" : "VARCHAR2(10)"
@@ -336,7 +386,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Descrizionebreve",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 1,
         "primaryKey" : false,
         "type" : "VARCHAR2(20)"
@@ -346,7 +396,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Descrizionelunga",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 2,
         "primaryKey" : false,
         "type" : "VARCHAR2(100)"
@@ -356,7 +406,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Posizione",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 3,
         "primaryKey" : false,
         "type" : "NUMBER(38, 0)"
@@ -366,7 +416,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Flagvalido",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 4,
         "primaryKey" : false,
         "type" : "VARCHAR2(1)"
@@ -374,6 +424,7 @@
       "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ ],
       "constraintCollection" : [ ],
       "description" : null,
       "duration" : null,
@@ -386,7 +437,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Codtipovoce",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
         "type" : "VARCHAR2(10)"
@@ -396,7 +447,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Descrizionebreve",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 1,
         "primaryKey" : false,
         "type" : "VARCHAR2(20)"
@@ -406,7 +457,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Descrizionelunga",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 2,
         "primaryKey" : false,
         "type" : "VARCHAR2(100)"
@@ -416,7 +467,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Posizione",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 3,
         "primaryKey" : false,
         "type" : "NUMBER(38, 0)"
@@ -426,7 +477,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Flagvalido",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 4,
         "primaryKey" : false,
         "type" : "VARCHAR2(1)"
@@ -444,6 +495,7 @@
       "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ ],
       "constraintCollection" : [ ],
       "description" : null,
       "duration" : null,
@@ -456,7 +508,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Codfunzione",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
         "type" : "VARCHAR2(100)"
@@ -466,7 +518,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Codruolo",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 1,
         "primaryKey" : false,
         "type" : "VARCHAR2(10)"
@@ -484,6 +536,7 @@
       "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ ],
       "constraintCollection" : [ ],
       "description" : null,
       "duration" : null,
@@ -496,7 +549,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Codmenu",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
         "type" : "VARCHAR2(100)"
@@ -506,7 +559,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Codruolo",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 1,
         "primaryKey" : false,
         "type" : "VARCHAR2(10)"
@@ -524,6 +577,7 @@
       "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ ],
       "constraintCollection" : [ ],
       "description" : null,
       "duration" : null,
@@ -536,7 +590,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Codmenuutente",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
         "type" : "VARCHAR2(100)"
@@ -546,7 +600,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Codruolo",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 1,
         "primaryKey" : false,
         "type" : "VARCHAR2(10)"
@@ -564,6 +618,7 @@
       "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ ],
       "constraintCollection" : [ ],
       "description" : null,
       "duration" : null,
@@ -576,7 +631,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Idprofilo",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
         "type" : "NUMBER(38, 0)"
@@ -606,7 +661,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Datainizio",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 3,
         "primaryKey" : false,
         "type" : "DATE"
@@ -624,6 +679,7 @@
       "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ ],
       "constraintCollection" : [ ],
       "description" : null,
       "duration" : null,
@@ -636,7 +692,7 @@
         "defaultValue" : null,
         "description" : null,
         "name" : "Idutente",
-        "nullable" : true,
+        "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
         "type" : "NUMBER(38, 0)"
@@ -679,7 +735,7 @@
         "nullable" : true,
         "position" : 4,
         "primaryKey" : false,
-        "type" : "VARCHAR2(10)"
+        "type" : "VARCHAR2(100)"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -723,6 +779,7 @@
       } ],
       "tablespace" : null,
       "temporary" : false
-    } ]
+    } ],
+    "viewCollection" : [ ]
   }
 }

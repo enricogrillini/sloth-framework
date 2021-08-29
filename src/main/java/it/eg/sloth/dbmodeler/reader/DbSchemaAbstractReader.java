@@ -5,9 +5,12 @@ import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.schema.Schema;
 import it.eg.sloth.dbmodeler.model.schema.sequence.Sequence;
+import it.eg.sloth.dbmodeler.model.schema.table.Constant;
 import it.eg.sloth.dbmodeler.model.schema.table.Index;
 import it.eg.sloth.dbmodeler.model.schema.table.Table;
 import it.eg.sloth.dbmodeler.model.schema.table.TableColumn;
+import it.eg.sloth.dbmodeler.model.schema.view.View;
+import it.eg.sloth.dbmodeler.model.schema.view.ViewColumn;
 import it.eg.sloth.dbmodeler.model.statistics.Statistics;
 import it.eg.sloth.framework.common.base.BigDecimalUtil;
 import it.eg.sloth.framework.common.base.StringUtil;
@@ -18,6 +21,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class DbSchemaAbstractReader implements DbSchemaReader {
 
@@ -108,6 +113,91 @@ public abstract class DbSchemaAbstractReader implements DbSchemaReader {
             }
 
             index.addColumn(dataRow.getString("column_name"));
+        }
+    }
+
+
+    @Override
+    public void addConstants(Schema schema, Connection connection) throws SQLException, FrameworkException, IOException {
+        for (Table table : schema.getTableCollection()) {
+            if (table.isDecodeTable()) {
+                addConstants(connection, table);
+            }
+        }
+    }
+
+    private void addConstants(Connection connection, Table table) throws FrameworkException, SQLException, IOException {
+        final int MAX_CONSTANTS = 100;
+        Map<String, Integer> nameCache = new HashMap<>();
+
+        String keyName = table.getTableColumn(0).getName();
+
+        DataTable<?> constantTable = constantsData(connection, table.getName(), keyName);
+        if (constantTable.size() < MAX_CONSTANTS) {
+            for (DataRow row : constantTable) {
+                String name = row.getString("DESCRIZIONEBREVE").toUpperCase();
+                String value = row.getString(keyName);
+
+                // Normalizzo il nome
+                name = name.replaceAll("([^A-Za-z0-9_])", "_");
+                if (name.charAt(0) >= '0' && name.charAt(0) <= '9') {
+                    name = "_" + name;
+                }
+
+                // Gestisco i nomi duplicati
+                if (nameCache.containsKey(name)) {
+                    int suff = nameCache.get(name) + 1;
+                    nameCache.put(name, suff);
+
+                    name = name + "_" + suff;
+                } else {
+                    nameCache.put(name, 0);
+                }
+
+                table.addConstant(new Constant(name, value));
+            }
+        }
+    }
+
+    @Override
+    public void addViews(Schema schema, Connection connection, String owner) throws SQLException, FrameworkException, IOException {
+        // Views Data
+        DataTable<?> dataTable = viewsData(connection, owner);
+        for (DataRow dataRow : dataTable) {
+            String name = dataRow.getString("view_name");
+            View dbView = schema.getView(name);
+
+            if (dbView == null) {
+                // Inizializzo la nuova tabella
+                dbView = View.builder()
+                        .name(StringUtil.initCap(name))
+                        .description(dataRow.getString("view_comments"))
+                        .definition(dataRow.getString("definition"))
+                        .build();
+
+                // Aggiungo tabella alla lista e alla cache
+                schema.addView(dbView);
+            }
+        }
+
+        // Views Columns Data
+        dataTable = viewsColumnsData(connection, owner);
+        for (DataRow dataRow : dataTable) {
+            String name = dataRow.getString("view_name");
+            View dbView = schema.getView(name);
+
+            if (dbView != null) {
+                ViewColumn dbViewColumn = ViewColumn.builder()
+                        .name(StringUtil.initCap(dataRow.getString("column_name").toLowerCase()))
+                        .description(dataRow.getString("column_comments"))
+                        .type(calcColumnType(dataRow))
+                        .dataLength(BigDecimalUtil.intValue(dataRow.getBigDecimal("data_length")))
+                        .dataPrecision(BigDecimalUtil.intObject(dataRow.getBigDecimal("data_precision")))
+                        .position(dbView.getViewColumnCollection().size())
+                        .build();
+
+                dbView.addViewColumn(dbViewColumn);
+            }
         }
     }
 

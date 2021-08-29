@@ -1,5 +1,5 @@
 [ {
-  "table_name" : "AFORISMI",
+  "table_name" : "aforismi",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -14,7 +14,7 @@
   "data_scale" : 0,
   "data_default" : null
 }, {
-  "table_name" : "AFORISMI",
+  "table_name" : "aforismi",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -29,7 +29,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "AFORISMI",
+  "table_name" : "aforismi",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -44,7 +44,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "AFORISMI",
+  "table_name" : "aforismi",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -59,7 +59,52 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_FUNZIONI",
+  "table_name" : "monitor_login",
+  "table_comments" : null,
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "temporary_table" : "N",
+  "duration" : null,
+  "column_name" : "IDLOGIN",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "NUMBER",
+  "data_length" : 22,
+  "data_precision" : 38,
+  "data_scale" : 0,
+  "data_default" : null
+}, {
+  "table_name" : "monitor_login",
+  "table_comments" : null,
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "temporary_table" : "N",
+  "duration" : null,
+  "column_name" : "IDUTENTE",
+  "column_comments" : null,
+  "nullable" : "Y",
+  "data_type" : "NUMBER",
+  "data_length" : 22,
+  "data_precision" : 38,
+  "data_scale" : 0,
+  "data_default" : null
+}, {
+  "table_name" : "monitor_login",
+  "table_comments" : null,
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "temporary_table" : "N",
+  "duration" : null,
+  "column_name" : "DATAORA",
+  "column_comments" : null,
+  "nullable" : "Y",
+  "data_type" : "DATE",
+  "data_length" : 7,
+  "data_precision" : null,
+  "data_scale" : null,
+  "data_default" : null
+}, {
+  "table_name" : "sec_dec_funzioni",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -74,7 +119,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_FUNZIONI",
+  "table_name" : "sec_dec_funzioni",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -89,7 +134,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_FUNZIONI",
+  "table_name" : "sec_dec_funzioni",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -104,7 +149,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_FUNZIONI",
+  "table_name" : "sec_dec_funzioni",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -119,7 +164,7 @@
   "data_scale" : 0,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_FUNZIONI",
+  "table_name" : "sec_dec_funzioni",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -134,7 +179,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENU",
+  "table_name" : "sec_dec_menu",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -149,7 +194,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENU",
+  "table_name" : "sec_dec_menu",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -164,7 +209,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENU",
+  "table_name" : "sec_dec_menu",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -179,7 +224,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENU",
+  "table_name" : "sec_dec_menu",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -194,7 +239,7 @@
   "data_scale" : 0,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENU",
+  "table_name" : "sec_dec_menu",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -209,7 +254,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENU",
+  "table_name" : "sec_dec_menu",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -224,7 +269,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENU",
+  "table_name" : "sec_dec_menu",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -239,7 +284,7 @@
   "data_scale" : 0,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENU",
+  "table_name" : "sec_dec_menu",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -254,7 +299,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENU",
+  "table_name" : "sec_dec_menu",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -269,7 +314,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENUUTENTE",
+  "table_name" : "sec_dec_menuutente",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -284,7 +329,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENUUTENTE",
+  "table_name" : "sec_dec_menuutente",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -299,7 +344,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENUUTENTE",
+  "table_name" : "sec_dec_menuutente",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -314,7 +359,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENUUTENTE",
+  "table_name" : "sec_dec_menuutente",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -329,7 +374,7 @@
   "data_scale" : 0,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENUUTENTE",
+  "table_name" : "sec_dec_menuutente",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -344,7 +389,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENUUTENTE",
+  "table_name" : "sec_dec_menuutente",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -359,7 +404,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENUUTENTE",
+  "table_name" : "sec_dec_menuutente",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -374,7 +419,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_MENUUTENTE",
+  "table_name" : "sec_dec_menuutente",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -389,7 +434,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_RUOLI",
+  "table_name" : "sec_dec_ruoli",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -404,7 +449,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_RUOLI",
+  "table_name" : "sec_dec_ruoli",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -419,7 +464,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_RUOLI",
+  "table_name" : "sec_dec_ruoli",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -434,7 +479,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_RUOLI",
+  "table_name" : "sec_dec_ruoli",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -449,7 +494,7 @@
   "data_scale" : 0,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_RUOLI",
+  "table_name" : "sec_dec_ruoli",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -464,7 +509,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_TIPIVOCE",
+  "table_name" : "sec_dec_tipivoce",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -479,7 +524,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_TIPIVOCE",
+  "table_name" : "sec_dec_tipivoce",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -494,7 +539,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_TIPIVOCE",
+  "table_name" : "sec_dec_tipivoce",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -509,7 +554,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_TIPIVOCE",
+  "table_name" : "sec_dec_tipivoce",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -524,7 +569,7 @@
   "data_scale" : 0,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_TIPIVOCE",
+  "table_name" : "sec_dec_tipivoce",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -539,7 +584,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_DEC_TIPIVOCE",
+  "table_name" : "sec_dec_tipivoce",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -554,7 +599,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_FUNZIONIRUOLI",
+  "table_name" : "sec_funzioniruoli",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -569,7 +614,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_FUNZIONIRUOLI",
+  "table_name" : "sec_funzioniruoli",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -584,7 +629,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_FUNZIONIRUOLI",
+  "table_name" : "sec_funzioniruoli",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -599,7 +644,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_MENURUOLI",
+  "table_name" : "sec_menuruoli",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -614,7 +659,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_MENURUOLI",
+  "table_name" : "sec_menuruoli",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -629,7 +674,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_MENURUOLI",
+  "table_name" : "sec_menuruoli",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -644,7 +689,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_MENUUTENTERUOLI",
+  "table_name" : "sec_menuutenteruoli",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -659,7 +704,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_MENUUTENTERUOLI",
+  "table_name" : "sec_menuutenteruoli",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -674,7 +719,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_MENUUTENTERUOLI",
+  "table_name" : "sec_menuutenteruoli",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -689,7 +734,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_PROFILI",
+  "table_name" : "sec_profili",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -704,7 +749,7 @@
   "data_scale" : 0,
   "data_default" : null
 }, {
-  "table_name" : "SEC_PROFILI",
+  "table_name" : "sec_profili",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -719,7 +764,7 @@
   "data_scale" : 0,
   "data_default" : null
 }, {
-  "table_name" : "SEC_PROFILI",
+  "table_name" : "sec_profili",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -734,7 +779,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_PROFILI",
+  "table_name" : "sec_profili",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -749,7 +794,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_PROFILI",
+  "table_name" : "sec_profili",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -764,7 +809,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_UTENTI",
+  "table_name" : "sec_utenti",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -779,7 +824,7 @@
   "data_scale" : 0,
   "data_default" : null
 }, {
-  "table_name" : "SEC_UTENTI",
+  "table_name" : "sec_utenti",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -794,7 +839,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_UTENTI",
+  "table_name" : "sec_utenti",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -809,7 +854,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_UTENTI",
+  "table_name" : "sec_utenti",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -824,7 +869,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_UTENTI",
+  "table_name" : "sec_utenti",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -834,12 +879,12 @@
   "column_comments" : null,
   "nullable" : "Y",
   "data_type" : "VARCHAR2",
-  "data_length" : 10,
+  "data_length" : 100,
   "data_precision" : null,
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_UTENTI",
+  "table_name" : "sec_utenti",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -854,7 +899,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_UTENTI",
+  "table_name" : "sec_utenti",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -869,7 +914,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_UTENTI",
+  "table_name" : "sec_utenti",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,
@@ -884,7 +929,7 @@
   "data_scale" : null,
   "data_default" : null
 }, {
-  "table_name" : "SEC_UTENTI",
+  "table_name" : "sec_utenti",
   "table_comments" : null,
   "tablespace_name" : "USERS",
   "initial_extent" : 65536,

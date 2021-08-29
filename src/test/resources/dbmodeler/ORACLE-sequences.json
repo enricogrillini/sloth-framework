@@ -1,4 +1,6 @@
 [ {
+  "sequence_name" : "MONITOR_IDLOGIN"
+}, {
   "sequence_name" : "SEC_SEQ_IDUTENTE"
 }, {
   "sequence_name" : "SEQ_IDPROFILO"

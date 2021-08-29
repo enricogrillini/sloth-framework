@@ -1,0 +1,226 @@
+[ {
+  "view_name" : "View_Sec_Funzioni",
+  "column_name" : "Codfunzione",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "VARCHAR2",
+  "data_length" : 100,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Funzioni",
+  "column_name" : "Descrizionebreve",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "VARCHAR2",
+  "data_length" : 20,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Funzioni",
+  "column_name" : "Descrizionelunga",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "VARCHAR2",
+  "data_length" : 100,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Funzioni",
+  "column_name" : "Posizione",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "NUMBER",
+  "data_length" : 22,
+  "data_precision" : 38,
+  "data_scale" : 0
+}, {
+  "view_name" : "View_Sec_Funzioni",
+  "column_name" : "Flagvalido",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "VARCHAR2",
+  "data_length" : 1,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Funzioni",
+  "column_name" : "Ruoli",
+  "column_comments" : null,
+  "nullable" : "Y",
+  "data_type" : "VARCHAR2",
+  "data_length" : 4000,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Menu",
+  "column_name" : "Codmenu",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "VARCHAR2",
+  "data_length" : 100,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Menu",
+  "column_name" : "Descrizionebreve",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "VARCHAR2",
+  "data_length" : 20,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Menu",
+  "column_name" : "Descrizionelunga",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "VARCHAR2",
+  "data_length" : 100,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Menu",
+  "column_name" : "Posizione",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "NUMBER",
+  "data_length" : 22,
+  "data_precision" : 38,
+  "data_scale" : 0
+}, {
+  "view_name" : "View_Sec_Menu",
+  "column_name" : "Flagvalido",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "VARCHAR2",
+  "data_length" : 1,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Menu",
+  "column_name" : "Codtipovoce",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "VARCHAR2",
+  "data_length" : 10,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Menu",
+  "column_name" : "Livello",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "NUMBER",
+  "data_length" : 22,
+  "data_precision" : null,
+  "data_scale" : 0
+}, {
+  "view_name" : "View_Sec_Menu",
+  "column_name" : "Imghtml",
+  "column_comments" : null,
+  "nullable" : "Y",
+  "data_type" : "VARCHAR2",
+  "data_length" : 100,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Menu",
+  "column_name" : "Link",
+  "column_comments" : null,
+  "nullable" : "Y",
+  "data_type" : "VARCHAR2",
+  "data_length" : 200,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Menu",
+  "column_name" : "Ruoli",
+  "column_comments" : null,
+  "nullable" : "Y",
+  "data_type" : "VARCHAR2",
+  "data_length" : 4000,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Menuutente",
+  "column_name" : "Codmenuutente",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "VARCHAR2",
+  "data_length" : 100,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Menuutente",
+  "column_name" : "Descrizionebreve",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "VARCHAR2",
+  "data_length" : 20,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Menuutente",
+  "column_name" : "Descrizionelunga",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "VARCHAR2",
+  "data_length" : 100,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Menuutente",
+  "column_name" : "Posizione",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "NUMBER",
+  "data_length" : 22,
+  "data_precision" : 38,
+  "data_scale" : 0
+}, {
+  "view_name" : "View_Sec_Menuutente",
+  "column_name" : "Flagvalido",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "VARCHAR2",
+  "data_length" : 1,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Menuutente",
+  "column_name" : "Codtipovoce",
+  "column_comments" : null,
+  "nullable" : "N",
+  "data_type" : "VARCHAR2",
+  "data_length" : 10,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Menuutente",
+  "column_name" : "Imghtml",
+  "column_comments" : null,
+  "nullable" : "Y",
+  "data_type" : "VARCHAR2",
+  "data_length" : 100,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Menuutente",
+  "column_name" : "Link",
+  "column_comments" : null,
+  "nullable" : "Y",
+  "data_type" : "VARCHAR2",
+  "data_length" : 200,
+  "data_precision" : null,
+  "data_scale" : null
+}, {
+  "view_name" : "View_Sec_Menuutente",
+  "column_name" : "Ruoli",
+  "column_comments" : null,
+  "nullable" : "Y",
+  "data_type" : "VARCHAR2",
+  "data_length" : 4000,
+  "data_precision" : null,
+  "data_scale" : null
+} ]

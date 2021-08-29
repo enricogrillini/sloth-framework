@@ -1,0 +1,25 @@
+[ {
+  "codfunzione" : "DECODIFICHE",
+  "descrizionebreve" : "Decodifiche",
+  "descrizionelunga" : "Gestione decodifiche",
+  "posizione" : 30,
+  "flagvalido" : "S"
+}, {
+  "codfunzione" : "HRMSADMIN",
+  "descrizionebreve" : "HrmsAdmin",
+  "descrizionelunga" : "HrmsAdmin",
+  "posizione" : 40,
+  "flagvalido" : "S"
+}, {
+  "codfunzione" : "LOGGED",
+  "descrizionebreve" : "Logged",
+  "descrizionelunga" : "Logged",
+  "posizione" : 10,
+  "flagvalido" : "S"
+}, {
+  "codfunzione" : "SYSADMIN",
+  "descrizionebreve" : "SysAdmin",
+  "descrizionelunga" : "SysAdmin",
+  "posizione" : 20,
+  "flagvalido" : "S"
+} ]

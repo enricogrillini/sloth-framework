@@ -1,0 +1,121 @@
+[ {
+  "codmenu" : "HOME",
+  "descrizionebreve" : "Home",
+  "descrizionelunga" : "Home",
+  "posizione" : 10,
+  "flagvalido" : "S",
+  "codtipovoce" : "VOICE",
+  "livello" : 1,
+  "imghtml" : "<i class=\"fas fa-home\"></i>",
+  "link" : "HomePrivataPage.html"
+}, {
+  "codmenu" : "MONITOR",
+  "descrizionebreve" : "Monitor",
+  "descrizionelunga" : "Monitor",
+  "posizione" : 120,
+  "flagvalido" : "S",
+  "codtipovoce" : "VOICE",
+  "livello" : 1,
+  "imghtml" : "<i class=\"fas fa-desktop\"></i>",
+  "link" : "MonitorPage.html"
+}, {
+  "codmenu" : "SEP_SYSADMIN",
+  "descrizionebreve" : "Separatore",
+  "descrizionelunga" : "Separatore",
+  "posizione" : 20,
+  "flagvalido" : "S",
+  "codtipovoce" : "SEPARATOR",
+  "livello" : 1,
+  "imghtml" : null,
+  "link" : null
+}, {
+  "codmenu" : "SEZIONE_SYSADMIN",
+  "descrizionebreve" : "Piattaforma",
+  "descrizionelunga" : "Utilità Piattaforma",
+  "posizione" : 30,
+  "flagvalido" : "S",
+  "codtipovoce" : "TITLE",
+  "livello" : 1,
+  "imghtml" : null,
+  "link" : null
+}, {
+  "codmenu" : "SICUREZZA",
+  "descrizionebreve" : "Sicurezza",
+  "descrizionelunga" : "Sicurezza",
+  "posizione" : 40,
+  "flagvalido" : "S",
+  "codtipovoce" : "VOICE",
+  "livello" : 1,
+  "imghtml" : "<i class=\"fas fa-shield-alt\"></i>",
+  "link" : null
+}, {
+  "codmenu" : "SICUREZZA_FUNZIONI",
+  "descrizionebreve" : "Funzioni",
+  "descrizionelunga" : "Funzioni",
+  "posizione" : 90,
+  "flagvalido" : "S",
+  "codtipovoce" : "VOICE",
+  "livello" : 2,
+  "imghtml" : null,
+  "link" : "FunzioniPage.html"
+}, {
+  "codmenu" : "SICUREZZA_INTERFACCIA",
+  "descrizionebreve" : "Interfaccia",
+  "descrizionelunga" : "Interfaccia",
+  "posizione" : 80,
+  "flagvalido" : "S",
+  "codtipovoce" : "TITLE",
+  "livello" : 2,
+  "imghtml" : null,
+  "link" : null
+}, {
+  "codmenu" : "SICUREZZA_MENU",
+  "descrizionebreve" : "Menu",
+  "descrizionelunga" : "Menu",
+  "posizione" : 100,
+  "flagvalido" : "S",
+  "codtipovoce" : "VOICE",
+  "livello" : 2,
+  "imghtml" : null,
+  "link" : "MenuPage.html"
+}, {
+  "codmenu" : "SICUREZZA_MENU-UTENTE",
+  "descrizionebreve" : "Menu utente",
+  "descrizionelunga" : "Menu utente",
+  "posizione" : 110,
+  "flagvalido" : "S",
+  "codtipovoce" : "VOICE",
+  "livello" : 2,
+  "imghtml" : null,
+  "link" : "MenuUtentePage.html"
+}, {
+  "codmenu" : "SICUREZZA_PROFILAZIONE",
+  "descrizionebreve" : "Profilazione",
+  "descrizionelunga" : "Profilazione",
+  "posizione" : 50,
+  "flagvalido" : "S",
+  "codtipovoce" : "TITLE",
+  "livello" : 2,
+  "imghtml" : null,
+  "link" : null
+}, {
+  "codmenu" : "SICUREZZA_RUOLI",
+  "descrizionebreve" : "Ruoli",
+  "descrizionelunga" : "Ruoli",
+  "posizione" : 70,
+  "flagvalido" : "S",
+  "codtipovoce" : "VOICE",
+  "livello" : 2,
+  "imghtml" : null,
+  "link" : "RuoliPage.html"
+}, {
+  "codmenu" : "SICUREZZA_UTENTI",
+  "descrizionebreve" : "Utenti",
+  "descrizionelunga" : "Utenti",
+  "posizione" : 60,
+  "flagvalido" : "S",
+  "codtipovoce" : "VOICE",
+  "livello" : 2,
+  "imghtml" : null,
+  "link" : "UtentiPage.html"
+} ]

@@ -4,7 +4,15 @@
   "table_name" : "aforismi",
   "uniqueness" : "Y",
   "column_name" : "idaforisma",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
+  "initial_extent" : 0
+}, {
+  "index_name" : "monitor_login_pk",
+  "column_position" : 1,
+  "table_name" : "monitor_login",
+  "uniqueness" : "Y",
+  "column_name" : "idlogin",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_dec_funzioni_pk",
@@ -12,7 +20,7 @@
   "table_name" : "sec_dec_funzioni",
   "uniqueness" : "Y",
   "column_name" : "codfunzione",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_dec_menu_pk",
@@ -20,7 +28,7 @@
   "table_name" : "sec_dec_menu",
   "uniqueness" : "Y",
   "column_name" : "codmenu",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_dec_menuutente_pk",
@@ -28,7 +36,7 @@
   "table_name" : "sec_dec_menuutente",
   "uniqueness" : "Y",
   "column_name" : "codmenuutente",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_dec_ruoli_pk",
@@ -36,7 +44,7 @@
   "table_name" : "sec_dec_ruoli",
   "uniqueness" : "Y",
   "column_name" : "codruolo",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_dec_tipivoce_pk",
@@ -44,7 +52,7 @@
   "table_name" : "sec_dec_tipivoce",
   "uniqueness" : "Y",
   "column_name" : "codtipovoce",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_funzioniruoli_idx1",
@@ -52,7 +60,7 @@
   "table_name" : "sec_funzioniruoli",
   "uniqueness" : "N",
   "column_name" : "codruolo",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_funzioniruoli_idx2",
@@ -60,7 +68,7 @@
   "table_name" : "sec_funzioniruoli",
   "uniqueness" : "N",
   "column_name" : "codfunzione",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_funzioniruoli_pk",
@@ -68,7 +76,7 @@
   "table_name" : "sec_funzioniruoli",
   "uniqueness" : "Y",
   "column_name" : "codfunzione",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_funzioniruoli_pk",
@@ -76,7 +84,7 @@
   "table_name" : "sec_funzioniruoli",
   "uniqueness" : "Y",
   "column_name" : "codruolo",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_menuruoli_idx1",
@@ -84,7 +92,7 @@
   "table_name" : "sec_menuruoli",
   "uniqueness" : "N",
   "column_name" : "codruolo",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_menuruoli_idx2",
@@ -92,7 +100,7 @@
   "table_name" : "sec_menuruoli",
   "uniqueness" : "N",
   "column_name" : "codmenu",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_menuruoli_pk",
@@ -100,7 +108,7 @@
   "table_name" : "sec_menuruoli",
   "uniqueness" : "Y",
   "column_name" : "codmenu",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_menuruoli_pk",
@@ -108,7 +116,7 @@
   "table_name" : "sec_menuruoli",
   "uniqueness" : "Y",
   "column_name" : "codruolo",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_menuutenteruoli_idx1",
@@ -116,7 +124,7 @@
   "table_name" : "sec_menuutenteruoli",
   "uniqueness" : "N",
   "column_name" : "codruolo",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_menuutenteruoli_idx2",
@@ -124,7 +132,7 @@
   "table_name" : "sec_menuutenteruoli",
   "uniqueness" : "N",
   "column_name" : "codmenuutente",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_menuutenteruoli_pk",
@@ -132,7 +140,7 @@
   "table_name" : "sec_menuutenteruoli",
   "uniqueness" : "Y",
   "column_name" : "codmenuutente",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_menuutenteruoli_pk",
@@ -140,7 +148,7 @@
   "table_name" : "sec_menuutenteruoli",
   "uniqueness" : "Y",
   "column_name" : "codruolo",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_profili_pk",
@@ -148,7 +156,7 @@
   "table_name" : "sec_profili",
   "uniqueness" : "Y",
   "column_name" : "idprofilo",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 }, {
   "index_name" : "sec_utenti_pk",
@@ -156,6 +164,6 @@
   "table_name" : "sec_utenti",
   "uniqueness" : "Y",
   "column_name" : "idutente",
-  "tablespace_name" : "",
+  "tablespace_name" : null,
   "initial_extent" : 0
 } ]

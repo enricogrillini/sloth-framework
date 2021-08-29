@@ -1,0 +1,25 @@
+[ {
+  "schema_name" : "gildace",
+  "procedure_name" : "sec_getruolifunzione",
+  "procedure_type" : "f",
+  "language" : "plpgsql",
+  "definition" : "CREATE OR REPLACE FUNCTION gildace.sec_getruolifunzione(incodfunzione character varying)\n RETURNS character varying\n LANGUAGE plpgsql\nAS $function$\nDECLARE\n\n  Result Varchar(1000);\n\n  Cruoli Cursor For\n    Select R.Descrizionebreve\n    From Sec_Dec_Ruoli R, Sec_Funzioniruoli Fr\n    Where R.Codruolo = Fr.Codruolo And\n          Fr.Codfunzione = Incodfunzione And\n          Fr.Flagaccesso = 'S'\n    Order by 1;\n\nbegin\n  Result := '';\n\n  For Rruoli In Cruoli Loop\n    If Result = '' Then\n      Result := Result || Rruoli.Descrizionebreve;\n    Else\n      Result := Result || ', ' || Rruoli.Descrizionebreve;\n    End If;\n  End Loop;\n\n  return Result;\nEnd;\n$function$\n",
+  "arguments" : "incodfunzione character varying",
+  "return_type" : "varchar"
+}, {
+  "schema_name" : "gildace",
+  "procedure_name" : "sec_getruolimenu",
+  "procedure_type" : "f",
+  "language" : "plpgsql",
+  "definition" : "CREATE OR REPLACE FUNCTION gildace.sec_getruolimenu(incodmenu character varying)\n RETURNS character varying\n LANGUAGE plpgsql\nAS $function$\nDECLARE\n\n  Result Varchar(1000);\n\n  Cruoli Cursor For\n    Select R.Descrizionebreve\n    From Sec_Dec_Ruoli R, Sec_Menuruoli mr\n    Where R.Codruolo = mr.Codruolo And\n          mr.CodMenu = IncodMenu And\n          mr.Flagaccesso = 'S'\n    Order by 1;\n\nbegin\n  Result := '';\n\n  For Rruoli In Cruoli Loop\n    If Result = '' Then\n      Result := Result || Rruoli.Descrizionebreve;\n    Else\n      Result := Result || ', ' || Rruoli.Descrizionebreve;\n    End If;\n  End Loop;\n\n  return Result;\nEnd;\n$function$\n",
+  "arguments" : "incodmenu character varying",
+  "return_type" : "varchar"
+}, {
+  "schema_name" : "gildace",
+  "procedure_name" : "sec_getruolimenuutente",
+  "procedure_type" : "f",
+  "language" : "plpgsql",
+  "definition" : "CREATE OR REPLACE FUNCTION gildace.sec_getruolimenuutente(incodmenuutente character varying)\n RETURNS character varying\n LANGUAGE plpgsql\nAS $function$\nDECLARE\n\n  Result Varchar(1000);\n\n  Cruoli Cursor For\n    Select R.Descrizionebreve\n    From Sec_Dec_Ruoli R, Sec_MenuUtenteruoli mr\n    Where R.Codruolo = mr.Codruolo And\n          mr.CodMenuUtente = IncodMenuUtente And\n          mr.Flagaccesso = 'S'\n    Order by 1;\n\n\nbegin\n  Result := '';\n\n  For Rruoli In Cruoli Loop\n    If Result = '' Then\n      Result := Result || Rruoli.Descrizionebreve;\n    Else\n      Result := Result || ', ' || Rruoli.Descrizionebreve;\n    End If;\n  End Loop;\n\n  return Result;\nEnd;\n$function$\n",
+  "arguments" : "incodmenuutente character varying",
+  "return_type" : "varchar"
+} ]

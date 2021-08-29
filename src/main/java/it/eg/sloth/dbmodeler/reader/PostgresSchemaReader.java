@@ -6,6 +6,9 @@ import it.eg.sloth.db.query.filteredquery.FilteredQuery;
 import it.eg.sloth.db.query.query.Query;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.schema.Schema;
+import it.eg.sloth.dbmodeler.model.schema.code.Function;
+import it.eg.sloth.dbmodeler.model.schema.code.Procedure;
+import it.eg.sloth.dbmodeler.model.schema.code.StoredProcedure;
 import it.eg.sloth.dbmodeler.model.schema.table.Constraint;
 import it.eg.sloth.dbmodeler.model.schema.table.ConstraintType;
 import it.eg.sloth.dbmodeler.model.schema.table.Table;
@@ -17,6 +20,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.text.MessageFormat;
 
 @Slf4j
 public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSchemaReader {
@@ -53,6 +57,8 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
             "/*W*/\n" +
             "Order By rel.relname, conname";
 
+    private static final String SQL_CONSTANTS = "select * from {0} Order by 1";
+
     private static final String SQL_DB_INDEXES = "select i.relname as index_name,\n" +
             "       a.attnum as column_position,\n" +
             "       t.relname as table_name,\n" +
@@ -75,14 +81,33 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
             "      n.nspname = ?\n" +
             "Order By 1";
 
-    private static final String SQL_DB_PROC_FUNCTIONS = "select n.nspname as schema_name,\n" +
-            "       p.proname as specific_name,\n" +
-            "       case p.prokind \n" +
-            "            when 'f' then 'FUNCTION'\n" +
-            "            when 'p' then 'PROCEDURE'\n" +
-            "            when 'a' then 'AGGREGATE'\n" +
-            "            when 'w' then 'WINDOW'\n" +
-            "            end as kind,\n" +
+    private static final String SQL_VIEWS = "Select t.relname view_name,\n" +
+            "       v.definition,\n" +
+            "       obj_description(t.oid) view_comments\n" +
+            "From pg_class t\n" +
+            "     Inner Join pg_namespace n on t.relnamespace = n.oid\n" +
+            "     Inner Join pg_views v on v.schemaname = n.nspname And v.viewname = t.relname\n" +
+            "Where t.relkind = 'v'\n" +
+            "/*W*/\n" +
+            "Order By t.relname";
+
+    private static final String SQL_VIEWS_COLUMNS = "Select t.relname view_name,\n" +
+            "       c.column_name,\n" +
+            "       col_description(t.oid, c.ordinal_position) column_comments,\n" +
+            "       --\n" +
+            "       c.data_type COLUMN_TYPE,\n" +
+            "       c.character_maximum_length\n" +
+            "From pg_class t\n" +
+            "     Inner Join pg_namespace n on t.relnamespace = n.oid\n" +
+            "     Inner Join pg_views v on v.schemaname = n.nspname And v.viewname = t.relname\n" +
+            "     Inner Join information_schema.columns c on n.nspname = c.table_schema And t.relname = c.table_name\n" +
+            "Where t.relkind = 'v'\n" +
+            "/*W*/\n" +
+            "Order By t.relname, c.ordinal_position";
+
+    private static final String SQL_STORED_PROCEDURE = "select n.nspname as schema_name,\n" +
+            "       p.proname as procedure_name,\n" +
+            "       p.prokind as procedure_type,\n" +
             "       l.lanname as language,\n" +
             "       case when l.lanname = 'internal' then p.prosrc\n" +
             "            else pg_get_functiondef(p.oid)\n" +
@@ -95,7 +120,7 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
             "     left join pg_type t on t.oid = p.prorettype \n" +
             "where n.nspname = ?\n" +
             "order by schema_name,\n" +
-            "         specific_name";
+            "         procedure_name";
 
     private static final String SQL_STATS = "select *\n" +
             "From (select sum(pg_relation_size(relid)) table_size, \n" +
@@ -136,8 +161,39 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
     }
 
     @Override
+    public <R extends DataRow> DataTable<R> constantsData(Connection connection, String tableName, String keyName) throws FrameworkException, SQLException, IOException {
+        Query query = new Query(MessageFormat.format(SQL_CONSTANTS, tableName));
+
+        return query.selectTable(connection);
+    }
+
+    @Override
     public <R extends DataRow> DataTable<R> sequencesData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
         Query query = new Query(SQL_DB_SEQUENCES);
+        query.addParameter(Types.VARCHAR, owner);
+
+        return query.selectTable(connection);
+    }
+
+    @Override
+    public <R extends DataRow> DataTable<R> viewsData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+        FilteredQuery query = new FilteredQuery(SQL_VIEWS);
+        query.addFilter("n.nspname = ?", Types.VARCHAR, owner);
+
+        return query.selectTable(connection);
+    }
+
+    @Override
+    public <R extends DataRow> DataTable<R> viewsColumnsData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+        FilteredQuery query = new FilteredQuery(SQL_VIEWS_COLUMNS);
+        query.addFilter("n.nspname = ?", Types.VARCHAR, owner);
+
+        return query.selectTable(connection);
+    }
+
+    @Override
+    public <R extends DataRow> DataTable<R> storedProcedureData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+        Query query = new Query(SQL_STORED_PROCEDURE);
         query.addParameter(Types.VARCHAR, owner);
 
         return query.selectTable(connection);
@@ -173,10 +229,10 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
 
     public void addConstraints(Schema schema, Connection connection, String owner) throws SQLException, FrameworkException, IOException {
         // Constraints Data
-        DataTable<?> dataConstraintsTable = constraintsData(connection, owner);
+        DataTable<?> dataTable = constraintsData(connection, owner);
 
         // Elaborazione
-        for (DataRow dataRow : dataConstraintsTable) {
+        for (DataRow dataRow : dataTable) {
             // Rottura su constraint
             Table dbTable = schema.getTable(dataRow.getString("table_name"));
             if (dbTable == null) {
@@ -204,6 +260,26 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
             }
 
             dbTable.addConstraint(dbConstraint);
+        }
+    }
+
+    @Override
+    public void addStoredProcedure(Schema schema, Connection connection, String owner) throws SQLException, IOException, FrameworkException {
+        // Stored Procedure Data
+        DataTable<?> dataTable = storedProcedureData(connection, owner);
+
+        // Elaborazione
+        for (DataRow dataRow : dataTable) {
+            StoredProcedure storedProcedure = null;
+            if (dataRow.getString("procedure_type").equalsIgnoreCase("p")) {
+                storedProcedure = new Procedure(dataRow.getString("procedure_name"), dataRow.getString("definition") + ";");
+
+                schema.addProcedure((Procedure) storedProcedure);
+            } else if (dataRow.getString("procedure_type").equalsIgnoreCase("f")) {
+                storedProcedure = new Function(dataRow.getString("procedure_name"), dataRow.getString("definition") + ";");
+
+                schema.addFunction((Function) storedProcedure);
+            }
         }
     }
 

@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 @Data
 public class Table {
 
+    public static final String DECODE_PREFIX = "DEC_";
+
     private String name;
     private String description;
     private String tablespace;
@@ -30,6 +32,10 @@ public class Table {
     @Setter(AccessLevel.NONE)
     private Map<String, Index> indexMap;
 
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    private Map<String, Constant> constantMap;
+
     public Table() {
         this(null, null, null, null, null, null);
     }
@@ -46,6 +52,7 @@ public class Table {
         tableColumnMap = new LinkedHashMap<>();
         constraintMap = new LinkedHashMap<>();
         indexMap = new LinkedHashMap<>();
+        constantMap = new LinkedHashMap<>();
     }
 
     // TableColumn
@@ -87,6 +94,11 @@ public class Table {
         return getTableColumnCollection().stream()
                 .filter(TableColumn::isByteA)
                 .collect(Collectors.toList());
+    }
+
+    @JsonIgnore
+    public boolean isDecodeTable() {
+        return this.getName().toUpperCase().contains(DECODE_PREFIX);
     }
 
     public void setTableColumnCollection(Collection<TableColumn> tableColumnCollection) {
@@ -142,5 +154,24 @@ public class Table {
     public Index getIndex(String indexName) {
         return indexMap.get(indexName.toLowerCase());
     }
+
+    // Constants
+    public Collection<Constant> getConstantCollection() {
+        return constantMap.values();
+    }
+
+    public void setConstantCollection(Collection<Constant> constantCollection) {
+        constantCollection.forEach(this::addConstant);
+    }
+
+    public Table addConstant(Constant constant) {
+        constantMap.put(constant.getName().toLowerCase(), constant);
+        return this;
+    }
+
+    public Constant getConstant(String constantName) {
+        return constantMap.get(constantName.toLowerCase());
+    }
+
 
 }

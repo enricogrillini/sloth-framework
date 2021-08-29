@@ -29,6 +29,7 @@ class OracleReaderRealTest extends AbstractReaderTest {
     void readSchemaTest() throws SQLException, IOException, FrameworkException {
         DataBase dataBase = super.readSchemaTest(DataBaseType.ORACLE);
 
+        // Genero gli Json e gli snippet sql da utilizzare ne test reali
         generateDbModeler(dataBase);
         generateSnippetSql(dataBase);
     }
@@ -38,8 +39,8 @@ class OracleReaderRealTest extends AbstractReaderTest {
         Statistics statistics = getDbSchemaReader().refreshStatistics(getConnection(), getOwner());
 
         assertEquals("oracle.jdbc.OracleDriver", statistics.getDriverClass());
-        assertEquals(11, statistics.getTableCount());
-        assertEquals(17, statistics.getIndexCount());
+        assertEquals(12, statistics.getTableCount());
+        assertEquals(18, statistics.getIndexCount());
     }
 
 

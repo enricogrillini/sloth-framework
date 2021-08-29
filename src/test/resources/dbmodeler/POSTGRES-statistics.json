@@ -1,6 +1,6 @@
 [ {
-  "table_size" : 90112,
-  "table_count" : 11,
-  "index_size" : 139264,
-  "index_count" : 17
+  "table_size" : 114688,
+  "table_count" : 12,
+  "index_size" : 163840,
+  "index_count" : 18
 } ]

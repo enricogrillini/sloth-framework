@@ -28,7 +28,15 @@ public interface DbSchemaReader {
 
     <R extends DataRow> DataTable<R> indexesData(Connection connection, String owner) throws FrameworkException, SQLException, IOException;
 
+    <R extends DataRow> DataTable<R> constantsData(Connection connection, String tableName, String keyName) throws FrameworkException, SQLException, IOException;
+
     <R extends DataRow> DataTable<R> sequencesData(Connection connection, String owner) throws FrameworkException, SQLException, IOException;
+
+    <R extends DataRow> DataTable<R> viewsData(Connection connection, String owner) throws FrameworkException, SQLException, IOException;
+
+    <R extends DataRow> DataTable<R> viewsColumnsData(Connection connection, String owner) throws FrameworkException, SQLException, IOException;
+
+    <R extends DataRow> DataTable<R> storedProcedureData(Connection connection, String owner) throws FrameworkException, SQLException, IOException;
 
     <R extends DataRow> DataTable<R> statisticsData(Connection connection, String owner) throws FrameworkException, SQLException, IOException;
 
@@ -38,7 +46,13 @@ public interface DbSchemaReader {
 
     void addIndexes(Schema schema, Connection connection, String owner) throws SQLException, FrameworkException, IOException;
 
+    void addConstants(Schema schema, Connection connection) throws SQLException, FrameworkException, IOException;
+
     void addSequences(Schema schema, Connection connection, String owner) throws SQLException, IOException, FrameworkException;
+
+    void addViews(Schema schema, Connection connection, String owner) throws SQLException, IOException, FrameworkException;
+
+    void addStoredProcedure(Schema schema, Connection connection, String owner) throws SQLException, IOException, FrameworkException;
 
     default Schema refreshSchemaByDbConnection(DbConnection dbConnection) throws SQLException, IOException, FrameworkException {
         DriverManager.setLoginTimeout(1);
@@ -59,8 +73,17 @@ public interface DbSchemaReader {
         // Load Tables - Indexes
         addIndexes(schema, connection, owner);
 
+        // Load Tables - Constants
+        addConstants(schema, connection);
+
         // Carico i sequence
         addSequences(schema, connection, owner);
+
+        // Carico le viste
+        addViews(schema, connection, owner);
+
+        // Carico le stored procedure
+        addStoredProcedure(schema, connection, owner);
 
         return schema;
     }

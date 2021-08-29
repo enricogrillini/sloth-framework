@@ -6,6 +6,20 @@
   "constraint_type" : "p",
   "constraint_column_index" : "1"
 }, {
+  "table_name" : "monitor_login",
+  "constraint_name" : "monitor_login_fk1",
+  "search_condition" : null,
+  "references_table" : "sec_utenti",
+  "constraint_type" : "f",
+  "constraint_column_index" : "2"
+}, {
+  "table_name" : "monitor_login",
+  "constraint_name" : "monitor_login_pk",
+  "search_condition" : null,
+  "references_table" : null,
+  "constraint_type" : "p",
+  "constraint_column_index" : "1"
+}, {
   "table_name" : "sec_dec_funzioni",
   "constraint_name" : "sec_dec_funzioni_pk",
   "search_condition" : null,

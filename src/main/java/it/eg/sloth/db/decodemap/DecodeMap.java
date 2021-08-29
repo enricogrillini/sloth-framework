@@ -1,5 +1,6 @@
 package it.eg.sloth.db.decodemap;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -70,11 +71,18 @@ public interface DecodeMap<T, V extends DecodeValue<T>> extends Iterable<V> {
     void clear();
 
     /**
+     * Estrae tutti i record
+     *
+     * @return
+     */
+    Collection<V> values();
+
+    /**
      * Estrae i soli record validi
      *
      * @return
      */
-    List<V> valid();
+    Collection<V> valid();
 
     /**
      * Effettua una ricerca nella Map

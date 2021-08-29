@@ -1,3 +1,6 @@
+-- Foreign Key Monitor_Login
+Alter Table Monitor_Login Add Constraint monitor_login_fk1 Foreign Key (Idutente) references sec_utenti;
+
 -- Foreign Key Sec_Dec_Menu
 Alter Table Sec_Dec_Menu Add Constraint sec_menu_fk1 Foreign Key (Codtipovoce) references sec_dec_tipivoce;
 

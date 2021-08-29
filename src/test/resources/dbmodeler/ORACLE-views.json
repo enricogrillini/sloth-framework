@@ -1,0 +1,13 @@
+[ {
+  "view_name" : "View_Sec_Funzioni",
+  "definition" : "Select f.\"CODFUNZIONE\",f.\"DESCRIZIONEBREVE\",f.\"DESCRIZIONELUNGA\",f.\"POSIZIONE\",f.\"FLAGVALIDO\",\n       sec_GetruoliFunzione(f.codFunzione) Ruoli\nfrom sec_dec_funzioni f",
+  "view_comments" : null
+}, {
+  "view_name" : "View_Sec_Menu",
+  "definition" : "Select m.\"CODMENU\",m.\"DESCRIZIONEBREVE\",m.\"DESCRIZIONELUNGA\",m.\"POSIZIONE\",m.\"FLAGVALIDO\",m.\"CODTIPOVOCE\",m.\"LIVELLO\",m.\"IMGHTML\",m.\"LINK\",\n       sec_GetruoliMenu(m.codMenu) Ruoli\nfrom Sec_Dec_Menu m",
+  "view_comments" : null
+}, {
+  "view_name" : "View_Sec_Menuutente",
+  "definition" : "Select m.\"CODMENUUTENTE\",m.\"DESCRIZIONEBREVE\",m.\"DESCRIZIONELUNGA\",m.\"POSIZIONE\",m.\"FLAGVALIDO\",m.\"CODTIPOVOCE\",m.\"IMGHTML\",m.\"LINK\",\n       sec_GetruoliMenuUtente(m.codMenuUtente) Ruoli\nfrom Sec_Dec_Menuutente m",
+  "view_comments" : null
+} ]

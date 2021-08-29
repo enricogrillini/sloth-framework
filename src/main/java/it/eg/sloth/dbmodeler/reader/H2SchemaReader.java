@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.text.MessageFormat;
 
 public class H2SchemaReader extends DbSchemaAbstractReader implements DbSchemaReader {
 
@@ -33,6 +34,8 @@ public class H2SchemaReader extends DbSchemaAbstractReader implements DbSchemaRe
             "     Inner Join INFORMATION_SCHEMA.COLUMNS c on t.table_schema = c.table_schema And  t.table_name = c.table_name\n" +
             "/*W*/\n" +
             "Order by table_name, ordinal_position";
+
+    private static final String SQL_CONSTANTS = "select * from {0} Order by 1";
 
     private static final String SQL_DB_SEQUENCES = "Select sequence_name from INFORMATION_SCHEMA.SEQUENCES Where sequence_Schema = ? Order by sequence_name";
 
@@ -70,11 +73,33 @@ public class H2SchemaReader extends DbSchemaAbstractReader implements DbSchemaRe
     }
 
     @Override
+    public <R extends DataRow> DataTable<R> constantsData(Connection connection, String tableName, String keyName) throws FrameworkException, SQLException, IOException {
+        Query query = new Query(MessageFormat.format(SQL_CONSTANTS, tableName));
+
+        return query.selectTable(connection);
+    }
+
+    @Override
     public <R extends DataRow> DataTable<R> sequencesData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
         Query query = new Query(SQL_DB_SEQUENCES);
         query.addParameter(Types.VARCHAR, owner);
 
         return query.selectTable(connection);
+    }
+
+    @Override
+    public <R extends DataRow> DataTable<R> viewsData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+        return (DataTable<R>) new Table();
+    }
+
+    @Override
+    public <R extends DataRow> DataTable<R> viewsColumnsData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+        return (DataTable<R>) new Table();
+    }
+
+    @Override
+    public <R extends DataRow> DataTable<R> storedProcedureData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+        return (DataTable<R>) new Table();
     }
 
     @Override
@@ -89,6 +114,11 @@ public class H2SchemaReader extends DbSchemaAbstractReader implements DbSchemaRe
     @Override
     public void addConstraints(Schema schema, Connection connection, String owner) throws SQLException, FrameworkException, IOException {
 
+    }
+
+    @Override
+    public void addStoredProcedure(Schema schema, Connection connection, String owner) throws SQLException, IOException, FrameworkException {
+        // NOP
     }
 
     @Override

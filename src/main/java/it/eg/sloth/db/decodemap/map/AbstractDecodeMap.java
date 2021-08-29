@@ -99,7 +99,12 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> imp
     }
 
     @Override
-    public List<V> valid() {
+    public Collection<V> values() {
+        return map.values();
+    }
+
+    @Override
+    public Collection<V> valid() {
         List<V> list = new ArrayList<>();
 
         for (V decodeValue : this) {

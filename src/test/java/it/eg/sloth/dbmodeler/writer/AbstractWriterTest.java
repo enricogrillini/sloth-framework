@@ -36,6 +36,14 @@ public abstract class AbstractWriterTest {
 
         // Sequence
         Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-sequences.sql"), dbSchemaWriter.sqlSequences(dataBase.getSchema()));
+
+        // Stored procedure
+        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-views.sql"), dbSchemaWriter.sqlView(dataBase.getSchema()));
+
+        // Stored procedure
+        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-procedures.sql"), dbSchemaWriter.sqlProcedure(dataBase.getSchema()));
+        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-functions.sql"), dbSchemaWriter.sqlFunction(dataBase.getSchema()));
+
     }
 
 }

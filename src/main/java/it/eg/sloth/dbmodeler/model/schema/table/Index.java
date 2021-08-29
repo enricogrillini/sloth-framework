@@ -13,6 +13,10 @@ public class Index {
     private String tablespace;
     private Long initial;
 
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    private List<String> columns;
+
     public Index() {
         this(null, false, null, null);
     }
@@ -26,10 +30,6 @@ public class Index {
 
         columns = new ArrayList<>();
     }
-
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    private List<String> columns;
 
     // Columns
     public Collection<String> getColumns() {

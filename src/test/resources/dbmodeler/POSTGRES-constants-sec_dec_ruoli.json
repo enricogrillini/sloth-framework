@@ -1,0 +1,19 @@
+[ {
+  "codruolo" : "A",
+  "descrizionebreve" : "Amministratore",
+  "descrizionelunga" : "Amministratore",
+  "posizione" : 10,
+  "flagvalido" : "S"
+}, {
+  "codruolo" : "C",
+  "descrizionebreve" : "Commerciale",
+  "descrizionelunga" : "Commerciale",
+  "posizione" : 20,
+  "flagvalido" : "S"
+}, {
+  "codruolo" : "E",
+  "descrizionebreve" : "Ospite",
+  "descrizionelunga" : "Ospite",
+  "posizione" : 30,
+  "flagvalido" : "S"
+} ]

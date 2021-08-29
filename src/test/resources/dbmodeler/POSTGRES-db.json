@@ -8,12 +8,29 @@
     "name" : "gildaceOnPOSTGRES"
   },
   "schema" : {
+    "functionCollection" : [ {
+      "arguments" : [ ],
+      "definition" : "CREATE OR REPLACE FUNCTION gildace.sec_getruolifunzione(incodfunzione character varying)\n RETURNS character varying\n LANGUAGE plpgsql\nAS $function$\nDECLARE\n\n  Result Varchar(1000);\n\n  Cruoli Cursor For\n    Select R.Descrizionebreve\n    From Sec_Dec_Ruoli R, Sec_Funzioniruoli Fr\n    Where R.Codruolo = Fr.Codruolo And\n          Fr.Codfunzione = Incodfunzione And\n          Fr.Flagaccesso = 'S'\n    Order by 1;\n\nbegin\n  Result := '';\n\n  For Rruoli In Cruoli Loop\n    If Result = '' Then\n      Result := Result || Rruoli.Descrizionebreve;\n    Else\n      Result := Result || ', ' || Rruoli.Descrizionebreve;\n    End If;\n  End Loop;\n\n  return Result;\nEnd;\n$function$\n;",
+      "name" : "sec_getruolifunzione"
+    }, {
+      "arguments" : [ ],
+      "definition" : "CREATE OR REPLACE FUNCTION gildace.sec_getruolimenu(incodmenu character varying)\n RETURNS character varying\n LANGUAGE plpgsql\nAS $function$\nDECLARE\n\n  Result Varchar(1000);\n\n  Cruoli Cursor For\n    Select R.Descrizionebreve\n    From Sec_Dec_Ruoli R, Sec_Menuruoli mr\n    Where R.Codruolo = mr.Codruolo And\n          mr.CodMenu = IncodMenu And\n          mr.Flagaccesso = 'S'\n    Order by 1;\n\nbegin\n  Result := '';\n\n  For Rruoli In Cruoli Loop\n    If Result = '' Then\n      Result := Result || Rruoli.Descrizionebreve;\n    Else\n      Result := Result || ', ' || Rruoli.Descrizionebreve;\n    End If;\n  End Loop;\n\n  return Result;\nEnd;\n$function$\n;",
+      "name" : "sec_getruolimenu"
+    }, {
+      "arguments" : [ ],
+      "definition" : "CREATE OR REPLACE FUNCTION gildace.sec_getruolimenuutente(incodmenuutente character varying)\n RETURNS character varying\n LANGUAGE plpgsql\nAS $function$\nDECLARE\n\n  Result Varchar(1000);\n\n  Cruoli Cursor For\n    Select R.Descrizionebreve\n    From Sec_Dec_Ruoli R, Sec_MenuUtenteruoli mr\n    Where R.Codruolo = mr.Codruolo And\n          mr.CodMenuUtente = IncodMenuUtente And\n          mr.Flagaccesso = 'S'\n    Order by 1;\n\n\nbegin\n  Result := '';\n\n  For Rruoli In Cruoli Loop\n    If Result = '' Then\n      Result := Result || Rruoli.Descrizionebreve;\n    Else\n      Result := Result || ', ' || Rruoli.Descrizionebreve;\n    End If;\n  End Loop;\n\n  return Result;\nEnd;\n$function$\n;",
+      "name" : "sec_getruolimenuutente"
+    } ],
+    "procedureCollection" : [ ],
     "sequenceCollection" : [ {
+      "name" : "Monitor_Idlogin"
+    }, {
       "name" : "Sec_Seq_Idutente"
     }, {
       "name" : "Seq_Idprofilo"
     } ],
     "tableCollection" : [ {
+      "constantCollection" : [ ],
       "constraintCollection" : [ {
         "columns" : [ "Idaforisma" ],
         "generated" : false,
@@ -23,12 +40,12 @@
         "type" : "PRIMARY_KEY"
       } ],
       "description" : null,
-      "duration" : "",
+      "duration" : null,
       "indexCollection" : [ {
         "columns" : [ "idaforisma" ],
         "initial" : 0,
         "name" : "aforismi_pk",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       } ],
       "initial" : 0,
@@ -74,9 +91,83 @@
         "primaryKey" : false,
         "type" : "date"
       } ],
-      "tablespace" : "",
+      "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ ],
+      "constraintCollection" : [ {
+        "columns" : [ "Idutente" ],
+        "generated" : false,
+        "name" : "monitor_login_fk1",
+        "referenceTable" : "sec_utenti",
+        "searchCondition" : null,
+        "type" : "FOREIGN_KEY"
+      }, {
+        "columns" : [ "Idlogin" ],
+        "generated" : false,
+        "name" : "monitor_login_pk",
+        "referenceTable" : null,
+        "searchCondition" : null,
+        "type" : "PRIMARY_KEY"
+      } ],
+      "description" : null,
+      "duration" : null,
+      "indexCollection" : [ {
+        "columns" : [ "idlogin" ],
+        "initial" : 0,
+        "name" : "monitor_login_pk",
+        "tablespace" : null,
+        "uniqueness" : false
+      } ],
+      "initial" : 0,
+      "name" : "Monitor_Login",
+      "tableColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Idlogin",
+        "nullable" : false,
+        "position" : 0,
+        "primaryKey" : true,
+        "type" : "integer"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Idutente",
+        "nullable" : true,
+        "position" : 1,
+        "primaryKey" : false,
+        "type" : "integer"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Dataora",
+        "nullable" : true,
+        "position" : 2,
+        "primaryKey" : false,
+        "type" : "date"
+      } ],
+      "tablespace" : null,
+      "temporary" : false
+    }, {
+      "constantCollection" : [ {
+        "name" : "DECODIFICHE",
+        "values" : "DECODIFICHE"
+      }, {
+        "name" : "HRMSADMIN",
+        "values" : "HRMSADMIN"
+      }, {
+        "name" : "LOGGED",
+        "values" : "LOGGED"
+      }, {
+        "name" : "SYSADMIN",
+        "values" : "SYSADMIN"
+      } ],
       "constraintCollection" : [ {
         "columns" : [ "Codfunzione" ],
         "generated" : false,
@@ -86,12 +177,12 @@
         "type" : "PRIMARY_KEY"
       } ],
       "description" : null,
-      "duration" : "",
+      "duration" : null,
       "indexCollection" : [ {
         "columns" : [ "codfunzione" ],
         "initial" : 0,
         "name" : "sec_dec_funzioni_pk",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       } ],
       "initial" : 0,
@@ -147,9 +238,46 @@
         "primaryKey" : false,
         "type" : "character varying(1)"
       } ],
-      "tablespace" : "",
+      "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ {
+        "name" : "HOME",
+        "values" : "HOME"
+      }, {
+        "name" : "MONITOR",
+        "values" : "MONITOR"
+      }, {
+        "name" : "SEPARATORE",
+        "values" : "SEP_SYSADMIN"
+      }, {
+        "name" : "PIATTAFORMA",
+        "values" : "SEZIONE_SYSADMIN"
+      }, {
+        "name" : "SICUREZZA",
+        "values" : "SICUREZZA"
+      }, {
+        "name" : "FUNZIONI",
+        "values" : "SICUREZZA_FUNZIONI"
+      }, {
+        "name" : "INTERFACCIA",
+        "values" : "SICUREZZA_INTERFACCIA"
+      }, {
+        "name" : "MENU",
+        "values" : "SICUREZZA_MENU"
+      }, {
+        "name" : "MENU_UTENTE",
+        "values" : "SICUREZZA_MENU-UTENTE"
+      }, {
+        "name" : "PROFILAZIONE",
+        "values" : "SICUREZZA_PROFILAZIONE"
+      }, {
+        "name" : "RUOLI",
+        "values" : "SICUREZZA_RUOLI"
+      }, {
+        "name" : "UTENTI",
+        "values" : "SICUREZZA_UTENTI"
+      } ],
       "constraintCollection" : [ {
         "columns" : [ "Codmenu" ],
         "generated" : false,
@@ -166,12 +294,12 @@
         "type" : "FOREIGN_KEY"
       } ],
       "description" : null,
-      "duration" : "",
+      "duration" : null,
       "indexCollection" : [ {
         "columns" : [ "codmenu" ],
         "initial" : 0,
         "name" : "sec_dec_menu_pk",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       } ],
       "initial" : 0,
@@ -267,9 +395,16 @@
         "primaryKey" : false,
         "type" : "character varying(200)"
       } ],
-      "tablespace" : "",
+      "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ {
+        "name" : "PROFILO",
+        "values" : "PROFILO"
+      }, {
+        "name" : "SEPARATORE",
+        "values" : "SEP"
+      } ],
       "constraintCollection" : [ {
         "columns" : [ "Codtipovoce" ],
         "generated" : false,
@@ -286,12 +421,12 @@
         "type" : "PRIMARY_KEY"
       } ],
       "description" : null,
-      "duration" : "",
+      "duration" : null,
       "indexCollection" : [ {
         "columns" : [ "codmenuutente" ],
         "initial" : 0,
         "name" : "sec_dec_menuutente_pk",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       } ],
       "initial" : 0,
@@ -377,9 +512,19 @@
         "primaryKey" : false,
         "type" : "character varying(200)"
       } ],
-      "tablespace" : "",
+      "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ {
+        "name" : "AMMINISTRATORE",
+        "values" : "A"
+      }, {
+        "name" : "COMMERCIALE",
+        "values" : "C"
+      }, {
+        "name" : "OSPITE",
+        "values" : "E"
+      } ],
       "constraintCollection" : [ {
         "columns" : [ "Codruolo" ],
         "generated" : false,
@@ -389,12 +534,12 @@
         "type" : "PRIMARY_KEY"
       } ],
       "description" : null,
-      "duration" : "",
+      "duration" : null,
       "indexCollection" : [ {
         "columns" : [ "codruolo" ],
         "initial" : 0,
         "name" : "sec_dec_ruoli_pk",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       } ],
       "initial" : 0,
@@ -450,9 +595,19 @@
         "primaryKey" : false,
         "type" : "character varying(1)"
       } ],
-      "tablespace" : "",
+      "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ {
+        "name" : "SEPARATORE",
+        "values" : "SEPARATOR"
+      }, {
+        "name" : "TITOLO",
+        "values" : "TITLE"
+      }, {
+        "name" : "VOCE",
+        "values" : "VOICE"
+      } ],
       "constraintCollection" : [ {
         "columns" : [ "Codtipovoce" ],
         "generated" : false,
@@ -462,12 +617,12 @@
         "type" : "PRIMARY_KEY"
       } ],
       "description" : null,
-      "duration" : "",
+      "duration" : null,
       "indexCollection" : [ {
         "columns" : [ "codtipovoce" ],
         "initial" : 0,
         "name" : "sec_dec_tipivoce_pk",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       } ],
       "initial" : 0,
@@ -533,9 +688,10 @@
         "primaryKey" : false,
         "type" : "character varying(1)"
       } ],
-      "tablespace" : "",
+      "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ ],
       "constraintCollection" : [ {
         "columns" : [ "Codfunzione" ],
         "generated" : false,
@@ -559,24 +715,24 @@
         "type" : "PRIMARY_KEY"
       } ],
       "description" : null,
-      "duration" : "",
+      "duration" : null,
       "indexCollection" : [ {
         "columns" : [ "codruolo" ],
         "initial" : 0,
         "name" : "sec_funzioniruoli_idx1",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       }, {
         "columns" : [ "codfunzione" ],
         "initial" : 0,
         "name" : "sec_funzioniruoli_idx2",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       }, {
         "columns" : [ "codfunzione", "codruolo" ],
         "initial" : 0,
         "name" : "sec_funzioniruoli_pk",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       } ],
       "initial" : 0,
@@ -612,9 +768,10 @@
         "primaryKey" : false,
         "type" : "character varying(1)"
       } ],
-      "tablespace" : "",
+      "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ ],
       "constraintCollection" : [ {
         "columns" : [ "Codmenu" ],
         "generated" : false,
@@ -638,24 +795,24 @@
         "type" : "PRIMARY_KEY"
       } ],
       "description" : null,
-      "duration" : "",
+      "duration" : null,
       "indexCollection" : [ {
         "columns" : [ "codruolo" ],
         "initial" : 0,
         "name" : "sec_menuruoli_idx1",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       }, {
         "columns" : [ "codmenu" ],
         "initial" : 0,
         "name" : "sec_menuruoli_idx2",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       }, {
         "columns" : [ "codmenu", "codruolo" ],
         "initial" : 0,
         "name" : "sec_menuruoli_pk",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       } ],
       "initial" : 0,
@@ -691,9 +848,10 @@
         "primaryKey" : false,
         "type" : "character varying(1)"
       } ],
-      "tablespace" : "",
+      "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ ],
       "constraintCollection" : [ {
         "columns" : [ "Codmenuutente" ],
         "generated" : false,
@@ -717,24 +875,24 @@
         "type" : "PRIMARY_KEY"
       } ],
       "description" : null,
-      "duration" : "",
+      "duration" : null,
       "indexCollection" : [ {
         "columns" : [ "codruolo" ],
         "initial" : 0,
         "name" : "sec_menuutenteruoli_idx1",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       }, {
         "columns" : [ "codmenuutente" ],
         "initial" : 0,
         "name" : "sec_menuutenteruoli_idx2",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       }, {
         "columns" : [ "codmenuutente", "codruolo" ],
         "initial" : 0,
         "name" : "sec_menuutenteruoli_pk",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       } ],
       "initial" : 0,
@@ -770,9 +928,10 @@
         "primaryKey" : false,
         "type" : "character varying(1)"
       } ],
-      "tablespace" : "",
+      "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ ],
       "constraintCollection" : [ {
         "columns" : [ "Idutente" ],
         "generated" : false,
@@ -796,12 +955,12 @@
         "type" : "PRIMARY_KEY"
       } ],
       "description" : null,
-      "duration" : "",
+      "duration" : null,
       "indexCollection" : [ {
         "columns" : [ "idprofilo" ],
         "initial" : 0,
         "name" : "sec_profili_pk",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       } ],
       "initial" : 0,
@@ -857,9 +1016,10 @@
         "primaryKey" : false,
         "type" : "date"
       } ],
-      "tablespace" : "",
+      "tablespace" : null,
       "temporary" : false
     }, {
+      "constantCollection" : [ ],
       "constraintCollection" : [ {
         "columns" : [ "Idutente" ],
         "generated" : false,
@@ -869,12 +1029,12 @@
         "type" : "PRIMARY_KEY"
       } ],
       "description" : null,
-      "duration" : "",
+      "duration" : null,
       "indexCollection" : [ {
         "columns" : [ "idutente" ],
         "initial" : 0,
         "name" : "sec_utenti_pk",
-        "tablespace" : "",
+        "tablespace" : null,
         "uniqueness" : false
       } ],
       "initial" : 0,
@@ -928,7 +1088,7 @@
         "nullable" : true,
         "position" : 4,
         "primaryKey" : false,
-        "type" : "character varying(10)"
+        "type" : "character varying(100)"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -970,8 +1130,199 @@
         "primaryKey" : false,
         "type" : "bytea"
       } ],
-      "tablespace" : "",
+      "tablespace" : null,
       "temporary" : false
+    } ],
+    "viewCollection" : [ {
+      "definition" : " SELECT f.codfunzione,\n    f.descrizionebreve,\n    f.descrizionelunga,\n    f.posizione,\n    f.flagvalido,\n    sec_getruolifunzione(f.codfunzione) AS ruoli\n   FROM sec_dec_funzioni f;",
+      "description" : null,
+      "name" : "View_Sec_Funzioni",
+      "viewColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Codfunzione",
+        "position" : 0,
+        "type" : "character varying(100)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Descrizionebreve",
+        "position" : 1,
+        "type" : "character varying(20)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Descrizionelunga",
+        "position" : 2,
+        "type" : "character varying(100)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Posizione",
+        "position" : 3,
+        "type" : "integer"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Flagvalido",
+        "position" : 4,
+        "type" : "character varying(1)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Ruoli",
+        "position" : 5,
+        "type" : "character varying"
+      } ]
+    }, {
+      "definition" : " SELECT m.codmenu,\n    m.descrizionebreve,\n    m.descrizionelunga,\n    m.posizione,\n    m.flagvalido,\n    m.codtipovoce,\n    m.livello,\n    m.imghtml,\n    m.link,\n    sec_getruolimenu(m.codmenu) AS ruoli\n   FROM sec_dec_menu m;",
+      "description" : null,
+      "name" : "View_Sec_Menu",
+      "viewColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Codmenu",
+        "position" : 0,
+        "type" : "character varying(100)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Descrizionebreve",
+        "position" : 1,
+        "type" : "character varying(20)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Descrizionelunga",
+        "position" : 2,
+        "type" : "character varying(100)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Posizione",
+        "position" : 3,
+        "type" : "integer"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Flagvalido",
+        "position" : 4,
+        "type" : "character varying(1)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Codtipovoce",
+        "position" : 5,
+        "type" : "character varying(10)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Livello",
+        "position" : 6,
+        "type" : "integer"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Imghtml",
+        "position" : 7,
+        "type" : "character varying(100)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Link",
+        "position" : 8,
+        "type" : "character varying(200)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Ruoli",
+        "position" : 9,
+        "type" : "character varying"
+      } ]
+    }, {
+      "definition" : " SELECT m.codmenuutente,\n    m.descrizionebreve,\n    m.descrizionelunga,\n    m.posizione,\n    m.flagvalido,\n    m.codtipovoce,\n    m.imghtml,\n    m.link,\n    sec_getruolimenuutente(m.codmenuutente) AS ruoli\n   FROM sec_dec_menuutente m;",
+      "description" : null,
+      "name" : "View_Sec_Menuutente",
+      "viewColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Codmenuutente",
+        "position" : 0,
+        "type" : "character varying(100)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Descrizionebreve",
+        "position" : 1,
+        "type" : "character varying(20)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Descrizionelunga",
+        "position" : 2,
+        "type" : "character varying(100)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Posizione",
+        "position" : 3,
+        "type" : "integer"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Flagvalido",
+        "position" : 4,
+        "type" : "character varying(1)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Codtipovoce",
+        "position" : 5,
+        "type" : "character varying(10)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Imghtml",
+        "position" : 6,
+        "type" : "character varying(100)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Link",
+        "position" : 7,
+        "type" : "character varying(200)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "description" : null,
+        "name" : "Ruoli",
+        "position" : 8,
+        "type" : "character varying"
+      } ]
     } ]
   }
 }

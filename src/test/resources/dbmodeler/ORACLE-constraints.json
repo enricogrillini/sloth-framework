@@ -9,6 +9,26 @@
   "generated" : "USER NAME",
   "references_table" : null
 }, {
+  "table_name" : "MONITOR_LOGIN",
+  "ordinamento" : 1,
+  "constraint_name" : "MONITOR_LOGIN_PK",
+  "position" : 1,
+  "column_name" : "IDLOGIN",
+  "constraint_type" : "P",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "MONITOR_LOGIN",
+  "ordinamento" : 2,
+  "constraint_name" : "MONITOR_LOGIN_FK1",
+  "position" : 1,
+  "column_name" : "IDUTENTE",
+  "constraint_type" : "R",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : "SEC_UTENTI"
+}, {
   "table_name" : "SEC_DEC_FUNZIONI",
   "ordinamento" : 1,
   "constraint_name" : "SEC_DEC_FUNZIONI_PK",

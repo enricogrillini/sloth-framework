@@ -19,6 +19,12 @@ public interface DbSchemaWriter {
 
     String sqlSequences(Schema schema);
 
+    String sqlView(Schema schema);
+
+    String sqlProcedure(Schema schema);
+
+    String sqlFunction(Schema schema);
+
     class Factory {
         private Factory() {
             // NOP

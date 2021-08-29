@@ -1,6 +1,9 @@
 -- Primary Key Aforismi
 Alter Table Aforismi Add Constraint aforismi_pk Primary Key (Idaforisma);
 
+-- Primary Key Monitor_Login
+Alter Table Monitor_Login Add Constraint monitor_login_pk Primary Key (Idlogin);
+
 -- Primary Key Sec_Dec_Funzioni
 Alter Table Sec_Dec_Funzioni Add Constraint sec_dec_funzioni_pk Primary Key (Codfunzione);
 
