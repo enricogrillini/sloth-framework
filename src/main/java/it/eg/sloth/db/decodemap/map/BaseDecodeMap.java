@@ -7,6 +7,7 @@ import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.decodemap.value.BaseDecodeValue;
 import it.eg.sloth.db.query.SelectQueryInterface;
+import it.eg.sloth.db.query.query.Query;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +38,14 @@ public class BaseDecodeMap<T> extends AbstractDecodeMap<T, BaseDecodeValue<T>> {
     private String codeName;
     private String descriptionName;
     private String validName;
+    
+    public BaseDecodeMap(String codeName, String descriptionName, String validName, SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
+      this(codeName, descriptionName, validName);
+      
+      if (query != null) {
+        load(query);
+      }
+    }
 
     public BaseDecodeMap(String codeName, String descriptionName, String validName) {
         super();
