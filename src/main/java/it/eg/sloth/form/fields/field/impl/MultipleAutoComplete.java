@@ -1,6 +1,8 @@
 package it.eg.sloth.form.fields.field.impl;
 
+import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataSource;
+import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.decodemap.DecodeMap;
 import it.eg.sloth.db.decodemap.DecodeValue;
 import it.eg.sloth.form.WebRequest;
@@ -42,7 +44,7 @@ import java.util.List;
 @SuperBuilder(toBuilder = true)
 public class MultipleAutoComplete<T> extends InputField<List<T>> {
 
-    public static final String SEPARATOR = ",";
+    public static final String DELIMITER = "|";
 
     private String decodedText;
     private DecodeMap<T, ? extends DecodeValue<T>> decodeMap;
@@ -71,13 +73,13 @@ public class MultipleAutoComplete<T> extends InputField<List<T>> {
             StringBuilder decodeBuilder = new StringBuilder();
             for (T value : values) {
                 if (valueBuilder.length() > 0) {
-                    valueBuilder.append(SEPARATOR);
+                    valueBuilder.append(DELIMITER);
                 }
                 valueBuilder.append(getDataType().formatValue(value, getLocale(), getFormat()));
 
                 if (getDecodeMap() != null) {
                     if (decodeBuilder.length() > 0) {
-                        decodeBuilder.append(SEPARATOR);
+                        decodeBuilder.append(DELIMITER);
                     }
                     decodeBuilder.append(getDecodeMap().decode(value));
                 }
@@ -88,6 +90,22 @@ public class MultipleAutoComplete<T> extends InputField<List<T>> {
         }
     }
 
+    public void setValue(DataTable<?> dataTable, String columnName) throws FrameworkException {
+        List<T> list = new ArrayList<>();
+        for (DataRow row : dataTable) {
+            list.add((T) row.getObject(columnName));
+        }
+
+        setValue(list);
+    }
+
+    public void addValue(T value) throws FrameworkException {
+        List<T> list = getValue();
+        list.add(value);
+
+        setValue(list);
+    }
+
     private String valueToString(List<T> values) throws FrameworkException {
         if (values == null || values.isEmpty()) {
             return StringUtil.EMPTY;
@@ -95,7 +113,7 @@ public class MultipleAutoComplete<T> extends InputField<List<T>> {
             StringBuilder valueBuilder = new StringBuilder();
             for (T value : values) {
                 if (valueBuilder.length() > 0) {
-                    valueBuilder.append(SEPARATOR);
+                    valueBuilder.append(DELIMITER);
                 }
                 valueBuilder.append(getDataType().formatValue(value, getLocale(), getFormat()));
             }
@@ -107,7 +125,7 @@ public class MultipleAutoComplete<T> extends InputField<List<T>> {
     private List<T> valueFromString(String valueStr) throws FrameworkException {
         List<T> result = new ArrayList<>();
         if (!BaseFunction.isBlank(valueStr)) {
-            for (String value : Arrays.asList(StringUtil.split(valueStr, SEPARATOR))) {
+            for (String value : Arrays.asList(StringUtil.split(valueStr, DELIMITER))) {
                 result.add((T) getDataType().parseValue(value, getLocale(), getFormat()));
             }
         }
@@ -173,7 +191,7 @@ public class MultipleAutoComplete<T> extends InputField<List<T>> {
             setData(StringUtil.EMPTY);
 
             if (!BaseFunction.isBlank(getDecodedText())) {
-                String[] texts = StringUtil.split(decodedText, SEPARATOR);
+                String[] texts = StringUtil.split(decodedText, DELIMITER);
                 List<T> values = new ArrayList<>();
                 for (String text : texts) {
                     T value = getDecodeMap().encode(text);

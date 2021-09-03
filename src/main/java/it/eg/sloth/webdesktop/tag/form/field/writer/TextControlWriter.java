@@ -30,9 +30,6 @@ import java.text.MessageFormat;
  */
 public class TextControlWriter extends HtmlWriter {
 
-    private static final String LINK = "<a href=\"{0}\" >{1}</a>";
-    private static final String LINK_EXTERNAL = "<a href=\"{0}\" target=\"_blank\">{1}</a>";
-
     public static String writeControl(SimpleField simpleField, Elements<?> parentElement) throws FrameworkException {
         switch (simpleField.getFieldType()) {
             case AUTO_COMPLETE:
@@ -114,13 +111,13 @@ public class TextControlWriter extends HtmlWriter {
     private static String writeDataField(DataField<?> dataField, Elements<?> parentElement) {
         if (!BaseFunction.isBlank(dataField.getBaseLink())) {
             if (BaseFunction.isBlank(dataField.getLinkField())) {
-                return MessageFormat.format(LINK, dataField.getBaseLink() + dataField.escapeHtmlValue(), dataField.escapeHtmlText());
+                return getLink(dataField.getBaseLink() + dataField.escapeHtmlValue(), dataField.escapeHtmlText());
             } else {
                 DataField<?> linkField = (DataField<?>) parentElement.getElement(dataField.getLinkField());
-                return MessageFormat.format(LINK, dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.escapeHtmlText());
+                return getLink(dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.escapeHtmlText());
             }
         } else if (DataTypes.URL == dataField.getDataType()) {
-            return MessageFormat.format(LINK_EXTERNAL, dataField.escapeHtmlValue(), dataField.escapeHtmlText());
+            return getLink(dataField.escapeHtmlValue(), dataField.escapeHtmlText(), true);
         } else {
             return dataField.escapeHtmlText();
         }
@@ -129,13 +126,13 @@ public class TextControlWriter extends HtmlWriter {
     private static String writeDecoDecodedDataField(DecodedDataField<?> dataField, Elements<?> parentElement) throws FrameworkException {
         if (!BaseFunction.isBlank(dataField.getBaseLink())) {
             if (BaseFunction.isBlank(dataField.getLinkField())) {
-                return MessageFormat.format(LINK, dataField.getBaseLink() + dataField.escapeHtmlValue(), dataField.escapeHtmlDecodedText());
+                return getLink(dataField.getBaseLink() + dataField.escapeHtmlValue(), dataField.escapeHtmlDecodedText());
             } else {
                 DataField<?> linkField = (DataField<?>) parentElement.getElement(dataField.getLinkField());
-                return MessageFormat.format(LINK, dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.escapeHtmlDecodedText());
+                return getLink(dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.escapeHtmlDecodedText());
             }
         } else if (DataTypes.URL == dataField.getDataType()) {
-            return MessageFormat.format(LINK_EXTERNAL, dataField.escapeHtmlValue(), dataField.escapeHtmlDecodedText());
+            return getLink(dataField.escapeHtmlValue(), dataField.escapeHtmlDecodedText(), true);
         } else {
             return dataField.escapeHtmlDecodedText();
         }

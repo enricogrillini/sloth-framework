@@ -205,8 +205,8 @@ public class BaseXlsxWriter implements Closeable {
      * @param cellIndex
      * @param value
      */
-    public void setCellValue(int rowIndex, int cellIndex, Object value) {
-        ExcelUtil.setCellValue(getSheet(), rowIndex, cellIndex, value);
+    public Cell setCellValue(int rowIndex, int cellIndex, Object value) {
+        return ExcelUtil.setCellValue(getSheet(), rowIndex, cellIndex, value);
     }
 
     public void addMergedRegion(int rowIndex1, int columnIndex1, int rowIndex2, int columnIndex2) {
@@ -222,9 +222,8 @@ public class BaseXlsxWriter implements Closeable {
      * @param cellIndex
      * @param formula
      */
-    public void setCellFormula(int rowIndex, int cellIndex, String formula) {
-        Cell cell = getCell(rowIndex, cellIndex);
-        cell.setCellFormula(formula);
+    public Cell setCellFormula(int rowIndex, int cellIndex, String formula) {
+        return ExcelUtil.setCellFormula(getSheet(), rowIndex, cellIndex, formula);
     }
 
     /**
@@ -234,8 +233,8 @@ public class BaseXlsxWriter implements Closeable {
      * @param cellIndex
      * @param cellStyle
      */
-    public void setCellStyle(int rowIndex, int cellIndex, CellStyle cellStyle) {
-        ExcelUtil.setCellStyle(getSheet(), rowIndex, cellIndex, cellStyle);
+    public Cell setCellStyle(int rowIndex, int cellIndex, CellStyle cellStyle) {
+        return ExcelUtil.setCellStyle(getSheet(), rowIndex, cellIndex, cellStyle);
     }
 
     /**

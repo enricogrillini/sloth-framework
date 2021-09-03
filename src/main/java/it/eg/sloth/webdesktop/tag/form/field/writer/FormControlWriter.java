@@ -521,7 +521,17 @@ public class FormControlWriter extends HtmlWriter {
             List<T> values = multipleAutoComplete.getValue();
             if (values != null) {
                 for (T value : values) {
-                    input.append("<span class=\"badge bg-gray-200 p-2 font-weight-normal\">" + multipleAutoComplete.getDecodeMap().decode(value) + "</span> ");
+                    String htmlDecodedText = Casting.getHtml(multipleAutoComplete.getDecodeMap().decode(value));
+                    if (!BaseFunction.isBlank(multipleAutoComplete.getBaseLink())) {
+                        if (BaseFunction.isBlank(multipleAutoComplete.getLinkField())) {
+                            htmlDecodedText = getLink(multipleAutoComplete.getBaseLink() + Casting.getHtml(multipleAutoComplete.getDataType().formatValue(value, multipleAutoComplete.getLocale())), htmlDecodedText);
+                        } else {
+                            DataField<?> linkField = (DataField<?>) parentElement.getElement(multipleAutoComplete.getLinkField());
+                            htmlDecodedText = getLink(multipleAutoComplete.getBaseLink() + linkField.escapeHtmlValue(), htmlDecodedText, true);
+                        }
+                    }
+
+                    input.append("<span class=\"badge bg-gray-200 p-2 font-weight-normal\">" + htmlDecodedText + "</span> ");
                 }
             }
             input.append("</div>");
@@ -539,7 +549,7 @@ public class FormControlWriter extends HtmlWriter {
         }
 
         // Gestione link/stato
-        return  input.toString();
+        return input.toString();
     }
 
 

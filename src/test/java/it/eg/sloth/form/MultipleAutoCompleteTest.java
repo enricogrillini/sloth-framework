@@ -51,9 +51,9 @@ class MultipleAutoCompleteTest {
 
         multipleAutoComplete.setValue(values);
 
-        assertEquals("1,2", multipleAutoComplete.getData());
+        assertEquals("1|2", multipleAutoComplete.getData());
         assertEquals("Valore A, Valore B", multipleAutoComplete.getText());
-        assertEquals("Valore A,Valore B", multipleAutoComplete.getDecodedText());
+        assertEquals("Valore A|Valore B", multipleAutoComplete.getDecodedText());
 
         multipleAutoComplete.setValue(null);
         assertEquals(StringUtil.EMPTY, multipleAutoComplete.getData());
@@ -64,15 +64,15 @@ class MultipleAutoCompleteTest {
     @Test
     void requestOkTest() throws ServletException, IOException, FrameworkException {
         HashMap<String, String[]> map = new HashMap<>();
-        map.put("Numero", new String[]{"Valore A,Valore B,Valore C"});
+        map.put("Numero", new String[]{"Valore A|Valore B|Valore C"});
 
         WebRequest webRequest = TestFactory.getMockedWebRequest(map);
 
         multipleAutoComplete.post(webRequest);
 
-        assertEquals("1,2,3", multipleAutoComplete.getData());
+        assertEquals("1|2|3", multipleAutoComplete.getData());
         assertEquals("Valore A, Valore B, Valore C", multipleAutoComplete.getText());
-        assertEquals("Valore A,Valore B,Valore C", multipleAutoComplete.getDecodedText());
+        assertEquals("Valore A|Valore B|Valore C", multipleAutoComplete.getDecodedText());
 
         MessageList messageList = new MessageList();
         multipleAutoComplete.validate(messageList);
@@ -100,12 +100,12 @@ class MultipleAutoCompleteTest {
     @Test
     void dataSourceTest() throws ServletException, IOException, FrameworkException {
         Row row = new Row();
-        row.setString("Numero", "1,2,3");
+        row.setString("Numero", "1|2|3");
 
         multipleAutoComplete.copyFromDataSource(row);
 
-        assertEquals("1,2,3", multipleAutoComplete.getData());
-        assertEquals("Valore A,Valore B,Valore C", multipleAutoComplete.getDecodedText());
+        assertEquals("1|2|3", multipleAutoComplete.getData());
+        assertEquals("Valore A|Valore B|Valore C", multipleAutoComplete.getDecodedText());
 
         assertEquals(3, multipleAutoComplete.getValue().size());
         assertEquals(BigDecimal.valueOf(1), multipleAutoComplete.getValue().get(0));
@@ -113,6 +113,6 @@ class MultipleAutoCompleteTest {
 
         Row row2 = new Row();
         multipleAutoComplete.copyToDataSource(row2);
-        assertEquals("1,2,3", row2.getString("Numero"));
+        assertEquals("1|2|3", row2.getString("Numero"));
     }
 }

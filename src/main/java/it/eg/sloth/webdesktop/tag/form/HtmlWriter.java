@@ -24,6 +24,9 @@ import java.text.MessageFormat;
  */
 public abstract class HtmlWriter {
 
+    private static final String LINK = "<a href=\"{0}\" >{1}</a>";
+    private static final String LINK_EXTERNAL = "<a href=\"{0}\" target=\"_blank\">{1}</a>";
+
     public static final String NBSP = "&nbsp;";
 
     public static final String BEGIN_BUTTON = "<button";
@@ -95,5 +98,16 @@ public abstract class HtmlWriter {
         return MessageFormat.format(ATTR_POPOVER, title, htmlBody);
     }
 
+    public static String getLink(String url, String text) {
+        return getLink(url, text, false);
+    }
+
+    public static String getLink(String url, String text, boolean external) {
+        if (external) {
+            return MessageFormat.format(LINK_EXTERNAL, url, Casting.getHtml(text));
+        } else {
+            return MessageFormat.format(LINK, url, Casting.getHtml(text));
+        }
+    }
 
 }
