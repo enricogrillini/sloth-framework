@@ -92,6 +92,12 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
 
     protected boolean defaultNavigation() throws Exception {
         String[] navigation = getWebRequest().getNavigation();
+        
+        if (navigation.length == 1 && NavigationConst.INIT.equals(navigation[0])) {
+          onInit();
+          return true;
+        }
+        
         if (navigation.length == 2 && NavigationConst.AUTOCOMPLETE.equals(navigation[0])) {
             log.info(NavigationConst.AUTOCOMPLETE);
             DecodeMap<?, ?> decodeMap = null;
