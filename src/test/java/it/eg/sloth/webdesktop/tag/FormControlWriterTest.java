@@ -1,31 +1,19 @@
 package it.eg.sloth.webdesktop.tag;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.text.MessageFormat;
-
-import org.junit.jupiter.api.Test;
-
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
 import it.eg.sloth.form.fields.Fields;
-import it.eg.sloth.form.fields.field.impl.AutoComplete;
-import it.eg.sloth.form.fields.field.impl.Button;
-import it.eg.sloth.form.fields.field.impl.CheckBox;
-import it.eg.sloth.form.fields.field.impl.ComboBox;
-import it.eg.sloth.form.fields.field.impl.DecodedText;
-import it.eg.sloth.form.fields.field.impl.File;
-import it.eg.sloth.form.fields.field.impl.Hidden;
-import it.eg.sloth.form.fields.field.impl.Link;
-import it.eg.sloth.form.fields.field.impl.RadioGroup;
-import it.eg.sloth.form.fields.field.impl.Semaphore;
-import it.eg.sloth.form.fields.field.impl.Switch;
-import it.eg.sloth.form.fields.field.impl.TextArea;
+import it.eg.sloth.form.fields.field.impl.*;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 import it.eg.sloth.webdesktop.tag.support.SampleEscaper;
+import org.junit.jupiter.api.Test;
+
+import java.text.MessageFormat;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -164,27 +152,6 @@ class FormControlWriterTest {
         // Empty
         checkBox.setHidden(true);
         assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(checkBox, null, ViewModality.EDIT));
-    }
-
-    @Test
-    void comboBoxTest() throws FrameworkException {
-        StringDecodeMap stringDecodeMap = new StringDecodeMap("A,Scelta A; B, Scelta B");
-        stringDecodeMap.get("B").setValid(false);
-
-        ComboBox<String> field = new ComboBox<String>("name", "description", DataTypes.STRING);
-        field.setDecodeMap(stringDecodeMap);
-
-        assertEquals(MessageFormat.format(BASE_COMBOBOX, "name", "", " disabled=\"\"", ""), FormControlWriter.writeComboBox(field, ViewModality.VIEW));
-
-        field.setValue("A");
-        assertEquals(MessageFormat.format(BASE_COMBOBOX, "name", "A", "", " selected=\"selected\""), FormControlWriter.writeComboBox(field, ViewModality.EDIT));
-
-        // Controllo generico
-        assertEquals(MessageFormat.format(BASE_COMBOBOX, "name", "A", "", " selected=\"selected\""), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
-
-        // Empty
-        field.setHidden(true);
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.EDIT));
     }
 
     @Test

@@ -59,7 +59,7 @@ public class FormControlWriter extends HtmlWriter {
             case CHECK_GROUP:
                 return writeCheckGroups((CheckGroup<?, Object>) element, pageViewModality);
             case COMBO_BOX:
-                return writeComboBox((ComboBox) element, pageViewModality);
+                return writeComboBox((ComboBox) element, parentElement, pageViewModality);
             case DECODED_TEXT:
                 return writeDecodedText((DecodedText) element, parentElement);
             case FILE:
@@ -316,46 +316,61 @@ public class FormControlWriter extends HtmlWriter {
      * @param pageViewModality
      * @return
      */
-    public static String writeComboBox(ComboBox<?> comboBox, ViewModality pageViewModality) throws FrameworkException {
-        if (comboBox.isHidden())
+    public static String writeComboBox(ComboBox<?> comboBox, Elements<?> parentElement, ViewModality pageViewModality) throws FrameworkException {
+        if (comboBox.isHidden()) {
             return StringUtil.EMPTY;
+        }
 
         ViewModality viewModality = comboBox.getViewModality() == ViewModality.AUTO ? pageViewModality : comboBox.getViewModality();
-        StringBuilder result = new StringBuilder()
-                .append("<select")
-                .append(getAttribute(ATTR_ID, comboBox.getName()))
-                .append(getAttribute(ATTR_NAME, comboBox.getName()))
-                .append(getAttribute(ATTR_VALUE, comboBox.escapeHtmlValue()))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(comboBox)))
-                .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW || comboBox.isReadOnly(), ""));
+        String field;
+        if (viewModality == ViewModality.VIEW) {
+            field = MessageFormat.format(INPUT,
+                    comboBox.getName(),
+                    "text",
+                    comboBox.escapeHtmlDecodedText(),
+                    getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(comboBox)) +
+                            getAttribute(ATTR_DISABLED, "") +
+                            getTooltipAttributes(comboBox.getTooltip()));
 
-        result.append(">");
+        } else {
 
-        if (!comboBox.isRequired()) {
-            result.append("<option value=\"\"></option>");
-        }
+            StringBuilder result = new StringBuilder()
+                    .append("<select")
+                    .append(getAttribute(ATTR_ID, comboBox.getName()))
+                    .append(getAttribute(ATTR_NAME, comboBox.getName()))
+                    .append(getAttribute(ATTR_VALUE, comboBox.escapeHtmlValue()))
+                    .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(comboBox)))
+                    .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW || comboBox.isReadOnly(), ""));
 
-        DecodeMap<?, ?> values = comboBox.getDecodeMap();
-        if (values != null) {
-            for (DecodeValue<?> value : values) {
-                if (BaseFunction.isNull(value.getCode())) {
-                    continue;
-                }
+            result.append(">");
 
-                String valueHtml = Casting.getHtml(comboBox.getDataType().formatValue(value.getCode(), comboBox.getLocale(), comboBox.getFormat()), false, false);
-                String descriptionHtml = Casting.getHtml(value.getDescription());
-
-                result.append("<option")
-                        .append(getAttribute(ATTR_VALUE, valueHtml))
-                        .append(getAttribute("selected", value.getCode().equals(comboBox.getValue()), "selected"))
-                        .append(getAttribute(ATTR_CLASS, !value.isValid(), "notValid"))
-                        .append(">" + descriptionHtml + "</option>");
+            if (!comboBox.isRequired()) {
+                result.append("<option value=\"\"></option>");
             }
+
+            DecodeMap<?, ?> values = comboBox.getDecodeMap();
+            if (values != null) {
+                for (DecodeValue<?> value : values) {
+                    if (BaseFunction.isNull(value.getCode())) {
+                        continue;
+                    }
+
+                    String valueHtml = Casting.getHtml(comboBox.getDataType().formatValue(value.getCode(), comboBox.getLocale(), comboBox.getFormat()), false, false);
+                    String descriptionHtml = Casting.getHtml(value.getDescription());
+
+                    result.append("<option")
+                            .append(getAttribute(ATTR_VALUE, valueHtml))
+                            .append(getAttribute("selected", value.getCode().equals(comboBox.getValue()), "selected"))
+                            .append(getAttribute(ATTR_CLASS, !value.isValid(), "notValid"))
+                            .append(">" + descriptionHtml + "</option>");
+                }
+            }
+
+            field = result.append("</select>").toString();
         }
 
-        result.append("</select>");
-
-        return result.toString();
+        // Gestione link/stato
+        return toInputGroup(comboBox, parentElement, viewModality, field);
     }
 
     /**
