@@ -5,12 +5,24 @@ import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.MessageList;
+import it.eg.sloth.framework.utility.xlsx.style.BaseExcelContainer;
+import it.eg.sloth.framework.utility.xlsx.style.BaseExcelType;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 

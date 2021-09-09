@@ -3,8 +3,8 @@ package it.eg.sloth.framework.utility.xlsx;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -91,7 +91,7 @@ public class ExcelUtil {
    * @param cellIndex
    * @param value
    */
-  public static Cell setCellValue(XSSFSheet sheet, int rowIndex, int cellIndex, Object value) {
+  public static Cell setCellValue(Sheet sheet, int rowIndex, int cellIndex, Object value) {
     Cell cell = getCell(sheet, rowIndex, cellIndex);
 
     if (value == null)
@@ -118,11 +118,21 @@ public class ExcelUtil {
    * @param cellIndex
    * @param formula
    */
-  public static Cell setCellFormula(XSSFSheet sheet, int rowIndex, int cellIndex, String formula) {
+  public static Cell setCellFormula(Sheet sheet, int rowIndex, int cellIndex, String formula) {
     Cell cell = getCell(sheet, rowIndex, cellIndex);
     cell.setCellFormula(formula);
 
     return cell;
+  }
+
+  /**
+   * Ritorna le coordinate di una cella in formato letterale ad es "A15"
+   *
+   * @param rowIndex
+   * @param cellIndex
+   */
+  public static String litteralCell(int rowIndex, int cellIndex) {
+    return CellReference.convertNumToColString(cellIndex) + (rowIndex + 1);
   }
 
   /**
@@ -133,7 +143,7 @@ public class ExcelUtil {
    * @param cellIndex
    * @param cellStyle
    */
-  public static Cell setCellStyle(XSSFSheet sheet, int rowIndex, int cellIndex, CellStyle cellStyle) {
+  public static Cell setCellStyle(Sheet sheet, int rowIndex, int cellIndex, CellStyle cellStyle) {
     Cell cell = getCell(sheet, rowIndex, cellIndex);
     cell.setCellStyle(cellStyle);
 
@@ -150,7 +160,7 @@ public class ExcelUtil {
    * @param cellIndex2
    * @param cellStyle
    */
-  public static void setRangeStyle(XSSFSheet sheet, int rowIndex1, int cellIndex1, int rowIndex2, int cellIndex2, CellStyle cellStyle) {
+  public static void setRangeStyle(Sheet sheet, int rowIndex1, int cellIndex1, int rowIndex2, int cellIndex2, CellStyle cellStyle) {
     for (int i = rowIndex1; i <= rowIndex2; i++) {
       for (int j = cellIndex1; j <= cellIndex2; j++) {
         Cell cell = getCell(sheet, i, j);

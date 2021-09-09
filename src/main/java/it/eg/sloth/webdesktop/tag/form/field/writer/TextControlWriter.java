@@ -12,8 +12,6 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
-import java.text.MessageFormat;
-
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2020 Enrico Grillini
