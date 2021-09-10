@@ -124,13 +124,13 @@ public class TextControlWriter extends HtmlWriter {
     private static String writeDecoDecodedDataField(DecodedDataField<?> dataField, Elements<?> parentElement) throws FrameworkException {
         if (!BaseFunction.isBlank(dataField.getBaseLink())) {
             if (BaseFunction.isBlank(dataField.getLinkField())) {
-                return getLink(dataField.getBaseLink() + dataField.escapeHtmlValue(), dataField.escapeHtmlDecodedText());
+                return getLink(dataField.getBaseLink() + dataField.escapeHtmlValue(), dataField.getDecodedText());
             } else {
                 DataField<?> linkField = (DataField<?>) parentElement.getElement(dataField.getLinkField());
-                return getLink(dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.escapeHtmlDecodedText());
+                return getLink(dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.getDecodedText());
             }
         } else if (DataTypes.URL == dataField.getDataType()) {
-            return getLink(dataField.escapeHtmlValue(), dataField.escapeHtmlDecodedText(), true);
+            return getLink(dataField.escapeHtmlValue(), dataField.getDecodedText(), true);
         } else {
             return dataField.escapeHtmlDecodedText();
         }
