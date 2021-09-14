@@ -30,16 +30,4 @@ public abstract class AbstractDecodeValue<T> implements DecodeValue<T> {
     this.valid = valid;
   }
 
-  public boolean match(String matchString) {
-    if (BaseFunction.isBlank(matchString)) {
-      return false;
-    }
-
-    if (BaseFunction.isBlank(getDescription())) {
-      return false;
-    }
-
-    return getDescription().toLowerCase().trim().indexOf(matchString.toLowerCase().trim()) >= 0;
-  }
-
 }

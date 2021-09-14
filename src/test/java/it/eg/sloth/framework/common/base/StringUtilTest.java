@@ -26,7 +26,36 @@ import static org.junit.jupiter.api.Assertions.*;
 class StringUtilTest {
 
     @Test
-    void rtrimTest() throws ParseException {
+    void containsAllWordsTest() {
+        List<String> words = Arrays.asList("Bob", "Alice");
+
+        assertTrue(StringUtil.containsAllWords("Bob and Alice", words));
+        assertTrue(StringUtil.containsAllWords("Alice and Bob", words));
+        assertFalse(StringUtil.containsAllWords("Only Bob ", words));
+        assertFalse(StringUtil.containsAllWords("", words));
+    }
+
+    @Test
+    void ltrimTest() {
+        assertEquals(StringUtil.EMPTY, StringUtil.ltrim(""));
+        assertEquals(StringUtil.EMPTY, StringUtil.ltrim(null));
+
+        assertEquals("aaa", StringUtil.ltrim("    aaa"));
+        assertEquals("aaa    ", StringUtil.ltrim("   aaa    "));
+    }
+
+
+    @Test
+    void patternMatchTest() {
+        assertTrue(StringUtil.patternMatch("XYXZZXY", "X***Y"));
+        assertTrue(StringUtil.patternMatch("XYXZZXY", "X*ZZ??"));
+        assertTrue(StringUtil.patternMatch("XYXZZXY", "*X*X?"));
+        assertFalse(StringUtil.patternMatch("XYXZZXY", "X***X"));
+        assertTrue(StringUtil.patternMatch("XYXZZXY", "*"));
+    }
+
+    @Test
+    void rtrimTest() {
         assertEquals(StringUtil.EMPTY, StringUtil.rtrim(""));
         assertEquals(StringUtil.EMPTY, StringUtil.rtrim(null));
 
@@ -35,12 +64,17 @@ class StringUtilTest {
     }
 
     @Test
-    void ltrimTest() throws ParseException {
-        assertEquals(StringUtil.EMPTY, StringUtil.ltrim(""));
-        assertEquals(StringUtil.EMPTY, StringUtil.ltrim(null));
+    void tokenizeTest() {
+        assertEquals(4, StringUtil.split(" aaa , bbb ,ccc,ddd", ",").length);
+        assertEquals("aaa", StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[0]);
+        assertEquals("bbb", StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[1]);
+        assertEquals("ccc", StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[2]);
+        assertEquals("ddd", StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[3]);
+    }
 
-        assertEquals("aaa", StringUtil.ltrim("    aaa"));
-        assertEquals("aaa    ", StringUtil.ltrim("   aaa    "));
+    @Test
+    void wordsTest() {
+        assertEquals(4, StringUtil.words(" aaa , bbb ,ccc,ddd").size());
     }
 
     @Test
@@ -58,15 +92,6 @@ class StringUtilTest {
         assertEquals(">>\\\"<<", StringUtil.replace(">>\"<<", "\"", "\\\""));
     }
 
-    @Test
-    void containsAllWordsTest() {
-        List<String> words = Arrays.asList("Bob", "Alice");
-
-        assertTrue(StringUtil.containsAllWords("Bob and Alice", words));
-        assertTrue(StringUtil.containsAllWords("Alice and Bob", words));
-        assertFalse(StringUtil.containsAllWords("Only Bob ", words));
-        assertFalse(StringUtil.containsAllWords("", words));
-    }
 
     @Test
     void inTest() {
@@ -233,15 +258,5 @@ class StringUtilTest {
         assertEquals("Impossibile validare il valore passato - Codice di controllo non valido", frameworkException.getMessage());
     }
 
-    @Test
-    void tokenizeTest() {
-
-        assertEquals(4, StringUtil.split(" aaa , bbb ,ccc,ddd", ",").length);
-        assertEquals("aaa", StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[0]);
-        assertEquals("bbb", StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[1]);
-        assertEquals("ccc", StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[2]);
-        assertEquals("ddd", StringUtil.split(" aaa , bbb ,ccc,ddd", ",")[3]);
-
-    }
 
 }

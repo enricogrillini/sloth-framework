@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @author Enrico Grillini
  */
-public class SearchManager extends FrameComponent {
+public class SearchManager {
 
     List<List<Searcher>> searcherArray;
 

@@ -95,10 +95,10 @@ public interface DecodeMap<T, V extends DecodeValue<T>> extends Iterable<V> {
     /**
      * Effettua una ricerca nella Map
      *
-     * @param description
+     * @param query
      * @param searchType
      * @return
      */
-    List<V> performSearch(String description, MapSearchType searchType, Integer sizeLimit);
+    List<V> performSearch(String query, SearchType searchType, Integer sizeLimit);
 
 }

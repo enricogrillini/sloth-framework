@@ -2,10 +2,9 @@ package it.eg.sloth.db.decodemap.map;
 
 import it.eg.sloth.db.decodemap.DecodeMap;
 import it.eg.sloth.db.decodemap.DecodeValue;
-import it.eg.sloth.db.decodemap.MapSearchType;
+import it.eg.sloth.db.decodemap.SearchType;
 import it.eg.sloth.db.decodemap.value.AbstractDecodeValue;
 import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.base.StringUtil;
 import lombok.ToString;
 
 import java.util.*;
@@ -44,7 +43,7 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> imp
 
     @Override
     public T encode(String description) {
-        List<V> list = performSearch(description, MapSearchType.FLEXIBLE, 2);
+        List<V> list = performSearch(description, SearchType.IGNORE_CASE, 2);
 
         if (list.size() == 1) {
             return list.get(0).getCode();
@@ -126,38 +125,15 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> imp
         return list;
     }
 
-    /**
-     * Ricerca esatta
-     *
-     * @return
-     */
-    private List<V> performSearchExact(String description, Integer sizeLimit) {
-        List<V> list = new ArrayList<>();
-        // Ricerca esatta
-        for (V decodeValue : map.values()) {
-            if (decodeValue.getDescription() != null && decodeValue.getDescription().equals(description)) {
-                list.add(decodeValue);
-            }
-
-            // Size Limit
-            if (sizeLimit != null && list.size() >= sizeLimit) {
-                break;
-            }
+    @Override
+    public List<V> performSearch(String query, SearchType searchType, Integer sizeLimit) {
+        if (BaseFunction.isBlank(query)) {
+            return new ArrayList<>();
         }
-        return list;
-    }
 
-    /**
-     * Ricerca flessibile sulla descrizione del DecodeValue
-     *
-     * @return
-     */
-    private List<V> performSearchFlexible(String description, Integer sizeLimit) {
         List<V> list = new ArrayList<>();
-
-        description = description.trim().toLowerCase();
         for (V decodeMapValue : map.values()) {
-            if (decodeMapValue.getDescription() != null && decodeMapValue.getDescription().trim().toLowerCase().equalsIgnoreCase(description)) {
+            if (searchType.match(decodeMapValue.getDescription(), query)) {
                 list.add(decodeMapValue);
             }
 
@@ -168,56 +144,6 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> imp
         }
 
         return list;
-    }
-
-    /**
-     * Verifica che tutte le parole siano ricomprese nella descrizione
-     *
-     * @return
-     */
-    private List<V> performSearchMatch(String description, Integer sizeLimit) {
-        List<V> list = new ArrayList<>();
-
-        // Match search
-        description = description.trim();
-        String[] matchStringArray = StringUtil.split(description, " ");
-
-        for (V decodeValue : this) {
-            boolean match = true;
-            for (String string : matchStringArray) {
-                if (!decodeValue.match(string)) {
-                    match = false;
-                    break;
-                }
-            }
-
-            if (match) {
-                list.add(decodeValue);
-            }
-
-            // Size Limit
-            if (sizeLimit != null && list.size() >= sizeLimit) {
-                break;
-            }
-        }
-
-        return list;
-    }
-
-    @Override
-    public List<V> performSearch(String description, MapSearchType searchType, Integer sizeLimit) {
-        if (BaseFunction.isBlank(description)) {
-            return new ArrayList<>();
-        }
-
-        switch (searchType) {
-            case FLEXIBLE:
-                return performSearchFlexible(description, sizeLimit);
-            case MATCH:
-                return performSearchMatch(description, sizeLimit);
-            default:
-                return performSearchExact(description, sizeLimit);
-        }
     }
 
 }

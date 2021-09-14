@@ -23,6 +23,4 @@ public interface DecodeValue<T> {
 
     boolean isValid();
 
-    boolean match(String matchString);
-
 }

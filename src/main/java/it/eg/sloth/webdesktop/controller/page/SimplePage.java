@@ -3,7 +3,7 @@ package it.eg.sloth.webdesktop.controller.page;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.eg.sloth.db.decodemap.DecodeMap;
 import it.eg.sloth.db.decodemap.DecodeValue;
-import it.eg.sloth.db.decodemap.MapSearchType;
+import it.eg.sloth.db.decodemap.SearchType;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.fields.field.DecodedDataField;
@@ -113,7 +113,7 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
             String query = getWebRequest().getString("query");
             SimpleSuggestionList list = new SimpleSuggestionList();
             if (decodeMap != null) {
-                for (DecodeValue<?> decodeValue : decodeMap.performSearch(query, MapSearchType.MATCH, 10)) {
+                for (DecodeValue<?> decodeValue : decodeMap.performSearch(query, SearchType.MATCH, 20)) {
                     SimpleSuggestion simpleSuggestion = new SimpleSuggestion();
                     simpleSuggestion.setValue(decodeValue.getDescription());
                     simpleSuggestion.setValid(decodeValue.isValid());

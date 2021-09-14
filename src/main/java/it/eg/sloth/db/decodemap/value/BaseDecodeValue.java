@@ -2,6 +2,7 @@ package it.eg.sloth.db.decodemap.value;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Project: sloth-framework
@@ -20,6 +21,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
 public class BaseDecodeValue<T> extends AbstractDecodeValue<T> {
 
     private T code;
