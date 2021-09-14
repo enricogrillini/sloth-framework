@@ -106,16 +106,16 @@ public class TextControlWriter extends HtmlWriter {
         return textArea.escapeHtmlText();
     }
 
-    private static String writeDataField(DataField<?> dataField, Elements<?> parentElement) {
+    private static String writeDataField(DataField<?> dataField, Elements<?> parentElement) throws FrameworkException {
         if (!BaseFunction.isBlank(dataField.getBaseLink())) {
             if (BaseFunction.isBlank(dataField.getLinkField())) {
-                return getLink(dataField.getBaseLink() + dataField.escapeHtmlValue(), dataField.escapeHtmlText());
+                return getLink(dataField.getBaseLink() + dataField.escapeHtmlValue(), dataField.getText());
             } else {
                 DataField<?> linkField = (DataField<?>) parentElement.getElement(dataField.getLinkField());
-                return getLink(dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.escapeHtmlText());
+                return getLink(dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.getText());
             }
         } else if (DataTypes.URL == dataField.getDataType()) {
-            return getLink(dataField.escapeHtmlValue(), dataField.escapeHtmlText(), true);
+            return getLink(dataField.escapeHtmlValue(), dataField.getText(), true);
         } else {
             return dataField.escapeHtmlText();
         }
