@@ -18,7 +18,6 @@ import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
 import java.text.MessageFormat;
-import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -533,22 +532,7 @@ public class FormControlWriter extends HtmlWriter {
         StringBuilder input = new StringBuilder();
         if (viewModality == ViewModality.VIEW) {
             input.append("<div>");
-            List<T> values = multipleAutoComplete.getValue();
-            if (values != null) {
-                for (T value : values) {
-                    String htmlDecodedText = Casting.getHtml(multipleAutoComplete.getDecodeMap().decode(value));
-                    if (!BaseFunction.isBlank(multipleAutoComplete.getBaseLink())) {
-                        if (BaseFunction.isBlank(multipleAutoComplete.getLinkField())) {
-                            htmlDecodedText = getLink(multipleAutoComplete.getBaseLink() + Casting.getHtml(multipleAutoComplete.getDataType().formatValue(value, multipleAutoComplete.getLocale())), htmlDecodedText);
-                        } else {
-                            DataField<?> linkField = (DataField<?>) parentElement.getElement(multipleAutoComplete.getLinkField());
-                            htmlDecodedText = getLink(multipleAutoComplete.getBaseLink() + linkField.escapeHtmlValue(), htmlDecodedText, true);
-                        }
-                    }
-
-                    input.append("<span class=\"badge bg-gray-200 p-2 font-weight-normal\">" + htmlDecodedText + "</span> ");
-                }
-            }
+            input.append(TextControlWriter.writeMultipleAutoComplete(multipleAutoComplete, parentElement));
             input.append("</div>");
 
         } else {

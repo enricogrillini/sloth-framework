@@ -12,10 +12,7 @@ import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.base.TextField;
-import it.eg.sloth.form.fields.field.impl.Button;
-import it.eg.sloth.form.fields.field.impl.Hidden;
-import it.eg.sloth.form.fields.field.impl.InputTotalizer;
-import it.eg.sloth.form.fields.field.impl.TextTotalizer;
+import it.eg.sloth.form.fields.field.impl.*;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
@@ -139,7 +136,7 @@ public class GridWriter extends HtmlWriter {
             htmlClass = "text-center p-1";
         } else if (FieldType.SEMAPHORE == field.getFieldType() || FieldType.CHECK_BOX == field.getFieldType() || FieldType.BUTTON == field.getFieldType()) {
             htmlClass = "text-center";
-        } else if (((TextField<?>) field).getDataType().isNumber() && !(field instanceof DecodedDataField)) {
+        } else if (((TextField<?>) field).getDataType().isNumber() && !(field instanceof DecodedDataField) && !(field instanceof MultipleAutoComplete)) {
             htmlClass = "text-right";
         }
 

@@ -7,10 +7,14 @@ import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.impl.*;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
+import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
+
+import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -48,6 +52,8 @@ public class TextControlWriter extends HtmlWriter {
                 return writeDataField((Input<?>) simpleField, parentElement);
             case INPUT_TOTALIZER:
                 return writeDataField((InputTotalizer) simpleField, parentElement);
+            case MULTIPLE_AUTO_COMPLETE:
+                return writeMultipleAutoComplete((MultipleAutoComplete<?>) simpleField, parentElement);
             case SEMAPHORE:
                 return writeSemaphore((Semaphore) simpleField);
             case SWITCH:
@@ -134,6 +140,29 @@ public class TextControlWriter extends HtmlWriter {
         } else {
             return dataField.escapeHtmlDecodedText();
         }
+    }
+
+    public static <T> String writeMultipleAutoComplete(MultipleAutoComplete<T> multipleAutoComplete, Elements<?> parentElement) throws FrameworkException {
+        StringBuilder input = new StringBuilder();
+        List<T> values = multipleAutoComplete.getValue();
+        if (values != null) {
+            for (T value : values) {
+                String decodedText = multipleAutoComplete.getDecodeMap().decode(value);
+                String htmlDecodedText = Casting.getHtml(decodedText);
+                if (!BaseFunction.isBlank(multipleAutoComplete.getBaseLink())) {
+                    if (BaseFunction.isBlank(multipleAutoComplete.getLinkField())) {
+                        htmlDecodedText = getLink(multipleAutoComplete.getBaseLink() + Casting.getHtml(multipleAutoComplete.getDataType().formatValue(value, multipleAutoComplete.getLocale())), decodedText);
+                    } else {
+                        DataField<?> linkField = (DataField<?>) parentElement.getElement(multipleAutoComplete.getLinkField());
+                        htmlDecodedText = getLink(multipleAutoComplete.getBaseLink() + linkField.escapeHtmlValue(), decodedText, true);
+                    }
+                }
+
+                input.append("<span class=\"badge bg-gray-200 p-2 font-weight-normal\">" + htmlDecodedText + "</span> ");
+            }
+        }
+
+        return input.toString();
     }
 
     /**
