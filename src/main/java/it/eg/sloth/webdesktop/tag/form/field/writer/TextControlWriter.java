@@ -10,7 +10,6 @@ import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
@@ -32,26 +31,35 @@ import java.util.List;
  */
 public class TextControlWriter extends HtmlWriter {
 
+    public static String writeControlSpace(SimpleField simpleField, Elements<?> parentElement) throws FrameworkException {
+        String result = writeControl(simpleField, parentElement);
+        if (BaseFunction.isBlank(result)) {
+            return "&nbsp;";
+        }
+
+        return result;
+    }
+
     public static String writeControl(SimpleField simpleField, Elements<?> parentElement) throws FrameworkException {
         switch (simpleField.getFieldType()) {
             case AUTO_COMPLETE:
-                return writeDecoDecodedDataField((AutoComplete<?>) simpleField, parentElement);
+                return writeAutoComplete((AutoComplete<?>) simpleField, parentElement);
             case BUTTON:
                 return FormControlWriter.writeButton((Button) simpleField);
             case CHECK_BOX:
                 return writeCheckBox((CheckBox) simpleField);
             case COMBO_BOX:
-                return writeDecoDecodedDataField((ComboBox<?>) simpleField, parentElement);
+                return writeComboBox((ComboBox<?>) simpleField, parentElement);
             case DECODED_TEXT:
-                return writeDecoDecodedDataField((DecodedText<?>) simpleField, parentElement);
+                return writeDecodedText((DecodedText<?>) simpleField, parentElement);
             case FILE:
                 return StringUtil.EMPTY;
             case HIDDEN:
                 return FormControlWriter.writeHidden((Hidden<?>) simpleField);
             case INPUT:
-                return writeDataField((Input<?>) simpleField, parentElement);
+                return writeInput((Input<?>) simpleField, parentElement);
             case INPUT_TOTALIZER:
-                return writeDataField((InputTotalizer) simpleField, parentElement);
+                return writeInputTotalizer((InputTotalizer) simpleField, parentElement);
             case MULTIPLE_AUTO_COMPLETE:
                 return writeMultipleAutoComplete((MultipleAutoComplete<?>) simpleField, parentElement);
             case SEMAPHORE:
@@ -59,7 +67,7 @@ public class TextControlWriter extends HtmlWriter {
             case SWITCH:
                 return writeSwitch((Switch) simpleField);
             case TEXT:
-                return writeDataField((Text<?>) simpleField, parentElement);
+                return writeText((Text<?>) simpleField, parentElement);
             case TEXT_AREA:
                 return writeTextArea((TextArea<?>) simpleField);
             case TEXT_TOTALIZER:
@@ -69,12 +77,12 @@ public class TextControlWriter extends HtmlWriter {
         }
     }
 
-    /**
-     * CheckBox
-     *
-     * @param checkBox
-     * @return
-     */
+    // AutoComplete
+    public static String writeAutoComplete(AutoComplete<?> dataField, Elements<?> parentElement) throws FrameworkException {
+        return writeDecoDecodedDataField(dataField, parentElement);
+    }
+
+    // CheckBox
     private static String writeCheckBox(CheckBox<?> checkBox) {
         if (checkBox.isHidden())
             return StringUtil.EMPTY;
@@ -92,85 +100,37 @@ public class TextControlWriter extends HtmlWriter {
         return result.toString();
     }
 
-    /**
-     * Semaforo
-     *
-     * @param semaphore
-     * @return
-     */
+    // ComboBox
+    public static String writeComboBox(ComboBox<?> dataField, Elements<?> parentElement) throws FrameworkException {
+        return writeDecoDecodedDataField(dataField, parentElement);
+    }
+
+    // DecodedText
+    public static String writeDecodedText(DecodedText<?> dataField, Elements<?> parentElement) throws FrameworkException {
+        return writeDecoDecodedDataField(dataField, parentElement);
+    }
+
+    // Input
+    public static String writeInput(Input<?> dataField, Elements<?> parentElement) throws FrameworkException {
+        return writeDataField(dataField, parentElement);
+    }
+
+    // Semaforo
     private static String writeSemaphore(Semaphore semaphore) throws FrameworkException {
         return semaphore.escapeHtmlDecodedText();
     }
 
-    /**
-     * TextArea
-     *
-     * @param textArea
-     * @return
-     */
-    private static String writeTextArea(TextArea<?> textArea) {
-        return textArea.escapeHtmlText();
+    // Text
+    public static String writeText(Text<?> dataField, Elements<?> parentElement) throws FrameworkException {
+        return writeDataField(dataField, parentElement);
     }
 
-    private static String writeDataField(DataField<?> dataField, Elements<?> parentElement) throws FrameworkException {
-        if (!BaseFunction.isBlank(dataField.getBaseLink())) {
-            if (BaseFunction.isBlank(dataField.getLinkField())) {
-                return getLink(dataField.getBaseLink() + dataField.escapeHtmlValue(), dataField.getText());
-            } else {
-                DataField<?> linkField = (DataField<?>) parentElement.getElement(dataField.getLinkField());
-                return getLink(dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.getText());
-            }
-        } else if (DataTypes.URL == dataField.getDataType()) {
-            return getLink(dataField.escapeHtmlValue(), dataField.getText(), true);
-        } else {
-            return dataField.escapeHtmlText();
-        }
+    // Totalizer
+    public static String writeInputTotalizer(InputTotalizer dataField, Elements<?> parentElement) throws FrameworkException {
+        return writeDataField(dataField, parentElement);
     }
 
-    private static String writeDecoDecodedDataField(DecodedDataField<?> dataField, Elements<?> parentElement) throws FrameworkException {
-        if (!BaseFunction.isBlank(dataField.getBaseLink())) {
-            if (BaseFunction.isBlank(dataField.getLinkField())) {
-                return getLink(dataField.getBaseLink() + dataField.escapeHtmlValue(), dataField.getDecodedText());
-            } else {
-                DataField<?> linkField = (DataField<?>) parentElement.getElement(dataField.getLinkField());
-                return getLink(dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.getDecodedText());
-            }
-        } else if (DataTypes.URL == dataField.getDataType()) {
-            return getLink(dataField.escapeHtmlValue(), dataField.getDecodedText(), true);
-        } else {
-            return dataField.escapeHtmlDecodedText();
-        }
-    }
-
-    public static <T> String writeMultipleAutoComplete(MultipleAutoComplete<T> multipleAutoComplete, Elements<?> parentElement) throws FrameworkException {
-        StringBuilder input = new StringBuilder();
-        List<T> values = multipleAutoComplete.getValue();
-        if (values != null) {
-            for (T value : values) {
-                String decodedText = multipleAutoComplete.getDecodeMap().decode(value);
-                String htmlDecodedText = Casting.getHtml(decodedText);
-                if (!BaseFunction.isBlank(multipleAutoComplete.getBaseLink())) {
-                    if (BaseFunction.isBlank(multipleAutoComplete.getLinkField())) {
-                        htmlDecodedText = getLink(multipleAutoComplete.getBaseLink() + Casting.getHtml(multipleAutoComplete.getDataType().formatValue(value, multipleAutoComplete.getLocale())), decodedText);
-                    } else {
-                        DataField<?> linkField = (DataField<?>) parentElement.getElement(multipleAutoComplete.getLinkField());
-                        htmlDecodedText = getLink(multipleAutoComplete.getBaseLink() + linkField.escapeHtmlValue(), decodedText, true);
-                    }
-                }
-
-                input.append("<span class=\"badge bg-gray-200 p-2 font-weight-normal\">" + htmlDecodedText + "</span> ");
-            }
-        }
-
-        return input.toString();
-    }
-
-    /**
-     * Switch
-     *
-     * @param field
-     * @return
-     */
+    //  Switch
     private static String writeSwitch(Switch<?> field) {
         if (field.isHidden())
             return StringUtil.EMPTY;
@@ -188,5 +148,86 @@ public class TextControlWriter extends HtmlWriter {
         return result.toString();
     }
 
+    // TextArea
+    private static String writeTextArea(TextArea<?> textArea) {
+        return textArea.escapeHtmlText();
+    }
+
+    private static String writeDataField(DataField<?> dataField, Elements<?> parentElement) throws FrameworkException {
+        if (!BaseFunction.isBlank(dataField.getBaseLink())) {
+            if (BaseFunction.isBlank(dataField.getLinkField())) {
+                if (dataField.getValue() != null) {
+                    return getLink(dataField.getBaseLink() + dataField.escapeHtmlValue(), dataField.escapeHtmlText());
+                } else {
+                    return StringUtil.EMPTY;
+                }
+            } else {
+                DataField<?> linkField = (DataField<?>) parentElement.getElement(dataField.getLinkField());
+                if (linkField.getValue() != null) {
+                    return getLink(dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.escapeHtmlText());
+                } else {
+                    return StringUtil.EMPTY;
+                }
+            }
+        } else if (DataTypes.URL == dataField.getDataType()) {
+            if (dataField.getValue() != null) {
+                return getLink(dataField.escapeHtmlValue(), dataField.escapeHtmlText(), true);
+            } else {
+                return StringUtil.EMPTY;
+            }
+        } else {
+            return dataField.escapeHtmlText();
+        }
+    }
+
+    private static String writeDecoDecodedDataField(DecodedDataField<?> dataField, Elements<?> parentElement) throws FrameworkException {
+        if (!BaseFunction.isBlank(dataField.getBaseLink())) {
+            if (BaseFunction.isBlank(dataField.getLinkField())) {
+                if (dataField.getValue() != null) {
+                    return getLink(dataField.getBaseLink() + dataField.escapeHtmlValue(), dataField.escapeHtmlDecodedText());
+                } else {
+                    return StringUtil.EMPTY;
+                }
+            } else {
+                DataField<?> linkField = (DataField<?>) parentElement.getElement(dataField.getLinkField());
+                if (linkField.getValue() != null) {
+                    return getLink(dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.escapeHtmlDecodedText());
+                } else {
+                    return StringUtil.EMPTY;
+                }
+            }
+        } else if (DataTypes.URL == dataField.getDataType()) {
+            if (dataField.getValue() != null) {
+                return getLink(dataField.escapeHtmlValue(), dataField.escapeHtmlDecodedText(), true);
+            } else {
+                return StringUtil.EMPTY;
+            }
+
+        } else {
+            return dataField.escapeHtmlDecodedText();
+        }
+    }
+
+    public static <T> String writeMultipleAutoComplete(MultipleAutoComplete<T> multipleAutoComplete, Elements<?> parentElement) throws FrameworkException {
+        StringBuilder input = new StringBuilder();
+        List<T> values = multipleAutoComplete.getValue();
+        if (values != null) {
+            for (T value : values) {
+                String htmlDecodedText = Casting.getHtml(multipleAutoComplete.getDecodeMap().decode(value));
+                if (!BaseFunction.isBlank(multipleAutoComplete.getBaseLink())) {
+                    if (BaseFunction.isBlank(multipleAutoComplete.getLinkField())) {
+                        htmlDecodedText = getLink(multipleAutoComplete.getBaseLink() + Casting.getHtml(multipleAutoComplete.getDataType().formatValue(value, multipleAutoComplete.getLocale())), htmlDecodedText);
+                    } else {
+                        DataField<?> linkField = (DataField<?>) parentElement.getElement(multipleAutoComplete.getLinkField());
+                        htmlDecodedText = getLink(multipleAutoComplete.getBaseLink() + linkField.escapeHtmlValue(), htmlDecodedText, true);
+                    }
+                }
+
+                input.append("<span class=\"badge bg-gray-200 p-2 font-weight-normal\">" + htmlDecodedText + "</span> ");
+            }
+        }
+
+        return input.toString();
+    }
 
 }

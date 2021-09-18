@@ -1,6 +1,5 @@
 package it.eg.sloth.webdesktop.search;
 
-import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.webdesktop.search.model.SuggestionList;
 import it.eg.sloth.webdesktop.search.model.suggestion.SimpleSuggestion;
 import it.eg.sloth.webdesktop.search.model.suggestion.Suggestion;

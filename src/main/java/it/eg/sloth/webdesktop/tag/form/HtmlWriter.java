@@ -93,20 +93,19 @@ public abstract class HtmlWriter {
         }
     }
 
-
     public static String getAttributePopover(String title, String htmlBody) {
         return MessageFormat.format(ATTR_POPOVER, title, htmlBody);
     }
 
-    public static String getLink(String url, String text) {
-        return getLink(url, text, false);
+    public static String getLink(String url, String html) {
+        return getLink(url, html, false);
     }
 
-    public static String getLink(String url, String text, boolean external) {
+    public static String getLink(String url, String html, boolean external) {
         if (external) {
-            return MessageFormat.format(LINK_EXTERNAL, url, Casting.getHtml(text));
+            return MessageFormat.format(LINK_EXTERNAL, url, html);
         } else {
-            return MessageFormat.format(LINK, url, Casting.getHtml(text));
+            return MessageFormat.format(LINK, url, html);
         }
     }
 

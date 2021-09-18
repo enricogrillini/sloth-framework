@@ -1,7 +1,6 @@
 package it.eg.sloth.db.decodemap.value;
 
 import it.eg.sloth.db.decodemap.DecodeValue;
-import it.eg.sloth.framework.common.base.BaseFunction;
 
 /**
  * Project: sloth-framework

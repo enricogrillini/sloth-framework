@@ -3,6 +3,7 @@ package it.eg.sloth.webdesktop.tag;
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
 import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.impl.*;
+import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -31,19 +32,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class FormControlWriterTest {
 
-    private static final String BASE_AUTOCOMPLETE = "<input id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm autoComplete\"{2}{3}/>";
-    private static final String LINK_AUTOCOMPLETE = "<div class=\"input-group input-group-sm\"><input id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm autoComplete\" disabled=\"\"/><div class=\"input-group-append\"><a href=\"{2}\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a></div></div>";
+    private static final String BASE_AUTOCOMPLETE_VIEW = "<div class=\"form-control form-control-sm bg-gray-200\" style=\"height: auto;\">{0}</div>";
+    private static final String BASE_AUTOCOMPLETE_EDIT = "<input id=\"name\" name=\"name\" value=\"{0}\" class=\"form-control form-control-sm autoComplete\" fields=\"master\"/>";
+
+    private static final String LINK_AUTOCOMPLETE = "<div class=\"form-control form-control-sm bg-gray-200\" style=\"height: auto;\"><a href=\"{1}\" >{0}</a></div>";
 
     private static final String BASE_BUTTON = "<button id=\"navigationprefix___button___name\" name=\"navigationprefix___button___name\" class=\"btn btn-outline-primary btn-sm\">description</button>";
 
     private static final String BASE_CHECKBOX_VIS = "<div class=\"custom-control custom-checkbox\"><input id=\"name\" name=\"name\" type=\"checkbox\" value=\"S\" disabled=\"\" class=\"custom-control-input\"/><div class=\"custom-control-label\"></div></div>";
     private static final String BASE_CHECKBOX_MOD = "<div class=\"custom-control custom-checkbox\"><input id=\"name\" name=\"name\" type=\"checkbox\" value=\"S\" class=\"custom-control-input\"{0}/><label class=\"custom-control-label\" for=\"name\"></label></div>";
 
-    private static final String BASE_COMBOBOX = "<select id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm\"{2}><option value=\"\"></option><option value=\"A\"{3}>Scelta A</option><option value=\"B\" class=\"notValid\">Scelta B</option></select>";
+    private static final String LINK_DECODEDTEXT = "<div class=\"form-control form-control-sm bg-gray-200\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\" style=\"height: auto;\"><a href=\"{1}\" >{0}</a></div>";
 
-    private static final String LINK_DECODEDTEXT = "<div class=\"input-group input-group-sm\"><input id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm\" disabled=\"\"/><div class=\"input-group-append\"><a href=\"{2}\" class=\"btn btn-outline-secondary\"><i class=\"fas fa-link\"></i></a></div></div>";
-
-    private static final String BASE_TEXT = "<input id=\"{0}\" name=\"{0}\" value=\"{1}\" class=\"form-control form-control-sm\" disabled=\"\"/>";
+    private static final String BASE_TEXT = "<div class=\"form-control form-control-sm bg-gray-200\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\" style=\"height: auto;\">{0}</div>";
 
     private static final String BASE_FILE_VIEW = "<button name=\"navigationprefix___button___name\" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Download file\"><i class=\"fas fa-download\"></i> Download</button>";
     private static final String BASE_FILE_MODIFY = "<div class=\"custom-file small\"><input id=\"{0}\" name=\"{0}\" type=\"file\" data-toggle=\"tooltip\"{1}><label class=\"custom-file-label\" for=\"name\">Choose file</label></div>";
@@ -88,7 +89,7 @@ class FormControlWriterTest {
         AutoComplete<String> autocomplete = new AutoComplete<String>("name", "description", DataTypes.STRING);
         autocomplete.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
 
-        verifyAutoComplete(autocomplete);
+        verifyAutoComplete(autocomplete, "");
     }
 
     @Test
@@ -97,25 +98,25 @@ class FormControlWriterTest {
         autocomplete.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
         autocomplete.setHtmlEscaper(new SampleEscaper());
 
-        verifyAutoComplete(autocomplete);
+        verifyAutoComplete(autocomplete, "Escaped - ");
     }
 
 
-    private void verifyAutoComplete(AutoComplete<String> autocomplete) throws FrameworkException {
+    private void verifyAutoComplete(AutoComplete<String> autocomplete, String escapedPrefix) throws FrameworkException {
         Fields fields = new Fields("Master");
 
-        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "", "", " disabled=\"\""), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW));
+        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE_VIEW, BaseFunction.nvl(escapedPrefix, "&nbsp;")), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW));
 
         autocomplete.setValue("A");
-        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "Scelta A", "", " disabled=\"\""), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW));
-        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "Scelta A", " fields=\"master\"", ""), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.EDIT));
+        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE_VIEW, escapedPrefix + "Scelta A"), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW));
+        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE_EDIT, "Scelta A"), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.EDIT));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE, "name", "Scelta A", " fields=\"master\"", ""), FormControlWriter.writeControl(autocomplete, fields, ViewModality.EDIT));
+        assertEquals(MessageFormat.format(BASE_AUTOCOMPLETE_EDIT, "Scelta A"), FormControlWriter.writeControl(autocomplete, fields, ViewModality.EDIT));
 
         // Link
         autocomplete.setBaseLink("destPage.html?name=");
-        assertEquals(MessageFormat.format(LINK_AUTOCOMPLETE, "name", "Scelta A", "destPage.html?name=A"), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW));
+        assertEquals(MessageFormat.format(LINK_AUTOCOMPLETE, escapedPrefix + "Scelta A", "destPage.html?name=A"), FormControlWriter.writeAutoComplete(autocomplete, fields, ViewModality.VIEW));
 
         // Empty
         autocomplete.setHidden(true);
@@ -159,17 +160,17 @@ class FormControlWriterTest {
         DecodedText<String> field = new DecodedText<String>("name", "description", "tooltip", DataTypes.STRING);
         field.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
 
-        assertEquals(MessageFormat.format(BASE_TEXT, "name", ""), FormControlWriter.writeDecodedText(field, null));
+        assertEquals(MessageFormat.format(BASE_TEXT, "&nbsp;"), FormControlWriter.writeDecodedText(field, null));
 
         field.setValue("A");
-        assertEquals(MessageFormat.format(BASE_TEXT, "name", "Scelta A"), FormControlWriter.writeDecodedText(field, null));
+        assertEquals(MessageFormat.format(BASE_TEXT, "Scelta A"), FormControlWriter.writeDecodedText(field, null));
 
         // Controllo generico
-        assertEquals(MessageFormat.format(BASE_TEXT, "name", "Scelta A"), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
+        assertEquals(MessageFormat.format(BASE_TEXT, "Scelta A"), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
 
         // Link
         field.setBaseLink("destPage.html?name=");
-        assertEquals(MessageFormat.format(LINK_DECODEDTEXT, "name", "Scelta A", "destPage.html?name=A"), FormControlWriter.writeDecodedText(field, null));
+        assertEquals(MessageFormat.format(LINK_DECODEDTEXT, "Scelta A", "destPage.html?name=A"), FormControlWriter.writeDecodedText(field, null));
     }
 
     @Test

@@ -28,6 +28,8 @@ public class BootStrapClass {
     }
 
     private static final String CONTROL_CLASS = "form-control form-control-sm";
+    private static final String VIEW_CONTROL_CLASS = "form-control form-control-sm bg-gray-200";
+
 
     private static final String BACKGROUND_PREFIX = "bg-";
     private static final String BORDER_PREFIX = "border border-";
@@ -46,6 +48,14 @@ public class BootStrapClass {
                 .append(dataField.getState() == null ? StringUtil.EMPTY : StringUtil.SPACE + getStateClass(dataField.getState()))
                 .toString();
     }
+
+    public static final String getViewControlClass(DataField<?> dataField) {
+        return new StringBuilder()
+                .append(VIEW_CONTROL_CLASS)
+                .append(dataField.getState() == null ? StringUtil.EMPTY : StringUtil.SPACE + getStateClass(dataField.getState()))
+                .toString();
+    }
+
 
     public static String getStateClass(ControlState controlState) {
         if (BaseFunction.isNull(controlState)) {
