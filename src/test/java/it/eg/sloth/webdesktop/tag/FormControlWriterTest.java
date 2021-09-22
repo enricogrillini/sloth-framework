@@ -88,6 +88,7 @@ class FormControlWriterTest {
         Fields fields = new Fields("Master");
         AutoComplete<String> autocomplete = new AutoComplete<String>("name", "description", DataTypes.STRING);
         autocomplete.setDecodeMap(new StringDecodeMap("A,Scelta A; B, Scelta B"));
+        autocomplete.setValue(null);
 
         verifyAutoComplete(autocomplete, "");
     }

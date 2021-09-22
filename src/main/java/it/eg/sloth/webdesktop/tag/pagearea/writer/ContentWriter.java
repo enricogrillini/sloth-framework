@@ -1,15 +1,25 @@
 package it.eg.sloth.webdesktop.tag.pagearea.writer;
 
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.utility.resource.ResourceUtil;
+import it.eg.sloth.webdesktop.alertcenter.AlertsCenterSingleton;
 import it.eg.sloth.webdesktop.alertcenter.model.Alert;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
+import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.Locale;
 
 public class ContentWriter extends HtmlWriter {
+
+    public static final String ALERT_CARDS_OPEN = ResourceUtil.normalizedResourceAsString("snippet/pagearea/alert-cards-open.html");
+    public static final String ALERT_CARDS_ROW_OPEN = ResourceUtil.normalizedResourceAsString("snippet/pagearea/alert-cards-row-open.html");
+    public static final String ALERT_CARD = ResourceUtil.normalizedResourceAsString("snippet/pagearea/alert-card.html");
+    public static final String ALERT_CARDS_ROW_CLOSE = ResourceUtil.normalizedResourceAsString("snippet/pagearea/alert-cards-row-close.html");
 
     public static final String openBarRight() {
         return new StringBuilder()
@@ -53,5 +63,55 @@ public class ContentWriter extends HtmlWriter {
                 .append(" </li>")
                 .toString();
     }
+
+    public static String alertCenter(Locale locale) throws FrameworkException {
+        Collection<Alert> alerts = AlertsCenterSingleton.getInstance().getList();
+        if (!alerts.isEmpty()) {
+            StringBuilder result = new StringBuilder();
+            result.append(ContentWriter.openAlertCenter(alerts.size()));
+            for (Alert alert : alerts) {
+                result.append(ContentWriter.writeAlert(alert, locale));
+            }
+            result.append(ContentWriter.closeAlertCenter());
+
+            return result.toString();
+        } else {
+            return StringUtil.EMPTY;
+        }
+    }
+
+    public static String alertCards(Locale locale) throws FrameworkException {
+
+        Collection<Alert> alerts = AlertsCenterSingleton.getInstance().getList();
+        if (!alerts.isEmpty()) {
+            StringBuilder result = new StringBuilder();
+
+            int i = 0;
+            for (Alert alert : alerts) {
+                if (i == 0) {
+                    result.append(ALERT_CARDS_OPEN);
+                } else if (i % 2 == 0) {
+                    result.append(ALERT_CARDS_ROW_CLOSE);
+                    result.append(ALERT_CARDS_ROW_OPEN);
+                }
+
+                result.append(MessageFormat.format(
+                        ALERT_CARD,
+                        "<div class=\"icon-circle bg-" + alert.getType().name().toLowerCase() + "\">" + alert.getType().getIcon() + "</div>",
+                        DataTypes.DATE.formatText(alert.getDate(), locale),
+                        Casting.getHtml(alert.getText()),
+                        Casting.getHtml(alert.getDetail()),
+                        alerts.size() == 1 ? "col-12" : "col-6"));
+
+                i++;
+            }
+            result.append(ALERT_CARDS_ROW_CLOSE);
+
+            return result.toString();
+        } else {
+            return StringUtil.EMPTY;
+        }
+    }
+
 
 }
