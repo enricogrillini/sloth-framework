@@ -88,6 +88,12 @@ public class Table {
                 .collect(Collectors.toList());
     }
 
+    @JsonIgnore
+    public Collection<TableColumn> getLobColumnCollection() {
+        return getTableColumnCollection().stream()
+                .filter(TableColumn::isLob)
+                .collect(Collectors.toList());
+    }
 
     @JsonIgnore
     public Collection<TableColumn> getByteaColumnCollection() {

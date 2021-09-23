@@ -81,10 +81,6 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
             } else if (NavigationConst.LAST_ROW.equals(navigation[0])) {
                 onLastRow();
                 return true;
-            } else if (NavigationConst.EXCEL.equals(navigation[0])) {
-                Grid<?> grid = (Grid<?>) getForm().getElement(navigation[1]);
-                onExcel(grid);
-                return true;
             }
         }
 

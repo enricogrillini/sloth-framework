@@ -1,9 +1,14 @@
 package it.eg.sloth.webdesktop.controller.common;
 
+import it.eg.sloth.form.grid.Grid;
+import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.utility.FileType;
+import it.eg.sloth.framework.utility.xlsx.GridXlsxWriter;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
 
 /**
  * Project: sloth-framework
@@ -38,5 +43,17 @@ public interface SimplePageInterface {
     void onInit() throws Exception;
 
     void execInit() throws Exception;
+
+    // Implementa l'esportazione in execl di una grid
+    default void onExcel(Grid<?> grid) throws Exception {
+        try (GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);) {
+            OutputStream outputStream = getResponse().getOutputStream();
+            String fileName = BaseFunction.nvl(grid.getTitle(), grid.getName()) + FileType.XLSX.getExtension();
+            fileName = StringUtil.toFileName(fileName);
+
+            setModelAndView(fileName, FileType.XLSX);
+            gridXlsxWriter.getWorkbook().write(outputStream);
+        }
+    }
 
 }

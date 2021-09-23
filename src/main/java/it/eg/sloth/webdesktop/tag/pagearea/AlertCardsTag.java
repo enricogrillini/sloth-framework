@@ -1,22 +1,13 @@
 package it.eg.sloth.webdesktop.tag.pagearea;
 
 import it.eg.sloth.form.Form;
-import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.framework.configuration.ConfigSingleton;
-import it.eg.sloth.framework.security.Menu;
-import it.eg.sloth.webdesktop.WebDesktopConstant;
-import it.eg.sloth.webdesktop.alertcenter.AlertsCenterSingleton;
-import it.eg.sloth.webdesktop.alertcenter.model.Alert;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.ContentWriter;
-import it.eg.sloth.webdesktop.tag.pagearea.writer.SearchWriter;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.IOException;
-import java.util.Collection;
 
 /**
  * Project: sloth-framework

@@ -8,6 +8,7 @@ import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.fields.field.DecodedDataField;
 import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
+import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.utility.FileType;
 import it.eg.sloth.webdesktop.controller.common.SimplePageInterface;
@@ -92,13 +93,13 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
 
     protected boolean defaultNavigation() throws Exception {
         String[] navigation = getWebRequest().getNavigation();
-        log.info("  navigation {}" , navigation);
-        
+        log.info("  navigation {}", navigation);
+
         if (navigation.length == 1 && NavigationConst.INIT.equals(navigation[0])) {
-          onInit();
-          return true;
+            onInit();
+            return true;
         }
-        
+
         if (navigation.length == 2 && NavigationConst.AUTOCOMPLETE.equals(navigation[0])) {
             log.info(NavigationConst.AUTOCOMPLETE);
             DecodeMap<?, ?> decodeMap = null;
@@ -134,6 +135,14 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
             }
 
             return true;
+        }
+
+        if (navigation.length == 2) {
+            if (navigation[0].equals(NavigationConst.EXCEL)) {
+                Grid<?> grid = (Grid<?>) getForm().getElement(navigation[1]);
+                onExcel(grid);
+                return true;
+            }
         }
 
         return false;

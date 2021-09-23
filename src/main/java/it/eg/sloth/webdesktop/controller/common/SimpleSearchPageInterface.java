@@ -64,20 +64,4 @@ public interface SimpleSearchPageInterface<F extends Form> extends FormPageInter
         grid.orderBy(fieldName, sortType);
     }
 
-    /**
-     * Implementa l'esprorazione in execl di una grid
-     *
-     * @param grid
-     * @throws Exception
-     */
-    default void onExcel(Grid<?> grid) throws Exception {
-        try (GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);) {
-            OutputStream outputStream = getResponse().getOutputStream();
-            String fileName = BaseFunction.nvl(grid.getTitle(), grid.getName()) + FileType.XLSX.getExtension();
-            fileName = StringUtil.toFileName(fileName);
-
-            setModelAndView(fileName, FileType.XLSX);
-            gridXlsxWriter.getWorkbook().write(outputStream);
-        }
-    }
 }

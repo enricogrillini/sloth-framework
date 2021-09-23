@@ -102,9 +102,6 @@ public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extend
                     onSubLastRow(grid);
                 }
                 return true;
-            } else if (NavigationConst.EXCEL.equals(navigation[0])) {
-                onExcel(grid);
-                return true;
             }
         }
 

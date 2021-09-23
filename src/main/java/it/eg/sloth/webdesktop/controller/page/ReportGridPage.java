@@ -72,11 +72,6 @@ public abstract class ReportGridPage<F extends Form> extends SimplePage<F> imple
                     onLastRow(grid);
                     return true;
 
-                case NavigationConst.EXCEL:
-                    grid = (Grid<?>) getForm().getElement(navigation[1]);
-                    onExcel(grid);
-                    return true;
-
                 default:
                     // NOP
             }

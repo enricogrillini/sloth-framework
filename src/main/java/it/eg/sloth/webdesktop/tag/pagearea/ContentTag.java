@@ -80,14 +80,7 @@ public class ContentTag extends WebDesktopTag<Form> {
         writeln(ContentWriter.openBarRight());
 
         // Alert Center
-        Collection<Alert> alerts = AlertsCenterSingleton.getInstance().getList();
-        if (!alerts.isEmpty()) {
-            writeln(ContentWriter.openAlertCenter(alerts.size()));
-            for (Alert alert : alerts) {
-                writeln(ContentWriter.writeAlert(alert, getUser().getLocale()));
-            }
-            writeln(ContentWriter.closeAlertCenter());
-        }
+        writeln(ContentWriter.alertCenter(getUser().getLocale()));
 
         // Help
         String documentationUrl = ConfigSingleton.getInstance().getString(ConfigSingleton.FRAMEWORK_DOCUMENTATION_URL);

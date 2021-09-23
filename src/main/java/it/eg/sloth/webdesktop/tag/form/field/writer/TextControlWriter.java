@@ -223,7 +223,10 @@ public class TextControlWriter extends HtmlWriter {
                     }
                 }
 
-                input.append("<span class=\"badge bg-gray-200 p-2 font-weight-normal\">" + htmlDecodedText + "</span> ");
+                if (input.length() > 0 ) {
+                    input.append(" <i class=\"fas fa-ellipsis-v\"></i> ");
+                }
+                input.append(htmlDecodedText);
             }
         }
 

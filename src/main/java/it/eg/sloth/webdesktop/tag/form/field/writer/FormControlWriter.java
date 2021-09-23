@@ -525,14 +525,17 @@ public class FormControlWriter extends HtmlWriter {
 
         ViewModality viewModality = multipleAutoComplete.getViewModality() == ViewModality.AUTO ? pageViewModality : multipleAutoComplete.getViewModality();
 
-        StringBuilder input = new StringBuilder();
+        String innerHtml;
         if (viewModality == ViewModality.VIEW) {
-            input.append("<div>");
-            input.append(TextControlWriter.writeMultipleAutoComplete(multipleAutoComplete, parentElement));
-            input.append("</div>");
+
+            innerHtml = MessageFormat.format(
+                    INPUT_VIEW,
+                    BaseFunction.nvl( TextControlWriter.writeMultipleAutoComplete(multipleAutoComplete, parentElement), NBSP),
+                    getAttribute(ATTR_CLASS, BootStrapClass.getViewControlClass(multipleAutoComplete)) + getTooltipAttributes(multipleAutoComplete.getTooltip()));
+
 
         } else {
-            input
+            innerHtml = new StringBuilder()
                     .append(BEGIN_INPUT)
                     .append(getAttribute(ATTR_ID, multipleAutoComplete.getName()))
                     .append(getAttribute(ATTR_NAME, multipleAutoComplete.getName()))
@@ -540,11 +543,12 @@ public class FormControlWriter extends HtmlWriter {
                     .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(multipleAutoComplete)))
                     .append(getAttribute("fields", parentElement.getName()))
                     .append(getAttribute(ATTR_READONLY, multipleAutoComplete.isReadOnly(), ""))
-                    .append("/>");
+                    .append("/>")
+                    .toString();
         }
 
         // Gestione link/stato
-        return input.toString();
+        return innerHtml;
     }
 
 
