@@ -1,6 +1,7 @@
 package it.eg.sloth.dbmodeler.model.schema;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import it.eg.sloth.dbmodeler.model.JsonInterface;
 import it.eg.sloth.dbmodeler.model.schema.code.Function;
 import it.eg.sloth.dbmodeler.model.schema.code.Procedure;
 import it.eg.sloth.dbmodeler.model.schema.sequence.Sequence;
@@ -13,7 +14,7 @@ import lombok.ToString;
 import java.util.*;
 
 @ToString
-public class Schema {
+public class Schema implements JsonInterface {
     private Map<String, Table> tableMap;
     private Map<String, View> viewMap;
     private Map<String, Sequence> sequenceMap;

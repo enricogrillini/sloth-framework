@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * Project: sloth-framework
- * Copyright (C) 2019-2020 Enrico Grillini
+ * Copyright (C) 2019-2021 Enrico Grillini
  * <p>
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -155,20 +155,17 @@ public class TextControlWriter extends HtmlWriter {
 
     private static String writeDataField(DataField<?> dataField, Elements<?> parentElement) throws FrameworkException {
         if (!BaseFunction.isBlank(dataField.getBaseLink())) {
-            if (BaseFunction.isBlank(dataField.getLinkField())) {
-                if (dataField.getValue() != null) {
-                    return getLink(dataField.getBaseLink() + dataField.escapeHtmlValue(), dataField.escapeHtmlText());
-                } else {
-                    return StringUtil.EMPTY;
-                }
-            } else {
-                DataField<?> linkField = (DataField<?>) parentElement.getElement(dataField.getLinkField());
-                if (linkField.getValue() != null) {
-                    return getLink(dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.escapeHtmlText());
-                } else {
-                    return StringUtil.EMPTY;
-                }
+            DataField<?> linkField = dataField;
+            if (!BaseFunction.isBlank(dataField.getLinkField())) {
+                linkField = (DataField<?>) parentElement.getElement(dataField.getLinkField());
             }
+
+            if (dataField.getValue() != null) {
+                return getLink(dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.escapeHtmlText());
+            } else {
+                return StringUtil.EMPTY;
+            }
+
         } else if (DataTypes.URL == dataField.getDataType()) {
             if (dataField.getValue() != null) {
                 return getLink(dataField.escapeHtmlValue(), dataField.escapeHtmlText(), true);
@@ -182,20 +179,17 @@ public class TextControlWriter extends HtmlWriter {
 
     private static String writeDecoDecodedDataField(DecodedDataField<?> dataField, Elements<?> parentElement) throws FrameworkException {
         if (!BaseFunction.isBlank(dataField.getBaseLink())) {
-            if (BaseFunction.isBlank(dataField.getLinkField())) {
-                if (dataField.getValue() != null) {
-                    return getLink(dataField.getBaseLink() + dataField.escapeHtmlValue(), dataField.escapeHtmlDecodedText());
-                } else {
-                    return StringUtil.EMPTY;
-                }
-            } else {
-                DataField<?> linkField = (DataField<?>) parentElement.getElement(dataField.getLinkField());
-                if (linkField.getValue() != null) {
-                    return getLink(dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.escapeHtmlDecodedText());
-                } else {
-                    return StringUtil.EMPTY;
-                }
+            DataField<?> linkField = dataField;
+            if (!BaseFunction.isBlank(dataField.getLinkField())) {
+                linkField = (DataField<?>) parentElement.getElement(dataField.getLinkField());
             }
+
+            if (dataField.getValue() != null) {
+                return getLink(dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.escapeHtmlDecodedText());
+            } else {
+                return StringUtil.EMPTY;
+            }
+
         } else if (DataTypes.URL == dataField.getDataType()) {
             if (dataField.getValue() != null) {
                 return getLink(dataField.escapeHtmlValue(), dataField.escapeHtmlDecodedText(), true);
@@ -223,7 +217,7 @@ public class TextControlWriter extends HtmlWriter {
                     }
                 }
 
-                if (input.length() > 0 ) {
+                if (input.length() > 0) {
                     input.append(" <i class=\"fas fa-ellipsis-v\"></i> ");
                 }
                 input.append(htmlDecodedText);

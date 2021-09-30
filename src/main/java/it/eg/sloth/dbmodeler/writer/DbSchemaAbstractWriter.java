@@ -74,48 +74,44 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     }
 
     @Override
-    public String sqlTables(Schema schema, boolean tablespace, boolean storage) {
+    public String sqlTable(Table table, boolean tablespace, boolean storage) {
         StringBuilder result = new StringBuilder();
 
-        for (Table table : schema.getTableCollection()) {
-            result.append(MessageFormat.format(TABLE, table.getName()));
-
-            for (TableColumn tableColumn : table.getTableColumnCollection()) {
-                if (0 == tableColumn.getPosition()) {
-                    // Prima colonna
-                    result.append(MessageFormat.format("      ({0} {1}{2}", tableColumn.getName(), calcColumnType(tableColumn.getType()), tableColumn.isNullable() ? "" : " Not Null"));
-                } else {
-                    // Colonna generica
-                    result.append(MessageFormat.format("       {0} {1}{2}", tableColumn.getName(), calcColumnType(tableColumn.getType()), tableColumn.isNullable() ? "" : " Not Null"));
-                }
-
-                if (table.getTableColumnCollection().size() == (tableColumn.getPosition() + 1)) {
-                    // Ultima colonna
-                    result.append(")");
-                } else {
-                    // Colonna generica
-                    result.append(",\n");
-                }
+        result.append(MessageFormat.format(TABLE, table.getName()));
+        for (TableColumn tableColumn : table.getTableColumnCollection()) {
+            if (0 == tableColumn.getPosition()) {
+                // Prima colonna
+                result.append(MessageFormat.format("      ({0} {1}{2}", tableColumn.getName(), calcColumnType(tableColumn.getType()), tableColumn.isNullable() ? "" : " Not Null"));
+            } else {
+                // Colonna generica
+                result.append(MessageFormat.format("       {0} {1}{2}", tableColumn.getName(), calcColumnType(tableColumn.getType()), tableColumn.isNullable() ? "" : " Not Null"));
             }
 
-            if (tablespace && !BaseFunction.isBlank(table.getTablespace())) {
-                result.append("\nTablespace " + table.getTablespace());
+            if (table.getTableColumnCollection().size() == (tableColumn.getPosition() + 1)) {
+                // Ultima colonna
+                result.append(")");
+            } else {
+                // Colonna generica
+                result.append(",\n");
             }
-
-            if (storage && !BaseFunction.isNull(table.getInitial())) {
-                result.append(MessageFormat.format("\nStorage (Initial {0})", calcSize(table.getInitial())));
-            }
-
-            result.append(";\n\n");
-
-            // Commenti
-            for (TableColumn tableColumn : table.getTableColumnCollection()) {
-                result.append(MessageFormat.format(SQL_COLUMN_COMMENT, table.getName(), tableColumn.getName(), BaseFunction.nvl(tableColumn.getDescription(), "")));
-            }
-
-            result.append("\n");
-
         }
+
+        if (tablespace && !BaseFunction.isBlank(table.getTablespace())) {
+            result.append("\nTablespace " + table.getTablespace());
+        }
+
+        if (storage && !BaseFunction.isNull(table.getInitial())) {
+            result.append(MessageFormat.format("\nStorage (Initial {0})", calcSize(table.getInitial())));
+        }
+
+        result.append(";\n\n");
+
+        // Commenti
+        for (TableColumn tableColumn : table.getTableColumnCollection()) {
+            result.append(MessageFormat.format(SQL_COLUMN_COMMENT, table.getName(), tableColumn.getName(), BaseFunction.nvl(tableColumn.getDescription(), "")));
+        }
+
+        result.append("\n");
 
         return result.toString();
     }

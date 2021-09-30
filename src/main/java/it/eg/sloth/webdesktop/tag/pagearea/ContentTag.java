@@ -7,8 +7,6 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.configuration.ConfigSingleton;
 import it.eg.sloth.framework.security.Menu;
 import it.eg.sloth.webdesktop.WebDesktopConstant;
-import it.eg.sloth.webdesktop.alertcenter.AlertsCenterSingleton;
-import it.eg.sloth.webdesktop.alertcenter.model.Alert;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.ContentWriter;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.SearchWriter;
@@ -16,11 +14,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.IOException;
-import java.util.Collection;
 
 /**
  * Project: sloth-framework
- * Copyright (C) 2019-2020 Enrico Grillini
+ * Copyright (C) 2019-2021 Enrico Grillini
  * <p>
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.

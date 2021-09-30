@@ -2,6 +2,7 @@ package it.eg.sloth.dbmodeler.writer;
 
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.schema.Schema;
+import it.eg.sloth.dbmodeler.model.schema.table.Table;
 
 public interface DbSchemaWriter {
 
@@ -9,7 +10,14 @@ public interface DbSchemaWriter {
 
     String sqlDropTables(Schema schema);
 
-    String sqlTables(Schema schema, boolean tablespace, boolean storage);
+    default String sqlTables(Schema schema, boolean tablespace, boolean storage) {
+        StringBuilder result = new StringBuilder();
+        schema.getTableCollection().forEach(t -> result.append(sqlTable(t, tablespace, storage)));
+
+        return result.toString();
+    }
+
+    String sqlTable(Table table, boolean tablespace, boolean storage);
 
     String sqlIndexes(Schema schema, boolean tablespace, boolean storage);
 

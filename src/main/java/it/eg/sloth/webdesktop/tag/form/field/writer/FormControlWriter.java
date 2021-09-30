@@ -21,7 +21,7 @@ import java.text.MessageFormat;
 
 /**
  * Project: sloth-framework
- * Copyright (C) 2019-2020 Enrico Grillini
+ * Copyright (C) 2019-2021 Enrico Grillini
  * <p>
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -338,7 +338,7 @@ public class FormControlWriter extends HtmlWriter {
                     .append(getAttribute(ATTR_NAME, comboBox.getName()))
                     .append(getAttribute(ATTR_VALUE, comboBox.escapeHtmlValue()))
                     .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(comboBox)))
-                    .append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW || comboBox.isReadOnly(), ""));
+                    .append(getAttribute(ATTR_DISABLED, comboBox.isReadOnly(), ""));
 
             result.append(">");
 
@@ -530,7 +530,7 @@ public class FormControlWriter extends HtmlWriter {
 
             innerHtml = MessageFormat.format(
                     INPUT_VIEW,
-                    BaseFunction.nvl( TextControlWriter.writeMultipleAutoComplete(multipleAutoComplete, parentElement), NBSP),
+                    TextControlWriter.writeControlSpace(multipleAutoComplete, parentElement),
                     getAttribute(ATTR_CLASS, BootStrapClass.getViewControlClass(multipleAutoComplete)) + getTooltipAttributes(multipleAutoComplete.getTooltip()));
 
 
@@ -832,7 +832,7 @@ public class FormControlWriter extends HtmlWriter {
 
     private static final String toInputGroup(String innerHtml, ControlState controlState, String stateMessageHtml) {
         if (controlState != null || !BaseFunction.isBlank(stateMessageHtml)) {
-            String wrappedStateMessageHtml = MessageFormat.format(INPUT_GROUP_STATE_MESSAGE, BootStrapClass.getBootstrapTextClass(controlState), Casting.getHtml(stateMessageHtml));
+            String wrappedStateMessageHtml = MessageFormat.format(INPUT_GROUP_STATE_MESSAGE, BootStrapClass.getBootstrapTextClass(controlState), stateMessageHtml);
             return MessageFormat.format(INPUT_GROUP, innerHtml, "", wrappedStateMessageHtml);
         } else {
             return innerHtml;

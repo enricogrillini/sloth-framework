@@ -3,17 +3,11 @@ package it.eg.sloth.webdesktop.controller.common;
 import it.eg.sloth.db.datasource.table.sort.SortType;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.grid.Grid;
-import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.pageinfo.ViewModality;
-import it.eg.sloth.framework.utility.FileType;
-import it.eg.sloth.framework.utility.xlsx.GridXlsxWriter;
-
-import java.io.OutputStream;
 
 /**
  * Project: sloth-framework
- * Copyright (C) 2019-2020 Enrico Grillini
+ * Copyright (C) 2019-2021 Enrico Grillini
  * <p>
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
