@@ -86,7 +86,7 @@ public class BaseXlsxWriter implements Closeable {
     }
 
     public XSSFSheet getSheet(String name) {
-        sheet = workbook.getSheet("name");
+        sheet = workbook.getSheet(name);
         return getSheet();
     }
 
