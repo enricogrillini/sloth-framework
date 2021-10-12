@@ -2,6 +2,7 @@ package it.eg.sloth.dbmodeler.writer;
 
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.schema.Schema;
+import it.eg.sloth.dbmodeler.model.schema.table.Table;
 import it.eg.sloth.framework.common.base.StringUtil;
 
 public class PostgresSchemaWriter extends DbSchemaAbstractWriter implements DbSchemaWriter {
@@ -32,12 +33,17 @@ public class PostgresSchemaWriter extends DbSchemaAbstractWriter implements DbSc
     }
 
     @Override
+    public String sqlTable(Table table, boolean tablespace, boolean storage) {
+        return super.sqlTable(table, tablespace, false);
+    }
+
+    @Override
     public String sqlTables(Schema schema, boolean tablespace, boolean storage) {
         return super.sqlTables(schema, tablespace, false);
     }
 
     @Override
-    public String sqlIndexes(Schema schema, boolean tablespace, boolean storage) {
-        return super.sqlIndexes(schema, true, tablespace, false);
+    public String sqlIndexes(Table table, boolean tablespace, boolean storage) {
+        return super.sqlIndexes(table, true, tablespace, false);
     }
 }

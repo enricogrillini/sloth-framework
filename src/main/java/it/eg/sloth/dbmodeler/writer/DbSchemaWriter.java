@@ -19,11 +19,21 @@ public interface DbSchemaWriter {
 
     String sqlTable(Table table, boolean tablespace, boolean storage);
 
-    String sqlIndexes(Schema schema, boolean tablespace, boolean storage);
+    default String sqlIndexes(Schema schema, boolean tablespace, boolean storage) {
+        StringBuilder result = new StringBuilder();
 
-    String sqlPrimaryKey(Schema schema);
+        for (Table table : schema.getTableCollection()) {
+            result.append(sqlIndexes(table,  tablespace, storage));
+        }
 
-    String sqlForeignKey(Schema schema);
+        return result.toString();
+    }
+
+    String sqlIndexes(Table table,  boolean tablespace, boolean storage);
+
+    String sqlPrimaryKeys(Schema schema);
+
+    String sqlForeignKeys(Schema schema);
 
     String sqlSequences(Schema schema);
 

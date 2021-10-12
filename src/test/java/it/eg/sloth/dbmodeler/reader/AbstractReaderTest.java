@@ -198,15 +198,15 @@ public abstract class AbstractReaderTest {
         }
 
         try (FileWriter fileWriter = new FileWriter(TestFactory.OUTPUT_DIR + "/snippet-sql/" + dataBaseType + "-primarykey.sql")) {
-            fileWriter.write(dbSchemaWriter.sqlPrimaryKey(schema));
+            fileWriter.write(dbSchemaWriter.sqlPrimaryKeys(schema));
         }
 
         try (FileWriter fileWriter = new FileWriter(TestFactory.OUTPUT_DIR + "/snippet-sql/" + dataBaseType + "-foreignkey.sql")) {
-            fileWriter.write(dbSchemaWriter.sqlForeignKey(schema));
+            fileWriter.write(dbSchemaWriter.sqlForeignKeys(schema));
         }
 
         try (FileWriter fileWriter = new FileWriter(TestFactory.OUTPUT_DIR + "/snippet-sql/" + dataBaseType + "-foreignkey.sql")) {
-            fileWriter.write(dbSchemaWriter.sqlForeignKey(schema));
+            fileWriter.write(dbSchemaWriter.sqlForeignKeys(schema));
         }
 
 

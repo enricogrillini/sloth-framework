@@ -2,6 +2,7 @@ package it.eg.sloth.dbmodeler.writer;
 
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.schema.Schema;
+import it.eg.sloth.dbmodeler.model.schema.table.Table;
 
 public class OracleSchemaWriter extends DbSchemaAbstractWriter implements DbSchemaWriter {
 
@@ -22,8 +23,8 @@ public class OracleSchemaWriter extends DbSchemaAbstractWriter implements DbSche
     }
 
     @Override
-    public String sqlIndexes(Schema schema, boolean tablespace, boolean storage) {
-        return super.sqlIndexes(schema, false, tablespace, tablespace);
+    public String sqlIndexes(Table table, boolean tablespace, boolean storage) {
+        return super.sqlIndexes(table, false, tablespace, tablespace);
     }
 
 }

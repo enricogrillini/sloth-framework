@@ -116,35 +116,31 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
         return result.toString();
     }
 
-    public String sqlIndexes(Schema schema, boolean excludePrimaryKey, boolean tablespace, boolean storage) {
+    public String sqlIndexes(Table table, boolean excludePrimaryKey, boolean tablespace, boolean storage) {
         StringBuilder result = new StringBuilder();
-
-        for (Table table : schema.getTableCollection()) {
-            for (Index index : table.getIndexCollection()) {
-                // Esclusione degli indici da Primary Key
-                if (excludePrimaryKey && table.getConstraint(index.getName()) != null && table.getConstraint(index.getName()).getType() == ConstraintType.PRIMARY_KEY) {
-                    continue;
-                }
-
-                result.append(MessageFormat.format(INDEX, index.getName(), table.getName(), index.isUniqueness() ? "Unique " : "", StringUtil.join(index.getColumns())));
-
-                if (tablespace && !BaseFunction.isBlank(index.getTablespace())) {
-                    result.append("\nTablespace " + index.getTablespace());
-                }
-
-                if (storage && !BaseFunction.isNull(index.getInitial())) {
-                    result.append(MessageFormat.format("\nStorage (Initial {0})", calcSize(index.getInitial())));
-                }
-
-                result.append(";\n\n");
+        for (Index index : table.getIndexCollection()) {
+            // Esclusione degli indici da Primary Key
+            if (excludePrimaryKey && table.getConstraint(index.getName()) != null && table.getConstraint(index.getName()).getType() == ConstraintType.PRIMARY_KEY) {
+                continue;
             }
-        }
 
+            result.append(MessageFormat.format(INDEX, index.getName(), table.getName(), index.isUniqueness() ? "Unique " : "", StringUtil.join(index.getColumns())));
+
+            if (tablespace && !BaseFunction.isBlank(index.getTablespace())) {
+                result.append("\nTablespace " + index.getTablespace());
+            }
+
+            if (storage && !BaseFunction.isNull(index.getInitial())) {
+                result.append(MessageFormat.format("\nStorage (Initial {0})", calcSize(index.getInitial())));
+            }
+
+            result.append(";\n\n");
+        }
         return result.toString();
     }
 
     @Override
-    public String sqlPrimaryKey(Schema schema) {
+    public String sqlPrimaryKeys(Schema schema) {
         StringBuilder result = new StringBuilder();
 
         for (Table table : schema.getTableCollection()) {
@@ -162,7 +158,7 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     }
 
     @Override
-    public String sqlForeignKey(Schema schema) {
+    public String sqlForeignKeys(Schema schema) {
         StringBuilder result = new StringBuilder();
         for (Table table : schema.getTableCollection()) {
             for (Constraint constraint : table.getConstraintCollection()) {

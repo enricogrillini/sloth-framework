@@ -31,8 +31,8 @@ public abstract class AbstractWriterTest {
         Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-indexes.sql"), dbSchemaWriter.sqlIndexes(dataBase.getSchema(), true, true));
         Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-indexes-base.sql"), dbSchemaWriter.sqlIndexes(dataBase.getSchema(), false, false));
 
-        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-primarykey.sql"), dbSchemaWriter.sqlPrimaryKey(dataBase.getSchema()));
-        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-foreignkey.sql"), dbSchemaWriter.sqlForeignKey(dataBase.getSchema()));
+        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-primarykey.sql"), dbSchemaWriter.sqlPrimaryKeys(dataBase.getSchema()));
+        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-foreignkey.sql"), dbSchemaWriter.sqlForeignKeys(dataBase.getSchema()));
 
         // Sequence
         Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-sequences.sql"), dbSchemaWriter.sqlSequences(dataBase.getSchema()));

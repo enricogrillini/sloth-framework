@@ -85,6 +85,16 @@ public class BaseXlsxWriter implements Closeable {
         return sheet;
     }
 
+    public XSSFSheet getSheet(String name) {
+        sheet = workbook.getSheet("name");
+        return getSheet();
+    }
+
+    public XSSFSheet getSheet(int index) {
+        sheet = workbook.getSheetAt(index);
+        return getSheet();
+    }
+
     public int addSheetTitle(int rowIndex, String title, String subTitle, Locale locale, int size) throws FrameworkException {
         // Titolo
         if (!BaseFunction.isBlank(title)) {
