@@ -19,6 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -48,7 +49,9 @@ public class BaseXlsxWriter implements Closeable {
     private Map<BaseExcelStyle, CellStyle> cellStyleMap;
 
     public BaseXlsxWriter(InputStream template) throws IOException {
-        workbook = new XSSFWorkbook(template);
+        workbook = new XSSFWorkbook(template); // Forza il ricalcolo delle formule
+        workbook.setForceFormulaRecalculation(true);
+
         sheet = workbook.getSheetAt(0);
         dataFormat = workbook.createDataFormat();
 
@@ -57,8 +60,9 @@ public class BaseXlsxWriter implements Closeable {
 
     public BaseXlsxWriter() {
         workbook = new XSSFWorkbook();
-        dataFormat = workbook.createDataFormat();
+        workbook.setForceFormulaRecalculation(true); // Forza il ricalcolo delle formule
 
+        dataFormat = workbook.createDataFormat();
         cellStyleMap = new HashMap<>();
     }
 
@@ -274,6 +278,10 @@ public class BaseXlsxWriter implements Closeable {
 
         CellStyle cellStyle = getStyle(baseExcelContainer, baseExcelFont, baseExcelType, horizontalAlignment);
         cell.setCellStyle(cellStyle);
+    }
+
+    public void write(OutputStream outputStream) throws IOException {
+        workbook.write(outputStream);
     }
 
     @Override

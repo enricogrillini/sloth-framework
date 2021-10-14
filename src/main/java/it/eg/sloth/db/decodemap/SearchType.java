@@ -18,7 +18,7 @@ import it.eg.sloth.framework.common.base.StringUtil;
  * @author Enrico Grillini
  */
 public enum SearchType {
-    EXACT, IGNORE_CASE, MATCH;
+    EXACT, LIKE, IGNORE_CASE, MATCH;
 
     public boolean match(String value, String query) {
         if (value == null || query == null) {
@@ -30,6 +30,8 @@ public enum SearchType {
                 return value.equals(query);
             case IGNORE_CASE:
                 return value.trim().equalsIgnoreCase(query.trim());
+            case LIKE:
+                return value.contains(query.trim());
             case MATCH:
             default:
                 if (query.endsWith("*")) {

@@ -8,6 +8,7 @@ import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.impl.Hidden;
+import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
 import it.eg.sloth.form.fields.field.impl.Semaphore;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.form.pivot.*;
@@ -83,7 +84,12 @@ public class GridXlsxWriter extends BaseXlsxWriter {
 
             setCellValue(row, cellindex, comboBox.getDecodedText());
             setCellStyle(row, cellindex, getStyle(BaseExcelContainer.WHITE_BORDERED, null, null, null));
+        } else if (dataField instanceof MultipleAutoComplete) {
+            MultipleAutoComplete<?> multipleAutoComplete = (MultipleAutoComplete<?>) dataField.newInstance();
+            multipleAutoComplete.copyFromDataSource(dataRow);
 
+            setCellValue(row, cellindex, multipleAutoComplete.getText());
+            setCellStyle(row, cellindex, getStyle(BaseExcelContainer.WHITE_BORDERED, null, null, null));
         } else {
             setCellValue(row, cellindex, dataRow.getObject(dataField.getAlias()));
             setCellStyle(row, cellindex, BaseExcelContainer.WHITE_BORDERED, null, BaseExcelType.Factory.fromDataType(dataField.getDataType()), null);

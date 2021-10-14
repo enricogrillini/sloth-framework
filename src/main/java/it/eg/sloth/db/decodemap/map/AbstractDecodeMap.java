@@ -132,14 +132,30 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> imp
         }
 
         List<V> list = new ArrayList<>();
-        for (V decodeMapValue : map.values()) {
-            if (searchType.match(decodeMapValue.getDescription(), query)) {
-                list.add(decodeMapValue);
-            }
 
+        if (searchType == SearchType.MATCH) {
+            list.addAll(executeSearch(query, SearchType.LIKE, sizeLimit, new HashSet<>()));
+        }
+
+        list.addAll(executeSearch(query, searchType, sizeLimit - list.size(), new HashSet<>(list)));
+
+        return list;
+    }
+
+    private List<V> executeSearch(String query, SearchType searchType, Integer sizeLimit, HashSet<V> excludeValue) {
+        List<V> list = new ArrayList<>();
+        for (V decodeMapValue : map.values()) {
             // Size Limit
             if (sizeLimit != null && list.size() >= sizeLimit) {
                 break;
+            }
+
+            if (excludeValue.contains(decodeMapValue)) {
+                continue;
+            }
+
+            if (searchType.match(decodeMapValue.getDescription(), query)) {
+                list.add(decodeMapValue);
             }
         }
 
