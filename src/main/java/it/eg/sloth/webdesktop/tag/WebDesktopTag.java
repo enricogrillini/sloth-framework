@@ -1,9 +1,5 @@
 package it.eg.sloth.webdesktop.tag;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
-
 import it.eg.sloth.form.Form;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -12,7 +8,11 @@ import it.eg.sloth.framework.security.User;
 import it.eg.sloth.webdesktop.common.SessionManager;
 import it.eg.sloth.webdesktop.dto.WebDesktopDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.web.csrf.CsrfToken;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
 /**
@@ -34,6 +34,12 @@ import java.io.IOException;
 public abstract class WebDesktopTag<F extends Form> extends TagSupport {
 
     private static final long serialVersionUID = 1L;
+
+    private static final String CRSF_TOKEN = "_csrf";
+
+    public CsrfToken getCrsfToken() {
+        return (CsrfToken) pageContext.getRequest().getAttribute(CRSF_TOKEN);
+    }
 
     public WebDesktopDto getWebDesktopDto() {
         return SessionManager.getWebDesktopDto(pageContext.getSession());
@@ -125,7 +131,7 @@ public abstract class WebDesktopTag<F extends Form> extends TagSupport {
         try {
             return startTag();
 
-        } catch (IOException| FrameworkException e) {
+        } catch (IOException | FrameworkException e) {
             log.error("doStartTag {}", e.getMessage(), e);
             try {
                 writeln("Errore nel metodo " + getClass().getName() + ".startTag: " + e.toString());
@@ -141,7 +147,7 @@ public abstract class WebDesktopTag<F extends Form> extends TagSupport {
     public int doEndTag() throws JspException {
         try {
             endTag();
-        } catch (IOException| FrameworkException e) {
+        } catch (IOException | FrameworkException e) {
             log.error("doEndTag\n", e);
             try {
                 writeln("<!-- Errore nel metodo " + getClass().getName() + ".endTag: " + e.toString() + " -->");

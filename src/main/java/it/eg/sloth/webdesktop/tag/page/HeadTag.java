@@ -35,7 +35,7 @@ public class HeadTag extends WebDesktopTag<Form> {
         pageContext.getResponse().setContentType("text/html; charset=UTF-8");
         pageContext.getResponse().setCharacterEncoding(StandardCharsets.UTF_8.name());
 
-        write(PageWriter.openHead(APPLICATION_TITLE + Casting.getHtml(getWebDesktopDto().getForm().getPageInfo().getTitle())));
+        write(PageWriter.openHead(APPLICATION_TITLE + Casting.getHtml(getWebDesktopDto().getForm().getPageInfo().getTitle()), getCrsfToken()));
 
         return EVAL_BODY_INCLUDE;
     }

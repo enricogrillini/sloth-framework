@@ -8,6 +8,7 @@ import it.eg.sloth.framework.configuration.ConfigSingleton;
 import it.eg.sloth.framework.security.Menu;
 import it.eg.sloth.webdesktop.WebDesktopConstant;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
+import it.eg.sloth.webdesktop.tag.page.writer.PageWriter;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.ContentWriter;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.SearchWriter;
 import lombok.Getter;
@@ -66,6 +67,7 @@ public class ContentTag extends WebDesktopTag<Form> {
         // Ricerca
         writeln("     <!-- Topbar - Search -->");
         writeln("     <form id=\"searchForm\" class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\" action=\"" + WebDesktopConstant.Page.SEARCH_PAGE + "\" method=\"post\">");
+        writeln("      " + PageWriter.getCsrfInputToken(getCrsfToken()));
 
         if (!isHideSearch()) {
             writeln(SearchWriter.writeSearchBar(null));
@@ -135,6 +137,7 @@ public class ContentTag extends WebDesktopTag<Form> {
         writeln("   <!-- Begin Page Content -->");
         writeln("   <div class=\"container-fluid\" >");
         writeln("    <form id=\"mainForm\" action=\"" + getWebDesktopDto().getLastController() + "\" method=\"post\"" + (isMultipart() ? " enctype=\"multipart/form-data\"" : "") + ">");
+        writeln("     " + PageWriter.getCsrfInputToken(getCrsfToken()));
 
         return EVAL_BODY_INCLUDE;
     }

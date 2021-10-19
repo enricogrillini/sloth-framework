@@ -2,6 +2,8 @@ package it.eg.sloth.db.decodemap;
 
 import it.eg.sloth.framework.common.base.StringUtil;
 
+import java.util.Locale;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2021 Enrico Grillini
@@ -31,7 +33,7 @@ public enum SearchType {
             case IGNORE_CASE:
                 return value.trim().equalsIgnoreCase(query.trim());
             case LIKE:
-                return value.contains(query.trim());
+                return value.toLowerCase().contains(query.trim().toLowerCase());
             case MATCH:
             default:
                 if (query.endsWith("*")) {
