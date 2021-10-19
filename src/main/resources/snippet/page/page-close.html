@@ -27,7 +27,10 @@
     <div class="modal-body">Selezionare "Esci" per terminare la sessione corrente.</div>
     <div class="modal-footer">
      <button class="btn btn-secondary" type="button" data-dismiss="modal">Annulla</button>
-     <a class="btn btn-primary" href="../sec/logout">Esci</a>
+     <form action="../sec/logout" method="post">
+      {0}
+      <button class="btn btn-primary" type="submit">Esci</button>
+     </form>
     </div>
    </div>
   </div>
