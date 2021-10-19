@@ -5,6 +5,7 @@ import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.form.fields.field.base.TextField;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.BigDecimalUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -38,6 +39,7 @@ public class CardWriter extends HtmlWriter {
     public static final String CARD_CLOSE = ResourceUtil.normalizedResourceAsString("snippet/card/card-close.html");
 
     public static final String FIELD_CARD_CONTENT = ResourceUtil.normalizedResourceAsString("snippet/card/field-card-content.html");
+    public static final String PAIRED_FIELD_CARD_CONTENT = ResourceUtil.normalizedResourceAsString("snippet/card/paired-fields-card-row.html");
 
     public static final String FIELDS_CARD_TITLE = ResourceUtil.normalizedResourceAsString("snippet/card/fields-card-title.html");
     public static final String FIELDS_CARD_ROW = ResourceUtil.normalizedResourceAsString("snippet/card/fields-card-row.html");
@@ -72,24 +74,70 @@ public class CardWriter extends HtmlWriter {
 
         double min = getMinValue(fields);
         double max = getMaxValue(fields);
-        double delta = max - min;
+        double delta = max - min == 0 ? 1 : max - min;
         for (DataField<?> dataField : fields.getDataFieldList()) {
             if (BaseFunction.in(dataField.getDataType(), DataTypes.DECIMAL, DataTypes.INTEGER, DataTypes.CURRENCY, DataTypes.PERC, DataTypes.NUMBER)) {
-                if (delta == 0 || dataField.getValue() == null) {
-                    result.append(MessageFormat.format(FIELDS_CARD_ROW, dataField.getHtmlDescription(), "", "0", BootStrapClass.getStateBackgroundClass(ControlState.DEFAULT)));
-                } else {
-                    BigDecimal value = (BigDecimal) dataField.getValue();
-                    double valuePerc = Math.round((value.doubleValue() - min) / delta * 100);
-                    ControlState controlState = (ControlState) BaseFunction.nvl(dataField.getState(), ControlState.DEFAULT);
+                DataField<BigDecimal> field = (DataField<BigDecimal>) dataField;
 
-                    result.append(MessageFormat.format(FIELDS_CARD_ROW, dataField.getHtmlDescription(), dataField.escapeHtmlText(), String.valueOf(valuePerc), BootStrapClass.getStateBackgroundClass(controlState)));
-                }
+                String value1 = field.escapeHtmlText();
+                double valuePerc1 = Math.round((BigDecimalUtil.doubleValue(field.getValue()) - min) / delta * 100);
+                String bgClass1 = BootStrapClass.getStateBackgroundClass((ControlState) BaseFunction.nvl(field.getState(), ControlState.DEFAULT));
+
+                result.append(MessageFormat.format(FIELDS_CARD_ROW, field.getHtmlDescription(), value1, String.valueOf(valuePerc1), bgClass1));
             }
         }
 
         return result
                 .append("   </div>")
                 .toString();
+    }
+
+    public static final String pairedFieldsCardOpen(Fields<?> fields) throws FrameworkException {
+        StringBuilder result = new StringBuilder()
+                .append(MessageFormat.format(CARD_OPEN, Casting.getHtml(fields.getDescription())))
+                .append(MessageFormat.format(FIELDS_CARD_TITLE, Casting.getHtml(fields.getDescription())));
+
+        double min = getMinValue(fields);
+        double max = getMaxValue(fields);
+        double delta = max - min == 0 ? 1 : max - min;
+
+        String value1 = "";
+        double valuePerc1 = 0;
+        String bgClass1 = "";
+
+        int i = 0;
+        for (DataField<?> dataField : fields.getDataFieldList()) {
+            if (BaseFunction.in(dataField.getDataType(), DataTypes.DECIMAL, DataTypes.INTEGER, DataTypes.CURRENCY, DataTypes.PERC, DataTypes.NUMBER)) {
+                DataField<BigDecimal> field = (DataField<BigDecimal>) dataField;
+
+                if (i % 2 == 1) {
+                    String value2 = field.escapeHtmlText();
+                    double valuePerc2 = Math.round((BigDecimalUtil.doubleValue(field.getValue()) - min) / delta * 100);
+                    String bgClass2 = BootStrapClass.getStateBackgroundClass((ControlState) BaseFunction.nvl(field.getState(), ControlState.DEFAULT));
+
+                    result.append(MessageFormat.format(PAIRED_FIELD_CARD_CONTENT,
+                            field.getHtmlDescription(),
+                            value1, value2,
+                            String.valueOf(valuePerc1), String.valueOf(valuePerc2 - valuePerc1),
+                            bgClass1, bgClass2));
+
+                } else {
+                    value1 = field.escapeHtmlText();
+                    valuePerc1 = Math.round((BigDecimalUtil.doubleValue(field.getValue()) - min) / delta * 100);
+                    bgClass1 = BootStrapClass.getStateBackgroundClass((ControlState) BaseFunction.nvl(field.getState(), ControlState.DEFAULT));
+
+                    if (i == fields.getDataFieldList().size() - 1) {
+                        result.append(MessageFormat.format(FIELDS_CARD_ROW, field.getHtmlDescription(), value1, String.valueOf(valuePerc1), bgClass1));
+                    }
+                }
+                i++;
+            }
+        }
+
+        return result
+                .append("   </div>")
+                .toString();
+
     }
 
     private static double getMinValue(Fields<?> fields) throws FrameworkException {

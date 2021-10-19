@@ -181,6 +181,14 @@ public class TestFactory {
         return result;
     }
 
+    public static BaseDecodeMap<String> getTopicDecodeMap() {
+        BaseDecodeMap<String> result = new BaseDecodeMap<>();
+        result.put("Topic A", "Topic A");
+        result.put("Topic B", "Topic B");
+        result.put("Topic C", "Topic C");
+        result.put("Topic D", "Topic D");
+        return result;
+    }
 
     public static WebRequest getMockedWebRequest(Map<String, String[]> map) throws ServletException, IOException {
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);

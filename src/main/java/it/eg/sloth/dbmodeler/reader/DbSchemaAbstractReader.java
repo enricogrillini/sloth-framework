@@ -64,7 +64,7 @@ public abstract class DbSchemaAbstractReader implements DbSchemaReader {
                         .name(StringUtil.initCap(name))
                         .description(dataRow.getString("table_comments"))
                         .tablespace(dataRow.getString("tablespace_name"))
-                        .initial(dataRow.getBigDecimal("initial_extent").longValue())
+                        .initial(BigDecimalUtil.longObject(dataRow.getBigDecimal("initial_extent")))
                         .temporary("Y".equals(dataRow.getString("temporary_table")))
                         .duration(dataRow.getString("duration"))
                         .build();

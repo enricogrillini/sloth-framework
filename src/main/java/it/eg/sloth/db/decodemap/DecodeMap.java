@@ -1,5 +1,7 @@
 package it.eg.sloth.db.decodemap;
 
+import it.eg.sloth.db.decodemap.value.BaseDecodeValue;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -19,6 +21,33 @@ import java.util.List;
  * @author Enrico Grillini
  */
 public interface DecodeMap<T, V extends DecodeValue<T>> extends Iterable<V> {
+
+    /**
+     * Aggiunge un valore
+     *
+     * @param code
+     * @param description
+     */
+    default void put(T code, String description) {
+        put(code, description, true);
+    }
+
+    /**
+     * Aggiunge un valore
+     *
+     * @param code
+     * @param description
+     * @param valid
+     */
+    void put(T code, String description, boolean valid);
+
+    /**
+     * Ritorna un valore
+     *
+     * @param code
+     * @return
+     */
+    V get(T code);
 
     /**
      * Ritorna il codice corrispondente ad una descrizione

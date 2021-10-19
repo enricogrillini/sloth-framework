@@ -48,9 +48,15 @@ public class MultipleAutoComplete<T> extends InputField<List<T>> {
 
     private String decodedText;
     private DecodeMap<T, ? extends DecodeValue<T>> decodeMap;
+    private Boolean freeInput;
 
     public MultipleAutoComplete(String name, String description, DataTypes dataType) {
         super(name, description, dataType);
+        freeInput = false;
+    }
+
+    public boolean isFreeInput() {
+        return freeInput != null && freeInput;
     }
 
     @Override
@@ -197,6 +203,9 @@ public class MultipleAutoComplete<T> extends InputField<List<T>> {
                     T value = getDecodeMap().encode(text);
                     if (value != null) {
                         values.add(value);
+                    } else if (isFreeInput()) {
+                        values.add((T) text);
+                        getDecodeMap().put((T) text, text);
                     }
                 }
 

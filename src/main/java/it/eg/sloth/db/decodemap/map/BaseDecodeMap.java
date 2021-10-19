@@ -1,16 +1,15 @@
 package it.eg.sloth.db.decodemap.map;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.decodemap.value.BaseDecodeValue;
 import it.eg.sloth.db.query.SelectQueryInterface;
-import it.eg.sloth.db.query.query.Query;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Project: sloth-framework
@@ -38,13 +37,13 @@ public class BaseDecodeMap<T> extends AbstractDecodeMap<T, BaseDecodeValue<T>> {
     private String codeName;
     private String descriptionName;
     private String validName;
-    
+
     public BaseDecodeMap(String codeName, String descriptionName, String validName, SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
-      this(codeName, descriptionName, validName);
-      
-      if (query != null) {
-        load(query);
-      }
+        this(codeName, descriptionName, validName);
+
+        if (query != null) {
+            load(query);
+        }
     }
 
     public BaseDecodeMap(String codeName, String descriptionName, String validName) {
@@ -64,15 +63,15 @@ public class BaseDecodeMap<T> extends AbstractDecodeMap<T, BaseDecodeValue<T>> {
      *
      * @param dataTable
      */
-    @SuppressWarnings("unchecked")
     public void load(DataTable<?> dataTable) {
         clear();
 
         for (DataRow row : dataTable) {
-            if (validName == null)
+            if (validName == null) {
                 put((T) row.getObject(codeName), row.getString(descriptionName));
-            else
+            } else {
                 put((T) row.getObject(codeName), row.getString(descriptionName), "S".equals(row.getString(validName)));
+            }
         }
     }
 
@@ -88,10 +87,7 @@ public class BaseDecodeMap<T> extends AbstractDecodeMap<T, BaseDecodeValue<T>> {
         load(query.selectTable());
     }
 
-    public void put(T code, String description) {
-        put(new BaseDecodeValue<>(code, description));
-    }
-
+    @Override
     public void put(T code, String description, boolean valid) {
         put(new BaseDecodeValue<>(code, description, valid));
     }

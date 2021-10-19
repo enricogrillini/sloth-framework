@@ -602,7 +602,9 @@
 
  <complexType name="MultipleAutoComplete">
   <complexContent>
-   <extension base="tns:AutoComplete"></extension>
+   <extension base="tns:AutoComplete">
+    <attribute name="freeInput" type="boolean"></attribute>
+   </extension>
   </complexContent>
  </complexType>
 </schema>

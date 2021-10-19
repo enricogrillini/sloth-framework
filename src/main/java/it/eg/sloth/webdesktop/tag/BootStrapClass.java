@@ -3,6 +3,7 @@ package it.eg.sloth.webdesktop.tag;
 import it.eg.sloth.form.ControlState;
 import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.form.fields.field.FieldType;
+import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 
@@ -45,6 +46,7 @@ public class BootStrapClass {
                 .append(CONTROL_CLASS)
                 .append(dataField.getFieldType() == FieldType.AUTO_COMPLETE ? " autoComplete" : "")
                 .append(dataField.getFieldType() == FieldType.MULTIPLE_AUTO_COMPLETE ? " multipleAutoComplete" : "")
+                .append(dataField.getFieldType() == FieldType.MULTIPLE_AUTO_COMPLETE && ((MultipleAutoComplete) dataField).isFreeInput() ? " freeInput" : "")
                 .append(dataField.getState() == null ? StringUtil.EMPTY : StringUtil.SPACE + getStateClass(dataField.getState()))
                 .toString();
     }

@@ -19,6 +19,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 /**
  * Project: sloth-framework
@@ -62,7 +63,7 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
             log.info("Page view");
             return new ModelAndView(getJspName());
         } else {
-            log.info("Page service");
+            log.info("Page service - navigation {}", Arrays.stream(getWebRequest().getNavigation()).toArray());
 
             // Esecuzione della Page
             try {
@@ -93,15 +94,12 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
 
     protected boolean defaultNavigation() throws Exception {
         String[] navigation = getWebRequest().getNavigation();
-        log.info("  navigation {}", navigation);
-
         if (navigation.length == 1 && NavigationConst.INIT.equals(navigation[0])) {
             onInit();
             return true;
         }
 
         if (navigation.length == 2 && NavigationConst.AUTOCOMPLETE.equals(navigation[0])) {
-            log.info(NavigationConst.AUTOCOMPLETE);
             DecodeMap<?, ?> decodeMap = null;
             if (getForm().getElement(navigation[1]) instanceof DecodedDataField) {
                 DecodedDataField<?> decodedDataField = (DecodedDataField<?>) getForm().getElement(navigation[1]);

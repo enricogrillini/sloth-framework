@@ -38,6 +38,7 @@ class CardWriterTest {
     private static final String CONTENT_TEMPLATE_4 = ResourceUtil.normalizedResourceAsString("snippet-html/card/field-card-content-4.html");
 
     private static final String FIELDS_CARD_OPEN = ResourceUtil.normalizedResourceAsString("snippet-html/card/fields-card-open.html");
+    private static final String PAIRED_FIELDS_CARD_OPEN = ResourceUtil.normalizedResourceAsString("snippet-html/card/paired-fields-card-open.html");
 
     @Test
     void fieldCardContentTest() throws FrameworkException {
@@ -81,5 +82,43 @@ class CardWriterTest {
         fields.addChild(text);
 
         assertEquals(FIELDS_CARD_OPEN, CardWriter.fieldsCardOpen(fields));
+    }
+
+    @Test
+    void pairedFieldsCardOpenTest() throws FrameworkException {
+        Fields fields = new Grid<>("prova", null);
+        fields.setDescription("Prova sottotitolo");
+
+        Text<BigDecimal> text = new Text("campo1", "campo 1", DataTypes.INTEGER);
+        text.setLocale(Locale.ITALY);
+        text.setValue(BigDecimal.valueOf(124));
+        text.setState(ControlState.SUCCESS);
+        fields.addChild(text);
+
+        text = new Text("campo2", "campo 2", DataTypes.INTEGER);
+        text.setLocale(Locale.ITALY);
+        text.setValue(BigDecimal.valueOf(243));
+        text.setState(ControlState.SUCCESS);
+        fields.addChild(text);
+
+        text = new Text("campo3", "campo 3", DataTypes.INTEGER);
+        text.setLocale(Locale.ITALY);
+        text.setValue(BigDecimal.valueOf(232));
+        text.setState(ControlState.DANGER);
+        fields.addChild(text);
+
+        text = new Text("campo4", "campo 4", DataTypes.INTEGER);
+        text.setLocale(Locale.ITALY);
+        text.setValue(BigDecimal.valueOf(466));
+        text.setState(ControlState.DANGER);
+        fields.addChild(text);
+
+        text = new Text("campo5", "campo 5", DataTypes.INTEGER);
+        text.setLocale(Locale.ITALY);
+        text.setValue(BigDecimal.valueOf(628));
+        text.setState(ControlState.DEFAULT);
+        fields.addChild(text);
+
+        assertEquals(PAIRED_FIELDS_CARD_OPEN, CardWriter.pairedFieldsCardOpen(fields));
     }
 }
