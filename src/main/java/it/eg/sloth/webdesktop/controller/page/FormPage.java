@@ -89,11 +89,9 @@ public abstract class FormPage<F extends Form> extends BasePage implements FormP
                 return new ModelAndView("redirect:" + WebDesktopConstant.Page.HOME_PUBBLICA_PAGE);
 
             } else if (!accessAllowed()) {
-                // Verifico la sicurezza
-                log.warn("Accesso non consentito");
-                getMessageList().clear();
-                getMessageList().addBaseError("Accesso alla funzionalità non consentito!");
-                getMessageList().setPopup(false);
+                // Verifica sicurezza
+                navigationError("Accesso alla funzionalità non consentito!");
+
                 return new ModelAndView(WebDesktopConstant.Jsp.ERROR);
 
             } else {
@@ -128,5 +126,13 @@ public abstract class FormPage<F extends Form> extends BasePage implements FormP
 
     public void setNewForm(boolean newForm) {
         this.newForm = newForm;
+    }
+
+    protected void navigationError(String message) {
+        // Verifico la sicurezza
+        log.warn("navigationError {}", message);
+        getMessageList().clear();
+        getMessageList().addBaseError(message);
+        getMessageList().setPopup(false);
     }
 }

@@ -11,7 +11,6 @@ import it.eg.sloth.form.fields.field.DecodedDataField;
 import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.utility.FileType;
-import it.eg.sloth.webdesktop.controller.common.SimplePageInterface;
 import it.eg.sloth.webdesktop.controller.page.FormPage;
 import it.eg.sloth.webdesktop.search.model.SimpleSuggestionList;
 import it.eg.sloth.webdesktop.search.model.suggestion.SimpleSuggestion;
@@ -38,7 +37,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Enrico Grillini
  */
 @Slf4j
-public abstract class WebSimplePage<F extends Form> extends FormPage<F> implements SimplePageInterface {
+public abstract class WebSimplePage<F extends Form> extends FormPage<F> {
 
     private ModelAndView modelAndView;
 

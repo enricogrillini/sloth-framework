@@ -1,7 +1,5 @@
 package it.eg.sloth.db.decodemap;
 
-import it.eg.sloth.db.decodemap.value.BaseDecodeValue;
-
 import java.util.Collection;
 import java.util.List;
 

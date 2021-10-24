@@ -2,7 +2,6 @@ package it.eg.sloth.db.decodemap.map;
 
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
-import it.eg.sloth.db.decodemap.value.BaseDecodeValue;
 import it.eg.sloth.db.decodemap.value.TableDecodeValue;
 
 /**

@@ -2,8 +2,6 @@ package it.eg.sloth.db.decodemap;
 
 import it.eg.sloth.framework.common.base.StringUtil;
 
-import java.util.Locale;
-
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2021 Enrico Grillini

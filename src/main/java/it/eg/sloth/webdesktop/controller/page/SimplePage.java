@@ -11,7 +11,6 @@ import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.utility.FileType;
-import it.eg.sloth.webdesktop.controller.common.SimplePageInterface;
 import it.eg.sloth.webdesktop.search.model.SimpleSuggestionList;
 import it.eg.sloth.webdesktop.search.model.suggestion.SimpleSuggestion;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +40,7 @@ import java.util.Arrays;
  * @author Enrico Grillini
  */
 @Slf4j
-public abstract class SimplePage<F extends Form> extends FormPage<F> implements SimplePageInterface {
+public abstract class SimplePage<F extends Form> extends FormPage<F> {
 
     private ModelAndView modelAndView;
 
@@ -71,9 +70,16 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
                 getMessageList().clear();
 
                 // Eseguo le operazioni di inizializzaizone sel la form se è nuova o se la navigazione non è gestita
-                if (isNewForm() || !defaultNavigation()) {
+                if (isNewForm()) {
                     onInit();
+                } else {
+                    onBeforeNavigation();
+                    if (!defaultNavigation()) {
+                        onInit();
+                    }
                 }
+
+
             } catch (Exception e) {
                 getMessageList().addBaseError(e);
                 log.error("Errore", e);
@@ -135,19 +141,13 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> implements 
             return true;
         }
 
-        if (navigation.length == 2) {
-            if (navigation[0].equals(NavigationConst.EXCEL)) {
-                Grid<?> grid = (Grid<?>) getForm().getElement(navigation[1]);
-                onExcel(grid);
-                return true;
-            }
+        if (navigation.length == 2 && navigation[0].equals(NavigationConst.EXCEL)) {
+            Grid<?> grid = (Grid<?>) getForm().getElement(navigation[1]);
+            onExcel(grid);
+            return true;
         }
 
         return false;
-    }
-
-    public void onInit() throws Exception {
-        execInit();
     }
 
     public ModelAndView getModelAndView() {

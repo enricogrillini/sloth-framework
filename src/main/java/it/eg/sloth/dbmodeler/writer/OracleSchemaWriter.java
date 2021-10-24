@@ -1,7 +1,6 @@
 package it.eg.sloth.dbmodeler.writer;
 
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
-import it.eg.sloth.dbmodeler.model.schema.Schema;
 import it.eg.sloth.dbmodeler.model.schema.table.Table;
 
 public class OracleSchemaWriter extends DbSchemaAbstractWriter implements DbSchemaWriter {

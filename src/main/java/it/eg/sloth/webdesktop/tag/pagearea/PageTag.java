@@ -2,10 +2,8 @@ package it.eg.sloth.webdesktop.tag.pagearea;
 
 import it.eg.sloth.form.Form;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
-import it.eg.sloth.webdesktop.WebDesktopConstant;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import it.eg.sloth.webdesktop.tag.page.writer.PageWriter;
-import it.eg.sloth.webdesktop.tag.pagearea.writer.ContentWriter;
 
 import java.io.IOException;
 import java.text.MessageFormat;

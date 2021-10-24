@@ -34,6 +34,7 @@ public class PageInfo {
     Breadcrumbs breadcrumbs;
     ViewModality viewModality;
     PageStatus pageStatus;
+    Accessibility accessibility;
 
     @Getter(AccessLevel.PRIVATE)
     @Setter(AccessLevel.PRIVATE)
@@ -44,6 +45,7 @@ public class PageInfo {
         this.breadcrumbs = new Breadcrumbs();
         this.viewModality = ViewModality.VIEW;
         this.pageStatus = PageStatus.MASTER;
+        this.accessibility = new Accessibility();
         this.objects = new HashMap<>();
     }
 
@@ -61,6 +63,13 @@ public class PageInfo {
 
     public boolean containsObject(String key) {
         return objects.containsKey(key);
+    }
+
+    public void setAccessibility(boolean create, boolean update, boolean read, boolean delete) {
+        getAccessibility().setCreate(create);
+        getAccessibility().setUpdate(update);
+        getAccessibility().setRead(read);
+        getAccessibility().setDelete(delete);
     }
 
 }

@@ -7,7 +7,6 @@ import it.eg.sloth.webdesktop.dto.WebDesktopDto;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -33,12 +32,12 @@ import java.io.IOException;
  */
 @Slf4j
 @Getter
-public abstract class BasePage implements Controller {
+public abstract class BasePage implements BasePageInterface {
 
     private HttpServletRequest request;
     private HttpServletResponse response;
 
-    public BasePage() {
+    protected BasePage() {
         this.request = null;
         this.response = null;
     }
@@ -50,15 +49,6 @@ public abstract class BasePage implements Controller {
         // Disabilito la cache
         this.response.setHeader("Cache-Control", "no-cache");
     }
-
-    /**
-     * Definisce la funzionalità a cui si deve essere abilitati per accedere al
-     * controllo. Se non si vogliono effttuare controlli di sicurezza ritornare
-     * "null"
-     *
-     * @return
-     */
-    public abstract String getFunctionName();
 
     protected boolean accessAllowed() {
         if (getFunctionName() == null) {
@@ -106,14 +96,6 @@ public abstract class BasePage implements Controller {
     public void setUser(User user) {
         getWebDesktopDto().setUser(user);
     }
-
-    /**
-     * Gestisce la risposta alla chiamata
-     *
-     * @return
-     * @throws Exception
-     */
-    public abstract ModelAndView service() throws Exception;
 
     public ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse res) {
         try {

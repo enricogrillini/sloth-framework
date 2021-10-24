@@ -2,7 +2,17 @@ package it.eg.sloth.webdesktop.controller.common;
 
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.WebRequest;
+import it.eg.sloth.form.grid.Grid;
+import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.message.MessageList;
+import it.eg.sloth.framework.utility.FileType;
+import it.eg.sloth.framework.utility.xlsx.GridXlsxWriter;
+import it.eg.sloth.webdesktop.controller.BasePageInterface;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.OutputStream;
 
 /**
  * Project: sloth-framework
@@ -20,9 +30,7 @@ import it.eg.sloth.framework.common.message.MessageList;
  *
  * @author Enrico Grillini
  */
-public interface FormPageInterface<F extends Form> extends SimplePageInterface {
-
-    WebRequest getWebRequest();
+public interface FormPageInterface<F extends Form> extends BasePageInterface {
 
     void setWebRequest(WebRequest webRequest);
 
@@ -33,5 +41,43 @@ public interface FormPageInterface<F extends Form> extends SimplePageInterface {
     boolean isNewForm();
 
     void setNewForm(boolean newForm);
+
+    HttpServletResponse getResponse();
+
+    ModelAndView getModelAndView();
+
+    void clearModelAndView();
+
+    void setModelAndView(String fileName, FileType fileType);
+
+    void setModelAndView(ModelAndView modelAndView);
+
+    void setModelAndView(String modelAndView);
+
+    default void onInit() throws Exception {
+        execInit();
+    }
+
+    void execInit() throws Exception;
+
+    default void onBeforeNavigation() throws Exception {
+        execBeforeNavigation();
+    }
+
+    default void execBeforeNavigation() throws Exception {
+        // NOP
+    }
+
+    // Implementa l'esportazione in execl di una grid
+    default void onExcel(Grid<?> grid) throws Exception {
+        try (GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);) {
+            OutputStream outputStream = getResponse().getOutputStream();
+            String fileName = BaseFunction.nvl(grid.getTitle(), grid.getName()) + FileType.XLSX.getExtension();
+            fileName = StringUtil.toFileName(fileName);
+
+            setModelAndView(fileName, FileType.XLSX);
+            gridXlsxWriter.getWorkbook().write(outputStream);
+        }
+    }
 
 }
