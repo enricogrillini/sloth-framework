@@ -65,10 +65,10 @@ public class PageInfo {
         return objects.containsKey(key);
     }
 
-    public void setAccessibility(boolean create, boolean update, boolean read, boolean delete) {
+    public void setAccessibility(boolean create, boolean read, boolean update, boolean delete) {
         getAccessibility().setCreate(create);
-        getAccessibility().setUpdate(update);
         getAccessibility().setRead(read);
+        getAccessibility().setUpdate(update);
         getAccessibility().setDelete(delete);
     }
 

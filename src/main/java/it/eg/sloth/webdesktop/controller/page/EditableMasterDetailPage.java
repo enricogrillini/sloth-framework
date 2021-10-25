@@ -170,7 +170,9 @@ public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>
 
     @Override
     public void onInsert() throws Exception {
-        if (execInsert()) {
+        if (!getForm().getPageInfo().getAccessibility().isCreate()) {
+            navigationError("Inserimento non consentito");
+        } else if (execInsert()) {
             getForm().getPageInfo().setPageStatus(PageStatus.INSERTING);
             getForm().getPageInfo().setViewModality(ViewModality.EDIT);
         }
@@ -183,7 +185,9 @@ public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>
 
     @Override
     public void onDelete() throws Exception {
-        if (execDelete()) {
+        if (!getForm().getPageInfo().getAccessibility().isDelete()) {
+            navigationError("Cancellazione non consentita");
+        } else if (execDelete()) {
             getForm().getPageInfo().setPageStatus(PageStatus.DELETING);
             getForm().getPageInfo().setViewModality(ViewModality.VIEW);
         }
@@ -205,7 +209,9 @@ public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>
 
     @Override
     public void onUpdate() throws Exception {
-        if (execUpdate()) {
+        if (!getForm().getPageInfo().getAccessibility().isUpdate()) {
+            navigationError("Modifica non consentita");
+        } else if (execUpdate()) {
             getForm().getPageInfo().setPageStatus(PageStatus.UPDATING);
             getForm().getPageInfo().setViewModality(ViewModality.EDIT);
         }
