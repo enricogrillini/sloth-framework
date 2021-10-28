@@ -9,19 +9,51 @@
   },
   "schema" : {
     "functionCollection" : [ {
-      "arguments" : [ ],
+      "arguments" : [ {
+        "inOut" : "IN",
+        "name" : "incodfunzione",
+        "position" : 0,
+        "type" : "character varying"
+      } ],
       "definition" : "CREATE OR REPLACE FUNCTION gildace.sec_getruolifunzione(incodfunzione character varying)\n RETURNS character varying\n LANGUAGE plpgsql\nAS $function$\nDECLARE\n\n  Result Varchar(1000);\n\n  Cruoli Cursor For\n    Select R.Descrizionebreve\n    From Sec_Dec_Ruoli R, Sec_Funzioniruoli Fr\n    Where R.Codruolo = Fr.Codruolo And\n          Fr.Codfunzione = Incodfunzione And\n          Fr.Flagaccesso = 'S'\n    Order by 1;\n\nbegin\n  Result := '';\n\n  For Rruoli In Cruoli Loop\n    If Result = '' Then\n      Result := Result || Rruoli.Descrizionebreve;\n    Else\n      Result := Result || ', ' || Rruoli.Descrizionebreve;\n    End If;\n  End Loop;\n\n  return Result;\nEnd;\n$function$\n;",
-      "name" : "sec_getruolifunzione"
+      "name" : "sec_getruolifunzione",
+      "returnType" : "varchar"
     }, {
-      "arguments" : [ ],
+      "arguments" : [ {
+        "inOut" : "IN",
+        "name" : "incodmenu",
+        "position" : 0,
+        "type" : "character varying"
+      } ],
       "definition" : "CREATE OR REPLACE FUNCTION gildace.sec_getruolimenu(incodmenu character varying)\n RETURNS character varying\n LANGUAGE plpgsql\nAS $function$\nDECLARE\n\n  Result Varchar(1000);\n\n  Cruoli Cursor For\n    Select R.Descrizionebreve\n    From Sec_Dec_Ruoli R, Sec_Menuruoli mr\n    Where R.Codruolo = mr.Codruolo And\n          mr.CodMenu = IncodMenu And\n          mr.Flagaccesso = 'S'\n    Order by 1;\n\nbegin\n  Result := '';\n\n  For Rruoli In Cruoli Loop\n    If Result = '' Then\n      Result := Result || Rruoli.Descrizionebreve;\n    Else\n      Result := Result || ', ' || Rruoli.Descrizionebreve;\n    End If;\n  End Loop;\n\n  return Result;\nEnd;\n$function$\n;",
-      "name" : "sec_getruolimenu"
+      "name" : "sec_getruolimenu",
+      "returnType" : "varchar"
     }, {
-      "arguments" : [ ],
+      "arguments" : [ {
+        "inOut" : "IN",
+        "name" : "incodmenuutente",
+        "position" : 0,
+        "type" : "character varying"
+      } ],
       "definition" : "CREATE OR REPLACE FUNCTION gildace.sec_getruolimenuutente(incodmenuutente character varying)\n RETURNS character varying\n LANGUAGE plpgsql\nAS $function$\nDECLARE\n\n  Result Varchar(1000);\n\n  Cruoli Cursor For\n    Select R.Descrizionebreve\n    From Sec_Dec_Ruoli R, Sec_MenuUtenteruoli mr\n    Where R.Codruolo = mr.Codruolo And\n          mr.CodMenuUtente = IncodMenuUtente And\n          mr.Flagaccesso = 'S'\n    Order by 1;\n\n\nbegin\n  Result := '';\n\n  For Rruoli In Cruoli Loop\n    If Result = '' Then\n      Result := Result || Rruoli.Descrizionebreve;\n    Else\n      Result := Result || ', ' || Rruoli.Descrizionebreve;\n    End If;\n  End Loop;\n\n  return Result;\nEnd;\n$function$\n;",
-      "name" : "sec_getruolimenuutente"
+      "name" : "sec_getruolimenuutente",
+      "returnType" : "varchar"
     } ],
-    "procedureCollection" : [ ],
+    "procedureCollection" : [ {
+      "arguments" : [ {
+        "inOut" : "IN",
+        "name" : "id",
+        "position" : 0,
+        "type" : "integer"
+      }, {
+        "inOut" : "IN",
+        "name" : "testo",
+        "position" : 1,
+        "type" : "character varying"
+      } ],
+      "definition" : "CREATE OR REPLACE PROCEDURE gildace.prova(id integer, testo character varying)\n LANGUAGE plpgsql\nAS $procedure$\nDECLARE\n\nbegin\n\nEnd\n$procedure$\n;",
+      "name" : "prova"
+    } ],
     "sequenceCollection" : [ {
       "name" : "Monitor_Idlogin"
     }, {

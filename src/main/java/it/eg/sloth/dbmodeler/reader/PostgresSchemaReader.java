@@ -6,9 +6,7 @@ import it.eg.sloth.db.query.filteredquery.FilteredQuery;
 import it.eg.sloth.db.query.query.Query;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.schema.Schema;
-import it.eg.sloth.dbmodeler.model.schema.code.Function;
-import it.eg.sloth.dbmodeler.model.schema.code.Procedure;
-import it.eg.sloth.dbmodeler.model.schema.code.StoredProcedure;
+import it.eg.sloth.dbmodeler.model.schema.code.*;
 import it.eg.sloth.dbmodeler.model.schema.table.Constraint;
 import it.eg.sloth.dbmodeler.model.schema.table.ConstraintType;
 import it.eg.sloth.dbmodeler.model.schema.table.Table;
@@ -272,13 +270,29 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
         for (DataRow dataRow : dataTable) {
             StoredProcedure storedProcedure = null;
             if (dataRow.getString("procedure_type").equalsIgnoreCase("p")) {
+                // Procedure
                 storedProcedure = new Procedure(dataRow.getString("procedure_name"), dataRow.getString("definition") + ";");
-
                 schema.addProcedure((Procedure) storedProcedure);
-            } else if (dataRow.getString("procedure_type").equalsIgnoreCase("f")) {
-                storedProcedure = new Function(dataRow.getString("procedure_name"), dataRow.getString("definition") + ";");
 
+            } else if (dataRow.getString("procedure_type").equalsIgnoreCase("f")) {
+                // Function
+                storedProcedure = new Function(dataRow.getString("procedure_name"), dataRow.getString("definition") + ";");
                 schema.addFunction((Function) storedProcedure);
+
+                // Return Type
+                ((Function) storedProcedure).setReturnType(dataRow.getString("return_type"));
+            }
+
+            // Arguments
+            int i = 0;
+            if (storedProcedure != null) {
+                String arguments = dataRow.getString("arguments");
+                for (String argument : StringUtil.split(arguments, ",")) {
+                    String name = argument.substring(0, argument.indexOf(" "));
+                    String type = argument.substring(argument.indexOf(" ") + 1);
+
+                    storedProcedure.addArgument(new Argument(name, type, ArgumentType.IN, i++));
+                }
             }
         }
     }

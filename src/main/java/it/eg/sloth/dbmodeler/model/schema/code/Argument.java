@@ -13,7 +13,6 @@ public class Argument {
 
     private String name;
     private String type;
-    protected String typeName;
     private ArgumentType inOut;
     private Integer position;
 }
