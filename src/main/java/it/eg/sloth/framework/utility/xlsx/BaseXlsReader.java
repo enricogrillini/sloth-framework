@@ -78,7 +78,7 @@ public class BaseXlsReader {
             if (cellValue == null) {
                 result[i] = "Header_" + j;
             } else {
-                result[i] = cellValue.toString();
+                result[i] = cellValue.toString().trim();
             }
         }
 
@@ -93,7 +93,7 @@ public class BaseXlsReader {
         for (String requiredColumnName : requiredColumnNames) {
             if (i >= excelColumnNames.length) {
                 messageList.addBaseError(MessageFormat.format("Colonna {0} [{1}] non trovata", i + 1, requiredColumnName));
-            } else if (!requiredColumnName.equalsIgnoreCase(excelColumnNames[i])) {
+            } else if (!requiredColumnName.equalsIgnoreCase(excelColumnNames[i].trim())) {
                 messageList.addBaseError(MessageFormat.format("Nome colonna {0} errato: atteso [{1}] trovato [{2}]", i + 1, requiredColumnName, excelColumnNames[i]));
             }
 
