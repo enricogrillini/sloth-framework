@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author Enrico Grillini
  */
-public class TextMdTest {
+class TextMdTest {
 
     @Test
     void buttonTest() throws FrameworkException {

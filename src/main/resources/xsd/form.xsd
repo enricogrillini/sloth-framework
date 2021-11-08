@@ -6,10 +6,10 @@
    <choice minOccurs="0" maxOccurs="unbounded">
     <element name="Fields" type="tns:Fields"></element>
     <element name="Grid" type="tns:Grid"></element>
-                <element name="Modal" type="tns:Modal"></element>
-                <element name="TabSheet" type="tns:TabSheet"></element>
+    <element name="Modal" type="tns:Modal"></element>
+    <element name="TabSheet" type="tns:TabSheet"></element>
     <element name="Skipper" type="tns:Skipper"></element>
-    <element name="SimpleChart" type="tns:SimpleChart"></element>
+    <element name="SimpleChart" type="tns:SimpleChart"></element>
    </choice>
    <attribute name="Title" type="string"></attribute>
    <attribute name="ParentClassName" type="string"></attribute>
@@ -288,9 +288,9 @@
     <attribute name="ReadOnly" type="boolean"></attribute>
     <attribute name="Hidden" type="boolean"></attribute>
     <attribute name="ViewModality" type="tns:ViewModality"></attribute>
-    <attribute name="MaxSize" type="int" use="optional"></attribute>
-                <attribute name="HtmlFileType" type="tns:HtmlFileType"></attribute>
-            </extension>
+    <attribute name="MaxSize" type="int" use="optional"></attribute>
+    <attribute name="HtmlFileType" type="tns:HtmlFileType"></attribute>
+   </extension>
   </complexContent>
  </complexType>
 
@@ -410,6 +410,7 @@
   <restriction base="string">
    <enumeration value="bar"></enumeration>
    <enumeration value="doughnut"></enumeration>
+   <enumeration value="horizontalBar"></enumeration>
    <enumeration value="line"></enumeration>
    <enumeration value="pie"></enumeration>
    <enumeration value="polarArea"></enumeration>

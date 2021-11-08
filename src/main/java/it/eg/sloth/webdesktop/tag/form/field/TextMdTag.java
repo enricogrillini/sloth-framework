@@ -1,15 +1,9 @@
 package it.eg.sloth.webdesktop.tag.form.field;
 
-import it.eg.sloth.form.fields.field.DataField;
-import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.webdesktop.tag.form.base.BaseControlTag;
 import it.eg.sloth.webdesktop.tag.form.field.writer.TextControlWriter;
 import lombok.Getter;
 import lombok.Setter;
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
 
 import java.io.IOException;
 

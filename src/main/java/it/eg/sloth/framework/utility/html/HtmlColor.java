@@ -39,7 +39,6 @@ public class HtmlColor {
     public static final String DANGER = "#e74a3b";
     public static final String SECONDARY = "#858796";
 
-
     private static final List<String> COLOR_1 = Arrays.asList(PRIMARY, WARNING, DANGER, SUCCESS, INFO, SECONDARY);
     private static final List<String> COLOR_2 = Arrays.asList("#5668E2", "#8A56E2", "#CF56E2", "#E256AE", "#E25668", "#E28956", "#E2CF56", "#AEE256", "#68E256", "#56E289", "#56E2CF", "#56AEE2");
 
