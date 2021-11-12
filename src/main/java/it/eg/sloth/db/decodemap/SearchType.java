@@ -18,7 +18,7 @@ import it.eg.sloth.framework.common.base.StringUtil;
  * @author Enrico Grillini
  */
 public enum SearchType {
-    EXACT, LIKE, IGNORE_CASE, MATCH;
+    EXACT, LIKE_START, LIKE_CONTAINS, IGNORE_CASE, PATTERN_MATCH, MATCH;
 
     public boolean match(String value, String query) {
         if (value == null || query == null) {
@@ -30,16 +30,16 @@ public enum SearchType {
                 return value.equals(query);
             case IGNORE_CASE:
                 return value.trim().equalsIgnoreCase(query.trim());
-            case LIKE:
+            case LIKE_START:
+                return value.toLowerCase().startsWith(query.trim().toLowerCase());
+            case LIKE_CONTAINS:
                 return value.toLowerCase().contains(query.trim().toLowerCase());
+            case PATTERN_MATCH:
+                return StringUtil.patternMatch(value.toLowerCase(), query.toLowerCase());
             case MATCH:
             default:
-                if (query.endsWith("*")) {
-                    return StringUtil.patternMatch(value.toLowerCase(), query.toLowerCase());
-                } else {
-                    // Spaccheto la query in parole e verifico che siano tutte contenute nel "value"
-                    return StringUtil.containsAllWords(value, StringUtil.words(query));
-                }
+                // Spaccheto la query in parole e verifico che siano tutte contenute nel "value"
+                return StringUtil.containsAllWords(value, StringUtil.words(query));
         }
     }
 }

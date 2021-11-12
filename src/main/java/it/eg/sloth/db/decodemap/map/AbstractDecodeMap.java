@@ -43,10 +43,11 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> imp
 
     @Override
     public T encode(String description) {
-        List<V> list = performSearch(description, SearchType.IGNORE_CASE, 2);
+        Collection<V> list = performSearch(description, SearchType.IGNORE_CASE, 2);
 
-        if (list.size() == 1) {
-            return list.get(0).getCode();
+        Optional<V> optional = list.stream().findFirst();
+        if (optional.isPresent()) {
+            return optional.get().getCode();
         } else {
             return null;
         }
@@ -126,24 +127,29 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> imp
     }
 
     @Override
-    public List<V> performSearch(String query, SearchType searchType, Integer sizeLimit) {
+    public Collection<V> performSearch(String query, SearchType searchType, Integer sizeLimit) {
         if (BaseFunction.isBlank(query)) {
             return new ArrayList<>();
         }
 
-        List<V> list = new ArrayList<>();
-
+        Set<V> set = new LinkedHashSet<>();
         if (searchType == SearchType.MATCH) {
-            list.addAll(executeSearch(query, SearchType.LIKE, sizeLimit, new HashSet<>()));
+            set.addAll(executeSearch(query, SearchType.LIKE_START, sizeLimit - set.size(), set));
+            set.addAll(executeSearch(query, SearchType.LIKE_CONTAINS, sizeLimit - set.size(), set));
+            set.addAll(executeSearch(query, SearchType.PATTERN_MATCH, sizeLimit - set.size(), set));
         }
 
-        list.addAll(executeSearch(query, searchType, sizeLimit - list.size(), new HashSet<>(list)));
+        set.addAll(executeSearch(query, searchType, sizeLimit - set.size(), set));
 
-        return list;
+        return set;
     }
 
-    private List<V> executeSearch(String query, SearchType searchType, Integer sizeLimit, HashSet<V> excludeValue) {
+    private Collection<V> executeSearch(String query, SearchType searchType, Integer sizeLimit, Set<V> excludeValue) {
         List<V> list = new ArrayList<>();
+        if (sizeLimit == null || sizeLimit == 0) {
+            return list;
+        }
+
         for (V decodeMapValue : map.values()) {
             // Size Limit
             if (sizeLimit != null && list.size() >= sizeLimit) {

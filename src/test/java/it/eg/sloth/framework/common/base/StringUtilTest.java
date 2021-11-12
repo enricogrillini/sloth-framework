@@ -46,12 +46,16 @@ class StringUtilTest {
 
 
     @Test
-    void patternMatchTest() {
+    void
+    patternMatchTest() {
         assertTrue(StringUtil.patternMatch("XYXZZXY", "X***Y"));
         assertTrue(StringUtil.patternMatch("XYXZZXY", "X*ZZ??"));
         assertTrue(StringUtil.patternMatch("XYXZZXY", "*X*X?"));
         assertFalse(StringUtil.patternMatch("XYXZZXY", "X***X"));
         assertTrue(StringUtil.patternMatch("XYXZZXY", "*"));
+
+        assertTrue(StringUtil.patternMatch("XYXZZ&Y", "*Z&Y"));
+        assertFalse(StringUtil.patternMatch("XYXZZXY", "Z&Y"));
     }
 
     @Test

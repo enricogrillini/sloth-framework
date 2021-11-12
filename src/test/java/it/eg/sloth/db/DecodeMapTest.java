@@ -1,8 +1,13 @@
 package it.eg.sloth.db;
 
+import it.eg.sloth.db.decodemap.DecodeValue;
 import it.eg.sloth.db.decodemap.SearchType;
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
+import it.eg.sloth.db.decodemap.value.BaseDecodeValue;
 import org.junit.jupiter.api.Test;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,10 +35,27 @@ class DecodeMapTest {
         assertEquals(2, decodeMap.performSearch("prova", SearchType.MATCH, 2).size());
 
         // Match - Pattern match
-        assertEquals(1, decodeMap.performSearch("*test*test*", SearchType.MATCH, 10).size());
+        assertEquals(4, decodeMap.performSearch("*test*test*", SearchType.MATCH, 10).size());
         assertEquals(1, decodeMap.performSearch("* 1", SearchType.MATCH, 10).size());
 
         // Empty
         assertEquals(0, decodeMap.performSearch("", SearchType.MATCH, 10).size());
     }
+
+    @Test
+    void decodeMapOrderTest() {
+        StringDecodeMap decodeMap = new StringDecodeMap("A,XXX match YYY;B,match YYY;C,match;");
+
+        Iterator<BaseDecodeValue<String>> iterator = decodeMap.performSearch("match", SearchType.MATCH, 10).iterator();
+        assertEquals("B", iterator.next().getCode());
+        assertEquals("C", iterator.next().getCode());
+        assertEquals("A", iterator.next().getCode());
+
+        iterator = decodeMap.performSearch("*match", SearchType.MATCH, 10).iterator();
+        assertEquals("C", iterator.next().getCode());
+        assertEquals("A", iterator.next().getCode());
+        assertEquals("B", iterator.next().getCode());
+    }
 }
+
+

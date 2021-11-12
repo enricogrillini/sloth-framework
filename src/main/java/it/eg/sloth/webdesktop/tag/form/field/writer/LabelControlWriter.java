@@ -4,6 +4,7 @@ import it.eg.sloth.form.base.Elements;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.impl.Button;
+import it.eg.sloth.form.fields.field.impl.File;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
@@ -22,7 +23,11 @@ public class LabelControlWriter extends HtmlWriter {
             return StringUtil.EMPTY;
         }
 
-        String strRequired = simpleField instanceof InputField && ((InputField<?>) simpleField).isRequired() ? "*" : "";
+        String strRequired = StringUtil.EMPTY;
+        if (simpleField instanceof InputField && ((InputField<?>) simpleField).isRequired() || simpleField instanceof File && ((File) simpleField).isRequired()) {
+            strRequired = "*";
+        }
+
 
         return new StringBuilder()
                 .append("<label")
