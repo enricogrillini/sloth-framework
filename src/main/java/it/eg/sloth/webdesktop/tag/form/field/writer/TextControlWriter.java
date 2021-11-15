@@ -158,6 +158,32 @@ public class TextControlWriter extends HtmlWriter {
         return writeDataField(dataField, parentElement);
     }
 
+
+    public static <T> String writeMultipleAutoComplete(MultipleAutoComplete<T> multipleAutoComplete, Elements<?> parentElement) throws FrameworkException {
+        StringBuilder input = new StringBuilder();
+        List<T> values = multipleAutoComplete.getValue();
+        if (values != null) {
+            for (T value : values) {
+                String htmlDecodedText = Casting.getHtml(multipleAutoComplete.getDecodeMap().decode(value));
+                if (!BaseFunction.isBlank(multipleAutoComplete.getBaseLink())) {
+                    if (BaseFunction.isBlank(multipleAutoComplete.getLinkField())) {
+                        htmlDecodedText = getLink(multipleAutoComplete.getBaseLink() + Casting.getHtml(multipleAutoComplete.getDataType().formatValue(value, multipleAutoComplete.getLocale())), htmlDecodedText);
+                    } else {
+                        DataField<?> linkField = (DataField<?>) parentElement.getElement(multipleAutoComplete.getLinkField());
+                        htmlDecodedText = getLink(multipleAutoComplete.getBaseLink() + linkField.escapeHtmlValue(), htmlDecodedText, true);
+                    }
+                }
+
+                if (input.length() > 0) {
+                    input.append(" <i class=\"fas fa-ellipsis-v\"></i> ");
+                }
+                input.append(htmlDecodedText);
+            }
+        }
+
+        return input.toString();
+    }
+
     //  Switch
     private static String writeSwitch(Switch<?> field) {
         if (field.isHidden())
@@ -230,29 +256,5 @@ public class TextControlWriter extends HtmlWriter {
         }
     }
 
-    public static <T> String writeMultipleAutoComplete(MultipleAutoComplete<T> multipleAutoComplete, Elements<?> parentElement) throws FrameworkException {
-        StringBuilder input = new StringBuilder();
-        List<T> values = multipleAutoComplete.getValue();
-        if (values != null) {
-            for (T value : values) {
-                String htmlDecodedText = Casting.getHtml(multipleAutoComplete.getDecodeMap().decode(value));
-                if (!BaseFunction.isBlank(multipleAutoComplete.getBaseLink())) {
-                    if (BaseFunction.isBlank(multipleAutoComplete.getLinkField())) {
-                        htmlDecodedText = getLink(multipleAutoComplete.getBaseLink() + Casting.getHtml(multipleAutoComplete.getDataType().formatValue(value, multipleAutoComplete.getLocale())), htmlDecodedText);
-                    } else {
-                        DataField<?> linkField = (DataField<?>) parentElement.getElement(multipleAutoComplete.getLinkField());
-                        htmlDecodedText = getLink(multipleAutoComplete.getBaseLink() + linkField.escapeHtmlValue(), htmlDecodedText, true);
-                    }
-                }
-
-                if (input.length() > 0) {
-                    input.append(" <i class=\"fas fa-ellipsis-v\"></i> ");
-                }
-                input.append(htmlDecodedText);
-            }
-        }
-
-        return input.toString();
-    }
 
 }
