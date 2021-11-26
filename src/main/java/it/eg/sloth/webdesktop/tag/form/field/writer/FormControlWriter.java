@@ -543,7 +543,7 @@ public class FormControlWriter extends HtmlWriter {
                     .append(getAttribute(ATTR_VALUE, Casting.getHtml(multipleAutoComplete.getDecodedText(), true, true)))
                     .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(multipleAutoComplete)))
                     .append(getAttribute(ATTR_READONLY, multipleAutoComplete.isReadOnly(), ""))
-                    .append(getAttribute(ATTR_PLACEHOLDER, !BaseFunction.isBlank(multipleAutoComplete.getPlaceHolder()), multipleAutoComplete.getPlaceHolder()))
+                    .append(getAttribute(ATTR_PLACEHOLDER, !BaseFunction.isBlank(multipleAutoComplete.getPlaceHolder()) && multipleAutoComplete.getValue().isEmpty(), multipleAutoComplete.getPlaceHolder()))
                     .append(getAttribute("fields", parentElement.getName()))
                     .append("/>")
                     .toString();
