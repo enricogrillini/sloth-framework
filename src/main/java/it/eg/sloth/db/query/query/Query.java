@@ -87,7 +87,7 @@ public class Query extends SelectAbstractQuery implements SelectQueryInterface {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder().append(super.toString());
         for (Parameter parameter : parameterList) {
-            stringBuilder.append("\nParameter " + parameter.toString());
+            stringBuilder.append("\nParameter: " + parameter.toString());
         }
 
         return stringBuilder.toString();

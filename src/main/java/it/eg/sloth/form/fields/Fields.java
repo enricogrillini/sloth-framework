@@ -6,7 +6,6 @@ import it.eg.sloth.form.base.AbstractElements;
 import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.form.fields.field.DecodedDataField;
 import it.eg.sloth.form.fields.field.SimpleField;
-import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.base.TextField;
 import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
 import it.eg.sloth.framework.common.base.BaseFunction;

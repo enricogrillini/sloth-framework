@@ -1,11 +1,10 @@
 package it.eg.sloth.db.query.filteredquery.filter;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-import it.eg.sloth.framework.FrameComponent;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * Project: sloth-framework
@@ -24,7 +23,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class OnlyValFilter extends FrameComponent implements Filter {
+public class OnlyValFilter implements Filter {
 
     int sqlTypes;
     Object value;

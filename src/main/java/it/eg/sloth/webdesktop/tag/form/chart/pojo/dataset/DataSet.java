@@ -1,16 +1,13 @@
 package it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import it.eg.sloth.framework.common.base.StringUtil;
+import lombok.Data;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
-import it.eg.sloth.framework.FrameComponent;
-import it.eg.sloth.framework.common.base.StringUtil;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Project: sloth-framework
@@ -26,10 +23,9 @@ import lombok.Setter;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
+@Data
 @JsonInclude(Include.NON_NULL)
-public class DataSet extends FrameComponent {
+public class DataSet  {
 
     String label;
     List<BigDecimal> data;

@@ -1,6 +1,5 @@
 package it.eg.sloth.framework.configuration;
 
-import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +24,7 @@ import java.util.Map;
  * @author Enrico Grillini
  */
 @Slf4j
-public class ConfigSingleton extends FrameComponent {
+public class ConfigSingleton {
     public static final String FRAMEWORK_APP_TITLE = "sloth.app.title";
     public static final String FRAMEWORK_LOGO_LEFT = "sloth.logo.left";
     public static final String FRAMEWORK_LOGO_RIGHT = "sloth.logo.right";

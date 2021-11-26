@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Project: sloth-framework
@@ -45,6 +44,12 @@ class BaseFunctionTest {
         assertTrue(BaseFunction.isNull(null));
         assertTrue(BaseFunction.isNull(""));
         assertFalse(BaseFunction.isNull(new BigDecimal(0)));
+    }
+
+    @Test
+    void coalesceTest() {
+        assertEquals("Prova", BaseFunction.coalesce("", null, "Prova", "Pippo"));
+        assertEquals(null, BaseFunction.coalesce("", null));
     }
 
 }

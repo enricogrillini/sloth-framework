@@ -1,10 +1,11 @@
 package it.eg.sloth.db.query.filteredquery.filter;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -21,23 +22,54 @@ import java.sql.SQLException;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
-public class NoValFilter implements Filter {
+@Data
+public class OrFilter implements Filter {
 
+    int sqlTypes;
+    List values;
     String sql;
 
-    public NoValFilter(String sql) {
+    public OrFilter(String sql, int sqlTypes, Object... values) {
         this.sql = sql;
+        this.sqlTypes = sqlTypes;
+        this.values = Arrays.asList(values);
     }
+
+
+    public OrFilter(String sql, int sqlTypes, List values) {
+        this.sql = sql;
+        this.sqlTypes = sqlTypes;
+        this.values = values;
+    }
+
 
     @Override
     public String getWhereCondition() {
-        return getSql();
+        if (getValues() == null || getValues().isEmpty()) {
+            return null;
+        }
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("(");
+        for (int i = 0; i < values.size(); i++) {
+            if (i > 0) {
+                builder.append(" OR ");
+            }
+            builder.append(getSql());
+        }
+        builder.append(")");
+
+        return builder.toString();
     }
 
     @Override
     public int addValues(PreparedStatement statement, int i) throws SQLException {
+        if (getValues() != null && !getValues().isEmpty()) {
+            for (Object object : getValues()) {
+                statement.setObject(i++, object, getSqlTypes());
+            }
+        }
+
         return i;
     }
 

@@ -64,7 +64,6 @@ public class TagInput<T> extends InputField<List<T>> {
 
 
             StringBuilder valueBuilder = new StringBuilder();
-            StringBuilder decodeBuilder = new StringBuilder();
             for (T value : values) {
                 if (valueBuilder.length() > 0) {
                     valueBuilder.append(DELIMITER);

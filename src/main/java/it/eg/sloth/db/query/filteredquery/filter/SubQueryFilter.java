@@ -1,12 +1,11 @@
 package it.eg.sloth.db.query.filteredquery.filter;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 import it.eg.sloth.db.query.filteredquery.FilteredQuery;
-import it.eg.sloth.framework.FrameComponent;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * Project: sloth-framework
@@ -25,7 +24,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class SubQueryFilter extends FrameComponent implements Filter {
+public class SubQueryFilter implements Filter {
 
     FilteredQuery subQuery;
 

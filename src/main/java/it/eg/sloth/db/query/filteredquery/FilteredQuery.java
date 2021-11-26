@@ -114,6 +114,7 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
         filterList.add(new OnlyValFilter(sqlTypes, value));
     }
 
+
     /**
      * Aggiunge un filtro. Esempio d'uso: addTextSearch("upper(table.column) like '%' || ? || '%'", value)
      *
@@ -146,6 +147,29 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
      */
     public void addMultipleFilter(String sql, int sqlTypes, Object... values) {
         filterList.add(new MultipleFilter(sql, sqlTypes, values));
+    }
+
+    /**
+     * Aggiunge una lista di filtri REPLICANDO lo statement sql in or
+     *
+     * @param sql
+     * @param sqlTypes
+     * @param values
+     */
+    public void addOrFilter(String sql, int sqlTypes, Object... values) {
+        filterList.add(new OrFilter(sql, sqlTypes, values));
+    }
+
+
+    /**
+     * Aggiunge una lista di filtri REPLICANDO lo statement sql in or
+     *
+     * @param sql
+     * @param sqlTypes
+     * @param values
+     */
+    public void addOrFilter(String sql, int sqlTypes, List values) {
+        filterList.add(new OrFilter(sql, sqlTypes, values));
     }
 
     /**
