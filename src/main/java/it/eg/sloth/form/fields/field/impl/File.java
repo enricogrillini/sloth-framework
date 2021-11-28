@@ -4,6 +4,11 @@ import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.common.localization.Localization;
+import it.eg.sloth.framework.common.message.Level;
+import it.eg.sloth.framework.common.message.Message;
+import it.eg.sloth.framework.common.message.MessageList;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.jaxb.form.HtmlFileType;
 import it.eg.sloth.webdesktop.api.request.BffFields;
@@ -16,7 +21,9 @@ import org.apache.commons.io.IOUtils;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * Project: sloth-framework
@@ -119,6 +126,17 @@ public class File implements SimpleField {
     @Override
     public void post(BffFields bffFields) {
         // NOP
+    }
+
+    @Override
+    public boolean validate(MessageList messageList) throws FrameworkException {
+        if (isRequired() && BaseFunction.isBlank(getPartFileName())) {
+            ResourceBundle bundle = ResourceBundle.getBundle(Localization.VALUE_BUNDLE, locale);
+            messageList.add(new Message(Level.WARN, getName(), MessageFormat.format(bundle.getString(Localization.ERR_MANDATORY), getDescription()), ""));
+
+            return false;
+        }
+        return true;
     }
 
     public String getPartFileName() {

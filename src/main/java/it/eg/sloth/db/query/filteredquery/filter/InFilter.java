@@ -1,6 +1,5 @@
 package it.eg.sloth.db.query.filteredquery.filter;
 
-import it.eg.sloth.framework.FrameComponent;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,7 +24,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class InFilter extends FrameComponent implements Filter {
+public class InFilter implements Filter {
 
     int sqlTypes;
     List<?> values;

@@ -6,7 +6,6 @@ import it.eg.sloth.form.base.AbstractElements;
 import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.form.fields.field.DecodedDataField;
 import it.eg.sloth.form.fields.field.SimpleField;
-import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.base.TextField;
 import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
 import it.eg.sloth.framework.common.base.BaseFunction;
@@ -156,7 +155,7 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
     public boolean validate(MessageList messages) throws FrameworkException {
         boolean result = true;
         for (SimpleField element : getElements()) {
-            if (element instanceof InputField && !((InputField<?>) element).validate(messages)) {
+            if (!element.validate(messages)) {
                 result = false;
             }
         }

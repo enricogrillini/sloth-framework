@@ -54,12 +54,13 @@ class FormControlMultipleAutoCompleteTest {
         values.add(BigDecimal.valueOf(2));
 
         multipleAutoComplete.setValue(values);
-
         assertEquals(VIEW_TAG, FormControlWriter.writeMultipleAutoComplete(multipleAutoComplete, fields, ViewModality.VIEW));
         assertEquals(EDIT_TAG, FormControlWriter.writeMultipleAutoComplete(multipleAutoComplete, fields, ViewModality.EDIT));
 
         assertEquals(VIEW_TAG, FormControlWriter.writeControl(multipleAutoComplete, fields, ViewModality.VIEW));
         assertEquals(EDIT_TAG, FormControlWriter.writeControl(multipleAutoComplete, fields, ViewModality.EDIT));
     }
+
+
 
 }

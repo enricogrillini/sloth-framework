@@ -118,6 +118,7 @@ public abstract class WebSimplePage<F extends Form> extends FormPage<F> {
         return false;
     }
 
+    @Override
     public void onInit() throws Exception {
         execInit();
     }

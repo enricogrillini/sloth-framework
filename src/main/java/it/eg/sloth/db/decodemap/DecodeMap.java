@@ -1,7 +1,6 @@
 package it.eg.sloth.db.decodemap;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -117,7 +116,7 @@ public interface DecodeMap<T, V extends DecodeValue<T>> extends Iterable<V> {
      * @param code
      * @return
      */
-    List<V> performSearch(T code);
+    Collection<V> performSearch(T code);
 
     /**
      * Effettua una ricerca nella Map
@@ -126,6 +125,6 @@ public interface DecodeMap<T, V extends DecodeValue<T>> extends Iterable<V> {
      * @param searchType
      * @return
      */
-    List<V> performSearch(String query, SearchType searchType, Integer sizeLimit);
+    Collection<V> performSearch(String query, SearchType searchType, Integer sizeLimit);
 
 }

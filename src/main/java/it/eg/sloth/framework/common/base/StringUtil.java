@@ -76,7 +76,7 @@ public class StringUtil {
     }
 
     /**
-     * Ripulisce il testo passato. Efftua il trim del testo e rimuove gli spazi doppi tra le parole
+     * Ripulisce il testo passato. Effetua il trim del testo e rimuove gli spazi doppi tra le parole
      *
      * @param text
      * @return
@@ -474,24 +474,6 @@ public class StringUtil {
     public static String escape(String text, String encoding) throws UnsupportedEncodingException {
         return URLEncoder.encode(text, encoding);
     }
-
-    /**
-     * Conta le occorrenze di una sottostringa all'interno della stringa passata
-     *
-     * @param text
-     * @param regEx
-     * @return
-     */
-    public static int countOccurences(String text, String regEx) {
-        Matcher m = Pattern.compile(regEx).matcher(text);
-
-        int count;
-        for (count = 0; m.find(); count++)
-            ;
-
-        return count;
-    }
-
 
     public static String parseString(String string) {
         if (BaseFunction.isBlank(string)) {

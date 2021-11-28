@@ -30,12 +30,12 @@ class DataConnectionMangerTest {
     private static final String FILTERED_QUERY_TO_STRING = "\n" +
             "Statement: Select * from Prova /*W*/\n" +
             "SqlStatement: Select * from Prova Where Id = ?\n" +
-            "Filter {\"sql\":\"Id = ?\",\"sqlTypes\":4,\"value\":2,\"whereCondition\":\"Id = ?\"}";
+            "Filter BaseFilter(sql=Id = ?, sqlTypes=4, value=2)";
 
     private static final String QUERY_TO_STRING = "\n" +
             "Statement: Select * from Prova where Id = ? order by 1\n" +
             "SqlStatement: Select * from Prova where Id = ? order by 1\n" +
-            "Parameter {\"sqlType\":4,\"value\":1}";
+            "Parameter: Parameter(sqlType=4, value=1)";
 
     private static final String TABLE_BEAN_TO_STRING = "TableAbstract(sortingRules=SortingRules(list=[]), rows=[Row{values={id=2, testo=BbbbbX, data=2020-01-01 00:00:00.0}}], currentRow=0, pageSize=-1)";
 

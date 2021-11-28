@@ -5,8 +5,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 
-import it.eg.sloth.framework.FrameComponent;
-
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2021 Enrico Grillini
@@ -22,7 +20,7 @@ import it.eg.sloth.framework.FrameComponent;
  *
  * @author Enrico Grillini
  */
-public class DateIntervalFilter extends FrameComponent implements Filter {
+public class DateIntervalFilter implements Filter {
 
   public enum IntervalType {
     OVERLAPPED, SEPARATED

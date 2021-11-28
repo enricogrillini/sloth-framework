@@ -4,6 +4,7 @@ import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.base.Element;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.common.message.MessageList;
 import it.eg.sloth.webdesktop.api.request.BffFields;
 
 /**
@@ -78,6 +79,10 @@ public interface SimpleField extends Element, Cloneable {
      * @return
      */
     void post(WebRequest webRequest) throws FrameworkException;
+
+    default boolean validate(MessageList messageList) throws FrameworkException {
+        return true;
+    }
 
     /**
      * Effettua il post della Bff Request

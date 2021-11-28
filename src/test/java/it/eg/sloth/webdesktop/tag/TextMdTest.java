@@ -1,11 +1,12 @@
-package it.eg.sloth.webdesktop.tag.form.field;
+package it.eg.sloth.webdesktop.tag;
 
-import it.eg.sloth.webdesktop.tag.form.base.BaseControlTag;
+import it.eg.sloth.form.fields.field.impl.Input;
+import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.field.writer.TextControlWriter;
-import lombok.Getter;
-import lombok.Setter;
+import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
@@ -21,15 +22,16 @@ import java.io.IOException;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
-public class TextMdTag extends BaseControlTag {
+class TextMdTest {
 
-    private static final long serialVersionUID = 1L;
+    @Test
+    void buttonTest() throws FrameworkException {
+        Input<String> field = new Input<String>("name", "description", DataTypes.STRING);
+        field.setValue("# Titolo\n<script>alert(\"eeee\")</script>");
 
-    @Override
-    protected void writeField() throws IOException {
-        write(TextControlWriter.writeMd(getElement()));
+        assertEquals("<h1>Titolo</h1>\n" +
+                "<p>&lt;script&gt;alert(&quot;eeee&quot;)&lt;/script&gt;</p>\n", TextControlWriter.writeMd(field));
     }
 
 }
+

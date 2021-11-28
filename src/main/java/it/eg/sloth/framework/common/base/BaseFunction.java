@@ -85,6 +85,16 @@ public class BaseFunction {
             return time1;
     }
 
+    public static String coalesce(String... strings) {
+        for (String string : strings) {
+            if (!isBlank(string)) {
+                return string;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * Verifica se gli oggetti passati sono uguali (gestisce anche il caso di null
      * value)

@@ -36,6 +36,8 @@ public abstract class InputField<T> extends TextField<T> {
 
     private Boolean required;
     private Boolean readOnly;
+    private String placeHolder;
+
     private ViewModality viewModality;
 
     protected InputField(String name, String description, DataTypes dataType) {

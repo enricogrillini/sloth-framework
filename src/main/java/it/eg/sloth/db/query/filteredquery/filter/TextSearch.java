@@ -1,15 +1,14 @@
 package it.eg.sloth.db.query.filteredquery.filter;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.List;
-
-import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.framework.common.base.StringUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -29,7 +28,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class TextSearch extends FrameComponent implements Filter {
+public class TextSearch implements Filter {
 
     String sql;
     String value;

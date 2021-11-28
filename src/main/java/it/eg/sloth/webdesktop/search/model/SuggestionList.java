@@ -1,9 +1,7 @@
 package it.eg.sloth.webdesktop.search.model;
 
-import it.eg.sloth.framework.FrameComponent;
 import it.eg.sloth.webdesktop.search.model.suggestion.Suggestion;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +20,8 @@ import java.util.List;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
-public class SuggestionList extends FrameComponent {
+@Data
+public class SuggestionList {
 
     String text;
     List<Suggestion> suggestions;

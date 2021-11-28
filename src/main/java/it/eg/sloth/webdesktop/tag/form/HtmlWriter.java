@@ -45,6 +45,7 @@ public abstract class HtmlWriter {
     public static final String ATTR_HREF = "href";
     public static final String ATTR_ID = "id";
     public static final String ATTR_NAME = "name";
+    public static final String ATTR_PLACEHOLDER = "placeholder";
     public static final String ATTR_TARGET = "target";
     public static final String ATTR_TYPE = "type";
     public static final String ATTR_READONLY = "readonly";
