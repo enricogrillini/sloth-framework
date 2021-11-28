@@ -2,8 +2,7 @@ package it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset;
 
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.html.HtmlColor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +21,7 @@ import java.util.List;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
+@Data
 public class DataSetMultiColor extends DataSet {
 
     int borderWidth;

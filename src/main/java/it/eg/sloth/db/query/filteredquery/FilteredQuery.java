@@ -5,7 +5,7 @@ import it.eg.sloth.db.query.SelectQueryInterface;
 import it.eg.sloth.db.query.filteredquery.filter.*;
 import it.eg.sloth.db.query.filteredquery.filter.DateIntervalFilter.IntervalType;
 import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.base.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInterface {
 
-    public static final String REGEX_PLACEHOLDER = "/\\x2AW\\x2A/";
+    public static final String PLACEHOLDER = "/*W*/";
 
     protected List<Filter> filterList;
 
@@ -53,7 +53,7 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
 
     @Override
     protected void initStatement(PreparedStatement statement) throws SQLException {
-        int numPlaceholder = StringUtil.countOccurences(getStatement(), REGEX_PLACEHOLDER);
+        int numPlaceholder = StringUtils.countMatches(getStatement(), PLACEHOLDER);
         int i = 1;
         for (int j = 0; j < numPlaceholder; j++) {
             i = addValues(statement, i);
@@ -82,7 +82,7 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
             }
         }
 
-        return getStatement().replaceAll(REGEX_PLACEHOLDER, sqlFilter.toString());
+        return getStatement().replace(PLACEHOLDER, sqlFilter.toString());
     }
 
     /**
@@ -168,7 +168,7 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
      * @param sqlTypes
      * @param values
      */
-    public void addOrFilter(String sql, int sqlTypes, List values) {
+    public void addOrFilter(String sql, int sqlTypes, List<?> values) {
         filterList.add(new OrFilter(sql, sqlTypes, values));
     }
 

@@ -152,15 +152,11 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> imp
 
         for (V decodeMapValue : map.values()) {
             // Size Limit
-            if (sizeLimit != null && list.size() >= sizeLimit) {
+            if (list.size() >= sizeLimit) {
                 break;
             }
 
-            if (excludeValue.contains(decodeMapValue)) {
-                continue;
-            }
-
-            if (searchType.match(decodeMapValue.getDescription(), query)) {
+            if (!excludeValue.contains(decodeMapValue) && searchType.match(decodeMapValue.getDescription(), query)) {
                 list.add(decodeMapValue);
             }
         }

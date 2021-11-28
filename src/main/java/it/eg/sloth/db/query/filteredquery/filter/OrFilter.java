@@ -26,7 +26,7 @@ import java.util.List;
 public class OrFilter implements Filter {
 
     int sqlTypes;
-    List values;
+    List<?> values;
     String sql;
 
     public OrFilter(String sql, int sqlTypes, Object... values) {
@@ -36,7 +36,7 @@ public class OrFilter implements Filter {
     }
 
 
-    public OrFilter(String sql, int sqlTypes, List values) {
+    public OrFilter(String sql, int sqlTypes, List<?> values) {
         this.sql = sql;
         this.sqlTypes = sqlTypes;
         this.values = values;

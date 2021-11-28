@@ -475,24 +475,6 @@ public class StringUtil {
         return URLEncoder.encode(text, encoding);
     }
 
-    /**
-     * Conta le occorrenze di una sottostringa all'interno della stringa passata
-     *
-     * @param text
-     * @param regEx
-     * @return
-     */
-    public static int countOccurences(String text, String regEx) {
-        Matcher m = Pattern.compile(regEx).matcher(text);
-
-        int count;
-        for (count = 0; m.find(); count++)
-            ;
-
-        return count;
-    }
-
-
     public static String parseString(String string) {
         if (BaseFunction.isBlank(string)) {
             return null;

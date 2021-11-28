@@ -1,5 +1,7 @@
 package it.eg.sloth.db.query.filteredquery.filter;
 
+import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.StringUtil;
 import lombok.Data;
 
 import java.sql.PreparedStatement;
@@ -34,15 +36,15 @@ public class BaseFilter implements Filter {
     }
 
     public String getWhereCondition() {
-        if (getValue() != null && !"".equals(getValue())) {
-            return getSql();
+        if (BaseFunction.isNull(getValue())) {
+            return StringUtil.EMPTY;
         } else {
-            return "";
+            return getSql();
         }
     }
 
     public int addValues(PreparedStatement statement, int i) throws SQLException {
-        if (getValue() != null && !"".equals(getValue())) {
+        if (!BaseFunction.isNull(getValue())) {
             statement.setObject(i++, getValue(), getSqlTypes());
         }
 
