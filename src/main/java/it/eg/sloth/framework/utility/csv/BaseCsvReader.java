@@ -1,23 +1,18 @@
 package it.eg.sloth.framework.utility.csv;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
-import java.sql.Timestamp;
-import java.text.MessageFormat;
-import java.util.List;
-
+import it.eg.sloth.db.datasource.DataRow;
+import it.eg.sloth.db.datasource.DataTable;
+import it.eg.sloth.db.datasource.table.Table;
+import it.eg.sloth.framework.common.message.MessageList;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-import it.eg.sloth.db.datasource.DataRow;
-import it.eg.sloth.db.datasource.DataTable;
-import it.eg.sloth.db.datasource.table.Table;
-import it.eg.sloth.framework.common.exception.ExceptionCode;
-import it.eg.sloth.framework.common.exception.FrameworkException;
-import it.eg.sloth.framework.common.message.MessageList;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
+import java.util.List;
 
 public class BaseCsvReader {
 
@@ -28,19 +23,11 @@ public class BaseCsvReader {
         csvParser = CSVParser.parse(inputStream, StandardCharsets.UTF_8, csvFormat);
     }
 
-    public String[] getHeaders() throws IOException {
-        List<String> rowHeaders = csvParser.getHeaderNames();
-
-        String[] headerNames = new String[rowHeaders.size()];
-
-        for (int i = 0; i < headerNames.length; i++) {
-            headerNames[i] = rowHeaders.get(i);
-        }
-
-        return headerNames;
+    public String[] getHeaders() {
+        return csvParser.getHeaderNames().toArray(new String[0]);
     }
 
-    public MessageList checkHeaders(String... requiredColumnNames) throws IOException {
+    public MessageList checkHeaders(String... requiredColumnNames) {
         MessageList messageList = new MessageList();
 
         int i = 0;
@@ -58,38 +45,18 @@ public class BaseCsvReader {
         return messageList;
     }
 
-    public <R extends DataRow> DataTable<R> getDataTable() throws FrameworkException, IOException {
+    public <R extends DataRow> DataTable<R> getDataTable() throws IOException {
         DataTable<R> table = (DataTable<R>) new Table();
 
         String[] names = getHeaders();
-
         List<CSVRecord> records = csvParser.getRecords();
-
         for (int i = 0; i < records.size(); i++) {
             CSVRecord row = records.get(i);
 
             DataRow dataRow = table.add();
-            for (int j = 0; j < row.size(); j++) {
-                if (names[0] == null) {
-                    continue;
-                }
-
-                String nome = names[j];
-                Object value = row.get(j);
-
-                try {
-                    if (value instanceof String) {
-                        dataRow.setString(nome, (String) value);
-                    } else if (value instanceof BigDecimal) {
-                        dataRow.setBigDecimal(nome, (BigDecimal) value);
-                    } else if (value instanceof Timestamp) {
-                        dataRow.setTimestamp(nome, (Timestamp) value);
-                    }
-                } catch (Exception e) {
-                    throw new FrameworkException(ExceptionCode.GENERIC_BUSINESS_ERROR, MessageFormat.format("Errore lettura cella ({0}, {1}): {2}", i, j, e.getMessage()));
-                }
+            for (String name : names) {
+                dataRow.setString(name, row.get(name));
             }
-
         }
 
         return table;
