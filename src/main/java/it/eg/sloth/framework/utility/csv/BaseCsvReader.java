@@ -19,7 +19,7 @@ public class BaseCsvReader {
     private CSVParser csvParser;
 
     public BaseCsvReader(InputStream inputStream) throws IOException {
-        CSVFormat csvFormat = CSVFormat.EXCEL.withFirstRecordAsHeader().withIgnoreHeaderCase().withDelimiter(';');
+        CSVFormat csvFormat = CSVFormat.EXCEL.withFirstRecordAsHeader().withIgnoreHeaderCase().withDelimiter(';').withIgnoreEmptyLines();
         csvParser = CSVParser.parse(inputStream, StandardCharsets.UTF_8, csvFormat);
     }
 
