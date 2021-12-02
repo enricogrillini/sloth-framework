@@ -9,6 +9,7 @@ import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.casting.Validator;
+import it.eg.sloth.framework.common.exception.ExceptionCode;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
@@ -112,7 +113,11 @@ public abstract class TextField<T> implements DataField<T> {
                 object = ((LobData<?>) object).getValue();
             }
 
-            setData(getDataType().formatValue(object, getLocale(), getFormat()));
+            try {
+                setData(getDataType().formatValue(object, getLocale(), getFormat()));
+            } catch (FrameworkException e) {
+                throw new FrameworkException(ExceptionCode.FORMAT_ERROR_DETAIL, getName());
+            }
         }
     }
 

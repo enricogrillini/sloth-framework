@@ -39,6 +39,7 @@
       "name" : "sec_getruolimenuutente",
       "returnType" : "varchar"
     } ],
+    "packageCollection" : [ ],
     "procedureCollection" : [ {
       "arguments" : [ {
         "inOut" : "IN",

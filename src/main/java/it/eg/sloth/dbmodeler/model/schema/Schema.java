@@ -3,7 +3,9 @@ package it.eg.sloth.dbmodeler.model.schema;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.eg.sloth.dbmodeler.model.JsonInterface;
 import it.eg.sloth.dbmodeler.model.schema.code.Function;
+import it.eg.sloth.dbmodeler.model.schema.code.Package;
 import it.eg.sloth.dbmodeler.model.schema.code.Procedure;
+import it.eg.sloth.dbmodeler.model.schema.code.StoredProcedure;
 import it.eg.sloth.dbmodeler.model.schema.sequence.Sequence;
 import it.eg.sloth.dbmodeler.model.schema.table.Constraint;
 import it.eg.sloth.dbmodeler.model.schema.table.ConstraintType;
@@ -18,25 +20,27 @@ public class Schema implements JsonInterface {
     private Map<String, Table> tableMap;
     private Map<String, View> viewMap;
     private Map<String, Sequence> sequenceMap;
-    private List<Function> functionList;
-    private List<Procedure> procedureList;
+    private Map<String, Function> functionMap;
+    private Map<String, Procedure> procedureMap;
+    private Map<String, Package> packageMap;
 
     public Schema() {
         tableMap = new LinkedHashMap<>();
         viewMap = new LinkedHashMap<>();
         sequenceMap = new LinkedHashMap<>();
-        functionList = new ArrayList<>();
-        procedureList = new ArrayList<>();
+        functionMap = new LinkedHashMap<>();
+        procedureMap = new LinkedHashMap<>();
+        packageMap = new LinkedHashMap<>();
     }
 
     // Table
     public Collection<Table> getTableCollection() {
-        return tableMap.values();
+        return Collections.unmodifiableCollection(tableMap.values());
     }
 
     public void setTableCollection(Collection<Table> tableCollection) {
-        for (Table table : tableCollection) {
-            addTable(table);
+        for (Table dbObject : tableCollection) {
+            addTable(dbObject);
         }
     }
 
@@ -68,12 +72,12 @@ public class Schema implements JsonInterface {
 
     // View
     public Collection<View> getViewCollection() {
-        return viewMap.values();
+        return Collections.unmodifiableCollection(viewMap.values());
     }
 
     public void setViewCollection(Collection<View> viewCollection) {
-        for (View view : viewCollection) {
-            addView(view);
+        for (View dbObject : viewCollection) {
+            addView(dbObject);
         }
     }
 
@@ -88,7 +92,7 @@ public class Schema implements JsonInterface {
 
     // Sequence
     public Collection<Sequence> getSequenceCollection() {
-        return sequenceMap.values();
+        return Collections.unmodifiableCollection(sequenceMap.values());
     }
 
     public void setSequenceCollection(Collection<Sequence> sequenceCollection) {
@@ -108,34 +112,89 @@ public class Schema implements JsonInterface {
 
     // Function
     public Collection<Function> getFunctionCollection() {
-        return functionList;
+        return Collections.unmodifiableCollection(functionMap.values());
     }
 
     public void setFunctionCollection(Collection<Function> functionCollection) {
-        for (Function function : functionCollection) {
-            addFunction(function);
+        for (Function dbObject : functionCollection) {
+            addFunction(dbObject);
         }
     }
 
+    public Function getFunction(String name) {
+        return functionMap.get(name.toLowerCase());
+    }
+
     public Schema addFunction(Function function) {
-        functionList.add(function);
+        functionMap.put(function.getName().toLowerCase(), function);
         return this;
     }
 
     // Procedure
     public Collection<Procedure> getProcedureCollection() {
-        return procedureList;
+        return Collections.unmodifiableCollection(procedureMap.values());
     }
 
     public void setProcedureCollection(Collection<Procedure> procedureCollection) {
-        for (Procedure procedure : procedureCollection) {
-            addProcedure(procedure);
+        for (Procedure dbObject : procedureCollection) {
+            addProcedure(dbObject);
         }
     }
 
+    public Procedure getProcedure(String name) {
+        return procedureMap.get(name.toLowerCase());
+    }
+
     public Schema addProcedure(Procedure procedure) {
-        procedureList.add(procedure);
+        procedureMap.put(procedure.getName().toLowerCase(), procedure);
         return this;
+    }
+
+    // Package
+    public Collection<Package> getPackageCollection() {
+        return Collections.unmodifiableCollection(packageMap.values());
+    }
+
+    public void setPackageCollection(Collection<Package> packageCollection) {
+        for (Package dbObject : packageCollection) {
+            addPackage(dbObject);
+        }
+    }
+
+    public Package getPackage(String name) {
+        return packageMap.get(name.toLowerCase());
+    }
+
+    public Schema addPackage(Package dbObject) {
+        packageMap.put(dbObject.getName().toLowerCase(), dbObject);
+        return this;
+    }
+
+
+    // Stored procedure
+    public Schema addStoredProcedure(StoredProcedure storedProcedure) {
+        if (storedProcedure instanceof Function) {
+            addFunction((Function) storedProcedure);
+        } else if (storedProcedure instanceof Procedure) {
+            addProcedure((Procedure) storedProcedure);
+        } else if (storedProcedure instanceof Package) {
+            addPackage((Package) storedProcedure);
+        }
+
+        return this;
+    }
+
+    public StoredProcedure getStoredProcedure(String name, StoredProcedure.Type type) {
+        switch (type) {
+            case FUNCTION:
+                return getFunction(name);
+            case PROCEDURE:
+                return getProcedure(name);
+            case PACKAGE:
+                return getPackage(name);
+            default:
+                return null;
+        }
     }
 
 }

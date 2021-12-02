@@ -43,6 +43,8 @@ public interface DbSchemaWriter {
 
     String sqlFunction(Schema schema);
 
+    String sqlPackage(Schema schema);
+
     class Factory {
         private Factory() {
             // NOP

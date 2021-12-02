@@ -179,14 +179,13 @@ public class MonitorSingleton {
         }
 
         Map<Timestamp, Integer> appTrend = new LinkedHashMap<>();
-
         for (Entry<Timestamp, Integer> entry : trend.entrySet()) {
             if (entry.getKey().compareTo(dataDa) >= 0 && entry.getKey().compareTo(dataA) < 0) {
                 appTrend.put(entry.getKey(), entry.getValue());
             }
         }
 
-        return trend;
+        return appTrend;
     }
 
     public synchronized MonitorTrendTable getDayTrendTable(Timestamp dataDa, Timestamp dataA) throws FrameworkException {

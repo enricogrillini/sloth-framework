@@ -76,6 +76,7 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
 
         for (SimpleField element : getElements()) {
             if (element instanceof TextField) {
+
                 TextField<?> field = (TextField<?>) element;
                 field.copyFromDataSource(dataSource);
             }

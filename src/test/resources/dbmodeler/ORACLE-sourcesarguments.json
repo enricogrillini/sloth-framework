@@ -1,0 +1,61 @@
+[ {
+  "object_name" : "Sec_Getruolifunzione",
+  "package_name" : null,
+  "overload" : "0",
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "VARCHAR2",
+  "in_out" : "OUT",
+  "object_type" : "FUNCTION",
+  "type_name" : null
+}, {
+  "object_name" : "Sec_Getruolifunzione",
+  "package_name" : null,
+  "overload" : "0",
+  "argument_name" : "Incodfunzione",
+  "position" : 1,
+  "data_type" : "VARCHAR2",
+  "in_out" : "IN",
+  "object_type" : "FUNCTION",
+  "type_name" : null
+}, {
+  "object_name" : "Sec_Getruolimenu",
+  "package_name" : null,
+  "overload" : "0",
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "VARCHAR2",
+  "in_out" : "OUT",
+  "object_type" : "FUNCTION",
+  "type_name" : null
+}, {
+  "object_name" : "Sec_Getruolimenu",
+  "package_name" : null,
+  "overload" : "0",
+  "argument_name" : "Incodmenu",
+  "position" : 1,
+  "data_type" : "VARCHAR2",
+  "in_out" : "IN",
+  "object_type" : "FUNCTION",
+  "type_name" : null
+}, {
+  "object_name" : "Sec_Getruolimenuutente",
+  "package_name" : null,
+  "overload" : "0",
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "VARCHAR2",
+  "in_out" : "OUT",
+  "object_type" : "FUNCTION",
+  "type_name" : null
+}, {
+  "object_name" : "Sec_Getruolimenuutente",
+  "package_name" : null,
+  "overload" : "0",
+  "argument_name" : "Incodmenuutente",
+  "position" : 1,
+  "data_type" : "VARCHAR2",
+  "in_out" : "IN",
+  "object_type" : "FUNCTION",
+  "type_name" : null
+} ]

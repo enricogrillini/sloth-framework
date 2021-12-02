@@ -3,6 +3,7 @@ package it.eg.sloth.dbmodeler.writer;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.schema.Schema;
 import it.eg.sloth.dbmodeler.model.schema.code.Function;
+import it.eg.sloth.dbmodeler.model.schema.code.Package;
 import it.eg.sloth.dbmodeler.model.schema.code.Procedure;
 import it.eg.sloth.dbmodeler.model.schema.sequence.Sequence;
 import it.eg.sloth.dbmodeler.model.schema.table.*;
@@ -47,6 +48,11 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
 
     private static final String SQL_FUNCTION = "-- Function {0}\n" +
             "{1}\n" +
+            "\n";
+
+    private static final String SQL_PACKAGE = "-- Package {0}\n" +
+            "{1}\n" +
+            "{2}\n" +
             "\n";
 
     @Getter
@@ -193,8 +199,8 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     @Override
     public String sqlView(Schema schema) {
         StringBuilder result = new StringBuilder();
-        for (View view : schema.getViewCollection()) {
-            result.append(MessageFormat.format(SQL_VIEW, view.getName(), view.getDefinition()));
+        for (View dbObject : schema.getViewCollection()) {
+            result.append(MessageFormat.format(SQL_VIEW, dbObject.getName(), dbObject.getDefinition()));
         }
 
         return result.toString();
@@ -203,8 +209,8 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     @Override
     public String sqlProcedure(Schema schema) {
         StringBuilder result = new StringBuilder();
-        for (Procedure procedure : schema.getProcedureCollection()) {
-            result.append(MessageFormat.format(SQL_PROCEDURE, procedure.getName(), procedure.getDefinition()));
+        for (Procedure dbObject : schema.getProcedureCollection()) {
+            result.append(MessageFormat.format(SQL_PROCEDURE, dbObject.getName(), dbObject.getDefinition()));
         }
 
         return result.toString();
@@ -213,8 +219,18 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     @Override
     public String sqlFunction(Schema schema) {
         StringBuilder result = new StringBuilder();
-        for (Function function : schema.getFunctionCollection()) {
-            result.append(MessageFormat.format(SQL_FUNCTION, function.getName(), function.getDefinition()));
+        for (Function dbObject : schema.getFunctionCollection()) {
+            result.append(MessageFormat.format(SQL_FUNCTION, dbObject.getName(), dbObject.getDefinition()));
+        }
+
+        return result.toString();
+    }
+
+    @Override
+    public String sqlPackage(Schema schema) {
+        StringBuilder result = new StringBuilder();
+        for (Package dbObject : schema.getPackageCollection()) {
+            result.append(MessageFormat.format(SQL_PACKAGE, dbObject.getName(), dbObject.getDefinition(), dbObject.getBodyDefinition()));
         }
 
         return result.toString();

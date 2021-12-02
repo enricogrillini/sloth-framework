@@ -1,1 +1,331 @@
-[ ]
+[ {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 1,
+  "text" : "Function sec_GetruoliFunzione (InCodFunzione In Varchar2) Return Varchar2 is\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 2,
+  "text" : "  Result Varchar2(1000);\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 3,
+  "text" : "\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 4,
+  "text" : "  Cursor Cruoli Is\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 5,
+  "text" : "    Select R.Descrizionebreve\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 6,
+  "text" : "    From Sec_Dec_Ruoli R, Sec_Funzioniruoli Fr\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 7,
+  "text" : "    Where R.Codruolo = Fr.Codruolo And\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 8,
+  "text" : "          Fr.Codfunzione = Incodfunzione And\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 9,
+  "text" : "          Fr.Flagaccesso = 'S'\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 10,
+  "text" : "    Order by 1;\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 11,
+  "text" : "\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 12,
+  "text" : "Begin\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 13,
+  "text" : "  For Rruoli In Cruoli Loop\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 14,
+  "text" : "    If Result Is Null Then\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 15,
+  "text" : "      Result := Result || Rruoli.Descrizionebreve;\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 16,
+  "text" : "    Else\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 17,
+  "text" : "      Result := Result || ', ' || Rruoli.Descrizionebreve;\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 18,
+  "text" : "    End If;\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 19,
+  "text" : "  End Loop;\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 20,
+  "text" : "\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 21,
+  "text" : "  return Result;\n"
+}, {
+  "name" : "SEC_GETRUOLIFUNZIONE",
+  "type" : "FUNCTION",
+  "line" : 22,
+  "text" : "End;"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 1,
+  "text" : "Function sec_GetruoliMenu (InCodMenu In Varchar2) Return Varchar2 is\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 2,
+  "text" : "  Result Varchar2(1000);\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 3,
+  "text" : "\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 4,
+  "text" : "  Cursor Cruoli Is\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 5,
+  "text" : "    Select R.Descrizionebreve\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 6,
+  "text" : "    From Sec_Dec_Ruoli R, Sec_Menuruoli mr\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 7,
+  "text" : "    Where R.Codruolo = mr.Codruolo And\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 8,
+  "text" : "          mr.CodMenu = IncodMenu And\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 9,
+  "text" : "          mr.Flagaccesso = 'S'\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 10,
+  "text" : "    Order by 1;\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 11,
+  "text" : "\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 12,
+  "text" : "Begin\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 13,
+  "text" : "  For Rruoli In Cruoli Loop\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 14,
+  "text" : "    If Result Is Null Then\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 15,
+  "text" : "      Result := Result || Rruoli.Descrizionebreve;\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 16,
+  "text" : "    Else\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 17,
+  "text" : "      Result := Result || ', ' || Rruoli.Descrizionebreve;\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 18,
+  "text" : "    End If;\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 19,
+  "text" : "  End Loop;\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 20,
+  "text" : "\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 21,
+  "text" : "  return Result;\n"
+}, {
+  "name" : "SEC_GETRUOLIMENU",
+  "type" : "FUNCTION",
+  "line" : 22,
+  "text" : "End;"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 1,
+  "text" : "Function Sec_GetruoliMenuUtente (InCodMenuUtente In Varchar2) Return Varchar2 is\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 2,
+  "text" : "  Result Varchar2(1000);\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 3,
+  "text" : "\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 4,
+  "text" : "  Cursor Cruoli Is\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 5,
+  "text" : "    Select R.Descrizionebreve\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 6,
+  "text" : "    From Sec_Dec_Ruoli R, Sec_MenuUtenteruoli mr\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 7,
+  "text" : "    Where R.Codruolo = mr.Codruolo And\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 8,
+  "text" : "          mr.CodMenuUtente = IncodMenuUtente And\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 9,
+  "text" : "          mr.Flagaccesso = 'S'\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 10,
+  "text" : "    Order by 1;\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 11,
+  "text" : "\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 12,
+  "text" : "Begin\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 13,
+  "text" : "  For Rruoli In Cruoli Loop\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 14,
+  "text" : "    If Result Is Null Then\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 15,
+  "text" : "      Result := Result || Rruoli.Descrizionebreve;\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 16,
+  "text" : "    Else\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 17,
+  "text" : "      Result := Result || ', ' || Rruoli.Descrizionebreve;\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 18,
+  "text" : "    End If;\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 19,
+  "text" : "  End Loop;\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 20,
+  "text" : "\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 21,
+  "text" : "  return Result;\n"
+}, {
+  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "type" : "FUNCTION",
+  "line" : 22,
+  "text" : "End; "
+} ]

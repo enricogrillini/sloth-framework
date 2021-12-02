@@ -8,9 +8,8 @@ import java.util.List;
 
 
 @Data
-public class Package {
-    private String name;
-    private String definition;
+public class Package extends StoredProcedure {
+
     private String bodyDefinition;
 
     @Getter(AccessLevel.NONE)
@@ -21,10 +20,13 @@ public class Package {
         this(null, null, null);
     }
 
-    @Builder
+    public Package(String name, String definition) {
+        this(name, definition, null);
+    }
+
+    //@Builder
     public Package(String name, String definition, String bodyDefinition) {
-        this.name = name;
-        this.definition = definition;
+        super(name, definition);
         this.bodyDefinition = bodyDefinition;
 
         methods = new ArrayList<>();

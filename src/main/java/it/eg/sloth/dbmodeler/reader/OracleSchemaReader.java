@@ -5,10 +5,14 @@ import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.query.query.Query;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.schema.Schema;
+import it.eg.sloth.dbmodeler.model.schema.code.Argument;
+import it.eg.sloth.dbmodeler.model.schema.code.ArgumentType;
+import it.eg.sloth.dbmodeler.model.schema.code.StoredProcedure;
 import it.eg.sloth.dbmodeler.model.schema.table.Constraint;
 import it.eg.sloth.dbmodeler.model.schema.table.ConstraintType;
 import it.eg.sloth.dbmodeler.model.schema.table.Table;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 
 import java.io.IOException;
@@ -146,11 +150,28 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
             "Where t.owner = upper(?) \n" +
             "Order by t.view_name, tc.column_id\n";
 
-    private static final String SQL_SOURCE = "Select *\n" +
+    private static final String SQL_SOURCE = "Select lower(NAME) name, TYPE, LINE, TEXT\n" +
             "From all_source\n" +
-            "Where owner = upper(?) And\n" +
-            "      type = ?\n" +
+            "Where owner = upper(?)\n" +
             "Order by type, name, line\n";
+
+
+    private static final String SQL_PROCEDURES_ARGUMENTS = "Select InitCap(a.object_name) object_name,\n" +
+            "       InitCap(a.package_name) package_name,\n" +
+            "       nvl(a.overload, 0) overload,\n" +
+            "       InitCap(a.argument_name) argument_name,\n" +
+            "       a.position,\n" +
+            "       a.data_type,\n" +
+            "       a.in_out,\n" +
+            "       o.object_type,\n" +
+            "       a.type_name\n" +
+            "From ALL_arguments a, all_objects o\n" +
+            "Where a.owner = o.owner And\n" +
+            "      a.object_name = o.object_name And\n" +
+            "      a.owner = upper(?) And\n" +
+            "      a.package_name is null And\n" +
+            "      a.data_level = 0\n" +
+            "Order By package_name, object_name, overload, sequence";
 
     private static final String SQL_PACKAGES = "Select InitCap(a.object_name) object_name,\n" +
             "       InitCap(a.package_name) package_name,\n" +
@@ -242,10 +263,19 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
         return query.selectTable(connection);
     }
 
-
     @Override
     public <R extends DataRow> DataTable<R> storedProcedureData(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
-        return (DataTable<R>) new it.eg.sloth.db.datasource.table.Table();
+        Query query = new Query(SQL_SOURCE);
+        query.addParameter(Types.VARCHAR, owner);
+
+        return query.selectTable(connection);
+    }
+
+    public <R extends DataRow> DataTable<R> sourcesArguments(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+        Query query = new Query(SQL_PROCEDURES_ARGUMENTS);
+        query.addParameter(Types.VARCHAR, owner);
+
+        return query.selectTable(connection);
     }
 
     @Override
@@ -320,10 +350,9 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
                 dbConstraint.setSearchCondition(dataRow.getString("search_condition"));
                 dbConstraint.setReferenceTable(dataRow.getString("references_table"));
 
-                // Non considero id Constranti per definire i not null sulle colonne (sono tracciati come proprietà della colonna)
-                if (dbConstraint.isGenerated() && dbConstraint.getType() == ConstraintType.CHECK && dbConstraint.getSearchCondition().endsWith("NOT NULL")) {
-                    continue;
-                } else {
+                // Non considero i Constrant per definire i not null sulle colonne (sono tracciati come proprietà della colonna)
+                if (!dbConstraint.isGenerated() ||
+                        !(dbConstraint.getType() == ConstraintType.CHECK && dbConstraint.getSearchCondition().endsWith("NOT NULL"))) {
                     dbTable.addConstraint(dbConstraint);
                 }
             }
@@ -340,9 +369,69 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
         }
     }
 
+
     @Override
     public void addStoredProcedure(Schema schema, Connection connection, String owner) throws SQLException, IOException, FrameworkException {
 
+        // Aggiungo la definizone delle stored procedure
+        DataTable<?> dataTable = storedProcedureData(connection, owner);
+        if (dataTable.size() > 0) {
+            String name = "";
+            String type = "";
+            StringBuilder code = new StringBuilder("Create or Replace ");
+            for (DataRow row : dataTable) {
+                if ((!name.equals(row.getString("NAME")) || !type.equals(row.getString("TYPE"))) && name.length() > 0) {
+                    if (type.equals("PACKAGE BODY")) {
+                        schema.getPackage(name).setBodyDefinition(code.toString());
+                    } else {
+                        StoredProcedure storedProcedure = StoredProcedure.Factory.newStoredProcedure(name, StoredProcedure.Type.valueOf(type), code.toString());
+                        schema.addStoredProcedure(storedProcedure);
+                    }
+
+                    code = new StringBuilder("Create or Replace ");
+                }
+
+                code.append(StringUtil.rtrim(row.getString("TEXT")) + "\n");
+                name = row.getString("NAME");
+                type = row.getString("TYPE");
+            }
+
+            if (type.equals("PACKAGE BODY")) {
+                schema.getPackage(name).setBodyDefinition(code.toString());
+            } else {
+                StoredProcedure storedProcedure = StoredProcedure.Factory.newStoredProcedure(name, StoredProcedure.Type.valueOf(type), code.toString());
+                schema.addStoredProcedure(storedProcedure);
+            }
+        }
+
+        // Arguments
+        dataTable = sourcesArguments(connection, owner);
+        for (DataRow row : dataTable) {
+            String objectName = row.getString("object_name");
+            StoredProcedure.Type type = StoredProcedure.Type.valueOf(row.getString("object_type"));
+
+            BigDecimal position = row.getBigDecimal("position");
+            String dataType = row.getString("data_type");
+
+            if (type == StoredProcedure.Type.FUNCTION) {
+                if (position.intValue() == 0) {
+                    schema.getFunction(objectName).setReturnType(dataType);
+                } else {
+                    schema.getFunction(objectName).addArgument(calcArgument(row));
+                }
+            } else if (type == StoredProcedure.Type.PROCEDURE) {
+                schema.getProcedure(objectName).addArgument(calcArgument(row));
+            }
+        }
+    }
+
+    private Argument calcArgument(DataRow row) {
+        BigDecimal position = row.getBigDecimal("position");
+        String dataType = row.getString("data_type");
+        String argumentName = row.getString("argument_name");
+        ArgumentType argumentType = ArgumentType.valueOf(row.getString("in_out"));
+
+        return new Argument(argumentName, dataType, argumentType, position.intValue());
     }
 
 }

@@ -9,6 +9,7 @@
   },
   "schema" : {
     "functionCollection" : [ ],
+    "packageCollection" : [ ],
     "procedureCollection" : [ ],
     "sequenceCollection" : [ {
       "name" : "Monitor_Idlogin"

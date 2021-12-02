@@ -83,6 +83,11 @@ public abstract class AbstractReaderTest {
         Mockito.when(dbSchemaReader.storedProcedureData(Mockito.any(), Mockito.any())).thenReturn(readData(baseName + "storedprocedures.json"));
         Mockito.when(dbSchemaReader.statisticsData(Mockito.any(), Mockito.any())).thenReturn(readData(baseName + "statistics.json"));
 
+        if (dbSchemaReader instanceof OracleSchemaReader) {
+            OracleSchemaReader oracleSchemaReader = (OracleSchemaReader) dbSchemaReader;
+            Mockito.when(oracleSchemaReader.sourcesArguments(Mockito.any(), Mockito.any())).thenReturn(readData(baseName + "sourcesarguments.json"));
+        }
+
         setDbSchemaReader(dbSchemaReader);
     }
 
@@ -164,6 +169,16 @@ public abstract class AbstractReaderTest {
         // XXX-sequences.json
         data = getDbSchemaReader().storedProcedureData(getConnection(), getOwner());
         DataTableUtil.saveDataToJsonFile(data, TestFactory.OUTPUT_DIR + "/dbmodeler/" + dataBaseType + "-storedprocedures.json");
+
+
+        if (getDbSchemaReader() instanceof OracleSchemaReader) {
+            OracleSchemaReader oracleSchemaReader = (OracleSchemaReader) getDbSchemaReader();
+
+            // XXX-sequences.json
+            data = oracleSchemaReader.sourcesArguments(getConnection(), getOwner());
+            DataTableUtil.saveDataToJsonFile(data, TestFactory.OUTPUT_DIR + "/dbmodeler/" + dataBaseType + "-sourcesarguments.json");
+        }
+
     }
 
 

@@ -8,7 +8,38 @@
     "name" : "gildaceOnORACLE"
   },
   "schema" : {
-    "functionCollection" : [ ],
+    "functionCollection" : [ {
+      "arguments" : [ {
+        "inOut" : "IN",
+        "name" : "Incodfunzione",
+        "position" : 1,
+        "type" : "VARCHAR2"
+      } ],
+      "definition" : "Create or Replace Function sec_GetruoliFunzione (InCodFunzione In Varchar2) Return Varchar2 is\n  Result Varchar2(1000);\n\n  Cursor Cruoli Is\n    Select R.Descrizionebreve\n    From Sec_Dec_Ruoli R, Sec_Funzioniruoli Fr\n    Where R.Codruolo = Fr.Codruolo And\n          Fr.Codfunzione = Incodfunzione And\n          Fr.Flagaccesso = 'S'\n    Order by 1;\n\nBegin\n  For Rruoli In Cruoli Loop\n    If Result Is Null Then\n      Result := Result || Rruoli.Descrizionebreve;\n    Else\n      Result := Result || ', ' || Rruoli.Descrizionebreve;\n    End If;\n  End Loop;\n\n  return Result;\nEnd;\n",
+      "name" : "SEC_GETRUOLIFUNZIONE",
+      "returnType" : "VARCHAR2"
+    }, {
+      "arguments" : [ {
+        "inOut" : "IN",
+        "name" : "Incodmenu",
+        "position" : 1,
+        "type" : "VARCHAR2"
+      } ],
+      "definition" : "Create or Replace Function sec_GetruoliMenu (InCodMenu In Varchar2) Return Varchar2 is\n  Result Varchar2(1000);\n\n  Cursor Cruoli Is\n    Select R.Descrizionebreve\n    From Sec_Dec_Ruoli R, Sec_Menuruoli mr\n    Where R.Codruolo = mr.Codruolo And\n          mr.CodMenu = IncodMenu And\n          mr.Flagaccesso = 'S'\n    Order by 1;\n\nBegin\n  For Rruoli In Cruoli Loop\n    If Result Is Null Then\n      Result := Result || Rruoli.Descrizionebreve;\n    Else\n      Result := Result || ', ' || Rruoli.Descrizionebreve;\n    End If;\n  End Loop;\n\n  return Result;\nEnd;\n",
+      "name" : "SEC_GETRUOLIMENU",
+      "returnType" : "VARCHAR2"
+    }, {
+      "arguments" : [ {
+        "inOut" : "IN",
+        "name" : "Incodmenuutente",
+        "position" : 1,
+        "type" : "VARCHAR2"
+      } ],
+      "definition" : "Create or Replace Function Sec_GetruoliMenuUtente (InCodMenuUtente In Varchar2) Return Varchar2 is\n  Result Varchar2(1000);\n\n  Cursor Cruoli Is\n    Select R.Descrizionebreve\n    From Sec_Dec_Ruoli R, Sec_MenuUtenteruoli mr\n    Where R.Codruolo = mr.Codruolo And\n          mr.CodMenuUtente = IncodMenuUtente And\n          mr.Flagaccesso = 'S'\n    Order by 1;\n\nBegin\n  For Rruoli In Cruoli Loop\n    If Result Is Null Then\n      Result := Result || Rruoli.Descrizionebreve;\n    Else\n      Result := Result || ', ' || Rruoli.Descrizionebreve;\n    End If;\n  End Loop;\n\n  return Result;\nEnd;\n",
+      "name" : "SEC_GETRUOLIMENUUTENTE",
+      "returnType" : "VARCHAR2"
+    } ],
+    "packageCollection" : [ ],
     "procedureCollection" : [ ],
     "sequenceCollection" : [ {
       "name" : "Monitor_Idlogin"

@@ -20,6 +20,7 @@ public enum ExceptionCode {
     // Business Exception
     GENERIC_BUSINESS_ERROR("business.exception.genericError", ExceptionType.BUSINESS),
     FORMAT_ERROR("business.exception.formatError", ExceptionType.BUSINESS),
+    FORMAT_ERROR_DETAIL("business.exception.formatErrorDetail", ExceptionType.BUSINESS),
     PARSE_ERROR("business.exception.parseError", ExceptionType.BUSINESS),
     PIVOT_ELEMENT_NOT_FOUND("business.exception.pivotElementNotFound", ExceptionType.BUSINESS),
     INVALID_CONTROL("business.exception.invalidControl", ExceptionType.BUSINESS),
