@@ -104,24 +104,22 @@ public class BaseXlsxWriter implements Closeable {
         if (!BaseFunction.isBlank(title)) {
             // Titolo
             setCellValue(rowIndex, 0, title);
-            setCellStyle(rowIndex, 0, null, BaseExcelFont.TITLE, null, null);
+            setCellStyle(rowIndex, 0, null, BaseExcelFont.TITLE, null, null, false);
             getRow(rowIndex).setHeight((short) 450);
-            addMergedRegion(rowIndex, 0, rowIndex, size - 1);
             rowIndex++;
         }
 
         // Sotto titolo
         if (!BaseFunction.isBlank(subTitle)) {
             setCellValue(rowIndex, 0, subTitle);
-            setCellStyle(rowIndex, 0, null, BaseExcelFont.SUB_TITLE, null, null);
+            setCellStyle(rowIndex, 0, null, BaseExcelFont.SUB_TITLE, null, null, false);
             getRow(rowIndex).setHeight((short) 400);
-            addMergedRegion(rowIndex, 0, rowIndex, size - 1);
             rowIndex++;
         }
 
         // Data estrazione
         setCellValue(rowIndex, 0, "Estratto il " + DataTypes.DATE.formatText(TimeStampUtil.sysdate(), locale) + " alle " + DataTypes.TIME.formatText(TimeStampUtil.sysdate(), locale));
-        setCellStyle(rowIndex, 0, null, BaseExcelFont.COMMENT, null, null);
+        setCellStyle(rowIndex, 0, null, BaseExcelFont.COMMENT, null, null, false);
         addMergedRegion(rowIndex, 0, rowIndex, size - 1);
         rowIndex++;
 
@@ -129,7 +127,11 @@ public class BaseXlsxWriter implements Closeable {
     }
 
     public CellStyle getStyle(BaseExcelContainer baseExcelContainer, BaseExcelFont baseExcelFont, BaseExcelType baseExcelType, HorizontalAlignment horizontalAlignment) {
-        BaseExcelStyle baseExcelStyle = new BaseExcelStyle(baseExcelContainer, baseExcelFont, baseExcelType, horizontalAlignment);
+        return getStyle(baseExcelContainer, baseExcelFont, baseExcelType, horizontalAlignment, true);
+    }
+
+    public CellStyle getStyle(BaseExcelContainer baseExcelContainer, BaseExcelFont baseExcelFont, BaseExcelType baseExcelType, HorizontalAlignment horizontalAlignment, boolean wrap) {
+        BaseExcelStyle baseExcelStyle = new BaseExcelStyle(baseExcelContainer, baseExcelFont, baseExcelType, horizontalAlignment, wrap);
 
         CellStyle result;
         if (cellStyleMap.containsKey(baseExcelStyle)) {
@@ -157,7 +159,7 @@ public class BaseXlsxWriter implements Closeable {
                 result.setAlignment(horizontalAlignment);
             }
 
-            result.setWrapText(true);
+            result.setWrapText(wrap);
             result.setVerticalAlignment(VerticalAlignment.CENTER);
 
             cellStyleMap.put(baseExcelStyle, result);
@@ -264,19 +266,15 @@ public class BaseXlsxWriter implements Closeable {
         ExcelUtil.setRangeStyle(getSheet(), rowIndex1, cellIndex1, rowIndex2, cellIndex2, cellStyle);
     }
 
-    /**
-     * Imposta lo stile della cella
-     *
-     * @param rowIndex
-     * @param cellIndex
-     * @param baseExcelContainer
-     * @param baseExcelFont
-     * @param baseExcelType
-     */
     public void setCellStyle(int rowIndex, int cellIndex, BaseExcelContainer baseExcelContainer, BaseExcelFont baseExcelFont, BaseExcelType baseExcelType, HorizontalAlignment horizontalAlignment) {
+        setCellStyle(rowIndex, cellIndex, baseExcelContainer, baseExcelFont, baseExcelType, horizontalAlignment, true);
+    }
+
+    // Imposta lo stile della cella
+    public void setCellStyle(int rowIndex, int cellIndex, BaseExcelContainer baseExcelContainer, BaseExcelFont baseExcelFont, BaseExcelType baseExcelType, HorizontalAlignment horizontalAlignment, boolean wrap) {
         Cell cell = getCell(rowIndex, cellIndex);
 
-        CellStyle cellStyle = getStyle(baseExcelContainer, baseExcelFont, baseExcelType, horizontalAlignment);
+        CellStyle cellStyle = getStyle(baseExcelContainer, baseExcelFont, baseExcelType, horizontalAlignment, wrap);
         cell.setCellStyle(cellStyle);
     }
 

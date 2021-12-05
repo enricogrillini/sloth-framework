@@ -33,5 +33,6 @@ public class BaseExcelStyle {
     BaseExcelFont baseExcelFont;
     BaseExcelType baseExcelType;
     HorizontalAlignment horizontalAlignment;
+    boolean wrap;
 
 }

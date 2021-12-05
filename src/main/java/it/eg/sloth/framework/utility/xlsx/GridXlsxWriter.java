@@ -67,15 +67,15 @@ public class GridXlsxWriter extends BaseXlsxWriter {
 
             setCellValue(row, cellindex, semaforo.getDecodedText());
             if (Semaphore.WHITE.equals(semaforo.getValue())) {
-                setCellStyle(row, cellindex, BaseExcelContainer.WHITE_BORDERED, null, null, null);
+                setCellStyle(row, cellindex, BaseExcelContainer.WHITE_BORDERED, null, null, null, true);
             } else if (Semaphore.GREEN.equals(semaforo.getValue())) {
-                setCellStyle(row, cellindex, BaseExcelContainer.GREEN_BORDERED, null, null, null);
+                setCellStyle(row, cellindex, BaseExcelContainer.GREEN_BORDERED, null, null, null, true);
             } else if (Semaphore.YELLOW.equals(semaforo.getValue())) {
-                setCellStyle(row, cellindex, BaseExcelContainer.YELLOW_BORDERED, null, null, null);
+                setCellStyle(row, cellindex, BaseExcelContainer.YELLOW_BORDERED, null, null, null, true);
             } else if (Semaphore.RED.equals(semaforo.getValue())) {
-                setCellStyle(row, cellindex, BaseExcelContainer.RED_BORDERED, null, null, null);
+                setCellStyle(row, cellindex, BaseExcelContainer.RED_BORDERED, null, null, null, true);
             } else if (Semaphore.BLACK.equals(semaforo.getValue())) {
-                setCellStyle(row, cellindex, BaseExcelContainer.BLACK_BORDERED, null, null, null);
+                setCellStyle(row, cellindex, BaseExcelContainer.BLACK_BORDERED, null, null, null, true);
             }
 
         } else if (dataField instanceof DecodedDataField) {
@@ -83,16 +83,16 @@ public class GridXlsxWriter extends BaseXlsxWriter {
             comboBox.copyFromDataSource(dataRow);
 
             setCellValue(row, cellindex, comboBox.getDecodedText());
-            setCellStyle(row, cellindex, getStyle(BaseExcelContainer.WHITE_BORDERED, null, null, null));
+            setCellStyle(row, cellindex, getStyle(BaseExcelContainer.WHITE_BORDERED, null, null, null, true));
         } else if (dataField instanceof MultipleAutoComplete) {
             MultipleAutoComplete<?> multipleAutoComplete = (MultipleAutoComplete<?>) dataField.newInstance();
             multipleAutoComplete.copyFromDataSource(dataRow);
 
             setCellValue(row, cellindex, multipleAutoComplete.getText());
-            setCellStyle(row, cellindex, getStyle(BaseExcelContainer.WHITE_BORDERED, null, null, null));
+            setCellStyle(row, cellindex, getStyle(BaseExcelContainer.WHITE_BORDERED, null, null, null, true));
         } else {
             setCellValue(row, cellindex, dataRow.getObject(dataField.getAlias()));
-            setCellStyle(row, cellindex, BaseExcelContainer.WHITE_BORDERED, null, BaseExcelType.Factory.fromDataType(dataField.getDataType()), null);
+            setCellStyle(row, cellindex, BaseExcelContainer.WHITE_BORDERED, null, BaseExcelType.Factory.fromDataType(dataField.getDataType()), null, true);
         }
     }
 
@@ -154,7 +154,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
             if (field instanceof DataField) {
                 DataField<?> dataField = (DataField<?>) field;
                 setCellValue(rowIndex, cellIndex, dataField.getDescription());
-                setCellStyle(rowIndex, cellIndex, BaseExcelContainer.DARK_BLUE_BORDERED, BaseExcelFont.HEADER, null, null);
+                setCellStyle(rowIndex, cellIndex, BaseExcelContainer.DARK_BLUE_BORDERED, BaseExcelFont.HEADER, null, null, true);
                 cellIndex++;
             }
         }
@@ -199,7 +199,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
                     DataField<?> dataField = (DataField<?>) field;
 
                     String columnLetter = CellReference.convertNumToColString(cellIndex);
-                    setCellStyle(rowIndex, cellIndex, null, BaseExcelFont.HIGHIGHTED, BaseExcelType.Factory.fromDataType(dataField.getDataType()), null);
+                    setCellStyle(rowIndex, cellIndex, null, BaseExcelFont.HIGHIGHTED, BaseExcelType.Factory.fromDataType(dataField.getDataType()), null, true);
                     setCellFormula(rowIndex, cellIndex, "sum(" + columnLetter + "1:" + columnLetter + rowIndex + ")");
                 }
 

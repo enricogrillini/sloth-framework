@@ -50,32 +50,32 @@ class BaseXlsWriterTest {
             baseXlsxWriter.setColumnsWidth(0, 0, 5000);
 
             // TITLE
-            baseXlsxWriter.setCellStyle(row, 0, BaseExcelContainer.WHITE_BORDERED, BaseExcelFont.TITLE, null, HorizontalAlignment.LEFT);
+            baseXlsxWriter.setCellStyle(row, 0, BaseExcelContainer.WHITE_BORDERED, BaseExcelFont.TITLE, null, HorizontalAlignment.LEFT, true);
             baseXlsxWriter.setCellValue(row, 0, "TITLE");
             row++;
 
             // SUB_TITLE
-            baseXlsxWriter.setCellStyle(row, 0, BaseExcelContainer.WHITE_BORDERED, BaseExcelFont.SUB_TITLE, null, HorizontalAlignment.LEFT);
+            baseXlsxWriter.setCellStyle(row, 0, BaseExcelContainer.WHITE_BORDERED, BaseExcelFont.SUB_TITLE, null, HorizontalAlignment.LEFT, true);
             baseXlsxWriter.setCellValue(row, 0, "SUB_TITLE");
             row++;
 
             // COMMENT
-            baseXlsxWriter.setCellStyle(row, 0, BaseExcelContainer.WHITE_BORDERED, BaseExcelFont.COMMENT, null, HorizontalAlignment.LEFT);
+            baseXlsxWriter.setCellStyle(row, 0, BaseExcelContainer.WHITE_BORDERED, BaseExcelFont.COMMENT, null, HorizontalAlignment.LEFT, true);
             baseXlsxWriter.setCellValue(row, 0, "COMMENT");
             row++;
 
             // HEADER
-            baseXlsxWriter.setCellStyle(row, 0, BaseExcelContainer.DARK_BLUE_BORDERED, BaseExcelFont.HEADER, null, HorizontalAlignment.LEFT);
+            baseXlsxWriter.setCellStyle(row, 0, BaseExcelContainer.DARK_BLUE_BORDERED, BaseExcelFont.HEADER, null, HorizontalAlignment.LEFT, true);
             baseXlsxWriter.setCellValue(row, 0, "HEADER");
             row++;
 
             // HIGHIGHTED
-            baseXlsxWriter.setCellStyle(row, 0, BaseExcelContainer.WHITE_BORDERED, BaseExcelFont.HIGHIGHTED, null, HorizontalAlignment.LEFT);
+            baseXlsxWriter.setCellStyle(row, 0, BaseExcelContainer.WHITE_BORDERED, BaseExcelFont.HIGHIGHTED, null, HorizontalAlignment.LEFT, true);
             baseXlsxWriter.setCellValue(row, 0, "HIGHIGHTED");
             row++;
 
             // NO FONT
-            baseXlsxWriter.setCellStyle(row, 0, BaseExcelContainer.WHITE_BORDERED, null, null, HorizontalAlignment.LEFT);
+            baseXlsxWriter.setCellStyle(row, 0, BaseExcelContainer.WHITE_BORDERED, null, null, HorizontalAlignment.LEFT, true);
             baseXlsxWriter.setCellValue(row, 0, "NO FONT");
             row++;
 
@@ -133,7 +133,7 @@ class BaseXlsWriterTest {
             int row = 0;
             for (IndexedColors indexedColor : IndexedColors.values()) {
                 BaseExcelContainer baseExcelContainer = new BaseExcelContainer(row, null, null, null, null);
-                baseXlsxWriter.setCellStyle(row, 0, baseExcelContainer, null, null, HorizontalAlignment.LEFT);
+                baseXlsxWriter.setCellStyle(row, 0, baseExcelContainer, null, null, HorizontalAlignment.LEFT, true);
                 baseXlsxWriter.setCellValue(row, 1, "-->" + indexedColor);
 
                 baseXlsxWriter.setColumnsWidth(0, 1, 5000);
