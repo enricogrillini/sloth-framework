@@ -1,12 +1,13 @@
 package it.eg.sloth.framework.security;
 
+import it.eg.sloth.framework.common.base.BaseFunction;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import lombok.Data;
 
 /**
  * Project: sloth-framework
@@ -60,6 +61,20 @@ public class Menu implements Iterable<Menu>, Serializable {
 
     public Menu addChild(String codice, VoiceType tipoVoce, String descrizioneBreve, String descrizione, String imgUrl, String link) {
         return add(new Menu(codice, tipoVoce, descrizioneBreve, descrizione, imgUrl, link));
+    }
+
+    public boolean isActive(String page) {
+        return BaseFunction.equals(page, getLink()) || hasChildActive(page);
+    }
+
+    public boolean hasChildActive(String page) {
+        for (Menu menu : childs.values()) {
+            if (menu.isActive(page)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public boolean hasChild() {

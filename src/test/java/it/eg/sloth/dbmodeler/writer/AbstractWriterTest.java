@@ -43,6 +43,7 @@ public abstract class AbstractWriterTest {
         // Stored procedure
         Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-procedures.sql"), dbSchemaWriter.sqlProcedure(dataBase.getSchema()));
         Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-functions.sql"), dbSchemaWriter.sqlFunction(dataBase.getSchema()));
+        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-packages.sql"), dbSchemaWriter.sqlPackage(dataBase.getSchema()));
 
     }
 

@@ -5,9 +5,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Project: sloth-framework
@@ -41,6 +39,8 @@ public class User implements Serializable {
     private Menu menu;
     private Menu userMenu;
 
+    private Map<String, Map<String, String>> groupMap;
+
     public User() {
         this.locale = Locale.getDefault();
         this.avatar = false;
@@ -48,6 +48,8 @@ public class User implements Serializable {
         this.enabledFunction = new HashSet<>();
         this.menu = new Menu();
         this.userMenu = new Menu();
+
+        this.groupMap = new HashMap<>();
     }
 
     public boolean isLogged() {
@@ -64,6 +66,31 @@ public class User implements Serializable {
 
     public String getAvatarLetter() {
         return StringUtil.substr(name, 0, 1) + StringUtil.substr(surname, 0, 1);
+    }
+
+    public Map<String, String> getGroupSetting(String group) {
+        Map<String, String> result = new HashMap<>();
+        if (groupMap.containsKey(group.toLowerCase())) {
+            result.putAll(groupMap.get(group.toLowerCase()));
+        }
+
+        return result;
+    }
+
+    public String getSetting(String group, String key) {
+        if (groupMap.containsKey(group.toLowerCase()) && groupMap.get(group.toLowerCase()).containsKey(key.toLowerCase())) {
+            return groupMap.get(group.toLowerCase()).get(key.toLowerCase());
+        }
+
+        return StringUtil.EMPTY;
+    }
+
+    public void setSetting(String group, String key, String value) {
+        if (!groupMap.containsKey(group)) {
+            groupMap.put(group, new HashMap<>());
+        }
+
+        groupMap.get(group.toLowerCase()).put(key.toLowerCase(), value);
     }
 
 }

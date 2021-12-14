@@ -1,331 +1,1071 @@
 [ {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 1,
   "text" : "Function sec_GetruoliFunzione (InCodFunzione In Varchar2) Return Varchar2 is\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 2,
   "text" : "  Result Varchar2(1000);\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 3,
   "text" : "\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 4,
   "text" : "  Cursor Cruoli Is\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 5,
   "text" : "    Select R.Descrizionebreve\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 6,
   "text" : "    From Sec_Dec_Ruoli R, Sec_Funzioniruoli Fr\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 7,
   "text" : "    Where R.Codruolo = Fr.Codruolo And\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 8,
   "text" : "          Fr.Codfunzione = Incodfunzione And\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 9,
   "text" : "          Fr.Flagaccesso = 'S'\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 10,
   "text" : "    Order by 1;\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 11,
   "text" : "\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 12,
   "text" : "Begin\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 13,
   "text" : "  For Rruoli In Cruoli Loop\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 14,
   "text" : "    If Result Is Null Then\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 15,
   "text" : "      Result := Result || Rruoli.Descrizionebreve;\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 16,
   "text" : "    Else\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 17,
   "text" : "      Result := Result || ', ' || Rruoli.Descrizionebreve;\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 18,
   "text" : "    End If;\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 19,
   "text" : "  End Loop;\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 20,
   "text" : "\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 21,
   "text" : "  return Result;\n"
 }, {
-  "name" : "SEC_GETRUOLIFUNZIONE",
+  "name" : "sec_getruolifunzione",
   "type" : "FUNCTION",
   "line" : 22,
   "text" : "End;"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 1,
   "text" : "Function sec_GetruoliMenu (InCodMenu In Varchar2) Return Varchar2 is\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 2,
   "text" : "  Result Varchar2(1000);\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 3,
   "text" : "\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 4,
   "text" : "  Cursor Cruoli Is\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 5,
   "text" : "    Select R.Descrizionebreve\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 6,
   "text" : "    From Sec_Dec_Ruoli R, Sec_Menuruoli mr\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 7,
   "text" : "    Where R.Codruolo = mr.Codruolo And\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 8,
   "text" : "          mr.CodMenu = IncodMenu And\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 9,
   "text" : "          mr.Flagaccesso = 'S'\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 10,
   "text" : "    Order by 1;\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 11,
   "text" : "\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 12,
   "text" : "Begin\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 13,
   "text" : "  For Rruoli In Cruoli Loop\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 14,
   "text" : "    If Result Is Null Then\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 15,
   "text" : "      Result := Result || Rruoli.Descrizionebreve;\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 16,
   "text" : "    Else\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 17,
   "text" : "      Result := Result || ', ' || Rruoli.Descrizionebreve;\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 18,
   "text" : "    End If;\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 19,
   "text" : "  End Loop;\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 20,
   "text" : "\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 21,
   "text" : "  return Result;\n"
 }, {
-  "name" : "SEC_GETRUOLIMENU",
+  "name" : "sec_getruolimenu",
   "type" : "FUNCTION",
   "line" : 22,
   "text" : "End;"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 1,
   "text" : "Function Sec_GetruoliMenuUtente (InCodMenuUtente In Varchar2) Return Varchar2 is\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 2,
   "text" : "  Result Varchar2(1000);\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 3,
   "text" : "\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 4,
   "text" : "  Cursor Cruoli Is\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 5,
   "text" : "    Select R.Descrizionebreve\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 6,
   "text" : "    From Sec_Dec_Ruoli R, Sec_MenuUtenteruoli mr\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 7,
   "text" : "    Where R.Codruolo = mr.Codruolo And\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 8,
   "text" : "          mr.CodMenuUtente = IncodMenuUtente And\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 9,
   "text" : "          mr.Flagaccesso = 'S'\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 10,
   "text" : "    Order by 1;\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 11,
   "text" : "\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 12,
   "text" : "Begin\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 13,
   "text" : "  For Rruoli In Cruoli Loop\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 14,
   "text" : "    If Result Is Null Then\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 15,
   "text" : "      Result := Result || Rruoli.Descrizionebreve;\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 16,
   "text" : "    Else\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 17,
   "text" : "      Result := Result || ', ' || Rruoli.Descrizionebreve;\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 18,
   "text" : "    End If;\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 19,
   "text" : "  End Loop;\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 20,
   "text" : "\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 21,
   "text" : "  return Result;\n"
 }, {
-  "name" : "SEC_GETRUOLIMENUUTENTE",
+  "name" : "sec_getruolimenuutente",
   "type" : "FUNCTION",
   "line" : 22,
   "text" : "End; "
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 1,
+  "text" : "package lib_calendario is\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 2,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 3,
+  "text" : "  LUNEDI constant date := to_date('01/01/2001', 'dd/mm/yyyy');\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 4,
+  "text" : "  PATRONO constant varchar2(6) := '04/10/';\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 5,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 6,
+  "text" : "  FESTIVO constant varchar2(10) := 'FEST';\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 7,
+  "text" : "  FERIALE constant varchar2(10) := 'FER';\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 8,
+  "text" : "  PREFESTIVO constant varchar2(10) := 'PRE';\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 9,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 10,
+  "text" : "  Function getPasqua(anno in integer) return date;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 11,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 12,
+  "text" : "  -- Ritorna il giorno della settimana (0 = Lunedì)\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 13,
+  "text" : "  Function getDayOfWeek(inGiorno in date) return integer;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 14,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 15,
+  "text" : "  Function getTipoGiorno (inGiorno in date) return varchar2;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 16,
+  "text" : "  Function isFestivo (inGiorno in date) return boolean;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 17,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 18,
+  "text" : "  Function isLunedi(inData in date) return boolean;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 19,
+  "text" : "  Function isMartedi(inData in date) return boolean;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 20,
+  "text" : "  Function isMercoledi(inData in date) return boolean;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 21,
+  "text" : "  Function isGiovedi(inData in date) return boolean;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 22,
+  "text" : "  Function isVenerdi(inData in date) return boolean;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 23,
+  "text" : "  Function isSabato(inData in date) return boolean;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 24,
+  "text" : "  Function isDomenica(inData in date) return boolean;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 25,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE",
+  "line" : 26,
+  "text" : "end;"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 1,
+  "text" : "package body lib_calendario is\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 2,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 3,
+  "text" : "  -- Recupera il giorno di Pasqua\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 4,
+  "text" : "  Function getPasqua(anno in integer) return date is\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 5,
+  "text" : "    C integer;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 6,
+  "text" : "    N integer;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 7,
+  "text" : "    K integer;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 8,
+  "text" : "    I integer;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 9,
+  "text" : "    J integer;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 10,
+  "text" : "    L integer;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 11,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 12,
+  "text" : "    Mese integer;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 13,
+  "text" : "    Giorno integer;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 14,
+  "text" : "  begin\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 15,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 16,
+  "text" : "     C := trunc(Anno / 100);\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 17,
+  "text" : "     N := Anno - 19 * trunc(Anno / 19);\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 18,
+  "text" : "     K := trunc((C - 17) / 25);\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 19,
+  "text" : "     I := C - trunc(C / 4) - trunc((C - K) / 3) + 19 * N + 15;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 20,
+  "text" : "     I := I - 30 * trunc(I / 30);\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 21,
+  "text" : "     I := I - trunc(I / 28) * (1 - trunc(I / 28) * trunc(29 / (I + 1)) * trunc((21 - N) / 11));\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 22,
+  "text" : "     J := Anno + trunc(Anno / 4) + I + 2 - C + trunc(C / 4);\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 23,
+  "text" : "     J := J - 7 * trunc(J / 7);\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 24,
+  "text" : "     L := I - J;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 25,
+  "text" : "     Mese := 3 + trunc((L + 40) / 44);\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 26,
+  "text" : "     Giorno := L + 28 - 31 * trunc(Mese / 4);\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 27,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 28,
+  "text" : "     return to_date (Giorno || '/' || Mese || '/' || Anno, 'dd/mm/yyyy');\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 29,
+  "text" : "  End;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 30,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 31,
+  "text" : "  Function getDayOfWeek(inGiorno in date) return integer is\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 32,
+  "text" : "    begin\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 33,
+  "text" : "      return mod (greatest(inGiorno, LUNEDI) - least(inGiorno, LUNEDI), 7);\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 34,
+  "text" : "    end;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 35,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 36,
+  "text" : "  Function getTipoGiorno (inGiorno in date) return varchar2 is\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 37,
+  "text" : "    begin\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 38,
+  "text" : "      if isFestivo (inGiorno) then\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 39,
+  "text" : "        return FESTIVO;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 40,
+  "text" : "      elsif isSabato(inGiorno) then\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 41,
+  "text" : "        return PREFESTIVO;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 42,
+  "text" : "      else\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 43,
+  "text" : "        return FERIALE;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 44,
+  "text" : "      end if;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 45,
+  "text" : "    end;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 46,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 47,
+  "text" : "  function isFestivo (inGiorno in date) return boolean is\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 48,
+  "text" : "      Giorno date := trunc(inGiorno);\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 49,
+  "text" : "      Anno varchar2(4) := to_char(inGiorno, 'yyyy');\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 50,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 51,
+  "text" : "    begin\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 52,
+  "text" : "      if isDomenica(Giorno) then         -- DOMENICA\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 53,
+  "text" : "        return true;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 54,
+  "text" : "      elsif Giorno = to_date ('01/01/' || Anno, 'dd/mm/yyyy') then                    -- 01/01 Capodanno\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 55,
+  "text" : "        return true;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 56,
+  "text" : "      elsif Giorno = to_date ('06/01/' || Anno, 'dd/mm/yyyy') then                    -- 01/06 Epifania\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 57,
+  "text" : "        return true;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 58,
+  "text" : "      elsif Giorno = to_date ('25/04/' || Anno, 'dd/mm/yyyy') then                    -- 25/04\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 59,
+  "text" : "        return true;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 60,
+  "text" : "      elsif Giorno = to_date ('01/05/' || Anno, 'dd/mm/yyyy') then                    -- 01/05\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 61,
+  "text" : "        return true;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 62,
+  "text" : "      elsif Giorno = to_date ('02/06/' || Anno, 'dd/mm/yyyy') then                    -- 02/06 Festa della Repubblica\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 63,
+  "text" : "        return true;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 64,
+  "text" : "      elsif Giorno = to_date ('15/08/' || Anno, 'dd/mm/yyyy') then                    -- 15/08 Ferragosto\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 65,
+  "text" : "        return true;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 66,
+  "text" : "      --elsif Giorno = to_date (PATRONO || Anno, 'dd/mm/yyyy') then                     -- Patrono\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 67,
+  "text" : "      --  return true;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 68,
+  "text" : "      elsif Giorno = to_date ('01/11/' || Anno, 'dd/mm/yyyy') then                    -- 01/11 Ognisanti\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 69,
+  "text" : "        return true;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 70,
+  "text" : "      elsif Giorno = to_date ('08/12/' || Anno, 'dd/mm/yyyy') then                    -- 08/12 Immacolata concezione\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 71,
+  "text" : "        return true;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 72,
+  "text" : "      elsif Giorno = to_date ('25/12/' || Anno, 'dd/mm/yyyy') then                    -- 25/12 Natale\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 73,
+  "text" : "        return true;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 74,
+  "text" : "      elsif Giorno = to_date ('26/12/' || Anno, 'dd/mm/yyyy') then                    -- 26/12 Santo stefano\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 75,
+  "text" : "        return true;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 76,
+  "text" : "      elsif Giorno = getPasqua(Anno) then                                             --       Pasqua\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 77,
+  "text" : "        return true;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 78,
+  "text" : "      elsif Giorno = getPasqua(Anno) + 1 then                                         --       Lunedì dell'Angelo\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 79,
+  "text" : "        return true;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 80,
+  "text" : "      else\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 81,
+  "text" : "        return false;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 82,
+  "text" : "      end if;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 83,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 84,
+  "text" : "    end;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 85,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 86,
+  "text" : "  Function isLunedi(inData in date) return boolean is\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 87,
+  "text" : "    begin\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 88,
+  "text" : "      return getDayOfWeek(inData) = 0;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 89,
+  "text" : "    end;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 90,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 91,
+  "text" : "  Function isMartedi(inData in date) return boolean is\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 92,
+  "text" : "    begin\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 93,
+  "text" : "      return getDayOfWeek(inData) = 1;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 94,
+  "text" : "    end;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 95,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 96,
+  "text" : "  Function isMercoledi(inData in date) return boolean is\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 97,
+  "text" : "    begin\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 98,
+  "text" : "      return getDayOfWeek(inData) = 2;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 99,
+  "text" : "    end;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 100,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 101,
+  "text" : "  Function isGiovedi(inData in date) return boolean is\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 102,
+  "text" : "    begin\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 103,
+  "text" : "      return getDayOfWeek(inData) = 3;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 104,
+  "text" : "    end;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 105,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 106,
+  "text" : "  Function isVenerdi(inData in date) return boolean is\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 107,
+  "text" : "    begin\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 108,
+  "text" : "      return getDayOfWeek(inData) = 4;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 109,
+  "text" : "    end;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 110,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 111,
+  "text" : "  Function isSabato(inData in date) return boolean is\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 112,
+  "text" : "    begin\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 113,
+  "text" : "      return getDayOfWeek(inData) = 5;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 114,
+  "text" : "    end;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 115,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 116,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 117,
+  "text" : "  Function isDomenica(inData in date) return boolean is\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 118,
+  "text" : "    begin\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 119,
+  "text" : "      return getDayOfWeek(inData) = 6;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 120,
+  "text" : "    end;\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 121,
+  "text" : "\n"
+}, {
+  "name" : "lib_calendario",
+  "type" : "PACKAGE BODY",
+  "line" : 122,
+  "text" : "end;"
 } ]

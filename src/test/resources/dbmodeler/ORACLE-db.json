@@ -16,7 +16,8 @@
         "type" : "VARCHAR2"
       } ],
       "definition" : "Create or Replace Function sec_GetruoliFunzione (InCodFunzione In Varchar2) Return Varchar2 is\n  Result Varchar2(1000);\n\n  Cursor Cruoli Is\n    Select R.Descrizionebreve\n    From Sec_Dec_Ruoli R, Sec_Funzioniruoli Fr\n    Where R.Codruolo = Fr.Codruolo And\n          Fr.Codfunzione = Incodfunzione And\n          Fr.Flagaccesso = 'S'\n    Order by 1;\n\nBegin\n  For Rruoli In Cruoli Loop\n    If Result Is Null Then\n      Result := Result || Rruoli.Descrizionebreve;\n    Else\n      Result := Result || ', ' || Rruoli.Descrizionebreve;\n    End If;\n  End Loop;\n\n  return Result;\nEnd;\n",
-      "name" : "SEC_GETRUOLIFUNZIONE",
+      "name" : "sec_getruolifunzione",
+      "overload" : null,
       "returnType" : "VARCHAR2"
     }, {
       "arguments" : [ {
@@ -26,7 +27,8 @@
         "type" : "VARCHAR2"
       } ],
       "definition" : "Create or Replace Function sec_GetruoliMenu (InCodMenu In Varchar2) Return Varchar2 is\n  Result Varchar2(1000);\n\n  Cursor Cruoli Is\n    Select R.Descrizionebreve\n    From Sec_Dec_Ruoli R, Sec_Menuruoli mr\n    Where R.Codruolo = mr.Codruolo And\n          mr.CodMenu = IncodMenu And\n          mr.Flagaccesso = 'S'\n    Order by 1;\n\nBegin\n  For Rruoli In Cruoli Loop\n    If Result Is Null Then\n      Result := Result || Rruoli.Descrizionebreve;\n    Else\n      Result := Result || ', ' || Rruoli.Descrizionebreve;\n    End If;\n  End Loop;\n\n  return Result;\nEnd;\n",
-      "name" : "SEC_GETRUOLIMENU",
+      "name" : "sec_getruolimenu",
+      "overload" : null,
       "returnType" : "VARCHAR2"
     }, {
       "arguments" : [ {
@@ -36,10 +38,138 @@
         "type" : "VARCHAR2"
       } ],
       "definition" : "Create or Replace Function Sec_GetruoliMenuUtente (InCodMenuUtente In Varchar2) Return Varchar2 is\n  Result Varchar2(1000);\n\n  Cursor Cruoli Is\n    Select R.Descrizionebreve\n    From Sec_Dec_Ruoli R, Sec_MenuUtenteruoli mr\n    Where R.Codruolo = mr.Codruolo And\n          mr.CodMenuUtente = IncodMenuUtente And\n          mr.Flagaccesso = 'S'\n    Order by 1;\n\nBegin\n  For Rruoli In Cruoli Loop\n    If Result Is Null Then\n      Result := Result || Rruoli.Descrizionebreve;\n    Else\n      Result := Result || ', ' || Rruoli.Descrizionebreve;\n    End If;\n  End Loop;\n\n  return Result;\nEnd;\n",
-      "name" : "SEC_GETRUOLIMENUUTENTE",
+      "name" : "sec_getruolimenuutente",
+      "overload" : null,
       "returnType" : "VARCHAR2"
     } ],
-    "packageCollection" : [ ],
+    "packageCollection" : [ {
+      "bodyDefinition" : "Create or Replace package body lib_calendario is\n\n  -- Recupera il giorno di Pasqua\n  Function getPasqua(anno in integer) return date is\n    C integer;\n    N integer;\n    K integer;\n    I integer;\n    J integer;\n    L integer;\n\n    Mese integer;\n    Giorno integer;\n  begin\n\n     C := trunc(Anno / 100);\n     N := Anno - 19 * trunc(Anno / 19);\n     K := trunc((C - 17) / 25);\n     I := C - trunc(C / 4) - trunc((C - K) / 3) + 19 * N + 15;\n     I := I - 30 * trunc(I / 30);\n     I := I - trunc(I / 28) * (1 - trunc(I / 28) * trunc(29 / (I + 1)) * trunc((21 - N) / 11));\n     J := Anno + trunc(Anno / 4) + I + 2 - C + trunc(C / 4);\n     J := J - 7 * trunc(J / 7);\n     L := I - J;\n     Mese := 3 + trunc((L + 40) / 44);\n     Giorno := L + 28 - 31 * trunc(Mese / 4);\n\n     return to_date (Giorno || '/' || Mese || '/' || Anno, 'dd/mm/yyyy');\n  End;\n\n  Function getDayOfWeek(inGiorno in date) return integer is\n    begin\n      return mod (greatest(inGiorno, LUNEDI) - least(inGiorno, LUNEDI), 7);\n    end;\n\n  Function getTipoGiorno (inGiorno in date) return varchar2 is\n    begin\n      if isFestivo (inGiorno) then\n        return FESTIVO;\n      elsif isSabato(inGiorno) then\n        return PREFESTIVO;\n      else\n        return FERIALE;\n      end if;\n    end;\n\n  function isFestivo (inGiorno in date) return boolean is\n      Giorno date := trunc(inGiorno);\n      Anno varchar2(4) := to_char(inGiorno, 'yyyy');\n\n    begin\n      if isDomenica(Giorno) then         -- DOMENICA\n        return true;\n      elsif Giorno = to_date ('01/01/' || Anno, 'dd/mm/yyyy') then                    -- 01/01 Capodanno\n        return true;\n      elsif Giorno = to_date ('06/01/' || Anno, 'dd/mm/yyyy') then                    -- 01/06 Epifania\n        return true;\n      elsif Giorno = to_date ('25/04/' || Anno, 'dd/mm/yyyy') then                    -- 25/04\n        return true;\n      elsif Giorno = to_date ('01/05/' || Anno, 'dd/mm/yyyy') then                    -- 01/05\n        return true;\n      elsif Giorno = to_date ('02/06/' || Anno, 'dd/mm/yyyy') then                    -- 02/06 Festa della Repubblica\n        return true;\n      elsif Giorno = to_date ('15/08/' || Anno, 'dd/mm/yyyy') then                    -- 15/08 Ferragosto\n        return true;\n      --elsif Giorno = to_date (PATRONO || Anno, 'dd/mm/yyyy') then                     -- Patrono\n      --  return true;\n      elsif Giorno = to_date ('01/11/' || Anno, 'dd/mm/yyyy') then                    -- 01/11 Ognisanti\n        return true;\n      elsif Giorno = to_date ('08/12/' || Anno, 'dd/mm/yyyy') then                    -- 08/12 Immacolata concezione\n        return true;\n      elsif Giorno = to_date ('25/12/' || Anno, 'dd/mm/yyyy') then                    -- 25/12 Natale\n        return true;\n      elsif Giorno = to_date ('26/12/' || Anno, 'dd/mm/yyyy') then                    -- 26/12 Santo stefano\n        return true;\n      elsif Giorno = getPasqua(Anno) then                                             --       Pasqua\n        return true;\n      elsif Giorno = getPasqua(Anno) + 1 then                                         --       Lunedì dell'Angelo\n        return true;\n      else\n        return false;\n      end if;\n\n    end;\n\n  Function isLunedi(inData in date) return boolean is\n    begin\n      return getDayOfWeek(inData) = 0;\n    end;\n\n  Function isMartedi(inData in date) return boolean is\n    begin\n      return getDayOfWeek(inData) = 1;\n    end;\n\n  Function isMercoledi(inData in date) return boolean is\n    begin\n      return getDayOfWeek(inData) = 2;\n    end;\n\n  Function isGiovedi(inData in date) return boolean is\n    begin\n      return getDayOfWeek(inData) = 3;\n    end;\n\n  Function isVenerdi(inData in date) return boolean is\n    begin\n      return getDayOfWeek(inData) = 4;\n    end;\n\n  Function isSabato(inData in date) return boolean is\n    begin\n      return getDayOfWeek(inData) = 5;\n    end;\n\n\n  Function isDomenica(inData in date) return boolean is\n    begin\n      return getDayOfWeek(inData) = 6;\n    end;\n\nend;\n",
+      "definition" : "Create or Replace package lib_calendario is\n\n  LUNEDI constant date := to_date('01/01/2001', 'dd/mm/yyyy');\n  PATRONO constant varchar2(6) := '04/10/';\n\n  FESTIVO constant varchar2(10) := 'FEST';\n  FERIALE constant varchar2(10) := 'FER';\n  PREFESTIVO constant varchar2(10) := 'PRE';\n\n  Function getPasqua(anno in integer) return date;\n\n  -- Ritorna il giorno della settimana (0 = Lunedì)\n  Function getDayOfWeek(inGiorno in date) return integer;\n\n  Function getTipoGiorno (inGiorno in date) return varchar2;\n  Function isFestivo (inGiorno in date) return boolean;\n\n  Function isLunedi(inData in date) return boolean;\n  Function isMartedi(inData in date) return boolean;\n  Function isMercoledi(inData in date) return boolean;\n  Function isGiovedi(inData in date) return boolean;\n  Function isVenerdi(inData in date) return boolean;\n  Function isSabato(inData in date) return boolean;\n  Function isDomenica(inData in date) return boolean;\n\nend;\n",
+      "functionCollection" : [ {
+        "arguments" : [ {
+          "inOut" : "IN",
+          "name" : "Indata",
+          "position" : 1,
+          "type" : "DATE"
+        } ],
+        "definition" : null,
+        "name" : "Isgiovedi",
+        "overload" : null,
+        "returnType" : "PL/SQL BOOLEAN"
+      }, {
+        "arguments" : [ {
+          "inOut" : "IN",
+          "name" : "Indata",
+          "position" : 1,
+          "type" : "DATE"
+        } ],
+        "definition" : null,
+        "name" : "Islunedi",
+        "overload" : null,
+        "returnType" : "PL/SQL BOOLEAN"
+      }, {
+        "arguments" : [ {
+          "inOut" : "IN",
+          "name" : "Indata",
+          "position" : 1,
+          "type" : "DATE"
+        } ],
+        "definition" : null,
+        "name" : "Ismartedi",
+        "overload" : null,
+        "returnType" : "PL/SQL BOOLEAN"
+      }, {
+        "arguments" : [ {
+          "inOut" : "IN",
+          "name" : "Ingiorno",
+          "position" : 1,
+          "type" : "DATE"
+        } ],
+        "definition" : null,
+        "name" : "Isfestivo",
+        "overload" : null,
+        "returnType" : "PL/SQL BOOLEAN"
+      }, {
+        "arguments" : [ {
+          "inOut" : "IN",
+          "name" : "Ingiorno",
+          "position" : 1,
+          "type" : "DATE"
+        } ],
+        "definition" : null,
+        "name" : "Gettipogiorno",
+        "overload" : null,
+        "returnType" : "VARCHAR2"
+      }, {
+        "arguments" : [ {
+          "inOut" : "IN",
+          "name" : "Ingiorno",
+          "position" : 1,
+          "type" : "DATE"
+        } ],
+        "definition" : null,
+        "name" : "Getdayofweek",
+        "overload" : null,
+        "returnType" : "NUMBER"
+      }, {
+        "arguments" : [ {
+          "inOut" : "IN",
+          "name" : "Indata",
+          "position" : 1,
+          "type" : "DATE"
+        } ],
+        "definition" : null,
+        "name" : "Isdomenica",
+        "overload" : null,
+        "returnType" : "PL/SQL BOOLEAN"
+      }, {
+        "arguments" : [ {
+          "inOut" : "IN",
+          "name" : "Indata",
+          "position" : 1,
+          "type" : "DATE"
+        } ],
+        "definition" : null,
+        "name" : "Isvenerdi",
+        "overload" : null,
+        "returnType" : "PL/SQL BOOLEAN"
+      }, {
+        "arguments" : [ {
+          "inOut" : "IN",
+          "name" : "Anno",
+          "position" : 1,
+          "type" : "NUMBER"
+        } ],
+        "definition" : null,
+        "name" : "Getpasqua",
+        "overload" : null,
+        "returnType" : "DATE"
+      }, {
+        "arguments" : [ {
+          "inOut" : "IN",
+          "name" : "Indata",
+          "position" : 1,
+          "type" : "DATE"
+        } ],
+        "definition" : null,
+        "name" : "Ismercoledi",
+        "overload" : null,
+        "returnType" : "PL/SQL BOOLEAN"
+      }, {
+        "arguments" : [ {
+          "inOut" : "IN",
+          "name" : "Indata",
+          "position" : 1,
+          "type" : "DATE"
+        } ],
+        "definition" : null,
+        "name" : "Issabato",
+        "overload" : null,
+        "returnType" : "PL/SQL BOOLEAN"
+      } ],
+      "name" : "lib_calendario",
+      "procedureCollection" : [ ]
+    } ],
     "procedureCollection" : [ ],
     "sequenceCollection" : [ {
       "name" : "Monitor_Idlogin"

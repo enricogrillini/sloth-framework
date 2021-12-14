@@ -1,0 +1,221 @@
+[ {
+  "object_name" : "Getdayofweek",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "NUMBER",
+  "in_out" : "OUT",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Getdayofweek",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : "Ingiorno",
+  "position" : 1,
+  "data_type" : "DATE",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Getpasqua",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "DATE",
+  "in_out" : "OUT",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Getpasqua",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : "Anno",
+  "position" : 1,
+  "data_type" : "NUMBER",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Gettipogiorno",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "VARCHAR2",
+  "in_out" : "OUT",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Gettipogiorno",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : "Ingiorno",
+  "position" : 1,
+  "data_type" : "DATE",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Isdomenica",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "PL/SQL BOOLEAN",
+  "in_out" : "OUT",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Isdomenica",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : "Indata",
+  "position" : 1,
+  "data_type" : "DATE",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Isfestivo",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "PL/SQL BOOLEAN",
+  "in_out" : "OUT",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Isfestivo",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : "Ingiorno",
+  "position" : 1,
+  "data_type" : "DATE",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Isgiovedi",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "PL/SQL BOOLEAN",
+  "in_out" : "OUT",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Isgiovedi",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : "Indata",
+  "position" : 1,
+  "data_type" : "DATE",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Islunedi",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "PL/SQL BOOLEAN",
+  "in_out" : "OUT",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Islunedi",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : "Indata",
+  "position" : 1,
+  "data_type" : "DATE",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Ismartedi",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "PL/SQL BOOLEAN",
+  "in_out" : "OUT",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Ismartedi",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : "Indata",
+  "position" : 1,
+  "data_type" : "DATE",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Ismercoledi",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "PL/SQL BOOLEAN",
+  "in_out" : "OUT",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Ismercoledi",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : "Indata",
+  "position" : 1,
+  "data_type" : "DATE",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Issabato",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "PL/SQL BOOLEAN",
+  "in_out" : "OUT",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Issabato",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : "Indata",
+  "position" : 1,
+  "data_type" : "DATE",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Isvenerdi",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "PL/SQL BOOLEAN",
+  "in_out" : "OUT",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Isvenerdi",
+  "package_name" : "Lib_Calendario",
+  "overload" : null,
+  "argument_name" : "Indata",
+  "position" : 1,
+  "data_type" : "DATE",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+} ]

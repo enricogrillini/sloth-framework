@@ -53,6 +53,10 @@ public class ConfigSingleton {
         return instance;
     }
 
+    public synchronized void clearProperty() {
+        properties.clear();
+    }
+
     public synchronized void addProperty(String key, Object value) {
         properties.put(key, value);
     }

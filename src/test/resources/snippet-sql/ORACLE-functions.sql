@@ -1,4 +1,4 @@
--- Function SEC_GETRUOLIFUNZIONE
+-- Function sec_getruolifunzione
 Create or Replace Function sec_GetruoliFunzione (InCodFunzione In Varchar2) Return Varchar2 is
   Result Varchar2(1000);
 
@@ -21,9 +21,9 @@ Begin
 
   return Result;
 End;
+/
 
-
--- Function SEC_GETRUOLIMENU
+-- Function sec_getruolimenu
 Create or Replace Function sec_GetruoliMenu (InCodMenu In Varchar2) Return Varchar2 is
   Result Varchar2(1000);
 
@@ -46,9 +46,9 @@ Begin
 
   return Result;
 End;
+/
 
-
--- Function SEC_GETRUOLIMENUUTENTE
+-- Function sec_getruolimenuutente
 Create or Replace Function Sec_GetruoliMenuUtente (InCodMenuUtente In Varchar2) Return Varchar2 is
   Result Varchar2(1000);
 
@@ -71,5 +71,5 @@ Begin
 
   return Result;
 End;
-
+/
 

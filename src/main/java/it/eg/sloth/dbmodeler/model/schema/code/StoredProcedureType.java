@@ -1,10 +1,4 @@
-package it.eg.sloth.dbmodeler.model.schema.view;
-
-import it.eg.sloth.dbmodeler.model.schema.table.Column;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+package it.eg.sloth.dbmodeler.model.schema.code;
 
 /**
  * Project: sloth-framework
@@ -22,10 +16,6 @@ import lombok.experimental.SuperBuilder;
  *
  * @author Enrico Grillini
  */
-@Data
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@SuperBuilder(toBuilder = true)
-public class ViewColumn extends Column {
-
+public enum StoredProcedureType {
+    FUNCTION, PROCEDURE, PACKAGE
 }

@@ -5,7 +5,7 @@ import it.eg.sloth.dbmodeler.model.JsonInterface;
 import it.eg.sloth.dbmodeler.model.schema.code.Function;
 import it.eg.sloth.dbmodeler.model.schema.code.Package;
 import it.eg.sloth.dbmodeler.model.schema.code.Procedure;
-import it.eg.sloth.dbmodeler.model.schema.code.StoredProcedure;
+import it.eg.sloth.dbmodeler.model.schema.code.StoredProcedureType;
 import it.eg.sloth.dbmodeler.model.schema.sequence.Sequence;
 import it.eg.sloth.dbmodeler.model.schema.table.Constraint;
 import it.eg.sloth.dbmodeler.model.schema.table.ConstraintType;
@@ -15,6 +15,22 @@ import lombok.ToString;
 
 import java.util.*;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2021 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ * Singleton per la gestione delle Scedulazioni
+ *
+ * @author Enrico Grillini
+ */
 @ToString
 public class Schema implements JsonInterface {
     private Map<String, Table> tableMap;
@@ -122,11 +138,15 @@ public class Schema implements JsonInterface {
     }
 
     public Function getFunction(String name) {
-        return functionMap.get(name.toLowerCase());
+        return getFunction(name, null);
+    }
+
+    public Function getFunction(String name, String overload) {
+        return functionMap.get(name.toLowerCase() + overload);
     }
 
     public Schema addFunction(Function function) {
-        functionMap.put(function.getName().toLowerCase(), function);
+        functionMap.put(function.getName().toLowerCase() + function.getOverload(), function);
         return this;
     }
 
@@ -142,7 +162,11 @@ public class Schema implements JsonInterface {
     }
 
     public Procedure getProcedure(String name) {
-        return procedureMap.get(name.toLowerCase());
+        return getProcedure(name, null);
+    }
+
+    public Procedure getProcedure(String name, String overload) {
+        return procedureMap.get(name.toLowerCase() + overload);
     }
 
     public Schema addProcedure(Procedure procedure) {
@@ -172,29 +196,24 @@ public class Schema implements JsonInterface {
 
 
     // Stored procedure
-    public Schema addStoredProcedure(StoredProcedure storedProcedure) {
-        if (storedProcedure instanceof Function) {
-            addFunction((Function) storedProcedure);
-        } else if (storedProcedure instanceof Procedure) {
-            addProcedure((Procedure) storedProcedure);
-        } else if (storedProcedure instanceof Package) {
-            addPackage((Package) storedProcedure);
+    public Schema addStoredProcedure(StoredProcedureType type, String name, String overload, String code) {
+        switch (type) {
+            case PROCEDURE:
+                addProcedure(new Procedure(name, overload, code));
+                break;
+            case FUNCTION:
+                addFunction(new Function(name, overload, code));
+                break;
+            case PACKAGE:
+                addPackage(new Package(name, code));
+                break;
+            default:
+                // NOP
         }
+
 
         return this;
     }
 
-    public StoredProcedure getStoredProcedure(String name, StoredProcedure.Type type) {
-        switch (type) {
-            case FUNCTION:
-                return getFunction(name);
-            case PROCEDURE:
-                return getProcedure(name);
-            case PACKAGE:
-                return getPackage(name);
-            default:
-                return null;
-        }
-    }
 
 }

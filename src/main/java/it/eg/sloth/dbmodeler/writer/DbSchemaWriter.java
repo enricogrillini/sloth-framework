@@ -4,6 +4,22 @@ import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.schema.Schema;
 import it.eg.sloth.dbmodeler.model.schema.table.Table;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2021 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ * Singleton per la gestione delle Scedulazioni
+ *
+ * @author Enrico Grillini
+ */
 public interface DbSchemaWriter {
 
     DataBaseType getDataBaseType();
@@ -23,13 +39,13 @@ public interface DbSchemaWriter {
         StringBuilder result = new StringBuilder();
 
         for (Table table : schema.getTableCollection()) {
-            result.append(sqlIndexes(table,  tablespace, storage));
+            result.append(sqlIndexes(table, tablespace, storage));
         }
 
         return result.toString();
     }
 
-    String sqlIndexes(Table table,  boolean tablespace, boolean storage);
+    String sqlIndexes(Table table, boolean tablespace, boolean storage);
 
     String sqlPrimaryKeys(Schema schema);
 

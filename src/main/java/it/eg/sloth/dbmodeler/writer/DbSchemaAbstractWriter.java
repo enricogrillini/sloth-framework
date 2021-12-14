@@ -14,6 +14,22 @@ import lombok.Getter;
 
 import java.text.MessageFormat;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2021 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ * Singleton per la gestione delle Scedulazioni
+ *
+ * @author Enrico Grillini
+ */
 public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
 
     private static final String DROP_TABLE = "Drop Table {0};\n";
@@ -39,27 +55,32 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
 
     private static final String SQL_VIEW = "-- View {0}\n" +
             "Create or replace view {0} As\n" +
-            "{1};\n" +
+            "{1}\n{2}\n" +
             "\n";
 
     private static final String SQL_PROCEDURE = "-- Procedure {0}\n" +
-            "{1}\n" +
+            "{1}{2}\n" +
             "\n";
 
     private static final String SQL_FUNCTION = "-- Function {0}\n" +
-            "{1}\n" +
+            "{1}{2}\n" +
             "\n";
 
     private static final String SQL_PACKAGE = "-- Package {0}\n" +
-            "{1}\n" +
-            "{2}\n" +
+            "{1}{3}\n" +
+            "\n" +
+            "{2}{3}\n" +
             "\n";
 
     @Getter
     private DataBaseType dataBaseType;
 
-    protected DbSchemaAbstractWriter(DataBaseType dataBaseType) {
+    @Getter
+    private String endOfStatement;
+
+    protected DbSchemaAbstractWriter(DataBaseType dataBaseType, String endOfStatement) {
         this.dataBaseType = dataBaseType;
+        this.endOfStatement = endOfStatement;
     }
 
 
@@ -200,7 +221,7 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     public String sqlView(Schema schema) {
         StringBuilder result = new StringBuilder();
         for (View dbObject : schema.getViewCollection()) {
-            result.append(MessageFormat.format(SQL_VIEW, dbObject.getName(), dbObject.getDefinition()));
+            result.append(MessageFormat.format(SQL_VIEW, dbObject.getName(), dbObject.getDefinition(), getEndOfStatement()));
         }
 
         return result.toString();
@@ -210,7 +231,7 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     public String sqlProcedure(Schema schema) {
         StringBuilder result = new StringBuilder();
         for (Procedure dbObject : schema.getProcedureCollection()) {
-            result.append(MessageFormat.format(SQL_PROCEDURE, dbObject.getName(), dbObject.getDefinition()));
+            result.append(MessageFormat.format(SQL_PROCEDURE, dbObject.getName(), dbObject.getDefinition(), getEndOfStatement()));
         }
 
         return result.toString();
@@ -220,7 +241,7 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     public String sqlFunction(Schema schema) {
         StringBuilder result = new StringBuilder();
         for (Function dbObject : schema.getFunctionCollection()) {
-            result.append(MessageFormat.format(SQL_FUNCTION, dbObject.getName(), dbObject.getDefinition()));
+            result.append(MessageFormat.format(SQL_FUNCTION, dbObject.getName(), dbObject.getDefinition(), getEndOfStatement()));
         }
 
         return result.toString();
@@ -230,7 +251,7 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     public String sqlPackage(Schema schema) {
         StringBuilder result = new StringBuilder();
         for (Package dbObject : schema.getPackageCollection()) {
-            result.append(MessageFormat.format(SQL_PACKAGE, dbObject.getName(), dbObject.getDefinition(), dbObject.getBodyDefinition()));
+            result.append(MessageFormat.format(SQL_PACKAGE, dbObject.getName(), dbObject.getDefinition(), dbObject.getBodyDefinition(), getEndOfStatement()));
         }
 
         return result.toString();

@@ -1,8 +1,9 @@
 package it.eg.sloth.webdesktop.tag;
 
-import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.configuration.ConfigSingleton;
 import it.eg.sloth.webdesktop.tag.pagearea.writer.EnvironmentWriter;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,9 +26,18 @@ class EnvironmentWriterTest {
 
     private static final String CONTENT = "<div class=\"text-right p-2 pb-0\">Ambiente: &nbsp;<span class=\"badge badge-danger small\">Local</div>";
 
-    @Test
-    void fieldCardContentTest() throws FrameworkException {
+    @BeforeEach
+    void init() {
         ConfigSingleton.getInstance().addProperty(ConfigSingleton.FRAMEWORK_ENVIRONMENT, "Local");
+    }
+
+    @AfterEach
+    void finish() {
+        ConfigSingleton.getInstance().clearProperty();
+    }
+
+    @Test
+    void fieldCardContentTest() {
         assertEquals(CONTENT, EnvironmentWriter.writeEnvironment(true));
     }
 

@@ -1,4 +1,4 @@
-package it.eg.sloth.webdesktop.tag;
+package it.eg.sloth.webdesktop.tag.pagearea;
 
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -29,11 +29,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Enrico Grillini
  */
 class AlertWriterTest {
-    private static final String ALERTS_CENTER_1 = ResourceUtil.normalizedResourceAsString("snippet-html/alert/alert-center-1.html");
-    private static final String ALERTS_CENTER_2 = ResourceUtil.normalizedResourceAsString("snippet-html/alert/alert-center-2.html");
+    private static final String ALERTS_CENTER_1 = ResourceUtil.normalizedResourceAsString("snippet-html/pagearea/alert-center-1.html");
+    private static final String ALERTS_CENTER_2 = ResourceUtil.normalizedResourceAsString("snippet-html/pagearea/alert-center-2.html");
 
-    private static final String ALERTS_CARD_1 = ResourceUtil.normalizedResourceAsString("snippet-html/alert/alert-cards-1.html");
-    private static final String ALERTS_CARD_2 = ResourceUtil.normalizedResourceAsString("snippet-html/alert/alert-cards-2.html");
+    private static final String ALERTS_CARD_1 = ResourceUtil.normalizedResourceAsString("snippet-html/pagearea/alert-cards-1.html");
+    private static final String ALERTS_CARD_2 = ResourceUtil.normalizedResourceAsString("snippet-html/pagearea/alert-cards-2.html");
 
     Alert alert1;
     Alert alert2;

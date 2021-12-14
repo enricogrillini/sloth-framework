@@ -3,6 +3,7 @@ package it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.html.HtmlColor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * Project: sloth-framework
@@ -19,6 +20,7 @@ import lombok.Data;
  * @author Enrico Grillini
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class DataSetMonoColor extends DataSet {
 
     int borderWidth;

@@ -6,7 +6,8 @@ Create or replace view View_Sec_Funzioni As
     f.posizione,
     f.flagvalido,
     sec_getruolifunzione(f.codfunzione) AS ruoli
-   FROM sec_dec_funzioni f;;
+   FROM sec_dec_funzioni f;
+
 
 -- View View_Sec_Menu
 Create or replace view View_Sec_Menu As
@@ -20,7 +21,8 @@ Create or replace view View_Sec_Menu As
     m.imghtml,
     m.link,
     sec_getruolimenu(m.codmenu) AS ruoli
-   FROM sec_dec_menu m;;
+   FROM sec_dec_menu m;
+
 
 -- View View_Sec_Menuutente
 Create or replace view View_Sec_Menuutente As
@@ -33,5 +35,6 @@ Create or replace view View_Sec_Menuutente As
     m.imghtml,
     m.link,
     sec_getruolimenuutente(m.codmenuutente) AS ruoli
-   FROM sec_dec_menuutente m;;
+   FROM sec_dec_menuutente m;
+
 

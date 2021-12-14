@@ -85,7 +85,8 @@ public abstract class AbstractReaderTest {
 
         if (dbSchemaReader instanceof OracleSchemaReader) {
             OracleSchemaReader oracleSchemaReader = (OracleSchemaReader) dbSchemaReader;
-            Mockito.when(oracleSchemaReader.sourcesArguments(Mockito.any(), Mockito.any())).thenReturn(readData(baseName + "sourcesarguments.json"));
+            Mockito.when(oracleSchemaReader.proceduresArguments(Mockito.any(), Mockito.any())).thenReturn(readData(baseName + "proceduresarguments.json"));
+            Mockito.when(oracleSchemaReader.packagesArguments(Mockito.any(), Mockito.any())).thenReturn(readData(baseName + "packagesarguments.json"));
         }
 
         setDbSchemaReader(dbSchemaReader);
@@ -174,9 +175,13 @@ public abstract class AbstractReaderTest {
         if (getDbSchemaReader() instanceof OracleSchemaReader) {
             OracleSchemaReader oracleSchemaReader = (OracleSchemaReader) getDbSchemaReader();
 
-            // XXX-sequences.json
-            data = oracleSchemaReader.sourcesArguments(getConnection(), getOwner());
-            DataTableUtil.saveDataToJsonFile(data, TestFactory.OUTPUT_DIR + "/dbmodeler/" + dataBaseType + "-sourcesarguments.json");
+            // XXX-proceduresarguments.json
+            data = oracleSchemaReader.proceduresArguments(getConnection(), getOwner());
+            DataTableUtil.saveDataToJsonFile(data, TestFactory.OUTPUT_DIR + "/dbmodeler/" + dataBaseType + "-proceduresarguments.json");
+
+            // XXX-packagesarguments.json
+            data = oracleSchemaReader.packagesArguments(getConnection(), getOwner());
+            DataTableUtil.saveDataToJsonFile(data, TestFactory.OUTPUT_DIR + "/dbmodeler/" + dataBaseType + "-packagesarguments.json");
         }
 
     }

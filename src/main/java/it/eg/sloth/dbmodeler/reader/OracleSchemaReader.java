@@ -5,9 +5,8 @@ import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.query.query.Query;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.schema.Schema;
-import it.eg.sloth.dbmodeler.model.schema.code.Argument;
-import it.eg.sloth.dbmodeler.model.schema.code.ArgumentType;
-import it.eg.sloth.dbmodeler.model.schema.code.StoredProcedure;
+import it.eg.sloth.dbmodeler.model.schema.code.Package;
+import it.eg.sloth.dbmodeler.model.schema.code.*;
 import it.eg.sloth.dbmodeler.model.schema.table.Constraint;
 import it.eg.sloth.dbmodeler.model.schema.table.ConstraintType;
 import it.eg.sloth.dbmodeler.model.schema.table.Table;
@@ -22,6 +21,22 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.text.MessageFormat;
 
+/**
+ * Project: sloth-framework
+ * Copyright (C) 2019-2021 Enrico Grillini
+ * <p>
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
+ * <p>
+ * Singleton per la gestione delle Scedulazioni
+ *
+ * @author Enrico Grillini
+ */
 public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSchemaReader {
 
     private static final String GEN_GENERATED_NAME = "GENERATED NAME";
@@ -158,7 +173,7 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
 
     private static final String SQL_PROCEDURES_ARGUMENTS = "Select InitCap(a.object_name) object_name,\n" +
             "       InitCap(a.package_name) package_name,\n" +
-            "       nvl(a.overload, 0) overload,\n" +
+            "       a.overload overload,\n" +
             "       InitCap(a.argument_name) argument_name,\n" +
             "       a.position,\n" +
             "       a.data_type,\n" +
@@ -173,14 +188,14 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
             "      a.data_level = 0\n" +
             "Order By package_name, object_name, overload, sequence";
 
-    private static final String SQL_PACKAGES = "Select InitCap(a.object_name) object_name,\n" +
+    private static final String SQL_PACKAGES_ARGUMENTS = "Select InitCap(a.object_name) object_name,\n" +
             "       InitCap(a.package_name) package_name,\n" +
-            "       nvl(a.overload, 0) overload,\n" +
+            "       a.overload overload,\n" +
             "       InitCap(a.argument_name) argument_name,\n" +
             "       a.position,\n" +
             "       a.data_type,\n" +
             "       a.in_out,\n" +
-            "       o.object_type," +
+            "       o.object_type,\n" +
             "       a.type_name\n" +
             "From ALL_arguments a, All_objects o\n" +
             "Where a.owner = o.owner And\n" +
@@ -271,8 +286,15 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
         return query.selectTable(connection);
     }
 
-    public <R extends DataRow> DataTable<R> sourcesArguments(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+    public <R extends DataRow> DataTable<R> proceduresArguments(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
         Query query = new Query(SQL_PROCEDURES_ARGUMENTS);
+        query.addParameter(Types.VARCHAR, owner);
+
+        return query.selectTable(connection);
+    }
+
+    public <R extends DataRow> DataTable<R> packagesArguments(Connection connection, String owner) throws FrameworkException, SQLException, IOException {
+        Query query = new Query(SQL_PACKAGES_ARGUMENTS);
         query.addParameter(Types.VARCHAR, owner);
 
         return query.selectTable(connection);
@@ -384,8 +406,7 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
                     if (type.equals("PACKAGE BODY")) {
                         schema.getPackage(name).setBodyDefinition(code.toString());
                     } else {
-                        StoredProcedure storedProcedure = StoredProcedure.Factory.newStoredProcedure(name, StoredProcedure.Type.valueOf(type), code.toString());
-                        schema.addStoredProcedure(storedProcedure);
+                        schema.addStoredProcedure(StoredProcedureType.valueOf(type), name, null, code.toString());
                     }
 
                     code = new StringBuilder("Create or Replace ");
@@ -399,28 +420,53 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
             if (type.equals("PACKAGE BODY")) {
                 schema.getPackage(name).setBodyDefinition(code.toString());
             } else {
-                StoredProcedure storedProcedure = StoredProcedure.Factory.newStoredProcedure(name, StoredProcedure.Type.valueOf(type), code.toString());
-                schema.addStoredProcedure(storedProcedure);
+                schema.addStoredProcedure(StoredProcedureType.valueOf(type), name, null, code.toString());
             }
         }
 
-        // Arguments
-        dataTable = sourcesArguments(connection, owner);
+        // Procedure Arguments
+        dataTable = proceduresArguments(connection, owner);
         for (DataRow row : dataTable) {
             String objectName = row.getString("object_name");
-            StoredProcedure.Type type = StoredProcedure.Type.valueOf(row.getString("object_type"));
+            StoredProcedureType type = StoredProcedureType.valueOf(row.getString("object_type"));
 
             BigDecimal position = row.getBigDecimal("position");
             String dataType = row.getString("data_type");
 
-            if (type == StoredProcedure.Type.FUNCTION) {
+            if (type == StoredProcedureType.FUNCTION) {
                 if (position.intValue() == 0) {
                     schema.getFunction(objectName).setReturnType(dataType);
                 } else {
                     schema.getFunction(objectName).addArgument(calcArgument(row));
                 }
-            } else if (type == StoredProcedure.Type.PROCEDURE) {
+            } else if (type == StoredProcedureType.PROCEDURE) {
                 schema.getProcedure(objectName).addArgument(calcArgument(row));
+            }
+        }
+
+        // Package Arguments
+        dataTable = packagesArguments(connection, owner);
+        for (DataRow row : dataTable) {
+            String packageName = row.getString("package_name");
+            String objectName = row.getString("object_name");
+            String overload = row.getString("overload");
+
+            BigDecimal position = row.getBigDecimal("position");
+            String dataType = row.getString("data_type");
+
+            Package dbObject = schema.getPackage(packageName);
+            if (dbObject.getMethod(objectName, overload) == null) {
+                if (position.intValue() == 0) {
+                    dbObject.addMethod(StoredProcedureType.FUNCTION, objectName, overload);
+                } else {
+                    dbObject.addMethod(StoredProcedureType.PROCEDURE, objectName, overload);
+                }
+            }
+
+            if (position.intValue() == 0) {
+                ((Function) dbObject.getMethod(objectName, overload)).setReturnType(dataType);
+            } else {
+                dbObject.getMethod(objectName, overload).addArgument(calcArgument(row));
             }
         }
     }
@@ -429,7 +475,7 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
         BigDecimal position = row.getBigDecimal("position");
         String dataType = row.getString("data_type");
         String argumentName = row.getString("argument_name");
-        ArgumentType argumentType = ArgumentType.valueOf(row.getString("in_out"));
+        ArgumentType argumentType =  ArgumentType.fromString(row.getString("in_out"));
 
         return new Argument(argumentName, dataType, argumentType, position.intValue());
     }
