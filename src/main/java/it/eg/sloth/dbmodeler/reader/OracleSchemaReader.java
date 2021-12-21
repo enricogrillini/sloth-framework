@@ -422,7 +422,15 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
             } else {
                 schema.addStoredProcedure(StoredProcedureType.valueOf(type), name, null, code.toString());
             }
+
+            if (type.equals("PACKAGE BODY")) {
+                schema.getPackage(name).setBodyDefinition(code.toString());
+            } else {
+                schema.addStoredProcedure(StoredProcedureType.valueOf(type), name, null, code.toString());
+            }
         }
+
+
 
         // Procedure Arguments
         dataTable = proceduresArguments(connection, owner);

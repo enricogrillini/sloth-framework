@@ -170,7 +170,7 @@ public class Schema implements JsonInterface {
     }
 
     public Schema addProcedure(Procedure procedure) {
-        procedureMap.put(procedure.getName().toLowerCase(), procedure);
+        procedureMap.put(procedure.getName().toLowerCase() + procedure.getOverload(), procedure);
         return this;
     }
 

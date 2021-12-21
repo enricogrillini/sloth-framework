@@ -49,6 +49,8 @@ public class MenuWriter extends HtmlWriter {
     }
 
     public static String menu(User user, String lastController) {
+        boolean toggled = USV_TOGGLE_MENU.equalsIgnoreCase(user.getSetting(USG_MENU, USK_TOGGLE_MENU));
+
         StringBuilder result = new StringBuilder()
                 .append(MenuWriter.openMenu(user))
                 .append(EnvironmentWriter.writeEnvironment(false));
@@ -60,7 +62,7 @@ public class MenuWriter extends HtmlWriter {
             String linkHtml = Casting.getHtml(menu.getLink());
 
             String activeHtml = menu.isActive(lastController) ? " active" : "";
-            String showHtml = menu.isActive(lastController) ? " show" : "";
+            String showHtml = menu.isActive(lastController) && !toggled ? " show" : "";
 
 
             if (VoiceType.SEPARATOR == menu.getVoiceType()) {

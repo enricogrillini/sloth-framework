@@ -26,9 +26,9 @@ import java.util.List;
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  * <p>
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * <p>
- * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
  */
@@ -158,7 +158,6 @@ public class TextControlWriter extends HtmlWriter {
         return writeDataField(dataField, parentElement);
     }
 
-
     public static <T> String writeMultipleAutoComplete(MultipleAutoComplete<T> multipleAutoComplete, Elements<?> parentElement) throws FrameworkException {
         StringBuilder input = new StringBuilder();
         List<T> values = multipleAutoComplete.getValue();
@@ -184,7 +183,7 @@ public class TextControlWriter extends HtmlWriter {
         return input.toString();
     }
 
-    //  Switch
+    // Switch
     private static String writeSwitch(Switch<?> field) {
         if (field.isHidden())
             return StringUtil.EMPTY;
@@ -208,14 +207,14 @@ public class TextControlWriter extends HtmlWriter {
     }
 
     private static String writeDataField(DataField<?> dataField, Elements<?> parentElement) throws FrameworkException {
-        if (!BaseFunction.isBlank(dataField.getBaseLink())) {
+        if (!BaseFunction.isBlank(dataField.getBaseLink()) || !BaseFunction.isBlank(dataField.getLinkField())) {
             DataField<?> linkField = dataField;
             if (!BaseFunction.isBlank(dataField.getLinkField())) {
                 linkField = (DataField<?>) parentElement.getElement(dataField.getLinkField());
             }
 
             if (dataField.getValue() != null) {
-                return getLink(dataField.getBaseLink() + linkField.escapeHtmlValue(), dataField.escapeHtmlText());
+                return getLink(BaseFunction.nvl(dataField.getBaseLink(), StringUtil.EMPTY) + linkField.escapeHtmlValue(), dataField.escapeHtmlText());
             } else {
                 return StringUtil.EMPTY;
             }
@@ -255,6 +254,5 @@ public class TextControlWriter extends HtmlWriter {
             return dataField.escapeHtmlDecodedText();
         }
     }
-
 
 }

@@ -1,5 +1,6 @@
 package it.eg.sloth.framework.common.message;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.casting.Validator;
 import lombok.EqualsAndHashCode;
@@ -154,11 +155,8 @@ public class MessageList implements Iterable<Message> {
     return this;
   }
 
-  /**
-   * Verifica se sono presenti messaggi nella lista
-   *
-   * @return
-   */
+  // Verifica se sono presenti messaggi nella lista
+  @JsonIgnore
   public boolean isEmpty() {
     return list.isEmpty();
   }
@@ -172,11 +170,8 @@ public class MessageList implements Iterable<Message> {
     return Collections.unmodifiableList(list).iterator();
   }
 
-  /**
-   * Ritorna il più alto livello di segnalazione
-   *
-   * @return
-   */
+  // Ritorna il più alto livello di segnalazione
+  @JsonIgnore
   public Level getMaxSeverity() {
     Level level = Level.INFO;
     for (Message message : list) {
@@ -188,6 +183,8 @@ public class MessageList implements Iterable<Message> {
     return level;
   }
 
+  // Ritorna il concat dei messaggi
+  @JsonIgnore
   public String getMessagesDescription() {
     StringBuilder stringBuilder = new StringBuilder();
     for (Message message : list) {
