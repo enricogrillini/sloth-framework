@@ -7,6 +7,11 @@
 ## Installazione su git hub
 
 ```shell
+
+# Check update
+mvn versions:display-dependency-updates
+
+# Deploy 
 mvn deploy
 ```
 
