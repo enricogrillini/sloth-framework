@@ -1,9 +1,9 @@
 -- Create Table AFORISMI
 Create Table AFORISMI
-      (Idaforisma NUMBER(38, 0) Not Null,
-       Aforisma VARCHAR2(1000),
-       Autore VARCHAR2(100),
-       Dataultimapublicazione DATE);
+      (Idaforisma NUMERIC Not Null,
+       Aforisma CHARACTER VARYING,
+       Autore CHARACTER VARYING,
+       Dataultimapublicazione TIMESTAMP);
 
 Comment On Column AFORISMI.Idaforisma Is '';
 Comment On Column AFORISMI.Aforisma Is '';
@@ -12,9 +12,9 @@ Comment On Column AFORISMI.Dataultimapublicazione Is '';
 
 -- Create Table MONITOR_Login
 Create Table MONITOR_Login
-      (Idlogin NUMBER(38, 0) Not Null,
-       Idutente NUMBER(38, 0),
-       Dataora DATE);
+      (Idlogin NUMERIC Not Null,
+       Idutente NUMERIC,
+       Dataora TIMESTAMP);
 
 Comment On Column MONITOR_Login.Idlogin Is '';
 Comment On Column MONITOR_Login.Idutente Is '';
@@ -22,11 +22,11 @@ Comment On Column MONITOR_Login.Dataora Is '';
 
 -- Create Table SEC_Dec_Funzioni
 Create Table SEC_Dec_Funzioni
-      (Codfunzione VARCHAR2(100) Not Null,
-       Descrizionebreve VARCHAR2(20) Not Null,
-       Descrizionelunga VARCHAR2(100) Not Null,
-       Posizione NUMBER(38, 0) Not Null,
-       Flagvalido VARCHAR2(1) Not Null);
+      (Codfunzione CHARACTER VARYING Not Null,
+       Descrizionebreve CHARACTER VARYING Not Null,
+       Descrizionelunga CHARACTER VARYING Not Null,
+       Posizione NUMERIC Not Null,
+       Flagvalido CHARACTER VARYING Not Null);
 
 Comment On Column SEC_Dec_Funzioni.Codfunzione Is '';
 Comment On Column SEC_Dec_Funzioni.Descrizionebreve Is '';
@@ -36,15 +36,15 @@ Comment On Column SEC_Dec_Funzioni.Flagvalido Is '';
 
 -- Create Table SEC_Dec_Menu
 Create Table SEC_Dec_Menu
-      (Codmenu VARCHAR2(100) Not Null,
-       Descrizionebreve VARCHAR2(20) Not Null,
-       Descrizionelunga VARCHAR2(100) Not Null,
-       Posizione NUMBER(38, 0) Not Null,
-       Flagvalido VARCHAR2(1) Not Null,
-       Codtipovoce VARCHAR2(10) Not Null,
-       Livello NUMBER(38, 0) Not Null,
-       Imghtml VARCHAR2(100),
-       Link VARCHAR2(200));
+      (Codmenu CHARACTER VARYING Not Null,
+       Descrizionebreve CHARACTER VARYING Not Null,
+       Descrizionelunga CHARACTER VARYING Not Null,
+       Posizione NUMERIC Not Null,
+       Flagvalido CHARACTER VARYING Not Null,
+       Codtipovoce CHARACTER VARYING Not Null,
+       Livello NUMERIC Not Null,
+       Imghtml CHARACTER VARYING,
+       Link CHARACTER VARYING);
 
 Comment On Column SEC_Dec_Menu.Codmenu Is '';
 Comment On Column SEC_Dec_Menu.Descrizionebreve Is '';
@@ -58,14 +58,14 @@ Comment On Column SEC_Dec_Menu.Link Is '';
 
 -- Create Table SEC_Dec_Menuutente
 Create Table SEC_Dec_Menuutente
-      (Codmenuutente VARCHAR2(100) Not Null,
-       Descrizionebreve VARCHAR2(20) Not Null,
-       Descrizionelunga VARCHAR2(100) Not Null,
-       Posizione NUMBER(38, 0) Not Null,
-       Flagvalido VARCHAR2(1) Not Null,
-       Codtipovoce VARCHAR2(10) Not Null,
-       Imghtml VARCHAR2(100),
-       Link VARCHAR2(200));
+      (Codmenuutente CHARACTER VARYING Not Null,
+       Descrizionebreve CHARACTER VARYING Not Null,
+       Descrizionelunga CHARACTER VARYING Not Null,
+       Posizione NUMERIC Not Null,
+       Flagvalido CHARACTER VARYING Not Null,
+       Codtipovoce CHARACTER VARYING Not Null,
+       Imghtml CHARACTER VARYING,
+       Link CHARACTER VARYING);
 
 Comment On Column SEC_Dec_Menuutente.Codmenuutente Is '';
 Comment On Column SEC_Dec_Menuutente.Descrizionebreve Is '';
@@ -78,11 +78,11 @@ Comment On Column SEC_Dec_Menuutente.Link Is '';
 
 -- Create Table SEC_Dec_Ruoli
 Create Table SEC_Dec_Ruoli
-      (Codruolo VARCHAR2(10) Not Null,
-       Descrizionebreve VARCHAR2(20) Not Null,
-       Descrizionelunga VARCHAR2(100) Not Null,
-       Posizione NUMBER(38, 0) Not Null,
-       Flagvalido VARCHAR2(1) Not Null);
+      (Codruolo CHARACTER VARYING Not Null,
+       Descrizionebreve CHARACTER VARYING Not Null,
+       Descrizionelunga CHARACTER VARYING Not Null,
+       Posizione NUMERIC Not Null,
+       Flagvalido CHARACTER VARYING Not Null);
 
 Comment On Column SEC_Dec_Ruoli.Codruolo Is '';
 Comment On Column SEC_Dec_Ruoli.Descrizionebreve Is '';
@@ -92,12 +92,12 @@ Comment On Column SEC_Dec_Ruoli.Flagvalido Is '';
 
 -- Create Table SEC_Dec_Tipivoce
 Create Table SEC_Dec_Tipivoce
-      (Codtipovoce VARCHAR2(10) Not Null,
-       Descrizionebreve VARCHAR2(20) Not Null,
-       Descrizionelunga VARCHAR2(100) Not Null,
-       Posizione NUMBER(38, 0) Not Null,
-       Flagvalido VARCHAR2(1) Not Null,
-       Flagmenuutente VARCHAR2(1));
+      (Codtipovoce CHARACTER VARYING Not Null,
+       Descrizionebreve CHARACTER VARYING Not Null,
+       Descrizionelunga CHARACTER VARYING Not Null,
+       Posizione NUMERIC Not Null,
+       Flagvalido CHARACTER VARYING Not Null,
+       Flagmenuutente CHARACTER VARYING);
 
 Comment On Column SEC_Dec_Tipivoce.Codtipovoce Is '';
 Comment On Column SEC_Dec_Tipivoce.Descrizionebreve Is '';
@@ -108,9 +108,9 @@ Comment On Column SEC_Dec_Tipivoce.Flagmenuutente Is '';
 
 -- Create Table SEC_Funzioniruoli
 Create Table SEC_Funzioniruoli
-      (Codfunzione VARCHAR2(100) Not Null,
-       Codruolo VARCHAR2(10) Not Null,
-       Flagaccesso VARCHAR2(1));
+      (Codfunzione CHARACTER VARYING Not Null,
+       Codruolo CHARACTER VARYING Not Null,
+       Flagaccesso CHARACTER VARYING);
 
 Comment On Column SEC_Funzioniruoli.Codfunzione Is '';
 Comment On Column SEC_Funzioniruoli.Codruolo Is '';
@@ -118,9 +118,9 @@ Comment On Column SEC_Funzioniruoli.Flagaccesso Is '';
 
 -- Create Table SEC_Menuruoli
 Create Table SEC_Menuruoli
-      (Codmenu VARCHAR2(100) Not Null,
-       Codruolo VARCHAR2(10) Not Null,
-       Flagaccesso VARCHAR2(1));
+      (Codmenu CHARACTER VARYING Not Null,
+       Codruolo CHARACTER VARYING Not Null,
+       Flagaccesso CHARACTER VARYING);
 
 Comment On Column SEC_Menuruoli.Codmenu Is '';
 Comment On Column SEC_Menuruoli.Codruolo Is '';
@@ -128,9 +128,9 @@ Comment On Column SEC_Menuruoli.Flagaccesso Is '';
 
 -- Create Table SEC_Menuutenteruoli
 Create Table SEC_Menuutenteruoli
-      (Codmenuutente VARCHAR2(100) Not Null,
-       Codruolo VARCHAR2(10) Not Null,
-       Flagaccesso VARCHAR2(1));
+      (Codmenuutente CHARACTER VARYING Not Null,
+       Codruolo CHARACTER VARYING Not Null,
+       Flagaccesso CHARACTER VARYING);
 
 Comment On Column SEC_Menuutenteruoli.Codmenuutente Is '';
 Comment On Column SEC_Menuutenteruoli.Codruolo Is '';
@@ -138,11 +138,11 @@ Comment On Column SEC_Menuutenteruoli.Flagaccesso Is '';
 
 -- Create Table SEC_Profili
 Create Table SEC_Profili
-      (Idprofilo NUMBER(38, 0) Not Null,
-       Idutente NUMBER(38, 0),
-       Codruolo VARCHAR2(10),
-       Datainizio DATE Not Null,
-       Datafine DATE);
+      (Idprofilo NUMERIC Not Null,
+       Idutente NUMERIC,
+       Codruolo CHARACTER VARYING,
+       Datainizio TIMESTAMP Not Null,
+       Datafine TIMESTAMP);
 
 Comment On Column SEC_Profili.Idprofilo Is '';
 Comment On Column SEC_Profili.Idutente Is '';
@@ -152,15 +152,15 @@ Comment On Column SEC_Profili.Datafine Is '';
 
 -- Create Table SEC_Utenti
 Create Table SEC_Utenti
-      (Idutente NUMBER(38, 0) Not Null,
-       Nome VARCHAR2(100),
-       Cognome VARCHAR2(100),
-       Userid VARCHAR2(10),
-       Password VARCHAR2(100),
-       Email VARCHAR2(100),
-       Emailpassword VARCHAR2(100),
-       Locale VARCHAR2(5),
-       Foto BLOB);
+      (Idutente NUMERIC Not Null,
+       Nome CHARACTER VARYING,
+       Cognome CHARACTER VARYING,
+       Userid CHARACTER VARYING,
+       Password CHARACTER VARYING,
+       Email CHARACTER VARYING,
+       Emailpassword CHARACTER VARYING,
+       Locale CHARACTER VARYING,
+       Foto BINARY LARGE OBJECT);
 
 Comment On Column SEC_Utenti.Idutente Is '';
 Comment On Column SEC_Utenti.Nome Is '';

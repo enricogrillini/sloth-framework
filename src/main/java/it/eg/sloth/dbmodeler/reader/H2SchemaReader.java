@@ -43,9 +43,8 @@ public class H2SchemaReader extends DbSchemaAbstractReader implements DbSchemaRe
             "       '' column_comments,\n" +
             "       substr(IS_NULLABLE, 1, 1) nullable,\n" +
             "       --\n" +
-            "       c.DATA_TYPE,\n" +
             "       c.CHARACTER_MAXIMUM_LENGTH,\n" +
-            "       c.COLUMN_TYPE\n" +
+            "       c.DATA_TYPE COLUMN_TYPE\n" +
             "from INFORMATION_SCHEMA.TABLES t\n" +
             "     Inner Join INFORMATION_SCHEMA.COLUMNS c on t.table_schema = c.table_schema And  t.table_name = c.table_name\n" +
             "/*W*/\n" +

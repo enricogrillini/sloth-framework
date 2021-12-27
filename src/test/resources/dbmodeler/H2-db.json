@@ -35,7 +35,7 @@
         "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
-        "type" : "NUMBER(38, 0)"
+        "type" : "NUMERIC"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -45,7 +45,7 @@
         "nullable" : true,
         "position" : 1,
         "primaryKey" : false,
-        "type" : "VARCHAR2(1000)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -55,7 +55,7 @@
         "nullable" : true,
         "position" : 2,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -65,7 +65,7 @@
         "nullable" : true,
         "position" : 3,
         "primaryKey" : false,
-        "type" : "DATE"
+        "type" : "TIMESTAMP"
       } ],
       "tablespace" : null,
       "temporary" : false
@@ -86,7 +86,7 @@
         "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
-        "type" : "NUMBER(38, 0)"
+        "type" : "NUMERIC"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -96,7 +96,7 @@
         "nullable" : true,
         "position" : 1,
         "primaryKey" : false,
-        "type" : "NUMBER(38, 0)"
+        "type" : "NUMERIC"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -106,7 +106,7 @@
         "nullable" : true,
         "position" : 2,
         "primaryKey" : false,
-        "type" : "DATE"
+        "type" : "TIMESTAMP"
       } ],
       "tablespace" : null,
       "temporary" : false
@@ -127,7 +127,7 @@
         "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -137,7 +137,7 @@
         "nullable" : false,
         "position" : 1,
         "primaryKey" : false,
-        "type" : "VARCHAR2(20)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -147,7 +147,7 @@
         "nullable" : false,
         "position" : 2,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -157,7 +157,7 @@
         "nullable" : false,
         "position" : 3,
         "primaryKey" : false,
-        "type" : "NUMBER(38, 0)"
+        "type" : "NUMERIC"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -167,7 +167,7 @@
         "nullable" : false,
         "position" : 4,
         "primaryKey" : false,
-        "type" : "VARCHAR2(1)"
+        "type" : "CHARACTER VARYING"
       } ],
       "tablespace" : null,
       "temporary" : false
@@ -188,7 +188,7 @@
         "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -198,7 +198,7 @@
         "nullable" : false,
         "position" : 1,
         "primaryKey" : false,
-        "type" : "VARCHAR2(20)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -208,7 +208,7 @@
         "nullable" : false,
         "position" : 2,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -218,7 +218,7 @@
         "nullable" : false,
         "position" : 3,
         "primaryKey" : false,
-        "type" : "NUMBER(38, 0)"
+        "type" : "NUMERIC"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -228,7 +228,7 @@
         "nullable" : false,
         "position" : 4,
         "primaryKey" : false,
-        "type" : "VARCHAR2(1)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -238,7 +238,7 @@
         "nullable" : false,
         "position" : 5,
         "primaryKey" : false,
-        "type" : "VARCHAR2(10)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -248,7 +248,7 @@
         "nullable" : false,
         "position" : 6,
         "primaryKey" : false,
-        "type" : "NUMBER(38, 0)"
+        "type" : "NUMERIC"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -258,7 +258,7 @@
         "nullable" : true,
         "position" : 7,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -268,7 +268,7 @@
         "nullable" : true,
         "position" : 8,
         "primaryKey" : false,
-        "type" : "VARCHAR2(200)"
+        "type" : "CHARACTER VARYING"
       } ],
       "tablespace" : null,
       "temporary" : false
@@ -289,7 +289,7 @@
         "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -299,7 +299,7 @@
         "nullable" : false,
         "position" : 1,
         "primaryKey" : false,
-        "type" : "VARCHAR2(20)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -309,7 +309,7 @@
         "nullable" : false,
         "position" : 2,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -319,7 +319,7 @@
         "nullable" : false,
         "position" : 3,
         "primaryKey" : false,
-        "type" : "NUMBER(38, 0)"
+        "type" : "NUMERIC"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -329,7 +329,7 @@
         "nullable" : false,
         "position" : 4,
         "primaryKey" : false,
-        "type" : "VARCHAR2(1)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -339,7 +339,7 @@
         "nullable" : false,
         "position" : 5,
         "primaryKey" : false,
-        "type" : "VARCHAR2(10)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -349,7 +349,7 @@
         "nullable" : true,
         "position" : 6,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -359,7 +359,7 @@
         "nullable" : true,
         "position" : 7,
         "primaryKey" : false,
-        "type" : "VARCHAR2(200)"
+        "type" : "CHARACTER VARYING"
       } ],
       "tablespace" : null,
       "temporary" : false
@@ -380,7 +380,7 @@
         "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
-        "type" : "VARCHAR2(10)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -390,7 +390,7 @@
         "nullable" : false,
         "position" : 1,
         "primaryKey" : false,
-        "type" : "VARCHAR2(20)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -400,7 +400,7 @@
         "nullable" : false,
         "position" : 2,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -410,7 +410,7 @@
         "nullable" : false,
         "position" : 3,
         "primaryKey" : false,
-        "type" : "NUMBER(38, 0)"
+        "type" : "NUMERIC"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -420,7 +420,7 @@
         "nullable" : false,
         "position" : 4,
         "primaryKey" : false,
-        "type" : "VARCHAR2(1)"
+        "type" : "CHARACTER VARYING"
       } ],
       "tablespace" : null,
       "temporary" : false
@@ -441,7 +441,7 @@
         "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
-        "type" : "VARCHAR2(10)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -451,7 +451,7 @@
         "nullable" : false,
         "position" : 1,
         "primaryKey" : false,
-        "type" : "VARCHAR2(20)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -461,7 +461,7 @@
         "nullable" : false,
         "position" : 2,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -471,7 +471,7 @@
         "nullable" : false,
         "position" : 3,
         "primaryKey" : false,
-        "type" : "NUMBER(38, 0)"
+        "type" : "NUMERIC"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -481,7 +481,7 @@
         "nullable" : false,
         "position" : 4,
         "primaryKey" : false,
-        "type" : "VARCHAR2(1)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -491,7 +491,7 @@
         "nullable" : true,
         "position" : 5,
         "primaryKey" : false,
-        "type" : "VARCHAR2(1)"
+        "type" : "CHARACTER VARYING"
       } ],
       "tablespace" : null,
       "temporary" : false
@@ -512,7 +512,7 @@
         "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -522,7 +522,7 @@
         "nullable" : false,
         "position" : 1,
         "primaryKey" : false,
-        "type" : "VARCHAR2(10)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -532,7 +532,7 @@
         "nullable" : true,
         "position" : 2,
         "primaryKey" : false,
-        "type" : "VARCHAR2(1)"
+        "type" : "CHARACTER VARYING"
       } ],
       "tablespace" : null,
       "temporary" : false
@@ -553,7 +553,7 @@
         "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -563,7 +563,7 @@
         "nullable" : false,
         "position" : 1,
         "primaryKey" : false,
-        "type" : "VARCHAR2(10)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -573,7 +573,7 @@
         "nullable" : true,
         "position" : 2,
         "primaryKey" : false,
-        "type" : "VARCHAR2(1)"
+        "type" : "CHARACTER VARYING"
       } ],
       "tablespace" : null,
       "temporary" : false
@@ -594,7 +594,7 @@
         "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -604,7 +604,7 @@
         "nullable" : false,
         "position" : 1,
         "primaryKey" : false,
-        "type" : "VARCHAR2(10)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -614,7 +614,7 @@
         "nullable" : true,
         "position" : 2,
         "primaryKey" : false,
-        "type" : "VARCHAR2(1)"
+        "type" : "CHARACTER VARYING"
       } ],
       "tablespace" : null,
       "temporary" : false
@@ -635,7 +635,7 @@
         "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
-        "type" : "NUMBER(38, 0)"
+        "type" : "NUMERIC"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -645,7 +645,7 @@
         "nullable" : true,
         "position" : 1,
         "primaryKey" : false,
-        "type" : "NUMBER(38, 0)"
+        "type" : "NUMERIC"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -655,7 +655,7 @@
         "nullable" : true,
         "position" : 2,
         "primaryKey" : false,
-        "type" : "VARCHAR2(10)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -665,7 +665,7 @@
         "nullable" : false,
         "position" : 3,
         "primaryKey" : false,
-        "type" : "DATE"
+        "type" : "TIMESTAMP"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -675,7 +675,7 @@
         "nullable" : true,
         "position" : 4,
         "primaryKey" : false,
-        "type" : "DATE"
+        "type" : "TIMESTAMP"
       } ],
       "tablespace" : null,
       "temporary" : false
@@ -696,7 +696,7 @@
         "nullable" : false,
         "position" : 0,
         "primaryKey" : false,
-        "type" : "NUMBER(38, 0)"
+        "type" : "NUMERIC"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -706,7 +706,7 @@
         "nullable" : true,
         "position" : 1,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -716,7 +716,7 @@
         "nullable" : true,
         "position" : 2,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -726,7 +726,7 @@
         "nullable" : true,
         "position" : 3,
         "primaryKey" : false,
-        "type" : "VARCHAR2(10)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -736,7 +736,7 @@
         "nullable" : true,
         "position" : 4,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -746,7 +746,7 @@
         "nullable" : true,
         "position" : 5,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -756,7 +756,7 @@
         "nullable" : true,
         "position" : 6,
         "primaryKey" : false,
-        "type" : "VARCHAR2(100)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -766,7 +766,7 @@
         "nullable" : true,
         "position" : 7,
         "primaryKey" : false,
-        "type" : "VARCHAR2(5)"
+        "type" : "CHARACTER VARYING"
       }, {
         "dataLength" : 0,
         "dataPrecision" : null,
@@ -776,7 +776,7 @@
         "nullable" : true,
         "position" : 8,
         "primaryKey" : false,
-        "type" : "BLOB"
+        "type" : "BINARY LARGE OBJECT"
       } ],
       "tablespace" : null,
       "temporary" : false
