@@ -133,6 +133,66 @@
     }, {
       "constantCollection" : [ ],
       "constraintCollection" : [ {
+        "columns" : [ "Codproperty" ],
+        "generated" : false,
+        "name" : "frame_properties_pk",
+        "referenceTable" : null,
+        "searchCondition" : null,
+        "type" : "PRIMARY_KEY"
+      } ],
+      "description" : null,
+      "duration" : null,
+      "indexCollection" : [ {
+        "columns" : [ "type", "value" ],
+        "initial" : 0,
+        "name" : "frame_properties_idx1",
+        "tablespace" : null,
+        "uniqueness" : false
+      }, {
+        "columns" : [ "codproperty" ],
+        "initial" : 0,
+        "name" : "frame_properties_pk",
+        "tablespace" : null,
+        "uniqueness" : false
+      } ],
+      "initial" : 0,
+      "name" : "Frame_Properties",
+      "tableColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Codproperty",
+        "nullable" : false,
+        "position" : 0,
+        "primaryKey" : true,
+        "type" : "character varying(250)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Type",
+        "nullable" : false,
+        "position" : 1,
+        "primaryKey" : false,
+        "type" : "character varying(50)"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Value",
+        "nullable" : false,
+        "position" : 2,
+        "primaryKey" : false,
+        "type" : "character varying(200)"
+      } ],
+      "tablespace" : null,
+      "temporary" : false
+    }, {
+      "constantCollection" : [ ],
+      "constraintCollection" : [ {
         "columns" : [ "Idutente" ],
         "generated" : false,
         "name" : "monitor_login_fk1",
@@ -284,6 +344,9 @@
       }, {
         "name" : "MONITOR",
         "value" : "MONITOR"
+      }, {
+        "name" : "PROPERTIES",
+        "value" : "PROPERTIES"
       }, {
         "name" : "SEPARATORE",
         "value" : "SEP_SYSADMIN"

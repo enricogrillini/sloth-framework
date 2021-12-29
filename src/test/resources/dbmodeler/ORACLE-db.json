@@ -43,6 +43,72 @@
       "returnType" : "VARCHAR2"
     } ],
     "packageCollection" : [ {
+      "bodyDefinition" : "Create or Replace PACKAGE BODY LIB AS\n\n  Function BooleanToChar (Valore In Boolean) Return Varchar2 Is\n    Begin\n      If Valore Is Null Then\n        Return Null;\n      Elsif Valore then\n        Return 'S';\n      Else\n        Return 'N';\n      end if;\n    End;\n\n  Function CharToBoolean (Valore In Varchar2) Return Boolean Is\n    Begin\n      If Valore Is Null Then\n        Return Null;\n      Elsif Valore = 'S' then\n        Return true;\n      Else\n        Return false;\n      end if;\n    End;\n\n  Function CharToDate (Valore In varchar2) Return date is\n    Begin\n      return to_date(Valore, 'dd/mm/yyyy');\n\n    Exception\n      When Others Then\n        return null;\n    end;\n\n  function getRicerca (Stringa in varchar2) return varchar is\n      i integer;\n      Result varchar2(4096);\n\n    Begin\n       For i in 1..nvl(length(Stringa),0) Loop\n          if ascii (substr(Stringa, i, 1)) between 48 And 57 Or\n             ascii (substr(Stringa, i, 1)) between 65 And 90 Or\n             ascii (substr(Stringa, i, 1)) between 97 And 122 then\n\n             Result := Result || substr(Stringa, i, 1);\n          end if;\n       End Loop;\n\n       Return Substr(Upper(Result), 1, 2048);\n    End;\n\n\n  Function getAsciiStr(inStringa In Varchar2, inReplace in Varchar2 default ' ') Return Varchar2 Is\n    result Varchar2(2000) := '';\n    chr Varchar2(10);\n\n  Begin\n    for i in 1..length(inStringa) Loop\n      chr := substr (inStringa, i, 1);\n\n      If ascii(chr) <= 31 Or ascii(chr) >= 128 then\n        result := result || inReplace;\n      Else\n        result := result || chr;\n      End if;\n    End Loop;\n\n    return (Result);\n  end;\n\nEnd;\n",
+      "definition" : "Create or Replace PACKAGE LIB AS\n\n  Function BooleanToChar (Valore In Boolean) Return Varchar2;\n  Function CharToBoolean (Valore In Varchar2) Return Boolean;\n\n  Function CharToDate (Valore In varchar2) Return date;\n\n  function getRicerca (Stringa in varchar2) return varchar;\n  Function getAsciiStr(inStringa In Varchar2, inReplace in Varchar2 default ' ') Return Varchar2;\n\nEnd;\n",
+      "functionCollection" : [ {
+        "arguments" : [ {
+          "inOut" : "IN",
+          "name" : "Valore",
+          "position" : 1,
+          "type" : "PL/SQL BOOLEAN"
+        } ],
+        "definition" : null,
+        "name" : "Booleantochar",
+        "overload" : null,
+        "returnType" : "VARCHAR2"
+      }, {
+        "arguments" : [ {
+          "inOut" : "IN",
+          "name" : "Valore",
+          "position" : 1,
+          "type" : "VARCHAR2"
+        } ],
+        "definition" : null,
+        "name" : "Chartoboolean",
+        "overload" : null,
+        "returnType" : "PL/SQL BOOLEAN"
+      }, {
+        "arguments" : [ {
+          "inOut" : "IN",
+          "name" : "Instringa",
+          "position" : 1,
+          "type" : "VARCHAR2"
+        }, {
+          "inOut" : "IN",
+          "name" : "Inreplace",
+          "position" : 2,
+          "type" : "VARCHAR2"
+        } ],
+        "definition" : null,
+        "name" : "Getasciistr",
+        "overload" : null,
+        "returnType" : "VARCHAR2"
+      }, {
+        "arguments" : [ {
+          "inOut" : "IN",
+          "name" : "Valore",
+          "position" : 1,
+          "type" : "VARCHAR2"
+        } ],
+        "definition" : null,
+        "name" : "Chartodate",
+        "overload" : null,
+        "returnType" : "DATE"
+      }, {
+        "arguments" : [ {
+          "inOut" : "IN",
+          "name" : "Stringa",
+          "position" : 1,
+          "type" : "VARCHAR2"
+        } ],
+        "definition" : null,
+        "name" : "Getricerca",
+        "overload" : null,
+        "returnType" : "VARCHAR2"
+      } ],
+      "name" : "lib",
+      "procedureCollection" : [ ]
+    }, {
       "bodyDefinition" : "Create or Replace package body lib_calendario is\n\n  -- Recupera il giorno di Pasqua\n  Function getPasqua(anno in integer) return date is\n    C integer;\n    N integer;\n    K integer;\n    I integer;\n    J integer;\n    L integer;\n\n    Mese integer;\n    Giorno integer;\n  begin\n\n     C := trunc(Anno / 100);\n     N := Anno - 19 * trunc(Anno / 19);\n     K := trunc((C - 17) / 25);\n     I := C - trunc(C / 4) - trunc((C - K) / 3) + 19 * N + 15;\n     I := I - 30 * trunc(I / 30);\n     I := I - trunc(I / 28) * (1 - trunc(I / 28) * trunc(29 / (I + 1)) * trunc((21 - N) / 11));\n     J := Anno + trunc(Anno / 4) + I + 2 - C + trunc(C / 4);\n     J := J - 7 * trunc(J / 7);\n     L := I - J;\n     Mese := 3 + trunc((L + 40) / 44);\n     Giorno := L + 28 - 31 * trunc(Mese / 4);\n\n     return to_date (Giorno || '/' || Mese || '/' || Anno, 'dd/mm/yyyy');\n  End;\n\n  Function getDayOfWeek(inGiorno in date) return integer is\n    begin\n      return mod (greatest(inGiorno, LUNEDI) - least(inGiorno, LUNEDI), 7);\n    end;\n\n  Function getTipoGiorno (inGiorno in date) return varchar2 is\n    begin\n      if isFestivo (inGiorno) then\n        return FESTIVO;\n      elsif isSabato(inGiorno) then\n        return PREFESTIVO;\n      else\n        return FERIALE;\n      end if;\n    end;\n\n  function isFestivo (inGiorno in date) return boolean is\n      Giorno date := trunc(inGiorno);\n      Anno varchar2(4) := to_char(inGiorno, 'yyyy');\n\n    begin\n      if isDomenica(Giorno) then         -- DOMENICA\n        return true;\n      elsif Giorno = to_date ('01/01/' || Anno, 'dd/mm/yyyy') then                    -- 01/01 Capodanno\n        return true;\n      elsif Giorno = to_date ('06/01/' || Anno, 'dd/mm/yyyy') then                    -- 01/06 Epifania\n        return true;\n      elsif Giorno = to_date ('25/04/' || Anno, 'dd/mm/yyyy') then                    -- 25/04\n        return true;\n      elsif Giorno = to_date ('01/05/' || Anno, 'dd/mm/yyyy') then                    -- 01/05\n        return true;\n      elsif Giorno = to_date ('02/06/' || Anno, 'dd/mm/yyyy') then                    -- 02/06 Festa della Repubblica\n        return true;\n      elsif Giorno = to_date ('15/08/' || Anno, 'dd/mm/yyyy') then                    -- 15/08 Ferragosto\n        return true;\n      --elsif Giorno = to_date (PATRONO || Anno, 'dd/mm/yyyy') then                     -- Patrono\n      --  return true;\n      elsif Giorno = to_date ('01/11/' || Anno, 'dd/mm/yyyy') then                    -- 01/11 Ognisanti\n        return true;\n      elsif Giorno = to_date ('08/12/' || Anno, 'dd/mm/yyyy') then                    -- 08/12 Immacolata concezione\n        return true;\n      elsif Giorno = to_date ('25/12/' || Anno, 'dd/mm/yyyy') then                    -- 25/12 Natale\n        return true;\n      elsif Giorno = to_date ('26/12/' || Anno, 'dd/mm/yyyy') then                    -- 26/12 Santo stefano\n        return true;\n      elsif Giorno = getPasqua(Anno) then                                             --       Pasqua\n        return true;\n      elsif Giorno = getPasqua(Anno) + 1 then                                         --       Lunedì dell'Angelo\n        return true;\n      else\n        return false;\n      end if;\n\n    end;\n\n  Function isLunedi(inData in date) return boolean is\n    begin\n      return getDayOfWeek(inData) = 0;\n    end;\n\n  Function isMartedi(inData in date) return boolean is\n    begin\n      return getDayOfWeek(inData) = 1;\n    end;\n\n  Function isMercoledi(inData in date) return boolean is\n    begin\n      return getDayOfWeek(inData) = 2;\n    end;\n\n  Function isGiovedi(inData in date) return boolean is\n    begin\n      return getDayOfWeek(inData) = 3;\n    end;\n\n  Function isVenerdi(inData in date) return boolean is\n    begin\n      return getDayOfWeek(inData) = 4;\n    end;\n\n  Function isSabato(inData in date) return boolean is\n    begin\n      return getDayOfWeek(inData) = 5;\n    end;\n\n\n  Function isDomenica(inData in date) return boolean is\n    begin\n      return getDayOfWeek(inData) = 6;\n    end;\n\nend;\n",
       "definition" : "Create or Replace package lib_calendario is\n\n  LUNEDI constant date := to_date('01/01/2001', 'dd/mm/yyyy');\n  PATRONO constant varchar2(6) := '04/10/';\n\n  FESTIVO constant varchar2(10) := 'FEST';\n  FERIALE constant varchar2(10) := 'FER';\n  PREFESTIVO constant varchar2(10) := 'PRE';\n\n  Function getPasqua(anno in integer) return date;\n\n  -- Ritorna il giorno della settimana (0 = Lunedì)\n  Function getDayOfWeek(inGiorno in date) return integer;\n\n  Function getTipoGiorno (inGiorno in date) return varchar2;\n  Function isFestivo (inGiorno in date) return boolean;\n\n  Function isLunedi(inData in date) return boolean;\n  Function isMartedi(inData in date) return boolean;\n  Function isMercoledi(inData in date) return boolean;\n  Function isGiovedi(inData in date) return boolean;\n  Function isVenerdi(inData in date) return boolean;\n  Function isSabato(inData in date) return boolean;\n  Function isDomenica(inData in date) return boolean;\n\nend;\n",
       "functionCollection" : [ {
@@ -245,6 +311,66 @@
     }, {
       "constantCollection" : [ ],
       "constraintCollection" : [ {
+        "columns" : [ "CODPROPERTY" ],
+        "generated" : false,
+        "name" : "FRAME_PROPERTIES_PK",
+        "referenceTable" : null,
+        "searchCondition" : null,
+        "type" : "PRIMARY_KEY"
+      } ],
+      "description" : null,
+      "duration" : null,
+      "indexCollection" : [ {
+        "columns" : [ "TYPE", "VALUE" ],
+        "initial" : 65536,
+        "name" : "FRAME_PROPERTIES_IDX1",
+        "tablespace" : "USERS",
+        "uniqueness" : true
+      }, {
+        "columns" : [ "CODPROPERTY" ],
+        "initial" : 65536,
+        "name" : "FRAME_PROPERTIES_PK",
+        "tablespace" : "USERS",
+        "uniqueness" : true
+      } ],
+      "initial" : 65536,
+      "name" : "Frame_Properties",
+      "tableColumnCollection" : [ {
+        "dataLength" : 250,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Codproperty",
+        "nullable" : false,
+        "position" : 0,
+        "primaryKey" : true,
+        "type" : "VARCHAR2(250)"
+      }, {
+        "dataLength" : 50,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Type",
+        "nullable" : false,
+        "position" : 1,
+        "primaryKey" : false,
+        "type" : "VARCHAR2(50)"
+      }, {
+        "dataLength" : 200,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Value",
+        "nullable" : false,
+        "position" : 2,
+        "primaryKey" : false,
+        "type" : "VARCHAR2(200)"
+      } ],
+      "tablespace" : "USERS",
+      "temporary" : false
+    }, {
+      "constantCollection" : [ ],
+      "constraintCollection" : [ {
         "columns" : [ "IDLOGIN" ],
         "generated" : false,
         "name" : "MONITOR_LOGIN_PK",
@@ -396,6 +522,9 @@
       }, {
         "name" : "MONITOR",
         "value" : "MONITOR"
+      }, {
+        "name" : "PROPERTIES",
+        "value" : "PROPERTIES"
       }, {
         "name" : "SEPARATORE",
         "value" : "SEP_SYSADMIN"

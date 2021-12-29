@@ -12,6 +12,18 @@ Comment On Column Aforismi.Aforisma Is '';
 Comment On Column Aforismi.Autore Is '';
 Comment On Column Aforismi.Dataultimapublicazione Is '';
 
+-- Create Table Frame_Properties
+Create Table Frame_Properties
+      (Codproperty VARCHAR2(250) Not Null,
+       Type VARCHAR2(50) Not Null,
+       Value VARCHAR2(200) Not Null)
+Tablespace USERS
+Storage (Initial 64K);
+
+Comment On Column Frame_Properties.Codproperty Is '';
+Comment On Column Frame_Properties.Type Is '';
+Comment On Column Frame_Properties.Value Is '';
+
 -- Create Table Monitor_Login
 Create Table Monitor_Login
       (Idlogin NUMBER(38,0) Not Null,

@@ -76,6 +76,47 @@
       "duration" : null,
       "indexCollection" : [ ],
       "initial" : 0,
+      "name" : "FRAME_Properties",
+      "tableColumnCollection" : [ {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Codproperty",
+        "nullable" : false,
+        "position" : 0,
+        "primaryKey" : false,
+        "type" : "CHARACTER VARYING"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Type",
+        "nullable" : false,
+        "position" : 1,
+        "primaryKey" : false,
+        "type" : "CHARACTER VARYING"
+      }, {
+        "dataLength" : 0,
+        "dataPrecision" : null,
+        "defaultValue" : null,
+        "description" : null,
+        "name" : "Value",
+        "nullable" : false,
+        "position" : 2,
+        "primaryKey" : false,
+        "type" : "CHARACTER VARYING"
+      } ],
+      "tablespace" : null,
+      "temporary" : false
+    }, {
+      "constantCollection" : [ ],
+      "constraintCollection" : [ ],
+      "description" : null,
+      "duration" : null,
+      "indexCollection" : [ ],
+      "initial" : 0,
       "name" : "MONITOR_Login",
       "tableColumnCollection" : [ {
         "dataLength" : 0,

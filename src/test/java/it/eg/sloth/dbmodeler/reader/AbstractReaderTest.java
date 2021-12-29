@@ -94,12 +94,12 @@ public abstract class AbstractReaderTest {
 
     protected DataBase readSchemaTest(DataBaseType dataBaseType) throws SQLException, IOException, FrameworkException {
         Schema schema = getDbSchemaReader().refreshSchema(getConnection(), getOwner());
-        Assertions.assertEquals(12, schema.getTableCollection().size());
+        Assertions.assertEquals(13, schema.getTableCollection().size());
         Assertions.assertEquals(3, schema.getSequenceCollection().size());
 
         Statistics statistics = getDbSchemaReader().refreshStatistics(getConnection(), getOwner());
-        assertEquals(12, statistics.getTableCount());
-        assertEquals(18, statistics.getIndexCount());
+        assertEquals(13, statistics.getTableCount());
+        assertEquals(20, statistics.getIndexCount());
 
         DbConnection dbConnection = DbConnection.builder()
                 .name("gildaceOn" + dataBaseType)

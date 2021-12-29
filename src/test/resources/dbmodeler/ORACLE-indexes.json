@@ -8,6 +8,33 @@
   "initial_extent" : 131072,
   "column_name" : "IDAFORISMA"
 }, {
+  "index_name" : "FRAME_PROPERTIES_IDX1",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "FRAME_PROPERTIES",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "TYPE"
+}, {
+  "index_name" : "FRAME_PROPERTIES_IDX1",
+  "column_position" : 2,
+  "owner" : "GILDACE",
+  "table_name" : "FRAME_PROPERTIES",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "VALUE"
+}, {
+  "index_name" : "FRAME_PROPERTIES_PK",
+  "column_position" : 1,
+  "owner" : "GILDACE",
+  "table_name" : "FRAME_PROPERTIES",
+  "uniqueness" : "UNIQUE",
+  "tablespace_name" : "USERS",
+  "initial_extent" : 65536,
+  "column_name" : "CODPROPERTY"
+}, {
   "index_name" : "MONITOR_LOGIN_PK",
   "column_position" : 1,
   "owner" : "GILDACE",

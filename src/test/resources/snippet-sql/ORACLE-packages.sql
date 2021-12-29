@@ -1,3 +1,89 @@
+-- Package lib
+Create or Replace PACKAGE LIB AS
+
+  Function BooleanToChar (Valore In Boolean) Return Varchar2;
+  Function CharToBoolean (Valore In Varchar2) Return Boolean;
+
+  Function CharToDate (Valore In varchar2) Return date;
+
+  function getRicerca (Stringa in varchar2) return varchar;
+  Function getAsciiStr(inStringa In Varchar2, inReplace in Varchar2 default ' ') Return Varchar2;
+
+End;
+/
+
+Create or Replace PACKAGE BODY LIB AS
+
+  Function BooleanToChar (Valore In Boolean) Return Varchar2 Is
+    Begin
+      If Valore Is Null Then
+        Return Null;
+      Elsif Valore then
+        Return 'S';
+      Else
+        Return 'N';
+      end if;
+    End;
+
+  Function CharToBoolean (Valore In Varchar2) Return Boolean Is
+    Begin
+      If Valore Is Null Then
+        Return Null;
+      Elsif Valore = 'S' then
+        Return true;
+      Else
+        Return false;
+      end if;
+    End;
+
+  Function CharToDate (Valore In varchar2) Return date is
+    Begin
+      return to_date(Valore, 'dd/mm/yyyy');
+
+    Exception
+      When Others Then
+        return null;
+    end;
+
+  function getRicerca (Stringa in varchar2) return varchar is
+      i integer;
+      Result varchar2(4096);
+
+    Begin
+       For i in 1..nvl(length(Stringa),0) Loop
+          if ascii (substr(Stringa, i, 1)) between 48 And 57 Or
+             ascii (substr(Stringa, i, 1)) between 65 And 90 Or
+             ascii (substr(Stringa, i, 1)) between 97 And 122 then
+
+             Result := Result || substr(Stringa, i, 1);
+          end if;
+       End Loop;
+
+       Return Substr(Upper(Result), 1, 2048);
+    End;
+
+
+  Function getAsciiStr(inStringa In Varchar2, inReplace in Varchar2 default ' ') Return Varchar2 Is
+    result Varchar2(2000) := '';
+    chr Varchar2(10);
+
+  Begin
+    for i in 1..length(inStringa) Loop
+      chr := substr (inStringa, i, 1);
+
+      If ascii(chr) <= 31 Or ascii(chr) >= 128 then
+        result := result || inReplace;
+      Else
+        result := result || chr;
+      End if;
+    End Loop;
+
+    return (Result);
+  end;
+
+End;
+/
+
 -- Package lib_calendario
 Create or Replace package lib_calendario is
 

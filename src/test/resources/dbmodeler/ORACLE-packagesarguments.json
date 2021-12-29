@@ -1,4 +1,114 @@
 [ {
+  "object_name" : "Booleantochar",
+  "package_name" : "Lib",
+  "overload" : null,
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "VARCHAR2",
+  "in_out" : "OUT",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Booleantochar",
+  "package_name" : "Lib",
+  "overload" : null,
+  "argument_name" : "Valore",
+  "position" : 1,
+  "data_type" : "PL/SQL BOOLEAN",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Chartoboolean",
+  "package_name" : "Lib",
+  "overload" : null,
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "PL/SQL BOOLEAN",
+  "in_out" : "OUT",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Chartoboolean",
+  "package_name" : "Lib",
+  "overload" : null,
+  "argument_name" : "Valore",
+  "position" : 1,
+  "data_type" : "VARCHAR2",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Chartodate",
+  "package_name" : "Lib",
+  "overload" : null,
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "DATE",
+  "in_out" : "OUT",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Chartodate",
+  "package_name" : "Lib",
+  "overload" : null,
+  "argument_name" : "Valore",
+  "position" : 1,
+  "data_type" : "VARCHAR2",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Getasciistr",
+  "package_name" : "Lib",
+  "overload" : null,
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "VARCHAR2",
+  "in_out" : "OUT",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Getasciistr",
+  "package_name" : "Lib",
+  "overload" : null,
+  "argument_name" : "Instringa",
+  "position" : 1,
+  "data_type" : "VARCHAR2",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Getasciistr",
+  "package_name" : "Lib",
+  "overload" : null,
+  "argument_name" : "Inreplace",
+  "position" : 2,
+  "data_type" : "VARCHAR2",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Getricerca",
+  "package_name" : "Lib",
+  "overload" : null,
+  "argument_name" : null,
+  "position" : 0,
+  "data_type" : "VARCHAR2",
+  "in_out" : "OUT",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
+  "object_name" : "Getricerca",
+  "package_name" : "Lib",
+  "overload" : null,
+  "argument_name" : "Stringa",
+  "position" : 1,
+  "data_type" : "VARCHAR2",
+  "in_out" : "IN",
+  "object_type" : "PACKAGE",
+  "type_name" : null
+}, {
   "object_name" : "Getdayofweek",
   "package_name" : "Lib_Calendario",
   "overload" : null,

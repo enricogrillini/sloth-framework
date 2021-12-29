@@ -1,8 +1,8 @@
 [ {
-  "table_count" : 12,
-  "table_size" : 786432,
-  "index_count" : 18,
-  "index_size" : 1507328,
+  "table_count" : 13,
+  "table_size" : 851968,
+  "index_count" : 20,
+  "index_size" : 1638400,
   "recyclebin_count" : 0,
   "recyclebin_size" : 0
 } ]

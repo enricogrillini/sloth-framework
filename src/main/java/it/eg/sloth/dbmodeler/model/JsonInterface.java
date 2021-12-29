@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -39,8 +40,9 @@ public interface JsonInterface {
     }
 
     default void writeJson(Writer writer) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
+        ObjectMapper mapper = JsonMapper.builder()
+                .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true)
+                .build();
 
         ObjectWriter objectWriter = mapper.writer(new DefaultPrettyPrinter());
         objectWriter.writeValue(writer, this);

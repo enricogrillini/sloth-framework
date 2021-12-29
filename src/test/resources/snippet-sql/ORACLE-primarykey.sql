@@ -1,6 +1,9 @@
 -- Primary Key Aforismi
 Alter Table Aforismi Add Constraint AFORISMI_PK Primary Key (IDAFORISMA);
 
+-- Primary Key Frame_Properties
+Alter Table Frame_Properties Add Constraint FRAME_PROPERTIES_PK Primary Key (CODPROPERTY);
+
 -- Primary Key Monitor_Login
 Alter Table Monitor_Login Add Constraint MONITOR_LOGIN_PK Primary Key (IDLOGIN);
 

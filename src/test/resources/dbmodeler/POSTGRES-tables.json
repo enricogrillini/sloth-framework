@@ -47,6 +47,42 @@
   "column_type" : "date",
   "character_maximum_length" : null
 }, {
+  "table_name" : "frame_properties",
+  "table_comments" : null,
+  "tablespace_name" : null,
+  "initial_extent" : 0,
+  "temporary_table" : "N",
+  "duration" : null,
+  "column_name" : "codproperty",
+  "column_comments" : null,
+  "nullable" : "N",
+  "column_type" : "character varying",
+  "character_maximum_length" : 250
+}, {
+  "table_name" : "frame_properties",
+  "table_comments" : null,
+  "tablespace_name" : null,
+  "initial_extent" : 0,
+  "temporary_table" : "N",
+  "duration" : null,
+  "column_name" : "type",
+  "column_comments" : null,
+  "nullable" : "N",
+  "column_type" : "character varying",
+  "character_maximum_length" : 50
+}, {
+  "table_name" : "frame_properties",
+  "table_comments" : null,
+  "tablespace_name" : null,
+  "initial_extent" : 0,
+  "temporary_table" : "N",
+  "duration" : null,
+  "column_name" : "value",
+  "column_comments" : null,
+  "nullable" : "N",
+  "column_type" : "character varying",
+  "character_maximum_length" : 200
+}, {
   "table_name" : "monitor_login",
   "table_comments" : null,
   "tablespace_name" : null,

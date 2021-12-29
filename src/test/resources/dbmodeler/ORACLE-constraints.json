@@ -9,6 +9,46 @@
   "generated" : "USER NAME",
   "references_table" : null
 }, {
+  "table_name" : "FRAME_PROPERTIES",
+  "ordinamento" : 1,
+  "constraint_name" : "FRAME_PROPERTIES_PK",
+  "position" : 1,
+  "column_name" : "CODPROPERTY",
+  "constraint_type" : "P",
+  "search_condition" : null,
+  "generated" : "USER NAME",
+  "references_table" : null
+}, {
+  "table_name" : "FRAME_PROPERTIES",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0022143",
+  "position" : null,
+  "column_name" : "CODPROPERTY",
+  "constraint_type" : "C",
+  "search_condition" : "\"CODPROPERTY\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "FRAME_PROPERTIES",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0022144",
+  "position" : null,
+  "column_name" : "TYPE",
+  "constraint_type" : "C",
+  "search_condition" : "\"TYPE\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
+  "table_name" : "FRAME_PROPERTIES",
+  "ordinamento" : 3,
+  "constraint_name" : "SYS_C0022145",
+  "position" : null,
+  "column_name" : "VALUE",
+  "constraint_type" : "C",
+  "search_condition" : "\"VALUE\" IS NOT NULL",
+  "generated" : "GENERATED NAME",
+  "references_table" : null
+}, {
   "table_name" : "MONITOR_LOGIN",
   "ordinamento" : 1,
   "constraint_name" : "MONITOR_LOGIN_PK",

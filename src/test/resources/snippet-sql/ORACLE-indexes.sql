@@ -3,6 +3,16 @@ Create Unique Index AFORISMI_PK on Aforismi (IDAFORISMA)
 Tablespace USERS
 Storage (Initial 128K);
 
+-- Create Index FRAME_PROPERTIES_IDX1
+Create Unique Index FRAME_PROPERTIES_IDX1 on Frame_Properties (TYPE,VALUE)
+Tablespace USERS
+Storage (Initial 64K);
+
+-- Create Index FRAME_PROPERTIES_PK
+Create Unique Index FRAME_PROPERTIES_PK on Frame_Properties (CODPROPERTY)
+Tablespace USERS
+Storage (Initial 64K);
+
 -- Create Index MONITOR_LOGIN_PK
 Create Unique Index MONITOR_LOGIN_PK on Monitor_Login (IDLOGIN)
 Tablespace USERS

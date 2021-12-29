@@ -19,6 +19,16 @@
   "imghtml" : "<i class=\"fas fa-desktop\"></i>",
   "link" : "MonitorPage.html"
 }, {
+  "codmenu" : "PROPERTIES",
+  "descrizionebreve" : "Properties",
+  "descrizionelunga" : "Properties",
+  "posizione" : 130,
+  "flagvalido" : "S",
+  "codtipovoce" : "VOICE",
+  "livello" : 1,
+  "imghtml" : "<i class=\"fas fa-table\"></i>",
+  "link" : "PropertiesPage.html"
+}, {
   "codmenu" : "SEP_SYSADMIN",
   "descrizionebreve" : "Separatore",
   "descrizionelunga" : "Separatore",

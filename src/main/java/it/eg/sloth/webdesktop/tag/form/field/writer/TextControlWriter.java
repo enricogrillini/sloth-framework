@@ -10,11 +10,9 @@ import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.utility.md.MdUtil;
 import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
-import org.commonmark.node.Node;
-import org.commonmark.parser.Parser;
-import org.commonmark.renderer.html.HtmlRenderer;
 
 import java.util.List;
 
@@ -47,22 +45,7 @@ public class TextControlWriter extends HtmlWriter {
         if (simpleField instanceof DataField) {
             DataField<?> field = (DataField<?>) simpleField;
 
-            if (!BaseFunction.isBlank(field.getData())) {
-                // Escape per evitare Js code injection
-                String data = field.getData()
-                        .replace(";", "&semi;")
-                        .replace("<", "&lt;")
-                        .replace(">", "&gt;")
-                        .replace("(", "&lpar;")
-                        .replace("/", "&sol;")
-                        .replace(")", "&rpar;");
-
-                Parser parser = Parser.builder().build();
-                Node document = parser.parse(data);
-                HtmlRenderer renderer = HtmlRenderer.builder().build();
-
-                return renderer.render(document);
-            }
+            return MdUtil.getHtml(field.getData());
         }
 
         return StringUtil.EMPTY;

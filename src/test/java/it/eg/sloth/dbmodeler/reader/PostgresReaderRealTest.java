@@ -38,8 +38,8 @@ class PostgresReaderRealTest extends AbstractReaderTest {
         Statistics statistics = getDbSchemaReader().refreshStatistics(getConnection(), getOwner());
 
         assertEquals("org.postgresql.Driver", statistics.getDriverClass());
-        assertEquals(12, statistics.getTableCount());
-        assertEquals(18, statistics.getIndexCount());
+        assertEquals(13, statistics.getTableCount());
+        assertEquals(20, statistics.getIndexCount());
     }
 
 }

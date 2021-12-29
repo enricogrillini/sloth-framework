@@ -10,6 +10,16 @@ Comment On Column AFORISMI.Aforisma Is '';
 Comment On Column AFORISMI.Autore Is '';
 Comment On Column AFORISMI.Dataultimapublicazione Is '';
 
+-- Create Table Frame_Properties
+Create Table Frame_Properties
+      (Codproperty VARCHAR2(250) Not Null,
+       Type VARCHAR2(50) Not Null,
+       "VALUE" VARCHAR2(200) Not Null);
+
+Comment On Column Frame_Properties.Codproperty Is '';
+Comment On Column Frame_Properties.Type Is '';
+Comment On Column Frame_Properties."VALUE" Is '';
+
 -- Create Table MONITOR_Login
 Create Table MONITOR_Login
       (Idlogin NUMBER(38,0) Not Null,
@@ -177,6 +187,12 @@ Create Unique Index AFORISMI_PK on AFORISMI (IDAFORISMA);
 
 -- Create Index MONITOR_LOGIN_PK
 Create Unique Index MONITOR_LOGIN_PK on MONITOR_Login (IDLOGIN);
+
+-- Create Index FRAME_PROPERTIES_IDX1
+Create Unique Index FRAME_PROPERTIES_IDX1 on Frame_Properties (TYPE, "VALUE");
+
+-- Create Index FRAME_PROPERTIES_PK
+Create Unique Index FRAME_PROPERTIES_PK on Frame_Properties (CODPROPERTY);
 
 -- Create Index SEC_DEC_FUNZIONI_PK
 Create Unique Index SEC_DEC_FUNZIONI_PK on SEC_Dec_Funzioni (CODFUNZIONE);

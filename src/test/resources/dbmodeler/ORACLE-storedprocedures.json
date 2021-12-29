@@ -329,6 +329,61 @@
   "line" : 22,
   "text" : "End; "
 }, {
+  "name" : "lib",
+  "type" : "PACKAGE",
+  "line" : 1,
+  "text" : "PACKAGE LIB AS\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE",
+  "line" : 2,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE",
+  "line" : 3,
+  "text" : "  Function BooleanToChar (Valore In Boolean) Return Varchar2;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE",
+  "line" : 4,
+  "text" : "  Function CharToBoolean (Valore In Varchar2) Return Boolean;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE",
+  "line" : 5,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE",
+  "line" : 6,
+  "text" : "  Function CharToDate (Valore In varchar2) Return date;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE",
+  "line" : 7,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE",
+  "line" : 8,
+  "text" : "  function getRicerca (Stringa in varchar2) return varchar;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE",
+  "line" : 9,
+  "text" : "  Function getAsciiStr(inStringa In Varchar2, inReplace in Varchar2 default ' ') Return Varchar2;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE",
+  "line" : 10,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE",
+  "line" : 11,
+  "text" : "End;"
+}, {
   "name" : "lib_calendario",
   "type" : "PACKAGE",
   "line" : 1,
@@ -458,6 +513,356 @@
   "type" : "PACKAGE",
   "line" : 26,
   "text" : "end;"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 1,
+  "text" : "PACKAGE BODY LIB AS\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 2,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 3,
+  "text" : "  Function BooleanToChar (Valore In Boolean) Return Varchar2 Is\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 4,
+  "text" : "    Begin\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 5,
+  "text" : "      If Valore Is Null Then\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 6,
+  "text" : "        Return Null;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 7,
+  "text" : "      Elsif Valore then\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 8,
+  "text" : "        Return 'S';\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 9,
+  "text" : "      Else\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 10,
+  "text" : "        Return 'N';\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 11,
+  "text" : "      end if;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 12,
+  "text" : "    End;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 13,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 14,
+  "text" : "  Function CharToBoolean (Valore In Varchar2) Return Boolean Is\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 15,
+  "text" : "    Begin\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 16,
+  "text" : "      If Valore Is Null Then\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 17,
+  "text" : "        Return Null;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 18,
+  "text" : "      Elsif Valore = 'S' then\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 19,
+  "text" : "        Return true;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 20,
+  "text" : "      Else\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 21,
+  "text" : "        Return false;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 22,
+  "text" : "      end if;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 23,
+  "text" : "    End;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 24,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 25,
+  "text" : "  Function CharToDate (Valore In varchar2) Return date is\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 26,
+  "text" : "    Begin\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 27,
+  "text" : "      return to_date(Valore, 'dd/mm/yyyy');\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 28,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 29,
+  "text" : "    Exception\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 30,
+  "text" : "      When Others Then\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 31,
+  "text" : "        return null;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 32,
+  "text" : "    end;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 33,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 34,
+  "text" : "  function getRicerca (Stringa in varchar2) return varchar is\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 35,
+  "text" : "      i integer;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 36,
+  "text" : "      Result varchar2(4096);\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 37,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 38,
+  "text" : "    Begin\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 39,
+  "text" : "       For i in 1..nvl(length(Stringa),0) Loop\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 40,
+  "text" : "          if ascii (substr(Stringa, i, 1)) between 48 And 57 Or\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 41,
+  "text" : "             ascii (substr(Stringa, i, 1)) between 65 And 90 Or\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 42,
+  "text" : "             ascii (substr(Stringa, i, 1)) between 97 And 122 then\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 43,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 44,
+  "text" : "             Result := Result || substr(Stringa, i, 1);\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 45,
+  "text" : "          end if;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 46,
+  "text" : "       End Loop;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 47,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 48,
+  "text" : "       Return Substr(Upper(Result), 1, 2048);\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 49,
+  "text" : "    End;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 50,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 51,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 52,
+  "text" : "  Function getAsciiStr(inStringa In Varchar2, inReplace in Varchar2 default ' ') Return Varchar2 Is\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 53,
+  "text" : "    result Varchar2(2000) := '';\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 54,
+  "text" : "    chr Varchar2(10);\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 55,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 56,
+  "text" : "  Begin\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 57,
+  "text" : "    for i in 1..length(inStringa) Loop\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 58,
+  "text" : "      chr := substr (inStringa, i, 1);\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 59,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 60,
+  "text" : "      If ascii(chr) <= 31 Or ascii(chr) >= 128 then\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 61,
+  "text" : "        result := result || inReplace;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 62,
+  "text" : "      Else \n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 63,
+  "text" : "        result := result || chr;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 64,
+  "text" : "      End if;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 65,
+  "text" : "    End Loop;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 66,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 67,
+  "text" : "    return (Result);\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 68,
+  "text" : "  end;\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 69,
+  "text" : "\n"
+}, {
+  "name" : "lib",
+  "type" : "PACKAGE BODY",
+  "line" : 70,
+  "text" : "End;"
 }, {
   "name" : "lib_calendario",
   "type" : "PACKAGE BODY",

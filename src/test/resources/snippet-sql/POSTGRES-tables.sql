@@ -10,6 +10,16 @@ Comment On Column Aforismi.Aforisma Is '';
 Comment On Column Aforismi.Autore Is '';
 Comment On Column Aforismi.Dataultimapublicazione Is '';
 
+-- Create Table Frame_Properties
+Create Table Frame_Properties
+      (Codproperty character varying(250) Not Null,
+       Type character varying(50) Not Null,
+       Value character varying(200) Not Null);
+
+Comment On Column Frame_Properties.Codproperty Is '';
+Comment On Column Frame_Properties.Type Is '';
+Comment On Column Frame_Properties.Value Is '';
+
 -- Create Table Monitor_Login
 Create Table Monitor_Login
       (Idlogin integer Not Null,
