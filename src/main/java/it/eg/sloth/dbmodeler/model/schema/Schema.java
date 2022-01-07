@@ -215,5 +215,4 @@ public class Schema implements JsonInterface {
         return this;
     }
 
-
 }

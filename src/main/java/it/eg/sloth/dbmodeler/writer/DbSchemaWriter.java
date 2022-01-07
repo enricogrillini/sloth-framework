@@ -47,6 +47,10 @@ public interface DbSchemaWriter {
 
     String sqlIndexes(Table table, boolean tablespace, boolean storage);
 
+    String sqlDropRelatedForeignKeys(Schema schema, String tableName);
+
+    String sqlRelatedForeignKeys(Schema schema, String tableName);
+
     String sqlPrimaryKeys(Schema schema);
 
     String sqlForeignKeys(Schema schema);

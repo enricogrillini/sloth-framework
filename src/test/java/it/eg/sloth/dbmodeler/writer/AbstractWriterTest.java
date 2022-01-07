@@ -2,6 +2,7 @@ package it.eg.sloth.dbmodeler.writer;
 
 import it.eg.sloth.dbmodeler.model.DataBase;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
+import it.eg.sloth.dbmodeler.model.schema.table.Table;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
 import org.junit.jupiter.api.Assertions;
@@ -44,6 +45,13 @@ public abstract class AbstractWriterTest {
         Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-procedures.sql"), dbSchemaWriter.sqlProcedure(dataBase.getSchema()));
         Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-functions.sql"), dbSchemaWriter.sqlFunction(dataBase.getSchema()));
         Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-packages.sql"), dbSchemaWriter.sqlPackage(dataBase.getSchema()));
+
+
+        Table table = dataBase.getSchema().getTable("sec_dec_menu");
+
+        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-index.sql"), dbSchemaWriter.sqlIndexes(table, true, true));
+        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-drop-related-foreignkey.sql"), dbSchemaWriter.sqlDropRelatedForeignKeys(dataBase.getSchema(), table.getName()));
+        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-related-foreignkey.sql"), dbSchemaWriter.sqlRelatedForeignKeys(dataBase.getSchema(), table.getName()));
 
     }
 

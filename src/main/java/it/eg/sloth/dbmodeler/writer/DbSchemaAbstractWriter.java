@@ -51,6 +51,10 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
             "Alter Table {0} Add Constraint {1} Foreign Key ({2}) references {3};\n" +
             "\n";
 
+    private static final String SQL_DROP_FOREIGN_KEY = "-- Drop Foreign Key {0}\n" +
+            "Alter Table {0} Drop Constraint {1};\n" +
+            "\n";
+
     private static final String SQL_SEQUENCE = "Create Sequence {0};\n";
 
     private static final String SQL_VIEW = "-- View {0}\n" +
@@ -163,6 +167,40 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
 
             result.append(";\n\n");
         }
+        return result.toString();
+    }
+
+    @Override
+    public String sqlDropRelatedForeignKeys(Schema schema, String tableName) {
+        StringBuilder result = new StringBuilder();
+        for (Table table : schema.getTableCollection()) {
+            for (Constraint constraint : table.getConstraintCollection()) {
+                if (constraint.getType() == ConstraintType.FOREIGN_KEY && constraint.getReferenceTable().equalsIgnoreCase(tableName)) {
+                    result.append(MessageFormat.format(SQL_DROP_FOREIGN_KEY,
+                            table.getName(),
+                            constraint.getName()));
+                }
+            }
+        }
+
+        return result.toString();
+    }
+
+    @Override
+    public String sqlRelatedForeignKeys(Schema schema, String tableName) {
+        StringBuilder result = new StringBuilder();
+        for (Table table : schema.getTableCollection()) {
+            for (Constraint constraint : table.getConstraintCollection()) {
+                if (constraint.getType() == ConstraintType.FOREIGN_KEY && constraint.getReferenceTable().equalsIgnoreCase(tableName)) {
+                    result.append(MessageFormat.format(SQL_FOREIGN_KEY,
+                            table.getName(),
+                            constraint.getName(),
+                            StringUtil.join(constraint.getColumns().toArray(new String[0])),
+                            constraint.getReferenceTable()));
+                }
+            }
+        }
+
         return result.toString();
     }
 
