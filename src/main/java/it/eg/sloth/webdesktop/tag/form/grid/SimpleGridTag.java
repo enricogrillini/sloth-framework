@@ -34,7 +34,7 @@ public class SimpleGridTag extends AbstractGridTag<Grid<?>> {
 
     public int startTag() throws IOException, FrameworkException {
         if (getElement().getDataSource() != null) {
-            writeln(GridWriter.openTable(getElement(), bordered, false, true));
+            writeln(GridWriter.openTable(getElement(), true, bordered, false, true));
             writeln(GridWriter.header(getElement(), getDetailFields(), sortable));
             writeln(GridWriter.rows(getElement(), getDetailFields(), ViewModality.VIEW, false));
 
@@ -42,7 +42,7 @@ public class SimpleGridTag extends AbstractGridTag<Grid<?>> {
                 writeln(GridWriter.total(getElement(), hasDetail()));
             }
 
-            writeln(GridWriter.closeTable());
+            writeln(GridWriter.closeTable(true));
         }
         return EVAL_BODY_INCLUDE;
     }

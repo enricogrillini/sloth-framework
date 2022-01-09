@@ -29,8 +29,13 @@ public class GridWriter extends HtmlWriter {
 
     public static final String GRID_CLASS = "table{0}{1}{2}";
 
+    private static final String TABLE_OPEN = "\n" +
+            "<!-- Table: {0} -->\n" +
+            "{1}" +
+            "<table class=\"{2}\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">\n";
+
     private static final String TABLE_CLOSE = "</table>\n" +
-            "</div>\n";
+            "{0}";
 
     private static final String HEAD_OPEN = " <thead>\n";
     private static final String HEAD_CLOSE = " </thead>\n";
@@ -38,23 +43,21 @@ public class GridWriter extends HtmlWriter {
     private static final String ROW_OPEN = "  <tr{0}{1}>\n";
     private static final String ROW_CLOSE = "  </tr>\n";
 
-
     private static final String CELL_DETAIL = "   <td class=\"text-center tableDetail noselect\"><i class=\"text-info fa fa-chevron-down collapsed\" href=\"#{0}\" data-toggle=\"collapse\" aria-expanded=\"true\" aria-controls=\"collapse-collapsed\"></i></td>\n";
 
 
-    public static String openTable(Grid<?> grid, boolean border, boolean hover, boolean small) {
+    public static String openTable(Grid<?> grid, boolean responsive, boolean border, boolean hover, boolean small) {
         String classHtml = MessageFormat.format(GRID_CLASS, border ? " table-bordered" : "", hover ? " table-hover" : "", small ? " table-sm" : "");
 
-        return new StringBuilder()
-                .append("\n")
-                .append("<!-- Table: " + Casting.getHtml(grid.getTitle()) + " -->\n")
-                .append("<div class=\"table-responsive\">")
-                .append("<table class=\"" + classHtml + "\" id=\"dataTable\" width=\"100%\" cellspacing=\"0\">\n")
-                .toString();
+        return MessageFormat.format(TABLE_OPEN,
+                Casting.getHtml(grid.getTitle()),
+                responsive ? "<div class=\"table-responsive\">\n" : StringUtil.EMPTY,
+                classHtml
+        );
     }
 
-    public static String closeTable() {
-        return TABLE_CLOSE;
+    public static String closeTable(boolean responsive) {
+        return MessageFormat.format(TABLE_CLOSE, responsive ? "</div>\n" : StringUtil.EMPTY);
     }
 
     public static String openHeader() {

@@ -3,6 +3,8 @@ package it.eg.sloth.webdesktop.tag.form.grid;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.grid.writer.GridWriter;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 
@@ -20,11 +22,15 @@ import java.io.IOException;
  *
  * @author Enrico Grillini
  */
+@Getter
+@Setter
 public class GridTag extends AbstractGridTag<Grid<?>> {
+
+    private boolean responsive = true;
 
     public int startTag() throws IOException, FrameworkException {
         if (getElement().getDataSource() != null) {
-            writeln(GridWriter.openTable(getElement(), true, true, true));
+            writeln(GridWriter.openTable(getElement(), isResponsive(), true, true, true));
             writeln(GridWriter.header(getElement(), getDetailFields(), true));
             writeln(GridWriter.rows(getElement(), getDetailFields(), getForm().getPageInfo().getViewModality(), true));
 
@@ -38,7 +44,7 @@ public class GridTag extends AbstractGridTag<Grid<?>> {
 
     protected void endTag() throws IOException {
         if (getElement().getDataSource() != null) {
-            writeln(GridWriter.closeTable());
+            writeln(GridWriter.closeTable(isResponsive()));
         }
     }
 
