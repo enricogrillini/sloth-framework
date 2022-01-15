@@ -2,6 +2,7 @@ package it.eg.sloth.form;
 
 import it.eg.sloth.TestFactory;
 import it.eg.sloth.db.datasource.row.Row;
+import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
@@ -83,6 +84,7 @@ class MultipleAutoCompleteTest {
         assertTrue(messageList.isEmpty());
     }
 
+
     @Test
     void requestKoTest() throws ServletException, IOException, FrameworkException {
         HashMap<String, String[]> map = new HashMap<>();
@@ -100,6 +102,7 @@ class MultipleAutoCompleteTest {
         assertEquals("Il campo Numero contiene valori non validi", messageList.getMessagesDescription());
         assertFalse(messageList.isEmpty());
     }
+
 
     @Test
     void dataSourceTest() throws ServletException, IOException, FrameworkException {
@@ -158,7 +161,6 @@ class MultipleAutoCompleteTest {
         assertFalse(messageList.isEmpty());
 
     }
-
 
 
 }

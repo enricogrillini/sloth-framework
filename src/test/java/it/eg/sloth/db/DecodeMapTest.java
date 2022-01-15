@@ -2,6 +2,7 @@ package it.eg.sloth.db;
 
 import it.eg.sloth.db.decodemap.DecodeValue;
 import it.eg.sloth.db.decodemap.SearchType;
+import it.eg.sloth.db.decodemap.map.BaseDecodeMap;
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
 import it.eg.sloth.db.decodemap.value.BaseDecodeValue;
 import org.junit.jupiter.api.Test;
@@ -55,6 +56,20 @@ class DecodeMapTest {
         assertEquals("C", iterator.next().getCode());
         assertEquals("A", iterator.next().getCode());
         assertEquals("B", iterator.next().getCode());
+    }
+
+
+    @Test
+    void decodeMapOrderValidTest() {
+        BaseDecodeMap<String> decodeMap = new BaseDecodeMap<>();
+        decodeMap.put("aaa-1", "aaa-1", false);
+        decodeMap.put("aaa-2", "aaa-2", false);
+        decodeMap.put("aaa-3", "aaa-3", true);
+
+        Iterator<BaseDecodeValue<String>> iterator = decodeMap.performSearch("aaa", SearchType.MATCH, 10).iterator();
+        assertEquals("aaa-3", iterator.next().getCode());
+        assertEquals("aaa-1", iterator.next().getCode());
+        assertEquals("aaa-2", iterator.next().getCode());
     }
 }
 

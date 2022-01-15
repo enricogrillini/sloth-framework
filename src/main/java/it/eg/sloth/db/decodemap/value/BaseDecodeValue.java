@@ -1,8 +1,8 @@
 package it.eg.sloth.db.decodemap.value;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import it.eg.sloth.db.decodemap.DecodeValue;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 /**
  * Project: sloth-framework
@@ -19,22 +19,16 @@ import lombok.ToString;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
-@ToString
-public class BaseDecodeValue<T> extends AbstractDecodeValue<T> {
+@Data
+@AllArgsConstructor
+public class BaseDecodeValue<T> implements DecodeValue<T> {
 
     private T code;
     private String description;
+    private boolean valid;
 
     public BaseDecodeValue(T code, String description) {
         this(code, description, true);
-    }
-
-    public BaseDecodeValue(T code, String description, boolean valid) {
-        this.code = code;
-        this.description = description;
-        setValid(valid);
     }
 
 }

@@ -3,7 +3,6 @@ package it.eg.sloth.db.decodemap.map;
 import it.eg.sloth.db.decodemap.DecodeMap;
 import it.eg.sloth.db.decodemap.DecodeValue;
 import it.eg.sloth.db.decodemap.SearchType;
-import it.eg.sloth.db.decodemap.value.AbstractDecodeValue;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import lombok.ToString;
 
@@ -25,7 +24,7 @@ import java.util.*;
  * @author Enrico Grillini
  */
 @ToString
-public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> implements DecodeMap<T, V> {
+public abstract class AbstractDecodeMap<T, V extends DecodeValue<T>> implements DecodeMap<T, V> {
 
     private Map<T, V> map;
 
@@ -134,26 +133,34 @@ public abstract class AbstractDecodeMap<T, V extends AbstractDecodeValue<T>> imp
 
         Set<V> set = new LinkedHashSet<>();
         if (searchType == SearchType.MATCH) {
-            set.addAll(executeSearch(query, SearchType.LIKE_START, sizeLimit - set.size(), set));
-            set.addAll(executeSearch(query, SearchType.LIKE_CONTAINS, sizeLimit - set.size(), set));
-            set.addAll(executeSearch(query, SearchType.PATTERN_MATCH, sizeLimit - set.size(), set));
+            set.addAll(executeSearch(query, SearchType.LIKE_START, true,sizeLimit - set.size(), set));
+            set.addAll(executeSearch(query, SearchType.LIKE_CONTAINS, true,sizeLimit - set.size(), set));
+            set.addAll(executeSearch(query, SearchType.PATTERN_MATCH, true,sizeLimit - set.size(), set));
+            set.addAll(executeSearch(query, SearchType.LIKE_START, false,sizeLimit - set.size(), set));
+            set.addAll(executeSearch(query, SearchType.LIKE_CONTAINS, false,sizeLimit - set.size(), set));
+            set.addAll(executeSearch(query, SearchType.PATTERN_MATCH, false,sizeLimit - set.size(), set));
         }
 
-        set.addAll(executeSearch(query, searchType, sizeLimit - set.size(), set));
+        set.addAll(executeSearch(query, searchType, true,sizeLimit - set.size(), set));
+        set.addAll(executeSearch(query, searchType, false,sizeLimit - set.size(), set));
 
         return set;
     }
 
-    private Collection<V> executeSearch(String query, SearchType searchType, Integer sizeLimit, Set<V> excludeValue) {
+    private Collection<V> executeSearch(String query, SearchType searchType, boolean valid, Integer sizeLimit, Set<V> excludeValue) {
         List<V> list = new ArrayList<>();
         if (sizeLimit == null || sizeLimit == 0) {
             return list;
         }
 
         for (V decodeMapValue : map.values()) {
+            if (valid != decodeMapValue.isValid()) {
+                continue;
+            }
+
             // Size Limit
             if (list.size() >= sizeLimit) {
-                break;
+                return list;
             }
 
             if (!excludeValue.contains(decodeMapValue) && searchType.match(decodeMapValue.getDescription(), query)) {

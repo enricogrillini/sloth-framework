@@ -21,6 +21,8 @@ public interface DecodeValue<T> {
 
     String getDescription();
 
+    void setValid(boolean valid);
+
     boolean isValid();
 
 }
