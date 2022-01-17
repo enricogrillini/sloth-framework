@@ -527,7 +527,7 @@ public class FormControlWriter extends HtmlWriter {
         ViewModality viewModality = multipleAutoComplete.getViewModality() == ViewModality.AUTO ? pageViewModality : multipleAutoComplete.getViewModality();
 
         String innerHtml;
-        if (viewModality == ViewModality.VIEW) {
+        if (viewModality == ViewModality.VIEW || multipleAutoComplete.isReadOnly()) {
 
             innerHtml = MessageFormat.format(
                     INPUT_VIEW,

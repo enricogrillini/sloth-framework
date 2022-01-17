@@ -43,7 +43,7 @@ public abstract class DecodeMapManger {
 
     public static void removeFromCache(String tableName) {
         String cacheKey = calcCacheKey(tableName);
-        CacheSingleton.getInstance().clear(cacheKey);
+        CacheSingleton.getInstance().remove(cacheKey);
     }
 
     private static String calcCacheKey(String tableName) {
