@@ -2,6 +2,7 @@ package it.eg.sloth.form.fields.field.impl;
 
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.base.InputField;
+import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.jaxb.form.ForceCase;
@@ -34,11 +35,15 @@ public class Input<T> extends InputField<T> {
 
     @Override
     public void setData(String data) {
-        if (getForceCase().equals(ForceCase.INIT_CAP)) {
+        if (BaseFunction.in(getForceCase(), ForceCase.TRIM, ForceCase.INIT_CAP_TRIM, ForceCase.UPPER_TRIM, ForceCase.LOWER_TRIM)) {
+            data = StringUtil.trim(data);
+        }
+
+        if (BaseFunction.in(getForceCase(), ForceCase.INIT_CAP, ForceCase.INIT_CAP_TRIM)) {
             data = StringUtil.initCap(data);
-        } else if (getForceCase().equals(ForceCase.UPPER)) {
+        } else if (BaseFunction.in(getForceCase(), ForceCase.UPPER, ForceCase.UPPER_TRIM)) {
             data = StringUtil.upper(data);
-        } else if (getForceCase().equals(ForceCase.LOWER)) {
+        } else if (BaseFunction.in(getForceCase(), ForceCase.LOWER, ForceCase.LOWER_TRIM)) {
             data = StringUtil.lower(data);
         }
 

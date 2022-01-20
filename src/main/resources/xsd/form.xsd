@@ -173,9 +173,13 @@
  <simpleType name="ForceCase">
   <restriction base="string">
    <enumeration value="NONE"></enumeration>
+   <enumeration value="TRIM"></enumeration>
    <enumeration value="UPPER"></enumeration>
    <enumeration value="LOWER"></enumeration>
    <enumeration value="INIT_CAP"></enumeration>
+   <enumeration value="UPPER_TRIM"></enumeration>
+   <enumeration value="LOWER_TRIM"></enumeration>
+   <enumeration value="INIT_CAP_TRIM"></enumeration>   
   </restriction>
  </simpleType>
 

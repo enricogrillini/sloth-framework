@@ -44,6 +44,26 @@ class InputTest {
     }
 
     @Test
+    void validateInputForceCase() throws FrameworkException {
+        MessageList messageList = new MessageList();
+
+        // Valid
+        Input<String> input = new Input<String>("Prova", "Prova", DataTypes.STRING);
+
+        input.setForceCase(ForceCase.UPPER_TRIM);
+        input.setValue("   ppp   ");
+        assertEquals("PPP", input.getValue());
+
+        input.setForceCase(ForceCase.LOWER_TRIM);
+        input.setValue("   ppp   ");
+        assertEquals("ppp", input.getValue());
+
+        input.setForceCase(ForceCase.INIT_CAP_TRIM);
+        input.setValue("   ppp ggg   ");
+        assertEquals("Ppp Ggg", input.getValue());
+    }
+
+    @Test
     void validateInputKo() throws FrameworkException {
         MessageList messageList = new MessageList();
 
