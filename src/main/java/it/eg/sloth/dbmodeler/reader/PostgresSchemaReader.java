@@ -288,12 +288,12 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
         for (DataRow dataRow : dataTable) {
             if (dataRow.getString("procedure_type").equalsIgnoreCase("p")) {
                 // Procedure
-                method = new Procedure(dataRow.getString("procedure_name"), "0", dataRow.getString("definition") + ";");
+                method = new Procedure(dataRow.getString("procedure_name"), null, dataRow.getString("definition") + ";");
                 schema.addProcedure((Procedure) method);
 
             } else if (dataRow.getString("procedure_type").equalsIgnoreCase("f")) {
                 // Function
-                method = new Function(dataRow.getString("procedure_name"), "0", dataRow.getString("definition") + ";");
+                method = new Function(dataRow.getString("procedure_name"), null, dataRow.getString("definition") + ";");
                 schema.addFunction((Function) method);
 
                 // Return Type

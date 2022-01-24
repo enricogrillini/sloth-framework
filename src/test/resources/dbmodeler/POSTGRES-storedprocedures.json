@@ -1,13 +1,5 @@
 [ {
   "schema_name" : "gildace",
-  "procedure_name" : "prova",
-  "procedure_type" : "p",
-  "language" : "plpgsql",
-  "definition" : "CREATE OR REPLACE PROCEDURE gildace.prova(id integer, testo character varying)\n LANGUAGE plpgsql\nAS $procedure$\nDECLARE\n\nbegin\n\nEnd\n$procedure$\n",
-  "arguments" : "id integer, testo character varying",
-  "return_type" : "void"
-}, {
-  "schema_name" : "gildace",
   "procedure_name" : "sec_getruolifunzione",
   "procedure_type" : "f",
   "language" : "plpgsql",

@@ -42,9 +42,9 @@ public abstract class AbstractWriterTest {
         Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-views.sql"), dbSchemaWriter.sqlView(dataBase.getSchema()));
 
         // Stored procedure
-        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-procedures.sql"), dbSchemaWriter.sqlProcedure(dataBase.getSchema()));
-        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-functions.sql"), dbSchemaWriter.sqlFunction(dataBase.getSchema()));
-        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-packages.sql"), dbSchemaWriter.sqlPackage(dataBase.getSchema()));
+        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-procedures.sql"), dbSchemaWriter.sqlProcedures(dataBase.getSchema()));
+        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-functions.sql"), dbSchemaWriter.sqlFunctions(dataBase.getSchema()));
+        Assertions.assertEquals(ResourceUtil.normalizedResourceAsString("snippet-sql/" + dataBaseType + "-packages.sql"), dbSchemaWriter.sqlPackages(dataBase.getSchema()));
 
 
         Table table = dataBase.getSchema().getTable("sec_dec_menu");

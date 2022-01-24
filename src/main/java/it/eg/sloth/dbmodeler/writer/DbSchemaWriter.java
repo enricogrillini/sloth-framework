@@ -2,6 +2,7 @@ package it.eg.sloth.dbmodeler.writer;
 
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.schema.Schema;
+import it.eg.sloth.dbmodeler.model.schema.code.Function;
 import it.eg.sloth.dbmodeler.model.schema.table.Table;
 
 /**
@@ -59,11 +60,13 @@ public interface DbSchemaWriter {
 
     String sqlView(Schema schema);
 
-    String sqlProcedure(Schema schema);
+    String sqlProcedures(Schema schema);
 
-    String sqlFunction(Schema schema);
+    String sqlFunctions(Schema schema);
 
-    String sqlPackage(Schema schema);
+    String sqlFunction(Function table);
+
+    String sqlPackages(Schema schema);
 
     class Factory {
         private Factory() {
