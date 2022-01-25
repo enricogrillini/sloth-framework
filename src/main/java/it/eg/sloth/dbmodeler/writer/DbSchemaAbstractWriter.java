@@ -269,11 +269,17 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     public String sqlProcedures(Schema schema) {
         StringBuilder result = new StringBuilder();
         for (Procedure dbObject : schema.getProcedureCollection()) {
-            result.append(MessageFormat.format(SQL_PROCEDURE, dbObject.getName(), dbObject.getDefinition(), getEndOfStatement()));
+            result.append(sqlProcedure(dbObject));
         }
 
         return result.toString();
     }
+
+    @Override
+    public String sqlProcedure(Procedure dbObject) {
+        return MessageFormat.format(SQL_PROCEDURE, dbObject.getName(), dbObject.getDefinition(), getEndOfStatement());
+    }
+
 
     @Override
     public String sqlFunctions(Schema schema) {
