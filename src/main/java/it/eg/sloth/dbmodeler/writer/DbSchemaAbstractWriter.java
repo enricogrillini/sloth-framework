@@ -266,27 +266,38 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     }
 
     @Override
-    public String sqlProcedure(Schema schema) {
+    public String sqlProcedures(Schema schema) {
         StringBuilder result = new StringBuilder();
         for (Procedure dbObject : schema.getProcedureCollection()) {
-            result.append(MessageFormat.format(SQL_PROCEDURE, dbObject.getName(), dbObject.getDefinition(), getEndOfStatement()));
+            result.append(sqlProcedure(dbObject));
         }
 
         return result.toString();
     }
 
     @Override
-    public String sqlFunction(Schema schema) {
+    public String sqlProcedure(Procedure dbObject) {
+        return MessageFormat.format(SQL_PROCEDURE, dbObject.getName(), dbObject.getDefinition(), getEndOfStatement());
+    }
+
+
+    @Override
+    public String sqlFunctions(Schema schema) {
         StringBuilder result = new StringBuilder();
         for (Function dbObject : schema.getFunctionCollection()) {
-            result.append(MessageFormat.format(SQL_FUNCTION, dbObject.getName(), dbObject.getDefinition(), getEndOfStatement()));
+            result.append(sqlFunction(dbObject));
         }
 
         return result.toString();
     }
 
     @Override
-    public String sqlPackage(Schema schema) {
+    public String sqlFunction(Function dbObject) {
+        return MessageFormat.format(SQL_FUNCTION, dbObject.getName(), dbObject.getDefinition(), getEndOfStatement());
+    }
+
+    @Override
+    public String sqlPackages(Schema schema) {
         StringBuilder result = new StringBuilder();
         for (Package dbObject : schema.getPackageCollection()) {
             result.append(MessageFormat.format(SQL_PACKAGE, dbObject.getName(), dbObject.getDefinition(), dbObject.getBodyDefinition(), getEndOfStatement()));

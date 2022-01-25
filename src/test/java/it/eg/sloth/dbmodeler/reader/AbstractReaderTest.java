@@ -235,11 +235,11 @@ public abstract class AbstractReaderTest {
         }
 
         try (FileWriter fileWriter = new FileWriter(TestFactory.OUTPUT_DIR + "/snippet-sql/" + dataBaseType + "-functions.sql")) {
-            fileWriter.write(dbSchemaWriter.sqlFunction(schema));
+            fileWriter.write(dbSchemaWriter.sqlFunctions(schema));
         }
 
         try (FileWriter fileWriter = new FileWriter(TestFactory.OUTPUT_DIR + "/snippet-sql/" + dataBaseType + "-procedures.sql")) {
-            fileWriter.write(dbSchemaWriter.sqlProcedure(schema));
+            fileWriter.write(dbSchemaWriter.sqlProcedures(schema));
         }
     }
 

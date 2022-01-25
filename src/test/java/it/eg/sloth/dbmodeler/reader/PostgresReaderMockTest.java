@@ -1,6 +1,7 @@
 package it.eg.sloth.dbmodeler.reader;
 
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
+import it.eg.sloth.dbmodeler.model.schema.Schema;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,10 @@ class PostgresReaderMockTest extends AbstractReaderTest {
     @Test
     void readSchemaTest() throws SQLException, IOException, FrameworkException {
         super.readSchemaTest(DataBaseType.POSTGRES);
+
+
+        Schema schema = getDbSchemaReader().refreshSchema(getConnection(), getOwner());
+        schema.getFunction("aaa");
     }
 
 }

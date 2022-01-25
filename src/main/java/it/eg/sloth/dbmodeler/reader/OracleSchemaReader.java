@@ -447,7 +447,7 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
                 } else {
                     schema.getFunction(objectName).addArgument(calcArgument(row));
                 }
-            } else if (type == StoredProcedureType.PROCEDURE) {
+            } else if (type == StoredProcedureType.PROCEDURE && dataType != null) {
                 schema.getProcedure(objectName).addArgument(calcArgument(row));
             }
         }
@@ -473,7 +473,7 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
 
             if (position.intValue() == 0) {
                 ((Function) dbObject.getMethod(objectName, overload)).setReturnType(dataType);
-            } else {
+            } else if (dataType != null) {
                 dbObject.getMethod(objectName, overload).addArgument(calcArgument(row));
             }
         }
