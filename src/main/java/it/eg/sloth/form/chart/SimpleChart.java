@@ -22,9 +22,9 @@ import lombok.Setter;
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  * <p>
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * <p>
- * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
  * <p>
  *
  * @author Enrico Grillini
@@ -38,6 +38,8 @@ public class SimpleChart<D extends DataTable<?>> extends AbstractElements<Abstra
     String title;
     LegendPosition legendPosition;
     List<String> palette;
+    Boolean filled;
+    Boolean stacked;
 
     public SimpleChart(String name, ChartType chartType, String title, LegendPosition legendPosition) {
         super(name);
@@ -46,6 +48,16 @@ public class SimpleChart<D extends DataTable<?>> extends AbstractElements<Abstra
         this.title = title;
         this.legendPosition = legendPosition;
         this.dataTable = null;
+        this.filled = null;
+        this.stacked = null;
+    }
+
+    public boolean isFilled() {
+        return filled != null && filled;
+    }
+
+    public boolean isStacked() {
+        return stacked != null && stacked;
     }
 
     /**

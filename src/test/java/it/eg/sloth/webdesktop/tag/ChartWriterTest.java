@@ -1,6 +1,11 @@
 package it.eg.sloth.webdesktop.tag;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 import it.eg.sloth.TestFactory;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.form.chart.SimpleChart;
@@ -8,15 +13,7 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.html.HtmlColor;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
 import it.eg.sloth.jaxb.form.ChartType;
-import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJs;
 import it.eg.sloth.webdesktop.tag.form.chart.writer.ChartWriter;
-import org.junit.jupiter.api.Test;
-
-import java.text.MessageFormat;
-import java.text.ParseException;
-import java.util.ArrayList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Project: sloth-framework

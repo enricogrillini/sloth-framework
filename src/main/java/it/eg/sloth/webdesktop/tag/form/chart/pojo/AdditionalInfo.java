@@ -20,9 +20,11 @@ import lombok.Data;
 public class AdditionalInfo {
 
     NumerFormat numerFormat;
+    boolean stacked;
 
     public AdditionalInfo() {
         numerFormat = NumerFormat.DECIMAL_FORMAT;
+        stacked = false;
     }
 
 }

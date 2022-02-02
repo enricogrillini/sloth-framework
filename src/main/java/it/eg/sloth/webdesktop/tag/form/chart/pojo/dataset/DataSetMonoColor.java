@@ -34,9 +34,9 @@ public class DataSetMonoColor extends DataSet {
         borderWidth = 2;
     }
 
-    public void setColors(String color) throws FrameworkException {
+    public void setColors(String color, double opacity) throws FrameworkException {
         this.borderColor = color;
-        this.backgroundColor = HtmlColor.rgbaFromHex(color, 0.05);
+        this.backgroundColor = HtmlColor.rgbaFromHex(color, opacity);
 
         this.pointBackgroundColor = color;
         this.pointBorderColor = color;

@@ -406,6 +406,8 @@
     <attribute name="Title" type="string"></attribute>
     <attribute name="LegendPosition" type="tns:LegendPosition" />
     <attribute name="Table" type="string"></attribute>
+    <attribute name="Filled" type="boolean"></attribute>
+    <attribute name="Stacked" type="boolean"></attribute>
    </extension>
   </complexContent>
  </complexType>

@@ -27,9 +27,9 @@ import java.util.List;
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
  * <p>
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  * <p>
- * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  * @author Enrico Grillini
  */
@@ -70,6 +70,8 @@ public class ChartWriter extends HtmlWriter {
         chartJs.getOptions().setTitle(new ChartJsTitle(simpleChart.getTitle()));
         chartJs.getOptions().setLegend(new ChartJsLegend(simpleChart.getLegendPosition()));
 
+        chartJs.getAdditionalInfo().setStacked(simpleChart.isStacked());
+
         // NumerFormat
         if (!simpleChart.getSeriesList().isEmpty()) {
             Series series = simpleChart.getSeriesList().get(0);
@@ -87,7 +89,7 @@ public class ChartWriter extends HtmlWriter {
             Labels<?> labels = simpleChart.getLabels().newInstance();
             for (DataRow row : simpleChart.getDataTable()) {
                 labels.copyFromDataSource(row);
-                chartData.getLabels().add(labels.escapeJsText());
+                chartData.getLabels().add(labels.getText());
             }
 
             // Mono Colors
@@ -137,7 +139,11 @@ public class ChartWriter extends HtmlWriter {
                 }
             }
 
-            dataSet.setColors(palette.get(i));
+            if (simpleChart.isFilled()) {
+                dataSet.setColors(palette.get(i), 1);
+            } else {
+                dataSet.setColors(palette.get(i), 0.05);
+            }
             chartData.getDatasets().add(dataSet);
 
             i++;
@@ -170,9 +176,7 @@ public class ChartWriter extends HtmlWriter {
                 i++;
             }
 
-
             chartData.getDatasets().add(dataSet);
-
 
         }
     }
