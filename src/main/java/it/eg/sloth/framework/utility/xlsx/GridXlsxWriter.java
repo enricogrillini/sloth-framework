@@ -28,6 +28,7 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFPivotTable;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openxmlformats.schemas.spreadsheetml.x2006.main.CTDataField;
 
 /**
@@ -50,6 +51,10 @@ public class GridXlsxWriter extends BaseXlsxWriter {
 
     public GridXlsxWriter() {
         super();
+    }
+
+    public GridXlsxWriter(XSSFWorkbook workbook) {
+        setWorkbook(workbook);
     }
 
     public GridXlsxWriter(boolean title, Grid<?>... grids) throws FrameworkException {

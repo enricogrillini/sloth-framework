@@ -10,6 +10,7 @@ import it.eg.sloth.framework.utility.xlsx.style.BaseExcelFont;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelStyle;
 import it.eg.sloth.framework.utility.xlsx.style.BaseExcelType;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFDataFormat;
@@ -42,7 +43,8 @@ import java.util.Map;
 @Getter
 public class BaseXlsxWriter implements Closeable {
 
-    private XSSFWorkbook workbook;
+    @Setter
+    protected XSSFWorkbook workbook;
     private XSSFSheet sheet;
     private XSSFDataFormat dataFormat;
 
