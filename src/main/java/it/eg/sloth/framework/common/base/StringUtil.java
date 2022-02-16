@@ -42,12 +42,20 @@ public class StringUtil {
     public static final String TAB = String.valueOf((char) 9);
     public static final String SEPARATOR = ",";
 
-    public static String join(String[] strings) {
+    public static String join(Collection<String> strings) {
         return join(strings, SEPARATOR);
     }
 
-    public static String join(Collection<String> strings) {
-        return join(strings.toArray(new String[0]));
+    public static String join(Collection<String> strings, String separator) {
+        if (BaseFunction.isNull(strings) || strings.isEmpty()) {
+            return StringUtil.EMPTY;
+        } else {
+            return join(strings.toArray(new String[0]), separator);
+        }
+    }
+
+    public static String join(String[] strings) {
+        return join(strings, SEPARATOR);
     }
 
     public static String join(String[] strings, String separator) {

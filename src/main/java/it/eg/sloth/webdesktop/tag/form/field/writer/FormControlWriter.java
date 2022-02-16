@@ -40,6 +40,7 @@ public class FormControlWriter extends HtmlWriter {
 
     public static final String FILE_GENERIC_VIEW = "<button{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Download file\"><i class=\"fas fa-download\"></i> Download</button>";
     public static final String FILE_GENERIC_EDIT = "<div class=\"custom-file small\"><input{0}{1}{2}{3} class=\"custom-file-input\"><label class=\"custom-file-label\"{4}>Choose file</label></div>";
+    public static final String MULTIPLE_FILE_GENERIC_EDIT = "<div class=\"custom-file small\"><input{0}{1}{2}{3} class=\"custom-file-input\" multiple=\"multiple\"><label class=\"custom-file-label\"{4}>Choose file</label></div>";
 
     public static final String INPUT_GROUP = "<div class=\"input-group input-group-sm\">{0}{1}</div>{2}";
     public static final String INPUT_GROUP_STATE_MESSAGE = "<div class=\"small {0}\">{1}</div>";
@@ -71,6 +72,8 @@ public class FormControlWriter extends HtmlWriter {
                 return writeInputTotalizer((InputTotalizer) element, parentElement, pageViewModality);
             case MULTIPLE_AUTO_COMPLETE:
                 return writeMultipleAutoComplete((MultipleAutoComplete) element, parentElement, pageViewModality);
+            case MULTIPLE_FILE:
+                return writeMultipleFile((MultipleFile) element, pageViewModality);
             case LINK:
                 return writeLink((Link) element);
             case RADIO_BUTTONS:
@@ -551,6 +554,31 @@ public class FormControlWriter extends HtmlWriter {
 
         // Gestione link/stato
         return innerHtml;
+    }
+
+    /**
+     * Scrive un campo: MultipleFile
+     *
+     * @param file
+     * @param pageViewModality
+     * @return
+     */
+    public static String writeMultipleFile(MultipleFile file, ViewModality pageViewModality) {
+        if (file.isHidden()) {
+            return StringUtil.EMPTY;
+        }
+
+        ViewModality viewModality = file.getViewModality() == ViewModality.AUTO ? pageViewModality : file.getViewModality();
+        if (viewModality == ViewModality.VIEW) {
+            return MessageFormat.format(FILE_GENERIC_VIEW, getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.BUTTON, file.getName())));
+        } else {
+            return MessageFormat.format(MULTIPLE_FILE_GENERIC_EDIT,
+                    getAttribute(ATTR_ID, file.getName()),
+                    getAttribute(ATTR_NAME, file.getName()),
+                    getAttribute(ATTR_TYPE, "file"),
+                    getTooltipAttributes(file.getTooltip()),
+                    getAttribute(ATTR_FOR, file.getName()));
+        }
     }
 
 

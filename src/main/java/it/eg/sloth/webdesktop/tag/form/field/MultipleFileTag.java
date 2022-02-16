@@ -1,4 +1,13 @@
-package it.eg.sloth.form.fields.field;
+package it.eg.sloth.webdesktop.tag.form.field;
+
+import it.eg.sloth.form.fields.field.impl.MultipleFile;
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
+import it.eg.sloth.webdesktop.tag.form.field.writer.FileWriter;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.IOException;
 
 /**
  * Project: sloth-framework
@@ -11,25 +20,21 @@ package it.eg.sloth.form.fields.field;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
  * <p>
  * You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * <p>
  *
  * @author Enrico Grillini
  */
-public enum FieldType {
+@Getter
+@Setter
+public class MultipleFileTag extends BaseElementTag<MultipleFile> {
 
-    // Base Field
-    AUTO_COMPLETE, BUTTON, CHECK_BOX, COMBO_BOX, DECODED_TEXT, FILE, HIDDEN, INPUT, INPUT_TOTALIZER, MULTIPLE_AUTO_COMPLETE, MULTIPLE_FILE, LINK, SEMAPHORE, TEXT, TEXT_AREA, TEXT_TOTALIZER, SWITCH,
+    @Override
+    protected int startTag() throws FrameworkException, IOException {
+        write(FileWriter.writeMultipleFile(getElement(), getViewModality()));
+        return SKIP_BODY;
+    }
 
-    // GROUP
-    CHECK_GROUP, RADIO_GROUP,
-
-    // Buttons
-    CHECK_BUTTONS, RADIO_BUTTONS,
-
-    // Chart Field
-    SERIES, LABELS,
-
-    // Dwh Field
-    ATTRIBUTE, LEVEL, MEASURE
-
+    @Override
+    protected void endTag() {
+        // NOP
+    }
 }

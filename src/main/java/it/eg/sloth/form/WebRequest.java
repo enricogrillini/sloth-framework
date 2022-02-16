@@ -162,6 +162,23 @@ public class WebRequest {
     }
 
     /**
+     * Reperisce la lista di Part
+     *
+     * @param name
+     * @return
+     */
+    public List<Part> getPartList(String name) {
+        List<Part> result = new ArrayList<>();
+        for (Object object : getList(name)) {
+            if (object instanceof Part) {
+                result.add(((Part) object));
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Ritorna i parametri di navigazione
      *
      * @return

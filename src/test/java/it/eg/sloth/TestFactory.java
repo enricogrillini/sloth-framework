@@ -26,14 +26,20 @@ import it.eg.sloth.webdesktop.search.SearchRelevance;
 import it.eg.sloth.webdesktop.search.impl.DataTableSearcher;
 import it.eg.sloth.webdesktop.search.impl.MenuSearcher;
 import org.mockito.Mockito;
+import org.springframework.http.MediaType;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
@@ -190,12 +196,86 @@ public class TestFactory {
         return result;
     }
 
-    public static WebRequest getMockedWebRequest(Map<String, String[]> map) throws ServletException, IOException {
+    public static WebRequest getMockedWebRequest(Map<String, String[]> stringMap) throws ServletException, IOException {
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-        when(request.getParameterMap()).thenReturn(map);
+        when(request.getParameterMap()).thenReturn(stringMap);
 
         return new WebRequest(request);
     }
 
+    public static WebRequest getMockedWebRequest(FramePart... mockParts) throws ServletException, IOException {
+        Collection<Part> partCollection = new ArrayList<>();
+        for (FramePart mockPart : mockParts) {
+            partCollection.add(mockPart);
+        }
+
+        HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+        when(request.getContentType()).thenReturn(MediaType.MULTIPART_FORM_DATA_VALUE);
+        when(request.getParts()).thenReturn(partCollection);
+
+        return new WebRequest(request);
+    }
+
+    public static class FramePart implements Part {
+        private String name;
+        private String submittedFileName;
+        private byte[] content;
+
+        public FramePart(String name, String submittedFileName, byte[] content) {
+            this.name = name;
+            this.submittedFileName = submittedFileName;
+            this.content = content;
+        }
+
+        @Override
+        public InputStream getInputStream() throws IOException {
+            return new ByteArrayInputStream(content);
+        }
+
+        @Override
+        public String getContentType() {
+            return MediaType.MULTIPART_FORM_DATA_VALUE;
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public String getSubmittedFileName() {
+            return submittedFileName;
+        }
+
+        @Override
+        public long getSize() {
+            return 0;
+        }
+
+        @Override
+        public void write(String fileName) throws IOException {
+            // NOP
+        }
+
+        @Override
+        public void delete() throws IOException {
+            // NOP
+        }
+
+        @Override
+        public String getHeader(String name) {
+            return null;
+        }
+
+        @Override
+        public Collection<String> getHeaders(String name) {
+            return null;
+        }
+
+        @Override
+        public Collection<String> getHeaderNames() {
+            return null;
+        }
+    }
 
 }
