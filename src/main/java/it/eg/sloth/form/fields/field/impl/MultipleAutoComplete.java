@@ -88,7 +88,7 @@ public class MultipleAutoComplete<T> extends MultipleInput<T> {
 
     public void addValue(T value) throws FrameworkException {
         List<T> list = getValue();
-        getValue().add(value);
+        list.add(value);
 
         setValue(list);
     }

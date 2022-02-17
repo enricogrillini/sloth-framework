@@ -82,6 +82,10 @@ class MultipleAutoCompleteTest {
         MessageList messageList = new MessageList();
         baseMultipleAutoComplete.validate(messageList);
         assertTrue(messageList.isEmpty());
+
+
+        baseMultipleAutoComplete.addValue(BigDecimal.valueOf(4));
+        assertEquals("1|2|3|4", baseMultipleAutoComplete.getData());
     }
 
 
