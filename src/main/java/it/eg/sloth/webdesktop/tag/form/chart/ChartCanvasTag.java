@@ -3,6 +3,8 @@ package it.eg.sloth.webdesktop.tag.form.chart;
 import it.eg.sloth.form.chart.SimpleChart;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import it.eg.sloth.webdesktop.tag.form.chart.writer.ChartWriter;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 
@@ -24,11 +26,15 @@ public class ChartCanvasTag extends BaseElementTag<SimpleChart<?>> {
 
   private static final long serialVersionUID = 1L;
 
+  @Getter
+  @Setter
+  private String className;
+
   @Override
   protected int startTag() throws IOException {
 
     writeln();
-    writeln(ChartWriter.writeCanvas(getElement()));
+    writeln(ChartWriter.writeCanvas(getElement(), getClassName()));
 
     return SKIP_BODY;
   }

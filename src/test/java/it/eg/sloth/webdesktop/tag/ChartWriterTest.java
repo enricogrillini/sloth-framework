@@ -32,6 +32,7 @@ import it.eg.sloth.webdesktop.tag.form.chart.writer.ChartWriter;
 class ChartWriterTest {
 
     static final String CHART_CANVAS = ResourceUtil.normalizedResourceAsString("snippet-html/chart/chart-canvas.html");
+    static final String CHART_CANVAS_CUSTOM = ResourceUtil.normalizedResourceAsString("snippet-html/chart/chart-canvas-custom.html");
     static final String CHART_SCRIPT_LINE = ResourceUtil.normalizedResourceAsString("snippet-html/chart/chart-script-line.html");
     static final String CHART_SCRIPT_PIE = ResourceUtil.normalizedResourceAsString("snippet-html/chart/chart-script-pie.html");
     static final String CHART_SCRIPT_POLAR_AREA = ResourceUtil.normalizedResourceAsString("snippet-html/chart/chart-script-polarArea.html");
@@ -41,7 +42,9 @@ class ChartWriterTest {
     @Test
     void writeCanvasTest() throws FrameworkException {
         SimpleChart<DataTable<?>> simpleChart = TestFactory.getSimpleChart(ChartType.LINE);
-        assertEquals(CHART_CANVAS, ChartWriter.writeCanvas(simpleChart));
+        assertEquals(CHART_CANVAS, ChartWriter.writeCanvas(simpleChart, null));
+
+        assertEquals(CHART_CANVAS_CUSTOM, ChartWriter.writeCanvas(simpleChart, "custom"));
     }
 
     @Test

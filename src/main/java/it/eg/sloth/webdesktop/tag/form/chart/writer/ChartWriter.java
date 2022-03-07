@@ -6,8 +6,10 @@ import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.form.chart.SimpleChart;
 import it.eg.sloth.form.chart.element.Labels;
 import it.eg.sloth.form.chart.element.Series;
+import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.html.HtmlColor;
+import it.eg.sloth.framework.utility.resource.ResourceUtil;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJs;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJsData;
@@ -17,6 +19,7 @@ import it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset.DataSetMonoColor;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset.DataSetMultiColor;
 
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.util.List;
 
 /**
@@ -35,17 +38,12 @@ import java.util.List;
  */
 public class ChartWriter extends HtmlWriter {
 
-    public static final String writeCanvas(SimpleChart<?> simpleChart) {
-        return new StringBuilder()
-                .append("<!-- ChartCanvas -->\n")
-                .append("<div class=\"chart-area\">\n")
+    private static final String CANVAS = ResourceUtil.normalizedResourceAsString("snippet/chart/canvas.html");
 
-                .append(" <canvas")
-                .append(getAttribute("id", simpleChart.getName()))
-                .append("></canvas>\n")
+    private static final String CANVAS_CLASS = "chart-area";
 
-                .append("</div>")
-                .toString();
+    public static final String writeCanvas(SimpleChart<?> simpleChart, String className) {
+        return MessageFormat.format(CANVAS, simpleChart.getName(), BaseFunction.isBlank(className) ? CANVAS_CLASS : CANVAS_CLASS + " " + className);
     }
 
     public static final String writeScript(SimpleChart<?> simpleChart) throws FrameworkException, JsonProcessingException {

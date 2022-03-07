@@ -400,7 +400,7 @@
    <extension base="tns:Elements">
     <sequence>
      <element name="Labels" type="tns:Labels" maxOccurs="1" minOccurs="1"></element>
-     <element name="Series" type="tns:Series" maxOccurs="unbounded" minOccurs="1"></element>
+     <element name="Series" type="tns:Series" maxOccurs="unbounded" minOccurs="0"></element>
     </sequence>
     <attribute name="ChartType" type="tns:ChartType" use="required" />
 
