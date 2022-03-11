@@ -6,11 +6,13 @@ import it.eg.sloth.form.base.AbstractElements;
 import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.form.fields.field.DecodedDataField;
 import it.eg.sloth.form.fields.field.SimpleField;
+import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.form.fields.field.base.TextField;
 import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.MessageList;
+import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.api.request.BffFields;
 import lombok.Getter;
 import lombok.Setter;
@@ -233,5 +235,16 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
         }
 
         return result.toString();
+    }
+
+
+    public void setViewModality(ViewModality viewModality) {
+        for (SimpleField simpleField : this) {
+            if (simpleField instanceof InputField) {
+                InputField<?> inputField = (InputField) simpleField;
+                inputField.setViewModality(viewModality);
+            }
+        }
+
     }
 }

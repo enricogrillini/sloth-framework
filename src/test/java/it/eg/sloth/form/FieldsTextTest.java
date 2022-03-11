@@ -2,11 +2,13 @@ package it.eg.sloth.form;
 
 import it.eg.sloth.db.model.SamplePojoRow;
 import it.eg.sloth.form.fields.Fields;
+import it.eg.sloth.form.fields.field.impl.Input;
 import it.eg.sloth.form.fields.field.impl.Text;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.pageinfo.ViewModality;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +37,7 @@ class FieldsTextTest {
     private static final String VALUE_DESCRIPTION = "Testo: Prova testo | Numero: 10 | Data: 01/01/2020";
 
     Fields<SamplePojoRow> fields;
-    Text<String> testo;
+    Input<String> testo;
     Text<BigDecimal> numero;
     Text<Timestamp> data;
 
@@ -45,7 +47,7 @@ class FieldsTextTest {
     void init() throws FrameworkException {
         // Fields
         fields = new Fields("prova");
-        testo = new Text<String>("Testo", "Testo", DataTypes.STRING);
+        testo = new Input<>("Testo", "Testo", DataTypes.STRING);
         numero = new Text<BigDecimal>("Numero", "Numero", DataTypes.INTEGER);
         data = new Text<Timestamp>("Data", "Data", DataTypes.DATE);
 
@@ -83,6 +85,18 @@ class FieldsTextTest {
 
         fields.copyFromDataSource(samplePojoRow);
         assertEquals(VALUE_DESCRIPTION, fields.getValuesDescription());
+    }
+
+    @Test
+    void viewModalityTest() throws FrameworkException {
+        Input<?> input = (Input<?>)fields.getElement("Testo");
+        assertEquals(ViewModality.AUTO, input.getViewModality());
+
+        fields.setViewModality(ViewModality.VIEW);
+        assertEquals(ViewModality.VIEW, input.getViewModality());
+
+        fields.setViewModality(ViewModality.AUTO);
+        assertEquals(ViewModality.AUTO, input.getViewModality());
     }
 
 }
