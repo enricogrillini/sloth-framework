@@ -143,7 +143,7 @@ public abstract class DbSchemaAbstractReader implements DbSchemaReader {
     }
 
     private void addConstants(Connection connection, Table table) throws FrameworkException, SQLException, IOException {
-        final int MAX_CONSTANTS = 100;
+        final int MAX_CONSTANTS = 150;
         Map<String, Integer> nameCache = new HashMap<>();
 
         String keyName = table.getTableColumn(0).getName();
