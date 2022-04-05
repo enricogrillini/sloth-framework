@@ -30,6 +30,7 @@ import lombok.ToString;
 public class BaseExcelType {//
 
     public static final BaseExcelType INTEGER = new BaseExcelType("0");
+    public static final BaseExcelType RICH_INTEGER = new BaseExcelType("#,##0");
     public static final BaseExcelType DECIMAL = new BaseExcelType("_-* #,##0.00_-;-* #,##0.00_-;_-* \"-\"??_-;_-@_-");
     public static final BaseExcelType CURRENCY = new BaseExcelType("#,##0.00 €;[Red]-#,##0.00 €");
     public static final BaseExcelType DATE = new BaseExcelType("dd/mm/yyyy");

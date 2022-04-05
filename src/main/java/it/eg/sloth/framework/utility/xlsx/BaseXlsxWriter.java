@@ -254,6 +254,19 @@ public class BaseXlsxWriter implements Closeable {
     public Cell setCellStyle(int rowIndex, int cellIndex, CellStyle cellStyle) {
         return ExcelUtil.setCellStyle(getSheet(), rowIndex, cellIndex, cellStyle);
     }
+    
+    /**
+     * Imposta il valore e lo stile nella cella.
+     *
+     * @param rowIndex
+     * @param cellIndex
+     * @param value
+     * @param cellStyle
+     */
+    public Cell setCellValueAndStyle(int rowIndex, int cellIndex, Object value, CellStyle cellStyle) {
+        setCellValue(rowIndex, cellIndex, value);
+        return setCellStyle(rowIndex, cellIndex, cellStyle);
+    }
 
     /**
      * Imposta lo stile di un range
