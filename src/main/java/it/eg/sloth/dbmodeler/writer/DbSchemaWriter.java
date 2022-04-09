@@ -4,7 +4,9 @@ import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.schema.Schema;
 import it.eg.sloth.dbmodeler.model.schema.code.Function;
 import it.eg.sloth.dbmodeler.model.schema.code.Procedure;
+import it.eg.sloth.dbmodeler.model.schema.sequence.Sequence;
 import it.eg.sloth.dbmodeler.model.schema.table.Table;
+import it.eg.sloth.dbmodeler.model.schema.view.View;
 
 /**
  * Project: sloth-framework
@@ -39,10 +41,7 @@ public interface DbSchemaWriter {
 
     default String sqlIndexes(Schema schema, boolean tablespace, boolean storage) {
         StringBuilder result = new StringBuilder();
-
-        for (Table table : schema.getTableCollection()) {
-            result.append(sqlIndexes(table, tablespace, storage));
-        }
+        schema.getTableCollection().forEach(t -> result.append(sqlIndexes(t, tablespace, storage)));
 
         return result.toString();
     }
@@ -53,13 +52,43 @@ public interface DbSchemaWriter {
 
     String sqlRelatedForeignKeys(Schema schema, String tableName);
 
-    String sqlPrimaryKeys(Schema schema);
+    default String sqlPrimaryKeys(Schema schema) {
+        StringBuilder result = new StringBuilder();
+        schema.getTableCollection().forEach(t -> result.append(sqlPrimaryKeys(t)));
 
-    String sqlForeignKeys(Schema schema);
+        return result.toString();
+    }
 
-    String sqlSequences(Schema schema);
+    String sqlPrimaryKeys(Table table);
 
-    String sqlView(Schema schema);
+    default String sqlForeignKeys(Schema schema) {
+        StringBuilder result = new StringBuilder();
+        schema.getTableCollection().forEach(t -> result.append(sqlForeignKeys(t)));
+
+        return result.toString();
+    }
+
+    String sqlForeignKeys(Table table);
+
+    default String sqlSequences(Schema schema) {
+        StringBuilder result = new StringBuilder();
+        result.append("-- Create sequence\n");
+        schema.getSequenceCollection().forEach(t -> result.append(sqlSequence(t)));
+        result.append("\n");
+
+        return result.toString();
+    }
+
+    String sqlSequence(Sequence sequence);
+
+    default String sqlViews(Schema schema) {
+        StringBuilder result = new StringBuilder();
+        schema.getViewCollection().forEach(t -> result.append(sqlView(t)));
+
+        return result.toString();
+    }
+
+    String sqlView(View view);
 
     String sqlProcedures(Schema schema);
 

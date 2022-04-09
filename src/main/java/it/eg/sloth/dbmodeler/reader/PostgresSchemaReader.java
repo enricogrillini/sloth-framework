@@ -76,7 +76,7 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
     private static final String SQL_DB_INDEXES = "select i.relname as index_name,\n" +
             "       a.attnum as column_position,\n" +
             "       t.relname as table_name,\n" +
-            "       CASE WHEN ix.indisunique THEN 'Y' ELSE 'N'END as uniqueness,\n" +
+            "       CASE WHEN ix.indisunique THEN 'UNIQUE' ELSE null END as uniqueness,\n" +
             "       a.attname as column_name,\n" +
             "       '' tablespace_name,\n" +
             "       0 initial_extent\n" +

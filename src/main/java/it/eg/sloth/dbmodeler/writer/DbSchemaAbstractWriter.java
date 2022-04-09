@@ -205,17 +205,14 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     }
 
     @Override
-    public String sqlPrimaryKeys(Schema schema) {
+    public String sqlPrimaryKeys(Table table) {
         StringBuilder result = new StringBuilder();
-
-        for (Table table : schema.getTableCollection()) {
-            for (Constraint constraint : table.getConstraintCollection()) {
-                if (ConstraintType.PRIMARY_KEY == constraint.getType()) {
-                    result.append(MessageFormat.format(SQL_PRIMARY_KEY,
-                            table.getName(),
-                            constraint.getName(),
-                            StringUtil.join(constraint.getColumns().toArray(new String[0]))));
-                }
+        for (Constraint constraint : table.getConstraintCollection()) {
+            if (ConstraintType.PRIMARY_KEY == constraint.getType()) {
+                result.append(MessageFormat.format(SQL_PRIMARY_KEY,
+                        table.getName(),
+                        constraint.getName(),
+                        StringUtil.join(constraint.getColumns().toArray(new String[0]))));
             }
         }
 
@@ -223,17 +220,15 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     }
 
     @Override
-    public String sqlForeignKeys(Schema schema) {
+    public String sqlForeignKeys(Table table) {
         StringBuilder result = new StringBuilder();
-        for (Table table : schema.getTableCollection()) {
-            for (Constraint constraint : table.getConstraintCollection()) {
-                if (ConstraintType.FOREIGN_KEY == constraint.getType()) {
-                    result.append(MessageFormat.format(SQL_FOREIGN_KEY,
-                            table.getName(),
-                            constraint.getName(),
-                            StringUtil.join(constraint.getColumns().toArray(new String[0])),
-                            constraint.getReferenceTable()));
-                }
+        for (Constraint constraint : table.getConstraintCollection()) {
+            if (ConstraintType.FOREIGN_KEY == constraint.getType()) {
+                result.append(MessageFormat.format(SQL_FOREIGN_KEY,
+                        table.getName(),
+                        constraint.getName(),
+                        StringUtil.join(constraint.getColumns().toArray(new String[0])),
+                        constraint.getReferenceTable()));
             }
         }
 
@@ -241,28 +236,13 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     }
 
     @Override
-    public String sqlSequences(Schema schema) {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append("-- Create sequence\n");
-        if (schema != null && schema.getSequenceCollection() != null) {
-            for (Sequence sequence : schema.getSequenceCollection()) {
-                stringBuilder.append(MessageFormat.format(SQL_SEQUENCE, sequence.getName()));
-            }
-        }
-        stringBuilder.append("\n");
-
-        return stringBuilder.toString();
+    public String sqlSequence(Sequence sequence) {
+        return MessageFormat.format(SQL_SEQUENCE, sequence.getName());
     }
 
     @Override
-    public String sqlView(Schema schema) {
-        StringBuilder result = new StringBuilder();
-        for (View dbObject : schema.getViewCollection()) {
-            result.append(MessageFormat.format(SQL_VIEW, dbObject.getName(), dbObject.getDefinition(), getEndOfStatement()));
-        }
-
-        return result.toString();
+    public String sqlView(View view) {
+        return MessageFormat.format(SQL_VIEW, view.getName(), view.getDefinition(), getEndOfStatement());
     }
 
     @Override
