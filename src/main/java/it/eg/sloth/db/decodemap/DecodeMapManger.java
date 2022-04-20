@@ -46,7 +46,7 @@ public abstract class DecodeMapManger {
         CacheSingleton.getInstance().remove(cacheKey);
     }
 
-    private static String calcCacheKey(String tableName) {
+    public static String calcCacheKey(String tableName) {
         return (DECODE_PREFIX + tableName).toLowerCase();
     }
 }
