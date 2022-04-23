@@ -87,7 +87,7 @@ public class User implements Serializable {
 
     public void setSetting(String group, String key, String value) {
         if (!groupMap.containsKey(group)) {
-            groupMap.put(group, new HashMap<>());
+            groupMap.put(group.toLowerCase(), new HashMap<>());
         }
 
         groupMap.get(group.toLowerCase()).put(key.toLowerCase(), value);

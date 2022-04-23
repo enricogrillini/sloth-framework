@@ -11,7 +11,6 @@ import it.eg.sloth.webdesktop.tag.form.card.writer.CardWriter;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.text.MessageFormat;
 import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,6 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class CardWriterTest {
 
+    private static final String COLLAPSIBLE_CARD_OPEN = ResourceUtil.normalizedResourceAsString("snippet-html/card/collapsible-card-open.html");
+
     private static final String CONTENT_TEMPLATE_1 = ResourceUtil.normalizedResourceAsString("snippet-html/card/field-card-content-1.html");
     private static final String CONTENT_TEMPLATE_2 = ResourceUtil.normalizedResourceAsString("snippet-html/card/field-card-content-2.html");
     private static final String CONTENT_TEMPLATE_3 = ResourceUtil.normalizedResourceAsString("snippet-html/card/field-card-content-3.html");
@@ -39,6 +40,12 @@ class CardWriterTest {
 
     private static final String FIELDS_CARD_OPEN = ResourceUtil.normalizedResourceAsString("snippet-html/card/fields-card-open.html");
     private static final String PAIRED_FIELDS_CARD_OPEN = ResourceUtil.normalizedResourceAsString("snippet-html/card/paired-fields-card-open.html");
+
+    @Test
+    void collapsibleCardTest() throws FrameworkException {
+        assertEquals(COLLAPSIBLE_CARD_OPEN, CardWriter.openCollapsibleCard("name", "titolo", true));
+    }
+
 
     @Test
     void fieldCardContentTest() throws FrameworkException {

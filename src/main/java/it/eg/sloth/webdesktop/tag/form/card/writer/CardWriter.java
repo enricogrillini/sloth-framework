@@ -6,6 +6,7 @@ import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.form.fields.field.base.TextField;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.BigDecimalUtil;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -38,6 +39,9 @@ public class CardWriter extends HtmlWriter {
     public static final String CARD_OPEN = ResourceUtil.normalizedResourceAsString("snippet/card/card-open.html");
     public static final String CARD_CLOSE = ResourceUtil.normalizedResourceAsString("snippet/card/card-close.html");
 
+    public static final String COLLAPSIBLE_CARD_OPEN = ResourceUtil.normalizedResourceAsString("snippet/card/collapsible-card-open.html");
+    public static final String COLLAPSIBLE_CARD_CLOSE = ResourceUtil.normalizedResourceAsString("snippet/card/collapsible-card-close.html");
+
     public static final String FIELD_CARD_CONTENT = ResourceUtil.normalizedResourceAsString("snippet/card/field-card-content.html");
     public static final String PAIRED_FIELD_CARD_CONTENT = ResourceUtil.normalizedResourceAsString("snippet/card/paired-fields-card-row.html");
 
@@ -54,6 +58,19 @@ public class CardWriter extends HtmlWriter {
 
     public static final String closeCard() {
         return CARD_CLOSE;
+    }
+
+    public static final String openCollapsibleCard(String name, String titolo, boolean collapsed) {
+        return MessageFormat.format(COLLAPSIBLE_CARD_OPEN,
+                Casting.getHtml(name),
+                Casting.getHtml(titolo),
+                collapsed ? " collapsed" : StringUtil.EMPTY,
+                collapsed ? " collapse" : StringUtil.EMPTY
+        );
+    }
+
+    public static final String closeCollapsibleCard() {
+        return COLLAPSIBLE_CARD_CLOSE;
     }
 
     public static final String fieldCardContent(TextField<?> field) {
