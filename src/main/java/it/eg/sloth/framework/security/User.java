@@ -69,28 +69,36 @@ public class User implements Serializable {
     }
 
     public Map<String, String> getGroupSetting(String group) {
+        group = group.toLowerCase();
+
         Map<String, String> result = new HashMap<>();
-        if (groupMap.containsKey(group.toLowerCase())) {
-            result.putAll(groupMap.get(group.toLowerCase()));
+        if (groupMap.containsKey(group)) {
+            result.putAll(groupMap.get(group));
         }
 
         return result;
     }
 
     public String getSetting(String group, String key) {
-        if (groupMap.containsKey(group.toLowerCase()) && groupMap.get(group.toLowerCase()).containsKey(key.toLowerCase())) {
-            return groupMap.get(group.toLowerCase()).get(key.toLowerCase());
+        group = group.toLowerCase();
+        key = key.toLowerCase();
+
+        if (groupMap.containsKey(group) && groupMap.get(group).containsKey(key)) {
+            return groupMap.get(group).get(key);
         }
 
         return StringUtil.EMPTY;
     }
 
     public void setSetting(String group, String key, String value) {
+        group = group.toLowerCase();
+        key = key.toLowerCase();
+
         if (!groupMap.containsKey(group)) {
-            groupMap.put(group.toLowerCase(), new HashMap<>());
+            groupMap.put(group, new HashMap<>());
         }
 
-        groupMap.get(group.toLowerCase()).put(key.toLowerCase(), value);
+        groupMap.get(group).put(key, value);
     }
 
 }

@@ -28,7 +28,7 @@ public class CollapsibleCardTag extends WebDesktopTag<Form> {
 
     private static final long serialVersionUID = 1L;
 
-    private static final String USER_SETTINGS_GROUP = "collapsibleCard";
+    public static final String USER_SETTINGS_GROUP = "collapsibleCard";
 
     String name = "";
     String title = "";
