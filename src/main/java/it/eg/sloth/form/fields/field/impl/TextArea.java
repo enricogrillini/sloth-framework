@@ -3,6 +3,8 @@ package it.eg.sloth.form.fields.field.impl;
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -20,6 +22,8 @@ import lombok.experimental.SuperBuilder;
  *
  * @author Enrico Grillini
  */
+@Getter
+@Setter
 @SuperBuilder
 public class TextArea<T> extends Input<T> {
 
@@ -27,6 +31,7 @@ public class TextArea<T> extends Input<T> {
         super(name, description, dataType);
     }
 
+    Integer rows;
 
     @Override
     public FieldType getFieldType() {
@@ -40,6 +45,10 @@ public class TextArea<T> extends Input<T> {
         } else {
             return getHtmlEscaper().escapeValue(getData());
         }
+    }
+
+    public Integer getRows() {
+        return rows == null ? 2 : rows;
     }
 
 }

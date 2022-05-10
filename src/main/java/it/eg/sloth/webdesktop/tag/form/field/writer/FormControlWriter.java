@@ -835,7 +835,8 @@ public class FormControlWriter extends HtmlWriter {
                 .append("<textarea")
                 .append(getAttribute(ATTR_ID, textArea.getName()))
                 .append(getAttribute(ATTR_NAME, textArea.getName()))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(textArea)));
+                .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(textArea)))
+                .append(getAttribute("rows", textArea.getRows().toString()));
 
         if (viewModality == ViewModality.VIEW) {
             result.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW, ""));

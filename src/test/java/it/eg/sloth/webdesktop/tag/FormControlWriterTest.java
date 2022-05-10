@@ -80,7 +80,7 @@ class FormControlWriterTest {
             " </div>\n";
 
 
-    private static final String BASE_TEXTAREA = "<textarea id=\"{0}\" name=\"{0}\" class=\"form-control form-control-sm\"{1}>{2}</textarea>";
+    private static final String BASE_TEXTAREA = "<textarea id=\"{0}\" name=\"{0}\" class=\"form-control form-control-sm\" rows=\"2\"{1}>{2}</textarea>";
 
 
     @Test
