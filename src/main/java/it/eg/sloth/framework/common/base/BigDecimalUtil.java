@@ -1,7 +1,7 @@
 package it.eg.sloth.framework.common.base;
 
-import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.exception.ExceptionCode;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -35,6 +35,20 @@ public class BigDecimalUtil {
     }
 
     /**
+     * Converte un double in BigDecimal
+     *
+     * @param value
+     * @return
+     */
+    public static BigDecimal toBigDecimal(Double value) {
+        if (BaseFunction.isNull(value)) {
+            return null;
+        } else {
+            return BigDecimal.valueOf(value).setScale(SCALE, RoundingMode.HALF_EVEN).stripTrailingZeros();
+        }
+    }
+
+    /**
      * Converte un Number in BigDecimal
      *
      * @param value
@@ -46,7 +60,7 @@ public class BigDecimalUtil {
         } else if (value.intValue() == value.doubleValue()) {
             return new BigDecimal(value.intValue());
         } else {
-            return BigDecimal.valueOf(value.doubleValue()).setScale(SCALE, RoundingMode.HALF_EVEN).stripTrailingZeros();
+            return toBigDecimal(value.doubleValue());
         }
     }
 

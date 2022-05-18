@@ -48,9 +48,7 @@ class DecodeMapTest {
         StringDecodeMap decodeMap = new StringDecodeMap("A,XXX match YYY;B,match YYY;C,match;");
 
         Iterator<BaseDecodeValue<String>> iterator = decodeMap.performSearch("match", SearchType.MATCH, 10).iterator();
-        assertEquals("B", iterator.next().getCode());
         assertEquals("C", iterator.next().getCode());
-        assertEquals("A", iterator.next().getCode());
 
         iterator = decodeMap.performSearch("*match", SearchType.MATCH, 10).iterator();
         assertEquals("C", iterator.next().getCode());

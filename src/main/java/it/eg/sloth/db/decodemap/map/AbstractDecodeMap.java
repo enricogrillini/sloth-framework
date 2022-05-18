@@ -5,6 +5,7 @@ import it.eg.sloth.db.decodemap.DecodeValue;
 import it.eg.sloth.db.decodemap.SearchType;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 
@@ -132,6 +133,11 @@ public abstract class AbstractDecodeMap<T, V extends DecodeValue<T>> implements 
         }
 
         Set<V> set = new LinkedHashSet<>();
+        set.addAll(executeSearch(query, SearchType.EXACT, true,sizeLimit - set.size(), set));
+        if (! set.isEmpty()) {
+            return set;
+        }
+
         if (searchType == SearchType.MATCH) {
             set.addAll(executeSearch(query, SearchType.LIKE_START, true,sizeLimit - set.size(), set));
             set.addAll(executeSearch(query, SearchType.LIKE_CONTAINS, true,sizeLimit - set.size(), set));
