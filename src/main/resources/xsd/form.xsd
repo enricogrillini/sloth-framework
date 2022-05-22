@@ -417,6 +417,7 @@
   <restriction base="string">
    <enumeration value="bar"></enumeration>
    <enumeration value="doughnut"></enumeration>
+   <enumeration value="waterfall"></enumeration>
    <enumeration value="horizontalBar"></enumeration>
    <enumeration value="line"></enumeration>
    <enumeration value="pie"></enumeration>

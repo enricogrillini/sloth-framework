@@ -110,16 +110,27 @@ public class TestFactory {
         DataRow row = table.add();
         row.setTimestamp("Ora", TimeStampUtil.parseTimestamp("01/01/2020"));
         row.setBigDecimal("Excecutions", BigDecimal.valueOf(25));
+        row.setBigDecimal("Average", BigDecimal.valueOf(10));
 
         row = table.add();
         row.setTimestamp("Ora", TimeStampUtil.parseTimestamp("01/02/2020"));
         row.setBigDecimal("Excecutions", BigDecimal.valueOf(15));
+        row.setBigDecimal("Average", BigDecimal.valueOf(25));
 
         row = table.add();
         row.setTimestamp("Ora", TimeStampUtil.parseTimestamp("01/03/2020"));
         row.setBigDecimal("Excecutions", BigDecimal.valueOf(35));
+        row.setBigDecimal("Average", BigDecimal.valueOf(15));
 
         result.setDataTable(table);
+
+        return result;
+    }
+
+    public static SimpleChart<DataTable<?>> getDoubleChart(ChartType chartType) throws FrameworkException {
+        SimpleChart<DataTable<?>> result = getSimpleChart( chartType);
+
+        result.addChild(new Series("Average", "Average", DataTypes.INTEGER));
 
         return result;
     }

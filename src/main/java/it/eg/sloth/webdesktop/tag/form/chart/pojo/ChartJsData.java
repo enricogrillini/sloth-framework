@@ -24,7 +24,7 @@ import java.util.List;
 public class ChartJsData {
 
     List<String> labels;
-    List<DataSet> datasets;
+    List<DataSet<?, ?>> datasets;
 
     public ChartJsData() {
         labels = new ArrayList<>();

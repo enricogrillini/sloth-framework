@@ -5,6 +5,8 @@ import it.eg.sloth.framework.utility.html.HtmlColor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.math.BigDecimal;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2021 Enrico Grillini
@@ -21,25 +23,18 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class DataSetMonoColor extends DataSet {
-
-    int borderWidth;
-    String borderColor;
-    String backgroundColor;
-    String pointBackgroundColor;
-    String pointBorderColor;
+public class DataSetMonoColor extends DataSet<BigDecimal, String> {
 
     public DataSetMonoColor() {
         super();
-        borderWidth = 2;
     }
 
     public void setColors(String color, double opacity) throws FrameworkException {
-        this.borderColor = color;
-        this.backgroundColor = HtmlColor.rgbaFromHex(color, opacity);
+        setBorderColor(color);
+        setBackgroundColor(HtmlColor.rgbaFromHex(color, opacity));
 
-        this.pointBackgroundColor = color;
-        this.pointBorderColor = color;
+        setPointBackgroundColor(color);
+        setPointBorderColor(color);
     }
 
 }

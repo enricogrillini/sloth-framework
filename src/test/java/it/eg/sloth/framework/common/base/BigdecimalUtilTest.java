@@ -56,6 +56,9 @@ class BigdecimalUtilTest {
 
     @Test
     void doubleValueTest() {
+        assertNull(BigDecimalUtil.toBigDecimal(null));
+        assertEquals(BigDecimal.valueOf(10), BigDecimalUtil.toBigDecimal(10));
+
         assertEquals(0.0, BigDecimalUtil.doubleValue(null), 0.0);
         assertEquals(10.0, BigDecimalUtil.doubleValue(BigDecimal.valueOf(10)), 0.0);
     }

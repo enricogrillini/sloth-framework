@@ -29,14 +29,14 @@ public class ChartScriptTag extends BaseElementTag<SimpleChart<?>> {
     protected int startTag() throws IOException, FrameworkException {
 
         writeln();
-        writeln(ChartWriter.writeScript(getElement()));
+        writeln(ChartWriter.openScript(getElement()));
 
-        return SKIP_BODY;
+        return EVAL_BODY_INCLUDE;
     }
 
     @Override
-    protected void endTag()  {
-        //NOP
+    protected void endTag() throws FrameworkException, IOException {
+        writeln(ChartWriter.closeScript());
     }
 
 }

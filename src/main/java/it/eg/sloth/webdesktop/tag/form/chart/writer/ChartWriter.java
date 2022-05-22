@@ -17,9 +17,12 @@ import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJsLegend;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.ChartJsTitle;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset.DataSetMonoColor;
 import it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset.DataSetMultiColor;
+import it.eg.sloth.webdesktop.tag.form.chart.pojo.dataset.DataSetWaterfall;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -46,7 +49,7 @@ public class ChartWriter extends HtmlWriter {
         return MessageFormat.format(CANVAS, simpleChart.getName(), BaseFunction.isBlank(className) ? CANVAS_CLASS : CANVAS_CLASS + " " + className);
     }
 
-    public static final String writeScript(SimpleChart<?> simpleChart) throws FrameworkException, JsonProcessingException {
+    public static final String openScript(SimpleChart<?> simpleChart) throws FrameworkException, JsonProcessingException {
         ChartJs chartJs = populateChart(simpleChart);
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -56,9 +59,13 @@ public class ChartWriter extends HtmlWriter {
                 .append("<!-- ChartScript -->\n")
                 .append("<script>\n")
                 .append(" var chartData = " + chartJsHtml + ";\n")
-                .append(" chart(\"" + simpleChart.getName() + "\", chartData);\n")
-                .append("</script>\n")
+                .append(" var newChart = chart(\"" + simpleChart.getName() + "\", chartData);\n")
                 .toString();
+    }
+
+
+    public static final String closeScript() throws FrameworkException, JsonProcessingException {
+        return "</script>\n";
     }
 
     public static final ChartJs populateChart(SimpleChart<?> simpleChart) throws FrameworkException {
@@ -102,6 +109,10 @@ public class ChartWriter extends HtmlWriter {
                 case POLAR_AREA:
                 case DOUGHNUT:
                     dataSetMultiColor(simpleChart, chartData);
+                    break;
+
+                case WATERFALL:
+                    dataSetWatterFall(simpleChart, chartData);
                     break;
 
                 default:
@@ -178,5 +189,44 @@ public class ChartWriter extends HtmlWriter {
 
         }
     }
+
+    private static final void dataSetWatterFall(SimpleChart<?> simpleChart, ChartJsData chartData) throws FrameworkException {
+        List<Series> seriesList = simpleChart.getSeriesList();
+        List<String> palette = simpleChart.getPalette();
+        if (palette == null) {
+            palette = HtmlColor.getColorPalette(simpleChart.getDataTable().size());
+        }
+
+        Series seriesFrom = seriesList.get(0).newInstance();
+        Series seriesTo = seriesList.get(1).newInstance();
+
+        DataSetWaterfall dataSet = new DataSetWaterfall();
+        dataSet.setLabel(seriesFrom.getDescription());
+        int i = 0;
+        for (DataRow row : simpleChart.getDataTable()) {
+            seriesFrom.copyFromDataSource(row);
+            seriesTo.copyFromDataSource(row);
+
+            BigDecimal valueFrom = BigDecimal.ZERO;
+            if (seriesFrom.getValue() instanceof BigDecimal) {
+                valueFrom = seriesFrom.getValue();
+            }
+
+            BigDecimal valueTo = BigDecimal.ZERO;
+            if (seriesTo.getValue() instanceof BigDecimal) {
+                valueTo = seriesTo.getValue();
+            }
+
+            List<BigDecimal> values = new ArrayList<>(Arrays.asList(valueFrom, valueTo));
+            dataSet.getData().add(values);
+
+            dataSet.addColors(palette.get(i % palette.size()));
+
+            i++;
+        }
+
+        chartData.getDatasets().add(dataSet);
+    }
+
 
 }

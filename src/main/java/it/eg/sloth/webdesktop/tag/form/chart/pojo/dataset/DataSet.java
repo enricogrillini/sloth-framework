@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import it.eg.sloth.framework.common.base.StringUtil;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,14 +24,22 @@ import java.util.List;
  */
 @Data
 @JsonInclude(Include.NON_NULL)
-public class DataSet  {
+public abstract class DataSet<T, C> {
 
     String label;
-    List<BigDecimal> data;
+    List<T> data;
+
+    private int borderWidth;
+    private C borderColor;
+    private C backgroundColor;
+    private C pointBackgroundColor;
+    private C pointBorderColor;
 
     public DataSet() {
         label = StringUtil.EMPTY;
         data = new ArrayList<>();
+
+        borderWidth = 2;
     }
 
 }

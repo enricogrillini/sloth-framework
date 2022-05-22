@@ -25,10 +25,9 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class DataSetMultiColor extends DataSet<BigDecimal, List<String>> {
+public class DataSetWaterfall extends DataSet<List<BigDecimal>, List<String>> {
 
-
-    public DataSetMultiColor() {
+    public DataSetWaterfall() {
         super();
 
         setBorderColor(new ArrayList<>());
@@ -39,7 +38,7 @@ public class DataSetMultiColor extends DataSet<BigDecimal, List<String>> {
 
     public void addColors(String color) throws FrameworkException {
         getBorderColor().add(color);
-        getBackgroundColor().add(HtmlColor.rgbaFromHex(color, 0.9));
+        getBackgroundColor().add(HtmlColor.rgbaFromHex(color, 0.05));
 
         getPointBackgroundColor().add(color);
         getPointBorderColor().add(color);

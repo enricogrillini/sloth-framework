@@ -36,6 +36,7 @@ class ChartWriterTest {
     static final String CHART_SCRIPT_LINE = ResourceUtil.normalizedResourceAsString("snippet-html/chart/chart-script-line.html");
     static final String CHART_SCRIPT_PIE = ResourceUtil.normalizedResourceAsString("snippet-html/chart/chart-script-pie.html");
     static final String CHART_SCRIPT_POLAR_AREA = ResourceUtil.normalizedResourceAsString("snippet-html/chart/chart-script-polarArea.html");
+    static final String CHART_SCRIPT_WATERFALL = ResourceUtil.normalizedResourceAsString("snippet-html/chart/chart-script-waterfall.html");
 
     static final String CHART_SCRIPT_PIE_CUSTOM_PALETTE = ResourceUtil.normalizedResourceAsString("snippet-html/chart/chart-script-pie-custom-palette.html");
 
@@ -50,13 +51,13 @@ class ChartWriterTest {
     @Test
     void writeScriptLineTest() throws FrameworkException, JsonProcessingException {
         SimpleChart<DataTable<?>> simpleChart = TestFactory.getSimpleChart(ChartType.LINE);
-        assertEquals(CHART_SCRIPT_LINE, ChartWriter.writeScript(simpleChart));
+        assertEquals(CHART_SCRIPT_LINE, ChartWriter.openScript(simpleChart));
     }
 
     @Test
     void writeScriptPieTest() throws FrameworkException, JsonProcessingException {
         SimpleChart<DataTable<?>> simpleChart = TestFactory.getSimpleChart(ChartType.PIE);
-        assertEquals(CHART_SCRIPT_PIE, ChartWriter.writeScript(simpleChart));
+        assertEquals(CHART_SCRIPT_PIE, ChartWriter.openScript(simpleChart));
     }
 
     @Test
@@ -64,13 +65,19 @@ class ChartWriterTest {
         SimpleChart<DataTable<?>> simpleChart = TestFactory.getSimpleChart(ChartType.PIE);
         simpleChart.setPalette(HtmlColor.DANGER, HtmlColor.WARNING, HtmlColor.PRIMARY);
 
-        assertEquals(CHART_SCRIPT_PIE_CUSTOM_PALETTE, ChartWriter.writeScript(simpleChart));
+        assertEquals(CHART_SCRIPT_PIE_CUSTOM_PALETTE, ChartWriter.openScript(simpleChart));
+    }
+
+    @Test
+    void writeScriptWaterfallTest() throws FrameworkException, JsonProcessingException {
+        SimpleChart<DataTable<?>> simpleChart = TestFactory.getDoubleChart(ChartType.WATERFALL);
+        assertEquals(CHART_SCRIPT_WATERFALL, ChartWriter.openScript(simpleChart));
     }
 
     @Test
     void writeScriptPolarAreaTest() throws FrameworkException, JsonProcessingException {
         SimpleChart<DataTable<?>> simpleChart = TestFactory.getSimpleChart(ChartType.POLAR_AREA);
-        assertEquals(CHART_SCRIPT_POLAR_AREA, ChartWriter.writeScript(simpleChart));
+        assertEquals(CHART_SCRIPT_POLAR_AREA, ChartWriter.openScript(simpleChart));
     }
 
 }
