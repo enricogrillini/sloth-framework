@@ -3,9 +3,11 @@ package it.eg.sloth.db.query;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
+import it.eg.sloth.db.datasource.row.column.Column;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 
 /**
@@ -158,4 +160,9 @@ public interface SelectQueryInterface {
      */
     void populateDataTable(DataTable<?> dataTable, Connection connection) throws SQLException, FrameworkException;
 
+
+    List<Column> columnList(Connection connection) throws SQLException, FrameworkException;
+
+
+    List<Column> columnList() throws SQLException, FrameworkException;
 }

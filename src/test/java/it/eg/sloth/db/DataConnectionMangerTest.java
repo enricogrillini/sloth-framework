@@ -7,6 +7,7 @@ import it.eg.sloth.db.datasource.table.sort.SortType;
 import it.eg.sloth.db.manager.DataConnectionManager;
 import it.eg.sloth.db.model.ProvaRowBean;
 import it.eg.sloth.db.model.ProvaTableBean;
+import it.eg.sloth.db.query.AbstractDbTest;
 import it.eg.sloth.db.query.filteredquery.FilteredQuery;
 import it.eg.sloth.db.query.query.Query;
 import it.eg.sloth.framework.common.base.TimeStampUtil;
@@ -25,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-class DataConnectionMangerTest {
+class DataConnectionMangerTest extends AbstractDbTest {
 
     private static final String FILTERED_QUERY_TO_STRING = "\n" +
             "Statement: Select * from Prova /*W*/\n" +
@@ -38,17 +39,6 @@ class DataConnectionMangerTest {
             "Parameter: Parameter(sqlType=4, value=1)";
 
     private static final String TABLE_BEAN_TO_STRING = "TableAbstract(sortingRules=SortingRules(list=[]), rows=[Row{values={id=2, testo=BbbbbX, data=2020-01-01 00:00:00.0}}], currentRow=0, pageSize=-1)";
-
-
-    private static final String driverClassName = "org.h2.Driver";
-    private static final String url = "jdbc:h2:mem:inputDb;MODE=Oracle;INIT=RUNSCRIPT FROM 'classpath:db/create.sql'";
-    private static final String userName = "gilda";
-    private static final String password = "gilda";
-
-    @BeforeAll
-    public static void init() {
-        DataConnectionManager.getInstance().registerDefaultDataSource(driverClassName, url, userName, password, 1, 100, 1);
-    }
 
     /**
      * Empty Table
@@ -65,30 +55,6 @@ class DataConnectionMangerTest {
         assertEquals(0, dataTable.keys().size());
     }
 
-
-    /**
-     * Lettura di un generico DataSource
-     *
-     * @throws SQLException
-     * @throws IOException
-     * @throws FrameworkException
-     */
-    @Test
-    void ds1QuerySelectTest() throws SQLException, IOException, FrameworkException {
-        Query query = new Query("Select * from Prova order by 1");
-        DataTable dataTable = query.selectTable();
-
-        assertEquals(2, dataTable.size());
-        assertEquals(BigDecimal.valueOf(1), dataTable.getBigDecimal("Id"));
-        assertEquals("Aaaaa", dataTable.getString("Testo"));
-        assertEquals(TimeStampUtil.parseTimestamp("01/01/2020", "dd/MM/yyyy"), dataTable.getTimestamp("Data"));
-
-        assertEquals(3, dataTable.getRow().values().size());
-        assertEquals(3, dataTable.getRow().keys().size());
-
-        assertEquals(3, dataTable.values().size());
-        assertEquals(3, dataTable.keys().size());
-    }
 
     @Test
     void ds2QueryExecuteTest() throws SQLException, IOException, FrameworkException {

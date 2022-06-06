@@ -1,5 +1,6 @@
 package it.eg.sloth.dbmodeler.reader;
 
+import it.eg.sloth.db.query.query.Query;
 import it.eg.sloth.dbmodeler.model.DataBase;
 import it.eg.sloth.dbmodeler.model.database.DataBaseType;
 import it.eg.sloth.dbmodeler.model.statistics.Statistics;

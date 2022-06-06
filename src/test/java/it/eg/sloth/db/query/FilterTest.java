@@ -3,13 +3,8 @@ package it.eg.sloth.db.query;
 import it.eg.sloth.db.query.filteredquery.filter.OrFilter;
 import org.junit.jupiter.api.Test;
 
-import java.io.InputStream;
-import java.io.Reader;
-import java.math.BigDecimal;
-import java.net.URL;
-import java.sql.*;
+import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -29,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  * @author Enrico Grillini
  */
 class FilterTest {
-
 
     @Test
     void inputFieldTest() {

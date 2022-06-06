@@ -3,16 +3,16 @@ package it.eg.sloth.db.query;
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.row.Row;
+import it.eg.sloth.db.datasource.row.column.Column;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.db.manager.DataConnectionManager;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -32,6 +32,7 @@ import java.sql.SQLException;
 @Slf4j
 public abstract class SelectAbstractQuery implements SelectQueryInterface {
 
+    private static final String TRAIL_MESSAGE = "Errore sulla query: {}";
 
     private String statement;
 
@@ -130,7 +131,7 @@ public abstract class SelectAbstractQuery implements SelectQueryInterface {
                     }
                 }
             } catch (SQLException e) {
-                log.info("Errore sulla query: {}", toString());
+                log.info(TRAIL_MESSAGE, toString());
                 throw e;
             }
 
@@ -170,12 +171,56 @@ public abstract class SelectAbstractQuery implements SelectQueryInterface {
                     }
                 }
             } catch (SQLException e) {
-                log.info("Errore sulla query: {}", toString());
+                log.info(TRAIL_MESSAGE, toString());
                 throw e;
             }
 
             log.debug("End populateDataTable");
         }
+    }
+
+
+    @Override
+    public List<Column> columnList(Connection connection) throws SQLException, FrameworkException {
+        if (connection == null) {
+            try (Connection newConnection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
+                return columnList( newConnection);
+            }
+        } else {
+            log.debug("Start columnList");
+            log.debug(toString());
+
+            List<Column> result = new ArrayList<>();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(getSqlStatement(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
+                log.debug("Start get resultSetMetaData");
+                log.debug(toString());
+
+                initStatement(preparedStatement);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+
+                    for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
+                        Column column = new Column();
+                        column.setName(resultSetMetaData.getColumnName(i));
+                        column.setDescription(resultSetMetaData.getColumnLabel(i));
+                        column.setJavaType(resultSetMetaData.getColumnType(i));
+                        column.setNullable(true);
+
+                        result.add(column);
+                    }
+                }
+            } catch (SQLException e) {
+                log.info(TRAIL_MESSAGE, toString());
+                throw e;
+            }
+
+            log.debug("End columnList ({})", result);
+            return result;
+        }
+    }
+
+    public List<Column> columnList() throws SQLException, FrameworkException {
+        return columnList(null);
     }
 
     @Override

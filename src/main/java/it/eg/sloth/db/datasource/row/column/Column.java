@@ -9,7 +9,9 @@ import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Types;
 
@@ -31,6 +33,8 @@ import java.sql.Types;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@Slf4j
 public class Column {
     private String name;
     private String description;
@@ -80,16 +84,37 @@ public class Column {
     }
 
     private DataTypes getDataTypes() {
-        if (javaType == Types.DECIMAL) {
-            return DataTypes.DECIMAL;
-        } else if (javaType == Types.INTEGER) {
-            return DataTypes.INTEGER;
-        } else if (javaType == Types.VARCHAR) {
-            return DataTypes.STRING;
-        } else if (javaType == Types.DATE) {
-            return DataTypes.DATE;
-        } else {
-            return DataTypes.STRING;
+
+
+        switch (javaType) {
+            case Types.VARCHAR:
+            case Types.CHAR:
+                return DataTypes.STRING;
+
+            case Types.BIT:
+            case Types.SMALLINT:
+            case Types.TINYINT:
+            case Types.INTEGER:
+            case Types.BIGINT:
+                return DataTypes.INTEGER;
+
+            case Types.FLOAT:
+            case Types.DECIMAL:
+            case Types.REAL:
+            case Types.DOUBLE:
+            case Types.NUMERIC:
+                return DataTypes.DECIMAL;
+
+            case Types.DATE:
+                return DataTypes.DATE;
+
+            case Types.TIME:
+            case Types.TIMESTAMP:
+                return DataTypes.DATETIME;
+
+            default:
+                log.info ("javaType {} non trovato", javaType);
+                return DataTypes.STRING;
         }
     }
 }
