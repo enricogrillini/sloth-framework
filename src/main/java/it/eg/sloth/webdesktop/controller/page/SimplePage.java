@@ -6,6 +6,8 @@ import it.eg.sloth.db.decodemap.DecodeValue;
 import it.eg.sloth.db.decodemap.SearchType;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
+import it.eg.sloth.form.base.Element;
+import it.eg.sloth.form.chart.SimpleChart;
 import it.eg.sloth.form.fields.field.DecodedDataField;
 import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
 import it.eg.sloth.form.grid.Grid;
@@ -142,9 +144,16 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> {
         }
 
         if (navigation.length == 2 && navigation[0].equals(NavigationConst.EXCEL)) {
-            Grid<?> grid = (Grid<?>) getForm().getElement(navigation[1]);
-            onExcel(grid);
-            return true;
+            Element element = getForm().getElement(navigation[1]);
+            if (element instanceof Grid) {
+                Grid<?> grid = (Grid<?>) element;
+                onExcel(grid);
+                return true;
+            }else   if (element instanceof SimpleChart) {
+                SimpleChart<?> simpleChart = (SimpleChart<?>) element;
+                onExcel(simpleChart);
+                return true;
+            }
         }
 
         return false;

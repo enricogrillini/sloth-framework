@@ -2,11 +2,13 @@ package it.eg.sloth.webdesktop.controller.common;
 
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.WebRequest;
+import it.eg.sloth.form.chart.SimpleChart;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.message.MessageList;
 import it.eg.sloth.framework.utility.FileType;
+import it.eg.sloth.framework.utility.xlsx.ChartXlsxWriter;
 import it.eg.sloth.framework.utility.xlsx.GridXlsxWriter;
 import it.eg.sloth.webdesktop.controller.BasePageInterface;
 import org.springframework.web.servlet.ModelAndView;
@@ -68,7 +70,7 @@ public interface FormPageInterface<F extends Form> extends BasePageInterface {
         // NOP
     }
 
-    // Implementa l'esportazione in execl di una grid
+    // Implementa l'esportazione in excel di una Grid
     default void onExcel(Grid<?> grid) throws Exception {
         try (GridXlsxWriter gridXlsxWriter = new GridXlsxWriter(true, grid);) {
             OutputStream outputStream = getResponse().getOutputStream();
@@ -77,6 +79,18 @@ public interface FormPageInterface<F extends Form> extends BasePageInterface {
 
             setModelAndView(fileName, FileType.XLSX);
             gridXlsxWriter.getWorkbook().write(outputStream);
+        }
+    }
+
+    // Implementa l'esportazione in excel di un Chart
+    default void onExcel(SimpleChart<?> grid) throws Exception {
+        try (ChartXlsxWriter chartXlsxWriter = new ChartXlsxWriter(true, grid);) {
+            OutputStream outputStream = getResponse().getOutputStream();
+            String fileName = BaseFunction.nvl(grid.getTitle(), grid.getName()) + FileType.XLSX.getExtension();
+            fileName = StringUtil.toFileName(fileName);
+
+            setModelAndView(fileName, FileType.XLSX);
+            chartXlsxWriter.getWorkbook().write(outputStream);
         }
     }
 

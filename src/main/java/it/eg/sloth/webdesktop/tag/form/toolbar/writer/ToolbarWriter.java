@@ -1,6 +1,7 @@
 package it.eg.sloth.webdesktop.tag.form.toolbar.writer;
 
 import it.eg.sloth.form.NavigationConst;
+import it.eg.sloth.form.chart.SimpleChart;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.pageinfo.PageStatus;
@@ -457,6 +458,17 @@ public class ToolbarWriter extends HtmlWriter {
             }
         }
 
+        return result.toString();
+    }
+
+
+    public static String simpleChart(SimpleChart<?> chart, String lastController, PageStatus pageStatus) {
+        StringBuilder result = new StringBuilder();
+        if (chart.getDataTable() == null || chart.getDataTable().size() == 0) {
+            // NOP
+        } else {
+            result.append(excelButton(chart.getName(), lastController, pageStatus.isChanging()));
+        }
         return result.toString();
     }
 
