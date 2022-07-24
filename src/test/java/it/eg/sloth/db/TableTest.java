@@ -1,7 +1,11 @@
 package it.eg.sloth.db;
 
+import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
+import it.eg.sloth.db.datasource.table.filter.FilterRule;
+import it.eg.sloth.db.datasource.table.filter.FilterRules;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,13 +46,21 @@ class TableTest {
         row = table.add();
         row.setString("key1", "value2");
         row.setBigDecimal("key2", BigDecimal.valueOf(30));
+
+        row = table.add();
+        row.setString("key1", "value3");
+        row.setBigDecimal("key2", BigDecimal.valueOf(30));
+
+        row = table.add();
+        row.setString("key1", "value4");
+        row.setBigDecimal("key2", BigDecimal.valueOf(100));
     }
 
     /**
      * Verifica il toString
      */
     @Test
-    void tableToStringTest() {
+    void toStringTest() {
         assertEquals(TO_STRING, table.toString());
     }
 
@@ -56,20 +68,69 @@ class TableTest {
      * Verifica il Sum
      */
     @Test
-    void tableSumTest() {
-        assertEquals(BigDecimal.valueOf(40), table.sum("key2"));
+    void sumTest() {
+        assertEquals(BigDecimal.valueOf(170), table.sum("key2"));
     }
 
     /**
      * Verifica il Distinct
      */
     @Test
-    void tableDistinctTest() {
+    void distinctTest() {
         Set<Object> set = table.distinct("key1");
 
-        assertEquals(2, set.size());
+        assertEquals(4, set.size());
         assertTrue(set.contains("value1"));
         assertTrue(set.contains("value2"));
+    }
+
+    /**
+     * Verifica il removeAllRow
+     */
+    @Test
+    void removeAllRowTest() throws FrameworkException {
+        table.removeAllRow();
+
+        assertEquals(0, table.size());
+    }
+
+    /**
+     * Verifica il remove by Filter
+     */
+    @Test
+    void removeByFilterTest() throws FrameworkException {
+        // Test generico
+        FilterRules filterRules = new FilterRules();
+        filterRules.addValueRule("key2", BigDecimal.valueOf(30));
+        table.removeByFilter(filterRules);
+
+        assertEquals(2, table.size());
+
+        // Test cancellazione ultimo record
+        Row row = table.add();
+        row.setString("key1", "value3");
+        row.setBigDecimal("key2", BigDecimal.valueOf(30));
+
+        assertEquals(3, table.size());
+        table.removeByFilter(filterRules);
+        assertEquals(2, table.size());
+
+        // Test tabella vuota
+        table.removeAllRow();
+
+        assertEquals(0, table.size());
+        table.removeByFilter(filterRules);
+        assertEquals(0, table.size());
+
+
+        // Test cancellazione tabella con 1 record
+        row = table.add();
+        row.setString("key1", "value3");
+        row.setBigDecimal("key2", BigDecimal.valueOf(30));
+
+        assertEquals(1, table.size());
+        table.removeByFilter(filterRules);
+        assertEquals(0, table.size());
     }
 }
 

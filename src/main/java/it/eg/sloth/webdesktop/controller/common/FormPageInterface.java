@@ -83,10 +83,10 @@ public interface FormPageInterface<F extends Form> extends BasePageInterface {
     }
 
     // Implementa l'esportazione in excel di un Chart
-    default void onExcel(SimpleChart<?> grid) throws Exception {
-        try (ChartXlsxWriter chartXlsxWriter = new ChartXlsxWriter(true, grid);) {
+    default void onExcel(SimpleChart<?> chart) throws Exception {
+        try (ChartXlsxWriter chartXlsxWriter = new ChartXlsxWriter(true, chart);) {
             OutputStream outputStream = getResponse().getOutputStream();
-            String fileName = BaseFunction.nvl(grid.getTitle(), grid.getName()) + FileType.XLSX.getExtension();
+            String fileName = BaseFunction.nvl(chart.getTitle(), chart.getName()) + FileType.XLSX.getExtension();
             fileName = StringUtil.toFileName(fileName);
 
             setModelAndView(fileName, FileType.XLSX);

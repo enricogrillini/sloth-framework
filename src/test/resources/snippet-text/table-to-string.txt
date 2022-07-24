@@ -1,1 +1,1 @@
-TableAbstract(sortingRules=SortingRules(list=[]), rows=[Row{values={key1=value1, key2=10}}, Row{values={key1=value2, key2=30}}], currentRow=1, pageSize=-1)
+TableAbstract(sortingRules=SortingRules(list=[]), rows=[Row{values={key1=value1, key2=10}}, Row{values={key1=value2, key2=30}}, Row{values={key1=value3, key2=30}}, Row{values={key1=value4, key2=100}}], currentRow=3, pageSize=-1)

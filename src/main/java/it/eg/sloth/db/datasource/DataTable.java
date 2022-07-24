@@ -1,5 +1,6 @@
 package it.eg.sloth.db.datasource;
 
+import it.eg.sloth.db.datasource.table.filter.FilterRules;
 import it.eg.sloth.db.datasource.table.sort.SortType;
 import it.eg.sloth.db.datasource.table.sort.SortingRule;
 import it.eg.sloth.db.datasource.table.sort.SortingRules;
@@ -203,6 +204,8 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
      * @throws FrameworkException
      */
     T remove() throws FrameworkException;
+
+    void removeByFilter(FilterRules filterRules) throws FrameworkException;
 
     /**
      * Rimuove tutte le righe

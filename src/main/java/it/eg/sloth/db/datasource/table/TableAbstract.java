@@ -262,6 +262,30 @@ public abstract class TableAbstract<T extends DataRow> implements DataTable<T> {
     }
 
     @Override
+    public void removeByFilter(FilterRules filterRules) throws FrameworkException {
+        setCurrentRow(0);
+
+        if (size() > 0) {
+            boolean ultimoRecord = false;
+            do {
+                if (size() - 1 == getCurrentRow()) {
+                    ultimoRecord = true;
+                }
+
+                if (filterRules.check(getRow())) {
+                    remove();
+                } else {
+                    next();
+                }
+            } while (!ultimoRecord);
+
+        }
+
+        setCurrentRow(0);
+    }
+
+
+    @Override
     public void removeAllRow() throws FrameworkException {
         while (size() > 0) {
             remove();
