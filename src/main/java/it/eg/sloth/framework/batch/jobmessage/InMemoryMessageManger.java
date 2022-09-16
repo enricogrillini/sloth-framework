@@ -32,11 +32,12 @@ public class InMemoryMessageManger implements JobMessageManger {
     }
 
     @Override
-    public synchronized JobMessage createMessage(String groupName, String jobName)  {
+    public synchronized JobMessage createMessage(String groupName, String jobName) {
         JobMessage jobMessage = JobMessage.builder()
                 .executionId(++executionIdCounter)
                 .groupName(groupName)
                 .jobName(jobName)
+                .severity(JobMessageSeverity.INFO)
                 .status(JobStatus.SCHEDULED)
                 .progress(0)
                 .started(TimeStampUtil.sysdate())
@@ -49,9 +50,10 @@ public class InMemoryMessageManger implements JobMessageManger {
     }
 
     @Override
-    public synchronized JobMessage updateMessage(Integer executionId, String message, String detail, int progress, JobStatus status) {
+    public synchronized JobMessage updateMessage(Integer executionId, JobMessageSeverity severity, String message, String detail, int progress, JobStatus status) {
         JobMessage jobMessage = getMessage(executionId);
 
+        jobMessage.setSeverity(severity);
         jobMessage.setMessage(message);
         jobMessage.setDetail(detail);
         jobMessage.setProgress(progress);

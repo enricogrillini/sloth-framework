@@ -29,7 +29,7 @@ public class LogMessageManger implements JobMessageManger {
     }
 
     @Override
-    public JobMessage updateMessage(Integer executionId, String message, String detail, int progress, JobStatus status) throws FrameworkException {
+    public JobMessage updateMessage(Integer executionId, JobMessageSeverity severity, String message, String detail, int progress, JobStatus status) {
         log.info("executionId {} | progress {} | status {} | - {} {}", executionId, progress, status, message, detail);
         return null;
     }

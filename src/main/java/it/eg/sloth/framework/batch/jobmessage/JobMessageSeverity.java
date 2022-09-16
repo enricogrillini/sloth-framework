@@ -1,11 +1,6 @@
 package it.eg.sloth.framework.batch.jobmessage;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
-
-import java.sql.Timestamp;
+import it.eg.sloth.framework.common.message.Level;
 
 /**
  * Project: sloth-framework
@@ -23,23 +18,31 @@ import java.sql.Timestamp;
  *
  * @author Enrico Grillini
  */
-@Getter
-@Setter
-@SuperBuilder(toBuilder = true)
-@NoArgsConstructor
-public class JobMessage {
+public enum JobMessageSeverity {
 
-    public static final String EXECUTION_ID = "executionID";
+    ERROR(3), WARN(2), INFO(1);
 
-    Integer executionId;
-    String groupName;
-    String jobName;
-    JobMessageSeverity severity;
-    String message;
-    String detail;
-    JobStatus status;
-    Integer progress;
-    Timestamp started;
-    Timestamp updated;
+    int severity;
 
+    JobMessageSeverity(int severity) {
+        this.severity = severity;
+    }
+
+    public boolean hasHigerSeverity(JobMessageSeverity jobMessageSeverity) {
+        return this.severity > jobMessageSeverity.severity;
+    }
+
+    public static JobMessageSeverity fromLevel(Level level) {
+        switch (level) {
+            case INFO:
+            case SUCCESS:
+                return INFO;
+            case WARN:
+                return WARN;
+            case ERROR:
+                return ERROR;
+            default:
+                return INFO;
+        }
+    }
 }

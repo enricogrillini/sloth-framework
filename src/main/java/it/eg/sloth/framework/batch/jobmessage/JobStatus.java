@@ -18,6 +18,6 @@ package it.eg.sloth.framework.batch.jobmessage;
  */
 public enum JobStatus {
 
-  SCHEDULED, RUNNING, TERMINATED, ABORTED 
+  SCHEDULED, RUNNING, TERMINATED, TERMINATED_WITH_ALERT, ABORTED
   
 }

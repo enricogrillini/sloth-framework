@@ -64,7 +64,9 @@ public class Menu implements Iterable<Menu>, Serializable {
     }
 
     public boolean isActive(String page) {
-        return BaseFunction.equals(page, getLink()) || hasChildActive(page);
+        boolean active = page != null && getLink() != null && getLink().toLowerCase().startsWith(page.toLowerCase());
+
+        return active || hasChildActive(page);
     }
 
     public boolean hasChildActive(String page) {

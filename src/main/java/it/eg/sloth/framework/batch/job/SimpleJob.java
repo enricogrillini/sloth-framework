@@ -1,6 +1,7 @@
 package it.eg.sloth.framework.batch.job;
 
 import it.eg.sloth.framework.batch.jobmessage.JobMessage;
+import it.eg.sloth.framework.batch.jobmessage.JobMessageSeverity;
 import it.eg.sloth.framework.batch.jobmessage.JobStatus;
 import it.eg.sloth.framework.batch.scheduler.SchedulerSingleton;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -11,7 +12,6 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 
 import java.text.MessageFormat;
 
@@ -35,34 +35,45 @@ import java.text.MessageFormat;
 @Getter
 public abstract class SimpleJob implements Job {
 
-    private static final String START = "Elaborazione {0} avviata correttamente!";
-    private static final String END = "Elaborazione {0} terminata correttamente!";
-    private static final String ABORTED = "Elaborazione {0} abortita!";
+    private static final String MESSAGE_START = "Elaborazione {0} avviata correttamente!";
+    private static final String MESSAGE_END = "Elaborazione {0} terminata correttamente!";
+    private static final String MESSAGE_END_ALERT = "Elaborazione {0} terminata avvertimenti!";
+    private static final String MESSAGE_ABORTED = "Elaborazione {0} abortita!";
 
     Integer executionId;
     String group;
     String name;
+    JobMessageSeverity maxSeverity;
 
-    public void log(String message, String detail, int progress, JobStatus status) throws FrameworkException {
-        SchedulerSingleton.getInstance().getJobMessageManger().updateMessage(getExecutionId(), message, detail, progress, status);
+    private void log(JobMessageSeverity severity, String message, String detail, int progress, JobStatus status) throws FrameworkException {
+        if (severity.hasHigerSeverity(maxSeverity)) {
+            maxSeverity = severity;
+        }
+        SchedulerSingleton.getInstance().getJobMessageManger().updateMessage(getExecutionId(), severity, message, detail, progress, status);
     }
 
     public void log(String message, String detail, int progress) throws FrameworkException {
-        log(message, detail, progress, JobStatus.RUNNING);
+        log(JobMessageSeverity.INFO, message, detail, progress, JobStatus.RUNNING);
+    }
+
+
+    public void warn(String message, String detail, int progress) throws FrameworkException {
+        log(JobMessageSeverity.WARN, message, detail, progress, JobStatus.RUNNING);
     }
 
     public void log(MessageList messageList, int progress) throws FrameworkException {
         for (Message message : messageList) {
-            log(message.getSeverity() + " - " + message.getDescription(), message.getSubDescription(), progress, JobStatus.RUNNING);
+            log(JobMessageSeverity.fromLevel(message.getSeverity()), message.getDescription(), message.getSubDescription(), progress, JobStatus.RUNNING);
         }
     }
 
     @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException {
+    public void execute(JobExecutionContext context) {
         long eventid = 0;
 
         try {
             log.info("IN {}", getClass().getName());
+            maxSeverity = JobMessageSeverity.INFO;
             eventid = MonitorSingleton.getInstance().startEvent(MonitorSingleton.JOB, getClass().getName(), null);
 
             if (context.getTrigger().getJobDataMap().containsKey(JobMessage.EXECUTION_ID)) {
@@ -75,24 +86,20 @@ public abstract class SimpleJob implements Job {
             group = context.getJobDetail().getKey().getGroup();
             name = context.getJobDetail().getKey().getName();
 
-            log(MessageFormat.format(START, group + "." + name), "", 0, JobStatus.RUNNING);
+            log(JobMessageSeverity.INFO, MessageFormat.format(MESSAGE_START, group + "." + name), "", 0, JobStatus.RUNNING);
             service(context);
-            log(MessageFormat.format(END, group + "." + name), "", 100, JobStatus.TERMINATED);
-
-        } catch (FrameworkException e) {
-            try {
-                log(MessageFormat.format(ABORTED, group + "." + name), e.getMessage(), 100, JobStatus.ABORTED);
-            } catch (FrameworkException e1) {
-                log.error("ERROR {}: {} - {}", getClass().getName(), e1.getExceptionType(), e1.getMessage(), e1);
+            if (maxSeverity.hasHigerSeverity(JobMessageSeverity.INFO)) {
+                log(JobMessageSeverity.INFO, MessageFormat.format(MESSAGE_END_ALERT, group + "." + name), "", 100, JobStatus.TERMINATED_WITH_ALERT);
+            } else {
+                log(JobMessageSeverity.INFO, MessageFormat.format(MESSAGE_END, group + "." + name), "", 100, JobStatus.TERMINATED);
             }
-            log.error("ERROR {}: {} - {}", getClass().getName(), e.getExceptionType(), e.getMessage(), e);
         } catch (Exception e) {
             try {
-                log(MessageFormat.format(ABORTED, group + "." + name), e.getMessage(), 100, JobStatus.ABORTED);
+                log(JobMessageSeverity.ERROR, MessageFormat.format(MESSAGE_ABORTED, group + "." + name), e.getMessage(), 100, JobStatus.ABORTED);
+                log.error("ERROR {}: {} - {}", getClass().getName(), e.getMessage(), e);
             } catch (FrameworkException e1) {
-                log.error("SYSTEM ERROR {}: {} - {}", getClass().getName(), e1.getExceptionType(), e1.getMessage(), e1);
+                log.error("ERROR {}: {} - {}", getClass().getName(), e1.getMessage(), e1);
             }
-            log.error("SYSTEM ERROR {} - {}", getClass().getName(), e.getMessage(), e);
         } finally {
             log.info("OUT {}", getClass().getName());
             MonitorSingleton.getInstance().endEvent(eventid);
