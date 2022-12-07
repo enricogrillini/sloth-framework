@@ -1,5 +1,10 @@
 package it.eg.sloth.webdesktop.controller.common.tab;
 
+import it.eg.sloth.form.Form;
+import it.eg.sloth.form.tabsheet.Tab;
+import it.eg.sloth.form.tabsheet.TabSheet;
+import it.eg.sloth.webdesktop.controller.common.FormPageInterface;
+
 /**
  * Project: sloth-framework
  * Copyright (C) 2019-2021 Enrico Grillini
@@ -15,10 +20,17 @@ package it.eg.sloth.webdesktop.controller.common.tab;
  *
  * @author Enrico Grillini
  */
-public interface BaseTabSelection {
+public interface BaseTabSelection<F extends Form> extends FormPageInterface<F> {
 
-   void execSelectTab(String tabSheetName, String tabName) throws Exception;
-  
-   void onSelectTab(String tabSheetName, String tabName) throws Exception;
-  
+    default void execSelectTab(TabSheet tabSheet, Tab tab) throws Exception {
+        tabSheet.setCurrentTabName(tab.getName());
+    }
+
+    default void onSelectTab(String tabSheetName, String tabName) throws Exception {
+        TabSheet tabSheet = (TabSheet) getForm().getElement(tabSheetName);
+        Tab tab = tabSheet.getElement(tabName);
+
+        execSelectTab(tabSheet, tab);
+    }
+
 }

@@ -110,7 +110,7 @@ public abstract class DbSchemaAbstractReader implements DbSchemaReader {
         // Indexes Data
         DataTable<?> dataTable = indexesData(connection, owner);
 
-        // Lettura sequence
+        // Lettura indici
         for (DataRow dataRow : dataTable) {
             String tableName = dataRow.getString("table_name");
             String indexName = dataRow.getString("index_name");

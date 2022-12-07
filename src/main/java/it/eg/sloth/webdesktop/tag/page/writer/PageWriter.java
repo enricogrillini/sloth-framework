@@ -1,7 +1,9 @@
 package it.eg.sloth.webdesktop.tag.page.writer;
 
 import it.eg.sloth.framework.common.base.StringUtil;
+import it.eg.sloth.framework.configuration.ConfigSingleton;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
+import it.eg.sloth.webdesktop.common.SessionManager;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 import org.springframework.security.web.csrf.CsrfToken;
 
@@ -15,6 +17,8 @@ public class PageWriter extends HtmlWriter {
 
     public static final String CSRF_META_TOKEN = ResourceUtil.resourceAsString("snippet/page/csrf-meta-token.html");
     public static final String CSRF_INPUT_TOKEN = ResourceUtil.resourceAsString("snippet/page/csrf-input-token.html");
+
+    public static final String NAVIGATION_SEQUENCE = ResourceUtil.resourceAsString("snippet/page/navigation-sequence.html");
 
     private PageWriter() {
         // NOP
@@ -45,6 +49,10 @@ public class PageWriter extends HtmlWriter {
         } else {
             return StringUtil.EMPTY;
         }
+    }
+
+    public static final String getNavigationSequence(long navigationSequence) {
+        return MessageFormat.format(NAVIGATION_SEQUENCE, navigationSequence);
     }
 
 }

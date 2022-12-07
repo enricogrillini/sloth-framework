@@ -138,6 +138,7 @@ public class ContentTag extends WebDesktopTag<Form> {
         writeln("   <div class=\"container-fluid\" >");
         writeln("    <form id=\"mainForm\" action=\"" + getWebDesktopDto().getLastController() + "\" method=\"post\"" + (isMultipart() ? " enctype=\"multipart/form-data\"" : "") + ">");
         writeln("     " + PageWriter.getCsrfInputToken(getCrsfToken()));
+        writeln("     " + PageWriter.getNavigationSequence(getWebDesktopDto().getNavigationSequence()));
 
         return EVAL_BODY_INCLUDE;
     }

@@ -4,6 +4,7 @@ import it.eg.sloth.form.Form;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.form.tabsheet.Tab;
 import it.eg.sloth.form.tabsheet.TabSheet;
+import it.eg.sloth.framework.pageinfo.PageStatus;
 
 /**
  * Project: sloth-framework
@@ -21,17 +22,15 @@ import it.eg.sloth.form.tabsheet.TabSheet;
  *
  * @author Enrico Grillini
  */
-public interface MasterDetailGridNavigationInterface<F extends Form> extends BaseGridNavigationInterface<F> {
+public interface MasterDetailGridNavigationInterface<F extends Form, G extends Grid<?>> extends BaseGridNavigationInterface<F, G> {
 
     void execLoadDetail() throws Exception;
 
     void execLoadSubDetail(Grid<?> grid) throws Exception;
 
-    void onElenco() throws Exception;
-
-    void execSelectTab(TabSheet tabSheet, Tab tab) throws Exception;
-
-    void onSelectTab(String tabSheetName, String tabName) throws Exception;
+    default void onElenco() throws Exception {
+        getForm().getPageInfo().setPageStatus(PageStatus.MASTER);
+    }
 
     void onSubGoToRecord(Grid<?> grid, int record) throws Exception;
 

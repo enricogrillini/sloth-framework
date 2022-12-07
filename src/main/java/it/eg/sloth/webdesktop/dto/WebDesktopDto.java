@@ -39,12 +39,16 @@ public class WebDesktopDto implements Serializable {
     @Setter
     private transient String lastController;
 
+    @Setter
+    private transient long navigationSequence;
+
     private transient MessageList messageList;
     private transient SearchManager searchManager;
     private transient Map<String, Object> map;
 
     public WebDesktopDto() {
         this.user = null;
+        this.navigationSequence = 0;
         init();
     }
 

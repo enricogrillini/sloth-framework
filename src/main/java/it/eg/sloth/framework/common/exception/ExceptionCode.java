@@ -26,6 +26,7 @@ public enum ExceptionCode {
     INVALID_CONTROL("business.exception.invalidControl", ExceptionType.BUSINESS),
     INVALID_GET("business.exception.invalidGet", ExceptionType.BUSINESS),
     INVALID_SET("business.exception.invalidSet", ExceptionType.BUSINESS),
+    INVALID_NAVIGATION_SEQUENCE("business.exception.invalidNavigationSequence", ExceptionType.BUSINESS),
 
     // System Exception
     GENERIC_SYSTEM_ERROR("system.exception.genericError", ExceptionType.SYSTEM),

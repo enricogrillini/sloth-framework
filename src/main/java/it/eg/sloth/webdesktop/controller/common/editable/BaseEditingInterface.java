@@ -1,6 +1,8 @@
 package it.eg.sloth.webdesktop.controller.common.editable;
 
 import it.eg.sloth.form.Form;
+import it.eg.sloth.framework.common.exception.ExceptionCode;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.PageStatus;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.controller.common.FormPageInterface;
@@ -39,6 +41,8 @@ public interface BaseEditingInterface<F extends Form> extends FormPageInterface<
     }
 
     default void onCommit() throws Exception {
+        checkNavigation();
+
         if (execCommit()) {
             getForm().getPageInfo().setPageStatus(PageStatus.MASTER);
             getForm().getPageInfo().setViewModality(ViewModality.VIEW);
@@ -49,6 +53,12 @@ public interface BaseEditingInterface<F extends Form> extends FormPageInterface<
         if (execRollback()) {
             getForm().getPageInfo().setPageStatus(PageStatus.MASTER);
             getForm().getPageInfo().setViewModality(ViewModality.VIEW);
+        }
+    }
+
+    default void checkNavigation() throws FrameworkException {
+        if (getWebDesktopDto().getNavigationSequence() != getWebRequest().getNavigationSequence()) {
+            throw new FrameworkException(ExceptionCode.INVALID_NAVIGATION_SEQUENCE, "Non è possibile utilizzare l'applicazione con più schede aperte");
         }
     }
 }

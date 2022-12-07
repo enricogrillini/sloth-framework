@@ -3,6 +3,7 @@ package it.eg.sloth.webdesktop.tag.form.chart.writer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.eg.sloth.db.datasource.DataRow;
+import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.form.chart.SimpleChart;
 import it.eg.sloth.form.chart.element.Labels;
 import it.eg.sloth.form.chart.element.Series;
@@ -138,7 +139,9 @@ public class ChartWriter extends HtmlWriter {
 
             DataSetMonoColor dataSet = new DataSetMonoColor();
             dataSet.setLabel(series.getDescription());
-            for (DataRow row : simpleChart.getDataTable()) {
+
+            DataTable<?> dataTable = simpleChart.getDataTable();
+            for (DataRow row : dataTable) {
                 seriesClone.copyFromDataSource(row);
 
                 if (seriesClone.getValue() instanceof BigDecimal) {
@@ -171,8 +174,10 @@ public class ChartWriter extends HtmlWriter {
 
             DataSetMultiColor dataSet = new DataSetMultiColor();
             dataSet.setLabel(series.getDescription());
+
             int i = 0;
-            for (DataRow row : simpleChart.getDataTable()) {
+            DataTable<?> dataTable = simpleChart.getDataTable();
+            for (DataRow row : dataTable) {
                 seriesClone.copyFromDataSource(row);
 
                 if (seriesClone.getValue() instanceof BigDecimal) {
@@ -202,8 +207,10 @@ public class ChartWriter extends HtmlWriter {
 
         DataSetWaterfall dataSet = new DataSetWaterfall();
         dataSet.setLabel(seriesFrom.getDescription());
+
         int i = 0;
-        for (DataRow row : simpleChart.getDataTable()) {
+        DataTable<?> dataTable = simpleChart.getDataTable();
+        for (DataRow row : dataTable) {
             seriesFrom.copyFromDataSource(row);
             seriesTo.copyFromDataSource(row);
 

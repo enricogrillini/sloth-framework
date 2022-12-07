@@ -28,7 +28,7 @@ import it.eg.sloth.webdesktop.controller.common.grid.BaseGridNavigationInterface
  * @param <G>
  * @author Enrico Grillini
  */
-public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>> extends MasterDetailPage<F, G> implements SubEditingInterface<F>, BaseGridNavigationInterface<F> {
+public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>> extends MasterDetailPage<F, G> implements SubEditingInterface<F>, BaseGridNavigationInterface<F, G> {
 
     protected EditableMasterDetailPage() {
         super();
@@ -194,15 +194,15 @@ public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>
     }
 
     @Override
-    public void onSubGoToRecord(Grid<?> grid, int record) throws Exception {
+    public void onSubGoToRecord(Grid<?> grid, int row) throws Exception {
         if (getForm().getPageInfo().getViewModality() == ViewModality.EDIT) {
             execPostDetail(false);
             if (execPostSubDetail(grid, true)) {
-                grid.getDataSource().setCurrentRow(record);
+                grid.getDataSource().setCurrentRow(row);
                 execLoadSubDetail(grid);
             }
         } else {
-            grid.getDataSource().setCurrentRow(record);
+            grid.getDataSource().setCurrentRow(row);
             execLoadSubDetail(grid);
         }
     }
@@ -219,6 +219,8 @@ public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>
 
     @Override
     public void onCommit() throws Exception {
+        checkNavigation();
+
         if (execCommit()) {
             if (getGrid().getDataSource() == null || getGrid().getDataSource().size() == 0) {
                 getForm().getPageInfo().setPageStatus(PageStatus.MASTER);

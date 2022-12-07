@@ -4,10 +4,10 @@ import it.eg.sloth.db.datasource.table.sort.SortType;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.grid.Grid;
-import it.eg.sloth.form.tabsheet.Tab;
-import it.eg.sloth.form.tabsheet.TabSheet;
 import it.eg.sloth.framework.pageinfo.PageStatus;
+import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.controller.common.grid.MasterDetailGridNavigationInterface;
+import it.eg.sloth.webdesktop.controller.common.tab.BaseTabSelection;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -31,9 +31,9 @@ import lombok.extern.slf4j.Slf4j;
  * @author Enrico Grillini
  */
 @Slf4j
-public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extends SimplePage<F> implements MasterDetailGridNavigationInterface<F> {
+public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extends SimplePage<F> implements MasterDetailGridNavigationInterface<F, G>, BaseTabSelection<F> {
 
-    public MasterDetailPage() {
+    protected MasterDetailPage() {
         super();
     }
 
@@ -133,16 +133,9 @@ public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extend
         return false;
     }
 
-    protected abstract G getGrid();
-
     protected abstract String getJspMasterName();
 
     protected abstract String getJspDetailName();
-
-    @Override
-    public void execSelectTab(TabSheet tabSheet, Tab tab) throws Exception {
-        tabSheet.setCurrentTabName(tab.getName());
-    }
 
     @Override
     protected String getJspName() {
@@ -168,17 +161,18 @@ public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extend
     }
 
     @Override
-    public void onGoToRecord(int record) throws Exception {
-        if (getGrid().getDataSource().size() > record) {
-            getGrid().getDataSource().setCurrentRow(record);
+    public void onGoToRecord(int row) throws Exception {
+        if (getGrid().getDataSource().size() > row) {
+            getGrid().getDataSource().setCurrentRow(row);
             execLoadDetail();
+            getForm().getPageInfo().setViewModality(ViewModality.VIEW);
             getForm().getPageInfo().setPageStatus(PageStatus.DETAIL);
         }
     }
 
     @Override
-    public void onSubGoToRecord(Grid<?> grid, int record) throws Exception {
-        grid.getDataSource().setCurrentRow(record);
+    public void onSubGoToRecord(Grid<?> grid, int row) throws Exception {
+        grid.getDataSource().setCurrentRow(row);
         execLoadSubDetail(grid);
     }
 
@@ -264,19 +258,6 @@ public abstract class MasterDetailPage<F extends Form, G extends Grid<?>> extend
     public void onSubLastRow(Grid<?> grid) throws Exception {
         grid.getDataSource().last();
         execLoadSubDetail(grid);
-    }
-
-    @Override
-    public void onElenco() throws Exception {
-        getForm().getPageInfo().setPageStatus(PageStatus.MASTER);
-    }
-
-    @Override
-    public void onSelectTab(String tabSheetName, String tabName) throws Exception {
-        TabSheet tabSheet = (TabSheet) getForm().getElement(tabSheetName);
-        Tab tab = tabSheet.getElement(tabName);
-
-        execSelectTab(tabSheet, tab);
     }
 
 }

@@ -29,7 +29,7 @@ import it.eg.sloth.webdesktop.controller.common.grid.EditableGridNavigationInter
  * @param <G>
  * @author Enrico Grillini
  */
-public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extends EditablePage<F> implements EditableGridNavigationInterface<F>, FullEditingInterface<F> {
+public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extends EditablePage<F> implements EditableGridNavigationInterface<F, G> {
 
     protected EditableGridPage() {
         super();
@@ -100,125 +100,6 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
         }
 
         return false;
-    }
-
-    protected abstract G getGrid();
-
-    public boolean execPostDetail(boolean validate) throws Exception {
-        getGrid().post(getWebRequest());
-        if (validate && getGrid().validate(getMessageList())) {
-            getGrid().copyToDataSource(getGrid().getDataSource());
-            return true;
-        } else {
-            return !validate;
-        }
-    }
-
-    public boolean execPreMove() throws Exception {
-        if (ViewModality.VIEW.equals(getForm().getPageInfo().getViewModality())) {
-            return true;
-        } else {
-            return execPostDetail(true);
-        }
-    }
-
-    public void execPostMove() throws Exception {
-        getGrid().copyFromDataSource(getGrid().getDataSource());
-    }
-
-    public boolean execGoToRecord(int record) throws Exception {
-        if (ViewModality.VIEW.equals(getForm().getPageInfo().getViewModality()) || execPostDetail(true)) {
-            getGrid().getDataSource().setCurrentRow(record);
-            getGrid().copyFromDataSource(getGrid().getDataSource());
-        }
-        return true;
-    }
-
-    public boolean execInsert() throws Exception {
-        if (ViewModality.VIEW.equals(getForm().getPageInfo().getViewModality()) || execPostDetail(true)) {
-            getGrid().clearData();
-            getGrid().getDataSource().add();
-        }
-        return true;
-    }
-
-    @Override
-    public boolean execUpdate() throws Exception {
-        getGrid().copyFromDataSource(getGrid().getDataSource());
-        return true;
-    }
-
-    @Override
-    public boolean execDelete() throws Exception {
-        getGrid().getDataSource().remove();
-        getGrid().copyFromDataSource(getGrid().getDataSource());
-        return true;
-    }
-
-    @Override
-    public boolean execCommit() throws Exception {
-        if (getGrid().size() <= 0 || execPostDetail(true)) {
-            DataManager.saveFirstToLast(getForm());
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public void onGoToRecord(int record) throws Exception {
-        if (execPreMove() && getGrid().getDataSource().size() > record) {
-            getGrid().getDataSource().setCurrentRow(record);
-            execPostMove();
-        }
-    }
-
-    @Override
-    public void onFirstRow() throws Exception {
-        if (execPreMove()) {
-            getGrid().getDataSource().first();
-            execPostMove();
-        }
-    }
-
-    @Override
-    public void onPrevPage() throws Exception {
-        if (execPreMove()) {
-            getGrid().getDataSource().prevPage();
-            execPostMove();
-        }
-    }
-
-    @Override
-    public void onPrev() throws Exception {
-        if (execPreMove()) {
-            getGrid().getDataSource().prev();
-            execPostMove();
-        }
-    }
-
-    @Override
-    public void onNext() throws Exception {
-        if (execPreMove()) {
-            getGrid().getDataSource().next();
-            execPostMove();
-        }
-    }
-
-    @Override
-    public void onNextPage() throws Exception {
-        if (execPreMove()) {
-            getGrid().getDataSource().nextPage();
-            execPostMove();
-        }
-    }
-
-    @Override
-    public void onLastRow() throws Exception {
-        if (execPreMove()) {
-            getGrid().getDataSource().last();
-            execPostMove();
-        }
     }
 
 }

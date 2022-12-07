@@ -62,7 +62,7 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
             "Where t.NESTED = 'NO' And\n" +
             // Filtri
             "      t.owner = upper(?) And\n" +
-            // Escludo dalle tabelle di sistema per import/export
+            // Escludo le tabelle di sistema per import/export
             "      t.table_name not like 'SYS_EXPORT_SCHEMA%' And\n" +
             "      t.table_name not like 'SYS_IMPORT_FULL%' And\n" +
 
@@ -116,7 +116,10 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
             "Where i.OWNER = ic.index_owner And\n" +
             "      i.INDEX_NAME = ic.index_name And\n" +
             "      i.table_owner = upper(?) And\n" +
-            "      i.index_type like '%NORMAL%'\n" +
+            "      i.index_type like '%NORMAL%' And\n" +
+            // Escludo le tabelle di sistema per import/export
+            "      i.table_name not like 'SYS_EXPORT_SCHEMA%' And\n" +
+            "      i.table_name not like 'SYS_IMPORT_FULL%'\n" +
             "minus\n" +
             "Select i.index_name,\n" +
             "       ic.column_position,\n" +

@@ -1,6 +1,7 @@
 package it.eg.sloth.webdesktop.controller.common.grid;
 
 import it.eg.sloth.form.Form;
+import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.webdesktop.controller.common.SimpleSearchPageInterface;
 
 /**
@@ -19,9 +20,11 @@ import it.eg.sloth.webdesktop.controller.common.SimpleSearchPageInterface;
  *
  * @author Enrico Grillini
  */
-public interface BaseGridNavigationInterface<F extends Form>  extends SimpleSearchPageInterface<F> {
+public interface BaseGridNavigationInterface<F extends Form, G extends Grid<?>>  extends SimpleSearchPageInterface<F> {
 
-    void onGoToRecord(int record) throws Exception;
+    G getGrid();
+
+    void onGoToRecord(int row) throws Exception;
 
     void onFirstRow() throws Exception;
 

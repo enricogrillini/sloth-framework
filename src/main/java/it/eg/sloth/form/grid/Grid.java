@@ -64,12 +64,16 @@ public class Grid<D extends DataTable<? extends DataRow>> extends Fields<D> {
 
     Boolean currentRowLocked;
 
+    public D getDataSource() {
+        return super.getDataSource();
+    }
 
     public Grid(String name, String description) {
         super(name, description);
 
         mapPivot = new LinkedHashMap<>();
     }
+
 
     public boolean isBackButtonHidden() {
         return backButtonHidden != null && backButtonHidden;

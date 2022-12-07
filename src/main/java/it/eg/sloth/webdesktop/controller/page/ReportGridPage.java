@@ -98,24 +98,6 @@ public abstract class ReportGridPage<F extends Form> extends SimplePage<F> imple
         return false;
     }
 
-    @Override
-    public void onFirstRow(Grid<?> grid) throws Exception {
-        grid.getDataSource().first();
-    }
 
-    @Override
-    public void onPrevPage(Grid<?> grid) throws Exception {
-        grid.getDataSource().prevPage();
-    }
-
-    @Override
-    public void onNextPage(Grid<?> grid) throws Exception {
-        grid.getDataSource().nextPage();
-    }
-
-    @Override
-    public void onLastRow(Grid<?> grid) throws Exception {
-        grid.getDataSource().last();
-    }
 
 }

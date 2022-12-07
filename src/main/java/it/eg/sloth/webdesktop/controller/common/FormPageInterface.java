@@ -34,6 +34,8 @@ import java.io.OutputStream;
  */
 public interface FormPageInterface<F extends Form> extends BasePageInterface {
 
+     WebRequest getWebRequest();
+
     void setWebRequest(WebRequest webRequest);
 
     F getForm();

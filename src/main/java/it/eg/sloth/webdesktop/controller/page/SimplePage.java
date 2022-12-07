@@ -12,6 +12,8 @@ import it.eg.sloth.form.fields.field.DecodedDataField;
 import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.StringUtil;
+import it.eg.sloth.framework.common.exception.ExceptionCode;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.FileType;
 import it.eg.sloth.webdesktop.search.model.SimpleSuggestionList;
 import it.eg.sloth.webdesktop.search.model.suggestion.SimpleSuggestion;
@@ -64,7 +66,10 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> {
             log.info("Page view");
             return new ModelAndView(getJspName());
         } else {
-            log.info("Page service - navigation {}", Arrays.stream(getWebRequest().getNavigation()).toArray());
+            log.info("Page service - navigation {}, expected {}, actual {}",
+                    Arrays.stream(getWebRequest().getNavigation()).toArray(),
+                    getWebDesktopDto().getNavigationSequence(),
+                    getWebRequest().getString("_navigation_sequence"));
 
             // Esecuzione della Page
             try {
@@ -85,6 +90,8 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> {
             } catch (Exception e) {
                 getMessageList().addBaseError(e);
                 log.error("Errore", e);
+            } finally {
+                getWebDesktopDto().setNavigationSequence(getWebDesktopDto().getNavigationSequence() + 1);
             }
 
             if (getModelAndView() == null) {
@@ -149,7 +156,7 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> {
                 Grid<?> grid = (Grid<?>) element;
                 onExcel(grid);
                 return true;
-            }else   if (element instanceof SimpleChart) {
+            } else if (element instanceof SimpleChart) {
                 SimpleChart<?> simpleChart = (SimpleChart<?>) element;
                 onExcel(simpleChart);
                 return true;

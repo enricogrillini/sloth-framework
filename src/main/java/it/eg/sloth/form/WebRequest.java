@@ -198,4 +198,9 @@ public class WebRequest {
         return NavigationConst.INIT.split(SEPARATOR);
     }
 
+    public long getNavigationSequence() {
+        return Long.valueOf(getString("_navigation_sequence"));
+    }
+
+
 }

@@ -22,12 +22,20 @@ import it.eg.sloth.webdesktop.controller.common.SimpleSearchPageInterface;
  */
 public interface ReportGridNavigationInterface<F extends Form> extends SimpleSearchPageInterface<F> {
 
-    void onFirstRow(Grid<?> grid) throws Exception;
+    default void onFirstRow(Grid<?> grid) {
+        grid.getDataSource().first();
+    }
 
-    void onPrevPage(Grid<?> grid) throws Exception;
+    default void onPrevPage(Grid<?> grid) {
+        grid.getDataSource().prevPage();
+    }
 
-    void onNextPage(Grid<?> grid) throws Exception;
+    default void onNextPage(Grid<?> grid) {
+        grid.getDataSource().nextPage();
+    }
 
-    void onLastRow(Grid<?> grid) throws Exception;
+    default void onLastRow(Grid<?> grid) {
+        grid.getDataSource().last();
+    }
 
 }

@@ -2,6 +2,7 @@ package it.eg.sloth.webdesktop.alertcenter.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Timestamp;
@@ -22,6 +23,7 @@ import java.sql.Timestamp;
  */
 @Getter
 @Setter
+@ToString
 @SuperBuilder
 public class Alert {
     Integer idAlert;
