@@ -12,8 +12,6 @@ import it.eg.sloth.form.fields.field.DecodedDataField;
 import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.base.StringUtil;
-import it.eg.sloth.framework.common.exception.ExceptionCode;
-import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.FileType;
 import it.eg.sloth.webdesktop.search.model.SimpleSuggestionList;
 import it.eg.sloth.webdesktop.search.model.suggestion.SimpleSuggestion;
@@ -21,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
@@ -76,29 +75,33 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> {
                 getMessageList().setPopup(true);
                 getMessageList().clear();
 
-                // Eseguo le operazioni di inizializzaizone sel la form se è nuova o se la navigazione non è gestita
+                // Eseguo le operazioni di inizializzazione se la form e' nuova o se la navigazione non è gestita
                 if (isNewForm()) {
                     onInit();
+                    getWebDesktopDto().incNavigationSequence();
                 } else {
                     onBeforeNavigation();
-                    if (!defaultNavigation()) {
-                        onInit();
+                    if (isAutoComplete()) {
+                        // NOP
+                    } else {
+                        if (!defaultNavigation()) {
+                            onInit();
+                        }
+                        getWebDesktopDto().incNavigationSequence();
                     }
-                }
 
+                }
 
             } catch (Exception e) {
                 getMessageList().addBaseError(e);
                 log.error("Errore", e);
-            } finally {
-                getWebDesktopDto().setNavigationSequence(getWebDesktopDto().getNavigationSequence() + 1);
             }
 
             if (getModelAndView() == null) {
                 // Non pubblico nulla
                 return null;
             } else if (getModelAndView().getViewName() == null) {
-                // Getione di default: redirect per evitare problemi con il refresh
+                // Gestione di default: redirect per evitare problemi con il refresh
                 return new ModelAndView("redirect:" + getClass().getSimpleName() + ".html?" + NavigationConst.navStr("view") + "=true");
             } else {
                 // Gestione custom
@@ -107,13 +110,8 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> {
         }
     }
 
-    protected boolean defaultNavigation() throws Exception {
+    protected boolean isAutoComplete() throws IOException {
         String[] navigation = getWebRequest().getNavigation();
-        if (navigation.length == 1 && NavigationConst.INIT.equals(navigation[0])) {
-            onInit();
-            return true;
-        }
-
         if (navigation.length == 2 && NavigationConst.AUTOCOMPLETE.equals(navigation[0])) {
             DecodeMap<?, ?> decodeMap = null;
             if (getForm().getElement(navigation[1]) instanceof DecodedDataField) {
@@ -147,6 +145,16 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> {
                 getResponse().getWriter().close();
             }
 
+            return true;
+        }
+
+        return false;
+    }
+
+    protected boolean defaultNavigation() throws Exception {
+        String[] navigation = getWebRequest().getNavigation();
+        if (navigation.length == 1 && NavigationConst.INIT.equals(navigation[0])) {
+            onInit();
             return true;
         }
 

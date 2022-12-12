@@ -39,7 +39,6 @@ public class WebDesktopDto implements Serializable {
     @Setter
     private transient String lastController;
 
-    @Setter
     private transient long navigationSequence;
 
     private transient MessageList messageList;
@@ -69,6 +68,10 @@ public class WebDesktopDto implements Serializable {
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         // Inizializzo gli attributi "transient"
         init();
+    }
+
+    public void incNavigationSequence() {
+        navigationSequence++;
     }
 
 }
