@@ -58,31 +58,16 @@ public class BaseDecodeMap<T> extends AbstractDecodeMap<T, BaseDecodeValue<T>> {
         this(DEFAULT_CODE_NAME, DEFAULT_DESCRIPTION_NAME, DEFAULT_VALID_NAME);
     }
 
-    /**
-     * Ricarica la DecodeMap da un DataTable
-     *
-     * @param dataTable
-     */
+    // Ricarica la DecodeMap da un DataTable
     public void load(DataTable<?> dataTable) {
         clear();
 
         for (DataRow row : dataTable) {
-            if (validName == null) {
-                put((T) row.getObject(codeName), row.getString(descriptionName));
-            } else {
-                put((T) row.getObject(codeName), row.getString(descriptionName), "S".equals(row.getString(validName)));
-            }
+            put(row);
         }
     }
 
-    /**
-     * Ricarica la DecodeMap da una Query
-     *
-     * @param query
-     * @throws SQLException
-     * @throws IOException
-     * @throws FrameworkException
-     */
+    // Ricarica la DecodeMap da una Query
     public void load(SelectQueryInterface query) throws SQLException, IOException, FrameworkException {
         load(query.selectTable());
     }
@@ -90,6 +75,14 @@ public class BaseDecodeMap<T> extends AbstractDecodeMap<T, BaseDecodeValue<T>> {
     @Override
     public void put(T code, String description, boolean valid) {
         put(new BaseDecodeValue<>(code, description, valid));
+    }
+
+    public void put(DataRow row) {
+        if (validName == null) {
+            put((T) row.getObject(codeName), row.getString(descriptionName));
+        } else {
+            put((T) row.getObject(codeName), row.getString(descriptionName), "S".equals(row.getString(validName)));
+        }
     }
 
 }

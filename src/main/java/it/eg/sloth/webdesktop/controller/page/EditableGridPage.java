@@ -102,4 +102,54 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
         return false;
     }
 
+    public boolean execPostDetail(boolean validate) throws Exception {
+        getGrid().post(getWebRequest());
+        if (validate && getGrid().validate(getMessageList())) {
+            getGrid().copyToDataSource(getGrid().getDataSource());
+            return true;
+        } else {
+            return !validate;
+        }
+    }
+
+    public boolean execPreMove() throws Exception {
+        if (ViewModality.VIEW.equals(getForm().getPageInfo().getViewModality())) {
+            return true;
+        } else {
+            return execPostDetail(true);
+        }
+    }
+
+    public boolean execInsert() throws Exception {
+        if (ViewModality.VIEW.equals(getForm().getPageInfo().getViewModality()) || execPostDetail(true)) {
+            getGrid().clearData();
+            getGrid().getDataSource().add();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean execUpdate() throws Exception {
+        getGrid().copyFromDataSource(getGrid().getDataSource());
+        return true;
+    }
+
+    @Override
+    public boolean execDelete() throws Exception {
+        getGrid().getDataSource().remove();
+        getGrid().copyFromDataSource(getGrid().getDataSource());
+        return true;
+    }
+
+    @Override
+    public boolean execCommit() throws Exception {
+        if (getGrid().size() <= 0 || execPostDetail(true)) {
+            DataManager.saveFirstToLast(getForm());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 }
