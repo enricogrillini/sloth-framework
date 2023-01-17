@@ -70,7 +70,6 @@ public class GridXlsxWriter extends BaseXlsxWriter {
             Semaphore semaforo = (Semaphore) dataField.newInstance();
             semaforo.copyFromDataSource(dataRow);
 
-            setCellValue(row, cellindex, semaforo.getDecodedText());
             if (Semaphore.WHITE.equals(semaforo.getValue())) {
                 setCellStyle(row, cellindex, BaseExcelContainer.WHITE_BORDERED, null, null, null, true);
             } else if (Semaphore.GREEN.equals(semaforo.getValue())) {
@@ -82,22 +81,24 @@ public class GridXlsxWriter extends BaseXlsxWriter {
             } else if (Semaphore.BLACK.equals(semaforo.getValue())) {
                 setCellStyle(row, cellindex, BaseExcelContainer.BLACK_BORDERED, null, null, null, true);
             }
+            setCellValue(row, cellindex, semaforo.getDecodedText());
 
         } else if (dataField instanceof DecodedDataField) {
             DecodedDataField<?> comboBox = (DecodedDataField<?>) dataField.newInstance();
             comboBox.copyFromDataSource(dataRow);
 
-            setCellValue(row, cellindex, comboBox.getDecodedText());
             setCellStyle(row, cellindex, getStyle(BaseExcelContainer.WHITE_BORDERED, null, null, null, true));
+            setCellValue(row, cellindex, comboBox.getDecodedText());
+
         } else if (dataField instanceof MultipleAutoComplete) {
             MultipleAutoComplete<?> multipleAutoComplete = (MultipleAutoComplete<?>) dataField.newInstance();
             multipleAutoComplete.copyFromDataSource(dataRow);
 
-            setCellValue(row, cellindex, multipleAutoComplete.getText());
             setCellStyle(row, cellindex, getStyle(BaseExcelContainer.WHITE_BORDERED, null, null, null, true));
+            setCellValue(row, cellindex, multipleAutoComplete.getText());
         } else {
-            setCellValue(row, cellindex, dataRow.getObject(dataField.getAlias()));
             setCellStyle(row, cellindex, BaseExcelContainer.WHITE_BORDERED, null, BaseExcelType.Factory.fromDataType(dataField.getDataType()), null, true);
+            setCellValue(row, cellindex, dataRow.getObject(dataField.getAlias()));
         }
     }
 
@@ -158,8 +159,8 @@ public class GridXlsxWriter extends BaseXlsxWriter {
 
             if (field instanceof DataField) {
                 DataField<?> dataField = (DataField<?>) field;
-                setCellValue(rowIndex, cellIndex, dataField.getDescription());
                 setCellStyle(rowIndex, cellIndex, BaseExcelContainer.DARK_BLUE_BORDERED, BaseExcelFont.HEADER, null, null, true);
+                setCellValue(rowIndex, cellIndex, dataField.getDescription());
                 cellIndex++;
             }
         }

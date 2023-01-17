@@ -99,6 +99,7 @@ public class ExcelUtil {
 
     if (value instanceof String) {
       cell.setCellValue(new XSSFRichTextString((String) value));
+      cell.getCellStyle().setQuotePrefixed(true); // Per prevenire Code Injection
     } else if (value instanceof BigDecimal) {
       cell.setCellValue(((BigDecimal) value).doubleValue());
     } else if (value instanceof Timestamp) {
