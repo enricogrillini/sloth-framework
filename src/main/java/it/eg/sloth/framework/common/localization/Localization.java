@@ -86,5 +86,6 @@ public class Localization {
     //
     public static final String ERR_VALUE = "error.value";
     public static final String ERR_MANDATORY = "error.mandatory";
+    public static final String ERR_ADMITTED_VALUE = "error.admittedvalue";
 
 }

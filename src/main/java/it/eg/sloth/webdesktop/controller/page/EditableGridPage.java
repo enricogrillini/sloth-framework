@@ -6,7 +6,6 @@ import it.eg.sloth.form.Form;
 import it.eg.sloth.form.NavigationConst;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.pageinfo.ViewModality;
-import it.eg.sloth.webdesktop.controller.common.editable.FullEditingInterface;
 import it.eg.sloth.webdesktop.controller.common.grid.EditableGridNavigationInterface;
 
 /**
@@ -120,6 +119,7 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
         }
     }
 
+    @Override
     public boolean execInsert() throws Exception {
         if (ViewModality.VIEW.equals(getForm().getPageInfo().getViewModality()) || execPostDetail(true)) {
             getGrid().clearData();

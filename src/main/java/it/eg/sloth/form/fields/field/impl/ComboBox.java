@@ -6,6 +6,8 @@ import it.eg.sloth.form.fields.field.DecodedDataField;
 import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.base.InputField;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.casting.Validator;
+import it.eg.sloth.framework.common.message.Message;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -44,5 +46,16 @@ public class ComboBox<T> extends InputField<T> implements DecodedDataField<T> {
     @Override
     public ComboBox<T> newInstance() {
         return toBuilder().build();
+    }
+
+    @Override
+    public Message check() {
+        // Verifico la correttezza formale di quanto contenuto nella request
+        Message message;
+        if ((message = super.check()) != null) {
+            return message;
+        } else {
+            return Validator.verifyAdmittedValue(this);
+        }
     }
 }

@@ -3,6 +3,7 @@ package it.eg.sloth.webdesktop.controller.common.grid;
 import it.eg.sloth.db.DataManager;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.form.grid.Grid;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.controller.common.editable.FullEditingInterface;
 
@@ -32,7 +33,7 @@ public interface EditableGridNavigationInterface<F extends Form, G extends Grid<
         }
     }
 
-    private void execPostMove() throws Exception {
+    private void execPostMove() throws FrameworkException {
         getGrid().copyFromDataSource(getGrid().getDataSource());
     }
 
@@ -74,9 +75,9 @@ public interface EditableGridNavigationInterface<F extends Form, G extends Grid<
         }
     }
 
-    default void onGoToRecord(int record) throws Exception {
-        if (execPreMove() && getGrid().getDataSource().size() > record) {
-            getGrid().getDataSource().setCurrentRow(record);
+    default void onGoToRecord(int currentRow) throws Exception {
+        if (execPreMove() && getGrid().getDataSource().size() > currentRow) {
+            getGrid().getDataSource().setCurrentRow(currentRow);
             execPostMove();
         }
     }

@@ -7,6 +7,7 @@ import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.MessageList;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.jaxb.form.ForceCase;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -29,81 +30,38 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class InputTest {
 
-    @Test
-    void validateInputOk() throws FrameworkException {
-        MessageList messageList = new MessageList();
+    private MessageList messageList;
+    private Input<BigDecimal> field;
 
-        // Valid
-        Input<BigDecimal> input = new Input<BigDecimal>("Numero", "Numero", DataTypes.INTEGER);
-        input.setValue(BigDecimal.valueOf(10));
-        input.validate(messageList);
+    @BeforeEach
+    void init() {
+        messageList = new MessageList();
 
-        assertTrue(input.isValid());
-        assertEquals(null, input.check());
-        assertTrue(messageList.isEmpty());
-    }
-
-    @Test
-    void validateInputForceCase() throws FrameworkException {
-        MessageList messageList = new MessageList();
-
-        // Valid
-        Input<String> input = new Input<String>("Prova", "Prova", DataTypes.STRING);
-
-        input.setForceCase(ForceCase.UPPER_TRIM);
-        input.setValue("   ppp   ");
-        assertEquals("PPP", input.getValue());
-
-        input.setForceCase(ForceCase.LOWER_TRIM);
-        input.setValue("   ppp   ");
-        assertEquals("ppp", input.getValue());
-
-        input.setForceCase(ForceCase.INIT_CAP_TRIM);
-        input.setValue("   ppp ggg   ");
-        assertEquals("Ppp Ggg", input.getValue());
-    }
-
-    @Test
-    void validateInputKo() throws FrameworkException {
-        MessageList messageList = new MessageList();
-
-        // Valid
-        Input<BigDecimal> input = new Input<BigDecimal>("Numero", "Numero", DataTypes.INTEGER);
-        input.setData("XX");
-        input.validate(messageList);
-
-        assertFalse(input.isValid());
-        assertNotEquals(null, input.check().getSeverity());
-        assertFalse(messageList.isEmpty());
-        assertEquals(Level.WARN, messageList.get(0).getSeverity());
-
-        assertThrows(FrameworkException.class, () -> {
-            input.getValue();
-        });
-
-        assertEquals("XX", input.escapeJsValue());
-    }
-
-    @Test
-    void inputBuilderTest1() {
-        // Default
-        Input<String> input = Input.<String>builder()
-                .name("Name")
-                .description("description")
+        field = Input.<BigDecimal>builder()
+                .name("FieldName")
+                .description("FieldDescription")
+                .dataType(DataTypes.INTEGER)
                 .build();
+    }
 
-        assertEquals("name", input.getName());
-        assertEquals("description", input.getDescription());
-        assertEquals("name", input.getAlias());
-        assertFalse(input.isRequired());
-        assertFalse(input.isReadOnly());
-        assertFalse(input.isHidden());
-        assertEquals(ViewModality.AUTO, input.getViewModality());
-        assertEquals(ForceCase.NONE, input.getForceCase());
-        assertEquals(0, input.getMaxLength());
+    @Test
+    void builderDefault() {
+        // Test per verificare l'impostazione di default dei campi accessori
+        assertEquals("fieldname", field.getName());
+        assertEquals("FieldDescription", field.getDescription());
+        assertEquals("fieldname", field.getAlias());
+        assertFalse(field.isRequired());
+        assertFalse(field.isReadOnly());
+        assertFalse(field.isHidden());
+        assertEquals(ViewModality.AUTO, field.getViewModality());
+        assertEquals(ForceCase.NONE, field.getForceCase());
+        assertEquals(0, field.getMaxLength());
+    }
 
-        // False
-        input = Input.<String>builder()
+    @Test
+    void builderExplicit() {
+        // Test per verificare l'impostazione esplicita dei campi accessori
+        Input<String> input = Input.<String>builder()
                 .name("Name")
                 .description("description")
                 .alias("Alias")
@@ -127,33 +85,56 @@ class InputTest {
     }
 
     @Test
-    void inputBuilderTest2() {
-        // True
-        Input<String> input = Input.<String>builder()
-                .name("Name")
-                .description("description")
-                .alias("Alias")
-                .required(true)
-                .readOnly(true)
-                .hidden(true)
-                .viewModality(ViewModality.EDIT)
-                .forceCase(ForceCase.UPPER)
-                .maxLength(10)
-                .build();
+    void forceCase() throws FrameworkException {
+        // Valid
+        Input<String> input = new Input<String>("Prova", "Prova", DataTypes.STRING);
 
-        assertEquals("name", input.getName());
-        assertEquals("description", input.getDescription());
-        assertEquals("alias", input.getAlias());
-        assertTrue(input.isRequired());
-        assertTrue(input.isReadOnly());
-        assertTrue(input.isHidden());
-        assertEquals(ViewModality.EDIT, input.getViewModality());
-        assertEquals(ForceCase.UPPER, input.getForceCase());
-        assertEquals(10, input.getMaxLength());
+        input.setForceCase(ForceCase.UPPER_TRIM);
+        input.setValue("   ppp   ");
+        assertEquals("PPP", input.getValue());
 
-        // NewInstance
-        Input<String> input2 = input.newInstance();
-        assertNotSame(input, input2);
-        assertEquals(input.getName(), input2.getName());
+        input.setForceCase(ForceCase.LOWER_TRIM);
+        input.setValue("   ppp   ");
+        assertEquals("ppp", input.getValue());
+
+        input.setForceCase(ForceCase.INIT_CAP_TRIM);
+        input.setValue("   ppp ggg   ");
+        assertEquals("Ppp Ggg", input.getValue());
     }
+
+    @Test
+    void newInstance() {
+        Input<BigDecimal> fieldClone = field.newInstance();
+        assertNotSame(field, fieldClone);
+        assertEquals(field.getName(), fieldClone.getName());
+    }
+
+    @Test
+    void validate() throws FrameworkException {
+        field.setValue(BigDecimal.valueOf(10));
+        field.validate(messageList);
+
+        assertTrue(field.isValid());
+        assertEquals(null, field.check());
+        assertTrue(messageList.isEmpty());
+    }
+
+    @Test
+    void validate_KO() throws FrameworkException {
+        field.setData("XX");
+        field.validate(messageList);
+
+        assertFalse(field.isValid());
+        assertNotEquals(null, field.check().getSeverity());
+        assertFalse(messageList.isEmpty());
+        assertEquals(Level.WARN, messageList.get(0).getSeverity());
+
+        assertThrows(FrameworkException.class, () -> {
+            field.getValue();
+        });
+
+        assertEquals("XX", field.escapeJsValue());
+    }
+
+
 }

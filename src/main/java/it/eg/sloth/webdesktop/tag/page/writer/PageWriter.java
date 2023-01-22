@@ -1,9 +1,7 @@
 package it.eg.sloth.webdesktop.tag.page.writer;
 
 import it.eg.sloth.framework.common.base.StringUtil;
-import it.eg.sloth.framework.configuration.ConfigSingleton;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
-import it.eg.sloth.webdesktop.common.SessionManager;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 import org.springframework.security.web.csrf.CsrfToken;
 

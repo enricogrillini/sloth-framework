@@ -1,7 +1,8 @@
 package it.eg.sloth.form;
 
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
-import it.eg.sloth.form.common.BffFieldsForFieldTest;
+import it.eg.sloth.form.fields.field.impl.ComboBox;
+import it.eg.sloth.form.fields.field.impl.Input;
 import it.eg.sloth.form.fields.field.impl.RadioButtons;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
@@ -10,15 +11,10 @@ import it.eg.sloth.framework.common.message.MessageList;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.HashMap;
+import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 /**
  * Project: sloth-framework
@@ -34,16 +30,16 @@ import static org.mockito.Mockito.when;
  *
  * @author Enrico Grillini
  */
-class RadioButtonsTest {
+class ComboBoxTest {
 
     private MessageList messageList;
-    private RadioButtons<String> field;
+    private ComboBox<String> field;
 
     @BeforeEach
     void init() {
         messageList = new MessageList();
 
-        field = RadioButtons.<String>builder()
+        field = ComboBox.<String>builder()
                 .name("FieldName")
                 .description("FieldDescription")
                 .dataType(DataTypes.STRING)
@@ -52,7 +48,7 @@ class RadioButtonsTest {
     }
 
     @Test
-    void builder() {
+    void builder() throws FrameworkException {
         assertEquals("fieldname", field.getName());
         assertEquals("FieldDescription", field.getDescription());
         assertEquals("fieldname", field.getAlias());
@@ -85,44 +81,4 @@ class RadioButtonsTest {
         assertEquals(Level.WARN, messageList.get(0).getSeverity());
     }
 
-    @Test
-    void radioButtonsWebRequestTest() throws IOException, ServletException, FrameworkException {
-        // Mock HttpServletRequest
-        HashMap<String, String[]> map = new HashMap<>();
-        map.put("fieldname", new String[]{"A", "B"});
-
-        HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-        when(request.getParameterMap()).thenReturn(map);
-
-        WebRequest webRequest = new WebRequest(request);
-
-        // Test
-        field.post(webRequest);
-        assertNull(field.check());
-
-        field.setRequired(true);
-        field.post(webRequest);
-        assertNull(field.check());
-
-        field.setName("testo2");
-        field.post(webRequest);
-        assertNotNull(field.check());
-    }
-
-    @Test
-    void radioButtonsBffTest() throws IOException, ServletException, FrameworkException {
-        BffFieldsForFieldTest bffFields = new BffFieldsForFieldTest();
-        bffFields.setFieldName("A");
-
-        field.post(bffFields);
-        assertNull(field.check());
-
-        field.setRequired(true);
-        field.post(bffFields);
-        assertNull(field.check());
-
-        field.setName("testo2");
-        field.post(bffFields);
-        assertNotNull(field.check());
-    }
 }

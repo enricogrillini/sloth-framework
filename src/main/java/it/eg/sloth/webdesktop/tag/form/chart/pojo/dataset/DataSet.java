@@ -35,7 +35,7 @@ public abstract class DataSet<T, C> {
     private C pointBackgroundColor;
     private C pointBorderColor;
 
-    public DataSet() {
+    protected DataSet() {
         label = StringUtil.EMPTY;
         data = new ArrayList<>();
 

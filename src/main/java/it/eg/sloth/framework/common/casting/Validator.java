@@ -2,6 +2,7 @@ package it.eg.sloth.framework.common.casting;
 
 import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.form.fields.field.base.InputField;
+import it.eg.sloth.form.fields.field.impl.ComboBox;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.localization.Localization;
@@ -40,23 +41,13 @@ public class Validator {
         }
     }
 
-    /**
-     * Verifica la validità formale del field passato
-     *
-     * @param dataField
-     * @return
-     */
+    // Verifica la validità formale del field passato
     public static Message verifyValidity(DataField<?> dataField) {
         return verifyIfIsValid(dataField.getName(), dataField.getDescription(), dataField.getData(), dataField.getLocale(), dataField.getDataType(), dataField.getFormat());
     }
 
 
-    /**
-     * Verifica l'obbligatorietà del field passato
-     *
-     * @param dataField
-     * @return
-     */
+    // Verifica l'obbligatorietà del field passato
     public static Message verifyMandatoriness(InputField<?> dataField) {
         if (dataField.isRequired()) {
             return verifyIfIsNotEmpty(dataField.getName(), dataField.getDescription(), dataField.getData(), dataField.getLocale());
@@ -65,4 +56,24 @@ public class Validator {
         }
     }
 
+    // Verifica l'obbligatorietà del field passato
+    public static <T> Message verifyAdmittedValue(ComboBox<T> dataField) {
+        ResourceBundle bundle = ResourceBundle.getBundle(Localization.VALUE_BUNDLE, dataField.getLocale());
+        try {
+            if (dataField.getDecodeMap() == null && !BaseFunction.isNull(dataField.getValue())) {
+                return new Message(Level.WARN, dataField.getName(), MessageFormat.format(bundle.getString(Localization.ERR_ADMITTED_VALUE), dataField.getDescription()), "");
+            }
+
+            if (dataField.getDecodeMap() != null && !BaseFunction.isNull(dataField.getValue())) {
+                if (!dataField.getDecodeMap().contains(dataField.getValue())) {
+                    return new Message(Level.WARN, dataField.getName(), MessageFormat.format(bundle.getString(Localization.ERR_ADMITTED_VALUE), dataField.getDescription()), "");
+                }
+            }
+
+        } catch (FrameworkException e) {
+            return new Message(Level.WARN, dataField.getName(), MessageFormat.format(bundle.getString(Localization.ERR_ADMITTED_VALUE), dataField.getDescription()), "");
+        }
+
+        return null;
+    }
 }

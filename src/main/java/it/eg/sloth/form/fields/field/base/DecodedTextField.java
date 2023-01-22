@@ -31,11 +31,11 @@ public abstract class DecodedTextField<T> extends TextField<T> implements Decode
 
     private DecodeMap<T, ? extends DecodeValue<T>> values;
 
-    public DecodedTextField(String name, String description, String tooltip, DataTypes dataType) {
+    protected DecodedTextField(String name, String description, String tooltip, DataTypes dataType) {
         this(name, name, description, tooltip, dataType, null, null);
     }
 
-    public DecodedTextField(String name, String alias, String description, String tooltip, DataTypes dataType, String format, String baseLink) {
+    protected DecodedTextField(String name, String alias, String description, String tooltip, DataTypes dataType, String format, String baseLink) {
         super(name, description, dataType);
         this.alias = alias;
         this.tooltip = tooltip;
