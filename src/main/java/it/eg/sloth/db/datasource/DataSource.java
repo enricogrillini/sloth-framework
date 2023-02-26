@@ -1,5 +1,6 @@
 package it.eg.sloth.db.datasource;
 
+import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 
 import java.io.IOException;
@@ -46,7 +47,7 @@ public interface DataSource {
     DataSource setObject(String name, Object value);
 
     default DataSource setBigDecimal(String name, BigDecimal value) {
-       return setObject(name, value);
+        return setObject(name, value);
     }
 
     default DataSource setTimestamp(String name, Timestamp value) {
@@ -90,10 +91,15 @@ public interface DataSource {
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 
         for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
+            String name = resultSetMetaData.getColumnLabel(i);
+            if (BaseFunction.isNull(name)) {
+                name = resultSetMetaData.getColumnName(i);
+            }
+
             switch (resultSetMetaData.getColumnType(i)) {
                 case Types.VARCHAR:
                 case Types.CHAR:
-                    setString(resultSetMetaData.getColumnName(i), resultSet.getString(i));
+                    setString(name, resultSet.getString(i));
                     break;
 
                 case Types.BIT:
@@ -106,18 +112,18 @@ public interface DataSource {
                 case Types.REAL:
                 case Types.DOUBLE:
                 case Types.NUMERIC:
-                    setBigDecimal(resultSetMetaData.getColumnName(i), resultSet.getBigDecimal(i));
+                    setBigDecimal(name, resultSet.getBigDecimal(i));
                     break;
 
                 case Types.DATE:
                 case Types.TIME:
                 case Types.TIMESTAMP:
-                    setTimestamp(resultSetMetaData.getColumnName(i), resultSet.getTimestamp(i));
+                    setTimestamp(name, resultSet.getTimestamp(i));
                     break;
 
                 default:
                     // Types {} non gestito. Utilizzato default.
-                    setObject(resultSetMetaData.getColumnName(i), resultSet.getObject(i));
+                    setObject(name, resultSet.getObject(i));
                     break;
             }
         }
