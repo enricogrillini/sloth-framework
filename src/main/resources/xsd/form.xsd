@@ -230,6 +230,7 @@
     <attribute name="Disabled" type="boolean"></attribute>
     <attribute name="ImgHtml" type="string"></attribute>
     <attribute name="Type" type="tns:ButtonType"></attribute>
+    <attribute name="Loading" type="boolean"></attribute>
     <attribute name="ConfirmMessage" type="string"></attribute>
    </extension>
   </complexContent>

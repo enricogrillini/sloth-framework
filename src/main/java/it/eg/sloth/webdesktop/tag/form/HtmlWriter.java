@@ -39,6 +39,7 @@ public abstract class HtmlWriter {
     public static final String ATTR_CLASS = "class";
     public static final String ATTR_CHECKED = "checked";
     public static final String ATTR_DATA_DESCRIPTION = "data-description";
+    public static final String ATTR_DATA_LOADING = "data-loading";
     public static final String ATTR_DATA_TITLE = "data-title";
     public static final String ATTR_DISABLED = "disabled";
     public static final String ATTR_FOR = "for";

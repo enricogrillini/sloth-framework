@@ -42,6 +42,7 @@ public class Button implements SimpleField {
     Boolean disabled;
     ButtonType buttonType;
     String imgHtml;
+    Boolean loading;
     String confirmMessage;
     Integer index;
 
@@ -68,6 +69,10 @@ public class Button implements SimpleField {
 
     public boolean isDisabled() {
         return disabled != null && disabled;
+    }
+
+    public boolean isLoading() {
+        return this.loading != null && this.loading;
     }
 
     public ButtonType getButtonType() {

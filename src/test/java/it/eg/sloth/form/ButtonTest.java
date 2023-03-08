@@ -2,6 +2,7 @@ package it.eg.sloth.form;
 
 import it.eg.sloth.form.fields.field.impl.Button;
 import it.eg.sloth.jaxb.form.ButtonType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
@@ -24,6 +25,17 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class ButtonTest {
 
+
+    private Button field;
+
+    @BeforeEach
+    void init() {
+        field = Button.builder()
+                .name("Name")
+                .description("description")
+                .build();
+    }
+
     @Test
     void buttonTest() {
         Button button = new Button("name", "description");
@@ -34,30 +46,29 @@ class ButtonTest {
         assertEquals(ButtonType.BTN_OUTLINE_PRIMARY, button.getButtonType());
     }
 
+    @Test
+    void builderDefault() {
+        assertEquals("name", field.getName());
+        assertEquals("description", field.getDescription());
+        assertEquals(Locale.getDefault(), field.getLocale());
+        assertFalse(field.isHidden());
+        assertFalse(field.isDisabled());
+        assertFalse(field.isLoading());
+        assertEquals(ButtonType.BTN_OUTLINE_PRIMARY, field.getButtonType());
+    }
+
 
     @Test
-    void buttonBuilderTest() {
-        // Default
-        Button button = Button.builder()
-                .name("Name")
-                .description("description")
-                .build();
-
-        assertEquals("name", button.getName());
-        assertEquals("description", button.getDescription());
-        assertEquals(Locale.getDefault(), button.getLocale());
-        assertFalse(button.isHidden());
-        assertFalse(button.isDisabled());
-        assertEquals(ButtonType.BTN_OUTLINE_PRIMARY, button.getButtonType());
-
+    void builderExplicitFalse() {
         // False
-        button = Button.builder()
+        Button button = Button.builder()
                 .name("Name")
                 .locale(Locale.ITALY)
                 .description("description")
                 .tooltip("tooltip")
                 .hidden(false)
                 .disabled(false)
+                .loading(false)
                 .buttonType(ButtonType.BTN_INFO)
                 .build();
 
@@ -65,16 +76,20 @@ class ButtonTest {
         assertEquals(Locale.ITALY, button.getLocale());
         assertFalse(button.isHidden());
         assertFalse(button.isDisabled());
+        assertFalse(button.isLoading());
         assertEquals(ButtonType.BTN_INFO, button.getButtonType());
+    }
 
-        // True
-        button = Button.builder()
+    @Test
+    void builderExplicitTrue() {
+        Button button = Button.builder()
                 .name("Name")
                 .locale(Locale.ITALY)
                 .description("description")
                 .tooltip("tooltip")
                 .hidden(true)
                 .disabled(true)
+                .loading(true)
                 .buttonType(ButtonType.BTN_INFO)
                 .build();
 
@@ -82,11 +97,14 @@ class ButtonTest {
         assertEquals(Locale.ITALY, button.getLocale());
         assertTrue(button.isHidden());
         assertTrue(button.isDisabled());
+        assertTrue(button.isLoading());
         assertEquals(ButtonType.BTN_INFO, button.getButtonType());
+    }
 
-        // NewInstance
-        Button button2 = button.newInstance();
-        assertNotSame(button, button2);
-        assertEquals(button.getName(), button2.getName());
+    @Test
+    void newInstance() {
+        Button button2 = field.newInstance();
+        assertNotSame(field, button2);
+        assertEquals(field.getName(), button2.getName());
     }
 }
