@@ -108,7 +108,7 @@ public class GridWriter extends HtmlWriter {
                     }
                 }
 
-                result.append("<button type=\"submit\"" + buttonNameHtml + " class=\"btn btn-Link btn-block btn-sm d-flex justify-content-between\"><b class=\"w-100\">" + descriptionHtml + "</b><i" + iconHtml + "></i></button>");
+                result.append("<button type=\"submit\"" + buttonNameHtml + " class=\"btn btn-block btn-sm d-flex justify-content-between\"><b class=\"w-100\">" + descriptionHtml + "</b><i" + iconHtml + "></i></button>");
 
             } else {
                 result.append(descriptionHtml);

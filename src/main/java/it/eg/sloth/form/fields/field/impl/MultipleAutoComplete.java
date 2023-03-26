@@ -40,8 +40,6 @@ import java.util.List;
 @SuperBuilder(toBuilder = true)
 public class MultipleAutoComplete<T> extends MultipleInput<T> {
 
-    public static final String DELIMITER = "|";
-
     private String decodedText;
     private DecodeMap<T, ? extends DecodeValue<T>> decodeMap;
     private Boolean freeInput;

@@ -111,14 +111,6 @@ public abstract class EditableGridPage<F extends Form, G extends Grid<?>> extend
         }
     }
 
-    public boolean execPreMove() throws Exception {
-        if (ViewModality.VIEW.equals(getForm().getPageInfo().getViewModality())) {
-            return true;
-        } else {
-            return execPostDetail(true);
-        }
-    }
-
     @Override
     public boolean execInsert() throws Exception {
         if (ViewModality.VIEW.equals(getForm().getPageInfo().getViewModality()) || execPostDetail(true)) {

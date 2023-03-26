@@ -152,7 +152,7 @@ public class FormControlWriter extends HtmlWriter {
                 .append(getAttribute(ATTR_NAME, button.getHtlmName()))
                 .append(getAttribute(ATTR_CLASS, MessageFormat.format(BootStrapClass.BUTTON_CLASS, button.getButtonType().value())))
                 .append(getAttribute(ATTR_DISABLED, button.isDisabled(), ""))
-                .append(getAttribute(ON_CLICK, Boolean.TRUE.equals(button.getLoading()) || !BaseFunction.isBlank(button.getConfirmMessage()), "buttonConfirm(this);"))
+                .append(getAttribute(ON_CLICK, Boolean.TRUE.equals(button.isLoading()) || !BaseFunction.isBlank(button.getConfirmMessage()), "buttonConfirm(this);"))
                 .append(getAttribute(ATTR_DATA_TITLE, !BaseFunction.isBlank(button.getConfirmMessage()), "Conferma"))
                 .append(getAttribute(ATTR_DATA_DESCRIPTION, !BaseFunction.isBlank(button.getConfirmMessage()), Casting.getHtml(button.getConfirmMessage())))
                 .append(getAttribute(ATTR_DATA_LOADING, Boolean.TRUE.equals(button.getLoading()), "true"))
@@ -466,6 +466,7 @@ public class FormControlWriter extends HtmlWriter {
                     input.getDataType().getHtmlType(),
                     input.escapeHtmlValue(),
                     getAttribute("step", DataTypes.DATETIME == input.getDataType() || DataTypes.TIME == input.getDataType(), "1") +
+                            getAttribute("step", DataTypes.HOUR == input.getDataType(), "60") +
                             getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(input)) +
                             getAttribute("placeholder", DataTypes.MONTH == input.getDataType(), "yyyy-mm") +
                             getAttribute(ATTR_READONLY, input.isReadOnly(), "") +

@@ -25,7 +25,7 @@ import it.eg.sloth.webdesktop.controller.common.editable.FullEditingInterface;
  */
 public interface EditableGridNavigationInterface<F extends Form, G extends Grid<?>> extends BaseGridNavigationInterface<F, G>, FullEditingInterface<F> {
 
-    private boolean execPreMove() throws Exception {
+    default boolean execPreMove() throws Exception {
         if (ViewModality.VIEW.equals(getForm().getPageInfo().getViewModality())) {
             return true;
         } else {
@@ -33,7 +33,7 @@ public interface EditableGridNavigationInterface<F extends Form, G extends Grid<
         }
     }
 
-    private void execPostMove() throws FrameworkException {
+    default void execPostMove() throws FrameworkException {
         getGrid().copyFromDataSource(getGrid().getDataSource());
     }
 

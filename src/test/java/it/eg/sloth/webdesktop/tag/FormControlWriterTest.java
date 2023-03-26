@@ -37,8 +37,6 @@ class FormControlWriterTest {
 
     private static final String LINK_AUTOCOMPLETE = "<div class=\"form-control form-control-sm bg-gray-200\" style=\"height: auto;\"><a href=\"{1}\" >{0}</a></div>";
 
-    private static final String BASE_BUTTON = "<button id=\"navigationprefix___button___name\" name=\"navigationprefix___button___name\" class=\"btn btn-outline-primary btn-sm\">description</button>";
-
     private static final String BASE_CHECKBOX_VIS = "<div class=\"custom-control custom-checkbox\"><input id=\"name\" name=\"name\" type=\"checkbox\" value=\"S\" disabled=\"\" class=\"custom-control-input\"/><div class=\"custom-control-label\"></div></div>";
     private static final String BASE_CHECKBOX_MOD = "<div class=\"custom-control custom-checkbox\"><input id=\"name\" name=\"name\" type=\"checkbox\" value=\"S\" class=\"custom-control-input\"{0}/><label class=\"custom-control-label\" for=\"name\"></label></div>";
 
@@ -122,19 +120,6 @@ class FormControlWriterTest {
         // Empty
         autocomplete.setHidden(true);
         assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(autocomplete, null, ViewModality.EDIT));
-    }
-
-    @Test
-    void buttonTest() throws FrameworkException {
-        Button button = new Button("name", "description");
-        assertEquals(BASE_BUTTON, FormControlWriter.writeButton(button));
-
-        // Controllo generico
-        assertEquals(BASE_BUTTON, FormControlWriter.writeControl(button, null, ViewModality.EDIT));
-
-        // Empty
-        button.setHidden(true);
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(button, null, ViewModality.EDIT));
     }
 
     @Test

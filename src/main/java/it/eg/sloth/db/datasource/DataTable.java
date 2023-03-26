@@ -198,6 +198,11 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
     T add();
 
     /**
+     * Aggiunge una riga dopo la riga corrente
+     */
+    T add(T row);
+
+    /**
      * Rimuove la riga corrente
      *
      * @return

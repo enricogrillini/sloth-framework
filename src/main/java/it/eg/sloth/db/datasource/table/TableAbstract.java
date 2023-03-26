@@ -236,8 +236,11 @@ public abstract class TableAbstract<T extends DataRow> implements DataTable<T> {
 
     @Override
     public T add() {
-        T row = createRow();
+        return add(createRow());
+    }
 
+    @Override
+    public T add(T row) {
         int newCurrentRow = getCurrentRow() + 1;
         if (newCurrentRow < size())
             rows.add(newCurrentRow, row);
