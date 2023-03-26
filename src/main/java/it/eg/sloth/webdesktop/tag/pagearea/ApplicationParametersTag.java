@@ -1,6 +1,5 @@
 package it.eg.sloth.webdesktop.tag.pagearea;
 
-import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
