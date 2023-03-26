@@ -3,7 +3,6 @@ package it.eg.sloth.webdesktop.parameter;
 
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
-import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.webdesktop.parameter.model.ApplicationParameter;
 import lombok.extern.slf4j.Slf4j;
@@ -62,9 +61,9 @@ public class ApplicationParametersSingleton {
         return table;
     }
 
-    public void loadTable(Table table) {
+    public void loadTable(DataTable<?> table) {
         clear();
-        for (Row row : table) {
+        for (DataRow row : table) {
             put(new ApplicationParameter().fromRow(row));
         }
     }
