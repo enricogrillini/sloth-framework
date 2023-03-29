@@ -4,10 +4,12 @@ package it.eg.sloth.webdesktop.parameter;
 import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.table.Table;
+import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.parameter.model.ApplicationParameter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -68,5 +70,17 @@ public class ApplicationParametersSingleton {
         }
     }
 
+    public ApplicationParameter getApplicationParameter(String name) {
+        return map.get(name);
+    }
+
+
+    public Object getApplicationParameterParsedValue(String name, Locale locale) throws FrameworkException {
+        if (map.containsKey(name)) {
+            return getApplicationParameter(name).getParsedValue(locale);
+        } else {
+            return null;
+        }
+    }
 
 }

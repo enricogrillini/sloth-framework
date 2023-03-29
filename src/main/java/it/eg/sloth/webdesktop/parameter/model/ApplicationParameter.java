@@ -79,4 +79,8 @@ public class ApplicationParameter {
 
         return this;
     }
+
+    public Object getParsedValue(Locale locale) throws FrameworkException {
+        return getDataType().parseValue(getValue(), locale);
+    }
 }
