@@ -12,10 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Project: sloth-framework
@@ -49,13 +46,21 @@ public class ApplicationParameter {
 
     public Set<Object> getParameterValues(Locale locale) throws FrameworkException {
         Set<Object> result = new LinkedHashSet<>();
-
         if (multivalue) {
-            for (String string : Arrays.asList(StringUtil.split(value, MultipleInput.DELIMITER))) {
-                result.add(dataType.parseValue(string, locale));
-            }
+            result.addAll(Arrays.asList(StringUtil.split(value, MultipleInput.DELIMITER)));
         } else {
             result.add(getParameterValue(locale));
+        }
+
+        return result;
+    }
+
+    public Set<String> getParameterFormatedValues(Locale locale) throws FrameworkException {
+        Set<Object> input = getParameterValues(locale);
+
+        Set<String> result = new LinkedHashSet<>();
+        for (Object o : input) {
+            result.add(dataType.formatValue(o, locale));
         }
 
         return result;
@@ -80,7 +85,4 @@ public class ApplicationParameter {
         return this;
     }
 
-    public Object getParsedValue(Locale locale) throws FrameworkException {
-        return getDataType().parseValue(getValue(), locale);
-    }
 }

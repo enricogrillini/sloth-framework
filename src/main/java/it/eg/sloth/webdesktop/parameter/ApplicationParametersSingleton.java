@@ -75,12 +75,4 @@ public class ApplicationParametersSingleton {
     }
 
 
-    public Object getApplicationParameterParsedValue(String name, Locale locale) throws FrameworkException {
-        if (map.containsKey(name)) {
-            return getApplicationParameter(name).getParsedValue(locale);
-        } else {
-            return null;
-        }
-    }
-
 }
