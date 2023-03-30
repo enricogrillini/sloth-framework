@@ -9,7 +9,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "integer",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "table_name" : "aforismi",
   "table_comments" : null,
@@ -21,7 +21,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 1000
+  "data_length" : 1000
 }, {
   "table_name" : "aforismi",
   "table_comments" : null,
@@ -33,7 +33,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "aforismi",
   "table_comments" : null,
@@ -45,7 +45,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "date",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "table_name" : "frame_properties",
   "table_comments" : null,
@@ -57,7 +57,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 250
+  "data_length" : 250
 }, {
   "table_name" : "frame_properties",
   "table_comments" : null,
@@ -69,7 +69,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 50
+  "data_length" : 50
 }, {
   "table_name" : "frame_properties",
   "table_comments" : null,
@@ -81,7 +81,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 200
+  "data_length" : 200
 }, {
   "table_name" : "monitor_login",
   "table_comments" : null,
@@ -93,7 +93,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "integer",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "table_name" : "monitor_login",
   "table_comments" : null,
@@ -105,7 +105,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "integer",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "table_name" : "monitor_login",
   "table_comments" : null,
@@ -117,7 +117,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "date",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "table_name" : "sec_dec_funzioni",
   "table_comments" : null,
@@ -129,7 +129,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_dec_funzioni",
   "table_comments" : null,
@@ -141,7 +141,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 20
+  "data_length" : 20
 }, {
   "table_name" : "sec_dec_funzioni",
   "table_comments" : null,
@@ -153,7 +153,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_dec_funzioni",
   "table_comments" : null,
@@ -165,7 +165,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "integer",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "table_name" : "sec_dec_funzioni",
   "table_comments" : null,
@@ -177,7 +177,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 1
+  "data_length" : 1
 }, {
   "table_name" : "sec_dec_menu",
   "table_comments" : null,
@@ -189,7 +189,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_dec_menu",
   "table_comments" : null,
@@ -201,7 +201,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 20
+  "data_length" : 20
 }, {
   "table_name" : "sec_dec_menu",
   "table_comments" : null,
@@ -213,7 +213,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_dec_menu",
   "table_comments" : null,
@@ -225,7 +225,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "integer",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "table_name" : "sec_dec_menu",
   "table_comments" : null,
@@ -237,7 +237,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 1
+  "data_length" : 1
 }, {
   "table_name" : "sec_dec_menu",
   "table_comments" : null,
@@ -249,7 +249,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 10
+  "data_length" : 10
 }, {
   "table_name" : "sec_dec_menu",
   "table_comments" : null,
@@ -261,7 +261,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "integer",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "table_name" : "sec_dec_menu",
   "table_comments" : null,
@@ -273,7 +273,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_dec_menu",
   "table_comments" : null,
@@ -285,7 +285,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 200
+  "data_length" : 200
 }, {
   "table_name" : "sec_dec_menuutente",
   "table_comments" : null,
@@ -297,7 +297,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_dec_menuutente",
   "table_comments" : null,
@@ -309,7 +309,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 20
+  "data_length" : 20
 }, {
   "table_name" : "sec_dec_menuutente",
   "table_comments" : null,
@@ -321,7 +321,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_dec_menuutente",
   "table_comments" : null,
@@ -333,7 +333,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "integer",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "table_name" : "sec_dec_menuutente",
   "table_comments" : null,
@@ -345,7 +345,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 1
+  "data_length" : 1
 }, {
   "table_name" : "sec_dec_menuutente",
   "table_comments" : null,
@@ -357,7 +357,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 10
+  "data_length" : 10
 }, {
   "table_name" : "sec_dec_menuutente",
   "table_comments" : null,
@@ -369,7 +369,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_dec_menuutente",
   "table_comments" : null,
@@ -381,7 +381,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 200
+  "data_length" : 200
 }, {
   "table_name" : "sec_dec_ruoli",
   "table_comments" : null,
@@ -393,7 +393,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 10
+  "data_length" : 10
 }, {
   "table_name" : "sec_dec_ruoli",
   "table_comments" : null,
@@ -405,7 +405,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 20
+  "data_length" : 20
 }, {
   "table_name" : "sec_dec_ruoli",
   "table_comments" : null,
@@ -417,7 +417,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_dec_ruoli",
   "table_comments" : null,
@@ -429,7 +429,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "integer",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "table_name" : "sec_dec_ruoli",
   "table_comments" : null,
@@ -441,7 +441,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 1
+  "data_length" : 1
 }, {
   "table_name" : "sec_dec_tipivoce",
   "table_comments" : null,
@@ -453,7 +453,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 10
+  "data_length" : 10
 }, {
   "table_name" : "sec_dec_tipivoce",
   "table_comments" : null,
@@ -465,7 +465,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 20
+  "data_length" : 20
 }, {
   "table_name" : "sec_dec_tipivoce",
   "table_comments" : null,
@@ -477,7 +477,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_dec_tipivoce",
   "table_comments" : null,
@@ -489,7 +489,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "integer",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "table_name" : "sec_dec_tipivoce",
   "table_comments" : null,
@@ -501,7 +501,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 1
+  "data_length" : 1
 }, {
   "table_name" : "sec_dec_tipivoce",
   "table_comments" : null,
@@ -513,7 +513,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 1
+  "data_length" : 1
 }, {
   "table_name" : "sec_funzioniruoli",
   "table_comments" : null,
@@ -525,7 +525,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_funzioniruoli",
   "table_comments" : null,
@@ -537,7 +537,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 10
+  "data_length" : 10
 }, {
   "table_name" : "sec_funzioniruoli",
   "table_comments" : null,
@@ -549,7 +549,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 1
+  "data_length" : 1
 }, {
   "table_name" : "sec_menuruoli",
   "table_comments" : null,
@@ -561,7 +561,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_menuruoli",
   "table_comments" : null,
@@ -573,7 +573,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 10
+  "data_length" : 10
 }, {
   "table_name" : "sec_menuruoli",
   "table_comments" : null,
@@ -585,7 +585,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 1
+  "data_length" : 1
 }, {
   "table_name" : "sec_menuutenteruoli",
   "table_comments" : null,
@@ -597,7 +597,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_menuutenteruoli",
   "table_comments" : null,
@@ -609,7 +609,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "character varying",
-  "character_maximum_length" : 10
+  "data_length" : 10
 }, {
   "table_name" : "sec_menuutenteruoli",
   "table_comments" : null,
@@ -621,7 +621,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 1
+  "data_length" : 1
 }, {
   "table_name" : "sec_profili",
   "table_comments" : null,
@@ -633,7 +633,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "integer",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "table_name" : "sec_profili",
   "table_comments" : null,
@@ -645,7 +645,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "integer",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "table_name" : "sec_profili",
   "table_comments" : null,
@@ -657,7 +657,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 10
+  "data_length" : 10
 }, {
   "table_name" : "sec_profili",
   "table_comments" : null,
@@ -669,7 +669,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "date",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "table_name" : "sec_profili",
   "table_comments" : null,
@@ -681,7 +681,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "date",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "table_name" : "sec_utenti",
   "table_comments" : null,
@@ -693,7 +693,7 @@
   "column_comments" : null,
   "nullable" : "N",
   "column_type" : "integer",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "table_name" : "sec_utenti",
   "table_comments" : null,
@@ -705,7 +705,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_utenti",
   "table_comments" : null,
@@ -717,7 +717,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_utenti",
   "table_comments" : null,
@@ -729,7 +729,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 10
+  "data_length" : 10
 }, {
   "table_name" : "sec_utenti",
   "table_comments" : null,
@@ -741,7 +741,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_utenti",
   "table_comments" : null,
@@ -753,7 +753,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_utenti",
   "table_comments" : null,
@@ -765,7 +765,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "table_name" : "sec_utenti",
   "table_comments" : null,
@@ -777,7 +777,7 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "character varying",
-  "character_maximum_length" : 5
+  "data_length" : 5
 }, {
   "table_name" : "sec_utenti",
   "table_comments" : null,
@@ -789,5 +789,5 @@
   "column_comments" : null,
   "nullable" : "Y",
   "column_type" : "bytea",
-  "character_maximum_length" : null
+  "data_length" : null
 } ]

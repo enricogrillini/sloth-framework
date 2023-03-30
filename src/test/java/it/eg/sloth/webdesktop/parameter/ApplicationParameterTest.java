@@ -4,33 +4,47 @@ import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.parameter.model.ApplicationParameter;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ApplicationParameterTest {
 
-    @Test
-    void parameterValue() throws FrameworkException {
-        ApplicationParameter aa = ApplicationParameter.builder()
+    ApplicationParameter multivalueParameter;
+
+    @BeforeEach
+    void init() {
+        multivalueParameter = ApplicationParameter.builder()
                 .codParameter("PARAM_MULTIVALUE")
                 .dataType(DataTypes.STRING)
                 .multivalue(true)
                 .value("aaa|bbb")
                 .build();
+    }
 
-        Set<Object> values = aa.getParameterValues(Locale.ITALY);
+    @Test
+    void multivalueParameterValue() throws FrameworkException {
+        Set<Object> values = multivalueParameter.getParameterValues(Locale.ITALY);
         assertEquals(2, values.size());
         assertTrue(values.contains("aaa"));
         assertTrue(values.contains("bbb"));
     }
 
     @Test
-    void parameterFromRow() {
+    void multivalueParameterFormattedValue() throws FrameworkException {
+        Set<String> stringValues = multivalueParameter.getParameterFormatedValues(Locale.ITALY);
+        assertEquals(2, stringValues.size());
+        assertTrue(stringValues.contains("aaa"));
+        assertTrue(stringValues.contains("bbb"));
+    }
+
+    @Test
+    void multivalueparameterFromRow() {
         Row row = new Row();
         row.setString("codParameter", "PARAM_MULTIVALUE");
         row.setString("dataType", "STRING");

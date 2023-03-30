@@ -3,149 +3,149 @@
   "column_name" : "codfunzione",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "view_name" : "view_sec_funzioni",
   "column_name" : "descrizionebreve",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 20
+  "data_length" : 20
 }, {
   "view_name" : "view_sec_funzioni",
   "column_name" : "descrizionelunga",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "view_name" : "view_sec_funzioni",
   "column_name" : "posizione",
   "column_comments" : null,
   "column_type" : "integer",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "view_name" : "view_sec_funzioni",
   "column_name" : "flagvalido",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 1
+  "data_length" : 1
 }, {
   "view_name" : "view_sec_funzioni",
   "column_name" : "ruoli",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "view_name" : "view_sec_menu",
   "column_name" : "codmenu",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "view_name" : "view_sec_menu",
   "column_name" : "descrizionebreve",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 20
+  "data_length" : 20
 }, {
   "view_name" : "view_sec_menu",
   "column_name" : "descrizionelunga",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "view_name" : "view_sec_menu",
   "column_name" : "posizione",
   "column_comments" : null,
   "column_type" : "integer",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "view_name" : "view_sec_menu",
   "column_name" : "flagvalido",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 1
+  "data_length" : 1
 }, {
   "view_name" : "view_sec_menu",
   "column_name" : "codtipovoce",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 10
+  "data_length" : 10
 }, {
   "view_name" : "view_sec_menu",
   "column_name" : "livello",
   "column_comments" : null,
   "column_type" : "integer",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "view_name" : "view_sec_menu",
   "column_name" : "imghtml",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "view_name" : "view_sec_menu",
   "column_name" : "link",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 200
+  "data_length" : 200
 }, {
   "view_name" : "view_sec_menu",
   "column_name" : "ruoli",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "view_name" : "view_sec_menuutente",
   "column_name" : "codmenuutente",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "view_name" : "view_sec_menuutente",
   "column_name" : "descrizionebreve",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 20
+  "data_length" : 20
 }, {
   "view_name" : "view_sec_menuutente",
   "column_name" : "descrizionelunga",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "view_name" : "view_sec_menuutente",
   "column_name" : "posizione",
   "column_comments" : null,
   "column_type" : "integer",
-  "character_maximum_length" : null
+  "data_length" : null
 }, {
   "view_name" : "view_sec_menuutente",
   "column_name" : "flagvalido",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 1
+  "data_length" : 1
 }, {
   "view_name" : "view_sec_menuutente",
   "column_name" : "codtipovoce",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 10
+  "data_length" : 10
 }, {
   "view_name" : "view_sec_menuutente",
   "column_name" : "imghtml",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 100
+  "data_length" : 100
 }, {
   "view_name" : "view_sec_menuutente",
   "column_name" : "link",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : 200
+  "data_length" : 200
 }, {
   "view_name" : "view_sec_menuutente",
   "column_name" : "ruoli",
   "column_comments" : null,
   "column_type" : "character varying",
-  "character_maximum_length" : null
+  "data_length" : null
 } ]

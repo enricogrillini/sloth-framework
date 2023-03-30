@@ -68,7 +68,7 @@
         "initial" : 0,
         "name" : "aforismi_pk",
         "tablespace" : null,
-        "uniqueness" : false
+        "uniqueness" : true
       } ],
       "initial" : 0,
       "name" : "Aforismi",
@@ -83,7 +83,7 @@
         "primaryKey" : true,
         "type" : "integer"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 1000,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -93,7 +93,7 @@
         "primaryKey" : false,
         "type" : "character varying(1000)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -132,18 +132,18 @@
         "initial" : 0,
         "name" : "frame_properties_idx1",
         "tablespace" : null,
-        "uniqueness" : false
+        "uniqueness" : true
       }, {
         "columns" : [ "codproperty" ],
         "initial" : 0,
         "name" : "frame_properties_pk",
         "tablespace" : null,
-        "uniqueness" : false
+        "uniqueness" : true
       } ],
       "initial" : 0,
       "name" : "Frame_Properties",
       "tableColumnCollection" : [ {
-        "dataLength" : 0,
+        "dataLength" : 250,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -153,7 +153,7 @@
         "primaryKey" : true,
         "type" : "character varying(250)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 50,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -163,7 +163,7 @@
         "primaryKey" : false,
         "type" : "character varying(50)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 200,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -199,7 +199,7 @@
         "initial" : 0,
         "name" : "monitor_login_pk",
         "tablespace" : null,
-        "uniqueness" : false
+        "uniqueness" : true
       } ],
       "initial" : 0,
       "name" : "Monitor_Login",
@@ -265,12 +265,12 @@
         "initial" : 0,
         "name" : "sec_dec_funzioni_pk",
         "tablespace" : null,
-        "uniqueness" : false
+        "uniqueness" : true
       } ],
       "initial" : 0,
       "name" : "Sec_Dec_Funzioni",
       "tableColumnCollection" : [ {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -280,7 +280,7 @@
         "primaryKey" : true,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 20,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -290,7 +290,7 @@
         "primaryKey" : false,
         "type" : "character varying(20)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -310,7 +310,7 @@
         "primaryKey" : false,
         "type" : "integer"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 1,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -385,12 +385,12 @@
         "initial" : 0,
         "name" : "sec_dec_menu_pk",
         "tablespace" : null,
-        "uniqueness" : false
+        "uniqueness" : true
       } ],
       "initial" : 0,
       "name" : "Sec_Dec_Menu",
       "tableColumnCollection" : [ {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -400,7 +400,7 @@
         "primaryKey" : true,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 20,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -410,7 +410,7 @@
         "primaryKey" : false,
         "type" : "character varying(20)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -430,7 +430,7 @@
         "primaryKey" : false,
         "type" : "integer"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 1,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -440,7 +440,7 @@
         "primaryKey" : false,
         "type" : "character varying(1)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 10,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -460,7 +460,7 @@
         "primaryKey" : false,
         "type" : "integer"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -470,7 +470,7 @@
         "primaryKey" : false,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 200,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -512,12 +512,12 @@
         "initial" : 0,
         "name" : "sec_dec_menuutente_pk",
         "tablespace" : null,
-        "uniqueness" : false
+        "uniqueness" : true
       } ],
       "initial" : 0,
       "name" : "Sec_Dec_Menuutente",
       "tableColumnCollection" : [ {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -527,7 +527,7 @@
         "primaryKey" : true,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 20,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -537,7 +537,7 @@
         "primaryKey" : false,
         "type" : "character varying(20)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -557,7 +557,7 @@
         "primaryKey" : false,
         "type" : "integer"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 1,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -567,7 +567,7 @@
         "primaryKey" : false,
         "type" : "character varying(1)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 10,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -577,7 +577,7 @@
         "primaryKey" : false,
         "type" : "character varying(10)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -587,7 +587,7 @@
         "primaryKey" : false,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 200,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -625,12 +625,12 @@
         "initial" : 0,
         "name" : "sec_dec_ruoli_pk",
         "tablespace" : null,
-        "uniqueness" : false
+        "uniqueness" : true
       } ],
       "initial" : 0,
       "name" : "Sec_Dec_Ruoli",
       "tableColumnCollection" : [ {
-        "dataLength" : 0,
+        "dataLength" : 10,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -640,7 +640,7 @@
         "primaryKey" : true,
         "type" : "character varying(10)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 20,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -650,7 +650,7 @@
         "primaryKey" : false,
         "type" : "character varying(20)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -670,7 +670,7 @@
         "primaryKey" : false,
         "type" : "integer"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 1,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -708,12 +708,12 @@
         "initial" : 0,
         "name" : "sec_dec_tipivoce_pk",
         "tablespace" : null,
-        "uniqueness" : false
+        "uniqueness" : true
       } ],
       "initial" : 0,
       "name" : "Sec_Dec_Tipivoce",
       "tableColumnCollection" : [ {
-        "dataLength" : 0,
+        "dataLength" : 10,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -723,7 +723,7 @@
         "primaryKey" : true,
         "type" : "character varying(10)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 20,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -733,7 +733,7 @@
         "primaryKey" : false,
         "type" : "character varying(20)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -753,7 +753,7 @@
         "primaryKey" : false,
         "type" : "integer"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 1,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -763,7 +763,7 @@
         "primaryKey" : false,
         "type" : "character varying(1)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 1,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -818,12 +818,12 @@
         "initial" : 0,
         "name" : "sec_funzioniruoli_pk",
         "tablespace" : null,
-        "uniqueness" : false
+        "uniqueness" : true
       } ],
       "initial" : 0,
       "name" : "Sec_Funzioniruoli",
       "tableColumnCollection" : [ {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -833,7 +833,7 @@
         "primaryKey" : true,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 10,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -843,7 +843,7 @@
         "primaryKey" : true,
         "type" : "character varying(10)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 1,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -898,12 +898,12 @@
         "initial" : 0,
         "name" : "sec_menuruoli_pk",
         "tablespace" : null,
-        "uniqueness" : false
+        "uniqueness" : true
       } ],
       "initial" : 0,
       "name" : "Sec_Menuruoli",
       "tableColumnCollection" : [ {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -913,7 +913,7 @@
         "primaryKey" : true,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 10,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -923,7 +923,7 @@
         "primaryKey" : true,
         "type" : "character varying(10)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 1,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -978,12 +978,12 @@
         "initial" : 0,
         "name" : "sec_menuutenteruoli_pk",
         "tablespace" : null,
-        "uniqueness" : false
+        "uniqueness" : true
       } ],
       "initial" : 0,
       "name" : "Sec_Menuutenteruoli",
       "tableColumnCollection" : [ {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -993,7 +993,7 @@
         "primaryKey" : true,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 10,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -1003,7 +1003,7 @@
         "primaryKey" : true,
         "type" : "character varying(10)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 1,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -1046,7 +1046,7 @@
         "initial" : 0,
         "name" : "sec_profili_pk",
         "tablespace" : null,
-        "uniqueness" : false
+        "uniqueness" : true
       } ],
       "initial" : 0,
       "name" : "Sec_Profili",
@@ -1071,7 +1071,7 @@
         "primaryKey" : false,
         "type" : "integer"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 10,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -1120,7 +1120,7 @@
         "initial" : 0,
         "name" : "sec_utenti_pk",
         "tablespace" : null,
-        "uniqueness" : false
+        "uniqueness" : true
       } ],
       "initial" : 0,
       "name" : "Sec_Utenti",
@@ -1135,7 +1135,7 @@
         "primaryKey" : true,
         "type" : "integer"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -1145,7 +1145,7 @@
         "primaryKey" : false,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -1155,7 +1155,7 @@
         "primaryKey" : false,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 10,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -1165,7 +1165,7 @@
         "primaryKey" : false,
         "type" : "character varying(10)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -1175,7 +1175,7 @@
         "primaryKey" : false,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -1185,7 +1185,7 @@
         "primaryKey" : false,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -1195,7 +1195,7 @@
         "primaryKey" : false,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 5,
         "dataPrecision" : null,
         "defaultValue" : null,
         "description" : null,
@@ -1223,21 +1223,21 @@
       "description" : null,
       "name" : "View_Sec_Funzioni",
       "viewColumnCollection" : [ {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Codfunzione",
         "position" : 0,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 20,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Descrizionebreve",
         "position" : 1,
         "type" : "character varying(20)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Descrizionelunga",
@@ -1251,7 +1251,7 @@
         "position" : 3,
         "type" : "integer"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 1,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Flagvalido",
@@ -1270,21 +1270,21 @@
       "description" : null,
       "name" : "View_Sec_Menu",
       "viewColumnCollection" : [ {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Codmenu",
         "position" : 0,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 20,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Descrizionebreve",
         "position" : 1,
         "type" : "character varying(20)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Descrizionelunga",
@@ -1298,14 +1298,14 @@
         "position" : 3,
         "type" : "integer"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 1,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Flagvalido",
         "position" : 4,
         "type" : "character varying(1)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 10,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Codtipovoce",
@@ -1319,14 +1319,14 @@
         "position" : 6,
         "type" : "integer"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Imghtml",
         "position" : 7,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 200,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Link",
@@ -1345,21 +1345,21 @@
       "description" : null,
       "name" : "View_Sec_Menuutente",
       "viewColumnCollection" : [ {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Codmenuutente",
         "position" : 0,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 20,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Descrizionebreve",
         "position" : 1,
         "type" : "character varying(20)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Descrizionelunga",
@@ -1373,28 +1373,28 @@
         "position" : 3,
         "type" : "integer"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 1,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Flagvalido",
         "position" : 4,
         "type" : "character varying(1)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 10,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Codtipovoce",
         "position" : 5,
         "type" : "character varying(10)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 100,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Imghtml",
         "position" : 6,
         "type" : "character varying(100)"
       }, {
-        "dataLength" : 0,
+        "dataLength" : 200,
         "dataPrecision" : null,
         "description" : null,
         "name" : "Link",

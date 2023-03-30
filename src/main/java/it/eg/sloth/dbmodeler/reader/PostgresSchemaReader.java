@@ -50,7 +50,7 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
             "       substr(IS_NULLABLE, 1, 1) nullable,\n" +
             "       --\n" +
             "       c.data_type COLUMN_TYPE,\n" +
-            "       c.character_maximum_length\n" +
+            "       c.character_maximum_length data_length\n" +
             "From pg_class t\n" +
             "     Inner Join pg_namespace n on t.relnamespace = n.oid\n" +
             "     Inner Join information_schema.columns c on t.relname = c.table_name And n.nspname = c.table_schema\n" +
@@ -110,7 +110,7 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
             "       col_description(t.oid, c.ordinal_position) column_comments,\n" +
             "       --\n" +
             "       c.data_type COLUMN_TYPE,\n" +
-            "       c.character_maximum_length\n" +
+            "       c.character_maximum_length data_length\n" +
             "From pg_class t\n" +
             "     Inner Join pg_namespace n on t.relnamespace = n.oid\n" +
             "     Inner Join pg_views v on v.schemaname = n.nspname And v.viewname = t.relname\n" +
@@ -224,10 +224,10 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
 
     @Override
     public String calcColumnType(DataRow dataRow) {
-        if (dataRow.getBigDecimal("character_maximum_length") == null) {
+        if (dataRow.getBigDecimal("data_length") == null) {
             return dataRow.getString("COLUMN_TYPE");
         } else {
-            return dataRow.getString("COLUMN_TYPE") + "(" + dataRow.getBigDecimal("character_maximum_length").intValue() + ")";
+            return dataRow.getString("COLUMN_TYPE") + "(" + dataRow.getBigDecimal("data_length").intValue() + ")";
         }
     }
 

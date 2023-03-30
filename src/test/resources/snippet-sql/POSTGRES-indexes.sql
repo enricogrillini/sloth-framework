@@ -1,5 +1,5 @@
 -- Create Index frame_properties_idx1
-Create Index frame_properties_idx1 on Frame_Properties (type,value);
+Create Unique Index frame_properties_idx1 on Frame_Properties (type,value);
 
 -- Create Index sec_funzioniruoli_idx1
 Create Index sec_funzioniruoli_idx1 on Sec_Funzioniruoli (codruolo);
