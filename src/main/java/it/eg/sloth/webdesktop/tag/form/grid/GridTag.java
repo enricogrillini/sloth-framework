@@ -27,12 +27,15 @@ import java.io.IOException;
 public class GridTag extends AbstractGridTag<Grid<?>> {
 
     private boolean responsive = true;
+    private boolean bordered = true;
+    private boolean hover = true;
+    private boolean sortable = true;
 
     public int startTag() throws IOException, FrameworkException {
         if (getElement().getDataSource() != null) {
-            writeln(GridWriter.openTable(getElement(), isResponsive(), true, true, true));
-            writeln(GridWriter.header(getElement(), getDetailFields(), true));
-            writeln(GridWriter.rows(getElement(), getDetailFields(), getForm().getPageInfo().getViewModality(), true));
+            writeln(GridWriter.openTable(getElement(), isResponsive(), bordered, hover, true));
+            writeln(GridWriter.header(getElement(), getDetailFields(), sortable));
+            writeln(GridWriter.rows(getElement(), getDetailFields(), getForm().getPageInfo().getViewModality(), hover));
 
             if (getElement().hasTotalizer()) {
                 writeln(GridWriter.total(getElement(), hasDetail()));

@@ -50,7 +50,7 @@ public class BaseXlsReader {
         workbook = WorkbookFactory.create(inputStream);
         sheet = workbook.getSheetAt(0);
 
-        initDataRange(rowHeader, minRow, sheet.getLastRowNum(), 0, sheet.getRow(0).getLastCellNum());
+        initDataRange(rowHeader, minRow, sheet.getLastRowNum(), 0, sheet.getRow(rowHeader).getLastCellNum());
     }
 
     public BaseXlsReader(InputStream inputStream, int rowHeader, int minRow, int maxRow, int minCell, int maxCell) throws IOException {

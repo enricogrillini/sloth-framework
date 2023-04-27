@@ -84,7 +84,14 @@ class TimestampUtilTest {
     }
 
     @Test
-    void genericTestKo() throws FrameworkException {
+    void genericTest() throws FrameworkException {
+        TimeStampUtil.parseTimestamp("03/04/2023 15:26:08", "dd/MM/yyyy HH:mm:ss");
+        TimeStampUtil.parseTimestamp("2023/04/03 15:26:08", "yyyy/MM/dd HH:mm:ss");
+        TimeStampUtil.parseTimestamp("2023-04-03 15:26:08", "yyyy-MM-dd HH:mm:ss");
+    }
+
+    @Test
+    void genericTestKo() {
         // Formato data errato
         FrameworkException frameworkException = assertThrows(FrameworkException.class, () -> {
             TimeStampUtil.parseTimestamp("aaaa", "dd/MM/yyyy");
