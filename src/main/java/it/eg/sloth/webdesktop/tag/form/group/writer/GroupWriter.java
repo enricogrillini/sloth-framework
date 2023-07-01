@@ -1,11 +1,9 @@
 package it.eg.sloth.webdesktop.tag.form.group.writer;
 
 import it.eg.sloth.framework.common.base.BaseFunction;
-import it.eg.sloth.framework.common.base.BigDecimalUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
-import java.math.BigDecimal;
 import java.text.MessageFormat;
 
 /**
@@ -24,10 +22,10 @@ import java.text.MessageFormat;
  */
 public class GroupWriter extends HtmlWriter {
 
-    static final String ROW_OPEN = "<div class=\"row form-group mb-2\">";
+    static final String ROW_OPEN = "<div class=\"row form-group m-0\">";
     static final String ROW_CLOSE = "</div>";
 
-    static final String CELL_OPEN = "<div class=\"m-0 pl-1 pr-1 {0}\">";
+    static final String CELL_OPEN = "<div class=\"m-0 mb-2 pl-1 pr-1 {0}\">";
     static final String CELL_CLOSE = "</div>";
 
     public static String openGroup(String legend) {
@@ -52,14 +50,23 @@ public class GroupWriter extends HtmlWriter {
     }
 
     public static String openCell(String width) throws FrameworkException {
-        // Cell class
-        String widthClass = "col-2";
+        return openCell(width, null);
+    }
+
+    public static String openCell(String width, String mobileWidth) throws FrameworkException {
+        // Desktop cols
+        int desktopCols = 2;
         if (!BaseFunction.isBlank(width) && width.indexOf("cols") >= 0) {
-            BigDecimal bigDecimal = BigDecimalUtil.parseBigDecimal(width.replace("cols", ""));
-            widthClass = "col-" + bigDecimal.intValue();
+            desktopCols = Integer.valueOf(width.replace("cols", ""));
         }
 
-        return MessageFormat.format(CELL_OPEN, widthClass);
+        // Mobile cols
+        int mobileCols = desktopCols;
+        if (!BaseFunction.isBlank(mobileWidth) && mobileWidth.indexOf("cols") >= 0) {
+            mobileCols = Integer.valueOf(mobileWidth.replace("cols", ""));
+        }
+
+        return MessageFormat.format(CELL_OPEN, "col-lg-" + desktopCols + " col-" + mobileCols);
     }
 
     public static String closeCell() {

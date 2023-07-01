@@ -309,6 +309,7 @@ public class ToolbarWriter extends HtmlWriter {
                         .append(prevPageButton(grid, pageStatus.isChanging()))
                         .append(nextPageButton(grid, pageStatus.isChanging()))
                         .append(lastRowButton(grid, pageStatus.isChanging()))
+                        .append(MessageFormat.format(INFO_RECORDS, grid.getDataSource().size()))
                         .append(MessageFormat.format(INFO_PAG, (grid.getDataSource().getCurrentPage() + 1), grid.getDataSource().pages()));
             } else {
                 result.append(MessageFormat.format(INFO_RECORDS, grid.getDataSource().size()));

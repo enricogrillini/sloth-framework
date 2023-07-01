@@ -65,8 +65,8 @@ public class H2SchemaReader extends DbSchemaAbstractReader implements DbSchemaRe
             "      where t.table_schema = ?) index_stats";
 
 
-    public H2SchemaReader(DataBaseType dataBaseType) {
-        super(dataBaseType);
+    public H2SchemaReader() {
+        super(DataBaseType.H2);
     }
 
     @Override

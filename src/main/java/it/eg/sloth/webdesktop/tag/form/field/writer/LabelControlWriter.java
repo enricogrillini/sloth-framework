@@ -39,17 +39,21 @@ public class LabelControlWriter extends HtmlWriter {
     }
 
     public static String writeLblControl(SimpleField simpleField, Elements<?> parentElement, ViewModality viewModality, String labelWidth, String controlWidth) throws FrameworkException {
+        return writeLblControl(simpleField, parentElement, viewModality, labelWidth, controlWidth, labelWidth, controlWidth);
+    }
+
+    public static String writeLblControl(SimpleField simpleField, Elements<?> parentElement, ViewModality viewModality, String labelWidth, String controlWidth, String mLabelWidth, String mControlWidth) throws FrameworkException {
         StringBuilder result = new StringBuilder();
 
         if (hasLabel(simpleField)) {
             result
-                    .append(GroupWriter.openCell(labelWidth))
+                    .append(GroupWriter.openCell(labelWidth, mLabelWidth))
                     .append(writeLabel(simpleField))
                     .append(GroupWriter.closeCell());
         }
 
         return result
-                .append(GroupWriter.openCell(controlWidth))
+                .append(GroupWriter.openCell(controlWidth, mControlWidth))
                 .append(FormControlWriter.writeControl(simpleField, parentElement, viewModality))
                 .append(GroupWriter.closeCell())
                 .toString();

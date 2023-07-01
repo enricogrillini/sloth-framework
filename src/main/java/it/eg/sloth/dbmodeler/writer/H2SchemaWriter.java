@@ -25,8 +25,8 @@ public class H2SchemaWriter extends DbSchemaAbstractWriter implements DbSchemaWr
 
     private static final String EOS = "";
 
-    public H2SchemaWriter(DataBaseType dataBaseType) {
-        super(dataBaseType, EOS);
+    public H2SchemaWriter() {
+        super(DataBaseType.H2, EOS);
     }
 
     protected String calcSize(Long size) {

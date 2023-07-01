@@ -1,13 +1,12 @@
 package it.eg.sloth.webdesktop.tag;
 
 
+import it.eg.sloth.AbstractTest;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.group.writer.GroupWriter;
 import org.junit.jupiter.api.Test;
 
 import java.text.MessageFormat;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 /**
@@ -24,48 +23,51 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author Enrico Grillini
  */
-class GroupWriterTest {
-
-    private static final String OPEN_GROUP = "<fieldset>{0}";
-    private static final String CLOSE_GROUP = "</fieldset>";
-
-    private static final String OPEN_ROW = "<div class=\"row form-group mb-2\">";
-    private static final String CLOSE_ROW = "</div>";
-
-    private static final String OPEN_CELL = "<div class=\"m-0 pl-1 pr-1 col-2\">";
-    private static final String CLOSE_CELL = "</div>";
+class GroupWriterTest extends AbstractTest {
 
     @Test
-    void openGroupTest() throws FrameworkException {
-        assertEquals(MessageFormat.format(OPEN_GROUP, ""), GroupWriter.openGroup(null));
-        assertEquals(MessageFormat.format(OPEN_GROUP, "<legend>prova</legend>"), GroupWriter.openGroup("prova"));
+    void closeCell() {
+        assertEqualsStr("closeCell.html", GroupWriter.closeCell());
+    }
+
+
+    @Test
+    void closeGroup() {
+        assertEqualsStr("closeGroup.html", GroupWriter.closeGroup());
     }
 
     @Test
-    void closeGroupTest() throws FrameworkException {
-        assertEquals(CLOSE_GROUP, GroupWriter.closeGroup());
+    void closeRow() {
+        assertEqualsStr("closeRow.html", GroupWriter.closeRow());
     }
 
     @Test
-    void openRowTest() throws FrameworkException {
-        assertEquals(OPEN_ROW, GroupWriter.openRow());
+    void openCell() throws FrameworkException {
+        assertEqualsStr("openCell.html", GroupWriter.openCell(null));
+        assertEqualsStr("openCell.html", GroupWriter.openCell("10%"));
+        assertEqualsStr("openCell.html", GroupWriter.openCell(""));
+    }
+
+
+    @Test
+    void openCell_mobile() throws FrameworkException {
+        assertEqualsStr("openCell_mobile.html", GroupWriter.openCell("4cols", "6cols"));
     }
 
     @Test
-    void closeRowTest() throws FrameworkException {
-        assertEquals(CLOSE_ROW, GroupWriter.closeRow());
+    void openGroup() {
+        assertEqualsStr("openGroup.html", GroupWriter.openGroup(null));
     }
 
     @Test
-    void openCellTest() throws FrameworkException {
-        assertEquals(OPEN_CELL, GroupWriter.openCell(null));
-        assertEquals(OPEN_CELL, GroupWriter.openCell("10%"));
-        assertEquals(OPEN_CELL, GroupWriter.openCell(""));
+    void openGroup_legend() {
+        assertEqualsStr(MessageFormat.format("openGroup_legend.html", "<legend>prova</legend>"), GroupWriter.openGroup("prova"));
     }
 
+
     @Test
-    void closeCellTest() {
-        assertEquals(CLOSE_CELL, GroupWriter.closeCell());
+    void openRow() {
+        assertEqualsStr("openRow.html", GroupWriter.openRow());
     }
 
 }

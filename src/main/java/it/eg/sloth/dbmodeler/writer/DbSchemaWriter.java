@@ -109,11 +109,11 @@ public interface DbSchemaWriter {
             // Imposto il reader corretto
             switch (dataBaseType) {
                 case H2:
-                    return new H2SchemaWriter(dataBaseType);
+                    return new H2SchemaWriter();
                 case ORACLE:
-                    return new OracleSchemaWriter(dataBaseType);
+                    return new OracleSchemaWriter();
                 case POSTGRES:
-                    return new PostgresSchemaWriter(dataBaseType);
+                    return new PostgresSchemaWriter();
 
                 default:
                     // NOP

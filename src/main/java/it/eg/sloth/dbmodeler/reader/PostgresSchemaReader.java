@@ -146,8 +146,8 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
             "      From pg_catalog.pg_stat_all_indexes t\n" +
             "      Where t.schemaname = ?) indexStats";
 
-    public PostgresSchemaReader(DataBaseType dataBaseType) {
-        super(dataBaseType);
+    public PostgresSchemaReader() {
+        super(DataBaseType.POSTGRES);
     }
 
     @Override

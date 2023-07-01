@@ -1,9 +1,14 @@
 package it.eg.sloth.framework.common.base;
 
 
+import it.eg.sloth.framework.common.exception.FrameworkException;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -24,6 +29,19 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  */
 class BigdecimalUtilTest {
 
+    Locale locale;
+
+    @BeforeEach
+    void beforeEach() {
+        locale = Locale.getDefault();
+        Locale.setDefault(Locale.ITALY);
+    }
+
+    @AfterEach
+    void afterEach() {
+        Locale.setDefault(locale);
+    }
+
     @Test
     void sumTest() {
         assertEquals(null, BigDecimalUtil.sum(null, null));
@@ -39,6 +57,12 @@ class BigdecimalUtilTest {
         assertEquals(null, BigDecimalUtil.greatest(null, BigDecimal.valueOf(1)));
         assertEquals(BigDecimal.valueOf(20), BigDecimalUtil.greatest(BigDecimal.valueOf(10), BigDecimal.valueOf(20)));
         assertEquals(BigDecimal.valueOf(10), BigDecimalUtil.greatest(BigDecimal.valueOf(10), BigDecimal.valueOf(2)));
+    }
+
+    @Test
+    void parseBigDecimalTest() throws FrameworkException {
+        assertNull(BigDecimalUtil.parseBigDecimal(""));
+        assertEquals(10.6, BigDecimalUtil.parseBigDecimal("10,6").doubleValue());
     }
 
 
@@ -68,5 +92,6 @@ class BigdecimalUtilTest {
         assertNull(BigDecimalUtil.doubleObject(null));
         assertEquals(10.0, BigDecimalUtil.doubleObject(BigDecimal.valueOf(10)), 0.0);
     }
+
 
 }

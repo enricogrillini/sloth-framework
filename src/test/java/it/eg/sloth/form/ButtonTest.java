@@ -1,11 +1,13 @@
 package it.eg.sloth.form;
 
 import it.eg.sloth.form.fields.field.impl.Button;
+import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.jaxb.form.ButtonType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,6 +37,13 @@ class ButtonTest {
                 .description("description")
                 .build();
     }
+
+    @Test
+    void aaa() {
+        StringUtil.initCap("Acceptance / Pre-prod");
+
+    }
+
 
     @Test
     void buttonTest() {

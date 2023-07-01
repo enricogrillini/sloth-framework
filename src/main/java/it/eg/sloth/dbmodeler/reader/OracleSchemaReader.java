@@ -220,8 +220,8 @@ public class OracleSchemaReader extends DbSchemaAbstractReader implements DbSche
             "Where s.owner = upper(?)\n";
 
 
-    public OracleSchemaReader(DataBaseType dataBaseType) {
-        super(dataBaseType);
+    public OracleSchemaReader() {
+        super(DataBaseType.ORACLE);
     }
 
     @Override

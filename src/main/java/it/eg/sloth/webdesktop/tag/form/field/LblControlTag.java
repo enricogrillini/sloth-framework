@@ -31,7 +31,10 @@ public class LblControlTag extends BaseControlTag {
     String labelWidth;
     String controlWidth;
 
+    String mobileLabelWidth;
+    String mobileControlWidth;
+
     protected void writeField() throws IOException, FrameworkException {
-        write(LabelControlWriter.writeLblControl(getElement(), getParentElement(), getViewModality(), getLabelWidth(), getControlWidth()));
+        write(LabelControlWriter.writeLblControl(getElement(), getParentElement(), getViewModality(), getLabelWidth(), getControlWidth(), getMobileLabelWidth(), getMobileControlWidth()));
     }
 }

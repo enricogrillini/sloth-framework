@@ -42,7 +42,7 @@ import java.util.Map;
  */
 public abstract class DbSchemaAbstractReader implements DbSchemaReader {
 
-    @Getter
+        @Getter
     private DataBaseType dataBaseType;
 
     protected DbSchemaAbstractReader(DataBaseType dataBaseType) {

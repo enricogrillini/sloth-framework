@@ -136,11 +136,11 @@ public interface DbSchemaReader {
             // Imposto il reader corretto
             switch (dataBaseType) {
                 case H2:
-                    return new H2SchemaReader(dataBaseType);
+                    return new H2SchemaReader();
                 case ORACLE:
-                    return new OracleSchemaReader(dataBaseType);
+                    return new OracleSchemaReader();
                 case POSTGRES:
-                    return new PostgresSchemaReader(dataBaseType);
+                    return new PostgresSchemaReader();
                 default:
                     return null;
             }

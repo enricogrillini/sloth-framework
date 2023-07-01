@@ -1,5 +1,6 @@
 package it.eg.sloth.webdesktop.tag;
 
+import it.eg.sloth.AbstractTest;
 import it.eg.sloth.form.fields.field.impl.Button;
 import it.eg.sloth.form.fields.field.impl.Input;
 import it.eg.sloth.framework.common.base.StringUtil;
@@ -7,48 +8,55 @@ import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.form.field.writer.LabelControlWriter;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.text.MessageFormat;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class LabelControlWriterTest {
-    private static final String LABEL = "<label for=\"{0}\" class=\"col-form-label form-control-sm float-right pr-0\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{2}\">{1}{3}:</label>";
+class LabelControlWriterTest extends AbstractTest {
 
-    private static final String AAA = "<div class=\"m-0 pl-1 pr-1 col-1\"><label for=\"{0}\" class=\"col-form-label form-control-sm float-right pr-0\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{2}\">{1}{3}:</label></div><div class=\"m-0 pl-1 pr-1 col-1\"><input id=\"{0}\" name=\"{0}\" type=\"text\" value=\"\" class=\"form-control form-control-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"{2}\"/></div>";
+    Input<String> field;
 
-    private static final String BBB = "<div class=\"m-0 pl-1 pr-1 col-1\"><button id=\"navigationprefix___button___{0}\" name=\"navigationprefix___button___{0}\" class=\"btn btn-outline-primary btn-sm\">{1}</button></div>";
-
-    @Test
-    void labelTest() throws FrameworkException {
-        // Controlli con label
-        Input<String> field = new Input<String>("name", "description", DataTypes.STRING);
+    @BeforeEach
+    public void init() {
+        field = new Input<String>("name", "description", DataTypes.STRING);
         field.setTooltip("tooltip");
-
-        assertEquals(MessageFormat.format(LABEL, "name", "description", "tooltip", ""), LabelControlWriter.writeLabel(field));
-
-        field.setRequired(true);
-        assertEquals(MessageFormat.format(LABEL, "name", "description", "tooltip", "*"), LabelControlWriter.writeLabel(field));
-
-        // Controlli senza label (Button)
-        Button button = new Button("name", "description");
-        assertEquals(StringUtil.EMPTY, LabelControlWriter.writeLabel(button));
     }
 
     @Test
-    void labelControlTest() throws FrameworkException {
-        // Controlli con label
-        Input<String> field = new Input<String>("name", "description", DataTypes.STRING);
-        field.setTooltip("tooltip");
-
-        assertEquals(MessageFormat.format(AAA, "name", "description", "tooltip", ""), LabelControlWriter.writeLblControl(field, null, ViewModality.EDIT, "1cols", "1cols"));
-
-        field.setRequired(true);
-        assertEquals(MessageFormat.format(AAA, "name", "description", "tooltip", "*"), LabelControlWriter.writeLblControl(field, null, ViewModality.EDIT, "1cols", "1cols"));
-
-        // Controlli senza label (Button)
-        Button button = new Button("name", "description");
-        assertEquals(MessageFormat.format(BBB, "name", "description"), LabelControlWriter.writeLblControl(button, null, ViewModality.EDIT, "1cols", "1cols"));
+    void label() {
+        assertEqualsStr("label.html", LabelControlWriter.writeLabel(field));
     }
+
+    @Test
+    void label_required() {
+        field.setRequired(true);
+
+        assertEqualsStr("label_required.html", LabelControlWriter.writeLabel(field));
+    }
+
+    @Test
+    void label_button() {
+        Button button = new Button("name", "description");
+        assertEqualsStr("label_button.html",LabelControlWriter.writeLabel(button));
+    }
+
+    @Test
+    void lblControl() throws FrameworkException {
+        assertEqualsStr("lblControl.html", LabelControlWriter.writeLblControl(field, null, ViewModality.EDIT, "1cols", "1cols"));
+    }
+
+    @Test
+    void lblControl_required() throws FrameworkException {
+        field.setRequired(true);
+
+        assertEqualsStr("lblControl_required.html", LabelControlWriter.writeLblControl(field, null, ViewModality.EDIT, "1cols", "1cols"));
+    }
+
+    @Test
+    void lblControl_button() throws FrameworkException {
+        Button button = new Button("name", "description");
+        assertEqualsStr("lblControl_button.html", LabelControlWriter.writeLblControl(button, null, ViewModality.EDIT, "1cols", "1cols"));
+    }
+
 }

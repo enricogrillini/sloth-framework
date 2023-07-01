@@ -23,8 +23,8 @@ public class OracleSchemaWriter extends DbSchemaAbstractWriter implements DbSche
 
     private static final String EOS = "/";
 
-    public OracleSchemaWriter(DataBaseType dataBaseType) {
-        super(dataBaseType, EOS);
+    public OracleSchemaWriter() {
+        super(DataBaseType.ORACLE, EOS);
     }
 
     protected String calcSize(Long size) {

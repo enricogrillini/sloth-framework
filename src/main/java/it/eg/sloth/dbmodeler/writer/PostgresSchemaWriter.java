@@ -25,8 +25,8 @@ public class PostgresSchemaWriter extends DbSchemaAbstractWriter implements DbSc
 
     private static final String EOS = "";
 
-    public PostgresSchemaWriter(DataBaseType dataBaseType) {
-        super(dataBaseType, EOS);
+    public PostgresSchemaWriter() {
+        super(DataBaseType.POSTGRES, EOS);
     }
 
     protected String calcSize(Long size) {
