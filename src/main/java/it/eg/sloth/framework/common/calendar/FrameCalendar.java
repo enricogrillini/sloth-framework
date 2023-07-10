@@ -9,7 +9,7 @@ public interface FrameCalendar<E, I extends DayInfo> extends Iterable<Day<E, I>>
     void clear() throws FrameworkException;
 
     /**
-     * Imposta il giorno rappreentativo del calendario
+     * Imposta il giorno rappresentativo del calendario
      *
      * @return
      * @throws FrameworkException
@@ -33,5 +33,7 @@ public interface FrameCalendar<E, I extends DayInfo> extends Iterable<Day<E, I>>
     FrameCalendar<E, I> prev() throws FrameworkException;
 
     FrameCalendar<E, I> next() throws FrameworkException;
+
+    int size();
 
 }

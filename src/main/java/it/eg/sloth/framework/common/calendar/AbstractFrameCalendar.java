@@ -40,5 +40,7 @@ public abstract class AbstractFrameCalendar<E, I extends DayInfo> implements Fra
         return dayMap.get(day);
     }
 
-
+    public int size() {
+        return dayMap.size();
+    }
 }
