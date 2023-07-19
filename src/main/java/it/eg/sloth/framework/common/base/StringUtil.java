@@ -375,7 +375,7 @@ public class StringUtil {
             return "";
         }
 
-        return initCap(string).replace(" ", "").replace("_", "").replace("-", "");
+        return initCap(string).replace(" ", "").replace("_", "").replace("-", "").replace(".", "");
     }
 
     public static String toJavaObjectName(String string) {
