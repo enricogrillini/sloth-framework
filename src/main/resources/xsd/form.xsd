@@ -410,6 +410,8 @@
     <attribute name="Table" type="string"></attribute>
     <attribute name="Filled" type="boolean"></attribute>
     <attribute name="Stacked" type="boolean"></attribute>
+    <attribute name="LimitTo" type="integer"></attribute>
+    <attribute name="LimitDescription" type="string"></attribute>
    </extension>
   </complexContent>
  </complexType>

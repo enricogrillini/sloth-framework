@@ -1,15 +1,10 @@
 package it.eg.sloth;
 
-import it.eg.sloth.db.datasource.DataRow;
-import it.eg.sloth.db.datasource.DataTable;
 import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.db.decodemap.map.BaseDecodeMap;
 import it.eg.sloth.db.decodemap.map.StringDecodeMap;
 import it.eg.sloth.form.WebRequest;
-import it.eg.sloth.form.chart.SimpleChart;
-import it.eg.sloth.form.chart.element.Labels;
-import it.eg.sloth.form.chart.element.Series;
 import it.eg.sloth.form.fields.field.impl.ComboBox;
 import it.eg.sloth.form.fields.field.impl.Text;
 import it.eg.sloth.form.fields.field.impl.TextTotalizer;
@@ -19,8 +14,6 @@ import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.security.Menu;
 import it.eg.sloth.framework.security.VoiceType;
-import it.eg.sloth.jaxb.form.ChartType;
-import it.eg.sloth.jaxb.form.LegendPosition;
 import it.eg.sloth.webdesktop.search.SearchManager;
 import it.eg.sloth.webdesktop.search.SearchRelevance;
 import it.eg.sloth.webdesktop.search.impl.DataTableSearcher;
@@ -96,41 +89,6 @@ public class TestFactory {
         result.setDataSource(table);
 
         result.setLocale(Locale.ITALY);
-
-        return result;
-    }
-
-    public static SimpleChart<DataTable<?>> getSimpleChart(ChartType chartType) throws FrameworkException {
-        SimpleChart<DataTable<?>> result = new SimpleChart<>("Prova", chartType, "Prova", LegendPosition.TOP);
-
-        result.addChild(new Labels<Timestamp>("Ora", "Ora", DataTypes.MONTH));
-        result.addChild(new Series("Excecutions", "Excecutions", DataTypes.INTEGER));
-
-        DataTable<?> table = new Table();
-        DataRow row = table.add();
-        row.setTimestamp("Ora", TimeStampUtil.parseTimestamp("01/01/2020"));
-        row.setBigDecimal("Excecutions", BigDecimal.valueOf(25));
-        row.setBigDecimal("Average", BigDecimal.valueOf(10));
-
-        row = table.add();
-        row.setTimestamp("Ora", TimeStampUtil.parseTimestamp("01/02/2020"));
-        row.setBigDecimal("Excecutions", BigDecimal.valueOf(15));
-        row.setBigDecimal("Average", BigDecimal.valueOf(25));
-
-        row = table.add();
-        row.setTimestamp("Ora", TimeStampUtil.parseTimestamp("01/03/2020"));
-        row.setBigDecimal("Excecutions", BigDecimal.valueOf(35));
-        row.setBigDecimal("Average", BigDecimal.valueOf(15));
-
-        result.setDataTable(table);
-
-        return result;
-    }
-
-    public static SimpleChart<DataTable<?>> getDoubleChart(ChartType chartType) throws FrameworkException {
-        SimpleChart<DataTable<?>> result = getSimpleChart( chartType);
-
-        result.addChild(new Series("Average", "Average", DataTypes.INTEGER));
 
         return result;
     }

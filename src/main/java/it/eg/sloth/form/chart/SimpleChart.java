@@ -41,6 +41,9 @@ public class SimpleChart<D extends DataTable<?>> extends AbstractElements<Abstra
     Boolean filled;
     Boolean stacked;
 
+    Integer limitTo;
+    String limitDescription;
+
     public SimpleChart(String name, ChartType chartType, String title, LegendPosition legendPosition) {
         super(name);
 
@@ -50,6 +53,9 @@ public class SimpleChart<D extends DataTable<?>> extends AbstractElements<Abstra
         this.dataTable = null;
         this.filled = null;
         this.stacked = null;
+
+        this.limitTo = null;
+        this.limitDescription = null;
     }
 
     public boolean isFilled() {

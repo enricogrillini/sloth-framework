@@ -8,6 +8,7 @@ import it.eg.sloth.form.chart.SimpleChart;
 import it.eg.sloth.form.chart.element.Labels;
 import it.eg.sloth.form.chart.element.Series;
 import it.eg.sloth.framework.common.base.BaseFunction;
+import it.eg.sloth.framework.common.base.BigDecimalUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.html.HtmlColor;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
@@ -93,9 +94,18 @@ public class ChartWriter extends HtmlWriter {
         if (simpleChart.getDataTable() != null) {
             // Labels
             Labels<?> labels = simpleChart.getLabels().newInstance();
+            int j = 0;
             for (DataRow row : simpleChart.getDataTable()) {
-                labels.copyFromDataSource(row);
-                chartData.getLabels().add(labels.getText());
+                if (simpleChart.getLimitTo() != null && j >= simpleChart.getLimitTo()) {
+                    if (j == simpleChart.getLimitTo()) {
+                        chartData.getLabels().add(simpleChart.getLimitDescription());
+                    }
+                } else {
+                    labels.copyFromDataSource(row);
+                    chartData.getLabels().add(labels.getText());
+                }
+
+                j++;
             }
 
             // Mono Colors
@@ -141,14 +151,31 @@ public class ChartWriter extends HtmlWriter {
             dataSet.setLabel(series.getDescription());
 
             DataTable<?> dataTable = simpleChart.getDataTable();
+
+            int j = 0;
             for (DataRow row : dataTable) {
                 seriesClone.copyFromDataSource(row);
 
-                if (seriesClone.getValue() instanceof BigDecimal) {
-                    dataSet.getData().add(seriesClone.getValue());
+                if (simpleChart.getLimitTo() != null && j >= simpleChart.getLimitTo()) {
+                    if (j == simpleChart.getLimitTo()) {
+                        dataSet.getData().add(null);
+                    }
+
+                    if (seriesClone.getValue() instanceof BigDecimal) {
+                        BigDecimal curValue = dataSet.getData().get(simpleChart.getLimitTo());
+
+                        dataSet.getData().set(simpleChart.getLimitTo(), BigDecimalUtil.sum(curValue, seriesClone.getValue()));
+                    }
+
                 } else {
-                    dataSet.getData().add(null);
+                    if (seriesClone.getValue() instanceof BigDecimal) {
+                        dataSet.getData().add(seriesClone.getValue());
+                    } else {
+                        dataSet.getData().add(null);
+                    }
                 }
+
+                j++;
             }
 
             if (simpleChart.isFilled()) {
