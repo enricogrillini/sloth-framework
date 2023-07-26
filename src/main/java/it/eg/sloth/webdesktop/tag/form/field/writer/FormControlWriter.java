@@ -35,6 +35,10 @@ import java.text.MessageFormat;
  */
 public class FormControlWriter extends HtmlWriter {
 
+    public static final String DROPDOWN_BUTTON = " <button class=\"{1}\" type=\"button\" data-toggle=\"dropdown\" aria-expanded=\"false\">{0}</button>\n";
+    public static final String DROPDOWN_ITEM = "  <a class=\"dropdown-item\" href=\"{2}?{3}={0}\">{1}</a>\n";
+    ;
+
     public static final String INPUT = "<input id=\"{0}\" name=\"{0}\" type=\"{1}\" value=\"{2}\"{3}/>";
     public static final String INPUT_VIEW = "<div{1} style=\"height: auto;\">{0}</div>";
 
@@ -62,6 +66,8 @@ public class FormControlWriter extends HtmlWriter {
                 return writeComboBox((ComboBox) element, parentElement, pageViewModality);
             case DECODED_TEXT:
                 return writeDecodedText((DecodedText) element, parentElement);
+            case DROPDOWN_BUTTON:
+                return writeDropDownButton((DropDownButton) element);
             case FILE:
                 return writeFile((File) element, pageViewModality);
             case HIDDEN:
@@ -394,6 +400,38 @@ public class FormControlWriter extends HtmlWriter {
 
         // Gestione stato
         return toInputGroup(innerHtml, decodedText.getState(), Casting.getHtml(decodedText.getStateMessage()));
+    }
+
+    /**
+     * Scrive un campo: Button
+     *
+     * @param button
+     * @return
+     */
+    public static String writeDropDownButton(DropDownButton button) {
+        if (button.isHidden()) {
+            return StringUtil.EMPTY;
+        }
+
+        String buttonClass = MessageFormat.format(BootStrapClass.DROP_DOWNBUTTON, button.getButtonType().value());
+
+        StringBuilder result = new StringBuilder()
+                .append("<div class=\"dropdown\">\n")
+                .append(MessageFormat.format(DROPDOWN_BUTTON, Casting.getHtml(button.getDescription()), buttonClass))
+                .append("  <div class=\"dropdown-menu\">\n");
+
+        if (button.getDropDownItemList() != null && !button.getDropDownItemList().isEmpty()) {
+            for (DropDownButton.DropDownItem item : button.getDropDownItemList()) {
+                result.append(MessageFormat.format(DROPDOWN_ITEM, item.getCode(), item.getDescription(), button.getHref(), NavigationConst.navStr(NavigationConst.BUTTON, button.getName())));
+            }
+        }
+
+
+        result
+                .append("</div>\n")
+                .append("</div>");
+
+        return result.toString();
     }
 
     /**

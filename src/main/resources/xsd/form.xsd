@@ -49,6 +49,7 @@
      <element name="File" type="tns:File" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="MultipleFile" type="tns:MultipleFile" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="Button" type="tns:Button" maxOccurs="unbounded" minOccurs="0"></element>
+     <element name="DropDownButton" type="tns:DropDownButton" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="Link" type="tns:Link" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="Hidden" type="tns:Hidden" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="AutoComplete" type="tns:AutoComplete" maxOccurs="unbounded" minOccurs="0"></element>
@@ -180,7 +181,7 @@
    <enumeration value="INIT_CAP"></enumeration>
    <enumeration value="UPPER_TRIM"></enumeration>
    <enumeration value="LOWER_TRIM"></enumeration>
-   <enumeration value="INIT_CAP_TRIM"></enumeration>   
+   <enumeration value="INIT_CAP_TRIM"></enumeration>
   </restriction>
  </simpleType>
 
@@ -232,6 +233,13 @@
     <attribute name="Type" type="tns:ButtonType"></attribute>
     <attribute name="Loading" type="boolean"></attribute>
     <attribute name="ConfirmMessage" type="string"></attribute>
+   </extension>
+  </complexContent>
+ </complexType>
+ 
+  <complexType name="DropDownButton">
+  <complexContent>
+   <extension base="tns:Link">
    </extension>
   </complexContent>
  </complexType>

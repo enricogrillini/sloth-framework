@@ -40,6 +40,7 @@ public class BootStrapClass {
     public static final String LABEL_CLASS = "col-form-label form-control-sm float-right pr-0";
     public static final String CHECK_CLASS = "custom-control-input";
     public static final String BUTTON_CLASS = "btn {0} btn-sm";
+    public static final String DROP_DOWNBUTTON = "btn {0} btn-sm dropdown-toggle";
 
     public static final String getControlClass(DataField<?> dataField) {
         return new StringBuilder()
