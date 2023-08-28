@@ -36,8 +36,8 @@ import java.text.MessageFormat;
 public class FormControlWriter extends HtmlWriter {
 
     public static final String DROPDOWN_BUTTON = " <button class=\"{1}\" type=\"button\" data-toggle=\"dropdown\" aria-expanded=\"false\">{0}</button>\n";
+    public static final String DROPDOWN_BUTTON_EMPTY = " <button class=\"{1}\" type=\"button\">{0}</button>\n";
     public static final String DROPDOWN_ITEM = "  <a class=\"dropdown-item\" href=\"{2}?{3}={0}\">{1}</a>\n";
-    ;
 
     public static final String INPUT = "<input id=\"{0}\" name=\"{0}\" type=\"{1}\" value=\"{2}\"{3}/>";
     public static final String INPUT_VIEW = "<div{1} style=\"height: auto;\">{0}</div>";
@@ -49,7 +49,7 @@ public class FormControlWriter extends HtmlWriter {
     public static final String INPUT_GROUP = "<div class=\"input-group input-group-sm\">{0}{1}</div>{2}";
     public static final String INPUT_GROUP_STATE_MESSAGE = "<div class=\"small {0}\">{1}</div>";
 
-
+    // Scrive un Controllo
     public static String writeControl(SimpleField element, Elements<?> parentElement, ViewModality pageViewModality) throws FrameworkException {
         switch (element.getFieldType()) {
             case AUTO_COMPLETE:
@@ -102,14 +102,7 @@ public class FormControlWriter extends HtmlWriter {
 
     }
 
-    /**
-     * Scrive un campo: AutoComplete
-     *
-     * @param autocomplete
-     * @param parentElement
-     * @param pageViewModality
-     * @return
-     */
+    // Scrive un campo: AutoComplete
     public static String writeAutoComplete(AutoComplete<?> autocomplete, Elements<?> parentElement, ViewModality pageViewModality) throws FrameworkException {
         if (autocomplete.isHidden()) {
             return StringUtil.EMPTY;
@@ -141,12 +134,7 @@ public class FormControlWriter extends HtmlWriter {
         return toInputGroup(innerHtml, autocomplete.getState(), Casting.getHtml(autocomplete.getStateMessage()));
     }
 
-    /**
-     * Scrive un campo: Button
-     *
-     * @param button
-     * @return
-     */
+    // Scrive un campo: Button
     public static String writeButton(Button button) {
         if (button.isHidden()) {
             return StringUtil.EMPTY;
@@ -172,13 +160,7 @@ public class FormControlWriter extends HtmlWriter {
         return result.toString();
     }
 
-    /**
-     * Scrive un campo: CheckBox
-     *
-     * @param checkBox
-     * @param pageViewModality
-     * @return
-     */
+    // Scrive un campo: CheckBox
     public static String writeCheckBox(CheckBox<?> checkBox, ViewModality pageViewModality) {
         if (checkBox.isHidden()) {
             return StringUtil.EMPTY;
@@ -213,14 +195,7 @@ public class FormControlWriter extends HtmlWriter {
                 .toString();
     }
 
-    /**
-     * Scrive un campo: CheckButtons
-     *
-     * @param checkButtons
-     * @param pageViewModality
-     * @return
-     * @throws FrameworkException
-     */
+    // Scrive un campo: CheckButtons
     public static String writeCheckButtons(CheckButtons<?, Object> checkButtons, ViewModality pageViewModality) throws FrameworkException {
         if (checkButtons.isHidden()) {
             return StringUtil.EMPTY;
@@ -263,14 +238,7 @@ public class FormControlWriter extends HtmlWriter {
                 .toString();
     }
 
-    /**
-     * Scrive un campo: CheckGroups
-     *
-     * @param checkGroup
-     * @param pageViewModality
-     * @return
-     * @throws FrameworkException
-     */
+    // Scrive un campo: CheckGroups
     public static String writeCheckGroups(CheckGroup<?, Object> checkGroup, ViewModality pageViewModality) throws FrameworkException {
         if (checkGroup.isHidden()) {
             return StringUtil.EMPTY;
@@ -321,13 +289,7 @@ public class FormControlWriter extends HtmlWriter {
         return result.toString();
     }
 
-    /**
-     * Scrive un campo: ComboBox
-     *
-     * @param comboBox
-     * @param pageViewModality
-     * @return
-     */
+    // Scrive un campo: ComboBox
     public static String writeComboBox(ComboBox<?> comboBox, Elements<?> parentElement, ViewModality pageViewModality) throws FrameworkException {
         if (comboBox.isHidden()) {
             return StringUtil.EMPTY;
@@ -382,12 +344,7 @@ public class FormControlWriter extends HtmlWriter {
         return toInputGroup(innerHtml, comboBox.getState(), Casting.getHtml(comboBox.getStateMessage()));
     }
 
-    /**
-     * Scrive un campo: DecodedText
-     *
-     * @param decodedText
-     * @return
-     */
+    // Scrive un campo: DecodedText
     public static String writeDecodedText(DecodedText<?> decodedText, Elements<?> parentElement) throws FrameworkException {
         if (decodedText.isHidden()) {
             return StringUtil.EMPTY;
@@ -402,45 +359,42 @@ public class FormControlWriter extends HtmlWriter {
         return toInputGroup(innerHtml, decodedText.getState(), Casting.getHtml(decodedText.getStateMessage()));
     }
 
-    /**
-     * Scrive un campo: Button
-     *
-     * @param button
-     * @return
-     */
-    public static String writeDropDownButton(DropDownButton button) {
-        if (button.isHidden()) {
+    // Scrive un campo: DropDownButton
+    public static String writeDropDownButton(DropDownButton dropDownButton) {
+        if (dropDownButton.isHidden()) {
             return StringUtil.EMPTY;
         }
 
-        String buttonClass = MessageFormat.format(BootStrapClass.DROP_DOWNBUTTON, button.getButtonType().value());
 
-        StringBuilder result = new StringBuilder()
-                .append("<div class=\"dropdown\">\n")
-                .append(MessageFormat.format(DROPDOWN_BUTTON, Casting.getHtml(button.getDescription()), buttonClass))
-                .append("  <div class=\"dropdown-menu\">\n");
+        if (dropDownButton.getDropDownItemList() != null && !dropDownButton.getDropDownItemList().isEmpty()) {
+            String buttonClass = MessageFormat.format(BootStrapClass.DROP_DOWNBUTTON, dropDownButton.getButtonType().value());
 
-        if (button.getDropDownItemList() != null && !button.getDropDownItemList().isEmpty()) {
-            for (DropDownButton.DropDownItem item : button.getDropDownItemList()) {
-                result.append(MessageFormat.format(DROPDOWN_ITEM, item.getCode(), item.getDescription(), button.getHref(), NavigationConst.navStr(NavigationConst.BUTTON, button.getName())));
+            StringBuilder result = new StringBuilder()
+                    .append("<div class=\"dropdown\">\n")
+                    .append(MessageFormat.format(DROPDOWN_BUTTON, Casting.getHtml(dropDownButton.getDescription()), buttonClass));
+
+            result.append(" <div class=\"dropdown-menu\">\n");
+            for (DropDownButton.DropDownItem item : dropDownButton.getDropDownItemList()) {
+                result.append(MessageFormat.format(DROPDOWN_ITEM, item.getCode(), item.getDescription(), dropDownButton.getHref(), NavigationConst.navStr(NavigationConst.BUTTON, dropDownButton.getName())));
             }
+
+            return result.append(" </div>\n")
+                    .append("</div>")
+                    .toString();
+        } else {
+            String buttonClass = MessageFormat.format(BootStrapClass.DROP_DOWNBUTTON_EMPTY, dropDownButton.getButtonType().value());
+
+            return new StringBuilder()
+                    .append("<div class=\"dropdown\">\n")
+                    .append(MessageFormat.format(DROPDOWN_BUTTON_EMPTY, Casting.getHtml(dropDownButton.getDescription()), buttonClass))
+                    .append("</div>")
+                    .toString();
         }
 
 
-        result
-                .append("</div>\n")
-                .append("</div>");
-
-        return result.toString();
     }
 
-    /**
-     * Scrive un campo: File
-     *
-     * @param file
-     * @param pageViewModality
-     * @return
-     */
+    // Scrive un campo: File
     public static String writeFile(File file, ViewModality pageViewModality) {
         if (file.isHidden()) {
             return StringUtil.EMPTY;
@@ -459,12 +413,7 @@ public class FormControlWriter extends HtmlWriter {
         }
     }
 
-    /**
-     * Scrive un campo: Hidden
-     *
-     * @param input
-     * @return
-     */
+    // Scrive un campo: Hidden
     public static String writeHidden(Hidden<?> input) {
         return new StringBuilder()
                 .append(BEGIN_INPUT)
@@ -477,13 +426,7 @@ public class FormControlWriter extends HtmlWriter {
     }
 
 
-    /**
-     * Scrive un campo: Input
-     *
-     * @param input
-     * @param pageViewModality
-     * @return
-     */
+    // Scrive un campo: Input
     public static String writeInput(Input<?> input, Elements<?> parentElement, ViewModality pageViewModality) throws FrameworkException {
         if (input.isHidden()) {
             return StringUtil.EMPTY;
@@ -516,23 +459,12 @@ public class FormControlWriter extends HtmlWriter {
         return toInputGroup(innerHtml, input.getState(), Casting.getHtml(input.getStateMessage()));
     }
 
-    /**
-     * Scrive un campo: InputTotalizer
-     *
-     * @param inputTotalizer
-     * @param pageViewModality
-     * @return
-     */
+    // Scrive un campo: InputTotalizer
     public static String writeInputTotalizer(InputTotalizer inputTotalizer, Elements<?> parentElement, ViewModality pageViewModality) throws FrameworkException {
         return writeInput(inputTotalizer, parentElement, pageViewModality);
     }
 
-    /**
-     * Scrive un campo: Link
-     *
-     * @param link
-     * @return
-     */
+    // Scrive un campo: Link
     public static String writeLink(Link link) {
         if (link.isHidden()) {
             return StringUtil.EMPTY;
@@ -554,14 +486,7 @@ public class FormControlWriter extends HtmlWriter {
         return result.toString();
     }
 
-    /**
-     * Scrive un campo: MultipleAutoComplete
-     *
-     * @param multipleAutoComplete
-     * @param parentElement
-     * @param pageViewModality
-     * @return
-     */
+    // Scrive un campo: MultipleAutoComplete
     public static <T> String writeMultipleAutoComplete(MultipleAutoComplete<T> multipleAutoComplete, Elements<?> parentElement, ViewModality pageViewModality) throws FrameworkException {
         if (multipleAutoComplete.isHidden()) {
             return StringUtil.EMPTY;
@@ -596,13 +521,7 @@ public class FormControlWriter extends HtmlWriter {
         return innerHtml;
     }
 
-    /**
-     * Scrive un campo: MultipleFile
-     *
-     * @param file
-     * @param pageViewModality
-     * @return
-     */
+    // Scrive un campo: MultipleFile
     public static String writeMultipleFile(MultipleFile file, ViewModality pageViewModality) {
         if (file.isHidden()) {
             return StringUtil.EMPTY;
@@ -622,14 +541,7 @@ public class FormControlWriter extends HtmlWriter {
     }
 
 
-    /**
-     * Scrive un campo: RadioButtons
-     *
-     * @param radioButtons
-     * @param pageViewModality
-     * @return
-     * @throws FrameworkException
-     */
+    // Scrive un campo: RadioButtons
     public static String writeRadioButtons(RadioButtons<?> radioButtons, ViewModality pageViewModality) throws FrameworkException {
         if (radioButtons.isHidden()) {
             return StringUtil.EMPTY;
@@ -670,13 +582,7 @@ public class FormControlWriter extends HtmlWriter {
     }
 
 
-    /**
-     * Scrive un campo: RadioGroup
-     *
-     * @param radioGroup
-     * @param pageViewModality
-     * @return
-     */
+    // Scrive un campo: RadioGroup
     public static String writeRadioGroup(RadioGroup<?> radioGroup, ViewModality pageViewModality) throws FrameworkException {
         if (radioGroup.isHidden()) {
             return StringUtil.EMPTY;
@@ -726,13 +632,7 @@ public class FormControlWriter extends HtmlWriter {
         return result.toString();
     }
 
-    /**
-     * Scrive un campo: Semaforo
-     *
-     * @param semaphore
-     * @param pageViewModality
-     * @return
-     */
+    // Scrive un campo: Semaforo
     public static String writeSemaphore(Semaphore semaphore, ViewModality pageViewModality) throws FrameworkException {
         if (semaphore.isHidden()) {
             return StringUtil.EMPTY;
@@ -797,13 +697,7 @@ public class FormControlWriter extends HtmlWriter {
                 .toString();
     }
 
-    /**
-     * Scrive un campo: Switch
-     *
-     * @param field
-     * @param pageViewModality
-     * @return
-     */
+    // Scrive un campo: Switch
     public static String writeSwitch(Switch<?> field, ViewModality pageViewModality) {
         if (field.isHidden()) {
             return StringUtil.EMPTY;
@@ -838,12 +732,7 @@ public class FormControlWriter extends HtmlWriter {
                 .toString();
     }
 
-    /**
-     * Scrive un campo: Text
-     *
-     * @param text
-     * @return
-     */
+    // Scrive un campo: Text
     public static String writeText(Text<?> text, Elements<?> parentElement) throws FrameworkException {
         if (text.isHidden()) {
             return StringUtil.EMPTY;
@@ -858,13 +747,7 @@ public class FormControlWriter extends HtmlWriter {
         return toInputGroup(innerHtml, text.getState(), Casting.getHtml(text.getStateMessage()));
     }
 
-    /**
-     * Scrive un campo: TextArea
-     *
-     * @param textArea
-     * @param pageViewModality
-     * @return
-     */
+    // Scrive un campo: TextArea
     public static String writeTextArea(TextArea<?> textArea, ViewModality pageViewModality) {
         if (textArea.isHidden()) {
             return StringUtil.EMPTY;
@@ -891,12 +774,7 @@ public class FormControlWriter extends HtmlWriter {
         return result.toString();
     }
 
-    /**
-     * Scrive un campo: TextTotalizer
-     *
-     * @param textTotalizer
-     * @return
-     */
+    // Scrive un campo: TextTotalizer
     public static String writeTextTotalizer(TextTotalizer textTotalizer, Elements<?> parentElement) throws FrameworkException {
         return writeText(textTotalizer, parentElement);
     }

@@ -1,14 +1,16 @@
 package it.eg.sloth.webdesktop.tag;
 
 import it.eg.sloth.AbstractTest;
-import it.eg.sloth.form.fields.field.impl.Button;
+import it.eg.sloth.form.fields.field.impl.DropDownButton;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
-import it.eg.sloth.framework.utility.resource.ResourceUtil;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,40 +28,44 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author Enrico Grillini
  */
-class FormControlButtonTest extends AbstractTest {
+class FormControlDropDownButtonTest extends AbstractTest {
 
-    private Button field;
+    private DropDownButton field;
 
     @BeforeEach
     void init() {
-        field = Button.builder()
+        List<DropDownButton.DropDownItem> list = new ArrayList<>();
+        list.add(new DropDownButton.DropDownItem("code1", "description 1", ""));
+        list.add(new DropDownButton.DropDownItem("code2", "description 2", ""));
+
+        field = DropDownButton.builder()
                 .name("Name")
                 .description("description")
+                .href("Page.html")
+                .dropDownItemList(list)
                 .build();
     }
 
     @Test
-    void buttonBase() throws FrameworkException {
-        assertEqualsStr("baseButton.html", FormControlWriter.writeButton(field));
-        assertEqualsStr("baseButton.html", FormControlWriter.writeControl(field, null, ViewModality.EDIT));
+    void dropDownButton() throws FrameworkException {
+        assertEqualsStr("dropDownButton.html", FormControlWriter.writeDropDownButton(field));
+
+        assertEqualsStr("dropDownButton.html", FormControlWriter.writeControl(field, null, ViewModality.EDIT));
     }
 
     @Test
-    void buttonHidden() throws FrameworkException {
+    void dropDownButtonEmpty() throws FrameworkException {
+        field.setDropDownItemList(null);
+
+        assertEqualsStr("dropDownButtonHidden.html", FormControlWriter.writeDropDownButton(field));
+    }
+
+
+    @Test
+    void dropDownButtonHidden() throws FrameworkException {
         field.setHidden(true);
+
         assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.EDIT));
-    }
-
-    @Test
-    void buttonConfirmMessage() {
-        field.setConfirmMessage("Prova messaggio");
-        assertEqualsStr("buttonConfirmMessage.html", FormControlWriter.writeButton(field));
-    }
-
-    @Test
-    void buttonLoadingMessage() {
-        field.setLoading(true);
-        assertEqualsStr("buttonLoadingMessage.html", FormControlWriter.writeButton(field));
     }
 
 }
