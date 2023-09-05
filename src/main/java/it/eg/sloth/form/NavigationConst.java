@@ -64,6 +64,8 @@ public class NavigationConst {
     // Button
     public static final String AUTOCOMPLETE = "autocomplete";
 
+    // Correlated
+    public static final String CORRELATED = "correlated";
 
     public static String navStr(String... str) {
         StringBuilder result = new StringBuilder(WebRequest.PREFIX);

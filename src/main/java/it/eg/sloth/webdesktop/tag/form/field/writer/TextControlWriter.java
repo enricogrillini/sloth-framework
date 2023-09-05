@@ -142,11 +142,18 @@ public class TextControlWriter extends HtmlWriter {
     }
 
     public static <T> String writeMultipleAutoComplete(MultipleAutoComplete<T> multipleAutoComplete, Elements<?> parentElement) throws FrameworkException {
-        StringBuilder input = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         List<T> values = multipleAutoComplete.getValue();
         if (values != null) {
             for (T value : values) {
-                String htmlDecodedText = Casting.getHtml(multipleAutoComplete.getDecodeMap().decode(value));
+                String decodedText = multipleAutoComplete.getDecodeMap().decode(value);
+                String htmlDecodedText;
+                if (multipleAutoComplete.getHtmlEscaper() == null) {
+                    htmlDecodedText = Casting.getHtml(decodedText);
+                } else {
+                    htmlDecodedText = multipleAutoComplete.getHtmlEscaper().escapeText(decodedText);
+                }
+
                 if (!BaseFunction.isBlank(multipleAutoComplete.getBaseLink())) {
                     if (BaseFunction.isBlank(multipleAutoComplete.getLinkField())) {
                         htmlDecodedText = getLink(multipleAutoComplete.getBaseLink() + Casting.getHtml(multipleAutoComplete.getDataType().formatValue(value, multipleAutoComplete.getLocale())), htmlDecodedText);
@@ -156,14 +163,14 @@ public class TextControlWriter extends HtmlWriter {
                     }
                 }
 
-                if (input.length() > 0) {
-                    input.append(" <i class=\"fas fa-ellipsis-v\"></i> ");
+                if (builder.length() > 0) {
+                    builder.append(" <i class=\"fas fa-ellipsis-v\"></i> ");
                 }
-                input.append(htmlDecodedText);
+                builder.append(htmlDecodedText);
             }
         }
 
-        return input.toString();
+        return builder.toString();
     }
 
     // Switch

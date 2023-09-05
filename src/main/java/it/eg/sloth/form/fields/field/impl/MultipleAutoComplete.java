@@ -7,6 +7,7 @@ import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.base.MultipleInput;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
+import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Level;

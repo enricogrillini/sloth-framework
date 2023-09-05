@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * Project: sloth-framework
@@ -425,6 +424,18 @@ public class StringUtil {
                 builder.append("_");
             } else if (string.charAt(i) == '/') {
                 builder.append("-");
+            } else if (string.charAt(i) == ':') {
+                builder.append(".");
+            } else if (string.charAt(i) == 'à') {
+                builder.append("a");
+            } else if (string.charAt(i) == 'ì') {
+                builder.append("i");
+            } else if (string.charAt(i) == 'ù') {
+                builder.append("u");
+            } else if (string.charAt(i) == 'è') {
+                builder.append("e");
+            } else if (string.charAt(i) == 'é') {
+                builder.append("e");
             } else if (string.charAt(i) >= 48 && string.charAt(i) <= 57 ||
                     string.charAt(i) >= 65 && string.charAt(i) <= 90 ||
                     string.charAt(i) >= 97 && string.charAt(i) <= 122 || string.charAt(i) == '-' || string.charAt(i) == '_' || i > 0 && string.charAt(i) == '.') {
