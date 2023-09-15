@@ -39,13 +39,6 @@ class ButtonTest {
     }
 
     @Test
-    void aaa() {
-        StringUtil.initCap("Acceptance / Pre-prod");
-
-    }
-
-
-    @Test
     void buttonTest() {
         Button button = new Button("name", "description");
         assertEquals("name", button.getName());

@@ -19,9 +19,30 @@ public class BaseCsvReader {
     private CSVParser csvParser;
 
     public BaseCsvReader(InputStream inputStream) throws IOException {
-        CSVFormat csvFormat = CSVFormat.EXCEL.withFirstRecordAsHeader().withIgnoreHeaderCase().withDelimiter(';').withIgnoreEmptyLines();
+        CSVFormat csvFormat = CSVFormat.EXCEL.builder()
+                .setHeader()
+                .setSkipHeaderRecord(false)
+                .setIgnoreHeaderCase(true)
+                .setDelimiter(';')
+                .setIgnoreEmptyLines(true)
+                .build();
+
         csvParser = CSVParser.parse(inputStream, StandardCharsets.UTF_8, csvFormat);
     }
+
+    public BaseCsvReader(InputStream inputStream, char delimiter) throws IOException {
+        CSVFormat csvFormat = CSVFormat.DEFAULT.builder()
+                .setHeader()
+                .setSkipHeaderRecord(false)
+                .setRecordSeparator("\n")
+                .setIgnoreEmptyLines(false)
+                .setDelimiter(delimiter)
+                .setAllowMissingColumnNames(true)
+                .build();
+
+        csvParser = CSVParser.parse(inputStream, StandardCharsets.UTF_8, csvFormat);
+    }
+
 
     public String[] getHeaders() {
         return csvParser.getHeaderNames().toArray(new String[0]);
@@ -55,7 +76,9 @@ public class BaseCsvReader {
 
             DataRow dataRow = table.add();
             for (String name : names) {
-                dataRow.setString(name, row.get(name));
+                if (row.isSet(name)) {
+                    dataRow.setString(name, row.get(name));
+                }
             }
         }
 

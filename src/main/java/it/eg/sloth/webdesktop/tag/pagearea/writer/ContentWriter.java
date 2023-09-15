@@ -29,6 +29,7 @@ public class ContentWriter extends HtmlWriter {
 
     public static final String ALERT_CENTER_OPEN = ResourceUtil.normalizedResourceAsString("snippet/pagearea/alert-center-open.html");
     public static final String ALERT_CENTER_ALERT = ResourceUtil.normalizedResourceAsString("snippet/pagearea/alert-center-alert.html");
+    public static final String ALERT_CENTER_ALERT_LINK = ResourceUtil.normalizedResourceAsString("snippet/pagearea/alert-center-alert-link.html");
     public static final String ALERT_CENTER_CLOSE = ResourceUtil.normalizedResourceAsString("snippet/pagearea/alert-center-close.html");
 
     public static final String ALERT_CARDS_OPEN = ResourceUtil.normalizedResourceAsString("snippet/pagearea/alert-cards-open.html");
@@ -53,14 +54,26 @@ public class ContentWriter extends HtmlWriter {
 
             result.append(MessageFormat.format(ALERT_CENTER_OPEN, alerts.size()));
             for (Alert alert : alerts) {
-                result.append(MessageFormat.format(
-                        ALERT_CENTER_ALERT,
-                        "<div class=\"icon-circle bg-" + alert.getType().name().toLowerCase() + "\">" + alert.getType().getIcon() + "</div>",
-                        DataTypes.DATE.formatText(alert.getDate(), locale),
-                        Casting.getHtml(alert.getText()),
-                        Casting.getHtml(alert.getDetail()),
-                        alert.getHref()
-                ));
+                if (alert.getHref() != null) {
+                    result.append(MessageFormat.format(
+                            ALERT_CENTER_ALERT_LINK,
+                            "<div class=\"icon-circle bg-" + alert.getType().name().toLowerCase() + "\">" + alert.getType().getIcon() + "</div>",
+                            DataTypes.DATE.formatText(alert.getDate(), locale),
+                            Casting.getHtml(alert.getText()),
+                            Casting.getHtml(alert.getDetail()),
+                            alert.getHref()
+                    ));
+                } else {
+                    result.append(MessageFormat.format(
+                            ALERT_CENTER_ALERT,
+                            "<div class=\"icon-circle bg-" + alert.getType().name().toLowerCase() + "\">" + alert.getType().getIcon() + "</div>",
+                            DataTypes.DATE.formatText(alert.getDate(), locale),
+                            Casting.getHtml(alert.getText()),
+                            Casting.getHtml(alert.getDetail())
+                    ));
+                }
+
+
             }
             result.append(ALERT_CENTER_CLOSE);
 
@@ -85,7 +98,8 @@ public class ContentWriter extends HtmlWriter {
                         DataTypes.DATE.formatText(alert.getDate(), locale),
                         Casting.getHtml(alert.getText()),
                         Casting.getHtml(alert.getDetail()),
-                        alerts.size() == 1 ? "col-12" : "col-6"));
+                        alerts.size() == 1 ? "col-12" : "col-6",
+                        alert.getHref() == null ? "#" : alert.getHref()));
             }
             result.append(ALERT_CARDS_CLOSE);
 

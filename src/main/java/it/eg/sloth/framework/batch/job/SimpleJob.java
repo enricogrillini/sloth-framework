@@ -61,6 +61,10 @@ public abstract class SimpleJob implements Job {
         log(JobMessageSeverity.WARN, message, detail, progress, JobStatus.RUNNING);
     }
 
+    public void err(String message, String detail, int progress) throws FrameworkException {
+        log(JobMessageSeverity.ERROR, message, detail, progress, JobStatus.RUNNING);
+    }
+
     public void log(MessageList messageList, int progress) throws FrameworkException {
         for (Message message : messageList) {
             log(JobMessageSeverity.fromLevel(message.getSeverity()), message.getDescription(), message.getSubDescription(), progress, JobStatus.RUNNING);

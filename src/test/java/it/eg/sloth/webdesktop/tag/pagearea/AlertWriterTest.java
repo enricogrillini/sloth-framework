@@ -46,7 +46,7 @@ class AlertWriterTest {
                 .date(TimeStampUtil.parseTimestamp("21/09/2021", TimeStampUtil.DEFAULT_FORMAT))
                 .text("text")
                 .detail("detail")
-                .href("www")
+                .href(null)
                 .build();
 
         alert2 = Alert.builder()
