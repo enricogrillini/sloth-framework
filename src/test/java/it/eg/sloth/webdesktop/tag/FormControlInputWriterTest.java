@@ -108,7 +108,7 @@ class FormControlInputWriterTest {
 
         assertEquals(INPUT_VIEW_EMPTY, FormControlWriter.writeInput(field, null, ViewModality.VIEW));
 
-        field.setValue(TimeStampUtil.parseTimestamp("01/01/2020 10:11:12", "dd/MM/yyyy hh:mm:ss"));
+        field.setValue(TimeStampUtil.parseTimestamp("01/01/2020 10:11:12", "dd/MM/yyyy HH:mm:ss"));
         assertEquals(MessageFormat.format(INPUT_VIEW_FULL, "01/01/2020 10:11:12"), FormControlWriter.writeInput(field, null, ViewModality.VIEW));
         assertEquals(MessageFormat.format(CTRL_INPUT, "name", "datetime-local", "2020-01-01T10:11:12", ATTR_STEP, ATTR_EDIT), FormControlWriter.writeInput(field, null, ViewModality.EDIT));
 

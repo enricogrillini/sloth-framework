@@ -1,10 +1,11 @@
 package it.eg.sloth.framework.common.base;
 
-import it.eg.sloth.framework.common.exception.ExceptionCode;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,6 +24,24 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Enrico Grillini
  */
 class TimestampUtilTest {
+
+
+    @Test
+    void timestampParse_DateTime() throws FrameworkException {
+//        assertEquals("2023-04-03 15:26:08.0", TimeStampUtil.parseTimestamp("2023-04-03 15:26", "yyyy-MM-dd HH:mm:ss").toString());
+
+        assertEquals("2023-04-03 15:26:08.0", TimeStampUtil.parseTimestamp("03/04/2023 15:26:08", "dd/MM/yyyy HH:mm:ss").toString());
+        assertEquals("2023-04-03 15:26:08.0", TimeStampUtil.parseTimestamp("2023/04/03 15:26:08", "yyyy/MM/dd HH:mm:ss").toString());
+        assertEquals("2023-04-03 15:26:08.0", TimeStampUtil.parseTimestamp("2023-04-03 15:26:08", "yyyy-MM-dd HH:mm:ss").toString());
+    }
+
+    @Test
+    void timestampParse_Date() throws FrameworkException {
+        assertEquals("2023-04-03 00:00:00.0", TimeStampUtil.parseTimestamp("03/04/2023", "dd/MM/yyyy").toString());
+        assertEquals("2023-04-03 00:00:00.0", TimeStampUtil.parseTimestamp("2023/04/03", "yyyy/MM/dd").toString());
+        assertEquals("2023-04-03 00:00:00.0", TimeStampUtil.parseTimestamp("2023-04-03", "yyyy-MM-dd").toString());
+    }
+
 
     @Test
     void genericTestOk() throws FrameworkException {
@@ -83,12 +102,6 @@ class TimestampUtilTest {
         assertFalse(TimeStampUtil.isHoliday(TimeStampUtil.parseTimestamp("11/06/2020", "dd/MM/yyyy")));
     }
 
-    @Test
-    void genericTest() throws FrameworkException {
-        TimeStampUtil.parseTimestamp("03/04/2023 15:26:08", "dd/MM/yyyy HH:mm:ss");
-        TimeStampUtil.parseTimestamp("2023/04/03 15:26:08", "yyyy/MM/dd HH:mm:ss");
-        TimeStampUtil.parseTimestamp("2023-04-03 15:26:08", "yyyy-MM-dd HH:mm:ss");
-    }
 
     @Test
     void genericTestKo() {
@@ -96,13 +109,13 @@ class TimestampUtilTest {
         FrameworkException frameworkException = assertThrows(FrameworkException.class, () -> {
             TimeStampUtil.parseTimestamp("aaaa", "dd/MM/yyyy");
         });
-        assertEquals(ExceptionCode.PARSE_ERROR, frameworkException.getExceptionCode());
-
+        assertEquals("Impossibile validare il valore passato", frameworkException.getMessage());
 
         // Formato data errato
         frameworkException = assertThrows(FrameworkException.class, () -> {
             TimeStampUtil.parseTimestamp("32/01/2021", "dd/MM/yyyy");
         });
-        assertEquals(ExceptionCode.PARSE_ERROR, frameworkException.getExceptionCode());
+        assertEquals("Impossibile validare il valore passato", frameworkException.getMessage());
+
     }
 }

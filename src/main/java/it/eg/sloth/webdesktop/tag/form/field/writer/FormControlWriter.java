@@ -748,30 +748,31 @@ public class FormControlWriter extends HtmlWriter {
     }
 
     // Scrive un campo: TextArea
-    public static String writeTextArea(TextArea<?> textArea, ViewModality pageViewModality) {
+    public static String writeTextArea(TextArea<?> textArea, ViewModality pageViewModality) throws FrameworkException {
         if (textArea.isHidden()) {
             return StringUtil.EMPTY;
         }
 
         ViewModality viewModality = textArea.getViewModality() == ViewModality.AUTO ? pageViewModality : textArea.getViewModality();
-        StringBuilder result = new StringBuilder()
-                .append("<textarea")
-                .append(getAttribute(ATTR_ID, textArea.getName()))
-                .append(getAttribute(ATTR_NAME, textArea.getName()))
-                .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(textArea)))
-                .append(getAttribute("rows", textArea.getRows().toString()));
-
         if (viewModality == ViewModality.VIEW) {
-            result.append(getAttribute(ATTR_DISABLED, viewModality == ViewModality.VIEW, ""));
+            return MessageFormat.format(
+                    INPUT_VIEW,
+                    TextControlWriter.writeControlSpace(textArea, null),
+                    getAttribute(ATTR_CLASS, BootStrapClass.getViewControlClass(textArea)) + getTooltipAttributes(textArea.getTooltip()));
+
         } else {
-            result
+            return new StringBuilder()
+                    .append("<textarea")
+                    .append(getAttribute(ATTR_ID, textArea.getName()))
+                    .append(getAttribute(ATTR_NAME, textArea.getName()))
+                    .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(textArea)))
+                    .append(getAttribute("rows", textArea.getRows().toString()))
                     .append(getAttribute(ATTR_READONLY, textArea.isReadOnly(), ""))
-                    .append(getAttribute("maxlength", textArea.getMaxLength() > 0, "" + textArea.getMaxLength()));
+                    .append(getAttribute("maxlength", textArea.getMaxLength() > 0, "" + textArea.getMaxLength()))
+                    .append(">" + textArea.escapeHtmlValue() + "</textarea>")
+                    .toString();
 
         }
-        result.append(">" + textArea.escapeHtmlValue() + "</textarea>");
-
-        return result.toString();
     }
 
     // Scrive un campo: TextTotalizer

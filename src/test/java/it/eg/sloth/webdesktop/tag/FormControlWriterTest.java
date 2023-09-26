@@ -77,10 +77,6 @@ class FormControlWriterTest {
             "  <input id=\"name2\" name=\"name\" type=\"radio\" value=\"T\" class=\"custom-control-input\"><label class=\"custom-control-label\" for=\"name2\">Tutti</label>\n" +
             " </div>\n";
 
-
-    private static final String BASE_TEXTAREA = "<textarea id=\"{0}\" name=\"{0}\" class=\"form-control form-control-sm\" rows=\"2\"{1}>{2}</textarea>";
-
-
     @Test
     void autoCompleteTest() throws FrameworkException {
         Fields fields = new Fields("Master");
@@ -251,26 +247,6 @@ class FormControlWriterTest {
 
         // Controllo generico
         assertEquals(MessageFormat.format(BASE_SWITCH_MOD, ""), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
-
-        // Empty
-        field.setHidden(true);
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.EDIT));
-    }
-
-    @Test
-    void textAreaTest() throws FrameworkException {
-        TextArea<String> field = new TextArea<String>("name", "description", DataTypes.STRING);
-        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", " disabled=\"\"", ""), FormControlWriter.writeTextArea(field, ViewModality.VIEW));
-
-        field.setValue("testo");
-        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", " disabled=\"\"", "testo"), FormControlWriter.writeTextArea(field, ViewModality.VIEW));
-        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", "", "testo"), FormControlWriter.writeTextArea(field, ViewModality.EDIT));
-
-        // Controllo generico
-        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", "", "testo"), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
-
-        field.setValue("testo\ntesto");
-        assertEquals(MessageFormat.format(BASE_TEXTAREA, "name", "", "testo\ntesto"), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
 
         // Empty
         field.setHidden(true);

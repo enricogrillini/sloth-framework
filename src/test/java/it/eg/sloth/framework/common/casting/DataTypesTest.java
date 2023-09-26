@@ -70,19 +70,28 @@ class DataTypesTest {
 
 
     @Test
-    void bigDecimalParseValueTest1() throws FrameworkException {
-        // Integer
+    void bigDecimalParseValueTest_DECIMAL() throws FrameworkException {
+        // Interi
         assertEquals(BigDecimal.valueOf(1000), DataTypes.DECIMAL.parseValue("1000.00", Locale.US));
         assertEquals(BigDecimal.valueOf(1000), DataTypes.DECIMAL.parseValue("1000,00", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(10), DataTypes.DECIMAL.parseValue("10,00", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(0), DataTypes.DECIMAL.parseValue("0,00", Locale.ITALY));
 
+        // Decimali con unità di misura
+        assertEquals(BigDecimal.valueOf(12.67), DataTypes.DECIMAL.parseValue("12,67 mm/s", Locale.ITALY));
+        assertEquals(BigDecimal.valueOf(499), DataTypes.DECIMAL.parseValue("499 rpm", Locale.ITALY));
+    }
+
+    @Test
+    void bigDecimalParseValueTest_INTEGER() throws FrameworkException {
         assertEquals(BigDecimal.valueOf(1000), DataTypes.INTEGER.parseValue("1000", Locale.US));
         assertEquals(BigDecimal.valueOf(1000), DataTypes.INTEGER.parseValue("1000", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(10), DataTypes.INTEGER.parseValue("10", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(0), DataTypes.INTEGER.parseValue("0", Locale.ITALY));
+    }
 
-        // Currency
+    @Test
+    void bigDecimalParseValueTest_CURRENCY() throws FrameworkException {
         assertEquals(BigDecimal.valueOf(1000), DataTypes.CURRENCY.parseValue("1,000.00 $", Locale.US));
         assertEquals(BigDecimal.valueOf(1000), DataTypes.CURRENCY.parseValue("1.000,00 €", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(1000), DataTypes.CURRENCY.parseValue("1.000", Locale.ITALY));
@@ -101,25 +110,19 @@ class DataTypesTest {
     }
 
     @Test
-    void bigDecimalParseValueTest2() throws FrameworkException {
-        // Percentuale
+    void bigDecimalParseValue_PERC() throws FrameworkException {
         assertEquals(BigDecimal.valueOf(1234), DataTypes.PERC.parseValue("12.34", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(12.34), DataTypes.PERC.parseValue("12,34", Locale.ITALY));
+    }
 
-        // Number
+    @Test
+    void bigDecimalParseValue_NUMBER() throws FrameworkException {
         assertEquals(BigDecimal.valueOf(1000), DataTypes.NUMBER.parseValue("1000", Locale.US));
         assertEquals(BigDecimal.valueOf(1000), DataTypes.NUMBER.parseValue("1000", Locale.ITALY));
         assertEquals(BigDecimalUtil.toBigDecimal(1000.987), DataTypes.NUMBER.parseValue("1000.987", Locale.US));
         assertEquals(BigDecimalUtil.toBigDecimal(1000.987), DataTypes.NUMBER.parseValue("1000,987", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(10), DataTypes.NUMBER.parseValue("10,00", Locale.ITALY));
         assertEquals(BigDecimal.valueOf(0), DataTypes.NUMBER.parseValue("0,00", Locale.ITALY));
-    }
-
-    @Test
-    void bigDecimalParseValueTest3() throws FrameworkException {
-        assertEquals(BigDecimal.valueOf(12.67), DataTypes.DECIMAL.parseValue("12,67 mm/s", Locale.ITALY));
-
-        assertEquals(BigDecimal.valueOf(499), DataTypes.DECIMAL.parseValue("499 rpm", Locale.ITALY));
     }
 
     @Test
@@ -148,6 +151,19 @@ class DataTypesTest {
         assertEquals("1.000,9870000", DataTypes.NUMBER.formatText(BigDecimal.valueOf(1000.987), Locale.ITALY));
         assertEquals("10,0000000", DataTypes.NUMBER.formatText(BigDecimal.valueOf(10), Locale.ITALY));
         assertEquals("0,0000000", DataTypes.NUMBER.formatText(BigDecimal.valueOf(0), Locale.ITALY));
+    }
+
+    @Test
+    void timestampParseValue_DATE() throws FrameworkException {
+        assertEquals(TimeStampUtil.parseTimestamp("16/09/2023", "dd/MM/yyyy"), DataTypes.DATE.parseValue("2023-09-16", Locale.ITALY));
+    }
+
+    @Test
+    void timestampParseValue_DATETIME() throws FrameworkException {
+        assertEquals(TimeStampUtil.parseTimestamp("16/09/2023 08:12:00", "dd/MM/yyyy HH:mm:ss"), DataTypes.DATETIME.parseValue("2023-09-16T08:12:00", Locale.ITALY));
+        assertEquals(TimeStampUtil.parseTimestamp("16/09/2023 08:12:14", "dd/MM/yyyy HH:mm:ss"), DataTypes.DATETIME.parseValue("2023-09-16T08:12:14", Locale.ITALY));
+
+//        assertEquals(TimeStampUtil.parseTimestamp("16/09/2023 08:12:00", "dd/MM/yyyy HH:mm:ss"), DataTypes.DATETIME.parseValue("2023-09-16T08:12", Locale.ITALY));
     }
 
 
