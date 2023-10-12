@@ -94,10 +94,7 @@ public class User implements Serializable {
         group = group.toLowerCase();
         key = key.toLowerCase();
 
-        if (!groupMap.containsKey(group)) {
-            groupMap.put(group, new HashMap<>());
-        }
-
+        groupMap.putIfAbsent(group, new HashMap<>());
         groupMap.get(group).put(key, value);
     }
 

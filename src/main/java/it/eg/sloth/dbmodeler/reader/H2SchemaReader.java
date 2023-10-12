@@ -128,7 +128,7 @@ public class H2SchemaReader extends DbSchemaAbstractReader implements DbSchemaRe
 
     @Override
     public void addConstraints(Schema schema, Connection connection, String owner) throws SQLException, FrameworkException, IOException {
-
+        // NOP
     }
 
     @Override

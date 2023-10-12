@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -27,10 +28,10 @@ import java.util.List;
 public class InFilter implements Filter {
 
     int sqlTypes;
-    List<?> values;
+    Collection<?> values;
     String sql;
 
-    public InFilter(String sql, int sqlTypes, List<?> values) {
+    public InFilter(String sql, int sqlTypes, Collection<?> values) {
         this.sql = sql;
         this.sqlTypes = sqlTypes;
         this.values = values;
