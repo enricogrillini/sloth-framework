@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -133,7 +134,7 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
      * @param sqlTypes
      * @param values
      */
-    public void addInFilter(String sql, int sqlTypes, List<?> values) {
+    public void addInFilter(String sql, int sqlTypes, Collection<?> values) {
         filterList.add(new InFilter(sql, sqlTypes, values));
     }
 
