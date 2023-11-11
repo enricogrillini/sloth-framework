@@ -33,18 +33,19 @@ public class CollapsibleCardTag extends WebDesktopTag<Form> {
     String name = "";
     String title = "";
 
-
     @Override
     protected int startTag() throws IOException {
         boolean collapsed = "collapsed".equals(getUser().getSetting(USER_SETTINGS_GROUP, getName()));
-        writeln(CardWriter.openCollapsibleCard(name, title, collapsed));
+        writeln(CardWriter.collapsibleCardHeaderOpen(name, title, collapsed));
+        writeln(CardWriter.collapsibleCardHeaderClose());
+        writeln(CardWriter.collapsibleCardBodyOpen(name, collapsed));
 
         return EVAL_BODY_INCLUDE;
     }
 
     @Override
     protected void endTag() throws IOException {
-        writeln(CardWriter.closeCollapsibleCard());
+        writeln(CardWriter.collapsibleCardBodyClose());
     }
 
 }

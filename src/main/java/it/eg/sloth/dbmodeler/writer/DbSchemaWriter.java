@@ -32,10 +32,14 @@ public interface DbSchemaWriter {
 
     default String sqlTables(Schema schema, boolean tablespace, boolean storage) {
         StringBuilder result = new StringBuilder();
-        schema.getTableCollection().forEach(t -> result.append(sqlTable(t, tablespace, storage)));
+        schema.getTableCollection().forEach(t -> result.append(sqlTable(t,  tablespace, storage)));
 
         return result.toString();
     }
+
+    String sqlDropTable(Table table);
+
+    String sqlRestoreTable(Table table);
 
     String sqlTable(Table table, boolean tablespace, boolean storage);
 

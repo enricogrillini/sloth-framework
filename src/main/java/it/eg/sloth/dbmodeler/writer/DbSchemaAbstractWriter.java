@@ -13,6 +13,8 @@ import it.eg.sloth.framework.common.base.StringUtil;
 import lombok.Getter;
 
 import java.text.MessageFormat;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Project: sloth-framework
@@ -32,13 +34,22 @@ import java.text.MessageFormat;
  */
 public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
 
-    private static final String DROP_TABLE = "Drop Table {0};\n";
+    private static final String DROP_TABLE = """
+            -- Backup Table {0}            
+            Create table App_{0} as Select * from {0};
+
+            -- Drop Table {0}
+            Drop Table {0};
+                                               
+            """;
+
+    private static final String SQL_RESTORE_TABLE = "-- Restore Table {0}\n" +
+            "Insert Into {0}\n";
 
     private static final String TABLE = "-- Create Table {0}\n" +
             "Create Table {0}\n";
 
     private static final String SQL_COLUMN_COMMENT = "Comment On Column {0}.{1} Is ''{2}'';\n";
-
 
     private static final String INDEX = "-- Create Index {0}\n" +
             "Create {2}Index {0} on {1} ({3})";
@@ -47,13 +58,18 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
             "Alter Table {0} Add Constraint {1} Primary Key ({2});\n" +
             "\n";
 
-    private static final String SQL_FOREIGN_KEY = "-- Foreign Key {0}\n" +
-            "Alter Table {0} Add Constraint {1} Foreign Key ({2}) references {3};\n" +
-            "\n";
 
-    private static final String SQL_DROP_FOREIGN_KEY = "-- Drop Foreign Key {0}\n" +
-            "Alter Table {0} Drop Constraint {1};\n" +
-            "\n";
+    private static final String SQL_DROP_RELATED_FOREIGN_KEY = """
+            -- Drop Related Foreign Key {0}
+            Alter Table {0} Drop Constraint {1};
+                        
+            """;
+
+    private static final String SQL_FOREIGN_KEY = """
+            -- Create {4}Foreign Key {0}
+            Alter Table {0} Add Constraint {1} Foreign Key ({2}) references {3};
+                        
+            """;
 
     private static final String SQL_SEQUENCE = "Create Sequence {0};\n";
 
@@ -95,14 +111,35 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     @Override
     public String sqlDropTables(Schema schema) {
         StringBuilder result = new StringBuilder();
-        result.append("-- Drop Table\n");
+        result.append("-- Drop Tablea\n\n");
         for (Table table : schema.getTableCollection()) {
-            result.append(MessageFormat.format(DROP_TABLE, table.getName()));
+            result.append(sqlDropTable(table));
         }
         result.append("\n");
 
         return result.toString();
     }
+
+
+    @Override
+    public String sqlDropTable(Table table) {
+        return MessageFormat.format(DROP_TABLE, table.getName());
+    }
+
+    @Override
+    public String sqlRestoreTable(Table table) {
+        List<String> columnNameList = table.getTableColumnCollection().stream().map(TableColumn::getName).collect(Collectors.toList());
+        return new StringBuilder()
+                .append(MessageFormat.format(SQL_RESTORE_TABLE, table.getName()))
+                .append("      (")
+                .append(String.join(", \n       ", columnNameList))
+                .append(")\n")
+                .append("Select ")
+                .append(String.join(", \n       ", columnNameList))
+                .append("\nFrom App_" + table.getName() + ";\n\n")
+                .toString();
+    }
+
 
     @Override
     public String sqlTable(Table table, boolean tablespace, boolean storage) {
@@ -173,10 +210,11 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     @Override
     public String sqlDropRelatedForeignKeys(Schema schema, String tableName) {
         StringBuilder result = new StringBuilder();
+
         for (Table table : schema.getTableCollection()) {
             for (Constraint constraint : table.getConstraintCollection()) {
                 if (constraint.getType() == ConstraintType.FOREIGN_KEY && constraint.getReferenceTable().equalsIgnoreCase(tableName)) {
-                    result.append(MessageFormat.format(SQL_DROP_FOREIGN_KEY,
+                    result.append(MessageFormat.format(SQL_DROP_RELATED_FOREIGN_KEY,
                             table.getName(),
                             constraint.getName()));
                 }
@@ -189,6 +227,7 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
     @Override
     public String sqlRelatedForeignKeys(Schema schema, String tableName) {
         StringBuilder result = new StringBuilder();
+
         for (Table table : schema.getTableCollection()) {
             for (Constraint constraint : table.getConstraintCollection()) {
                 if (constraint.getType() == ConstraintType.FOREIGN_KEY && constraint.getReferenceTable().equalsIgnoreCase(tableName)) {
@@ -196,7 +235,9 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
                             table.getName(),
                             constraint.getName(),
                             StringUtil.join(constraint.getColumns().toArray(new String[0])),
-                            constraint.getReferenceTable()));
+                            constraint.getReferenceTable(),
+                            "Related ")
+                    );
                 }
             }
         }
@@ -228,7 +269,8 @@ public abstract class DbSchemaAbstractWriter implements DbSchemaWriter {
                         table.getName(),
                         constraint.getName(),
                         StringUtil.join(constraint.getColumns().toArray(new String[0])),
-                        constraint.getReferenceTable()));
+                        constraint.getReferenceTable(),
+                        ""));
             }
         }
 

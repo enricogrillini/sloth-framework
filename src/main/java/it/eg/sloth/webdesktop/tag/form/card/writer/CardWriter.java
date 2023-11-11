@@ -39,6 +39,8 @@ public class CardWriter extends HtmlWriter {
     public static final String CARD_OPEN = ResourceUtil.normalizedResourceAsString("snippet/card/card-open.html");
     public static final String CARD_CLOSE = ResourceUtil.normalizedResourceAsString("snippet/card/card-close.html");
 
+    public static final String COLLAPSIBLE_HEADER_OPEN = ResourceUtil.normalizedResourceAsString("snippet/card/collapsible-header-open.html");
+    public static final String COLLAPSIBLE_HEADER_CLOSE = ResourceUtil.normalizedResourceAsString("snippet/card/collapsible-header-close.html");
     public static final String COLLAPSIBLE_CARD_OPEN = ResourceUtil.normalizedResourceAsString("snippet/card/collapsible-card-open.html");
     public static final String COLLAPSIBLE_CARD_CLOSE = ResourceUtil.normalizedResourceAsString("snippet/card/collapsible-card-close.html");
 
@@ -60,8 +62,9 @@ public class CardWriter extends HtmlWriter {
         return CARD_CLOSE;
     }
 
-    public static final String openCollapsibleCard(String name, String titolo, boolean collapsed) {
-        return MessageFormat.format(COLLAPSIBLE_CARD_OPEN,
+
+    public static final String collapsibleCardHeaderOpen(String name, String titolo, boolean collapsed) {
+        return MessageFormat.format(COLLAPSIBLE_HEADER_OPEN,
                 Casting.getHtml(name),
                 Casting.getHtml(titolo),
                 collapsed ? " collapsed" : StringUtil.EMPTY,
@@ -69,7 +72,18 @@ public class CardWriter extends HtmlWriter {
         );
     }
 
-    public static final String closeCollapsibleCard() {
+    public static final String collapsibleCardHeaderClose() {
+        return COLLAPSIBLE_HEADER_CLOSE;
+    }
+
+    public static final String collapsibleCardBodyOpen(String name, boolean collapsed) {
+        return MessageFormat.format(COLLAPSIBLE_CARD_OPEN,
+                Casting.getHtml(name),
+                collapsed ? " collapse" : StringUtil.EMPTY
+        );
+    }
+
+    public static final String collapsibleCardBodyClose() {
         return COLLAPSIBLE_CARD_CLOSE;
     }
 
