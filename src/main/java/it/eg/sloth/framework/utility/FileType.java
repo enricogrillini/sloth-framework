@@ -16,30 +16,32 @@ package it.eg.sloth.framework.utility;
  * @author Enrico Grillini
  */
 public enum FileType {
-  PDF(".pdf", "application/pdf"),
-  XLS(".xls", "application/xls"),
-  XLSX(".xlsx", "application/xlsx"), 
-  JPEG(".jpeg", "image/jpeg"),
-  PNG(".jpeg", "image/png"),
-  
-  TXT(".txt", "text/plain"), 
-  CSV(".csv", "application/csv"),
-  XML(".xml", "text/xml");
+    PDF(".pdf", "application/pdf"),
+    XLS(".xls", "application/xls"),
+    XLSX(".xlsx", "application/xlsx"),
+    JPEG(".jpeg", "image/jpeg"),
+    PNG(".jpeg", "image/png"),
 
-  private final String extension;
-  private final String contentType;
+    TXT(".txt", "text/plain"),
+    CSV(".csv", "application/csv"),
+    XML(".xml", "text/xml"),
 
-  FileType(String extension, String contentType) {
-    this.extension = extension;
-    this.contentType = contentType;
-  }
+    ZIP(".zip", "application/csv");
 
-  public String getExtension() {
-    return this.extension;
-  }
+    private final String extension;
+    private final String contentType;
 
-  public String getContentType() {
-    return this.contentType;
-  }
+    FileType(String extension, String contentType) {
+        this.extension = extension;
+        this.contentType = contentType;
+    }
+
+    public String getExtension() {
+        return this.extension;
+    }
+
+    public String getContentType() {
+        return this.contentType;
+    }
 
 }
