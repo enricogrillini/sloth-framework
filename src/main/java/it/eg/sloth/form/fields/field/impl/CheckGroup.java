@@ -97,15 +97,6 @@ public class CheckGroup<L extends List<T>, T> extends InputField<L> {
     }
 
     @Override
-    public void setValue(L list) throws FrameworkException {
-        if (!BaseFunction.isNull(list)) {
-            setData(StringUtil.join(list.toArray(new String[0]), SEPARATOR));
-        } else {
-            setData(StringUtil.EMPTY);
-        }
-    }
-
-    @Override
     public void copyFromDataSource(DataSource dataSource) throws FrameworkException {
         if (dataSource != null) {
             setData(dataSource.getString(getAlias()));

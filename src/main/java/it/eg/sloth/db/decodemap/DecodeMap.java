@@ -1,6 +1,8 @@
 package it.eg.sloth.db.decodemap;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -102,6 +104,23 @@ public interface DecodeMap<T, V extends DecodeValue<T>> extends Iterable<V> {
      * @return
      */
     Collection<V> values();
+
+    default Collection<T> codeCollection() {
+        List<T> result = new ArrayList<>();
+        for (V decodeValue : this) {
+            result.add(decodeValue.getCode());
+        }
+        return result;
+    }
+
+    default Collection<String> descriptionCollection() {
+        List<String> result = new ArrayList<>();
+        for (V decodeValue : this) {
+            result.add(decodeValue.getDescription());
+        }
+        return result;
+    }
+
 
     /**
      * Estrae i soli record validi
