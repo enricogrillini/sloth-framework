@@ -7,12 +7,12 @@ import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.framework.security.User;
 import it.eg.sloth.webdesktop.common.SessionManager;
 import it.eg.sloth.webdesktop.dto.WebDesktopDto;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.jsp.JspException;
+import jakarta.servlet.jsp.tagext.TagSupport;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.web.csrf.CsrfToken;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
 /**

@@ -1,9 +1,8 @@
 package it.eg.sloth.webdesktop.common;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import it.eg.sloth.webdesktop.dto.WebDesktopDto;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * Project: sloth-framework

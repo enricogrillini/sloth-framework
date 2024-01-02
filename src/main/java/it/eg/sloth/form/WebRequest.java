@@ -1,21 +1,14 @@
 package it.eg.sloth.form;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
-
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Part;
+import lombok.ToString;
 import org.springframework.http.MediaType;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
-import lombok.ToString;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Project: sloth-framework

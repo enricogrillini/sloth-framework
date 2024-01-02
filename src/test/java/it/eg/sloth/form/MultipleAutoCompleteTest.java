@@ -2,16 +2,15 @@ package it.eg.sloth.form;
 
 import it.eg.sloth.TestFactory;
 import it.eg.sloth.db.datasource.row.Row;
-import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.impl.MultipleAutoComplete;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.MessageList;
+import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.servlet.ServletException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;

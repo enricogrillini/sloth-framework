@@ -119,22 +119,24 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
             "/*W*/\n" +
             "Order By t.relname, c.ordinal_position";
 
-    private static final String SQL_STORED_PROCEDURE = "select n.nspname as schema_name,\n" +
-            "       p.proname as procedure_name,\n" +
-            "       p.prokind as procedure_type,\n" +
-            "       l.lanname as language,\n" +
-            "       case when l.lanname = 'internal' then p.prosrc\n" +
-            "            else pg_get_functiondef(p.oid)\n" +
-            "            end as definition,\n" +
-            "       pg_get_function_arguments(p.oid) as arguments,\n" +
-            "       t.typname as return_type\n" +
-            "from pg_proc p\n" +
-            "     left join pg_namespace n on p.pronamespace = n.oid\n" +
-            "     left join pg_language l on p.prolang = l.oid\n" +
-            "     left join pg_type t on t.oid = p.prorettype \n" +
-            "where n.nspname = ?\n" +
-            "order by schema_name,\n" +
-            "         procedure_name";
+    private static final String SQL_STORED_PROCEDURE = """
+            select n.nspname as schema_name,
+                   p.proname as procedure_name,
+                   p.prokind as procedure_type,
+                   l.lanname as language,
+                   case when l.lanname = 'internal' then p.prosrc
+                        else pg_get_functiondef(p.oid)
+                   end as definition,
+                   pg_get_function_arguments(p.oid) as arguments,
+                   t.typname as return_type
+            from pg_proc p
+                 left join pg_namespace n on p.pronamespace = n.oid
+                 left join pg_language l on p.prolang = l.oid
+                 left join pg_type t on t.oid = p.prorettype\s
+            where n.nspname = ?
+            order by schema_name,
+                     procedure_name
+            """;
 
     private static final String SQL_STATS = "select *\n" +
             "From (select sum(pg_relation_size(relid)) table_size, \n" +
@@ -305,6 +307,11 @@ public class PostgresSchemaReader extends DbSchemaAbstractReader implements DbSc
             if (method != null) {
                 String arguments = dataRow.getString("arguments");
                 for (String argument : StringUtil.split(arguments, ",")) {
+                    // FIX Postgres 16
+                    if (argument.startsWith("IN ")) {
+                        argument = argument.substring(3);
+                    }
+
                     String name = argument.substring(0, argument.indexOf(" "));
                     String type = argument.substring(argument.indexOf(" ") + 1);
 

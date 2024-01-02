@@ -12,13 +12,13 @@ import it.eg.sloth.framework.common.message.MessageList;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.jaxb.form.HtmlFileType;
 import it.eg.sloth.webdesktop.api.request.BffFields;
+import jakarta.servlet.http.Part;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.apache.commons.io.IOUtils;
 
-import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;

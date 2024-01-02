@@ -21,9 +21,9 @@ import it.eg.sloth.webdesktop.search.impl.MenuSearcher;
 import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Part;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
