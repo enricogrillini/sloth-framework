@@ -288,6 +288,7 @@
   <complexContent>
    <extension base="tns:Element">
     <attribute name="SkipBody" type="boolean"></attribute>
+    <attribute name="Reverse" type="boolean"></attribute>
    </extension>
   </complexContent>
  </complexType>

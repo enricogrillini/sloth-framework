@@ -170,4 +170,13 @@ public class CheckGroup<L extends List<T>, T> extends InputField<L> {
         return toBuilder().build();
     }
 
+
+    @Override
+    public void setValue(L list) throws FrameworkException {
+        if (!BaseFunction.isNull(list)) {
+            setData(StringUtil.join(list.toArray(new String[0]), SEPARATOR));
+        } else {
+            setData(StringUtil.EMPTY);
+        }
+    }
 }

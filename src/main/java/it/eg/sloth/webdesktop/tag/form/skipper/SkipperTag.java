@@ -2,6 +2,8 @@ package it.eg.sloth.webdesktop.tag.form.skipper;
 
 import it.eg.sloth.form.skipper.Skipper;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Project: sloth-framework
@@ -17,12 +19,18 @@ import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
  *
  * @author Enrico Grillini
  */
+@Getter
+@Setter
 public class SkipperTag extends BaseElementTag<Skipper> {
 
     private static final long serialVersionUID = 1L;
 
+    boolean reverse;
+
     public int startTag() {
-        if (getElement().isSkipBody()) {
+        boolean skip = reverse ? !getElement().isSkipBody() : getElement().isSkipBody();
+
+        if (skip) {
             return SKIP_BODY;
         } else {
             return EVAL_BODY_INCLUDE;
