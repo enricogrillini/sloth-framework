@@ -9,6 +9,7 @@ import it.eg.sloth.jaxb.form.ForceCase;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Project: sloth-framework
@@ -37,6 +38,7 @@ public class Input<T> extends InputField<T> {
     public void setData(String data) {
         if (BaseFunction.in(getForceCase(), ForceCase.TRIM, ForceCase.INIT_CAP_TRIM, ForceCase.UPPER_TRIM, ForceCase.LOWER_TRIM)) {
             data = StringUtil.trim(data);
+            data = StringUtils.normalizeSpace(data);
         }
 
         if (BaseFunction.in(getForceCase(), ForceCase.INIT_CAP, ForceCase.INIT_CAP_TRIM)) {

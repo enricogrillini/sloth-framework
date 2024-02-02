@@ -1,12 +1,11 @@
 package it.eg.sloth.framework.utility.xlsx.style;
 
-import org.apache.poi.ss.usermodel.DataFormat;
-
 import it.eg.sloth.framework.common.casting.DataTypes;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.poi.ss.usermodel.DataFormat;
 
 /**
  * Project: sloth-framework
@@ -32,6 +31,7 @@ public class BaseExcelType {//
     public static final BaseExcelType INTEGER = new BaseExcelType("0");
     public static final BaseExcelType RICH_INTEGER = new BaseExcelType("#,##0");
     public static final BaseExcelType DECIMAL = new BaseExcelType("_-* #,##0.00_-;-* #,##0.00_-;_-* \"-\"??_-;_-@_-");
+    public static final BaseExcelType PERC = new BaseExcelType(" 0%");
     public static final BaseExcelType CURRENCY = new BaseExcelType("#,##0.00 €;[Red]-#,##0.00 €");
     public static final BaseExcelType DATE = new BaseExcelType("dd/mm/yyyy");
     public static final BaseExcelType MONTH = new BaseExcelType("mm/yyyy");
@@ -66,43 +66,19 @@ public class BaseExcelType {//
          * @return
          */
         public static final BaseExcelType fromDataType(DataTypes dataTypes) {
-
-            switch (dataTypes) {
-                case DATE:
-                    return DATE;
-
-                case MONTH:
-                    return MONTH;
-
-                case DATETIME:
-                    return DATETIME;
-
-                case TIME:
-                    return TIME;
-
-                case HOUR:
-                    return HOUR;
-
-                case INTEGER:
-                    return INTEGER;
-
-                case DECIMAL:
-                case PERC:
-                    return DECIMAL;
-
-                case CURRENCY:
-                    return CURRENCY;
-
-                case STRING:
-                case MD:
-                case MAIL:
-                case PARTITA_IVA:
-                case CODICE_FISCALE:
-                    return null;
-
-                default:
-                    return null;
-            }
+            return switch (dataTypes) {
+                case DATE -> DATE;
+                case MONTH -> MONTH;
+                case DATETIME -> DATETIME;
+                case TIME -> TIME;
+                case HOUR -> HOUR;
+                case INTEGER -> INTEGER;
+                case DECIMAL -> DECIMAL;
+                case PERC -> PERC;
+                case CURRENCY -> CURRENCY;
+                case STRING, MD, MAIL, PARTITA_IVA, CODICE_FISCALE -> null;
+                default -> null;
+            };
         }
 
     }
