@@ -40,8 +40,8 @@ public class ToolbarWriter extends HtmlWriter {
     private static final String ELENCO = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Ritorna all''elenco\"><i class=\"fas fa-table\"></i> Elenco</button>\n";
 
     private static final String FIRST_ROW = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Primo record\"><i class=\"fas fa-fast-backward\"></i></button>\n";
-    private static final String PREV_PAGE = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Pagina precedende\"><i class=\"fas fa-backward\"></i></button>\n";
-    private static final String PREV = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Record precedende\"><i class=\"fas fa-step-backward\"></i></button>\n";
+    private static final String PREV_PAGE = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Pagina precedente\"><i class=\"fas fa-backward\"></i></button>\n";
+    private static final String PREV = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Record precedente\"><i class=\"fas fa-step-backward\"></i></button>\n";
     private static final String NEXT = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Record successivo\"><i class=\"fas fa-step-forward\"></i></button>\n";
     private static final String NEXT_PAGE = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Pagina sucessiva\"><i class=\"fas fa-forward\"></i></button>\n";
     private static final String LAST_ROW = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Ultimo record\"><i class=\"fas fa-fast-forward\"></i></button>\n";
