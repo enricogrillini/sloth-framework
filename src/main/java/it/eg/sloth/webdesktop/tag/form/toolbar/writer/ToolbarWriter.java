@@ -43,7 +43,7 @@ public class ToolbarWriter extends HtmlWriter {
     private static final String PREV_PAGE = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Pagina precedente\"><i class=\"fas fa-backward\"></i></button>\n";
     private static final String PREV = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Record precedente\"><i class=\"fas fa-step-backward\"></i></button>\n";
     private static final String NEXT = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Record successivo\"><i class=\"fas fa-step-forward\"></i></button>\n";
-    private static final String NEXT_PAGE = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Pagina sucessiva\"><i class=\"fas fa-forward\"></i></button>\n";
+    private static final String NEXT_PAGE = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Pagina successiva\"><i class=\"fas fa-forward\"></i></button>\n";
     private static final String LAST_ROW = "  <button{0}{1} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Ultimo record\"><i class=\"fas fa-fast-forward\"></i></button>\n";
 
     private static final String INSERT = "  <button{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Inserisci record\"><i class=\"fas fa-plus\"></i> Inserisci</button>\n";
@@ -150,7 +150,7 @@ public class ToolbarWriter extends HtmlWriter {
     }
 
     /**
-     * Navigazione di base: pagina sucessiva
+     * Navigazione di base: pagina successiva
      *
      * @param grid
      * @param disabled
