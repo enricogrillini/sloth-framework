@@ -1,5 +1,6 @@
 package it.eg.sloth.db.query.filteredquery.filter;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,16 +31,28 @@ public class InFilter implements Filter {
     int sqlTypes;
     Collection<?> values;
     String sql;
+    boolean manageEmpty;
 
     public InFilter(String sql, int sqlTypes, Collection<?> values) {
+        this(sql, sqlTypes, values, false);
+    }
+
+    public InFilter(String sql, int sqlTypes, Collection<?> values, boolean manageEmpty) {
         this.sql = sql;
         this.sqlTypes = sqlTypes;
         this.values = values;
+        this.manageEmpty = manageEmpty;
     }
 
     @Override
     public String getWhereCondition() {
-        if (getValues() != null && !getValues().isEmpty()) {
+        if (getValues() == null) {
+            return "";
+        }
+
+        if (getValues().isEmpty()) {
+            return manageEmpty ? "1=2" : "";
+        } else {
             StringBuilder inStatement = new StringBuilder(getSql() + " In (");
             for (int i = 0; i < getValues().size(); i++) {
                 inStatement.append(i == 0 ? "?" : ", ?");
@@ -47,9 +60,6 @@ public class InFilter implements Filter {
             inStatement.append(")");
 
             return inStatement.toString();
-
-        } else {
-            return "";
         }
     }
 

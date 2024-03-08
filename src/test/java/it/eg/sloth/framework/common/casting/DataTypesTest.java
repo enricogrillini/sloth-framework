@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class DataTypesTest {
 
     @Test
-    void timestampFormatTextTest() throws FrameworkException {
+    void timestamp_formatText() throws FrameworkException {
         Timestamp timestamp = TimeStampUtil.parseTimestamp("01/06/2020", "dd/MM/yyyy");
 
         assertEquals("01/06/2020", DataTypes.DATE.formatText(timestamp, Locale.ITALY));
@@ -38,6 +38,20 @@ class DataTypesTest {
         assertEquals("lun, 01/06", DataTypes.DATE.formatText(timestamp, Locale.ITALY, "EE, dd/MM"));
         assertEquals("Mon, 01/06", DataTypes.DATE.formatText(timestamp, Locale.US, "EE, dd/MM"));
     }
+
+    @Test
+    void timestampParseValue_DATE() throws FrameworkException {
+        assertEquals(TimeStampUtil.parseTimestamp("16/09/2023", "dd/MM/yyyy"), DataTypes.DATE.parseValue("2023-09-16", Locale.ITALY));
+    }
+
+    @Test
+    void timestampParseValue_DATETIME() throws FrameworkException {
+        assertEquals(TimeStampUtil.parseTimestamp("16/09/2023 08:12:00", "dd/MM/yyyy HH:mm:ss"), DataTypes.DATETIME.parseValue("2023-09-16T08:12:00", Locale.ITALY));
+        assertEquals(TimeStampUtil.parseTimestamp("16/09/2023 08:12:14", "dd/MM/yyyy HH:mm:ss"), DataTypes.DATETIME.parseValue("2023-09-16T08:12:14", Locale.ITALY));
+
+        assertEquals(TimeStampUtil.parseTimestamp("16/09/2023 08:12:14", "dd/MM/yyyy HH:mm:ss"), DataTypes.DATETIME.parseValue("2023-09-16T08:12:14", Locale.ITALY));
+    }
+
 
 
     @Test
@@ -153,18 +167,6 @@ class DataTypesTest {
         assertEquals("0,0000000", DataTypes.NUMBER.formatText(BigDecimal.valueOf(0), Locale.ITALY));
     }
 
-    @Test
-    void timestampParseValue_DATE() throws FrameworkException {
-        assertEquals(TimeStampUtil.parseTimestamp("16/09/2023", "dd/MM/yyyy"), DataTypes.DATE.parseValue("2023-09-16", Locale.ITALY));
-    }
-
-    @Test
-    void timestampParseValue_DATETIME() throws FrameworkException {
-        assertEquals(TimeStampUtil.parseTimestamp("16/09/2023 08:12:00", "dd/MM/yyyy HH:mm:ss"), DataTypes.DATETIME.parseValue("2023-09-16T08:12:00", Locale.ITALY));
-        assertEquals(TimeStampUtil.parseTimestamp("16/09/2023 08:12:14", "dd/MM/yyyy HH:mm:ss"), DataTypes.DATETIME.parseValue("2023-09-16T08:12:14", Locale.ITALY));
-
-//        assertEquals(TimeStampUtil.parseTimestamp("16/09/2023 08:12:00", "dd/MM/yyyy HH:mm:ss"), DataTypes.DATETIME.parseValue("2023-09-16T08:12", Locale.ITALY));
-    }
 
 
     @Test

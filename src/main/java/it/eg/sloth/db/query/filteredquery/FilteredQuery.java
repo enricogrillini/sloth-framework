@@ -139,6 +139,19 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
     }
 
     /**
+     * Aggiunge una lista di filtri (generando una clasuola strFiltro IN
+     * (?,?,?..?)
+     *
+     * @param sql
+     * @param sqlTypes
+     * @param values
+     */
+    public void addInFilter(String sql, int sqlTypes, Collection<?> values, boolean manageEmpty) {
+        filterList.add(new InFilter(sql, sqlTypes, values, manageEmpty));
+    }
+
+
+    /**
      * Aggiunge una lista di filtri SENZA generare una clasuola strFiltro IN
      * (?,?,?..?)
      *
