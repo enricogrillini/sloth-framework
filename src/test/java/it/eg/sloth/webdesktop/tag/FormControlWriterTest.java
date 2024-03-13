@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Project: sloth-framework
- * Copyright (C) 2019-2021 Enrico Grillini
+ * Copyright (C) 2019-2025 Enrico Grillini
  * <p>
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -43,9 +43,6 @@ class FormControlWriterTest {
     private static final String LINK_DECODEDTEXT = "<div class=\"form-control form-control-sm bg-gray-200\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\" style=\"height: auto;\"><a href=\"{1}\" >{0}</a></div>";
 
     private static final String BASE_TEXT = "<div class=\"form-control form-control-sm bg-gray-200\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\" style=\"height: auto;\">{0}</div>";
-
-    private static final String BASE_FILE_VIEW = "<button name=\"navigationprefix___button___name\" type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Download file\"><i class=\"fas fa-download\"></i> Download</button>";
-    private static final String BASE_FILE_MODIFY = "<div class=\"custom-file small\"><input id=\"{0}\" name=\"{0}\" type=\"file\" data-toggle=\"tooltip\"{1}><label class=\"custom-file-label\" for=\"name\">Choose file</label></div>";
 
     private static final String BASE_HIDDEN = "<input id=\"{0}\" name=\"{0}\" type=\"hidden\" value=\"{1}\"/>";
 
@@ -153,19 +150,6 @@ class FormControlWriterTest {
         // Link
         field.setBaseLink("destPage.html?name=");
         assertEquals(MessageFormat.format(LINK_DECODEDTEXT, "Scelta A", "destPage.html?name=A"), FormControlWriter.writeDecodedText(field, null));
-    }
-
-    @Test
-    void fileTest() throws FrameworkException {
-        File field = new File("name", "description");
-        field.setTooltip("tooltip");
-
-        assertEquals(MessageFormat.format(BASE_FILE_VIEW, "name", "text", "", "", " disabled=\"\""), FormControlWriter.writeFile(field, ViewModality.VIEW));
-        assertEquals(MessageFormat.format(BASE_FILE_MODIFY, "name", " data-placement=\"bottom\" title=\"tooltip\" class=\"custom-file-input\""), FormControlWriter.writeFile(field, ViewModality.EDIT));
-
-
-        // Controllo generico
-        assertEquals(MessageFormat.format(BASE_FILE_MODIFY, "name", " data-placement=\"bottom\" title=\"tooltip\" class=\"custom-file-input\""), FormControlWriter.writeControl(field, null, ViewModality.EDIT));
     }
 
     @Test

@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 
 /**
  * Project: sloth-framework
- * Copyright (C) 2019-2021 Enrico Grillini
+ * Copyright (C) 2019-2025 Enrico Grillini
  * <p>
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -62,7 +62,7 @@ public class File implements SimpleField {
     private Part part;
 
     @Getter(AccessLevel.NONE)
-    private boolean exists;
+    private Boolean exists;
 
     public File(String name, String description) {
         this.name = name;
@@ -108,7 +108,7 @@ public class File implements SimpleField {
     }
 
     public boolean exists() {
-        return this.exists;
+        return this.exists != null ? this.exists : true;
     }
 
     @Override

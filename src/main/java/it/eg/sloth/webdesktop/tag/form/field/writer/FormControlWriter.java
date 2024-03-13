@@ -21,7 +21,7 @@ import java.text.MessageFormat;
 
 /**
  * Project: sloth-framework
- * Copyright (C) 2019-2021 Enrico Grillini
+ * Copyright (C) 2019-2025 Enrico Grillini
  * <p>
  * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -43,6 +43,8 @@ public class FormControlWriter extends HtmlWriter {
     public static final String INPUT_VIEW = "<div{1} style=\"height: auto;\">{0}</div>";
 
     public static final String FILE_GENERIC_VIEW = "<button{0} type=\"submit\" class=\"btn btn-link btn-sm\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"Download file\"><i class=\"fas fa-download\"></i> Download</button>";
+    public static final String FILE_GENERIC_VIEW_NOT_EXISTS = "<span class=\"btn btn-link btn-sm text-secondary\"><i class=\"fas fa-download\"></i> Non presente</span>";
+
     public static final String FILE_GENERIC_EDIT = "<div class=\"custom-file small\"><input{0}{1}{2}{3} class=\"custom-file-input\"><label class=\"custom-file-label\"{4}>Choose file</label></div>";
     public static final String MULTIPLE_FILE_GENERIC_EDIT = "<div class=\"custom-file small\"><input{0}{1}{2}{3} class=\"custom-file-input\" multiple=\"multiple\"><label class=\"custom-file-label\"{4}>Choose file</label></div>";
 
@@ -402,7 +404,11 @@ public class FormControlWriter extends HtmlWriter {
 
         ViewModality viewModality = file.getViewModality() == ViewModality.AUTO ? pageViewModality : file.getViewModality();
         if (viewModality == ViewModality.VIEW) {
-            return MessageFormat.format(FILE_GENERIC_VIEW, getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.BUTTON, file.getName())));
+            if (file.exists()) {
+                return MessageFormat.format(FILE_GENERIC_VIEW, getAttribute(ATTR_NAME, NavigationConst.navStr(NavigationConst.BUTTON, file.getName())));
+            } else {
+                return FILE_GENERIC_VIEW_NOT_EXISTS;
+            }
         } else {
             return MessageFormat.format(FILE_GENERIC_EDIT,
                     getAttribute(ATTR_ID, file.getName()),
