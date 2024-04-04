@@ -59,16 +59,18 @@ public abstract class FormPage<F extends Form> extends BasePage implements FormP
 
         if (!(getClass().getSimpleName() + ".html").equals(getWebDesktopDto().getLastController())) {
             getWebDesktopDto().setLastController(getClass().getSimpleName() + ".html");
+
+            // Creo la form e la inizializzo come il locale dell'utente
             form = createForm();
+            if (getUser() != null && getUser().getLocale() != null) {
+                form.setLocale(getUser().getLocale());
+            }
+
             getWebDesktopDto().setForm(form);
             this.newForm = true;
         } else {
             form = (F) getWebDesktopDto().getForm();
             this.newForm = false;
-        }
-
-        if (getUser() != null && getUser().getLocale() != null) {
-            form.setLocale(getUser().getLocale());
         }
     }
 
