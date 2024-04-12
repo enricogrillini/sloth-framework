@@ -41,8 +41,6 @@ public class TimeStampUtil {
     }
 
 
-
-
     /**
      * Converte una data in String
      *
@@ -78,6 +76,10 @@ public class TimeStampUtil {
         return dfOutput.format(date);
     }
 
+    public static Timestamp parseTimestamp(String strDate, String format) throws FrameworkException {
+        return parseTimestamp(strDate, null, format);
+    }
+
     /**
      * Converte una stringa in un Timestamp
      *
@@ -86,7 +88,7 @@ public class TimeStampUtil {
      * @return
      * @throws ParseException
      */
-    public static Timestamp parseTimestamp(String strDate, String format) throws FrameworkException {
+    public static Timestamp parseTimestamp(String strDate, Locale locale, String format) throws FrameworkException {
         if (BaseFunction.isBlank(strDate)) {
             return null;
         }
@@ -96,7 +98,7 @@ public class TimeStampUtil {
         }
 
         try {
-            DateFormat formatter = new SimpleDateFormat(format, new DateFormatSymbols());
+            DateFormat formatter = locale == null ? new SimpleDateFormat(format, new DateFormatSymbols()) : new SimpleDateFormat(format, locale);
             formatter.setLenient(false);
 
             return new Timestamp(formatter.parse(strDate).getTime());
@@ -157,7 +159,7 @@ public class TimeStampUtil {
             return calendar;
         }
     }
-    
+
     public static final Integer getYear(Timestamp value) {
         Calendar calendar = toCalendar(value);
         if (calendar != null) {
