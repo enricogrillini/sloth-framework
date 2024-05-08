@@ -51,12 +51,21 @@ class BigdecimalUtilTest {
     }
 
     @Test
-    void greatestTest() {
-        assertEquals(null, BigDecimalUtil.greatest(null, null));
-        assertEquals(null, BigDecimalUtil.greatest(BigDecimal.valueOf(1), null));
-        assertEquals(null, BigDecimalUtil.greatest(null, BigDecimal.valueOf(1)));
-        assertEquals(BigDecimal.valueOf(20), BigDecimalUtil.greatest(BigDecimal.valueOf(10), BigDecimal.valueOf(20)));
-        assertEquals(BigDecimal.valueOf(10), BigDecimalUtil.greatest(BigDecimal.valueOf(10), BigDecimal.valueOf(2)));
+    void minTest() {
+        assertEquals(null, BigDecimalUtil.min(null, null));
+        assertEquals(BigDecimal.valueOf(1), BigDecimalUtil.min(BigDecimal.valueOf(1), null));
+        assertEquals(BigDecimal.valueOf(1), BigDecimalUtil.min(null, BigDecimal.valueOf(1)));
+        assertEquals(BigDecimal.valueOf(10), BigDecimalUtil.min(BigDecimal.valueOf(10), BigDecimal.valueOf(20)));
+        assertEquals(BigDecimal.valueOf(2), BigDecimalUtil.min(BigDecimal.valueOf(10), BigDecimal.valueOf(2)));
+    }
+
+    @Test
+    void maxTest() {
+        assertEquals(null, BigDecimalUtil.max(null, null));
+        assertEquals(BigDecimal.valueOf(1), BigDecimalUtil.max(BigDecimal.valueOf(1), null));
+        assertEquals(BigDecimal.valueOf(1), BigDecimalUtil.max(null, BigDecimal.valueOf(1)));
+        assertEquals(BigDecimal.valueOf(20), BigDecimalUtil.max(BigDecimal.valueOf(10), BigDecimal.valueOf(20)));
+        assertEquals(BigDecimal.valueOf(10), BigDecimalUtil.max(BigDecimal.valueOf(10), BigDecimal.valueOf(2)));
     }
 
     @Test

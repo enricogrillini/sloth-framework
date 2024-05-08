@@ -171,21 +171,25 @@ public class BigDecimalUtil {
         }
     }
 
-
-    /**
-     * Ritorna il numero maggiore
-     *
-     * @param bigDecimal1
-     * @param bigDecimal2
-     * @return
-     */
-    public static BigDecimal greatest(BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
-        if (bigDecimal1 == null || bigDecimal2 == null) {
-            return null;
-        } else if (bigDecimal1.doubleValue() > bigDecimal2.doubleValue()) {
+    // Ritorna il numero maggiore
+    public static BigDecimal min(BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
+        if (bigDecimal1 == null) {
+            return bigDecimal2;
+        } else if (bigDecimal2 == null) {
             return bigDecimal1;
         } else {
+            return bigDecimal1.min(bigDecimal2);
+        }
+    }
+
+    // Ritorna il numero maggiore
+    public static BigDecimal max(BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
+        if (bigDecimal1 == null) {
             return bigDecimal2;
+        } else if (bigDecimal2 == null) {
+            return bigDecimal1;
+        } else {
+            return bigDecimal1.max(bigDecimal2);
         }
     }
 

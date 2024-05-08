@@ -322,60 +322,87 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
      * @return
      */
     default Set<Object> distinct(String columnName) {
-        return distinct((String[]) null, (Object[]) null, columnName);
+        return distinct((String[]) null, null, columnName);
     }
 
-    /**
-     * Effettua la somma sulla dataTable passata applicando i filtri indicati
-     *
-     * @param filterNames
-     * @param filterValues
-     * @param columnName
-     * @return
-     */
+    // Effettua la somma sulla dataTable passata applicando i filtri indicati
     default BigDecimal sum(String[] filterNames, Object[] filterValues, String columnName) {
         BigDecimal result = null;
 
         for (DataRow row : this) {
-            boolean filter = true;
-            if (filterNames != null) {
-                for (int i = 0; i < filterNames.length; i++) {
-                    if (!BaseFunction.equals(row.getObject(filterNames[i]), filterValues[i])) {
-                        filter = false;
-                        break;
-                    }
-                }
-            }
-
-            if (filter) {
+            if (considerRow(row, filterNames, filterValues)) {
                 result = BigDecimalUtil.sum(result, row.getBigDecimal(columnName));
-
             }
         }
 
         return result;
     }
 
-    /**
-     * Effettua la somma sulla dataTable passata applicando il filtro indicato
-     *
-     * @param filterName
-     * @param filterValue
-     * @param columnName
-     * @return
-     */
+    // Effettua la somma sulla dataTable passata applicando il filtro indicato
     default BigDecimal sum(String filterName, Object filterValue, String columnName) {
         return sum(new String[]{filterName}, new Object[]{filterValue}, columnName);
     }
 
-    /**
-     * Effettua la somma sulla dataTable passata
-     *
-     * @param columnName
-     * @return
-     */
+    // Effettua la somma sulla dataTable passata
     default BigDecimal sum(String columnName) {
-        return sum((String[]) null, (Object[]) null, columnName);
+        return sum((String[]) null, null, columnName);
+    }
+
+    // Cerca il minimo sulla dataTable passata applicando i filtri indicati
+    default BigDecimal min(String[] filterNames, Object[] filterValues, String columnName) {
+        BigDecimal result = null;
+        for (DataRow row : this) {
+            if (considerRow(row, filterNames, filterValues)) {
+                result = BigDecimalUtil.min(result, row.getBigDecimal(columnName));
+            }
+        }
+
+        return result;
+    }
+
+    // Cerca il minimo sulla dataTable passata applicando il filtro indicato
+    default BigDecimal min(String filterName, Object filterValue, String columnName) {
+        return min(new String[]{filterName}, new Object[]{filterValue}, columnName);
+    }
+
+    // Cerca il minimo sulla dataTable passata
+    default BigDecimal min(String columnName) {
+        return min((String[]) null, null, columnName);
+    }
+
+
+    // Cerca il minimo sulla dataTable passata applicando i filtri indicati
+    default BigDecimal max(String[] filterNames, Object[] filterValues, String columnName) {
+        BigDecimal result = null;
+        for (DataRow row : this) {
+            if (considerRow(row, filterNames, filterValues)) {
+                result = BigDecimalUtil.max(result, row.getBigDecimal(columnName));
+            }
+        }
+
+        return result;
+    }
+
+    // Cerca il minimo sulla dataTable passata applicando il filtro indicato
+    default BigDecimal max(String filterName, Object filterValue, String columnName) {
+        return min(new String[]{filterName}, new Object[]{filterValue}, columnName);
+    }
+
+    // Cerca il minimo sulla dataTable passata
+    default BigDecimal max(String columnName) {
+        return min((String[]) null, null, columnName);
+    }
+
+    private boolean considerRow(DataRow row, String[] filterNames, Object[] filterValues) {
+        if (filterNames != null) {
+            for (int i = 0; i < filterNames.length; i++) {
+                if (!BaseFunction.equals(row.getObject(filterNames[i]), filterValues[i])) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
 }
