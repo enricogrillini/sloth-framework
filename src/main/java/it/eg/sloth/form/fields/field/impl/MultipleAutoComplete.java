@@ -13,13 +13,16 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
+import it.eg.sloth.jaxb.form.ForceCase;
 import it.eg.sloth.webdesktop.api.request.BffFields;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Project: sloth-framework
@@ -42,6 +45,7 @@ import java.util.List;
 public class MultipleAutoComplete<T> extends MultipleInput<T> {
 
     private String decodedText;
+    private String invalidDecodedText;
     private DecodeMap<T, ? extends DecodeValue<T>> decodeMap;
     private Boolean freeInput;
 
@@ -71,17 +75,18 @@ public class MultipleAutoComplete<T> extends MultipleInput<T> {
         if (values == null || values.isEmpty()) {
             setDecodedText(null);
         } else {
-            StringBuilder decodeBuilder = new StringBuilder();
-            for (T value : values) {
-                if (getDecodeMap() != null) {
-                    if (decodeBuilder.length() > 0) {
-                        decodeBuilder.append(DELIMITER);
-                    }
-                    decodeBuilder.append(getDecodeMap().decode(value));
-                }
-            }
+            String tmp = values.stream()
+                    .map(value -> getDecodeMap().decode(value))
+                    .collect(Collectors.joining("|"));
 
-            setDecodedText(decodeBuilder.toString());
+            setDecodedText(tmp);
+
+            tmp = values.stream()
+                    .filter(value -> !getDecodeMap().get(value).isValid())
+                    .map(value -> getDecodeMap().decode(value))
+                    .collect(Collectors.joining("|"));
+
+            setInvalidDecodedText(tmp);
         }
     }
 

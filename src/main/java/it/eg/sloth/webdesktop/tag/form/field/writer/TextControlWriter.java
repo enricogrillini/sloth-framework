@@ -166,7 +166,12 @@ public class TextControlWriter extends HtmlWriter {
                 if (builder.length() > 0) {
                     builder.append(" <i class=\"fas fa-ellipsis-v\"></i> ");
                 }
-                builder.append(htmlDecodedText);
+
+                if (multipleAutoComplete.getDecodeMap() != null && multipleAutoComplete.getDecodeMap().get(value) != null && !multipleAutoComplete.getDecodeMap().get(value).isValid()) {
+                    builder.append("<i>" + htmlDecodedText + "</i>");
+                } else {
+                    builder.append(htmlDecodedText);
+                }
             }
         }
 

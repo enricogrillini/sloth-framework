@@ -502,7 +502,6 @@ public class FormControlWriter extends HtmlWriter {
 
         String innerHtml;
         if (viewModality == ViewModality.VIEW || multipleAutoComplete.isReadOnly()) {
-
             innerHtml = MessageFormat.format(
                     INPUT_VIEW,
                     TextControlWriter.writeControlSpace(multipleAutoComplete, parentElement),
@@ -518,6 +517,7 @@ public class FormControlWriter extends HtmlWriter {
                     .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(multipleAutoComplete)))
                     .append(getAttribute(ATTR_READONLY, multipleAutoComplete.isReadOnly(), ""))
                     .append(getAttribute(ATTR_PLACEHOLDER, !BaseFunction.isBlank(multipleAutoComplete.getPlaceHolder()), multipleAutoComplete.getPlaceHolder()))
+                    .append(getAttribute("invalid", multipleAutoComplete.getInvalidDecodedText()))
                     .append(getAttribute("fields", parentElement.getName()))
                     .append("/>")
                     .toString();

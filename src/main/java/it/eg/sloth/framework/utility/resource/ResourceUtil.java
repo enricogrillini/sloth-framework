@@ -29,7 +29,7 @@ public class ResourceUtil {
     }
 
     public static String normalizedResourceAsString(String path) {
-        return resourceAsString(path).replace("\r\n", "\n");
+        return normalizeString(resourceAsString(path));
     }
 
     public static String normalizedResourceAsString(byte[] resource) {

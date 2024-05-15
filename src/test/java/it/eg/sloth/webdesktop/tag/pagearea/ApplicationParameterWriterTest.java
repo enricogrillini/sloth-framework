@@ -68,7 +68,7 @@ class ApplicationParameterWriterTest {
 
     @Test
     void writeAlertCenterTest() throws FrameworkException {
-        assertEquals(APPLICATION_PARAMETER_TABLE_1, ContentWriter.applicationParameters(grid, ViewModality.VIEW, Locale.ITALY).replace("\r\n", "\n"));
+        assertEquals(APPLICATION_PARAMETER_TABLE_1,ContentWriter.applicationParameters(grid, ViewModality.VIEW, Locale.ITALY).replace("\r\n", "\n"));
     }
 
 
@@ -76,7 +76,7 @@ class ApplicationParameterWriterTest {
     void writeAlertCenterTest2() throws FrameworkException {
         grid.getDataSource().setCurrentRow(2);
 
-        assertEquals(APPLICATION_PARAMETER_TABLE_2, ContentWriter.applicationParameters(grid, ViewModality.EDIT, Locale.ITALY).replace("\r\n", "\n"));
+        assertEquals(APPLICATION_PARAMETER_TABLE_2,ContentWriter.applicationParameters(grid, ViewModality.EDIT, Locale.ITALY).replace("\r\n", "\n"));
     }
 
 

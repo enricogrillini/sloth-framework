@@ -33,8 +33,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class FormControlMultipleAutoCompleteTest {
 
-    private static final String VIEW_TAG = ResourceUtil.normalizedResourceAsString("snippet-html/form-control/multiple-autoomplete-view.html");
-    private static final String EDIT_TAG = ResourceUtil.normalizedResourceAsString("snippet-html/form-control/multiple-autoomplete-edit.html");
+    private static final String VIEW_TAG = ResourceUtil.normalizedResourceAsString("snippet-html/form-control/multiple-autocomplete-view.html");
+    private static final String EDIT_TAG = ResourceUtil.normalizedResourceAsString("snippet-html/form-control/multiple-autocomplete-edit.html");
 
     Fields fields;
     MultipleAutoComplete<BigDecimal> multipleAutoComplete;
@@ -60,7 +60,5 @@ class FormControlMultipleAutoCompleteTest {
         assertEquals(VIEW_TAG, FormControlWriter.writeControl(multipleAutoComplete, fields, ViewModality.VIEW));
         assertEquals(EDIT_TAG, FormControlWriter.writeControl(multipleAutoComplete, fields, ViewModality.EDIT));
     }
-
-
 
 }

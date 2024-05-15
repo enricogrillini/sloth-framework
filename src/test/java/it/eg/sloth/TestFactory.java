@@ -24,6 +24,7 @@ import org.springframework.http.MediaType;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -148,10 +149,10 @@ public class TestFactory {
 
     public static BaseDecodeMap<BigDecimal> getBaseDecodeMap() {
         BaseDecodeMap<BigDecimal> result = new BaseDecodeMap<>();
-        result.put(BigDecimal.valueOf(1), "Valore A");
-        result.put(BigDecimal.valueOf(2), "Valore B");
-        result.put(BigDecimal.valueOf(3), "Valore C");
-        result.put(BigDecimal.valueOf(4), "Valore D");
+        result.put(BigDecimal.valueOf(1), "Valore A", true);
+        result.put(BigDecimal.valueOf(2), "Valore B", true);
+        result.put(BigDecimal.valueOf(3), "Valore C", true);
+        result.put(BigDecimal.valueOf(4), "Valore D", false);
 
         return result;
     }

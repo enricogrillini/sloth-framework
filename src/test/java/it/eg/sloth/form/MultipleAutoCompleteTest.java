@@ -7,15 +7,15 @@ import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.MessageList;
+import it.eg.sloth.framework.pageinfo.ViewModality;
 import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,135 +35,151 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class MultipleAutoCompleteTest {
 
-    MultipleAutoComplete<BigDecimal> baseMultipleAutoComplete;
-    MultipleAutoComplete<String> topicMultipleAutoComplete;
+    private MessageList messageList;
+    MultipleAutoComplete<BigDecimal> field;
+    MultipleAutoComplete<String> fieldTopic;
 
 
     @BeforeEach
     public void init() {
-        baseMultipleAutoComplete = new MultipleAutoComplete<>("Numero", "Numero", DataTypes.INTEGER);
-        baseMultipleAutoComplete.setDecodeMap(TestFactory.getBaseDecodeMap());
+        messageList = new MessageList();
 
-        topicMultipleAutoComplete = new MultipleAutoComplete<>("Topic", "Topic", DataTypes.STRING);
-        topicMultipleAutoComplete.setDecodeMap(TestFactory.getTopicDecodeMap());
+        field = new MultipleAutoComplete<>("Numero", "Numero", DataTypes.INTEGER);
+        field.setDecodeMap(TestFactory.getBaseDecodeMap());
+
+        fieldTopic = new MultipleAutoComplete<>("Topic", "Topic", DataTypes.STRING);
+        fieldTopic.setDecodeMap(TestFactory.getTopicDecodeMap());
+    }
+
+
+    @Test
+    void builder_base() throws FrameworkException {
+        assertEquals("numero", field.getName());
+        assertEquals("Numero", field.getDescription());
+        assertEquals("numero", field.getAlias());
+        assertFalse(field.isRequired());
+        assertFalse(field.isReadOnly());
+        assertFalse(field.isHidden());
+        assertEquals(ViewModality.AUTO, field.getViewModality());
     }
 
     @Test
-    void baseTest() throws FrameworkException {
-        List<BigDecimal> values = new ArrayList<>();
-        values.add(BigDecimal.valueOf(1));
-        values.add(BigDecimal.valueOf(2));
-
-        baseMultipleAutoComplete.setValue(values);
-        assertEquals("1|2", baseMultipleAutoComplete.getData());
-        assertEquals("Valore A, Valore B", baseMultipleAutoComplete.getText());
-        assertEquals("Valore A|Valore B", baseMultipleAutoComplete.getDecodedText());
-
-        baseMultipleAutoComplete.setValue(null);
-        assertEquals(StringUtil.EMPTY, baseMultipleAutoComplete.getData());
-        assertEquals(StringUtil.EMPTY, baseMultipleAutoComplete.getText());
-        assertEquals(null, baseMultipleAutoComplete.getDecodedText());
+    void builder_topic() throws FrameworkException {
+        assertEquals("topic", fieldTopic.getName());
+        assertEquals("Topic", fieldTopic.getDescription());
+        assertEquals("topic", fieldTopic.getAlias());
+        assertFalse(fieldTopic.isRequired());
+        assertFalse(fieldTopic.isReadOnly());
+        assertFalse(fieldTopic.isHidden());
+        assertEquals(ViewModality.AUTO, fieldTopic.getViewModality());
     }
 
     @Test
-    void requestOkTest() throws ServletException, IOException, FrameworkException {
+    void builder_withNotValidField() throws FrameworkException {
+        field.setValue(Arrays.asList(BigDecimal.valueOf(1L), BigDecimal.valueOf(4L)));
+
+        assertEquals("Valore A|Valore D", field.getDecodedText());
+        assertEquals("Valore D", field.getInvalidDecodedText());
+    }
+
+
+    @Test
+    void validate_request() throws ServletException, IOException, FrameworkException {
         HashMap<String, String[]> map = new HashMap<>();
         map.put("Numero", new String[]{"Valore A|Valore B|Valore C"});
 
         WebRequest webRequest = TestFactory.getMockedWebRequest(map);
 
-        baseMultipleAutoComplete.post(webRequest);
+        field.post(webRequest);
 
-        assertEquals("1|2|3", baseMultipleAutoComplete.getData());
-        assertEquals("Valore A, Valore B, Valore C", baseMultipleAutoComplete.getText());
-        assertEquals("Valore A|Valore B|Valore C", baseMultipleAutoComplete.getDecodedText());
+        assertEquals("1|2|3", field.getData());
+        assertEquals("Valore A, Valore B, Valore C", field.getText());
+        assertEquals("Valore A|Valore B|Valore C", field.getDecodedText());
 
         MessageList messageList = new MessageList();
-        baseMultipleAutoComplete.validate(messageList);
+        field.validate(messageList);
         assertTrue(messageList.isEmpty());
 
 
-        baseMultipleAutoComplete.addValue(BigDecimal.valueOf(4));
-        assertEquals("1|2|3|4", baseMultipleAutoComplete.getData());
+        field.addValue(BigDecimal.valueOf(4));
+        assertEquals("1|2|3|4", field.getData());
     }
 
 
     @Test
-    void requestKoTest() throws ServletException, IOException, FrameworkException {
+    void validate_request_KO() throws ServletException, IOException, FrameworkException {
         HashMap<String, String[]> map = new HashMap<>();
         map.put("Numero", new String[]{"Valore A,Valore B,Valore X"});
 
         WebRequest webRequest = TestFactory.getMockedWebRequest(map);
-        baseMultipleAutoComplete.post(webRequest);
+        field.post(webRequest);
 
-        assertEquals(StringUtil.EMPTY, baseMultipleAutoComplete.getData());
-        assertEquals(StringUtil.EMPTY, baseMultipleAutoComplete.getText());
-        assertEquals("Valore A,Valore B,Valore X", baseMultipleAutoComplete.getDecodedText());
+        assertEquals(StringUtil.EMPTY, field.getData());
+        assertEquals(StringUtil.EMPTY, field.getText());
+        assertEquals("Valore A,Valore B,Valore X", field.getDecodedText());
 
         MessageList messageList = new MessageList();
-        baseMultipleAutoComplete.validate(messageList);
+        field.validate(messageList);
         assertEquals("Il campo Numero contiene valori non validi", messageList.getMessagesDescription());
         assertFalse(messageList.isEmpty());
     }
 
 
     @Test
-    void dataSourceTest() throws ServletException, IOException, FrameworkException {
+    void validate_dataSource() throws ServletException, IOException, FrameworkException {
         Row row = new Row();
         row.setString("Numero", "1|2|3");
 
-        baseMultipleAutoComplete.copyFromDataSource(row);
+        field.copyFromDataSource(row);
 
-        assertEquals("1|2|3", baseMultipleAutoComplete.getData());
-        assertEquals("Valore A|Valore B|Valore C", baseMultipleAutoComplete.getDecodedText());
+        assertEquals("1|2|3", field.getData());
+        assertEquals("Valore A|Valore B|Valore C", field.getDecodedText());
 
-        assertEquals(3, baseMultipleAutoComplete.getValue().size());
-        assertEquals(BigDecimal.valueOf(1), baseMultipleAutoComplete.getValue().get(0));
+        assertEquals(3, field.getValue().size());
+        assertEquals(BigDecimal.valueOf(1), field.getValue().get(0));
 
 
         Row row2 = new Row();
-        baseMultipleAutoComplete.copyToDataSource(row2);
+        field.copyToDataSource(row2);
         assertEquals("1|2|3", row2.getString("Numero"));
     }
 
     @Test
-    void requestTopicTest() throws ServletException, IOException, FrameworkException {
+    void validate_request_topic() throws ServletException, IOException, FrameworkException {
         MessageList messageList = new MessageList();
         HashMap<String, String[]> map = new HashMap<>();
         map.put("Topic", new String[]{"Topic A|Topic B|Topic C"});
 
-        topicMultipleAutoComplete.post(TestFactory.getMockedWebRequest(map));
-        assertEquals("Topic A|Topic B|Topic C", topicMultipleAutoComplete.getData());
-        assertEquals("Topic A, Topic B, Topic C", topicMultipleAutoComplete.getText());
-        assertEquals("Topic A|Topic B|Topic C", topicMultipleAutoComplete.getDecodedText());
+        fieldTopic.post(TestFactory.getMockedWebRequest(map));
+        assertEquals("Topic A|Topic B|Topic C", fieldTopic.getData());
+        assertEquals("Topic A, Topic B, Topic C", fieldTopic.getText());
+        assertEquals("Topic A|Topic B|Topic C", fieldTopic.getDecodedText());
 
-        topicMultipleAutoComplete.validate(messageList);
+        fieldTopic.validate(messageList);
         assertTrue(messageList.isEmpty());
 
         // New Topic - Free input: false
         map.put("Topic", new String[]{"Topic A|Topic B|Topic C|New Topic"});
 
-        topicMultipleAutoComplete.post(TestFactory.getMockedWebRequest(map));
-        assertEquals("", topicMultipleAutoComplete.getData());
-        assertEquals("", topicMultipleAutoComplete.getText());
-        assertEquals("Topic A|Topic B|Topic C|New Topic", topicMultipleAutoComplete.getDecodedText());
+        fieldTopic.post(TestFactory.getMockedWebRequest(map));
+        assertEquals("", fieldTopic.getData());
+        assertEquals("", fieldTopic.getText());
+        assertEquals("Topic A|Topic B|Topic C|New Topic", fieldTopic.getDecodedText());
 
-        topicMultipleAutoComplete.validate(messageList);
+        fieldTopic.validate(messageList);
         assertFalse(messageList.isEmpty());
 
         // New Topic - Free input: true
-        topicMultipleAutoComplete.setFreeInput(true);
+        fieldTopic.setFreeInput(true);
         map.put("Topic", new String[]{"Topic A|Topic B|Topic C|New Topic"});
 
-        topicMultipleAutoComplete.post(TestFactory.getMockedWebRequest(map));
-        assertEquals("Topic A|Topic B|Topic C|New Topic", topicMultipleAutoComplete.getData());
-        assertEquals("Topic A, Topic B, Topic C, New Topic", topicMultipleAutoComplete.getText());
-        assertEquals("Topic A|Topic B|Topic C|New Topic", topicMultipleAutoComplete.getDecodedText());
+        fieldTopic.post(TestFactory.getMockedWebRequest(map));
+        assertEquals("Topic A|Topic B|Topic C|New Topic", fieldTopic.getData());
+        assertEquals("Topic A, Topic B, Topic C, New Topic", fieldTopic.getText());
+        assertEquals("Topic A|Topic B|Topic C|New Topic", fieldTopic.getDecodedText());
 
-        topicMultipleAutoComplete.validate(messageList);
+        fieldTopic.validate(messageList);
         assertFalse(messageList.isEmpty());
-
     }
-
 
 }
