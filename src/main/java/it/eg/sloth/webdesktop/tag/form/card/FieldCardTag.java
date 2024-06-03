@@ -26,7 +26,7 @@ public class FieldCardTag extends BaseElementTag<TextField<?>> {
 
     @Override
     protected int startTag() throws IOException {
-        writeln(CardWriter.openCard());
+        writeln(CardWriter.openCard(getElement()));
         writeln(CardWriter.fieldCardContent(getElement()));
 
         return EVAL_BODY_INCLUDE;

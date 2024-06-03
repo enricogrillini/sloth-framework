@@ -38,13 +38,10 @@ class CardWriterTest {
     private static final String CONTENT_TEMPLATE_3 = ResourceUtil.normalizedResourceAsString("snippet-html/card/field-card-content-3.html");
     private static final String CONTENT_TEMPLATE_4 = ResourceUtil.normalizedResourceAsString("snippet-html/card/field-card-content-4.html");
 
+    private static final String CONTENT_TEMPLATE_5 = ResourceUtil.normalizedResourceAsString("snippet-html/card/field-card-content-5.html");
+
     private static final String FIELDS_CARD_OPEN = ResourceUtil.normalizedResourceAsString("snippet-html/card/fields-card-open.html");
     private static final String PAIRED_FIELDS_CARD_OPEN = ResourceUtil.normalizedResourceAsString("snippet-html/card/paired-fields-card-open.html");
-
-//    @Test
-//    void collapsibleCardBodyOpen() {
-//        assertEquals(COLLAPSIBLE_CARD_OPEN, CardWriter.collapsibleCardBodyOpen("name", true));
-//    }
 
 
     @Test
@@ -60,6 +57,10 @@ class CardWriterTest {
 
         field.setTooltip("tooltip");
         assertEquals(CONTENT_TEMPLATE_4, CardWriter.fieldCardContent(field));
+
+        field.setState(ControlState.DANGER);
+        assertEquals(CONTENT_TEMPLATE_5, CardWriter.fieldCardContent(field));
+
     }
 
 

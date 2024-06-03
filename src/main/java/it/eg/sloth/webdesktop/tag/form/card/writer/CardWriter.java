@@ -55,7 +55,11 @@ public class CardWriter extends HtmlWriter {
     }
 
     public static final String openCard() {
-        return CARD_OPEN;
+        return MessageFormat.format(CARD_OPEN, getBootstrapClass(null));
+    }
+
+    public static final String openCard(TextField<?> field) {
+        return MessageFormat.format(CARD_OPEN, getBootstrapClass(field.getState()));
     }
 
     public static final String closeCard() {
@@ -89,7 +93,11 @@ public class CardWriter extends HtmlWriter {
 
     public static final String fieldCardContent(TextField<?> field) {
         StringBuilder result = new StringBuilder()
-                .append(MessageFormat.format(FIELD_CARD_CONTENT, getTooltipAttributes(field.getTooltip()), field.getHtmlDescription(), field.escapeHtmlText()));
+                .append(MessageFormat.format(FIELD_CARD_CONTENT,
+                        getTooltipAttributes(field.getTooltip()),
+                        field.getHtmlDescription(),
+                        field.escapeHtmlText(),
+                        getBootstrapClass(field.getState())));
 
         if (!BaseFunction.isBlank(field.getBaseLink())) {
             result.append("   <a href=\"" + field.getBaseLink() + field.escapeHtmlValue() + "\" class=\"stretched-link\"></a>\n");
@@ -100,8 +108,8 @@ public class CardWriter extends HtmlWriter {
 
     public static final String fieldsCardOpen(Fields<?> fields) throws FrameworkException {
         StringBuilder result = new StringBuilder()
-                .append(MessageFormat.format(CARD_OPEN, Casting.getHtml(fields.getDescription())))
-                .append(MessageFormat.format(FIELDS_CARD_TITLE, Casting.getHtml(fields.getDescription())));
+                .append(openCard())
+                .append(MessageFormat.format(FIELDS_CARD_TITLE, Casting.getHtml(fields.getDescription()), getBootstrapClass(null)));
 
         double min = getMinValue(fields);
         double max = getMaxValue(fields);
@@ -125,8 +133,8 @@ public class CardWriter extends HtmlWriter {
 
     public static final String pairedFieldsCardOpen(Fields<?> fields) throws FrameworkException {
         StringBuilder result = new StringBuilder()
-                .append(MessageFormat.format(CARD_OPEN, Casting.getHtml(fields.getDescription())))
-                .append(MessageFormat.format(FIELDS_CARD_TITLE, Casting.getHtml(fields.getDescription())));
+                .append(openCard())
+                .append(MessageFormat.format(FIELDS_CARD_TITLE, Casting.getHtml(fields.getDescription()), getBootstrapClass(null)));
 
         double min = getMinValue(fields);
         double max = getMaxValue(fields);
@@ -199,4 +207,9 @@ public class CardWriter extends HtmlWriter {
         return max;
     }
 
+
+    private static String getBootstrapClass(ControlState controlState) {
+        controlState = controlState == null ? ControlState.DEFAULT : controlState;
+        return controlState.getBootstrapClass();
+    }
 }
