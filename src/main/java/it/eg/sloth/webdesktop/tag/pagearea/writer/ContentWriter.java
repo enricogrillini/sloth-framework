@@ -147,7 +147,7 @@ public class ContentWriter extends HtmlWriter {
 
             String value;
             if (rowNumber == table.getCurrentRow() && viewModality == ViewModality.EDIT) {
-                value = FormControlWriter.writeControl(element, grid, viewModality);
+                value = FormControlWriter.writeControl(element, grid, viewModality, null);
             } else {
                 value = TextControlWriter.writeControl(element, grid);
             }

@@ -52,7 +52,9 @@ public class FormControlWriter extends HtmlWriter {
     public static final String INPUT_GROUP_STATE_MESSAGE = "<div class=\"small {0}\">{1}</div>";
 
     // Scrive un Controllo
-    public static String writeControl(SimpleField element, Elements<?> parentElement, ViewModality pageViewModality) throws FrameworkException {
+    public static String writeControl(SimpleField element, Elements<?> parentElement, ViewModality pageViewModality, String controlClass) throws FrameworkException {
+        controlClass = BaseFunction.isBlank(controlClass) ? "" : " " + controlClass;
+
         switch (element.getFieldType()) {
             case AUTO_COMPLETE:
                 return writeAutoComplete((AutoComplete) element, parentElement, pageViewModality);
@@ -95,7 +97,7 @@ public class FormControlWriter extends HtmlWriter {
             case TEXT:
                 return writeText((Text) element, parentElement);
             case TEXT_AREA:
-                return writeTextArea((TextArea) element, pageViewModality);
+                return writeTextArea((TextArea) element, pageViewModality, controlClass);
             case TEXT_TOTALIZER:
                 return writeTextTotalizer((TextTotalizer) element, parentElement);
             default:
@@ -754,24 +756,25 @@ public class FormControlWriter extends HtmlWriter {
     }
 
     // Scrive un campo: TextArea
-    public static String writeTextArea(TextArea<?> textArea, ViewModality pageViewModality) throws FrameworkException {
+    public static String writeTextArea(TextArea<?> textArea, ViewModality pageViewModality, String controlClass) throws FrameworkException {
         if (textArea.isHidden()) {
             return StringUtil.EMPTY;
         }
+
 
         ViewModality viewModality = textArea.getViewModality() == ViewModality.AUTO ? pageViewModality : textArea.getViewModality();
         if (viewModality == ViewModality.VIEW) {
             return MessageFormat.format(
                     INPUT_VIEW,
                     TextControlWriter.writeControlSpace(textArea, null),
-                    getAttribute(ATTR_CLASS, BootStrapClass.getViewControlClass(textArea)) + getTooltipAttributes(textArea.getTooltip()));
+                    getAttribute(ATTR_CLASS, BootStrapClass.getViewControlClass(textArea) + controlClass)  + getTooltipAttributes(textArea.getTooltip()));
 
         } else {
             return new StringBuilder()
                     .append("<textarea")
                     .append(getAttribute(ATTR_ID, textArea.getName()))
                     .append(getAttribute(ATTR_NAME, textArea.getName()))
-                    .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(textArea)))
+                    .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(textArea) + controlClass))
                     .append(getAttribute("rows", textArea.getRows().toString()))
                     .append(getAttribute(ATTR_READONLY, textArea.isReadOnly(), ""))
                     .append(getAttribute("maxlength", textArea.getMaxLength() > 0, "" + textArea.getMaxLength()))

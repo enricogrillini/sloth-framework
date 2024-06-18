@@ -45,22 +45,22 @@ class FormControlTextAreaWriterTest extends AbstractTest {
 
     @Test
     void textArea_Empty() throws FrameworkException {
-        assertEqualsStr("textArea_Empty.html", FormControlWriter.writeTextArea(field, ViewModality.VIEW));
+        assertEqualsStr("textArea_Empty.html", FormControlWriter.writeTextArea(field, ViewModality.VIEW, ""));
     }
 
 
     @Test
     void textArea_Hidden() throws FrameworkException {
         field.setHidden(true);
-        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.EDIT));
+        assertEquals(StringUtil.EMPTY, FormControlWriter.writeControl(field, null, ViewModality.EDIT, null));
     }
 
     @Test
     void textArea_View() throws FrameworkException {
         field.setValue("testo");
 
-        assertEqualsStr("textArea_View.html", FormControlWriter.writeTextArea(field, ViewModality.VIEW));
-        assertEqualsStr("textArea_View.html", FormControlWriter.writeControl(field, null, ViewModality.VIEW));
+        assertEqualsStr("textArea_View.html", FormControlWriter.writeTextArea(field, ViewModality.VIEW, ""));
+        assertEqualsStr("textArea_View.html", FormControlWriter.writeControl(field, null, ViewModality.VIEW, null));
     }
 
 
@@ -68,8 +68,8 @@ class FormControlTextAreaWriterTest extends AbstractTest {
     void textArea_Edit() throws FrameworkException {
         field.setValue("testo");
 
-        assertEqualsStr("textArea_Edit.html", FormControlWriter.writeTextArea(field, ViewModality.EDIT));
-        assertEqualsStr("textArea_Edit.html", FormControlWriter.writeControl(field, null, ViewModality.EDIT));
+        assertEqualsStr("textArea_Edit.html", FormControlWriter.writeTextArea(field, ViewModality.EDIT, ""));
+        assertEqualsStr("textArea_Edit.html", FormControlWriter.writeControl(field, null, ViewModality.EDIT, null));
     }
 
 }

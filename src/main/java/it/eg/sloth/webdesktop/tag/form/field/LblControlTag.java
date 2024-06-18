@@ -28,6 +28,8 @@ public class LblControlTag extends BaseControlTag {
 
     private static final long serialVersionUID = 1L;
 
+    String controlClass;
+
     String labelWidth;
     String controlWidth;
 
@@ -35,6 +37,6 @@ public class LblControlTag extends BaseControlTag {
     String mobileControlWidth;
 
     protected void writeField() throws IOException, FrameworkException {
-        write(LabelControlWriter.writeLblControl(getElement(), getParentElement(), getViewModality(), getLabelWidth(), getControlWidth(), getMobileLabelWidth(), getMobileControlWidth()));
+        write(LabelControlWriter.writeLblControl(getElement(), getParentElement(), getViewModality(), getControlClass(), getLabelWidth(), getControlWidth(), getMobileLabelWidth(), getMobileControlWidth()));
     }
 }

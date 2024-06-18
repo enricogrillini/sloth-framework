@@ -30,8 +30,7 @@ public class BootStrapClass {
 
     private static final String CONTROL_CLASS = "form-control form-control-sm";
     private static final String VIEW_CONTROL_CLASS = "form-control form-control-sm bg-gray-200";
-
-
+    
     private static final String BACKGROUND_PREFIX = "bg-";
     private static final String BORDER_PREFIX = "border border-";
     private static final String TEXT_PREFIX = "text-";
