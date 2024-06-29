@@ -149,8 +149,9 @@ public abstract class EditableMasterDetailPage<F extends Form, G extends Grid<?>
             return true;
 
         } else if (getForm().getPageInfo().getPageStatus() == PageStatus.INSERTING || getForm().getPageInfo().getPageStatus() == PageStatus.UPDATING) {
-            boolean postResult = execPostDetail(true) && execPostSubDetail(null, true);
-            if (postResult) {
+            boolean postDetail = execPostDetail(true);
+            boolean postSubDetail = execPostSubDetail(null, true);
+            if (postDetail && postSubDetail) {
                 DataManager.saveFirstToLast(getForm());
                 return true;
             } else {

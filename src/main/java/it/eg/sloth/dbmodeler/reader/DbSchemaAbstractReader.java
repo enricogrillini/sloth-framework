@@ -122,7 +122,7 @@ public abstract class DbSchemaAbstractReader implements DbSchemaReader {
                         .name(indexName)
                         .uniqueness("UNIQUE".equalsIgnoreCase(dataRow.getString("uniqueness")))
                         .tablespace(dataRow.getString("tablespace_name"))
-                        .initial(dataRow.getBigDecimal("initial_extent").longValue())
+                        .initial(dataRow.getBigDecimal("initial_extent") == null ? 0L : dataRow.getBigDecimal("initial_extent").longValue())
                         .build();
 
                 table.addIndex(index);

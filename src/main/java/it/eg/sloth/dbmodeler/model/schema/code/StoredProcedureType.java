@@ -17,5 +17,5 @@ package it.eg.sloth.dbmodeler.model.schema.code;
  * @author Enrico Grillini
  */
 public enum StoredProcedureType {
-    FUNCTION, PROCEDURE, PACKAGE
+    FUNCTION, PROCEDURE, PACKAGE, TRIGGER
 }
