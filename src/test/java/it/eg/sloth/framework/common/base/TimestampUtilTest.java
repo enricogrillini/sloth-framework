@@ -104,6 +104,28 @@ class TimestampUtilTest {
 
 
     @Test
+    void nextWorkDay() throws FrameworkException {
+        Timestamp timestamp = TimeStampUtil.parseTimestamp("12/07/2024", "dd/MM/yyyy");
+
+        Timestamp nextTimestamp = TimeStampUtil.getNextWorkDay(timestamp, 1);
+        assertEquals(TimeStampUtil.parseTimestamp("15/07/2024", "dd/MM/yyyy"), nextTimestamp);
+
+         nextTimestamp = TimeStampUtil.getNextWorkDay(timestamp, 3);
+        assertEquals(TimeStampUtil.parseTimestamp("17/07/2024", "dd/MM/yyyy"), nextTimestamp);
+    }
+
+    @Test
+    void prevWorkDay() throws FrameworkException {
+        Timestamp timestamp = TimeStampUtil.parseTimestamp("15/07/2024", "dd/MM/yyyy");
+
+        Timestamp nextTimestamp = TimeStampUtil.getPrevWorkDay(timestamp, 1);
+        assertEquals(TimeStampUtil.parseTimestamp("12/07/2024", "dd/MM/yyyy"), nextTimestamp);
+
+        nextTimestamp = TimeStampUtil.getPrevWorkDay(timestamp, 3);
+        assertEquals(TimeStampUtil.parseTimestamp("10/07/2024", "dd/MM/yyyy"), nextTimestamp);
+    }
+
+    @Test
     void genericTestKo() {
         // Formato data errato
         FrameworkException frameworkException = assertThrows(FrameworkException.class, () -> {

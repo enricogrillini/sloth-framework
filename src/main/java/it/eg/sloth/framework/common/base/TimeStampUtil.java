@@ -354,6 +354,28 @@ public class TimeStampUtil {
         return BaseFunction.trunc(sysdate());
     }
 
+    public static Timestamp getNextWorkDay(Timestamp timestamp, int day) throws FrameworkException {
+        for (int i = 0; i < day; ) {
+            timestamp = TimeStampUtil.add(timestamp, 1);
+            if (!TimeStampUtil.isHoliday(timestamp) && !TimeStampUtil.isSaturday(timestamp)) {
+                i++;
+            }
+        }
+
+        return timestamp;
+    }
+
+    public static Timestamp getPrevWorkDay(Timestamp timestamp, int day) throws FrameworkException {
+        for (int i = 0; i < day; ) {
+            timestamp = TimeStampUtil.add(timestamp, -1);
+            if (!TimeStampUtil.isHoliday(timestamp) && !TimeStampUtil.isSaturday(timestamp)) {
+                i++;
+            }
+        }
+
+        return timestamp;
+    }
+
     public static final Timestamp add(Timestamp timestamp, int day) {
         if (timestamp == null) {
             return null;

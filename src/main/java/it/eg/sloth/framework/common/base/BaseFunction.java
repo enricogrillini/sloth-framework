@@ -1,11 +1,13 @@
 package it.eg.sloth.framework.common.base;
 
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.StringTokenizer;
 
 /**
  * Project: sloth-framework
@@ -196,7 +198,7 @@ public class BaseFunction {
      * @return
      */
     public static String[] split(String s, String separator) {
-        String[] result = s.split(separator);
+        String[] result = StringUtils.split(s, separator);
         for (int i = 0; i < result.length; i++)
             result[i] = result[i].trim();
 
