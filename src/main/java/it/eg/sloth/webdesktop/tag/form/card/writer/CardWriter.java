@@ -92,18 +92,14 @@ public class CardWriter extends HtmlWriter {
     }
 
     public static final String fieldCardContent(TextField<?> field) {
-        StringBuilder result = new StringBuilder()
-                .append(MessageFormat.format(FIELD_CARD_CONTENT,
-                        getTooltipAttributes(field.getTooltip()),
-                        field.getHtmlDescription(),
-                        field.escapeHtmlText(),
-                        getBootstrapClass(field.getState())));
+        String link = BaseFunction.isBlank(field.getBaseLink()) ? "" : "<a href=\"" + field.getBaseLink() + field.escapeHtmlValue() + "\" class=\"stretched-link\"></a>";
 
-        if (!BaseFunction.isBlank(field.getBaseLink())) {
-            result.append("   <a href=\"" + field.getBaseLink() + field.escapeHtmlValue() + "\" class=\"stretched-link\"></a>\n");
-        }
-
-        return result.toString();
+        return MessageFormat.format(FIELD_CARD_CONTENT,
+                getTooltipAttributes(field.getTooltip()),
+                field.getHtmlDescription(),
+                field.escapeHtmlText(),
+                getBootstrapClass(field.getState()),
+                link);
     }
 
     public static final String fieldsCardOpen(Fields<?> fields) throws FrameworkException {

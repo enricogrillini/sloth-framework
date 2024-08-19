@@ -75,18 +75,23 @@ public class MultipleAutoComplete<T> extends MultipleInput<T> {
         if (values == null || values.isEmpty()) {
             setDecodedText(null);
         } else {
-            String tmp = values.stream()
-                    .map(value -> getDecodeMap().decode(value))
-                    .collect(Collectors.joining("|"));
+            if (getDecodeMap() != null) {
+                String tmp = values.stream()
+                        .map(value -> getDecodeMap().decode(value))
+                        .collect(Collectors.joining("|"));
 
-            setDecodedText(tmp);
+                setDecodedText(tmp);
 
-            tmp = values.stream()
-                    .filter(value -> !getDecodeMap().get(value).isValid())
-                    .map(value -> getDecodeMap().decode(value))
-                    .collect(Collectors.joining("|"));
+                tmp = values.stream()
+                        .filter(value -> !getDecodeMap().get(value).isValid())
+                        .map(value -> getDecodeMap().decode(value))
+                        .collect(Collectors.joining("|"));
 
-            setInvalidDecodedText(tmp);
+                setInvalidDecodedText(tmp);
+            } else {
+                setDecodedText("");
+                setInvalidDecodedText("");
+            }
         }
     }
 

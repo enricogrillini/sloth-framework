@@ -13,7 +13,7 @@ import java.util.*;
 
 @ToString
 @NoArgsConstructor
-public class Day<E, I extends DayInfo> implements Iterable<E> {
+public class Day<E, I> implements Iterable<E> {
 
     @Getter
     private Timestamp currentDay;
@@ -35,7 +35,10 @@ public class Day<E, I extends DayInfo> implements Iterable<E> {
     private String message;
 
     private List<E> eventList;
-    private Map<String, I> infoMap;
+
+    @Getter
+    @Setter
+    private I info;
 
     @Getter
     @Setter
@@ -49,19 +52,7 @@ public class Day<E, I extends DayInfo> implements Iterable<E> {
         this.title = null;
         this.message = null;
         this.eventList = new ArrayList<>();
-        this.infoMap = new LinkedHashMap<>();
-    }
-
-    public void addInfo(I info) {
-        infoMap.put(info.getId(), info);
-    }
-
-    public I getInfo(String id) {
-        return infoMap.get(id);
-    }
-
-    public Collection<I> getInfoList() {
-        return Collections.unmodifiableCollection(infoMap.values());
+        this.info = null;
     }
 
     public boolean isMonday() {

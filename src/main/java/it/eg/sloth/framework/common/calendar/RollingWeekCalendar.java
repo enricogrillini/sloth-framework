@@ -6,7 +6,7 @@ import lombok.Getter;
 
 import java.sql.Timestamp;
 
-public class RollingWeekCalendar<E, I extends DayInfo> extends AbstractFrameCalendar<E, I> {
+public class RollingWeekCalendar<E, I> extends AbstractFrameCalendar<E, I> {
 
     @Getter
     private Timestamp fromDay;

@@ -5,7 +5,7 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
 
 import java.sql.Timestamp;
 
-public class MonthCalendar<E, I extends DayInfo> extends AbstractFrameCalendar<E, I> {
+public class MonthCalendar<E, I> extends AbstractFrameCalendar<E, I> {
 
     private Timestamp month;
 

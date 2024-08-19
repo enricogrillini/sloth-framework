@@ -35,15 +35,12 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class MultipleAutoCompleteTest {
 
-    private MessageList messageList;
     MultipleAutoComplete<BigDecimal> field;
     MultipleAutoComplete<String> fieldTopic;
 
 
     @BeforeEach
     public void init() {
-        messageList = new MessageList();
-
         field = new MultipleAutoComplete<>("Numero", "Numero", DataTypes.INTEGER);
         field.setDecodeMap(TestFactory.getBaseDecodeMap());
 
@@ -180,6 +177,27 @@ class MultipleAutoCompleteTest {
 
         fieldTopic.validate(messageList);
         assertFalse(messageList.isEmpty());
+    }
+
+    @Test
+    void copyFromDataSource_freeInput() throws ServletException, IOException, FrameworkException {
+        fieldTopic.setFreeInput(true);
+        fieldTopic.setDecodeMap(null);
+
+        // Vuoto
+        Row row = new Row();
+        fieldTopic.copyFromDataSource(row);
+        assertEquals(0, fieldTopic.getValue().size());
+
+        // Un valore
+        row.setString("Topic", "prova");
+        fieldTopic.copyFromDataSource(row);
+        assertEquals(1, fieldTopic.getValue().size());
+
+        // Più valori
+        row.setString("Topic", "prova1|prova2");
+        fieldTopic.copyFromDataSource(row);
+        assertEquals(2, fieldTopic.getValue().size());
     }
 
 }

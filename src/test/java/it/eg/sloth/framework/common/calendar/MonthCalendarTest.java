@@ -24,11 +24,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 class MonthCalendarTest {
 
-    private MonthCalendar<Object, DayInfo> monthCalendar;
+    private MonthCalendar<Object, Object> monthCalendar;
 
     @BeforeEach
     void init() throws FrameworkException {
-        monthCalendar = new MonthCalendar<Object, DayInfo>(TimeStampUtil.parseTimestamp("07/07/2020", "dd/MM/yyyy"));
+        monthCalendar = new MonthCalendar<Object, Object>(TimeStampUtil.parseTimestamp("07/07/2020", "dd/MM/yyyy"));
     }
 
 
@@ -44,7 +44,7 @@ class MonthCalendarTest {
     @Test
     void monthTest2() throws FrameworkException {
         int i = 0;
-        for (Day<Object, DayInfo> day : monthCalendar) {
+        for (Day<Object, Object> day : monthCalendar) {
             if (i == 0) {
                 assertEquals(TimeStampUtil.parseTimestamp("29/06/2020", "dd/MM/yyyy"), day.getCurrentDay());
             }

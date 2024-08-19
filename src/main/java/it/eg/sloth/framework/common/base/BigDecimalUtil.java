@@ -34,6 +34,17 @@ public class BigDecimalUtil {
 
     }
 
+
+    // Converte un BigDecimal in un BigDecimal con lo SCALE standard di Framework
+    public static BigDecimal toStdBigDecimal(BigDecimal value) {
+        if (BaseFunction.isNull(value)) {
+            return null;
+        } else {
+            return BigDecimal.valueOf(value.doubleValue()).setScale(SCALE, RoundingMode.HALF_EVEN).stripTrailingZeros();
+        }
+    }
+
+
     /**
      * Converte un double in BigDecimal
      *

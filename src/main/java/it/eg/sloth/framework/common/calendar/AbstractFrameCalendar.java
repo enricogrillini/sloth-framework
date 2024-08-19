@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public abstract class AbstractFrameCalendar<E, I extends DayInfo> implements FrameCalendar<E, I> {
+public abstract class AbstractFrameCalendar<E, I> implements FrameCalendar<E, I> {
 
     private Map<Timestamp, Day<E, I>> dayMap;
     private Timestamp[] otherHolidays;
