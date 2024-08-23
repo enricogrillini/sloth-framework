@@ -25,10 +25,11 @@ import java.io.IOException;
  */
 public class SearchTag extends WebDesktopTag<Form> {
 
+    public static final String SUGGESTION_LIST = "SUGGESTION_LIST";
+
     @Override
     protected int startTag() throws IOException, FrameworkException {
-
-        SuggestionList suggestionList = getWebDesktopDto().getSearchManager().getSuggestionList();
+        SuggestionList suggestionList = (SuggestionList) getForm().getPageInfo().getObject(SUGGESTION_LIST);
 
         // Open
         writeln(SearchWriter.writeOpen());
@@ -40,9 +41,7 @@ public class SearchTag extends WebDesktopTag<Form> {
         writeln(SearchWriter.writeInfo(suggestionList, getUser().getLocale()));
 
         // Lista risultati
-        writeln(SearchWriter.writeSuggestions(getWebDesktopDto().getSearchManager().getSuggestionList()));
-
-        // Barra di navigazione
+        writeln(SearchWriter.writeSuggestions(suggestionList));
 
         // Close
         writeln(SearchWriter.writeClose());

@@ -12,7 +12,10 @@
 mvn versions:display-dependency-updates
 
 # Deploy 
+git checkout master
+gti pull
 mvn deploy
+git checkout develop
 ```
 
 ## Prerequisiti

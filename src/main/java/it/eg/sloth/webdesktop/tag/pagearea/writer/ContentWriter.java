@@ -16,6 +16,7 @@ import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
 import it.eg.sloth.webdesktop.alertcenter.AlertsCenterSingleton;
 import it.eg.sloth.webdesktop.alertcenter.model.Alert;
+import it.eg.sloth.webdesktop.history.HistoryEntry;
 import it.eg.sloth.webdesktop.parameter.model.ApplicationParameter;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 import it.eg.sloth.webdesktop.tag.form.field.writer.FormControlWriter;
@@ -36,6 +37,11 @@ public class ContentWriter extends HtmlWriter {
     public static final String ALERT_CARDS_ALERT = ResourceUtil.normalizedResourceAsString("snippet/pagearea/alert-cards-alert.html");
     public static final String ALERT_CARDS_CLOSE = ResourceUtil.normalizedResourceAsString("snippet/pagearea/alert-cards-close.html");
 
+    public static final String HISTORY_OPEN = ResourceUtil.normalizedResourceAsString("snippet/pagearea/history-open.html");
+    public static final String HISTORY_LINK = ResourceUtil.normalizedResourceAsString("snippet/pagearea/history-link.html");
+    public static final String HISTORY_CLOSE = ResourceUtil.normalizedResourceAsString("snippet/pagearea/history-close.html");
+
+
     public static final String APPLICATION_PARAMETER_TABLE_OPEN = ResourceUtil.normalizedResourceAsString("snippet/pagearea/application-parameter-table-open.html");
     public static final String APPLICATION_PARAMETER_ROW = ResourceUtil.normalizedResourceAsString("snippet/pagearea/application-parameter-row.html");
     public static final String APPLICATION_PARAMETER_TABLE_CLOSE = ResourceUtil.normalizedResourceAsString("snippet/pagearea/application-parameter-table-close.html");
@@ -45,6 +51,28 @@ public class ContentWriter extends HtmlWriter {
                 .append("<!-- Topbar - Right -->\n")
                 .append("<ul class=\"navbar-nav ml-auto\">")
                 .toString();
+    }
+
+    public static String history(Collection<HistoryEntry> historyCollection) {
+        StringBuilder result = new StringBuilder();
+
+        result.append(MessageFormat.format(HISTORY_OPEN, historyCollection.size()));
+        for (HistoryEntry historyEntry : historyCollection) {
+
+            result.append(MessageFormat.format(
+                    HISTORY_LINK,
+                    Casting.getHtml(historyEntry.getDescription()),
+                    Casting.getHtml(historyEntry.getDetail()),
+                    historyEntry.getIcon(),
+                    historyEntry.getHref()
+            ));
+
+
+        }
+        result.append(HISTORY_CLOSE);
+
+        return result.toString();
+
     }
 
     public static String alertCenter(Locale locale) throws FrameworkException {

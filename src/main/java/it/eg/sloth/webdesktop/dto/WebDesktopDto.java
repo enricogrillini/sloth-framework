@@ -3,6 +3,7 @@ package it.eg.sloth.webdesktop.dto;
 import it.eg.sloth.form.Form;
 import it.eg.sloth.framework.common.message.MessageList;
 import it.eg.sloth.framework.security.User;
+import it.eg.sloth.webdesktop.history.HistoryManager;
 import it.eg.sloth.webdesktop.search.SearchManager;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,6 +44,7 @@ public class WebDesktopDto implements Serializable {
 
     private transient MessageList messageList;
     private transient SearchManager searchManager;
+    private transient HistoryManager historyManager;
     private transient Map<String, Object> map;
 
     public WebDesktopDto() {
@@ -58,6 +60,7 @@ public class WebDesktopDto implements Serializable {
 
         this.messageList = new MessageList();
         this.searchManager = new SearchManager();
+        this.historyManager = new HistoryManager();
         this.map = new HashMap<>();
     }
 

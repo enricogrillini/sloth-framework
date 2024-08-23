@@ -1,6 +1,7 @@
 package it.eg.sloth.webdesktop.search;
 
 import it.eg.sloth.TestFactory;
+import it.eg.sloth.webdesktop.search.model.SuggestionList;
 import it.eg.sloth.webdesktop.search.model.suggestion.SimpleSuggestion;
 import it.eg.sloth.webdesktop.search.model.suggestion.Suggestion;
 import lombok.extern.slf4j.Slf4j;
@@ -74,14 +75,14 @@ class SearchTest {
 
     @Test
     void searcherManagerApplyTest() {
+        // Prepare
         SearchManager searchManager = TestFactory.getSearchManager();
 
-        searchManager.applySearch("cliente bob", 10);
+        // Act
+        SuggestionList suggestionList = searchManager.searchAsSuggestionList("cliente bob", 10);
 
-        assertEquals(2, searchManager.getSuggestionList().getSuggestions().size());
-        assertEquals(0, searchManager.getSuggestionList().getCurrentPage());
-
-
-        searchManager.applySearch("AAAAAAAAAA", 10);
+        // Verify
+        assertEquals(2, suggestionList.getSuggestions().size());
+        assertEquals(0, suggestionList.getCurrentPage());
     }
 }

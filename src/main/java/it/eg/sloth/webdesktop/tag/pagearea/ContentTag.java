@@ -38,7 +38,6 @@ public class ContentTag extends WebDesktopTag<Form> {
     private static final long serialVersionUID = 1L;
 
     private boolean multipart = false;
-    private boolean hideSearch = false;
 
     @Override
     protected int startTag() throws IOException, FrameworkException {
@@ -65,18 +64,21 @@ public class ContentTag extends WebDesktopTag<Form> {
         writeln("     <h3 class=\"navbar-text font-weight-bold col-2 col-sm-4\">" + titoloHtml + "</h3>");
 
         // Ricerca
-        writeln("     <!-- Topbar - Search -->");
-        writeln("     <form id=\"searchForm\" class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\" action=\"" + WebDesktopConstant.Page.SEARCH_PAGE + "\" method=\"post\">");
-        writeln("      " + PageWriter.getCsrfInputToken(getCrsfToken()));
-
-        if (!isHideSearch()) {
+        if (!getWebDesktopDto().getSearchManager().isEmpty()) {
+            writeln("     <!-- Topbar - Search -->");
+            writeln("     <form id=\"searchForm\" class=\"d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search\" action=\"" + WebDesktopConstant.Page.SEARCH_PAGE + "\" method=\"post\">");
+            writeln("      " + PageWriter.getCsrfInputToken(getCrsfToken()));
             writeln(SearchWriter.writeSearchBar(null));
+            writeln("     </form>");
         }
-
-        writeln("     </form>");
 
         // Right
         writeln(ContentWriter.openBarRight());
+
+        // History
+        if (!getWebDesktopDto().getHistoryManager().isEmpty()) {
+            writeln(ContentWriter.history(getWebDesktopDto().getHistoryManager().getHistoryCollection()));
+        }
 
         // Alert Center
         writeln(ContentWriter.alertCenter(getUser().getLocale()));

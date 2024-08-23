@@ -29,8 +29,7 @@ public class SearchManager {
     List<List<Searcher>> searcherArray;
 
     @Getter
-    @Setter
-    SuggestionList suggestionList;
+    private boolean empty;
 
     public SearchManager() {
         clean();
@@ -42,11 +41,12 @@ public class SearchManager {
             searcherArray.add(new ArrayList<>());
         }
 
-        this.suggestionList = new SuggestionList();
+        this.empty = true;
     }
 
     public void addSearcher(Searcher searcher, SearchRelevance relevance) {
         searcherArray.get(relevance.getLevel()).add(searcher);
+        this.empty = false;
     }
 
     /**
@@ -112,8 +112,8 @@ public class SearchManager {
         return resultList;
     }
 
-    public void applySearch(String text, int limits) {
-        setSuggestionList(new SuggestionList(text, search(text, limits)));
+    public SuggestionList searchAsSuggestionList(String text, int limits) {
+        return new SuggestionList(text, search(text, limits));
     }
 
 }
