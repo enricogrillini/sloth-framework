@@ -34,7 +34,7 @@ public class HistoryManager {
     }
 
     public Collection<HistoryEntry> getHistoryCollection() {
-        return Collections.unmodifiableCollection(queue);
+        return new ArrayList<>(queue);
     }
 
     public boolean isEmpty() {

@@ -9,6 +9,7 @@ import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
 import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
+import it.eg.sloth.framework.common.casting.Validator;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.Message;
@@ -114,9 +115,9 @@ public class MultipleAutoComplete<T> extends MultipleInput<T> {
         // Verifico che quanto imputato sia un valore ammissibile
         if (!BaseFunction.isBlank(getDecodedText()) && BaseFunction.isBlank(getData())) {
             return new Message(Level.WARN, getName(), "Il campo " + getDescription() + " contiene valori non validi", null);
+        } else {
+            return Validator.verifyMandatoriness(this);
         }
-
-        return null;
     }
 
     @Override

@@ -91,7 +91,7 @@ public enum DataTypes {
 
 
     /**
-     * Converta la stringa passata nel suo valore nativo
+     * Convertae la stringa passata nel suo valore nativo
      *
      * @param value
      * @param locale
@@ -100,8 +100,22 @@ public enum DataTypes {
      */
     public Object parseValue(String value, Locale locale, String format) throws FrameworkException {
         ResourceBundle bundle = ResourceBundle.getBundle(Localization.VALUE_BUNDLE, locale);
-
         return parseValue(value, locale, bundle, format);
+    }
+
+    public boolean isValid(String value, Locale locale) throws FrameworkException {
+        return isValid(value, locale, null);
+    }
+
+    public boolean isValid(String value, Locale locale, String format) throws FrameworkException {
+        ResourceBundle bundle = ResourceBundle.getBundle(Localization.VALUE_BUNDLE, locale);
+
+        try {
+            parseValue(value, locale, bundle, format);
+            return true;
+        } catch (FrameworkException e) {
+            return false;
+        }
     }
 
     /**
