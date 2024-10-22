@@ -2,6 +2,7 @@ package it.eg.sloth.webdesktop.tag.form.grid;
 
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.exception.FrameworkException;
+import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.form.grid.writer.GridWriter;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,9 +34,11 @@ public class GridTag extends AbstractGridTag<Grid<?>> {
 
     public int startTag() throws IOException, FrameworkException {
         if (getElement().getDataSource() != null) {
-            writeln(GridWriter.openTable(getElement(), isResponsive(), bordered, hover, true));
+            boolean calcHover = getForm().getPageInfo().getViewModality() == ViewModality.EDIT || hover;
+
+            writeln(GridWriter.openTable(getElement(), isResponsive(), bordered, calcHover, true));
             writeln(GridWriter.header(getElement(), getDetailFields(), sortable));
-            writeln(GridWriter.rows(getElement(), getDetailFields(), getForm().getPageInfo().getViewModality(), hover));
+            writeln(GridWriter.rows(getElement(), getDetailFields(), getForm().getPageInfo().getViewModality(), calcHover));
 
             if (getElement().hasTotalizer()) {
                 writeln(GridWriter.total(getElement(), hasDetail()));
