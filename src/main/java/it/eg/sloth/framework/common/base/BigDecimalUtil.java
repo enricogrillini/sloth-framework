@@ -183,6 +183,17 @@ public class BigDecimalUtil {
     }
 
     // Ritorna il numero maggiore
+    public static boolean equals(BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
+        if (bigDecimal1 == null && bigDecimal2 == null)
+            return true;
+        if (bigDecimal1 != null && bigDecimal2 == null)
+            return false;
+        if (bigDecimal1 == null)
+            return false;
+        return toStdBigDecimal(bigDecimal1).equals(toStdBigDecimal(bigDecimal2));
+    }
+
+    // Ritorna il numero maggiore
     public static BigDecimal min(BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
         if (bigDecimal1 == null) {
             return bigDecimal2;

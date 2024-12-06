@@ -1,6 +1,9 @@
 package it.eg.sloth.form.fields.field.impl;
 
+import it.eg.sloth.db.decodemap.DecodeMap;
+import it.eg.sloth.db.decodemap.map.BaseDecodeMap;
 import it.eg.sloth.form.fields.field.FieldType;
+import it.eg.sloth.framework.common.base.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -35,4 +38,8 @@ public class CheckButtons<L extends List<T>, T> extends CheckGroup<L, T> {
         return FieldType.CHECK_BUTTONS;
     }
 
+    public void init(BaseDecodeMap<String> decodeMap) {
+        setValues(StringUtil.join(decodeMap.codeCollection().toArray(new String[0]), CheckGroup.SEPARATOR));
+        setDescriptions(StringUtil.join(decodeMap.descriptionCollection().toArray(new String[0]), CheckGroup.SEPARATOR));
+    }
 }
