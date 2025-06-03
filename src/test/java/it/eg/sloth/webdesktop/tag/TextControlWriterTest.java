@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class TextControlWriterTest {
 
-    private static final String BASE_CHECKBOX = "<div class=\"custom-control custom-checkbox\"><input type=\"checkbox\" class=\"custom-control-input\"{0} disabled=\"\"/><span class=\"custom-control-label\"></span></div>";
+    private static final String BASE_CHECKBOX = "<div class=\"custom-control custom-checkbox pt-1\"><input type=\"checkbox\" class=\"custom-control-input\"{0} disabled=\"\"/><span class=\"custom-control-label\"></span></div>";
 
     private static final String BASE_SWITCH = "<div class=\"custom-control custom-switch\"><input type=\"checkbox\" class=\"custom-control-input\"{0} disabled=\"\"/><span class=\"custom-control-label\"></span></div>";
 

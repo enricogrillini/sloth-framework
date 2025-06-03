@@ -1,4 +1,4 @@
-package it.eg.sloth.form;
+package it.eg.sloth.escaper;
 
 import it.eg.sloth.framework.common.casting.Casting;
 

@@ -111,4 +111,20 @@ public abstract class HtmlWriter {
         }
     }
 
+    public static String getCssWidth(String width, String mobileWidth, int defaultCols) {
+        // Desktop cols
+        int desktopCols = defaultCols;
+        if (!BaseFunction.isBlank(width) && width.indexOf("cols") >= 0) {
+            desktopCols = Integer.valueOf(width.replace("cols", ""));
+        }
+
+        // Mobile cols
+        int mobileCols = desktopCols;
+        if (!BaseFunction.isBlank(mobileWidth) && mobileWidth.indexOf("cols") >= 0) {
+            mobileCols = Integer.valueOf(mobileWidth.replace("cols", ""));
+        }
+
+        return "col-lg-%s col-%s".formatted(desktopCols, mobileCols);
+    }
+
 }

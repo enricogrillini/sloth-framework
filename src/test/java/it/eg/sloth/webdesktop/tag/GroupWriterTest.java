@@ -43,9 +43,9 @@ class GroupWriterTest extends AbstractTest {
 
     @Test
     void openCell() throws FrameworkException {
-        assertEqualsStr("openCell.html", GroupWriter.openCell(null));
-        assertEqualsStr("openCell.html", GroupWriter.openCell("10%"));
-        assertEqualsStr("openCell.html", GroupWriter.openCell(""));
+        assertEqualsStr("openCell.html", GroupWriter.openCell(null, null));
+        assertEqualsStr("openCell.html", GroupWriter.openCell("10%", null));
+        assertEqualsStr("openCell.html", GroupWriter.openCell("", null));
     }
 
 

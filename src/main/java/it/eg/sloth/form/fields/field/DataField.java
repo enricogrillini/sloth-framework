@@ -2,7 +2,7 @@ package it.eg.sloth.form.fields.field;
 
 import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.form.ControlState;
-import it.eg.sloth.form.Escaper;
+import it.eg.sloth.escaper.Escaper;
 import it.eg.sloth.form.base.Elements;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.casting.Casting;

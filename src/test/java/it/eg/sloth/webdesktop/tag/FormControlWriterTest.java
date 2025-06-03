@@ -37,8 +37,8 @@ class FormControlWriterTest {
 
     private static final String LINK_AUTOCOMPLETE = "<div class=\"form-control form-control-sm bg-gray-200\" style=\"height: auto;\"><a href=\"{1}\" >{0}</a></div>";
 
-    private static final String BASE_CHECKBOX_VIS = "<div class=\"custom-control custom-checkbox\"><input id=\"name\" name=\"name\" type=\"checkbox\" value=\"S\" disabled=\"\" class=\"custom-control-input\"/><div class=\"custom-control-label\"></div></div>";
-    private static final String BASE_CHECKBOX_MOD = "<div class=\"custom-control custom-checkbox\"><input id=\"name\" name=\"name\" type=\"checkbox\" value=\"S\" class=\"custom-control-input\"{0}/><label class=\"custom-control-label\" for=\"name\"></label></div>";
+    private static final String BASE_CHECKBOX_VIS = "<div class=\"custom-control custom-checkbox pt-1\"><input id=\"name\" name=\"name\" type=\"checkbox\" value=\"S\" disabled=\"\" class=\"custom-control-input\"/><span class=\"custom-control-label\"></span></div>";
+    private static final String BASE_CHECKBOX_MOD = "<div class=\"custom-control custom-checkbox pt-1\"><input id=\"name\" name=\"name\" type=\"checkbox\" value=\"S\" class=\"custom-control-input\"{0}/><label class=\"custom-control-label\" for=\"name\"></label></div>";
 
     private static final String LINK_DECODEDTEXT = "<div class=\"form-control form-control-sm bg-gray-200\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"tooltip\" style=\"height: auto;\"><a href=\"{1}\" >{0}</a></div>";
 
@@ -51,28 +51,32 @@ class FormControlWriterTest {
     private static final String BASE_SEMAPHORE = "<div class=\"btn-group btn-group-toggle d-flex\" data-toggle=\"buttons\"><label class=\"btn btn-outline-success btn-sm disabled\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-warning btn-sm disabled\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-danger btn-sm disabled\"><i class=\"far fa-circle\"></i></label></div>";
     private static final String BASE_SEMAPHORE_MOD = "<div class=\"btn-group btn-group-toggle d-flex\" data-toggle=\"buttons\"><label class=\"btn btn-outline-success btn-sm \"><input  id=\"name\" name=\"name\" type=\"radio\" value=\"G\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-warning btn-sm \"><input  id=\"name\" name=\"name\" type=\"radio\" value=\"Y\"><i class=\"far fa-circle\"></i></label><label class=\"btn btn-outline-danger btn-sm \"><input  id=\"name\" name=\"name\" type=\"radio\" value=\"R\"><i class=\"far fa-circle\"></i></label></div>";
 
-    private static final String BASE_SWITCH_VIS = "<div class=\"custom-control custom-switch\"><input id=\"name\" name=\"name\" type=\"checkbox\" value=\"S\" disabled=\"\" class=\"custom-control-input\"/><div class=\"custom-control-label\"></div></div>";
+    private static final String BASE_SWITCH_VIS = "<div class=\"custom-control custom-switch\"><input id=\"name\" name=\"name\" type=\"checkbox\" value=\"S\" disabled=\"\" class=\"custom-control-input\"/><span class=\"custom-control-label\"></span></div>";
     private static final String BASE_SWITCH_MOD = "<div class=\"custom-control custom-switch\"><input id=\"name\" name=\"name\" type=\"checkbox\" value=\"S\" class=\"custom-control-input\"{0}/><label class=\"custom-control-label\" for=\"name\"></label></div>";
 
-    private static final String BASE_RADIOGROUP_VIS = " <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n" +
-            "  <input id=\"name0\" name=\"name\" type=\"radio\" value=\"S\" disabled=\"\" checked=\"\" class=\"custom-control-input\"><div class=\"custom-control-label\">S&igrave;</div>\n" +
-            " </div>\n" +
-            " <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n" +
-            "  <input id=\"name1\" name=\"name\" type=\"radio\" value=\"N\" disabled=\"\" class=\"custom-control-input\"><div class=\"custom-control-label\">No</div>\n" +
-            " </div>\n" +
-            " <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n" +
-            "  <input id=\"name2\" name=\"name\" type=\"radio\" value=\"T\" disabled=\"\" class=\"custom-control-input\"><div class=\"custom-control-label\">Tutti</div>\n" +
-            " </div>\n";
+    private static final String BASE_RADIOGROUP_VIS = """
+             <div class="custom-control custom-radio custom-control-inline form-control-sm">
+              <input id="name0" name="name" type="radio" value="S" disabled="" checked="" class="custom-control-input"><span class="custom-control-label">S&igrave;</span>
+             </div>
+             <div class="custom-control custom-radio custom-control-inline form-control-sm">
+              <input id="name1" name="name" type="radio" value="N" disabled="" class="custom-control-input"><span class="custom-control-label">No</span>
+             </div>
+             <div class="custom-control custom-radio custom-control-inline form-control-sm">
+              <input id="name2" name="name" type="radio" value="T" disabled="" class="custom-control-input"><span class="custom-control-label">Tutti</span>
+             </div>
+            """;
 
-    private static final String BASE_RADIOGROUP_MOD = " <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n" +
-            "  <input id=\"name0\" name=\"name\" type=\"radio\" value=\"S\" checked=\"\" class=\"custom-control-input\"><label class=\"custom-control-label\" for=\"name0\">S&igrave;</label>\n" +
-            " </div>\n" +
-            " <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n" +
-            "  <input id=\"name1\" name=\"name\" type=\"radio\" value=\"N\" class=\"custom-control-input\"><label class=\"custom-control-label\" for=\"name1\">No</label>\n" +
-            " </div>\n" +
-            " <div class=\"custom-control custom-radio custom-control-inline form-control-sm\">\n" +
-            "  <input id=\"name2\" name=\"name\" type=\"radio\" value=\"T\" class=\"custom-control-input\"><label class=\"custom-control-label\" for=\"name2\">Tutti</label>\n" +
-            " </div>\n";
+    private static final String BASE_RADIOGROUP_MOD = """
+             <div class="custom-control custom-radio custom-control-inline form-control-sm">
+              <input id="name0" name="name" type="radio" value="S" checked="" class="custom-control-input"><label class="custom-control-label" for="name0">S&igrave;</label>
+             </div>
+             <div class="custom-control custom-radio custom-control-inline form-control-sm">
+              <input id="name1" name="name" type="radio" value="N" class="custom-control-input"><label class="custom-control-label" for="name1">No</label>
+             </div>
+             <div class="custom-control custom-radio custom-control-inline form-control-sm">
+              <input id="name2" name="name" type="radio" value="T" class="custom-control-input"><label class="custom-control-label" for="name2">Tutti</label>
+             </div>
+            """;
 
     @Test
     void autoCompleteTest() throws FrameworkException {

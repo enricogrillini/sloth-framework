@@ -16,6 +16,7 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
 import it.eg.sloth.webdesktop.tag.BootStrapClass;
 import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.text.MessageFormat;
 
@@ -33,6 +34,7 @@ import java.text.MessageFormat;
  *
  * @author Enrico Grillini
  */
+@Slf4j
 public class FormControlWriter extends HtmlWriter {
 
     public static final String DROPDOWN_BUTTON = " <button class=\"{1}\" type=\"button\" data-toggle=\"dropdown\" aria-expanded=\"false\">{0}</button>\n";
@@ -136,7 +138,7 @@ public class FormControlWriter extends HtmlWriter {
         }
 
         // Gestione stato
-        return toInputGroup(innerHtml, autocomplete.getState(), Casting.getHtml(autocomplete.getStateMessage()));
+        return wrapState(innerHtml, autocomplete.getState(), Casting.getHtml(autocomplete.getStateMessage()));
     }
 
     // Scrive un campo: Button
@@ -173,7 +175,7 @@ public class FormControlWriter extends HtmlWriter {
 
         ViewModality viewModality = checkBox.getViewModality() == ViewModality.AUTO ? pageViewModality : checkBox.getViewModality();
         StringBuilder result = new StringBuilder()
-                .append("<div class=\"custom-control custom-checkbox\"><input")
+                .append("<div class=\"custom-control custom-checkbox pt-1\"><input")
                 .append(getAttribute(ATTR_ID, checkBox.getName()))
                 .append(getAttribute(ATTR_NAME, checkBox.getName()))
                 .append(getAttribute(ATTR_TYPE, VAL_ATTR_TYPE_CHECKBOX))
@@ -184,9 +186,9 @@ public class FormControlWriter extends HtmlWriter {
                 .append("/>");
 
         if (viewModality == ViewModality.VIEW) {
-            result.append("<div")
+            result.append("<span")
                     .append(getAttribute(ATTR_CLASS, "custom-control-label"))
-                    .append("></div>");
+                    .append("></span>");
         } else {
             result
                     .append("<label")
@@ -275,9 +277,9 @@ public class FormControlWriter extends HtmlWriter {
                     .append(">");
 
             if (viewModality == ViewModality.VIEW) {
-                result.append("<div class=\"custom-control-label\">")
+                result.append("<span class=\"custom-control-label\">")
                         .append(Casting.getHtml(description))
-                        .append("</div>\n");
+                        .append("</span>\n");
             } else {
                 result.append("<label class=\"custom-control-label\"")
                         .append(getAttribute(ATTR_FOR, checkGroup.getName() + i))
@@ -346,7 +348,7 @@ public class FormControlWriter extends HtmlWriter {
         }
 
         // Gestione stato
-        return toInputGroup(innerHtml, comboBox.getState(), Casting.getHtml(comboBox.getStateMessage()));
+        return wrapState(innerHtml, comboBox.getState(), Casting.getHtml(comboBox.getStateMessage()));
     }
 
     // Scrive un campo: DecodedText
@@ -361,7 +363,7 @@ public class FormControlWriter extends HtmlWriter {
                 getAttribute(ATTR_CLASS, BootStrapClass.getViewControlClass(decodedText)) + getTooltipAttributes(decodedText.getTooltip()));
 
         // Gestione stato
-        return toInputGroup(innerHtml, decodedText.getState(), Casting.getHtml(decodedText.getStateMessage()));
+        return wrapState(innerHtml, decodedText.getState(), Casting.getHtml(decodedText.getStateMessage()));
     }
 
     // Scrive un campo: DropDownButton
@@ -465,7 +467,7 @@ public class FormControlWriter extends HtmlWriter {
         }
 
         // Gestione Stato
-        return toInputGroup(innerHtml, input.getState(), Casting.getHtml(input.getStateMessage()));
+        return wrapState(innerHtml, input.getState(), Casting.getHtml(input.getStateMessage()));
     }
 
     // Scrive un campo: InputTotalizer
@@ -504,21 +506,20 @@ public class FormControlWriter extends HtmlWriter {
         ViewModality viewModality = multipleAutoComplete.getViewModality() == ViewModality.AUTO ? pageViewModality : multipleAutoComplete.getViewModality();
 
         String innerHtml;
-        if (viewModality == ViewModality.VIEW || multipleAutoComplete.isReadOnly()) {
+        if (viewModality == ViewModality.VIEW || multipleAutoComplete.isReadOnly()){
             innerHtml = MessageFormat.format(
                     INPUT_VIEW,
                     TextControlWriter.writeControlSpace(multipleAutoComplete, parentElement),
                     getAttribute(ATTR_CLASS, BootStrapClass.getViewControlClass(multipleAutoComplete)) + getTooltipAttributes(multipleAutoComplete.getTooltip()));
 
 
-        } else {
+        } else{
             innerHtml = new StringBuilder()
                     .append(BEGIN_INPUT)
                     .append(getAttribute(ATTR_ID, multipleAutoComplete.getName()))
                     .append(getAttribute(ATTR_NAME, multipleAutoComplete.getName()))
                     .append(getAttribute(ATTR_VALUE, Casting.getHtml(multipleAutoComplete.getDecodedText(), true, true)))
                     .append(getAttribute(ATTR_CLASS, BootStrapClass.getControlClass(multipleAutoComplete)))
-                    .append(getAttribute(ATTR_READONLY, multipleAutoComplete.isReadOnly(), ""))
                     .append(getAttribute(ATTR_PLACEHOLDER, !BaseFunction.isBlank(multipleAutoComplete.getPlaceHolder()), multipleAutoComplete.getPlaceHolder()))
                     .append(getAttribute("invalid", multipleAutoComplete.getInvalidDecodedText()))
                     .append(getAttribute("fields", parentElement.getName()))
@@ -567,7 +568,7 @@ public class FormControlWriter extends HtmlWriter {
                 String htmlValue = Casting.getHtml(radioButtons.getDataType().formatValue(value.getCode(), radioButtons.getLocale(), radioButtons.getFormat()));
                 boolean active = value.getCode() != null && value.getCode().equals(radioButtons.getValue());
 
-                if (viewModality == ViewModality.VIEW) {
+                if (viewModality == ViewModality.VIEW || radioButtons.isReadOnly()) {
                     result.append(MessageFormat.format("<label{0}>", getAttribute(ATTR_CLASS, active, "btn btn-primary btn-sm disabled", "btn btn-outline-primary btn-sm disabled")))
                             .append(Casting.getHtml(value.getDescription()));
                 } else {
@@ -585,9 +586,10 @@ public class FormControlWriter extends HtmlWriter {
             }
         }
 
-        return result
-                .append("</div>")
-                .toString();
+        result.append("</div>");
+
+        // Gestione Stato
+        return addStateMessage(result.toString(), radioButtons.getState(), Casting.getHtml(radioButtons.getStateMessage()));
     }
 
 
@@ -621,9 +623,9 @@ public class FormControlWriter extends HtmlWriter {
                         .append(">");
 
                 if (viewModality == ViewModality.VIEW) {
-                    result.append("<div class=\"custom-control-label\">")
+                    result.append("<span class=\"custom-control-label\">")
                             .append(Casting.getHtml(value.getDescription()))
-                            .append("</div>\n");
+                            .append("</span>\n");
                 } else {
                     result.append("<label class=\"custom-control-label\"")
                             .append(getAttribute(ATTR_FOR, radioGroup.getName() + i))
@@ -725,9 +727,9 @@ public class FormControlWriter extends HtmlWriter {
                 .append("/>");
 
         if (viewModality == ViewModality.VIEW) {
-            result.append("<div")
+            result.append("<span")
                     .append(getAttribute(ATTR_CLASS, "custom-control-label"))
-                    .append("></div>");
+                    .append("></span>");
         } else {
             result
                     .append("<label")
@@ -753,7 +755,7 @@ public class FormControlWriter extends HtmlWriter {
                 getAttribute(ATTR_CLASS, BootStrapClass.getViewControlClass(text)) + getTooltipAttributes(text.getTooltip()));
 
         // Gestione Stato
-        return toInputGroup(innerHtml, text.getState(), Casting.getHtml(text.getStateMessage()));
+        return wrapState(innerHtml, text.getState(), Casting.getHtml(text.getStateMessage()));
     }
 
     // Scrive un campo: TextArea
@@ -793,7 +795,15 @@ public class FormControlWriter extends HtmlWriter {
         return writeText(textTotalizer, parentElement);
     }
 
-    private static final String toInputGroup(String innerHtml, ControlState controlState, String stateMessageHtml) {
+    private static String addStateMessage(String innerHtml, ControlState controlState, String stateMessageHtml) {
+        if (controlState != null || !BaseFunction.isBlank(stateMessageHtml)) {
+            return innerHtml + MessageFormat.format(INPUT_GROUP_STATE_MESSAGE, BootStrapClass.getBootstrapTextClass(controlState), stateMessageHtml);
+        } else {
+            return innerHtml;
+        }
+    }
+
+    private static String wrapState(String innerHtml, ControlState controlState, String stateMessageHtml) {
         if (controlState != null || !BaseFunction.isBlank(stateMessageHtml)) {
             String wrappedStateMessageHtml = MessageFormat.format(INPUT_GROUP_STATE_MESSAGE, BootStrapClass.getBootstrapTextClass(controlState), stateMessageHtml);
             return MessageFormat.format(INPUT_GROUP, innerHtml, "", wrappedStateMessageHtml);

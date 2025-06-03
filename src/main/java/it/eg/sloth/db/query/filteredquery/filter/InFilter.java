@@ -1,13 +1,11 @@
 package it.eg.sloth.db.query.filteredquery.filter;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Project: sloth-framework
@@ -30,15 +28,20 @@ public class InFilter implements Filter {
 
     int sqlTypes;
     Collection<?> values;
-    String sql;
+    String openSql;
+    String closeSql;
     boolean manageEmpty;
 
     public InFilter(String sql, int sqlTypes, Collection<?> values) {
-        this(sql, sqlTypes, values, false);
+        this(sql, "", sqlTypes, values, false);
     }
 
     public InFilter(String sql, int sqlTypes, Collection<?> values, boolean manageEmpty) {
-        this.sql = sql;
+        this(sql, "", sqlTypes, values, manageEmpty);
+    }
+    public InFilter(String openSql, String closeSql, int sqlTypes, Collection<?> values, boolean manageEmpty) {
+        this.openSql = openSql;
+        this.closeSql = closeSql;
         this.sqlTypes = sqlTypes;
         this.values = values;
         this.manageEmpty = manageEmpty;
@@ -53,11 +56,12 @@ public class InFilter implements Filter {
         if (getValues().isEmpty()) {
             return manageEmpty ? "1=2" : "";
         } else {
-            StringBuilder inStatement = new StringBuilder(getSql() + " In (");
+            StringBuilder inStatement = new StringBuilder(getOpenSql() + " In (");
             for (int i = 0; i < getValues().size(); i++) {
                 inStatement.append(i == 0 ? "?" : ", ?");
             }
             inStatement.append(")");
+            inStatement.append(getCloseSql());
 
             return inStatement.toString();
         }

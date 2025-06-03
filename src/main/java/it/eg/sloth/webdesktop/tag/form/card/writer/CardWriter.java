@@ -16,6 +16,9 @@ import it.eg.sloth.webdesktop.tag.form.HtmlWriter;
 
 import java.math.BigDecimal;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -111,7 +114,7 @@ public class CardWriter extends HtmlWriter {
         double max = getMaxValue(fields);
         double delta = max - min == 0 ? 1 : max - min;
         for (DataField<?> dataField : fields.getDataFieldList()) {
-            if (BaseFunction.in(dataField.getDataType(), DataTypes.DECIMAL, DataTypes.INTEGER, DataTypes.CURRENCY, DataTypes.PERC, DataTypes.NUMBER)) {
+            if (BaseFunction.in(dataField.getDataType(), DataTypes.DECIMAL, DataTypes.INTEGER, DataTypes.CURRENCY, DataTypes.CURRENCY_INTEGER, DataTypes.PERC, DataTypes.NUMBER)) {
                 DataField<BigDecimal> field = (DataField<BigDecimal>) dataField;
 
                 String value1 = field.escapeHtmlText();
@@ -127,45 +130,58 @@ public class CardWriter extends HtmlWriter {
                 .toString();
     }
 
-    public static final String pairedFieldsCardOpen(Fields<?> fields) throws FrameworkException {
+    public static final String pairedFieldsCardOpen(Fields<?> fields, boolean hideFirst, boolean hideSecond, String labelWidth, String valueWidth, String barWidth) throws FrameworkException {
+        labelWidth = getCssWidth(labelWidth, null, 2);
+        valueWidth = getCssWidth(valueWidth, null, 3);
+        barWidth = getCssWidth(barWidth, null, 6);
+
         StringBuilder result = new StringBuilder()
                 .append(openCard())
                 .append(MessageFormat.format(FIELDS_CARD_TITLE, Casting.getHtml(fields.getDescription()), getBootstrapClass(null)));
 
-        double min = getMinValue(fields);
-        double max = getMaxValue(fields);
-        double delta = max - min == 0 ? 1 : max - min;
-
-        String value1 = "";
-        double valuePerc1 = 0;
-        String bgClass1 = "";
-
-        int i = 0;
+        // Estraggo la lista dei field da rappresentare
+        List<DataField<BigDecimal>> list = new ArrayList<>();
         for (DataField<?> dataField : fields.getDataFieldList()) {
-            if (BaseFunction.in(dataField.getDataType(), DataTypes.DECIMAL, DataTypes.INTEGER, DataTypes.CURRENCY, DataTypes.PERC, DataTypes.NUMBER)) {
-                DataField<BigDecimal> field = (DataField<BigDecimal>) dataField;
+            if (BaseFunction.in(dataField.getDataType(), DataTypes.DECIMAL, DataTypes.INTEGER, DataTypes.CURRENCY, DataTypes.CURRENCY_INTEGER, DataTypes.PERC, DataTypes.NUMBER)) {
+                list.add((DataField<BigDecimal>) dataField);
+            }
+        }
 
-                if (i % 2 == 1) {
-                    String value2 = field.escapeHtmlText();
-                    double valuePerc2 = Math.round((BigDecimalUtil.doubleValue(field.getValue()) - min) / delta * 100);
-                    String bgClass2 = BootStrapClass.getStateBackgroundClass((ControlState) BaseFunction.nvl(field.getState(), ControlState.DEFAULT));
+        for (int i = 0; i < list.size(); i += 2) {
+            if (i + 1 < list.size()) {
+                DataField<BigDecimal> field1 = list.get(i);
+                DataField<BigDecimal> field2 = list.get(i + 1);
 
-                    result.append(MessageFormat.format(PAIRED_FIELD_CARD_CONTENT,
-                            field.getHtmlDescription(),
-                            value1, value2,
-                            String.valueOf(valuePerc1), String.valueOf(valuePerc2 - valuePerc1),
-                            bgClass1, bgClass2));
+                double fieldValue1 = BigDecimalUtil.doubleValue(field1.getValue());
+                double fieldValue2 = BigDecimalUtil.doubleValue(field2.getValue());
+                double max = Math.max(fieldValue1, fieldValue2);
 
-                } else {
-                    value1 = field.escapeHtmlText();
-                    valuePerc1 = Math.round((BigDecimalUtil.doubleValue(field.getValue()) - min) / delta * 100);
-                    bgClass1 = BootStrapClass.getStateBackgroundClass((ControlState) BaseFunction.nvl(field.getState(), ControlState.DEFAULT));
+                double valuePerc1 = Math.round(fieldValue1 / max * 100);
+                String bgClass1 = BootStrapClass.getStateBackgroundClass((ControlState) BaseFunction.nvl(field1.getState(), ControlState.DEFAULT));
 
-                    if (i == fields.getDataFieldList().size() - 1) {
-                        result.append(MessageFormat.format(FIELDS_CARD_ROW, field.getHtmlDescription(), value1, String.valueOf(valuePerc1), bgClass1));
-                    }
+                double valuePerc2 = fieldValue2 == max ? Math.round((max - fieldValue1) / max * 100) : 0;
+                String bgClass2 = BootStrapClass.getStateBackgroundClass((ControlState) BaseFunction.nvl(field2.getState(), ControlState.DEFAULT));
+
+                // Value
+                String value = "";
+                if (!hideFirst && !hideSecond) {
+                    value = field1.escapeHtmlText() + " - " + field2.escapeHtmlText();
+                } else if (!hideFirst) {
+                    value = field1.escapeHtmlText();
+                } else if (!hideSecond) {
+                    value = field2.escapeHtmlText();
                 }
-                i++;
+
+                // Perc Value
+                String valuePerc = fieldValue2 != 0 ? DataTypes.PERC.formatValue(BigDecimal.valueOf(fieldValue1 / fieldValue2 * 100), Locale.ITALY) : "";
+
+                result.append(MessageFormat.format(PAIRED_FIELD_CARD_CONTENT,
+                        field1.getHtmlDescription(),
+                        value,
+                        String.valueOf(valuePerc1), String.valueOf(valuePerc2),
+                        bgClass1, bgClass2,
+                        valuePerc,
+                        labelWidth, valueWidth, barWidth));
             }
         }
 

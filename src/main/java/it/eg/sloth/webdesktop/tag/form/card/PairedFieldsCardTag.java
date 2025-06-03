@@ -4,6 +4,8 @@ import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import it.eg.sloth.webdesktop.tag.form.card.writer.CardWriter;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 
@@ -21,13 +23,23 @@ import java.io.IOException;
  *
  * @author Enrico Grillini
  */
+
+@Getter
+@Setter
 public class PairedFieldsCardTag extends BaseElementTag<Fields<?>> {
 
     private static final long serialVersionUID = 1L;
 
+    private boolean hideFirst;
+    private boolean hideSecond;
+
+    private String labelWidth;
+    private String valueWidth;
+    private String barWidth;
+
     @Override
     protected int startTag() throws IOException, FrameworkException {
-        writeln(CardWriter.pairedFieldsCardOpen(getElement()));
+        writeln(CardWriter.pairedFieldsCardOpen(getElement(), hideFirst, hideSecond, labelWidth, valueWidth, barWidth));
 
         return EVAL_BODY_INCLUDE;
     }

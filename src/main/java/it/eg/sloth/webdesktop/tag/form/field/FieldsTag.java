@@ -6,6 +6,9 @@ import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.webdesktop.tag.form.base.BaseElementTag;
 import it.eg.sloth.webdesktop.tag.form.field.writer.LabelControlWriter;
 import it.eg.sloth.webdesktop.tag.form.group.writer.GroupWriter;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
@@ -23,19 +26,34 @@ import java.io.IOException;
  *
  * @author Enrico Grillini
  */
+@Getter
+@Setter
 public class FieldsTag<T extends Fields<?>> extends BaseElementTag<T> {
 
     private static final long serialVersionUID = 1L;
 
+    boolean overflow;
+
+    String labelWidth;
+    String controlWidth;
+
+    String mobileLabelWidth;
+    String mobileControlWidth;
+
+    boolean revert;
+
+    String labelCellClassName;
+    String controlCellClassName;
 
     @Override
     protected int startTag() throws IOException, FrameworkException {
+
 
         writeln("");
         for (SimpleField simpleField : getElement()) {
             write(GroupWriter.openRow());
 
-            write(LabelControlWriter.writeLblControl(simpleField, getElement(), getViewModality(), null, "10cols"));
+            write(LabelControlWriter.writeLblControl(simpleField, getElement(), getViewModality(), overflow, labelWidth, controlWidth, mobileLabelWidth, mobileControlWidth, revert, labelCellClassName, controlCellClassName));
 
             write(GroupWriter.closeRow());
         }

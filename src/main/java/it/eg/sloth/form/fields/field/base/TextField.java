@@ -3,7 +3,7 @@ package it.eg.sloth.form.fields.field.base;
 import it.eg.sloth.db.datasource.DataSource;
 import it.eg.sloth.db.datasource.row.lob.LobData;
 import it.eg.sloth.form.ControlState;
-import it.eg.sloth.form.Escaper;
+import it.eg.sloth.escaper.Escaper;
 import it.eg.sloth.form.WebRequest;
 import it.eg.sloth.form.fields.field.DataField;
 import it.eg.sloth.framework.common.base.BaseFunction;

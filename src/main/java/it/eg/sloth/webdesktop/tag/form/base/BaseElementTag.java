@@ -6,6 +6,7 @@ import it.eg.sloth.form.base.Elements;
 import it.eg.sloth.webdesktop.tag.WebDesktopTag;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Project: sloth-framework
@@ -23,6 +24,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@Slf4j
 public abstract class BaseElementTag<E extends Element> extends WebDesktopTag<Form> {
 
     private static final long serialVersionUID = 1L;

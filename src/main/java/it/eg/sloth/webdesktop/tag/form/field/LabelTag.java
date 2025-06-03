@@ -23,6 +23,6 @@ public class LabelTag extends BaseControlTag {
 
     @Override
     protected void writeField() throws IOException {
-        write(LabelControlWriter.writeLabel(getElement()));
+        write(LabelControlWriter.writeLabel(getElement(), false));
     }
 }

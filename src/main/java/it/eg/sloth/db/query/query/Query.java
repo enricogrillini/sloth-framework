@@ -55,31 +55,33 @@ public class Query extends SelectAbstractQuery implements SelectQueryInterface {
         parameterList.add(new Parameter(sqlTypes, value));
     }
 
-    public void execute() throws SQLException, FrameworkException {
-        execute((Connection) null);
+    public int execute() throws SQLException, FrameworkException {
+        return execute((Connection) null);
     }
 
-    public void execute(String connectionName) throws SQLException, FrameworkException {
+    public int execute(String connectionName) throws SQLException, FrameworkException {
         try (Connection connection = DataConnectionManager.getInstance().getDataSource(connectionName).getConnection()) {
-            execute(connection);
+            return execute(connection);
         }
     }
 
-    public void execute(Connection connection) throws SQLException, FrameworkException {
+    public int execute(Connection connection) throws SQLException, FrameworkException {
         if (connection == null) {
             try (Connection newConnection = DataConnectionManager.getInstance().getDataSource().getConnection()) {
-                execute(newConnection);
+                return execute(newConnection);
             }
         } else {
             log.debug("Start execute");
             log.debug(toString());
 
+
             try (PreparedStatement preparedStatement = connection.prepareStatement(getSqlStatement(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY)) {
                 initStatement(preparedStatement);
-                preparedStatement.executeUpdate();
-            }
+                int result = preparedStatement.executeUpdate();
 
-            log.debug("End execute");
+                log.debug("End execute");
+                return result;
+            }
         }
     }
 

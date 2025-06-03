@@ -150,7 +150,7 @@ public class GridWriter extends HtmlWriter {
         if (header) {
             return MessageFormat.format("   <th{0}{1}>", getTooltipAttributes(field.getTooltip()), getAttribute(ATTR_CLASS, htmlClass + " text-nowrap"));
         } else {
-            return MessageFormat.format("   <td{0}{1}>", getTooltipAttributes(field.getTooltip()), getAttribute(ATTR_CLASS, htmlClass));
+            return MessageFormat.format("   <td{0}>", getAttribute(ATTR_CLASS, htmlClass));
         }
     }
 

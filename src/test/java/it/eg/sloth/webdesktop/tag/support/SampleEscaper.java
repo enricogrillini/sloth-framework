@@ -1,6 +1,6 @@
 package it.eg.sloth.webdesktop.tag.support;
 
-import it.eg.sloth.form.Escaper;
+import it.eg.sloth.escaper.Escaper;
 import it.eg.sloth.framework.common.base.BaseFunction;
 
 public class SampleEscaper implements Escaper {

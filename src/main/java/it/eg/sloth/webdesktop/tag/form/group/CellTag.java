@@ -30,10 +30,11 @@ public class CellTag extends WebDesktopTag<Form> {
     static final long serialVersionUID = 1L;
 
     String width;
+    String className;
 
     @Override
     public int startTag() throws IOException, FrameworkException {
-        write(GroupWriter.openCell(getWidth()));
+        write(GroupWriter.openCell(getWidth(), null, getClassName()));
         return EVAL_BODY_INCLUDE;
     }
 

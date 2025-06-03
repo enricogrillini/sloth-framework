@@ -150,6 +150,9 @@ public class FilteredQuery extends SelectAbstractQuery implements SelectQueryInt
         filterList.add(new InFilter(sql, sqlTypes, values, manageEmpty));
     }
 
+    public void addInFilter(String openSql, String closeSql, int sqlTypes, Collection<?> values, boolean manageEmpty) {
+        filterList.add(new InFilter(openSql, closeSql, sqlTypes, values, manageEmpty));
+    }
 
     /**
      * Aggiunge una lista di filtri SENZA generare una clasuola strFiltro IN

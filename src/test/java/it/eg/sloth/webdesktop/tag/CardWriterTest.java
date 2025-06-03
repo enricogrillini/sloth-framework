@@ -127,6 +127,6 @@ class CardWriterTest {
         text.setState(ControlState.DEFAULT);
         fields.addChild(text);
 
-        assertEquals(PAIRED_FIELDS_CARD_OPEN, CardWriter.pairedFieldsCardOpen(fields));
+        assertEquals(PAIRED_FIELDS_CARD_OPEN, CardWriter.pairedFieldsCardOpen(fields, false, false, null, null, null));
     }
 }

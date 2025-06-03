@@ -99,7 +99,7 @@ public class TextControlWriter extends HtmlWriter {
             return StringUtil.EMPTY;
 
         StringBuilder result = new StringBuilder()
-                .append("<div class=\"custom-control custom-checkbox\"><input")
+                .append("<div class=\"custom-control custom-checkbox pt-1\"><input")
                 .append(getAttribute("type", "checkbox"))
                 .append(getAttribute(ATTR_CLASS, BootStrapClass.CHECK_CLASS))
                 .append(getAttribute("checked", checkBox.getValChecked().toString().equalsIgnoreCase(checkBox.getData()), ""))

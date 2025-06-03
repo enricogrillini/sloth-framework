@@ -1,0 +1,16 @@
+package it.eg.sloth.escaper;
+
+import it.eg.sloth.form.fields.field.impl.Semaphore;
+
+public class SemaforoTextEscaper implements Escaper {
+
+    @Override
+    public String escapeText(String text) {
+        return switch (text) {
+            case Semaphore.RED -> "<div class=\"semaforo red\"></div>";
+            case Semaphore.YELLOW -> "<div class=\"semaforo yellow\"></div>";
+            case Semaphore.GREEN -> "<div class=\"semaforo green\"></div>";
+            default -> "";
+        };
+    }
+}

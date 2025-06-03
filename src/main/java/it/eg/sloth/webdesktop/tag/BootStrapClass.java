@@ -35,8 +35,12 @@ public class BootStrapClass {
     private static final String BORDER_PREFIX = "border border-";
     private static final String TEXT_PREFIX = "text-";
 
+    // TEXT
+    public static final String TEXT_RIGHT = "text-right";
+
+
     // Control
-    public static final String LABEL_CLASS = "col-form-label form-control-sm float-right pr-0";
+    public static final String LABEL_CLASS = "col-form-label form-control-sm pr-0";
     public static final String CHECK_CLASS = "custom-control-input";
     public static final String BUTTON_CLASS = "btn {0} btn-sm";
     public static final String DROP_DOWNBUTTON = "btn {0} btn-sm dropdown-toggle";

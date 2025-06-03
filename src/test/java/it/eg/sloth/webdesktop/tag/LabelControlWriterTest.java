@@ -25,20 +25,20 @@ class LabelControlWriterTest extends AbstractTest {
 
     @Test
     void label() {
-        assertEqualsStr("label.html", LabelControlWriter.writeLabel(field));
+        assertEqualsStr("label.html", LabelControlWriter.writeLabel(field, false));
     }
 
     @Test
     void label_required() {
         field.setRequired(true);
 
-        assertEqualsStr("label_required.html", LabelControlWriter.writeLabel(field));
+        assertEqualsStr("label_required.html", LabelControlWriter.writeLabel(field, false));
     }
 
     @Test
     void label_button() {
         Button button = new Button("name", "description");
-        assertEqualsStr("label_button.html",LabelControlWriter.writeLabel(button));
+        assertEqualsStr("label_button.html",LabelControlWriter.writeLabel(button, false));
     }
 
     @Test

@@ -237,6 +237,14 @@ public class Fields<D extends DataSource> extends AbstractElements<SimpleField> 
         return result.toString();
     }
 
+    public void setReadOnly(boolean readOnly) {
+        for (SimpleField simpleField : this) {
+            if (simpleField instanceof InputField<?> inputField) {
+                inputField.setReadOnly(readOnly);
+            }
+        }
+    }
+
 
     public void setViewModality(ViewModality viewModality) {
         for (SimpleField simpleField : this) {
