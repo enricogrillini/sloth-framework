@@ -322,11 +322,13 @@ public class FormControlWriter extends HtmlWriter {
 
             result.append(">");
 
-            if (!comboBox.isRequired()) {
+            DecodeMap<?, ?> values = comboBox.getDecodeMap();
+            if (comboBox.isRequired() && values != null && values.size() == 1) {
+                // NOP
+            } else {
                 result.append("<option value=\"\"></option>");
             }
 
-            DecodeMap<?, ?> values = comboBox.getDecodeMap();
             if (values != null) {
                 for (DecodeValue<?> value : values) {
                     if (BaseFunction.isNull(value.getCode())) {
@@ -506,14 +508,14 @@ public class FormControlWriter extends HtmlWriter {
         ViewModality viewModality = multipleAutoComplete.getViewModality() == ViewModality.AUTO ? pageViewModality : multipleAutoComplete.getViewModality();
 
         String innerHtml;
-        if (viewModality == ViewModality.VIEW || multipleAutoComplete.isReadOnly()){
+        if (viewModality == ViewModality.VIEW || multipleAutoComplete.isReadOnly()) {
             innerHtml = MessageFormat.format(
                     INPUT_VIEW,
                     TextControlWriter.writeControlSpace(multipleAutoComplete, parentElement),
                     getAttribute(ATTR_CLASS, BootStrapClass.getViewControlClass(multipleAutoComplete)) + getTooltipAttributes(multipleAutoComplete.getTooltip()));
 
 
-        } else{
+        } else {
             innerHtml = new StringBuilder()
                     .append(BEGIN_INPUT)
                     .append(getAttribute(ATTR_ID, multipleAutoComplete.getName()))

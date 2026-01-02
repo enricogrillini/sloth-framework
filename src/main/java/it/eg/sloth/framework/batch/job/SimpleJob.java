@@ -14,6 +14,8 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * Project: sloth-framework
@@ -37,8 +39,8 @@ public abstract class SimpleJob implements Job {
 
     private static final String MESSAGE_START = "Elaborazione {0} avviata correttamente!";
     private static final String MESSAGE_END = "Elaborazione {0} terminata correttamente!";
-    private static final String MESSAGE_END_ALERT = "Elaborazione {0} terminata avvertimenti!";
-    private static final String MESSAGE_ABORTED = "Elaborazione {0} abortita!";
+    private static final String MESSAGE_END_ALERT = "Elaborazione {0} terminata con avvertimenti!";
+    private static final String MESSAGE_ABORTED = "Elaborazione {0} abortita! {1}";
 
     Integer executionId;
     String group;
@@ -99,7 +101,11 @@ public abstract class SimpleJob implements Job {
             }
         } catch (Exception e) {
             try {
-                log(JobMessageSeverity.ERROR, MessageFormat.format(MESSAGE_ABORTED, group + "." + name), e.getMessage(), 100, JobStatus.ABORTED);
+                String stackTraceBody = Arrays.stream(e.getStackTrace())
+                        .map(StackTraceElement::toString)
+                        .collect(Collectors.joining("\n"));
+
+                log(JobMessageSeverity.ERROR, MessageFormat.format(MESSAGE_ABORTED, group + "." + name, e.getMessage()), stackTraceBody, 100, JobStatus.ABORTED);
                 log.error("ERROR {}: {} - {}", getClass().getName(), e.getMessage(), e);
             } catch (FrameworkException e1) {
                 log.error("ERROR {}: {} - {}", getClass().getName(), e1.getMessage(), e1);
@@ -111,6 +117,6 @@ public abstract class SimpleJob implements Job {
 
     }
 
-    public abstract void service(JobExecutionContext context) throws FrameworkException;
+    public abstract void service(JobExecutionContext context) throws Exception;
 
 }

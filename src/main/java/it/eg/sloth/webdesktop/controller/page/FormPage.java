@@ -130,11 +130,5 @@ public abstract class FormPage<F extends Form> extends BasePage implements FormP
         this.newForm = newForm;
     }
 
-    protected void navigationError(String message) {
-        // Verifico la sicurezza
-        log.warn("navigationError {}", message);
-        getMessageList().clear();
-        getMessageList().addBaseError(message);
-        getMessageList().setPopup(false);
-    }
+
 }

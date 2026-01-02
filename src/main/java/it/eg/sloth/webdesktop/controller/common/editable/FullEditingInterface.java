@@ -27,14 +27,18 @@ public interface FullEditingInterface<F extends Form> extends BaseEditingInterfa
     boolean execDelete() throws Exception;
 
     default void onInsert() throws Exception {
-        if (execInsert()) {
+        if (!getForm().getPageInfo().getAccessibility().isCreate()) {
+            navigationError("Inserimento non consentito");
+        } else if (execInsert()) {
             getForm().getPageInfo().setPageStatus(PageStatus.UPDATING);
             getForm().getPageInfo().setViewModality(ViewModality.EDIT);
         }
     }
 
     default void onDelete() throws Exception {
-        if (execDelete()) {
+        if (!getForm().getPageInfo().getAccessibility().isDelete()) {
+            navigationError("Cancellazione non consentita");
+        } else if (execDelete()) {
             getForm().getPageInfo().setPageStatus(PageStatus.UPDATING);
             getForm().getPageInfo().setViewModality(ViewModality.EDIT);
         }

@@ -34,7 +34,9 @@ public interface BaseEditingInterface<F extends Form> extends FormPageInterface<
     boolean execRollback() throws Exception;
 
     default void onUpdate() throws Exception {
-        if (execUpdate()) {
+        if (!getForm().getPageInfo().getAccessibility().isUpdate()) {
+            navigationError("Modifica non consentita");
+        } else if (execUpdate()) {
             getForm().getPageInfo().setPageStatus(PageStatus.UPDATING);
             getForm().getPageInfo().setViewModality(ViewModality.EDIT);
         }

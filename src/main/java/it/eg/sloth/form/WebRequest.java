@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 
 import java.io.IOException;
@@ -27,6 +28,7 @@ import java.util.*;
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 @ToString
+@Slf4j
 public class WebRequest {
 
     Map<String, List<Object>> map;
@@ -54,6 +56,7 @@ public class WebRequest {
 
         if (request.getContentType() != null && request.getContentType().startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
             for (Part part : request.getParts()) {
+                log.info("part.getName() {}", part.getName());
                 if (part.getContentType() != null) {
                     add(part.getName(), part);
                 }

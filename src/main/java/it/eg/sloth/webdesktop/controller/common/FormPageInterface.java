@@ -97,4 +97,11 @@ public interface FormPageInterface<F extends Form> extends BasePageInterface {
         }
     }
 
+    default void navigationError(String message) {
+        // Verifico la sicurezza
+        getMessageList().clear();
+        getMessageList().addBaseError(message);
+        getMessageList().setPopup(false);
+    }
+
 }

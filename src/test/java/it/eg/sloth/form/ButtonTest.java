@@ -6,6 +6,7 @@ import it.eg.sloth.jaxb.form.ButtonType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.regex.Pattern;
 

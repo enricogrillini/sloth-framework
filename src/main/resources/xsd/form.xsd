@@ -84,6 +84,7 @@
      <element name="CheckBox" type="tns:CheckBox" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="Switch" type="tns:Switch" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="RadioGroup" type="tns:RadioGroup" maxOccurs="unbounded" minOccurs="0"></element>
+     <element name="RadioButtons" type="tns:RadioButtons" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="Semaphore" type="tns:Semaphore" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="MultipleAutoComplete" type="tns:MultipleAutoComplete" maxOccurs="unbounded" minOccurs="0"></element>
      <element name="File" type="tns:File" maxOccurs="unbounded" minOccurs="0"></element>
@@ -236,8 +237,8 @@
    </extension>
   </complexContent>
  </complexType>
- 
-  <complexType name="DropDownButton">
+
+ <complexType name="DropDownButton">
   <complexContent>
    <extension base="tns:Link">
    </extension>
