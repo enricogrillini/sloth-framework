@@ -390,7 +390,7 @@ public interface DataTable<T extends DataRow> extends DataSource, DataRow, Itera
 
     // Cerca il minimo sulla dataTable passata
     default BigDecimal max(String columnName) {
-        return min((String[]) null, null, columnName);
+        return max((String[]) null, null, columnName);
     }
 
     private boolean considerRow(DataRow row, String[] filterNames, Object[] filterValues) {

@@ -21,6 +21,8 @@ public interface Element {
 
     String getName();
 
+    void setName(String name);
+
     Locale getLocale();
 
     void setLocale(Locale locale);

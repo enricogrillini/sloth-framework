@@ -36,6 +36,7 @@ public class BaseExcelType {//
     public static final BaseExcelType CURRENCY_INTEGER = new BaseExcelType("#,##0 €;[Red]-#,##0 €");
     public static final BaseExcelType DATE = new BaseExcelType("dd/mm/yyyy");
     public static final BaseExcelType MONTH = new BaseExcelType("mm/yyyy");
+    public static final BaseExcelType QUARTER = new BaseExcelType("mm/yyyy");
     public static final BaseExcelType DATETIME = new BaseExcelType("dd/mm/yyyy hh:mm:ss");
     public static final BaseExcelType TIME = new BaseExcelType("hh:mm:ss");
     public static final BaseExcelType HOUR = new BaseExcelType("hh:mm");
@@ -70,6 +71,7 @@ public class BaseExcelType {//
             return switch (dataTypes) {
                 case DATE -> DATE;
                 case MONTH -> MONTH;
+                case QUARTER -> QUARTER;
                 case DATETIME -> DATETIME;
                 case TIME -> TIME;
                 case HOUR -> HOUR;

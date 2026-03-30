@@ -5,12 +5,17 @@ import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.db.datasource.table.filter.FilterRule;
 import it.eg.sloth.db.datasource.table.filter.FilterRules;
+import it.eg.sloth.db.model.ProvaRowBean;
+import it.eg.sloth.db.model.ProvaTableBean;
+import it.eg.sloth.db.query.filteredquery.FilteredQuery;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -131,6 +136,16 @@ class TableTest {
         assertEquals(1, table.size());
         table.removeByFilter(filterRules);
         assertEquals(0, table.size());
+    }
+
+    @Test
+    void max() throws SQLException, IOException, FrameworkException {
+        assertEquals(100, table.max("key2").intValue());
+    }
+
+    @Test
+    void min() throws SQLException, IOException, FrameworkException {
+        assertEquals(10, table.min("key2").intValue());
     }
 }
 

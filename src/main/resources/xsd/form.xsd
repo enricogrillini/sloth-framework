@@ -259,6 +259,7 @@
    <enumeration value="TIME"></enumeration>
    <enumeration value="HOUR"></enumeration>
    <enumeration value="MONTH"></enumeration>
+   <enumeration value="QUARTER"></enumeration>
 
    <enumeration value="DECIMAL"></enumeration>
    <enumeration value="INTEGER"></enumeration>

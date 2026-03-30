@@ -4,13 +4,13 @@ import it.eg.sloth.db.datasource.row.Row;
 import it.eg.sloth.db.datasource.table.Table;
 import it.eg.sloth.form.fields.Fields;
 import it.eg.sloth.form.fields.field.impl.Input;
-import it.eg.sloth.form.fields.field.impl.Text;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.pageinfo.ViewModality;
+import it.eg.sloth.framework.utility.grid.GridUtil;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
-import it.eg.sloth.webdesktop.tag.form.grid.writer.GridWriter;
+import it.eg.sloth.webdesktop.tag.form.field.writer.FieldsGridWriter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,13 +30,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  *
  * @author Enrico Grillini
  */
-class GridWriterTest {
+class FieldsGridWriterTest {
 
-    static final String GRID_ROWS_VIEW_MODE = ResourceUtil.normalizedResourceAsString("snippet-html/grid/grid-rows_view-mode.html");
+    private static final String HEADER_ROW = ResourceUtil.normalizedResourceAsString("snippet-html/fields-grid/header-row.html");
 
-    static final String GRID_ROWS_VIEW_MODE_NO_CURRENT_ROW = ResourceUtil.normalizedResourceAsString("snippet-html/grid/grid-rows_view-mode_no-current-row.html");
-
-    private static final String GRID_ROWS_VIEW_MODE_DETAIL = ResourceUtil.normalizedResourceAsString("snippet-html/grid/grid-rows_view-mode_detail.html");
+    private static final String ROWS_EDIT_MODE = ResourceUtil.normalizedResourceAsString("snippet-html/fields-grid/rows_edit-mode.html");
 
 
     Table table;
@@ -62,22 +60,19 @@ class GridWriterTest {
     }
 
     @Test
-    void rows_ViewMode() throws FrameworkException {
-        assertEquals(GRID_ROWS_VIEW_MODE, GridWriter.rows(grid, null, ViewModality.VIEW, true));
+    void headerRow() throws FrameworkException {
+        Fields<?> fields = new Fields("Prova");
+        GridUtil.copyFromDataSourceGridToFields(grid, fields);
+
+        assertEquals(HEADER_ROW, FieldsGridWriter.headerRow(fields));
     }
 
     @Test
-    void rows_ViewMode_NoCurrentRow() throws FrameworkException {
-        assertEquals(GRID_ROWS_VIEW_MODE_NO_CURRENT_ROW, GridWriter.rows(grid, null, ViewModality.VIEW, false));
-    }
+    void rows_EditMode() throws FrameworkException {
+        Fields<?> fields = new Fields("Prova");
+        GridUtil.copyFromDataSourceGridToFields(grid, fields);
 
-    @Test
-    void rows_ViewMode_Detail() throws FrameworkException {
-        Fields<Table> fields = new Fields<>("provaFields");
-        fields.addChild(new Text<String>("campo3", "campo3", DataTypes.STRING));
-        fields.setDataSource(table);
-
-        assertEquals(GRID_ROWS_VIEW_MODE_DETAIL, GridWriter.rows(grid, fields, ViewModality.VIEW, true));
+        assertEquals(ROWS_EDIT_MODE, FieldsGridWriter.rows(fields, ViewModality.EDIT));
     }
 
 }

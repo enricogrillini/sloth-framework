@@ -26,6 +26,7 @@ public class HtmlInput {
     public static final String TYPE_TIME = "time";
     public static final String TYPE_HOUR = "time";
     public static final String TYPE_MONTH = "month";
+    public static final String TYPE_QUARTER = "quarter";
 
     // BigDecimal
     public static final String TYPE_NUMBER = "text";

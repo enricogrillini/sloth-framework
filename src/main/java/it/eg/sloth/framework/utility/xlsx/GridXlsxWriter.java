@@ -22,6 +22,7 @@ import org.apache.poi.hssf.usermodel.HeaderFooter;
 import org.apache.poi.ss.SpreadsheetVersion;
 import org.apache.poi.ss.usermodel.DataConsolidateFunction;
 import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.PageMargin;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.AreaReference;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -112,7 +113,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
 
         addSheet(BaseFunction.nvl(grid.getTitle(), grid.getName()), false);
 
-        getSheet().setMargin(Sheet.FooterMargin, 0.25);
+        getSheet().setMargin(PageMargin.FOOTER, 0.25);
         getSheet().getFooter().setCenter("Pag. " + HeaderFooter.page() + " di " + HeaderFooter.numPages());
 
         // Titolo Foglio
@@ -145,11 +146,11 @@ public class GridXlsxWriter extends BaseXlsxWriter {
     }
 
 
-    protected int addGridTitle(int rowIndex, Grid<?> grid) throws FrameworkException {
+    public int addGridTitle(int rowIndex, Grid<?> grid) throws FrameworkException {
         return addSheetTitle(rowIndex, grid.getTitle(), grid.getDescription(), grid.getLocale(), getColumnCount(grid));
     }
 
-    protected int addGridHeader(int rowIndex, Grid<?> grid) {
+    public int addGridHeader(int rowIndex, Grid<?> grid) {
         // Intestazioni di colonna
         int cellIndex = 0;
         for (SimpleField field : grid.getElements()) {
@@ -170,7 +171,7 @@ public class GridXlsxWriter extends BaseXlsxWriter {
         return rowIndex;
     }
 
-    protected int addGridData(int rowIndex, Grid<?> grid) throws FrameworkException {
+    public int addGridData(int rowIndex, Grid<?> grid) throws FrameworkException {
         int cellIndex = 0;
 
         DataTable<?> dataTable = grid.getDataSource();

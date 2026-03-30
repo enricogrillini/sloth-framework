@@ -150,21 +150,20 @@ public class BigDecimalUtil {
         return formatter.format(bigDecimal);
     }
 
-    /**
-     * Moltiplica i due numeti passati gestendo i null
-     *
-     * @param bigDecimal1
-     * @param bigDecimal2
-     * @return
-     */
-    public static final BigDecimal sum(BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
-        if (bigDecimal1 == null) {
-            return bigDecimal2;
-        } else if (bigDecimal2 == null) {
-            return bigDecimal1;
-        } else {
-            return bigDecimal1.add(bigDecimal2);
+    // Somma i numeri passati gestendo i null
+    public static final BigDecimal sum(BigDecimal... bigDecimals) {
+        BigDecimal total = null;
+        for (BigDecimal bigDecimal : bigDecimals) {
+            if (total == null) {
+                total = bigDecimal;
+            } else if (bigDecimal == null) {
+                // NOP
+            } else {
+                total = total.add(bigDecimal);
+            }
         }
+
+        return total;
     }
 
     /**

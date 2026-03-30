@@ -65,7 +65,7 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> {
             log.info("Page view");
             return new ModelAndView(getJspName());
         } else {
-            log.info("Page service - navigation {}, expected {}, actual {}",
+            log.info("Page service - navigation {}, seq expected {}, seq actual {}",
                     Arrays.stream(getWebRequest().getNavigation()).toArray(),
                     getWebDesktopDto().getNavigationSequence(),
                     getWebRequest().getString("_navigation_sequence"));

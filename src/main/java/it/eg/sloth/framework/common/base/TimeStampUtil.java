@@ -169,6 +169,15 @@ public class TimeStampUtil {
         }
     }
 
+    public static final Integer getMonth(Timestamp value) {
+        Calendar calendar = toCalendar(value);
+        if (calendar != null) {
+            return calendar.get(Calendar.MONTH) + 1;
+        } else {
+            return null;
+        }
+    }
+
     public static final Integer getWeekDay(Timestamp value) {
         Calendar calendar = toCalendar(value);
         if (calendar != null) {

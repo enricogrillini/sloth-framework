@@ -43,6 +43,7 @@ public class Localization {
     public static final String PROP_TIME = "format.time";
     public static final String PROP_HOUR = "format.hour";
     public static final String PROP_MONTH = "format.month";
+    public static final String PROP_QUARTER = "format.quarter";
 
     // BigDecimal - Format
     public static final String PROP_NUMBER = "format.number";
@@ -67,6 +68,7 @@ public class Localization {
     public static final String ERR_PROP_TIME = "error.time";
     public static final String ERR_PROP_HOUR = "error.hour";
     public static final String ERR_PROP_MONTH = "error.month";
+    public static final String ERR_PROP_QUARTER = "error.quarter";
 
     // BigDecimal - Error
     public static final String ERR_PROP_NUMBER = "error.number";

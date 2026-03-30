@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,6 +41,12 @@ class TimestampUtilTest {
         assertEquals("2023-04-03 00:00:00.0", TimeStampUtil.parseTimestamp("03/04/2023", "dd/MM/yyyy").toString());
         assertEquals("2023-04-03 00:00:00.0", TimeStampUtil.parseTimestamp("2023/04/03", "yyyy/MM/dd").toString());
         assertEquals("2023-04-03 00:00:00.0", TimeStampUtil.parseTimestamp("2023-04-03", "yyyy-MM-dd").toString());
+    }
+
+    @Test
+    void timestampParse_Month() throws FrameworkException {
+        assertEquals("2026-01-01 00:00:00.0", TimeStampUtil.parseTimestamp("Jan-2026", Locale.ENGLISH, "MMM-yyyy").toString());
+        assertEquals("2026-01-01 00:00:00.0", TimeStampUtil.parseTimestamp("Gen-2026", Locale.ITALY, "MMM-yyyy").toString());
     }
 
 
@@ -110,7 +117,7 @@ class TimestampUtilTest {
         Timestamp nextTimestamp = TimeStampUtil.getNextWorkDay(timestamp, 1);
         assertEquals(TimeStampUtil.parseTimestamp("15/07/2024", "dd/MM/yyyy"), nextTimestamp);
 
-         nextTimestamp = TimeStampUtil.getNextWorkDay(timestamp, 3);
+        nextTimestamp = TimeStampUtil.getNextWorkDay(timestamp, 3);
         assertEquals(TimeStampUtil.parseTimestamp("17/07/2024", "dd/MM/yyyy"), nextTimestamp);
     }
 

@@ -35,6 +35,7 @@ public class User implements Serializable {
     boolean avatar;
     String addInfo;
 
+    private List<String> roles;
     private Set<String> enabledFunction;
     private Menu menu;
     private Menu userMenu;
@@ -45,6 +46,7 @@ public class User implements Serializable {
         this.locale = Locale.getDefault();
         this.avatar = false;
 
+        this.roles = new ArrayList<>();
         this.enabledFunction = new HashSet<>();
         this.menu = new Menu();
         this.userMenu = new Menu();

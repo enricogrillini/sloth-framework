@@ -127,6 +127,9 @@ public class ContentTag extends WebDesktopTag<Form> {
 
         }
 
+        writeln("        <a class=\"dropdown-item\" href=\"InfoPage.html\">");
+        writeln("         <i class=\"fas fa-info-circle fa-sm fa-fw mr-2 text-gray-400\"></i></i>Info");
+        writeln("        </a>");
         writeln("        <a class=\"dropdown-item\" href=\"#\" data-toggle=\"modal\" data-target=\"#logoutModal\">");
         writeln("         <i class=\"fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400\"></i>Esci");
         writeln("        </a>");

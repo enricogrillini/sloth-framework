@@ -13,6 +13,8 @@ import it.eg.sloth.webdesktop.tag.form.chart.pojo.NumerFormat;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DecimalFormatSymbols;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -34,28 +36,14 @@ import java.util.ResourceBundle;
  */
 public enum DataTypes {
     // Timestamp
-    DATE(HtmlInput.TYPE_DATE, Localization.PROP_DATE, Localization.ERR_PROP_DATE),
-    DATETIME(HtmlInput.TYPE_DATETIME, Localization.PROP_DATETIME, Localization.ERR_PROP_DATETIME),
-    TIME(HtmlInput.TYPE_TIME, Localization.PROP_TIME, Localization.ERR_PROP_TIME),
-    HOUR(HtmlInput.TYPE_HOUR, Localization.PROP_HOUR, Localization.ERR_PROP_HOUR),
-    MONTH(HtmlInput.TYPE_MONTH, Localization.PROP_MONTH, Localization.ERR_PROP_MONTH),
+    DATE(HtmlInput.TYPE_DATE, Localization.PROP_DATE, Localization.ERR_PROP_DATE), DATETIME(HtmlInput.TYPE_DATETIME, Localization.PROP_DATETIME, Localization.ERR_PROP_DATETIME), TIME(HtmlInput.TYPE_TIME, Localization.PROP_TIME, Localization.ERR_PROP_TIME), HOUR(HtmlInput.TYPE_HOUR, Localization.PROP_HOUR, Localization.ERR_PROP_HOUR), MONTH(HtmlInput.TYPE_MONTH, Localization.PROP_MONTH, Localization.ERR_PROP_MONTH), QUARTER(HtmlInput.TYPE_QUARTER, Localization.PROP_QUARTER, Localization.ERR_PROP_QUARTER),
+
 
     // Bigdecimal
-    DECIMAL(HtmlInput.TYPE_DECIMAL, Localization.PROP_DECIMAL, Localization.ERR_PROP_DECIMAL),
-    INTEGER(HtmlInput.TYPE_INTEGER, Localization.PROP_INTEGER, Localization.ERR_PROP_INTEGER),
-    CURRENCY(HtmlInput.TYPE_CURRENCY, Localization.PROP_CURRENCY, Localization.ERR_PROP_CURRENCY),
-    CURRENCY_INTEGER(HtmlInput.TYPE_CURRENCY_INTEGER, Localization.PROP_CURRENCY_INTEGER, Localization.ERR_PROP_CURRENCY_INTEGER),
-    PERC(HtmlInput.TYPE_PERC, Localization.PROP_PERC, Localization.ERR_PROP_PERC),
-    NUMBER(HtmlInput.TYPE_NUMBER, Localization.PROP_NUMBER, Localization.ERR_PROP_NUMBER),
+    DECIMAL(HtmlInput.TYPE_DECIMAL, Localization.PROP_DECIMAL, Localization.ERR_PROP_DECIMAL), INTEGER(HtmlInput.TYPE_INTEGER, Localization.PROP_INTEGER, Localization.ERR_PROP_INTEGER), CURRENCY(HtmlInput.TYPE_CURRENCY, Localization.PROP_CURRENCY, Localization.ERR_PROP_CURRENCY), CURRENCY_INTEGER(HtmlInput.TYPE_CURRENCY_INTEGER, Localization.PROP_CURRENCY_INTEGER, Localization.ERR_PROP_CURRENCY_INTEGER), PERC(HtmlInput.TYPE_PERC, Localization.PROP_PERC, Localization.ERR_PROP_PERC), NUMBER(HtmlInput.TYPE_NUMBER, Localization.PROP_NUMBER, Localization.ERR_PROP_NUMBER),
 
     // String
-    STRING(HtmlInput.TYPE_STRING, Localization.PROP_STRING, Localization.ERR_PROP_STRING),
-    MD(HtmlInput.TYPE_MD, Localization.PROP_MD, Localization.ERR_PROP_MD),
-    MAIL(HtmlInput.TYPE_MAIL, Localization.PROP_MAIL, Localization.ERR_PROP_MAIL),
-    PARTITA_IVA(HtmlInput.TYPE_PARTITA_IVA, Localization.PROP_PARTITA_IVA, Localization.ERR_PROP_PARTITA_IVA),
-    CODICE_FISCALE(HtmlInput.TYPE_CODICE_FISCALE, Localization.PROP_CODICE_FISCALE, Localization.ERR_PROP_CODICE_FISCALE),
-    URL(HtmlInput.TYPE_URL, Localization.PROP_URL, Localization.ERR_PROP_URL),
-    PASSWORD(HtmlInput.TYPE_PASSWORD, Localization.PROP_PASS, Localization.ERR_PROP_PASS);
+    STRING(HtmlInput.TYPE_STRING, Localization.PROP_STRING, Localization.ERR_PROP_STRING), MD(HtmlInput.TYPE_MD, Localization.PROP_MD, Localization.ERR_PROP_MD), MAIL(HtmlInput.TYPE_MAIL, Localization.PROP_MAIL, Localization.ERR_PROP_MAIL), PARTITA_IVA(HtmlInput.TYPE_PARTITA_IVA, Localization.PROP_PARTITA_IVA, Localization.ERR_PROP_PARTITA_IVA), CODICE_FISCALE(HtmlInput.TYPE_CODICE_FISCALE, Localization.PROP_CODICE_FISCALE, Localization.ERR_PROP_CODICE_FISCALE), URL(HtmlInput.TYPE_URL, Localization.PROP_URL, Localization.ERR_PROP_URL), PASSWORD(HtmlInput.TYPE_PASSWORD, Localization.PROP_PASS, Localization.ERR_PROP_PASS);
 
     private String htmlType;
     private String formatProperties;
@@ -138,6 +126,24 @@ public enum DataTypes {
                     format = valueBundle.getString(formatProperties);
                 }
                 return TimeStampUtil.parseTimestamp(value, locale, format);
+            case QUARTER:
+                if (BaseFunction.isBlank(value)) {
+                    return null;
+                }
+
+                value = value.trim().toUpperCase();
+
+                String[] parts = value.split("-Q");
+                int year = Integer.parseInt(parts[0]);
+                int quarter = Integer.parseInt(parts[1]);
+
+                if (quarter < 1 || quarter > 4) {
+                    throw new FrameworkException(ExceptionCode.PARSE_ERROR);
+                }
+
+                int month = (quarter - 1) * 3 + 1;
+
+                return Timestamp.valueOf(LocalDateTime.of(year, month, 1, 0, 0));
 
             case DECIMAL:
             case INTEGER:
@@ -244,7 +250,17 @@ public enum DataTypes {
                 } else {
                     throw new FrameworkException(ExceptionCode.FORMAT_ERROR);
                 }
+            case QUARTER:
+                if (BaseFunction.isNull(value)) {
+                    return "";
+                } else if (value instanceof Timestamp) {
+                    Timestamp timestamp = (Timestamp) value;
 
+                    DateTimeFormatter formatter = locale == null ? DateTimeFormatter.ofPattern(format) : DateTimeFormatter.ofPattern(format, locale);
+                    return formatter.format(timestamp.toLocalDateTime());
+                } else {
+                    throw new FrameworkException(ExceptionCode.FORMAT_ERROR);
+                }
             case DECIMAL:
             case INTEGER:
             case CURRENCY:

@@ -7,6 +7,13 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
+import java.time.temporal.IsoFields;
+import java.time.temporal.TemporalAccessor;
 import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class DataTypesTest {
 
     @Test
-    void timestamp_formatText() throws FrameworkException {
+    void timestampFormat_DATE() throws FrameworkException {
         Timestamp timestamp = TimeStampUtil.parseTimestamp("01/06/2020", "dd/MM/yyyy");
 
         assertEquals("01/06/2020", DataTypes.DATE.formatText(timestamp, Locale.ITALY));
@@ -37,6 +44,13 @@ class DataTypesTest {
 
         assertEquals("lun, 01/06", DataTypes.DATE.formatText(timestamp, Locale.ITALY, "EE, dd/MM"));
         assertEquals("Mon, 01/06", DataTypes.DATE.formatText(timestamp, Locale.US, "EE, dd/MM"));
+    }
+
+    @Test
+    void timestampFormat_QUARTER() throws FrameworkException {
+        Timestamp timestamp = TimeStampUtil.parseTimestamp("01/06/2020", "dd/MM/yyyy");
+
+        assertEquals("2020-Q2", DataTypes.QUARTER.formatText(timestamp, Locale.ITALY));
     }
 
     @Test
@@ -52,10 +66,15 @@ class DataTypesTest {
         assertEquals(TimeStampUtil.parseTimestamp("16/09/2023 08:12:14", "dd/MM/yyyy HH:mm:ss"), DataTypes.DATETIME.parseValue("2023-09-16T08:12:14", Locale.ITALY));
     }
 
+    @Test
+    void timestampParseValue_QUARTER() throws FrameworkException {
+        assertEquals(TimeStampUtil.parseTimestamp("01/01/2026 00:00:00", "dd/MM/yyyy HH:mm:ss"), DataTypes.QUARTER.parseValue("2026-Q1", Locale.ITALY));
+        assertEquals(TimeStampUtil.parseTimestamp("01/04/2026 00:00:00", "dd/MM/yyyy HH:mm:ss"), DataTypes.QUARTER.parseValue("2026-Q2", Locale.ITALY));
+    }
 
 
     @Test
-    void bigDecimalFormatValueTest() throws FrameworkException {
+    void bigDecimalFormatValue() throws FrameworkException {
         assertEquals("1,000.00", DataTypes.DECIMAL.formatValue(BigDecimal.valueOf(1000), Locale.US));
         assertEquals("1.000,00", DataTypes.DECIMAL.formatValue(BigDecimal.valueOf(1000), Locale.ITALY));
         assertEquals("10,00", DataTypes.DECIMAL.formatValue(BigDecimal.valueOf(10), Locale.ITALY));
@@ -182,14 +201,16 @@ class DataTypesTest {
     }
 
 
-    void currencyFormatTextTest() throws FrameworkException {
+    @Test
+    void bigDecimalFormaValue_CURRENCY() throws FrameworkException {
         assertEquals("1,000.00 $", DataTypes.CURRENCY.formatText(BigDecimal.valueOf(1000), Locale.US));
         assertEquals("1.000,00 €", DataTypes.CURRENCY.formatText(BigDecimal.valueOf(1000), Locale.ITALY));
         assertEquals("10,00 €", DataTypes.CURRENCY.formatText(BigDecimal.valueOf(10), Locale.ITALY));
         assertEquals("0,00 €", DataTypes.CURRENCY.formatText(BigDecimal.valueOf(0), Locale.ITALY));
     }
 
-    void currencyIntegerFormatTextTest() throws FrameworkException {
+    @Test
+    void bigDecimalFormaValue_CURRENCY_INTEGER() throws FrameworkException {
         assertEquals("1,000 $", DataTypes.CURRENCY_INTEGER.formatText(BigDecimal.valueOf(1000), Locale.US));
         assertEquals("1.000 €", DataTypes.CURRENCY_INTEGER.formatText(BigDecimal.valueOf(1000), Locale.ITALY));
         assertEquals("10 €", DataTypes.CURRENCY_INTEGER.formatText(BigDecimal.valueOf(10), Locale.ITALY));

@@ -13,16 +13,16 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GridCsvWiter {
+public class GridCsvWriter {
 
     private Grid<?> grid;
     private Character delimiter;
 
-    public GridCsvWiter(Grid<?> grid) {
+    public GridCsvWriter(Grid<?> grid) {
         this(grid, null);
     }
 
-    public GridCsvWiter(Grid<?> grid, Character delimiter) {
+    public GridCsvWriter(Grid<?> grid, Character delimiter) {
         this.grid = grid;
         this.delimiter = delimiter;
     }

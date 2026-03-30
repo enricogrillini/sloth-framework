@@ -1,23 +1,13 @@
 package it.eg.sloth.framework.utility.csv;
 
 import it.eg.sloth.TestFactory;
-import it.eg.sloth.db.datasource.DataRow;
 import it.eg.sloth.db.datasource.table.Table;
-import it.eg.sloth.form.fields.field.DataField;
-import it.eg.sloth.form.fields.field.SimpleField;
 import it.eg.sloth.form.grid.Grid;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.utility.resource.ResourceUtil;
-import it.eg.sloth.webdesktop.tag.pagearea.writer.EnvironmentWriter;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -42,7 +32,7 @@ class GridCsvWriterTest {
     @Test
     void writeTest() throws IOException, FrameworkException {
         Grid<Table> grid = TestFactory.getGrid();
-        GridCsvWiter gridCsvWiter = new GridCsvWiter(grid);
+        GridCsvWriter gridCsvWiter = new GridCsvWriter(grid);
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             gridCsvWiter.write(outputStream);
 
