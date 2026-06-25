@@ -72,25 +72,22 @@ public interface SimpleField extends Element, Cloneable {
 
     FieldType getFieldType();
 
-    /**
-     * Effettua il post della Web Request
-     *
-     * @param webRequest
-     * @return
-     */
-    void post(WebRequest webRequest) throws FrameworkException;
+    // Effettua il post della Web Request
+    default void post(WebRequest webRequest) throws FrameworkException {
+        post(webRequest.getString(getName()));
+    }
+
+    // Effettua il post della Bff Request
+    default void post(BffFields bffFields) throws FrameworkException {
+        post(bffFields.getString(getName()));
+    }
+
+    // Effettua il post di una String
+    void post(String data) throws FrameworkException;
 
     default boolean validate(MessageList messageList) throws FrameworkException {
         return true;
     }
-
-    /**
-     * Effettua il post della Bff Request
-     *
-     * @param bffFields
-     * @return
-     */
-    void post(BffFields bffFields) throws FrameworkException;
 
     SimpleField newInstance();
 

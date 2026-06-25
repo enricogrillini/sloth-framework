@@ -7,19 +7,17 @@ import it.eg.sloth.form.fields.field.FieldType;
 import it.eg.sloth.form.fields.field.base.MultipleInput;
 import it.eg.sloth.framework.common.base.BaseFunction;
 import it.eg.sloth.framework.common.base.StringUtil;
-import it.eg.sloth.framework.common.casting.Casting;
 import it.eg.sloth.framework.common.casting.DataTypes;
 import it.eg.sloth.framework.common.casting.Validator;
 import it.eg.sloth.framework.common.exception.FrameworkException;
 import it.eg.sloth.framework.common.message.Level;
 import it.eg.sloth.framework.common.message.Message;
 import it.eg.sloth.framework.common.message.MessageList;
-import it.eg.sloth.jaxb.form.ForceCase;
 import it.eg.sloth.webdesktop.api.request.BffFields;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.apache.commons.lang3.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +40,7 @@ import java.util.stream.Collectors;
  */
 @Getter
 @Setter
+@Slf4j
 @SuperBuilder(toBuilder = true)
 public class MultipleAutoComplete<T> extends MultipleInput<T> {
 
@@ -131,17 +130,9 @@ public class MultipleAutoComplete<T> extends MultipleInput<T> {
         }
     }
 
-    @Override
-    public void post(WebRequest webRequest) throws FrameworkException {
-        postString(webRequest.getString(getName()));
-    }
 
     @Override
-    public void post(BffFields bffFields) throws FrameworkException {
-        postString(bffFields.getString(getName()));
-    }
-
-    private void postString(String decodedText) throws FrameworkException {
+    public void post(String decodedText) throws FrameworkException {
         if (!isReadOnly()) {
             setDecodedText(decodedText);
             setData(StringUtil.EMPTY);

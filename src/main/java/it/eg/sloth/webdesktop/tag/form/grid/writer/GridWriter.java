@@ -225,7 +225,11 @@ public class GridWriter extends HtmlWriter {
                 button.setIndex(rowNumber);
             }
 
+            // In editmode non presento il tooltip
+            String toolTip = field.getTooltip();
+            field.setTooltip("");
             result.append(GridWriter.cell(grid, field, ViewModality.EDIT));
+            field.setTooltip(toolTip);
         }
 
         result.append(ROW_CLOSE);

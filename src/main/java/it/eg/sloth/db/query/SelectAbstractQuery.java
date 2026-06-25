@@ -131,7 +131,7 @@ public abstract class SelectAbstractQuery implements SelectQueryInterface {
                     }
                 }
             } catch (SQLException e) {
-                log.info(TRAIL_MESSAGE, toString());
+                log.error(TRAIL_MESSAGE, toString());
                 throw e;
             }
 
@@ -171,7 +171,7 @@ public abstract class SelectAbstractQuery implements SelectQueryInterface {
                     }
                 }
             } catch (SQLException e) {
-                log.info(TRAIL_MESSAGE, toString());
+                log.error(TRAIL_MESSAGE, toString());
                 throw e;
             }
 
@@ -210,7 +210,7 @@ public abstract class SelectAbstractQuery implements SelectQueryInterface {
                     }
                 }
             } catch (SQLException e) {
-                log.info(TRAIL_MESSAGE, toString());
+                log.error(TRAIL_MESSAGE, toString());
                 throw e;
             }
 

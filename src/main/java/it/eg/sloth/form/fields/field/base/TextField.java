@@ -150,14 +150,7 @@ public abstract class TextField<T> implements DataField<T> {
         return true;
     }
 
-    @Override
-    public void post(WebRequest webRequest) throws FrameworkException {
+    public void post(String data) throws FrameworkException {
         // Il campo è presentato in sola visualizzazione e non è modificabile dal Browser
     }
-
-    @Override
-    public void post(BffFields bffFields) throws FrameworkException {
-        // Il campo è presentato in sola visualizzazione e non è modificabile dal Browser
-    }
-
 }

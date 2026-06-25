@@ -30,7 +30,7 @@ import lombok.experimental.SuperBuilder;
  */
 @Getter
 @Setter
-@ToString(callSuper=true)
+@ToString(callSuper = true)
 @SuperBuilder(toBuilder = true)
 public abstract class InputField<T> extends TextField<T> {
 
@@ -82,20 +82,12 @@ public abstract class InputField<T> extends TextField<T> {
         }
     }
 
-    private void post(String data) {
+    @Override
+    public void post(String data) throws FrameworkException {
         if (!isReadOnly()) {
             setData(data);
         }
     }
 
-    @Override
-    public void post(BffFields bffFields) throws FrameworkException {
-        post(bffFields.getString(getName()));
-    }
-
-    @Override
-    public void post(WebRequest webRequest) throws FrameworkException {
-        post(webRequest.getString(getName()));
-    }
 
 }

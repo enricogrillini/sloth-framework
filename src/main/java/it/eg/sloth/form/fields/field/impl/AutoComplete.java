@@ -94,16 +94,7 @@ public class AutoComplete<T> extends InputField<T> implements DecodedDataField<T
     }
 
     @Override
-    public void post(WebRequest webRequest) throws FrameworkException {
-        postString(webRequest.getString(getName()));
-    }
-
-    @Override
-    public void post(BffFields bffFields) throws FrameworkException {
-        postString(bffFields.getString(getName()));
-    }
-
-    private void postString(String decodedText) throws FrameworkException {
+    public void post(String decodedText) throws FrameworkException {
         if (!isReadOnly()) {
             setDecodedText(decodedText);
             if (BaseFunction.isBlank(getDecodedText())) {

@@ -129,6 +129,11 @@ public class File implements SimpleField {
     }
 
     @Override
+    public void post(String data) {
+        // NOP
+    }
+
+    @Override
     public boolean validate(MessageList messageList) throws FrameworkException {
         if (isRequired() && BaseFunction.isBlank(getPartFileName())) {
             ResourceBundle bundle = ResourceBundle.getBundle(Localization.VALUE_BUNDLE, locale);

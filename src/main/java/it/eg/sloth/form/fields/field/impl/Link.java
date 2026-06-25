@@ -79,12 +79,7 @@ public class Link implements SimpleField {
     }
 
     @Override
-    public void post(WebRequest webRequest) {
-        // NOP - Non sono gestite operazioni server side
-    }
-
-    @Override
-    public void post(BffFields bffFields) {
+    public void post(String data) {
         // NOP - Non sono gestite operazioni server side
     }
 

@@ -117,6 +117,10 @@ public class Button implements SimpleField {
         // NOP
     }
 
+    @Override
+    public void post(String data) {
+        // NOP
+    }
 
     public Button newInstance() {
         return toBuilder().build();
