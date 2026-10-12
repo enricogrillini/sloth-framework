@@ -53,6 +53,10 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> {
         this.modelAndView = null;
     }
 
+    protected int defaultAutocompleteSize() {
+        return 20;
+    }
+
     @Override
     public ModelAndView service() throws Exception {
         setModelAndView(new ModelAndView());
@@ -127,7 +131,7 @@ public abstract class SimplePage<F extends Form> extends FormPage<F> {
             String query = getWebRequest().getString("query");
             SimpleSuggestionList list = new SimpleSuggestionList();
             if (decodeMap != null) {
-                for (DecodeValue<?> decodeValue : decodeMap.performSearch(query, SearchType.MATCH, 20)) {
+                for (DecodeValue<?> decodeValue : decodeMap.performSearch(query, SearchType.MATCH, defaultAutocompleteSize())) {
                     SimpleSuggestion simpleSuggestion = new SimpleSuggestion();
                     simpleSuggestion.setValue(decodeValue.getDescription());
                     simpleSuggestion.setValid(decodeValue.isValid());

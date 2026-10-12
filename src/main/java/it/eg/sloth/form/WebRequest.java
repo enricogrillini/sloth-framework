@@ -56,7 +56,7 @@ public class WebRequest {
 
         if (request.getContentType() != null && request.getContentType().startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
             for (Part part : request.getParts()) {
-                log.info("part.getName() {}", part.getName());
+                // log.info("part.getName() {}", part.getName());
                 if (part.getContentType() != null) {
                     add(part.getName(), part);
                 }
